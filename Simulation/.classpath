@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BJavalibs"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/HelpBrowser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Dynasis"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Madonna"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.MatlabOctave"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

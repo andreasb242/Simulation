@@ -1,0 +1,9 @@
+Package: simulation
+Version: 0.0.1
+Section: science
+Priority: optional
+Maintainer: Andreas Butti <andrasbutti@gmail.com>
+Architecture: all
+Depends: default-jre
+Homepage: http://home.zhaw.ch/~buttiand
+Description: A simulation tool

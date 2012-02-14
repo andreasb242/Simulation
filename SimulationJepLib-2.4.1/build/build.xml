@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     30.04.2010 19:57:59                                                        
+
+     Simulation    
+     Builds the Simulationproject for all plattforms
+                   
+     Andreas Butti                                                                
+     ====================================================================== -->
+<project name="SimulationJepLib" default="default">
+	<description>
+            Builds the Jeplib
+    </description>
+
+	<property name="build" value="javaBuild" />
+	<property name="distrib" value="../../Simulation/lib" />
+
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${build}" />
+	</target>
+
+
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+	<target name="default" depends="jar">
+		<antcall target="clean">
+		</antcall>
+	</target>
+
+	<target name="compile" depends="init">
+		<!-- Compile the java code -->
+		<javac debug="false" srcdir="../src"
+			destdir="${build}"
+			encoding="UTF-8"
+			excludes="**/unittests/**"			
+			/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<!-- Build the jar file -->
+		<jar basedir="${build}" destfile="${distrib}/jep.jar" />
+	</target>
+</project>

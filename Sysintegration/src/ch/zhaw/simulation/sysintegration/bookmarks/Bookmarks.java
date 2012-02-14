@@ -1,0 +1,56 @@
+package ch.zhaw.simulation.sysintegration.bookmarks;
+
+import java.util.Vector;
+
+import javax.swing.AbstractListModel;
+import javax.swing.ComboBoxModel;
+
+public class Bookmarks extends AbstractListModel implements ComboBoxModel {
+	private static final long serialVersionUID = 1L;
+
+	private Vector<Bookmark> contents = new Vector<Bookmark>();
+
+	private Object selected;
+
+	public Bookmarks() {
+		initBookmarkIcons();
+		
+		loadSystemFolders();
+		loadSystemBookmarks();
+		loadSavedBookmarks();
+	}
+
+	protected void initBookmarkIcons() {
+	}
+
+	protected void loadSystemFolders() {
+	}
+
+	private void loadSavedBookmarks() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void loadSystemBookmarks() {
+	}
+
+	@Override
+	public Object getElementAt(int index) {
+		return contents.get(index);
+	}
+
+	@Override
+	public int getSize() {
+		return contents.size();
+	}
+
+	@Override
+	public Object getSelectedItem() {
+		return selected;
+	}
+
+	@Override
+	public void setSelectedItem(Object anItem) {
+		this.selected = anItem;
+	}
+}

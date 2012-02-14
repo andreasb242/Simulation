@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+	<class name="Mengenoperationen">
+		<function name="Max" class="org.lsmp.djep.xjep.function.Max">
+			<description>Max(x^2,x,1,10) zählt x von 1 bis 10 und gibt den Maximalwert zurück</description>
+			<param>Formel</param>
+			<param>Variabel</param>
+			<param>Von</param>
+			<param>Bis</param>
+		</function>
+		<function name="Min" class="org.lsmp.djep.xjep.function.Min">
+			<description>Max(x^2,x,1,10) zählt x von 1 bis 10 und gibt den Minimalwert zurück</description>
+			<param>Formel</param>
+			<param>Variabel</param>
+			<param>Von</param>
+			<param>Bis</param>
+		</function>
+		<function name="Sum" class="org.lsmp.djep.matrixJep.function.MSum">
+			<description>Sum(x^2,x,1,10): Summe von x^2 von 1 bis 10 in 1er Schritten</description>
+			<param>Formel</param>
+			<param>Variabel</param>
+			<param>Von</param>
+			<param>Bis</param>
+			<param default="1">Schritt</param>
+		</function>
+		<function name="Product" class="org.lsmp.djep.xjep.function.Product">
+			<description>Produkt(x^2,x,1,10): Produkt von x^2 von 1 bis 10 in 1er Schritten</description>
+			<param>Formel</param>
+			<param>Variabel</param>
+			<param>Von</param>
+			<param>Bis</param>
+			<param default="1">Schritt</param>
+		</function>
+
+		<function name="MaxArg" class="org.lsmp.djep.xjep.function.MaxArg">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="MinArg" class="org.lsmp.djep.xjep.function.MinArg">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="Trapezium" class="org.lsmp.djep.xjep.function.Trapezium">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+
+	</class>
+
+	<class name="Runden">
+		<function name="ceil" class="org.nfunk.jep.function.Ceil">
+			<description>Aufrunden auf die nöchste ganze Zahl: ceil(pi) = 4</description>
+			<param>Zahl</param>
+		</function>
+		<function name="floor" class="org.nfunk.jep.function.Floor">
+			<description>Abrunden auf die nöchste ganze Zahl: ceil(pi) = 3</description>
+			<param>Zahl</param>
+		</function>
+		<function name="round" class="org.nfunk.jep.function.Round">
+			<description>Rundet eine Zahl auf die nächste ganze Zahl</description>
+			<param>Zahl</param>
+		</function>
+	</class>
+
+	<class name="Algebra">
+		<function name="sqrt" class="org.nfunk.jep.function.SquareRoot">
+			<description>Quadratwurzel einer Zahl</description>
+			<param>Zahl</param>
+		</function>
+		<function name="log" class="org.nfunk.jep.function.Logarithm">
+			<description>10er Logarithmus</description>
+			<param>Zahl</param>
+		</function>
+		<function name="ln" class="org.nfunk.jep.function.NaturalLogarithm">
+			<description>Logarithmus naturalis (Basis e)</description>
+			<param>Zahl</param>
+		</function>
+		<function name="exp" class="org.nfunk.jep.function.Exp">
+			<description>e&lt;sup&gt;x&lt;/sup&gt;</description>
+			<param>x</param>
+		</function>
+		<function name="pow" class="org.nfunk.jep.function.Power">
+			<description>Berechnet x^y</description>
+			<param>x</param>
+			<param>y</param>
+		</function>
+		<function name="sum" class="org.nfunk.jep.function.Sum">
+			<description>Summiert alle parameter auf</description>
+			<undefinedParam />
+		</function>
+		<function name="abs" class="org.nfunk.jep.function.Abs">
+			<description>Absolutwert einer Zahl</description>
+			<param>x</param>
+		</function>
+
+		<!-- => abs <function name="cmod" class="org.nfunk.jep.function.Abs">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>-->
+
+		<function name="diff" class="org.lsmp.djep.matrixJep.function.MDiff">
+			<description>Ableiten. diff(x^2, x) -> x</description>
+			<param>Formel</param>
+			<param>Variabel</param>
+		</function>
+		<function name="binom" class="org.nfunk.jep.function.Binomial">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+	</class>
+
+	<class name="Komplexe Zahlen">
+		<function name="complex" class="org.nfunk.jep.function.ComplexPFMC">
+			<description>Erstellt eine komplexe Zahl aus 2 Zahlen: Complex(x,y)=x+i y</description>
+			<param>Realteil</param>
+			<param>Imaginärteil</param>
+		</function>
+		<function name="im" class="org.nfunk.jep.function.Imaginary">
+			<description>Der Imaginärteil einer Zahl</description>
+			<param>Zahl</param>
+		</function>
+		<function name="re" class="org.nfunk.jep.function.Real">
+			<description>Der Realteil einer Zahl</description>
+			<param>Zahl</param>
+		</function>
+		<function name="conj" class="org.nfunk.jep.function.Conjugate">
+			<description>Die konjugiert komplexe Zahl</description>
+			<param>Zahl</param>
+		</function>
+		<function name="arg" class="org.nfunk.jep.function.Arg">
+			<description>Argument einer Komplexen Zahl</description>
+			<param>komplexe Zahl</param>
+		</function>
+		<function name="polar" class="org.nfunk.jep.function.Polar">
+			<description>Erstellt eine komplexe Zahl: Radius * e^(i Winkel)</description>
+			<param>Radius</param>
+			<param>Winkel</param>
+		</function>
+	</class>
+
+	<class name="Winkelfunktionen">
+		<function name="sin" class="org.nfunk.jep.function.Sine">
+			<description>Sinus eines Winkels (in RAD)</description>
+			<param>Winkel</param>
+		</function>
+		<function name="cos" class="org.nfunk.jep.function.Cosine">
+			<description>Cosinus eines Winkels (in RAD)</description>
+			<param>Winkel</param>
+		</function>
+		<function name="tan" class="org.nfunk.jep.function.Tangent">
+			<description>Tanges eines Winkels (in RAD)</description>
+			<param>Winkel</param>
+		</function>
+
+		<function name="cosec" class="org.lsmp.djep.xjep.MacroFunction">
+			<description>1 / sin(x)</description>
+			<param>x</param>
+		</function>
+		<function name="sec" class="org.lsmp.djep.xjep.MacroFunction">
+			<description>1 / cos(x)</description>
+			<param>x</param>
+		</function>
+		<function name="cot" class="org.lsmp.djep.xjep.MacroFunction">
+			<description>1 / tan(x)</description>
+			<param>x</param>
+		</function>
+
+		<function name="asin" class="org.nfunk.jep.function.ArcSine">
+			<description>Arcus-Sinus eines Winkels (in RAD)</description>
+			<param>Winkel</param>
+		</function>
+		<function name="acos" class="org.nfunk.jep.function.ArcCosine">
+			<description>Arcus-Cosinus eines Winkels (in RAD)</description>
+			<param>Winkel</param>
+		</function>
+		<function name="atan" class="org.nfunk.jep.function.ArcTangent">
+			<description>Arcus-Tanges eines Winkels (in RAD)</description>
+			<param>Winkel</param>
+		</function>
+
+		<function name="sinh" class="org.nfunk.jep.function.SineH">
+			<description>Sinus Hyperbolicus</description>
+			<param>x</param>
+		</function>
+		<function name="cosh" class="org.nfunk.jep.function.CosineH">
+			<description>Cosinus Hyperbolicus</description>
+			<param>x</param>
+		</function>
+		<function name="tanh" class="org.nfunk.jep.function.TanH">
+			<description>Tangens Hyperbolicus</description>
+			<param>x</param>
+		</function>
+
+		<function name="asinh" class="org.nfunk.jep.function.ArcSineH">
+			<description>Arcus-Sinus Hyperbolicus</description>
+			<param>x</param>
+		</function>
+		<function name="acosh" class="org.nfunk.jep.function.ArcCosineH">
+			<description>Arcus-Cosinus Hyperbolicus</description>
+			<param>x</param>
+		</function>
+		<function name="atanh" class="org.nfunk.jep.function.ArcTanH">
+			<description>Arcus-Tangens Hyperbolicus</description>
+			<param>x</param>
+		</function>
+
+		<function name="atan2" class="org.nfunk.jep.function.ArcTangent2">
+			<description>atan2(y, x) gibt den Winkel der Tanget y/x zurück.</description>
+			<param>x</param>
+			<param>y</param>
+		</function>
+	</class>
+
+	<class name="Programmierung">
+		<function name="if" class="org.lsmp.djep.matrixJep.function.MIf">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="eval" class="org.lsmp.djep.xjep.Eval">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="mod" class="org.nfunk.jep.function.Modulus">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="rand" class="org.nfunk.jep.function.Random">
+			<description>Gibt eine Zufallszahl zwischen 0 ... 1.0 zurück</description>
+		</function>
+		<function name="Define" class="org.lsmp.djep.xjep.function.Define">
+			<description>Funktionen definieren: Define("half", 1, "x / 2")&lt;br&gt;
+bis zwei Parameter: x, y&lt;br&gt;
+mehr als zwei Parameter: x1, x2, x3...
+			</description>
+			<param>Name</param>
+			<param>Anz. Param</param>
+			<param>Formel</param>
+		</function>
+	</class>
+
+	<class name="Konvertierung">
+		<function name="toHex" class="org.lsmp.djep.xjep.function.ToBase">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="fromHex" class="org.lsmp.djep.xjep.function.FromBase">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="toBase" class="org.lsmp.djep.xjep.function.ToBase">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="fromBase" class="org.lsmp.djep.xjep.function.FromBase">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+		<function name="str" class="org.nfunk.jep.function.Str">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+	</class>
+
+	<class name="Unsortiert 1">
+
+		<function name="Map" class="org.lsmp.djep.matrixJep.function.MMap">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+
+
+		<function name="Simpson" class="org.lsmp.djep.xjep.function.Simpson">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+
+		<function name="ele" class="org.lsmp.djep.vectorJep.function.VEle">
+			<description>Beschreibung_nicht_erfasst</description>
+			<undefinedParam />
+		</function>
+	</class>
+
+	<class name="Matrix">
+		<function name="det" class="org.lsmp.djep.vectorJep.function.Determinant">
+			<description>Die Determinante einer Matrix</description>
+			<param>Matrix</param>
+		</function>
+		<function name="trans" class="org.lsmp.djep.vectorJep.function.Transpose">
+			<description>Transponiert eine Matrix: trans([[1,2],[3,4]]) -> [[1,3],[2,4]]</description>
+			<param>Matrix</param>
+		</function>
+		<function name="diag" class="org.lsmp.djep.vectorJep.function.Diagonal">
+			<description>Erstellt eine Diagonale Matrix aus einem Vektor: diag([1,2,3]) -> [[1,0,0],[0,2,0],[0,0,3]]</description>
+			<param>Vector</param>
+		</function>
+		<function name="getdiag" class="org.lsmp.djep.vectorJep.function.GetDiagonal">
+			<description>Die Diagonale einer Quadratischen Matrix: getDiag([[1,0,0],[0,2,0],[0,0,3]]) -> [1,2,3]</description>
+			<param>Matrix</param>
+		</function>
+		<function name="size" class="org.lsmp.djep.vectorJep.function.Size">
+			<description>Die Dimensionen eine Skalar, Vektor oder Matrix:&lt;br&gt;
+ * size(7) -> 13&lt;br&gt;
+ * size([1,2,3]) -> 3&lt;br&gt;
+ * size([[1,2,3],[4,5,6]]) -> [2,3]&lt;br&gt;
+ * size([[[1,2],[3,4],[5,6]],[[7,8],[9,10],[11,12]]]) -> [2,3,2]
+			</description>
+			<param>x</param>
+		</function>
+		<function name="len" class="org.lsmp.djep.vectorJep.function.Length">
+			<description>Die anzahl elemente in einem Skalar, Vektor oder Matrix:&lt;br&gt;
+ * len(5) -> 1&lt;br&gt;
+ * len([1,2,3]) -> 3&lt;br&gt;
+ * len([[1,2],[3,4],[5,6]]) -> 6&lt;br&gt;
+			</description>
+			<param>x</param>
+		</function>
+		<function name="trace" class="org.lsmp.djep.vectorJep.function.Trace">
+			<description>Spurfunktion: trace([[1,2],[3,4]]) -> 1+4 = 5</description>
+			<param>Matrix</param>
+		</function>
+		<function name="vsum" class="org.lsmp.djep.vectorJep.function.VSum">
+			<description>Summe aller elemente in einem Vektor oder einer Matrix</description>
+			<param>Vektor oder Matrix</param>
+		</function>
+	</class>
+</functions>

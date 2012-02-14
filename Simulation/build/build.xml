@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     30.04.2010 19:57:59                                                        
+
+     Simulation    
+     Builds the Simulationproject for all plattforms
+                   
+     Andreas Butti                                                                
+     ====================================================================== -->
+<project name="Simulation" default="default">
+	<description>
+            Builds the Simulationproject for all plattforms
+    </description>
+
+	<property name="build" value="javaBuild" />
+	<property name="distrib" value="output" />
+
+	<!-- Buildtime -->
+	<tstamp>
+		<format property="buildtime" pattern="dd-MMM-yy HH:mm:ss" />
+	</tstamp>
+	<echo message="Build started: ${buildtime}" />
+
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${build}" />
+		<delete dir="${distrib}" />
+	</target>
+
+
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+	<target name="default" depends="jar" description="Builds the Simulationproject for all plattforms">
+		<ant antfile="build.xml" dir="mac" target="pack" />
+		<ant antfile="build.xml" dir="linux-deb" target="pack" />
+
+		<exec executable="php">
+			<arg value="count.php" />
+		</exec>
+
+    	<!--<antcall target="clean"></antcall>-->
+	</target>
+
+	<target name="compile" depends="init">
+		<!-- Compile the java code -->
+		<javac debug="true" srcdir="../src" destdir="${build}" encoding="UTF-8">
+			<classpath>
+				<fileset dir="../lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<copy todir="${build}">
+			<fileset dir="../src">
+				<include name="**/*.png" />
+				<include name="**/*.svg" />
+
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build}/META-INF" />
+
+		<exec executable="php">
+			<arg value="createManifest.php" />
+			<arg value="${build}/META-INF/MANIFEST.MF" />
+		</exec>
+
+		<propertyfile file="${build}/util/version">
+			<entry key="build" value="${buildtime}" />
+		</propertyfile>
+
+		<!-- Build the jar file -->
+		<jar basedir="${build}" destfile="${build}/Simulation.jar" manifest="${build}/META-INF/MANIFEST.MF" />
+	</target>
+</project>
