@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.editor.elements;
 
-
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +16,6 @@ import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationAdapter;
 import ch.zhaw.simulation.model.SimulationObject;
 import ch.zhaw.simulation.util.DrawHelper;
-
 
 public abstract class GuiDataTextElement<T extends NamedSimulationObject> extends GuiDataElement<T> {
 	private static final long serialVersionUID = 1L;
@@ -134,7 +133,10 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 
 		Point offset = getImage().getDependencyOffset();
 
-		getParent().repaint(x - offset.x, y - offset.y, width + 2 * offset.x, height + 2 * offset.y);
+		Container parent = getParent();
+		if (parent != null) {
+			parent.repaint(x - offset.x, y - offset.y, width + 2 * offset.x, height + 2 * offset.y);
+		}
 	}
 
 	private String shortName(String name) {

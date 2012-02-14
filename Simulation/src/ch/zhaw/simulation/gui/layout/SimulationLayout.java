@@ -16,7 +16,7 @@ public class SimulationLayout implements LayoutManager {
 
 	@Override
 	public void addLayoutComponent(String name, Component comp) {
-		layoutComponent(comp, null);
+		layoutComponent(comp.getParent(), null);
 	}
 
 	@Override

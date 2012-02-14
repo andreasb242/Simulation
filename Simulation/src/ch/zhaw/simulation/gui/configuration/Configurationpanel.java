@@ -6,15 +6,16 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
 import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.elements.HideableSplitComponent;
 import ch.zhaw.simulation.editor.elements.container.ContainerView;
+import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.elements.parameter.ParameterView;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
 import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
@@ -27,6 +28,7 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 
 	private ContainerConfiguration containerAttributes;
 	private ParameterConfiguration parameterAttributes;
+	private GlobalConfiguration globalAttributes;
 	private FlowParameterConfiguration flowParameterAttributs;
 
 	private JXTaskPaneContainer taskPaneContainer;
@@ -40,11 +42,13 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 
 		containerAttributes = new ContainerConfiguration(control);
 		parameterAttributes = new ParameterConfiguration(control);
+		globalAttributes = new GlobalConfiguration(control);
 		flowParameterAttributs = new FlowParameterConfiguration(control);
 
 		// add this taskPane to the taskPaneContainer
 		taskPaneContainer.add(containerAttributes);
 		taskPaneContainer.add(parameterAttributes);
+		taskPaneContainer.add(globalAttributes);
 		taskPaneContainer.add(flowParameterAttributs);
 
 		simConfig = new SimulationConfiguration(control);
@@ -72,11 +76,12 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 		SelectableElement[] selected = selectionModel.getSelected();
 		containerAttributes.noneSelected();
 		parameterAttributes.noneSelected();
+		globalAttributes.noneSelected();
 		flowParameterAttributs.noneSelected();
 
 		if (selected.length == 1) {
 			SelectableElement s = selected[0];
-
+			
 			if (s instanceof ContainerView) {
 				containerAttributes.setSelected(((ContainerView) s).getData());
 				return;
@@ -84,6 +89,11 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 
 			if (s instanceof ParameterView) {
 				parameterAttributes.setSelected(((ParameterView) s).getData());
+				return;
+			}
+			
+			if(s instanceof GlobalView) {
+				globalAttributes.setSelected(((GlobalView) s).getData());
 				return;
 			}
 

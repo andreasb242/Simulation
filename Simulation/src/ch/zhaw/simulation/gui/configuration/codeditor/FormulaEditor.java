@@ -135,6 +135,8 @@ public class FormulaEditor extends BDialog {
 			}
 
 		});
+		
+		setLocationRelativeTo(parent);
 	}
 
 	public void setTitle(String title) {

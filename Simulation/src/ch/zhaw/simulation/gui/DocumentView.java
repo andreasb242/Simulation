@@ -421,6 +421,8 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 		} else {
 			throw new RuntimeException("Unknown SimulationObject: " + o.getClass().getName());
 		}
+	
+		revalidate();
 	}
 
 	@Override
