@@ -8,8 +8,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.StringReader;
-import java.util.Vector;
+import java.io.StringWriter;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -21,10 +22,8 @@ import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLWriter;
 
 import org.jdesktop.swingx.action.ActionManager;
 import org.jdesktop.swingx.action.TargetManager;
@@ -100,19 +99,9 @@ public class HTMLEditor extends BDialog {
 	private HtmlDocumentFile document = new HtmlDocumentFile();
 
 	/**
-	 * Die Bilder des Dokumentes
-	 */
-	private Vector<EmbeddedImage> images = new Vector<EmbeddedImage>();
-
-	/**
 	 * Ob das Dokument gespeichert oder verworfen wurde
 	 */
 	private boolean saved;
-
-	/**
-	 * Settings properties
-	 */
-	private static final String LAST_OPENPATH = "imageinport.lastpath";
 
 	/**
 	 * Erstellt einen Editor
@@ -286,59 +275,6 @@ public class HTMLEditor extends BDialog {
 
 		mEdit.addSeparator();
 		toolBar.addSeparator();
-
-		// TODO: (low prio): insert image
-		// toolBar.add(new ToolbarAction("Image", "photos") {
-		//
-		// @Override
-		// protected void actionPerformed(ActionEvent e) {
-		// Sysintegration sys = control.getSysintegration();
-		// File f = sys.showOpenDialog(control.getParent(), imageOpenFilter,
-		// getLastOpenPath());
-		//
-		// if(f != null) {
-		//
-		// }
-		//
-		// insertImage("file:///home/andreas/icons/plus.png");
-		// }
-		// });
-	}
-
-	private String getLastOpenPath() {
-		return settings.getSetting(LAST_OPENPATH, System.getProperty("user.home"));
-	}
-
-	private int getNextImageId() {
-		int id = 1;
-
-		for (EmbeddedImage img : images) {
-			id = Math.max(id, img.getId());
-		}
-		return id + 1;
-	}
-
-	private void insertImage(String image) {
-		HTMLDocument doc = (HTMLDocument) editorPane.getDocument();
-
-		int id = getNextImageId();
-
-		SimpleAttributeSet mas = new SimpleAttributeSet();
-
-		int w = 128;
-		int h = 128;
-
-		mas.addAttribute(StyleConstants.NameAttribute, HTML.Tag.IMG);
-		mas.addAttribute(HTML.Attribute.SRC, image);
-		mas.addAttribute(HTML.Attribute.HEIGHT, Integer.toString(h));
-		mas.addAttribute(HTML.Attribute.WIDTH, Integer.toString(w));
-
-		int p = editorPane.getCaretPosition();
-		try {
-			doc.insertString(p, " ", mas);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -553,83 +489,22 @@ public class HTMLEditor extends BDialog {
 	 * @return HTML
 	 */
 	private String getEditorContents() {
-		SimpleHTMLWriter writer = new SimpleHTMLWriter();
-		// StringWriter w = new StringWriter();
-		// try {
-		// // htmlEditorKit.write(w, editorPane.getDocument(), 0,
-		// editorPane.getDocument().getLength());
-		// SimpleHTMLWriter writer = new SimpleHTMLWriter(w, (HTMLDocument)
-		// editorPane.getDocument(), 0, editorPane.getDocument().getLength());
-		// writer.write();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		//
-		return writer.get(editorPane.getDocument());
+		HTMLDocument doc = (HTMLDocument) editorPane.getDocument();
 
-		// String html = w.getBuffer().toString();
-		// String head = "";
-		// String footer = "";
-		//
-		// int pos = html.lastIndexOf("</body>");
-		// if (pos > 0) {
-		// footer = html.substring(pos);
-		// html = html.substring(0, pos);
-		// }
-		//
-		// pos = html.indexOf("<body>");
-		// if (pos > 0) {
-		// head = html.substring(0, pos + 7);
-		// html = html.substring(pos + 7);
-		// }
-		//
-		// html = html.replaceAll("\n", "<br>\n").trim();
-		// pos = html.length();
-		//
-		// if (pos >= 4 && html.substring(pos - 4).equals("<br>")) {
-		// html = html.substring(0, pos - 4);
-		// }
-		//
-		// return head + html + "\n" + footer;
+		StringWriter textOut = new StringWriter();
+		HTMLWriter w = new HTMLWriter(textOut, doc, 0, doc.getLength());
+		try {
+			w.write();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return textOut.toString();
+
 	}
-
-	/**
-	 * Header und Body Tag wird nicht benötigt...
-	 * 
-	 * @return
-	 */
-	// private String trimHtml(String html) {
-	// // Alles vor <body> abschneiden
-	// int pos = html.indexOf("<body>");
-	// if (pos > 0) {
-	// html = html.substring(pos + 6);
-	// }
-	//
-	// // Alles nach </body> abschneiden
-	// pos = html.lastIndexOf("</body>");
-	// if (pos > 0) {
-	// html = html.substring(0, pos);
-	// }
-	//
-	// // Alle Zeilenumbrüche löschen
-	// html = html.replaceAll("[\\n\\r]", "");
-	// // Alle Whitespaces nach <br>, <br/>, <br /> ausschneiden
-	// html = html.replaceAll("<br ?/?>\\s+", "<br>");
-	// // Alle Whitespaces nach </p> ausschneiden
-	// html = html.replaceAll("</p>\\s+", "</p>");
-	// // Mehrfache Whitespaces durch einen ersetzten
-	// html = html.replaceAll("\\s+", " ");
-	//
-	// // <p ..> <br> am Anfang löschen
-	// if(html.startsWith("<p style=\"margin-top: 0\"><br>")) {
-	// html = "<p style=\"margin-top: 0\">" + html.substring(29);
-	// }
-	//
-	// // <br> am ende löschen
-	// html = html.replaceAll("(<br ?/?>)+\\z", "");
-	//
-	// return html;
-	// }
 
 	/**
 	 * Gibt den Inhalt als HTML String zurück

@@ -59,7 +59,6 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 
 		if (g == null) {
 			g = getGraphics();
-			return;
 		}
 		if (g == null) {
 			return;
