@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -63,7 +64,7 @@ public class SimulationConfiguration extends JXTaskPane implements ActionListene
 			return;
 		}
 		dontAcceptEvents = true;
-//		model.setPlugin((Simulationtype) cbSimulationtype.getSelectedItem());
+		model.setPlugin(cbSimulationtype.getSelectedItem().toString());
 		dontAcceptEvents = false;
 	}
 
@@ -118,8 +119,17 @@ public class SimulationConfiguration extends JXTaskPane implements ActionListene
 
 	@Override
 	public void pluginChanged(String plugin) {
-		// TODO Auto-generated method stub
+		if(plugin == null) {
+			return;
+		}
 		
+		ComboBoxModel model = cbSimulationtype.getModel();
+		for(int i = 0; i < model.getSize(); i++) {
+			if(plugin.equalsIgnoreCase(model.getElementAt(i).toString())) {
+				cbSimulationtype.setSelectedIndex(i);
+				break;
+			}
+		}
 	}
 
 	@Override

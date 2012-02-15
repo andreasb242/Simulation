@@ -11,11 +11,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JToolTip;
 
+import butti.javalibs.util.DrawHelper;
+
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationAdapter;
 import ch.zhaw.simulation.model.SimulationObject;
-import ch.zhaw.simulation.util.DrawHelper;
 
 public abstract class GuiDataTextElement<T extends NamedSimulationObject> extends GuiDataElement<T> {
 	private static final long serialVersionUID = 1L;

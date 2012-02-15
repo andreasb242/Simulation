@@ -18,9 +18,9 @@ import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationGlobal;
-import ch.zhaw.simulation.util.DrawHelper;
 
 import butti.javalibs.errorhandler.Errorhandler;
+import butti.javalibs.util.DrawHelper;
 
 public class FormulaTextPane extends JTextPane {
 	private static final long serialVersionUID = 1L;

@@ -14,6 +14,8 @@ import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.undo.UndoManager;
 
+import butti.javalibs.util.DrawHelper;
+
 import ch.zhaw.simulation.clipboard.ClipboardListener;
 import ch.zhaw.simulation.editor.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.connector.parameterarrow.ParameterConnectorUi;
@@ -25,7 +27,6 @@ import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
 import ch.zhaw.simulation.undo.UndoListener;
-import ch.zhaw.simulation.util.DrawHelper;
 
 public class MainToolbar {
 	private SimulationControl control;

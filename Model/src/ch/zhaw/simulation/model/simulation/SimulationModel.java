@@ -5,6 +5,9 @@ import java.util.Vector;
 import butti.javalibs.util.StringUtil;
 
 public class SimulationModel {
+	/**
+	 * The Simulationplugin which is used
+	 */
 	private String plugin = null;
 
 	private Vector<SimulationParameterListener> listener = new Vector<SimulationParameterListener>();

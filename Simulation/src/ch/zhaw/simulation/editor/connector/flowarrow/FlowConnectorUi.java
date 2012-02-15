@@ -10,6 +10,8 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 
+import butti.javalibs.util.DrawHelper;
+
 import ch.zhaw.simulation.editor.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorControl.FlowControlListener;
 import ch.zhaw.simulation.gui.control.GuiConfig;
@@ -17,7 +19,6 @@ import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.connection.FlowConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
-import ch.zhaw.simulation.util.DrawHelper;
 
 
 

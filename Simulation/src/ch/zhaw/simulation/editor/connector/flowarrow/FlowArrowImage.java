@@ -7,9 +7,10 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 
+import butti.javalibs.util.DrawHelper;
+
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.gui.control.GuiConfig;
-import ch.zhaw.simulation.util.DrawHelper;
 import ch.zhaw.simulation.util.ImageMirrow;
 
 

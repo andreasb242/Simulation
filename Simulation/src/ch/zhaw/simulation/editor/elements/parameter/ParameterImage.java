@@ -4,9 +4,10 @@ package ch.zhaw.simulation.editor.elements.parameter;
 import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
 
+import butti.javalibs.util.DrawHelper;
+
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.gui.control.GuiConfig;
-import ch.zhaw.simulation.util.DrawHelper;
 
 
 public class ParameterImage extends GuiImage {

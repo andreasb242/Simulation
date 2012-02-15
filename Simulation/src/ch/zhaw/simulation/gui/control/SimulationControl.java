@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.gui.control;
 
-
 import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
@@ -16,11 +15,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
-
 import org.jdesktop.swingx.JXStatusBar;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
+import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
@@ -60,6 +60,7 @@ import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.model.simulation.SimulationModel;
 import ch.zhaw.simulation.sim.SimulationManager;
+import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -115,7 +116,7 @@ public class SimulationControl {
 	private ClipboardHandler clipboard = new ClipboardHandler(this);
 
 	private SimulationManager manager;
-	
+
 	public SimulationControl(JFrame parent, Settings settings) {
 		this.parent = parent;
 		this.settings = settings;
@@ -125,7 +126,7 @@ public class SimulationControl {
 		}
 
 		manager = new SimulationManager(settings);
-		
+
 		importPlugins = new ImportPlugins(settings);
 		savehandler = new LoadSaveHandler(this);
 
@@ -530,7 +531,7 @@ public class SimulationControl {
 		updatePaths();
 		return true;
 	}
-	
+
 	public ImportPlugins getImportPlugins() {
 		return importPlugins;
 	}
@@ -700,26 +701,40 @@ public class SimulationControl {
 	}
 
 	public void startSimulation() {
-//		Simulation s = new Simulation(this);
-//
-//		SimulationModel simModel = getModel().getSimModel();
-//		if (simModel.getEndTime() - simModel.getStartTime() <= simModel.getDt()) {
-//			Messagebox
-//					.showError(getParent(), "Simulation", "<html>Simulation konnte nicht gestartet werden<br>Startzeit, Endzeit und DT kontrollieren!</html>");
-//			return;
-//		}
-//
-//		CheckState state = s.checkData();
-//
-//		if (state == CheckState.NO_DATA) {
-//			Messagebox.showError(getParent(), "Simulation", "<html>Simulation konnte nicht gestartet werden<br>Es ist nichts zum simulieren vorhanden!</html>");
-//			return;
-//		}
-//		if (state == CheckState.ERROR) {
-//			Messagebox.showError(getParent(), "Simulation", "<html>Simulation konnte nicht gestartet werden<br>Daten sind unvollständig!</html>");
-//			return;
-//		}
-//		s.startSimulation();
+		SimulationModel simModel = getModel().getSimModel();
+		String plugin = simModel.getPlugin();
+
+		if (plugin == null) {
+			Messagebox.showError(getParent(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
+			return;
+		}
+
+		PluginDescription<SimulationPlugin> selectedPlugin = null;
+		for (PluginDescription<SimulationPlugin> p : manager.getPlugins()) {
+			if (plugin.equalsIgnoreCase(p.getName())) {
+				selectedPlugin = p;
+				break;
+			}
+		}
+
+		if (selectedPlugin == null) {
+			Messagebox.showError(getParent(), "Plugin nicht gefunden", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
+			return;
+		}
+
+		SimulationPlugin handler = selectedPlugin.getPlugin();
+
+		String error = handler.checkModel(getModel());
+		if (error != null) {
+			Messagebox.showError(getParent(), "Simulation nicht möglich", error);
+			return;
+		}
+		
+		try {
+			handler.prepareSimulation(getModel());
+		} catch(Exception e) {
+			Errorhandler.showError(e, "Simulation fehlgeschlagen");
+		}
 	}
 
 	public void addParameter() {
@@ -757,7 +772,7 @@ public class SimulationControl {
 		SnapshotDialog dlg = new SnapshotDialog(parent, integration, view, view.getBounds());
 		dlg.setVisible(true);
 	}
-	
+
 	public SimulationManager getManager() {
 		return manager;
 	}

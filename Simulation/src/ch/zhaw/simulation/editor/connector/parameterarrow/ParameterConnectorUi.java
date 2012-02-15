@@ -8,13 +8,14 @@ import java.awt.geom.CubicCurve2D;
 
 import javax.swing.JComponent;
 
+import butti.javalibs.util.DrawHelper;
+
 import ch.zhaw.simulation.editor.connector.ConnectorUi;
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.SimulationObject;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
-import ch.zhaw.simulation.util.DrawHelper;
 
 
 

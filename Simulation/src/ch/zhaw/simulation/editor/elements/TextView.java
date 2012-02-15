@@ -21,9 +21,9 @@ import ch.zhaw.simulation.model.TextData;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
-import ch.zhaw.simulation.util.DrawHelper;
 
 import butti.javalibs.errorhandler.Errorhandler;
+import butti.javalibs.util.DrawHelper;
 
 public class TextView extends GuiDataElement<TextData> {
 	private static final long serialVersionUID = 1L;

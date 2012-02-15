@@ -16,6 +16,8 @@ import java.util.Vector;
 
 import javax.swing.JLayeredPane;
 
+import butti.javalibs.util.DrawHelper;
+
 import ch.zhaw.simulation.editor.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorUi;
@@ -48,7 +50,6 @@ import ch.zhaw.simulation.model.connection.ParameterConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
-import ch.zhaw.simulation.util.DrawHelper;
 
 
 public class DocumentView extends JLayeredPane implements SimulationListener, DrawModusListener {

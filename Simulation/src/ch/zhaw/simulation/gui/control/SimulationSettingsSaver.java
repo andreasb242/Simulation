@@ -16,27 +16,16 @@ public class SimulationSettingsSaver implements SimulationParameterListener {
 		model.addSimulationParameterListener(this);
 	}
 
-	// TODO: im Dokument speichern, nicht global
-	
 	public void load() {
-		// TODO !!!!!!!
-//		double dt = settings.getSetting("simulation.dt", 0.1);
-//		model.setDt(dt);
-//
-//		double start = settings.getSetting("simulation.start", 0);
-//		model.setStartTime(start);
-//
-//		double end = settings.getSetting("simulation.end", 100);
-//		model.setEndtime(end);
-
 		String plugin = settings.getSetting("simulation.plugin");
-
 		model.setPlugin(plugin);
 	}
 
 	@Override
 	public void pluginChanged(String plugin) {
-//		settings.setSetting("simulation.plugin", plugin);
+		System.out.println("plugin selected: " + plugin);
+		
+		settings.setSetting("simulation.plugin", plugin);
 	}
 
 	@Override
