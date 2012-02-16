@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import butti.javalibs.config.Config;
 import butti.javalibs.config.Settings;
+import butti.javalibs.config.SettingsPrefix;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.plugin.PluginDescription;
 import butti.plugin.PluginManager;
@@ -42,7 +43,8 @@ public class ImportPlugins {
 
 			for (PluginDescription<ImportReader> plugin : importPlugins.getPlugins()) {
 				ImportReader handler = plugin.getPlugin();
-				handler.init(settings);
+				SettingsPrefix sp = new SettingsPrefix(settings, "importplugin." + plugin.getName());
+				handler.init(sp);
 			}
 
 		} else {

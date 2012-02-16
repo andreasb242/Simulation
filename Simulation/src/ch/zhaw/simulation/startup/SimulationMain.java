@@ -9,13 +9,14 @@ import org.jdesktop.swingx.util.OS;
 import ch.zhaw.simulation.gui.SimulationFrame;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.config.FileSettings;
 import butti.javalibs.errorhandler.Errorhandler;
 
 public class SimulationMain {
 	private static String openfile;
 
 	public static void main() {
-		Settings settings = new Settings("settings.ini");
+		Settings settings = new FileSettings("settings.ini");
 
 		String lookAndFeel = settings.getSetting("ui.look-and-feel", null);
 

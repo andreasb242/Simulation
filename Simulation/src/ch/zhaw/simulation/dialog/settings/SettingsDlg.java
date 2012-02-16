@@ -13,17 +13,17 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import ch.zhaw.simulation.dialog.aboutdlg.GradientPanel;
-import ch.zhaw.simulation.gui.HeaderPanel;
-import ch.zhaw.simulation.gui.control.SimulationControl;
-import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.inexport.ImportReader;
-
 import butti.javalibs.config.Settings;
 import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import butti.plugin.PluginDescription;
+import ch.zhaw.simulation.dialog.aboutdlg.GradientPanel;
+import ch.zhaw.simulation.gui.HeaderPanel;
+import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.inexport.ImportReader;
+import ch.zhaw.simulation.sim.SimulationPlugin;
 
 public class SettingsDlg extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -53,8 +53,16 @@ public class SettingsDlg extends BDialog {
 
 		for (PluginDescription<ImportReader> p : control.getImportPlugins().getPlugins()) {
 			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
-			
-			if(settingsPanel!=null) {
+
+			if (settingsPanel != null) {
+				tabs.addTab(p.getName(), settingsPanel);
+			}
+		}
+
+		for (PluginDescription<SimulationPlugin> p : control.getManager().getPlugins()) {
+			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
+
+			if (settingsPanel != null) {
 				tabs.addTab(p.getName(), settingsPanel);
 			}
 		}
@@ -63,6 +71,12 @@ public class SettingsDlg extends BDialog {
 		initData();
 
 		pack();
+		int w = getWidth();
+		if (w < 500) {
+			w = 500;
+		}
+		setSize(w, getHeight());
+
 		setLocationRelativeTo(control.getParent());
 	}
 

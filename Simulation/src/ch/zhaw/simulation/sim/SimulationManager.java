@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import butti.javalibs.config.Config;
 import butti.javalibs.config.Settings;
+import butti.javalibs.config.SettingsPrefix;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.plugin.PluginDescription;
 import butti.plugin.PluginManager;
@@ -23,7 +24,8 @@ public class SimulationManager {
 
 			for (PluginDescription<SimulationPlugin> p : plugins.getPlugins()) {
 				SimulationPlugin handler = p.getPlugin();
-				handler.init(settings);
+				SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + p.getName());
+				handler.init(sp);
 			}
 
 		} else {

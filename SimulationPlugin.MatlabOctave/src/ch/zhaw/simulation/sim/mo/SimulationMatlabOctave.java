@@ -6,6 +6,8 @@ import butti.javalibs.config.Settings;
 
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.sim.SimulationPlugin;
+import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
+import ch.zhaw.simulation.sim.mo.codegen.RungeKuttaCodegen;
 import ch.zhaw.simulation.sim.mo.gui.SettingsGui;
 
 public class SimulationMatlabOctave implements SimulationPlugin {
@@ -41,7 +43,9 @@ public class SimulationMatlabOctave implements SimulationPlugin {
 
 	@Override
 	public void prepareSimulation(SimulationDocument model) throws Exception {
-		// TODO Auto-generated method stub
+		AbstractCodegen codegen = new RungeKuttaCodegen();
+		codegen.setWorkingFolder("/tmp/code/");
 		
+		codegen.crateSimulation(model);
 	}
 }

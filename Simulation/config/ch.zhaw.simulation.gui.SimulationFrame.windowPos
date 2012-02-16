@@ -1,7 +1,7 @@
 #Fensterposition des Fenstertypes "ch.zhaw.simulation.gui.SimulationFrame"
-#Wed Feb 15 10:02:25 CET 2012
-height=660
-x=197
+#Thu Feb 16 19:16:07 CET 2012
+height=600
+x=261
 maximized=false
-width=804
-y=66
+width=800
+y=224
