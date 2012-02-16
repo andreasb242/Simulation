@@ -124,8 +124,11 @@ public class SimulationControl {
 		if (settings == null) {
 			throw new NullPointerException("settings == null");
 		}
+		if (parent == null) {
+			throw new NullPointerException("parent == null");
+		}
 
-		manager = new SimulationManager(settings);
+		manager = new SimulationManager(settings, parent);
 
 		importPlugins = new ImportPlugins(settings);
 		savehandler = new LoadSaveHandler(this);
@@ -729,10 +732,10 @@ public class SimulationControl {
 			Messagebox.showError(getParent(), "Simulation nicht möglich", error);
 			return;
 		}
-		
+
 		try {
 			handler.prepareSimulation(getModel());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}
 	}

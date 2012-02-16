@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.sim;
 
+import java.awt.Window;
+
 import javax.swing.JPanel;
 
 import ch.zhaw.simulation.model.SimulationDocument;
@@ -18,7 +20,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	/**
 	 * Initialisiert das Plugin mit den Einstellungen
 	 */
-	public void init(Settings settings);
+	public void init(Settings settings, Window parent);
 
 	/**
 	 * Prüft ob ein Model für die Simulation geeignet ist oder nicht
