@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/BJavalibs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DirChooser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

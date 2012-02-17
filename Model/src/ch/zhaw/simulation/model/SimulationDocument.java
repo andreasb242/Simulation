@@ -8,7 +8,7 @@ import ch.zhaw.simulation.model.connection.Connector;
 import ch.zhaw.simulation.model.connection.FlowConnector;
 import ch.zhaw.simulation.model.connection.FlowParameterPoint;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
-import ch.zhaw.simulation.model.simulation.SimulationModel;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 
 
 public class SimulationDocument {
@@ -24,7 +24,7 @@ public class SimulationDocument {
 
 	private HashMap<String, String> metainf = new HashMap<String, String>();
 
-	private SimulationModel simModel = new SimulationModel();
+	private SimulationConfiguration simModel = new SimulationConfiguration();
 
 	public SimulationDocument() {
 		setSaved();
@@ -292,7 +292,7 @@ public class SimulationDocument {
 		}
 	}
 
-	public SimulationModel getSimModel() {
+	public SimulationConfiguration getSimulationConfiguration() {
 		return simModel;
 	}
 

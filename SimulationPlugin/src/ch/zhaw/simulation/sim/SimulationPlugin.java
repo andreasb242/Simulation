@@ -4,6 +4,8 @@ import java.awt.Window;
 
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXTaskPane;
+
 import ch.zhaw.simulation.model.SimulationDocument;
 
 import butti.javalibs.config.Settings;
@@ -16,6 +18,11 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * zurück wenn keine vorhanden
 	 */
 	public JPanel getSettingsPanel();
+
+	/**
+	 * Gets the settings panel for this simulation, or <code>null</code> if none
+	 */
+	public JXTaskPane getConfigurationSettingsSidebar();
 
 	/**
 	 * Initialisiert das Plugin mit den Einstellungen

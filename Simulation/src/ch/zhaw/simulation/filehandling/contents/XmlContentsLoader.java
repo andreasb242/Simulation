@@ -1,23 +1,16 @@
-package ch.zhaw.simulation.filehandling;
+package ch.zhaw.simulation.filehandling.contents;
 
 import java.awt.Point;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Properties;
+import java.io.InputStream;
 import java.util.Vector;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.model.InfiniteData;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationContainer;
@@ -29,149 +22,35 @@ import ch.zhaw.simulation.model.TextData;
 import ch.zhaw.simulation.model.connection.FlowConnector;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 
-import butti.javalibs.errorhandler.Errorhandler;
-
-public class XmlLoader {
-
-	private ZipInputStream in;
-	private boolean versionCompatible;
-	private boolean versionOk;
-	private Properties properties;
-	private String xmlString;
+public class XmlContentsLoader implements XmlContentsNames {
 	private Vector<Node> parameterConnectors = new Vector<Node>();
 	private Vector<Node> flowConnectors = new Vector<Node>();
 
-	public boolean open(File selectedFile) {
-		versionCompatible = false;
-		versionOk = false;
-		properties = new Properties();
-		flowConnectors.clear();
-		parameterConnectors.clear();
-		xmlString = "";
-
-		try {
-			in = new ZipInputStream(new FileInputStream(selectedFile));
-
-			ZipEntry entry;
-			while ((entry = in.getNextEntry()) != null) {
-				String name = entry.getName();
-
-				if ("mimetype".equals(name)) {
-					continue;
-				} else if ("version".equals(name)) {
-					parseVersion(in);
-				} else if ("metainf".equals(name)) {
-					parseMetainf(in);
-				} else if ("simulation.xml".equals(name)) {
-					parseXml(in);
-				}
-			}
-
-			return true;
-		} catch (Exception e) {
-			Errorhandler.logError(e, "Read file failed");
-			return false;
-		}
-	}
-
-	private void parseMetainf(ZipInputStream in) throws IOException {
-		properties.load(in);
-	}
-
-	private void parseVersion(ZipInputStream in) throws IOException {
-		StringBuffer fileData = new StringBuffer(1000);
-		InputStreamReader reader = new InputStreamReader(in);
-		char[] buf = new char[1024];
-		int numRead = 0;
-		while ((numRead = reader.read(buf)) != -1) {
-			String readData = String.valueOf(buf, 0, numRead);
-			fileData.append(readData);
-			buf = new char[1024];
-		}
-		for (String line : fileData.toString().split("\n")) {
-			line = line.trim();
-
-			if (line.startsWith("version=")) {
-				int v = Integer.parseInt(line.substring(8));
-
-				if (v == XmlSaver.VERSION) {
-					versionOk = true;
-					versionCompatible = true;
-					break;
-				} else {
-					versionOk = false;
-				}
-			} else if (line.startsWith("compatible=")) {
-				int v = Integer.parseInt(line.substring(11));
-				if (v <= XmlSaver.VERSION) {
-					versionCompatible = true;
-					break;
-				}
-			}
-		}
-	}
-
-	private void parseXml(ZipInputStream in) throws IOException {
-		StringBuffer fileData = new StringBuffer(1000);
-		InputStreamReader reader = new InputStreamReader(in);
-		char[] buf = new char[1024];
-		int numRead = 0;
-		while ((numRead = reader.read(buf)) != -1) {
-			String readData = String.valueOf(buf, 0, numRead);
-			fileData.append(readData);
-			buf = new char[1024];
-		}
-
-		xmlString = fileData.toString();
-	}
-
-	public boolean versionCompatible() {
-		return versionCompatible;
-	}
-
-	public boolean versionOk() {
-		return versionOk;
-	}
-
-	public boolean load(SimulationDocument model) {
-		model.clearMetadata();
-
-		for (Object key : properties.keySet()) {
-			model.putMetainf(key.toString(), properties.getProperty(key.toString()));
-		}
-
-		model.clear();
-
-		try {
-			return parseXmlString(model);
-		} catch (Exception e) {
-			Errorhandler.logError(e, "Error occured while loading");
-			return false;
-		}
+	public XmlContentsLoader() {
 	}
 
 	private void parseNode(Node node, SimulationDocument model) {
 		String name = node.getNodeName();
 
-		if ("container".equals(name)) {
+		if (XML_ELEMENT_CONTAINER.equals(name)) {
 			SimulationContainer o = new SimulationContainer(0, 0);
 			parseSimulationObject(node, o);
 
 			model.addData(o);
-		} else if ("parameter".equals(name)) {
+		} else if (XML_ELEMENT_PARAMETER.equals(name)) {
 			SimulationParameter o = new SimulationParameter(0, 0);
 			parseSimulationObject(node, o);
 
 			model.addData(o);
-		} else if ("global".equals(name)) {
+		} else if (XML_ELEMENT_GLOBAL.equals(name)) {
 			SimulationGlobal o = new SimulationGlobal(0, 0);
 			parseSimulationObject(node, o);
 
 			model.addData(o);
-		} else if ("connector".equals(name)) {
+		} else if (XML_ELEMENT_CONNECTOR.equals(name)) {
 			// Connectors erst am Schluss parsen, das sicher alles geladen ist
 			parameterConnectors.add(node);
-		} else if ("flowConnector".equals(name)) {
+		} else if (XML_ELEMENT_FLOW_CONNECTOR.equals(name)) {
 			flowConnectors.add(node);
 		} else if ("text".equals(name)) {
 			TextData o = new TextData(0, 0);
@@ -361,9 +240,23 @@ public class XmlLoader {
 		}
 	}
 
-	private boolean parseXmlString(SimulationDocument model) throws Exception {
+	/**
+	 * Parses a Content XML File
+	 * 
+	 * @param model
+	 *            The model to be overwritten
+	 * @param in
+	 *            The Inputstream
+	 * @return true if everthing OK, false if some problems occured, but the
+	 *         file was read anyway
+	 * @throws Exception
+	 *             If something went wrong, the file cannot be read
+	 */
+	public boolean parseXml(SimulationDocument model, InputStream in) throws Exception {
+		flowConnectors.clear();
+		parameterConnectors.clear();
 
-		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlString.getBytes()));
+		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
 
 		// Mögliche Kommentare überlesen
 		NodeList rootNodes = document.getChildNodes();
@@ -380,8 +273,8 @@ public class XmlLoader {
 			throw new Exception("Root node not found!");
 		}
 
-		if (!"simulation".equals(root.getNodeName())) {
-			throw new Exception("Root node name != simulation!");
+		if (!XML_ROOT.equals(root.getNodeName())) {
+			throw new Exception("Root node name != " + XML_ROOT + "!");
 		}
 
 		NodeList nodes = root.getChildNodes();

@@ -1,26 +1,14 @@
-package ch.zhaw.simulation.filehandling;
+package ch.zhaw.simulation.filehandling.contents;
 
 import java.awt.Point;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.io.OutputStream;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import ch.zhaw.simulation.filehandling.AbstractXmlSaver;
 import ch.zhaw.simulation.model.InfiniteData;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationContainer;
@@ -34,96 +22,14 @@ import ch.zhaw.simulation.model.connection.FlowConnector;
 import ch.zhaw.simulation.model.connection.FlowParameterPoint;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 
-import butti.javalibs.errorhandler.Errorhandler;
+public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNames {
 
-public class XmlSaver {
-	private Document document;
-	public static final int VERSION = 1;
-	public static final int VERSION_COMPATIBLE = 1;
+	public void saveContents(OutputStream out, SimulationDocument model) throws ParserConfigurationException, TransformerException {
+		Element root = initDocument(XML_ROOT);
 
-	public XmlSaver() {
-	}
+		saveModel(root, model);
 
-	private Properties getAbout(SimulationDocument model) {
-		Properties p = new Properties();
-
-		for (String key : model.getMetainfKeys()) {
-			p.put(key, model.getMetainf(key));
-		}
-
-		return p;
-	}
-
-	public boolean save(File file, SimulationDocument model) throws IOException {
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-		FileOutputStream fout = new FileOutputStream(file);
-		ZipOutputStream out = new ZipOutputStream(fout);
-
-		out.setComment("Simulation file");
-		out.putNextEntry(new ZipEntry("mimetype"));
-		out.write("application/butti.simulation.project".getBytes());
-		out.putNextEntry(new ZipEntry("version"));
-		out.write(("version=" + VERSION + "\ncompatible=" + VERSION_COMPATIBLE).getBytes());
-		out.putNextEntry(new ZipEntry("metainf"));
-		getAbout(model).store(out, "Simulation metainformations");
-
-		out.putNextEntry(new ZipEntry("simulation.xml"));
-
-		if (!generateXml(out, model)) {
-			out.close();
-			fout.close();
-			file.delete();
-			System.err.println("generateXml error");
-			return false;
-		}
-
-		out.close();
-		fout.close();
-
-		return true;
-	}
-
-	private boolean generateXml(ZipOutputStream out, SimulationDocument model) {
-		try {
-			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-
-			document.setXmlStandalone(true);
-
-			Element root = document.createElement("simulation");
-			document.appendChild(root);
-
-			saveModel(root, model);
-
-			DOMSource ds = new DOMSource(document);
-			TransformerFactory tf = TransformerFactory.newInstance();
-
-			Transformer trans = tf.newTransformer();
-
-			trans.setOutputProperty("indent", "yes"); // Java XML Indent
-			trans.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-
-			trans.transform(ds, new StreamResult(out));
-
-		} catch (ParserConfigurationException e) {
-			Errorhandler.showError(e);
-			return false;
-		} catch (TransformerConfigurationException e) {
-			Errorhandler.showError(e);
-			return false;
-		} catch (TransformerException e) {
-			Errorhandler.showError(e);
-			return false;
-		} catch (RuntimeException e) {
-			Errorhandler.showError(e);
-			return false;
-		} catch (Exception e) {
-			Errorhandler.showError(e);
-			return false;
-		}
-
-		return true;
+		saveOutDocument(out);
 	}
 
 	private void saveModel(Element root, SimulationDocument model) {
@@ -185,7 +91,7 @@ public class XmlSaver {
 	}
 
 	private void visitParameterConnector(Element root, ParameterConnector c) {
-		Element connector = createConnectorElement("connector", c);
+		Element connector = createConnectorElement(XML_ELEMENT_CONNECTOR, c);
 
 		connector.appendChild(visitPoint(c.getConnectorPoint()));
 
@@ -193,7 +99,7 @@ public class XmlSaver {
 	}
 
 	private void visitFlowConnector(Element root, FlowConnector c) {
-		Element connector = document.createElement("flowConnector");
+		Element connector = document.createElement(XML_ELEMENT_FLOW_CONNECTOR);
 		connector.setAttribute("name", c.getParameterPoint().getName());
 		connector.setAttribute("value", c.getParameterPoint().getFormula());
 
@@ -235,19 +141,19 @@ public class XmlSaver {
 	}
 
 	private void visitSimulationcontainer(Element root, SimulationContainer c) {
-		Element xml = createXmlElement(c, "container");
+		Element xml = createXmlElement(c, XML_ELEMENT_CONTAINER);
 
 		root.appendChild(xml);
 	}
 
 	private void visitSimulationParameter(Element root, SimulationParameter p) {
-		Element xml = createXmlElement(p, "parameter");
+		Element xml = createXmlElement(p, XML_ELEMENT_PARAMETER);
 
 		root.appendChild(xml);
 	}
 
 	private void visitSimulationGlobal(Element root, SimulationGlobal p) {
-		Element xml = createXmlElement(p, "global");
+		Element xml = createXmlElement(p, XML_ELEMENT_GLOBAL);
 
 		root.appendChild(xml);
 	}

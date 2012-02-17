@@ -1,13 +1,10 @@
 package ch.zhaw.simulation.filehandling;
 
-
 import java.io.File;
 
-import butti.javalibs.config.Config;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
-import butti.plugin.PluginManager;
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.inexport.ImportReader;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
@@ -15,8 +12,8 @@ import ch.zhaw.simulation.sysintegration.SimFileFilter;
 public class LoadSaveHandler {
 	private File path;
 	private SimulationControl control;
-	private XmlSaver saver = new XmlSaver();
-	private XmlLoader loader = new XmlLoader();
+	private SimzSaver saver = new SimzSaver();
+	private SimzLoader loader = new SimzLoader();
 
 	private static final String LAST_SAVEPATH = "opensave.lastpath";
 
@@ -93,16 +90,13 @@ public class LoadSaveHandler {
 
 	private boolean doSave(File file) {
 		try {
-			if (saver.save(file, control.getModel())) {
-				control.getModel().setSaved();
-				return true;
-			} else {
-				return false;
-			}
+			saver.save(file, control.getModel());
+			control.getModel().setSaved();
+			return true;
 		} catch (Exception e) {
 			Errorhandler.logError(e, "Save failed");
+			return false;
 		}
-		return false;
 	}
 
 	public boolean saveAs() {
@@ -153,7 +147,7 @@ public class LoadSaveHandler {
 
 		for (PluginDescription<ImportReader> plugin : control.getImportPlugins().getPlugins()) {
 			ImportReader handler = plugin.getPlugin();
-			
+
 			try {
 				if (handler.canHandle(file)) {
 					handler.read(file);
@@ -186,9 +180,11 @@ public class LoadSaveHandler {
 		// end import
 		// /////////////////////////
 
-		if (!loader.open(file)) {
+		try {
+			loader.open(file);
+		} catch (Exception e) {
 			Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Öffnen", "Die Datei \"" + file.getAbsolutePath()
-					+ "\" konnte nicht gelesen werden!", Messagebox.ERROR);
+					+ "\" konnte nicht gelesen werden!\n" + e.getMessage(), Messagebox.ERROR);
 			msg.addButton("OK", 0, true);
 			msg.display();
 			return false;
@@ -220,17 +216,21 @@ public class LoadSaveHandler {
 
 		try {
 			control.stopAutoparser();
+
 			if (!loader.load(control.getModel())) {
-				Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Öffnen",
-						"Die Datei konnte nicht gelesen werden. Ggf. ist die Datei beschädigt oder vom falschen Format.", Messagebox.ERROR);
-				msg.addButton("OK", 0, true);
-				msg.display();
-				return false;
-			} else {
-				path = file;
-				control.setStatusText("Datei geladen");
-				control.getModel().setSaved();
+				Messagebox.showWarning(control.getParent(), "Probleme beim lesen",
+						"Die Datei enthielt Fehler und konnte möglicherweise nicht korrekt eingelesen werden.");
 			}
+			path = file;
+			control.setStatusText("Datei geladen");
+			control.getModel().setSaved();
+		} catch (Exception e) {
+			Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Öffnen",
+					"Die Datei konnte nicht gelesen werden. Ggf. ist die Datei beschädigt oder vom falschen Format.\n" + e.getMessage(), Messagebox.ERROR);
+			msg.addButton("OK", 0, true);
+			msg.display();
+
+			return false;
 		} finally {
 			control.startAutoparser();
 		}
@@ -249,7 +249,7 @@ public class LoadSaveHandler {
 
 		@Override
 		public String getDescription() {
-			return "Komprimierte Simulation";
+			return "Simulationsdatei (.simz)";
 		}
 
 		@Override

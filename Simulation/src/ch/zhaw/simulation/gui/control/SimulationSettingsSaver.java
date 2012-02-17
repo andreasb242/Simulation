@@ -1,15 +1,15 @@
 package ch.zhaw.simulation.gui.control;
 
-import ch.zhaw.simulation.model.simulation.SimulationModel;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import butti.javalibs.config.Settings;
 
 public class SimulationSettingsSaver implements SimulationParameterListener {
 
 	private Settings settings;
-	private SimulationModel model;
+	private SimulationConfiguration model;
 
-	public SimulationSettingsSaver(SimulationModel model, Settings settings) {
+	public SimulationSettingsSaver(SimulationConfiguration model, Settings settings) {
 		this.settings = settings;
 		this.model = model;
 
@@ -23,13 +23,16 @@ public class SimulationSettingsSaver implements SimulationParameterListener {
 
 	@Override
 	public void pluginChanged(String plugin) {
-		System.out.println("plugin selected: " + plugin);
-		
 		settings.setSetting("simulation.plugin", plugin);
 	}
 
 	@Override
-	public void propertyChanged(String property, Object newValue) {
-//		settings.setSetting("simulation.plugin", plugin);
+	public void propertyChanged(String property, String newValue) {
+		settings.setSetting("simulation.sproperty." + property, newValue);
+	}
+
+	@Override
+	public void propertyChanged(String property, double newValue) {
+		settings.setSetting("simulation.dproperty." + property, newValue);
 	}
 }

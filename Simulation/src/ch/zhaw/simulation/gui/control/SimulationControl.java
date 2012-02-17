@@ -58,7 +58,7 @@ import ch.zhaw.simulation.model.connection.FlowConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
-import ch.zhaw.simulation.model.simulation.SimulationModel;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -111,7 +111,6 @@ public class SimulationControl {
 	private MainToolbar toolbar;
 
 	private FunctionHelp functionHelp;
-	private SimulationSettingsSaver simulationsSettings;
 
 	private ClipboardHandler clipboard = new ClipboardHandler(this);
 
@@ -167,8 +166,6 @@ public class SimulationControl {
 		addListeners();
 
 		autoparser = new Autoparser(this);
-		simulationsSettings = new SimulationSettingsSaver(model.getSimModel(), settings);
-		simulationsSettings.load();
 	}
 
 	public void initJcomponent(JComponent c) {
@@ -704,8 +701,8 @@ public class SimulationControl {
 	}
 
 	public void startSimulation() {
-		SimulationModel simModel = getModel().getSimModel();
-		String plugin = simModel.getPlugin();
+		SimulationConfiguration simulationConfiguration = getModel().getSimulationConfiguration();
+		String plugin = simulationConfiguration.getPlugin();
 
 		if (plugin == null) {
 			Messagebox.showError(getParent(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");

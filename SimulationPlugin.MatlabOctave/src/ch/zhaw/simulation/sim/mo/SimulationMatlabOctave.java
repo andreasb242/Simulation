@@ -4,6 +4,8 @@ import java.awt.Window;
 
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXTaskPane;
+
 import butti.javalibs.config.Settings;
 
 import ch.zhaw.simulation.model.SimulationDocument;
@@ -11,10 +13,12 @@ import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
 import ch.zhaw.simulation.sim.mo.codegen.RungeKuttaCodegen;
 import ch.zhaw.simulation.sim.mo.gui.SettingsGui;
+import ch.zhaw.simulation.sim.sidebar.DefaultSimulationSidebar;
 
 public class SimulationMatlabOctave implements SimulationPlugin {
 	private Settings settings;
 	private Window parent;
+	private DefaultSimulationSidebar sidebar = new DefaultSimulationSidebar();
 
 	public SimulationMatlabOctave() {
 	}
@@ -51,5 +55,10 @@ public class SimulationMatlabOctave implements SimulationPlugin {
 		codegen.setWorkingFolder(settings.getSetting("workpath"));
 
 		codegen.crateSimulation(model);
+	}
+
+	@Override
+	public JXTaskPane getConfigurationSettingsSidebar() {
+		return sidebar;
 	}
 }

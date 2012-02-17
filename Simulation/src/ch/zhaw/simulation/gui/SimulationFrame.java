@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import ch.zhaw.simulation.gui.configuration.Configurationpanel;
 import ch.zhaw.simulation.gui.control.SidebarListener;
 import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.SimulationSettingsSaver;
 import ch.zhaw.simulation.icon.IconSVG;
 
 import butti.javalibs.config.Settings;
@@ -35,6 +36,9 @@ public class SimulationFrame extends JFrame {
 
 		cpanel = new Configurationpanel(control);
 
+		SimulationSettingsSaver simulationsSettings = new SimulationSettingsSaver(control.getModel().getSimulationConfiguration(), settings);
+		simulationsSettings.load();
+		
 		control.setDocumentTitle(null);
 
 		setLayout(new BorderLayout());

@@ -83,9 +83,9 @@ public class GtkBookmarks extends Bookmarks {
 
 				String value = line.substring(pos, closingPos).trim();
 
-				System.out.println("val: " + name + " = " + value);
-
-				System.out.println(line);
+				// TODO: implement
+//				System.out.println("val: " + name + " = " + value);
+//				System.out.println(line);
 			}
 
 		} catch (Exception e) {

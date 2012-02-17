@@ -37,5 +37,18 @@ public class SimulationManager {
 	public Vector<PluginDescription<SimulationPlugin>> getPlugins() {
 		return plugins.getPlugins();
 	}
-	
+
+	public PluginDescription<SimulationPlugin> getPluginByName(String name) {
+		if (name == null) {
+			throw new NullPointerException("name == null");
+
+		}
+		for (PluginDescription<SimulationPlugin> p : plugins.getPlugins()) {
+			if(name.equals(p.getName())) {
+				return p;
+			}
+		}
+		
+		return null;
+	}
 }

@@ -1,9 +1,7 @@
 package ch.zhaw.simulation.filehandling;
 
-
 import java.io.File;
 import java.util.Vector;
-
 
 import butti.javalibs.config.Config;
 import butti.javalibs.config.Settings;
@@ -11,14 +9,15 @@ import butti.javalibs.config.SettingsPrefix;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.plugin.PluginDescription;
 import butti.plugin.PluginManager;
-import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.inexport.ImportReader;
-import ch.zhaw.simulation.inexport.madonna.MadonnaReader;
-import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 
+/**
+ * Loads and Configures import Plugsins for other fileformats
+ * 
+ * @author Andreas Butti
+ */
 public class ImportPlugins {
-
 	private Settings settings;
 	private PluginManager<ImportReader> importPlugins = new PluginManager<ImportReader>();
 	private Vector<PluginDescription<ImportReader>> plugins;

@@ -1,13 +1,14 @@
 package ch.zhaw.simulation.gui.configuration;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
+import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.elements.HideableSplitComponent;
 import ch.zhaw.simulation.editor.elements.container.ContainerView;
@@ -15,17 +16,19 @@ import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.elements.parameter.ParameterView;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
 import ch.zhaw.simulation.gui.control.SimulationControl;
-import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
-
+import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
+import ch.zhaw.simulation.sim.SimulationManager;
+import ch.zhaw.simulation.sim.SimulationPlugin;
 
 public class Configurationpanel extends JPanel implements DrawModusListener, HideableSplitComponent {
 	private static final long serialVersionUID = 1L;
 
 	private SelectionModel selectionModel;
 
+	// TODO: improve, use only one object for all settings or so
 	private ContainerConfiguration containerAttributes;
 	private ParameterConfiguration parameterAttributes;
 	private GlobalConfiguration globalAttributes;
@@ -33,9 +36,11 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 
 	private JXTaskPaneContainer taskPaneContainer;
 
-	private SimulationConfiguration simConfig;
+	private SimulationConfigurationPanel simConfig;
 
-	public Configurationpanel(SimulationControl control) {
+	private JXTaskPane selectedSimulationSettings = null;
+
+	public Configurationpanel(final SimulationControl control) {
 		setLayout(new BorderLayout());
 
 		taskPaneContainer = new JXTaskPaneContainer();
@@ -51,7 +56,7 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 		taskPaneContainer.add(globalAttributes);
 		taskPaneContainer.add(flowParameterAttributs);
 
-		simConfig = new SimulationConfiguration(control);
+		simConfig = new SimulationConfigurationPanel(control);
 		taskPaneContainer.add(simConfig);
 
 		add(taskPaneContainer, BorderLayout.CENTER);
@@ -70,6 +75,38 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 		});
 		control.addDrawModusListener(this);
 
+		control.getModel().getSimulationConfiguration().addSimulationParameterListener(new SimulationParameterListener() {
+
+			@Override
+			public void pluginChanged(String plugin) {
+				if (selectedSimulationSettings != null) {
+					taskPaneContainer.remove(selectedSimulationSettings);
+				}
+
+				SimulationManager manager = control.getManager();
+				PluginDescription<SimulationPlugin> p = manager.getPluginByName(plugin);
+
+				if (p != null) {
+					JXTaskPane sidebar = p.getPlugin().getConfigurationSettingsSidebar();
+					if (sidebar != null) {
+						taskPaneContainer.add(sidebar);
+						selectedSimulationSettings = sidebar;
+					}
+				}
+			}
+
+			@Override
+			public void propertyChanged(String property, String newValue) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void propertyChanged(String property, double newValue) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	private void readValues() {
@@ -81,7 +118,7 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 
 		if (selected.length == 1) {
 			SelectableElement s = selected[0];
-			
+
 			if (s instanceof ContainerView) {
 				containerAttributes.setSelected(((ContainerView) s).getData());
 				return;
@@ -91,8 +128,8 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 				parameterAttributes.setSelected(((ParameterView) s).getData());
 				return;
 			}
-			
-			if(s instanceof GlobalView) {
+
+			if (s instanceof GlobalView) {
 				globalAttributes.setSelected(((GlobalView) s).getData());
 				return;
 			}
