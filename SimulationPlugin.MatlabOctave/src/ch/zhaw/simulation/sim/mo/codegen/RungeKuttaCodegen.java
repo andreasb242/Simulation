@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.sim.StandardParameter;
 
 /**
  * Code Generation for Runge-Kutta
@@ -19,6 +21,8 @@ public class RungeKuttaCodegen extends AbstractCodegen {
 	@Override
 	public void crateSimulation(SimulationDocument model) throws IOException {
 		extractBaseFile();
+		
+		SimulationConfiguration config = model.getSimulationConfiguration();
 
 		CodeOutput out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + "simulation.m"));
 		
@@ -35,10 +39,10 @@ public class RungeKuttaCodegen extends AbstractCodegen {
 		
 		out.setVar("a", 0);
 		out.setVar("b", 10);
-		out.setVar("x0", 0);
-		out.setVar("x1", 5);
-		out.setVar("eps", 0.01);
-
+		out.setVar("x0", config.getParameter(StandardParameter.START, 0));
+		out.setVar("x1", config.getParameter(StandardParameter.END, 5));
+		out.setVar("eps", config.getParameter(StandardParameter.DT, 0.01));
+		
 		out.println("x=[x0; x1];");
 		out.println("for i=1:ceil(b/eps)");
 		

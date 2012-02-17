@@ -1,10 +1,12 @@
 package ch.zhaw.simulation.gui.control;
 
+import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
+import ch.zhaw.simulation.sim.StandardParameter;
 import butti.javalibs.config.Settings;
 
-public class SimulationSettingsSaver implements SimulationParameterListener {
+public class SimulationSettingsSaver implements SimulationParameterListener, PluginChangeListener {
 
 	private Settings settings;
 	private SimulationConfiguration model;
@@ -14,6 +16,7 @@ public class SimulationSettingsSaver implements SimulationParameterListener {
 		this.model = model;
 
 		model.addSimulationParameterListener(this);
+		model.addPluginChangeListener(this);
 	}
 
 	public void load() {
@@ -28,11 +31,11 @@ public class SimulationSettingsSaver implements SimulationParameterListener {
 
 	@Override
 	public void propertyChanged(String property, String newValue) {
-		settings.setSetting("simulation.sproperty." + property, newValue);
+		settings.setSetting(StandardParameter.SIM_PROPERTY_STRING_PREFIX + property, newValue);
 	}
 
 	@Override
 	public void propertyChanged(String property, double newValue) {
-		settings.setSetting("simulation.dproperty." + property, newValue);
+		settings.setSetting(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX + property, newValue);
 	}
 }

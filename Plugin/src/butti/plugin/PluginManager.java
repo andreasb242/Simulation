@@ -136,8 +136,6 @@ public class PluginManager<E extends AbstractPlugin> {
 			throw new Exception("Failed to instance «" + clazz + "»", e);
 		}
 
-		obj.load();
-
 		plugin.setPlugin(obj);
 		plugins.add(plugin);
 

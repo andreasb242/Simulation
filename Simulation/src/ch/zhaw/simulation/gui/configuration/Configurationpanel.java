@@ -19,6 +19,7 @@ import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
+import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
@@ -75,8 +76,8 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 		});
 		control.addDrawModusListener(this);
 
-		control.getModel().getSimulationConfiguration().addSimulationParameterListener(new SimulationParameterListener() {
-
+		control.getModel().getSimulationConfiguration().addPluginChangeListener(new PluginChangeListener() {
+			
 			@Override
 			public void pluginChanged(String plugin) {
 				if (selectedSimulationSettings != null) {
@@ -93,18 +94,6 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 						selectedSimulationSettings = sidebar;
 					}
 				}
-			}
-
-			@Override
-			public void propertyChanged(String property, String newValue) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void propertyChanged(String property, double newValue) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 	}

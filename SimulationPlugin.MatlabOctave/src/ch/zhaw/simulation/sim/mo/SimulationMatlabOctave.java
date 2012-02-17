@@ -9,6 +9,7 @@ import org.jdesktop.swingx.JXTaskPane;
 import butti.javalibs.config.Settings;
 
 import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
 import ch.zhaw.simulation.sim.mo.codegen.RungeKuttaCodegen;
@@ -18,24 +19,27 @@ import ch.zhaw.simulation.sim.sidebar.DefaultSimulationSidebar;
 public class SimulationMatlabOctave implements SimulationPlugin {
 	private Settings settings;
 	private Window parent;
-	private DefaultSimulationSidebar sidebar = new DefaultSimulationSidebar();
+	private DefaultSimulationSidebar sidebar;
 
 	public SimulationMatlabOctave() {
 	}
 
 	@Override
-	public void init(Settings settings, Window parent) {
+	public void init(Settings settings, SimulationConfiguration config, Window parent) {
 		this.settings = settings;
 		this.parent = parent;
+		this.sidebar = new DefaultSimulationSidebar(config);
 	}
 
 	@Override
 	public boolean load() throws Exception {
+		this.sidebar.load();
 		return true;
 	}
 
 	@Override
 	public void unload() {
+		this.sidebar.unload();
 	}
 
 	@Override

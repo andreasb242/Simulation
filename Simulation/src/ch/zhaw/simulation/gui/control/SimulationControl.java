@@ -61,6 +61,7 @@ import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
+import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -127,7 +128,8 @@ public class SimulationControl {
 			throw new NullPointerException("parent == null");
 		}
 
-		manager = new SimulationManager(settings, parent);
+		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
+		loadSimulationParameterFromSettings();
 
 		importPlugins = new ImportPlugins(settings);
 		savehandler = new LoadSaveHandler(this);
@@ -166,6 +168,25 @@ public class SimulationControl {
 		addListeners();
 
 		autoparser = new Autoparser(this);
+	}
+
+	private void loadSimulationParameterFromSettings() {
+		SimulationConfiguration conf = model.getSimulationConfiguration();
+
+		int prefixLen = StandardParameter.SIM_PROPERTY_STRING_PREFIX.length();
+		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_STRING_PREFIX)) {
+			conf.setParameter(k.substring(prefixLen), settings.getSetting(k));
+		}
+		
+		prefixLen = StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX.length();
+		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX)) {
+			try {
+				double d = Double.parseDouble(settings.getSetting(k));
+				conf.setParameter(k.substring(prefixLen), d);
+			} catch (Exception e) {
+				System.err.println("Invalid double setting: \"" + k + "\" = \"" + settings.getSetting(k) + "\"");
+			}
+		}
 	}
 
 	public void initJcomponent(JComponent c) {

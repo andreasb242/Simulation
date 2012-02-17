@@ -12,6 +12,7 @@ public class SimulationConfiguration {
 	private String plugin = null;
 
 	private Vector<SimulationParameterListener> listener = new Vector<SimulationParameterListener>();
+	private Vector<PluginChangeListener> pluginChangeListener = new Vector<PluginChangeListener>();
 
 	private HashMap<String, String> stringParameter = new HashMap<String, String>();
 	private HashMap<String, Double> doubleParameter = new HashMap<String, Double>();
@@ -76,6 +77,14 @@ public class SimulationConfiguration {
 		listener.remove(l);
 	}
 
+	public void addPluginChangeListener(PluginChangeListener l) {
+		pluginChangeListener.add(l);
+	}
+
+	public void removePluginChangeListener(PluginChangeListener l) {
+		pluginChangeListener.remove(l);
+	}
+
 	private void firePropertyChanged(String property, String newValue) {
 		for (SimulationParameterListener l : listener) {
 			l.propertyChanged(property, newValue);
@@ -89,7 +98,7 @@ public class SimulationConfiguration {
 	}
 
 	private void fireTypeChanged() {
-		for (SimulationParameterListener l : listener) {
+		for (PluginChangeListener l : pluginChangeListener) {
 			l.pluginChanged(plugin);
 		}
 	}

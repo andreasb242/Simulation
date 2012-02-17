@@ -12,11 +12,11 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.sim.SimulationManager;
 
-public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, SimulationParameterListener {
+public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbSimulationtype;
@@ -27,7 +27,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 	public SimulationConfigurationPanel(final SimulationControl control) {
 		setTitle("Simulation");
 		this.model = control.getModel().getSimulationConfiguration();
-		model.addSimulationParameterListener(this);
+		model.addPluginChangeListener(this);
 
 		add(new JLabel("Simulation"));
 
@@ -72,17 +72,5 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 				break;
 			}
 		}
-	}
-
-	@Override
-	public void propertyChanged(String property, String newValue) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void propertyChanged(String property, double newValue) {
-		// TODO Auto-generated method stub
-
 	}
 }

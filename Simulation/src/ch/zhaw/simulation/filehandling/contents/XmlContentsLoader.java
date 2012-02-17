@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import butti.javalibs.errorhandler.Errorhandler;
+import ch.zhaw.simulation.filehandling.XmlHelper;
 import ch.zhaw.simulation.model.InfiniteData;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationContainer;
@@ -62,22 +63,22 @@ public class XmlContentsLoader implements XmlContentsNames {
 	}
 
 	private void parseSimulationText(Node node, TextData o) {
-		int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-		int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-		int width = Integer.parseInt(node.getAttributes().getNamedItem("width").getNodeValue());
-		int height = Integer.parseInt(node.getAttributes().getNamedItem("height").getNodeValue());
+		int x = XmlHelper.getAttributeInt(node, "x");
+		int y = XmlHelper.getAttributeInt(node, "y");
+		int width = XmlHelper.getAttributeInt(node, "width");
+		int height = XmlHelper.getAttributeInt(node, "height");
 
 		o.setX(x);
 		o.setY(y);
 		o.setWidth(width);
 		o.setHeight(height);
-		o.setText(node.getAttributes().getNamedItem("text").getNodeValue());
+		o.setText(XmlHelper.getAttribute(node, "text"));
 	}
 
 	private void parseConnector(Node node, ParameterConnector c, SimulationDocument model) {
 
-		String sFrom = node.getAttributes().getNamedItem("from").getNodeValue();
-		String sTo = node.getAttributes().getNamedItem("to").getNodeValue();
+		String sFrom = XmlHelper.getAttribute(node, "from");
+		String sTo = XmlHelper.getAttribute(node, "to");
 
 		NamedSimulationObject from = model.getByName(sFrom);
 		NamedSimulationObject to = model.getByName(sTo);
@@ -227,12 +228,12 @@ public class XmlContentsLoader implements XmlContentsNames {
 	}
 
 	private void parseSimulationObject(Node node, NamedSimulationObject o) {
-		int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-		int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
+		int x = XmlHelper.getAttributeInt(node, "x");
+		int y = XmlHelper.getAttributeInt(node, "y");
 
 		o.setX(x);
 		o.setY(y);
-		o.setName(node.getAttributes().getNamedItem("name").getNodeValue());
+		o.setName(XmlHelper.getAttribute(node, "name"));
 
 		Node value = node.getAttributes().getNamedItem("value");
 		if (value != null) {
