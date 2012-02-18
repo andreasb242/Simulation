@@ -532,22 +532,4 @@ public class HTMLEditor extends BDialog {
 		}
 	};
 
-	private SimFileFilter imageOpenFilter = new SimFileFilter() {
-		@Override
-		public boolean accept(File f) {
-			String name = f.getName().toLowerCase();
-
-			return (f.isDirectory() || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png"));
-		}
-
-		@Override
-		public String getDescription() {
-			return "Bilder";
-		}
-
-		@Override
-		public String getExtension() {
-			return null;
-		}
-	};
 }

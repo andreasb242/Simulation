@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.gui.configuration.codeditor;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
@@ -18,18 +17,17 @@ import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
 import org.jdesktop.swingx.JXStatusBar;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.help.model.FunctionInformation;
 import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.math.CompilerError;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.math.Parser;
-import ch.zhaw.simulation.math.UserException;
+import ch.zhaw.simulation.math.exception.CompilerError;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationGlobal;
@@ -135,7 +133,7 @@ public class FormulaEditor extends BDialog {
 			}
 
 		});
-		
+
 		setLocationRelativeTo(parent);
 	}
 
@@ -225,7 +223,7 @@ public class FormulaEditor extends BDialog {
 		try {
 			Vector<NamedSimulationObject> sources = control.getModel().getSource(data);
 
-			parser.checkCode(text.getText(), data, sources, control, data.getName());
+			parser.checkCode(text.getText(), data, control.getModel(), sources, data.getName());
 			status = NamedSimulationObject.Status.SYNTAX_OK;
 
 			text.setError(0, 0);
@@ -236,7 +234,7 @@ public class FormulaEditor extends BDialog {
 			statusLabel.setText(sdf.format(cal.getTime()) + ": " + error.getMessage());
 			statusLabel.setIcon(IconSVG.getIcon("warning"));
 			statusText = error.getMessage();
-		} catch (UserException error) {
+		} catch (SimulationModelException error) {
 			statusLabel.setText(sdf.format(cal.getTime()) + ": " + error.getMessage());
 			statusLabel.setIcon(IconSVG.getIcon("warning"));
 			statusText = error.getMessage();

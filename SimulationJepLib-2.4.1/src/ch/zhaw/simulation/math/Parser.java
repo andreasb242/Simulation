@@ -1,10 +1,8 @@
 package ch.zhaw.simulation.math;
 
-
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Map.Entry;
-
 
 import org.lsmp.djep.matrixJep.MatrixJep;
 import org.nfunk.jep.ASTVarNode;
@@ -13,8 +11,11 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.function.PostfixMathCommandI;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.math.exception.CompilerError;
+import ch.zhaw.simulation.math.exception.EmptyFormulaException;
+import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.model.NamedSimulationObject;
+import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.SimulationObject;
 
@@ -77,15 +78,18 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, SimulationObject o, Vector<NamedSimulationObject> sources, SimulationControl control, String name)
-			throws CompilerError, ParseException, UserException.NotUsedException {
+	public ParserNodePair checkCode(String text, SimulationObject o, SimulationDocument model, Vector<NamedSimulationObject> sourcesConst, String name)
+			throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (text.isEmpty()) {
-			throw new UserException.NotUsedException("Die Formel von " + name + " ist leer!");
+			throw new EmptyFormulaException(o);
 		}
 
 		Line[] data = getFormulas(text);
 		newParser();
 
+		Vector<NamedSimulationObject> sources = new Vector<NamedSimulationObject>();
+		sources.addAll(sourcesConst);
+		
 		for (NamedSimulationObject s : sources) {
 			if (jep.getVar(s.getName()) != null) {
 				jep.removeVariable(s.getName());
@@ -95,7 +99,7 @@ public class Parser {
 			jep.addConstant(s.getName(), new VarPlaceholder());
 		}
 
-		Vector<SimulationGlobal> globals = control.getModel().getGlobalsFor(o);
+		Vector<SimulationGlobal> globals = model.getGlobalsFor(o);
 		for (SimulationGlobal g : globals) {
 			if (jep.getVar(g.getName()) != null) {
 				jep.removeVariable(g.getName());
@@ -117,7 +121,7 @@ public class Parser {
 				processEquation(node);
 				nodes.add(node);
 			} catch (ParseException e) {
-				throw new CompilerError(e.getMessage(), l.line, l.text.length());
+				throw new CompilerError(o, e.getMessage(), l.line, l.text.length());
 			}
 		}
 
@@ -128,7 +132,7 @@ public class Parser {
 		}
 
 		o.setUsedGlobals(usedGlobals);
-		
+
 		if (sources.size() > 0) {
 			StringBuilder vars = new StringBuilder();
 			for (NamedSimulationObject n : sources) {
@@ -136,16 +140,24 @@ public class Parser {
 				vars.append(n.getName());
 			}
 
-			throw new UserException.NotUsedException("Der Parameter " + vars.substring(2) + " wird nicht verwendet");
+			throw new NotUsedException(o, vars.substring(2));
 		}
 		return new ParserNodePair(nodes, jep);
 	}
 
-	private void checkUsedParameter(Node node, Vector<NamedSimulationObject> sources, Vector<SimulationGlobal> globals, Vector<SimulationGlobal> usedGlobals) {
+	/**
+	 * 
+	 * @param node
+	 * @param sourcesTmp
+	 *            All used Sources are removed from this vector
+	 * @param globals
+	 * @param usedGlobals
+	 */
+	private void checkUsedParameter(Node node, Vector<NamedSimulationObject> sourcesTmp, Vector<SimulationGlobal> globals, Vector<SimulationGlobal> usedGlobals) {
 		int len = node.jjtGetNumChildren();
 		for (int i = 0; i < len; i++) {
 			Node c = node.jjtGetChild(i);
-			checkUsedParameter(c, sources, globals, usedGlobals);
+			checkUsedParameter(c, sourcesTmp, globals, usedGlobals);
 		}
 
 		if (node instanceof ASTVarNode) {
@@ -153,7 +165,7 @@ public class Parser {
 			String name = a.getName();
 
 			NamedSimulationObject found = null;
-			for (NamedSimulationObject s : sources) {
+			for (NamedSimulationObject s : sourcesTmp) {
 				if (s.getName().equals(name)) {
 					found = s;
 					break;
@@ -161,7 +173,7 @@ public class Parser {
 			}
 
 			if (found != null) {
-				sources.remove(found);
+				sourcesTmp.remove(found);
 			}
 
 			SimulationGlobal foundGlobal = null;
@@ -249,25 +261,4 @@ public class Parser {
 			return 1;
 		}
 	}
-
-	// private Object getVal(NamedSimulationObject s, SimulationControl control)
-	// throws ParseException, CompilerError {
-	// if(s instanceof SimulationContainer) {
-	// return ((SimulationContainer) s).getContainerValue();
-	// } else if(s instanceof SimulationParameter) {
-	// CopyOfMath value = s.getValue();
-	// Node node = s.getParsed();
-	//			
-	// if(node == null) {
-	// Vector<NamedSimulationObject> sources = control.getModel().getSource(s);
-	//
-	// node = value.checkCode(value.getValue(), sources, control);
-	// }
-	//
-	// return processEquation(node);
-	// } else {
-	// throw new RuntimeException("Type of source flow is: " +
-	// s.getClass().getName());
-	// }
-	// }
 }

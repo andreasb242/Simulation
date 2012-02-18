@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXTaskPane;
 
+import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 
@@ -42,10 +43,8 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * 
 	 * @param model
 	 *            Das zu simulierende Model
-	 * @return <code>null</code> Wenn alles OK ist, oder sonst eine Meldung an
-	 *         den Benutzer was nicht funktioniert
 	 */
-	public String checkModel(SimulationDocument model);
+	public void checkModel(SimulationDocument model) throws SimulationModelException;
 
 	/**
 	 * Hier wird die Simulation vorbereitet, z.B. ein Simulationfile erzeugt

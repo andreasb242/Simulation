@@ -22,8 +22,8 @@ public abstract class AbstractCodegen {
 	/**
 	 * Predefined files, needed by simulation
 	 */
-	protected String[] predefinedFiles;
-	
+	protected String[] predefinedFiles = new String[] {};
+
 	public AbstractCodegen() {
 	}
 

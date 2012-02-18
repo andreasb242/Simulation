@@ -76,7 +76,7 @@ public class MainToolbar {
 	public void initToolbar() {
 		ImageIcon parameterIcon = addShadow(new ParameterImage(24, config).getImage(false));
 
-		toolbar.add(new ToolbarAction("Parameter", parameterIcon) {
+		toolbar.add(new ToolbarAction("Parameter (p)", parameterIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				control.addParameter();
@@ -85,7 +85,7 @@ public class MainToolbar {
 
 		ImageIcon containerIcon = addShadow(new ContainerImage(18, 24, config).getImage(false));
 
-		toolbar.add(new ToolbarAction("Container", containerIcon) {
+		toolbar.add(new ToolbarAction("Container (c)", containerIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				control.addContainer();
@@ -109,7 +109,7 @@ public class MainToolbar {
 
 		ImageIcon globalIcon = addShadow(image);
 
-		toolbar.add(new ToolbarAction("Global", globalIcon) {
+		toolbar.add(new ToolbarAction("Global (g)", globalIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				control.addGlobal();
@@ -167,8 +167,6 @@ public class MainToolbar {
 		JMenu menu = control.mb.getMLayout();
 
 		addTb(menu, new ToolbarAction("Unten ausrichten", "alignBottom") {
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layoutControl.layoutBottom();
@@ -176,8 +174,6 @@ public class MainToolbar {
 		});
 
 		addTb(menu, new ToolbarAction("Oben ausrichten", "alingTop") {
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layoutControl.layoutTop();
@@ -193,8 +189,6 @@ public class MainToolbar {
 		});
 
 		addTb(menu, new ToolbarAction("Rechts ausrichten", "alingRight") {
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layoutControl.layoutRight();
@@ -202,8 +196,6 @@ public class MainToolbar {
 		});
 
 		addTb(menu, new ToolbarAction("Horizontal zentrieren", "alignCenterHorizontal") {
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layoutControl.layoutCenterHorizontal();
@@ -211,8 +203,6 @@ public class MainToolbar {
 		});
 
 		addTb(menu, new ToolbarAction("Vertikal zentrieren", "alignCenterVertical") {
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layoutControl.layoutCenterVertical();

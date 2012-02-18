@@ -10,7 +10,6 @@ import ch.zhaw.simulation.model.connection.FlowParameterPoint;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 
-
 public class SimulationDocument {
 	private boolean changed;
 	private int id = 0;
@@ -333,6 +332,19 @@ public class SimulationDocument {
 		}
 
 		id++;
+	}
+
+	public boolean hasFlowConnectors(SimulationContainer container) {
+		for (Connector<?> c : connectors) {
+			if (c instanceof FlowConnector) {
+				FlowConnector flow = (FlowConnector) c;
+				if (flow.getSource().equals(container) || flow.getTarget().equals(container)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public Vector<FlowConnector> getFlowConnectors() {

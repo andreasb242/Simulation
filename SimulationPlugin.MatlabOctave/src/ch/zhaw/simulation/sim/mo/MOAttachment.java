@@ -1,0 +1,247 @@
+package ch.zhaw.simulation.sim.mo;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Vector;
+
+import org.lsmp.djep.matrixJep.MatrixJep;
+import org.lsmp.djep.xjep.PrintVisitor;
+import org.nfunk.jep.ASTVarNode;
+import org.nfunk.jep.Node;
+import org.nfunk.jep.ParseException;
+
+import ch.zhaw.simulation.math.Parser;
+import ch.zhaw.simulation.math.Parser.ParserNodePair;
+import ch.zhaw.simulation.model.NamedSimulationObject;
+import ch.zhaw.simulation.model.SimulationAttachment;
+import ch.zhaw.simulation.model.SimulationContainer;
+
+public class MOAttachment implements SimulationAttachment {
+	private Vector<NamedSimulationObject> sources;
+	private ParserNodePair parsed;
+	private Vector<AssigmentPair> assigment = new Vector<AssigmentPair>();
+	private Node formula = null;
+	private Object value = null;
+
+	/**
+	 * The constant value if any
+	 */
+	private double constValue;
+
+	/**
+	 * If this Object is const, we use <code>constValue</code> instead of
+	 * calculate the value every time
+	 */
+	private boolean isConst = false;
+
+	public void setSources(Vector<NamedSimulationObject> sources) {
+		if (sources == null) {
+			throw new NullPointerException("sources == null");
+		}
+		this.sources = sources;
+	}
+
+	public void setParsed(ParserNodePair parsed) {
+		if (parsed == null) {
+			throw new NullPointerException("parsed == null");
+		}
+		this.parsed = parsed;
+	}
+
+	public ParserNodePair getParsed() {
+		return parsed;
+	}
+
+	public void assigneSourcesVars() throws VarNotFoundExceptionTmp {
+		for (Node n : parsed.nodes) {
+			checkAssignNodeTree(n);
+		}
+	}
+
+	/**
+	 * 2. Optimierungsschritt: Wenn alle Variabeln const sind ist auch diese
+	 * Const
+	 * 
+	 * @throws ParseException
+	 */
+	public void optimizeStatic() throws ParseException {
+		if (value != null) {
+			return; // bereits ausgerechnet
+		}
+
+		MatrixJep j = parsed.jep;
+
+		// Testen ob alle abhängigen Objekte const sind
+		for (AssigmentPair a : assigment) {
+			if (a.isNeverStatic()) {
+				// TODO: Container sind nur const wenn keine ein / ausflüse
+				// vorhanden sind
+				return;
+			}
+
+			MOAttachment x = (MOAttachment) a.getSimulationObject().a;
+			x.optimizeStatic();
+			if (x.getValue() == null) {
+				return;
+			}
+		}
+
+		value = j.evaluate(formula);
+	}
+
+	public void optimize() throws ParseException {
+		MatrixJep j = parsed.jep;
+		Node processed = j.preprocess(parsed.nodes.lastElement());
+
+		formula = j.simplify(processed);
+
+		if (assigment.size() == 0) {
+			value = j.evaluate(formula);
+			// String s = j.getPrintVisitor().formatValue(value);
+			// System.out.println("Calculated value: " + s);
+		} else {
+			// String s = j.getPrintVisitor().formatValue(formula);
+			// System.out.println("Optimized formula: " + s);
+			value = null;
+		}
+	}
+
+	private void checkAssignNodeTree(Node node) throws VarNotFoundExceptionTmp {
+		if (node instanceof ASTVarNode) {
+			ASTVarNode a = (ASTVarNode) node;
+
+			if (!(a.getVar().getValue() instanceof Parser.VarPlaceholder)) {
+				return;
+			}
+
+			String name = a.getName();
+
+			NamedSimulationObject found = null;
+
+			if ("time".equals(name)) {
+				assigment.add(new TimeDtAssigmentPair());
+				return;
+			}
+			if ("dt".equals(name)) {
+				assigment.add(new TimeDtAssigmentPair());
+				return;
+			}
+
+			for (NamedSimulationObject s : sources) {
+				if (s.getName().equals(name)) {
+					found = s;
+					break;
+				}
+			}
+
+			if (found == null) {
+				throw new VarNotFoundExceptionTmp(name);
+			}
+
+			assigment.add(new AssigmentPair((ASTVarNode) node, found));
+		}
+
+		for (int i = 0; i < node.jjtGetNumChildren(); i++) {
+			Node n = node.jjtGetChild(i);
+			checkAssignNodeTree(n);
+		}
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+	public boolean isConst() {
+		return isConst;
+	}
+
+	public void setConstValue(double constValue) {
+		this.constValue = constValue;
+		this.isConst = true;
+	}
+
+	public void setNotConst() {
+		this.isConst = false;
+	}
+
+	public double getConstValue() {
+		return constValue;
+	}
+
+	public String getPreparedFormula(PrintVisitor visitor) {
+		if (this.formula == null) {
+			throw new NullPointerException();
+		}
+
+		ByteArrayOutputStream bo = new ByteArrayOutputStream();
+		PrintStream s = new PrintStream(bo);
+		visitor.print((Node)this.formula, s);
+		s.close();
+		return bo.toString();
+	}
+
+	private static class AssigmentPair {
+		private ASTVarNode node;
+		private NamedSimulationObject so;
+
+		private boolean neverStatic = false;
+
+		protected AssigmentPair() {
+		}
+
+		public boolean isNeverStatic() {
+			return neverStatic;
+		}
+
+		public AssigmentPair(ASTVarNode node, NamedSimulationObject so) {
+			this.node = node;
+			this.so = so;
+			this.neverStatic = so instanceof SimulationContainer;
+
+			if (so == null) {
+				throw new NullPointerException("so == null");
+			}
+			if (node == null) {
+				throw new NullPointerException("node == null");
+			}
+		}
+
+		public ASTVarNode getNode() {
+			return node;
+		}
+
+		public NamedSimulationObject getSimulationObject() {
+			return so;
+		}
+	}
+
+	private static class TimeDtAssigmentPair extends AssigmentPair {
+
+		public TimeDtAssigmentPair() {
+			super();
+		}
+
+		@Override
+		public boolean isNeverStatic() {
+			return true;
+		}
+
+		@Override
+		public ASTVarNode getNode() {
+			throw new RuntimeException("This method should not be called");
+		}
+
+		@Override
+		public NamedSimulationObject getSimulationObject() {
+			throw new RuntimeException("This method should not be called");
+		}
+	}
+
+	public static class VarNotFoundExceptionTmp extends Exception {
+		private static final long serialVersionUID = 1L;
+
+		public VarNotFoundExceptionTmp(String var) {
+			super(var);
+		}
+	}
+}

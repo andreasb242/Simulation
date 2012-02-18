@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.gui;
 
-
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
@@ -50,7 +49,6 @@ import ch.zhaw.simulation.model.connection.ParameterConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
-
 
 public class DocumentView extends JLayeredPane implements SimulationListener, DrawModusListener {
 	private static final long serialVersionUID = 1L;
@@ -236,7 +234,7 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		
+
 		DrawHelper.antialisingOn(g);
 
 		// First draw the floconnectors, because they are bigger and may hide
@@ -422,7 +420,7 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 		} else {
 			throw new RuntimeException("Unknown SimulationObject: " + o.getClass().getName());
 		}
-	
+
 		revalidate();
 	}
 
@@ -589,5 +587,21 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 		connectors.clear();
 		removeAll();
 		add(arrowDrag);
+	}
+
+	public void selectElement(SimulationObject o) {
+		selectionModel.clearSelection();
+
+		for (Component c : getComponents()) {
+			if (c instanceof GuiDataElement<?>) {
+				GuiDataElement<?> e = ((GuiDataElement<?>) c);
+				SimulationObject d = e.getData();
+				if(d.equals(o)) {
+					selectionModel.setSelected(e);
+					break;
+				}
+			}
+		}
+
 	}
 }

@@ -177,7 +177,7 @@ public class PConstant extends AbstractPNode {
 
 	@SuppressWarnings("unchecked")
 	public int compareTo(PConstant c) {
-		return ((Comparable) value).compareTo(c.value);
+		return ((Comparable<Object>) value).compareTo(c.value);
 	}
 
 	public boolean equals(PNodeI node) {

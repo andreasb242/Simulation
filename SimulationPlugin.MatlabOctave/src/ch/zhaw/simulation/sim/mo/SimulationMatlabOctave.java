@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
-
+import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationPlugin;
@@ -20,6 +20,7 @@ public class SimulationMatlabOctave implements SimulationPlugin {
 	private Settings settings;
 	private Window parent;
 	private DefaultSimulationSidebar sidebar;
+	private ModelOptimizer optimizer;
 
 	public SimulationMatlabOctave() {
 	}
@@ -48,9 +49,10 @@ public class SimulationMatlabOctave implements SimulationPlugin {
 	}
 
 	@Override
-	public String checkModel(SimulationDocument model) {
-		// TODO Auto-generated method stub
-		return null;
+	public void checkModel(SimulationDocument model) throws SimulationModelException {
+		optimizer = new ModelOptimizer(model);
+
+		optimizer.optimize();
 	}
 
 	@Override

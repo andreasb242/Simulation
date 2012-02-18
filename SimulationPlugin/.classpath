@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BJavalibs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

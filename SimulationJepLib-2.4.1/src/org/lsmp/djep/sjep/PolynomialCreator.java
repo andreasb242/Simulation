@@ -25,7 +25,7 @@ import org.nfunk.jep.type.Complex;
 /**
  * Main entry point for simplification routines.
  * 
- *<p>
+ * <p>
  * Uses a complete reworking of the ways equations are represented. A tree
  * structure is built from Polynomials, Monomials, PVariable etc. An equation
  * like
@@ -366,8 +366,9 @@ public class PolynomialCreator extends DoNothingVisitor {
 				return 1;
 		}
 
-		if (a instanceof Comparable)
-			return ((Comparable) a).compareTo(b);
+		if (a instanceof Comparable) {
+			return ((Comparable<Object>) a).compareTo(b);
+		}
 
 		throw new IllegalArgumentException("Sorry don't know how to compare " + a + " (" + a.getClass().getName() + ") and " + b + " ("
 				+ b.getClass().getName() + ")");

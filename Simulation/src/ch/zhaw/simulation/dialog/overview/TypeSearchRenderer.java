@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.dialog.overview;
 
-
 import java.awt.Component;
 
 import javax.swing.ImageIcon;
@@ -18,9 +17,7 @@ import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.SimulationParameter;
 import ch.zhaw.simulation.model.connection.FlowParameterPoint;
 
-
 public class TypeSearchRenderer implements ListCellRenderer {
-	private static final long serialVersionUID = 1L;
 	private ImageIcon containerImage;
 	private ImageIcon parameterImage;
 	private ImageIcon flowParameterImage;

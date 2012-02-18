@@ -4,6 +4,8 @@ package ch.zhaw.simulation.math;
 import java.util.Vector;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.math.exception.CompilerError;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationAdapter;
 import ch.zhaw.simulation.model.SimulationDocument;
@@ -83,11 +85,11 @@ public class Autoparser {
 
 		Vector<NamedSimulationObject> sources = control.getModel().getSource(o);
 		try {
-			parser.checkCode(o.getFormula(), o, sources, control, o.getName());
+			parser.checkCode(o.getFormula(), o, control.getModel(), sources, o.getName());
 			o.setStaus(NamedSimulationObject.Status.SYNTAX_OK, null);
-		} catch (UserException e) {
-			o.setStaus(NamedSimulationObject.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (CompilerError e) {
+			o.setStaus(NamedSimulationObject.Status.SYNTAX_ERROR, e.getMessage());
+		} catch (SimulationModelException e) {
 			o.setStaus(NamedSimulationObject.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (Exception e) {
 			o.setStaus(NamedSimulationObject.Status.SYNTAX_ERROR, e.getMessage());

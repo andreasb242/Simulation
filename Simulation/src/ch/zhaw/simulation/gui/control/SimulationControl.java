@@ -44,6 +44,7 @@ import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.math.Autoparser;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.InfiniteData;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationAdapter;
@@ -177,7 +178,7 @@ public class SimulationControl {
 		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_STRING_PREFIX)) {
 			conf.setParameter(k.substring(prefixLen), settings.getSetting(k));
 		}
-		
+
 		prefixLen = StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX.length();
 		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX)) {
 			try {
@@ -745,9 +746,14 @@ public class SimulationControl {
 
 		SimulationPlugin handler = selectedPlugin.getPlugin();
 
-		String error = handler.checkModel(getModel());
-		if (error != null) {
-			Messagebox.showError(getParent(), "Simulation nicht möglich", error);
+		try {
+			handler.checkModel(getModel());
+		} catch (SimulationModelException ex) {
+			Messagebox.showError(getParent(), "Simulation nicht möglich", ex.getMessage());
+
+			view.selectElement(ex.getSimObject());
+			
+			ex.printStackTrace();
 			return;
 		}
 
