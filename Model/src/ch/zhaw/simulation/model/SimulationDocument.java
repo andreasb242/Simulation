@@ -338,7 +338,7 @@ public class SimulationDocument {
 		for (Connector<?> c : connectors) {
 			if (c instanceof FlowConnector) {
 				FlowConnector flow = (FlowConnector) c;
-				if (flow.getSource().equals(container) || flow.getTarget().equals(container)) {
+				if (flow.getSource() == container || flow.getTarget() == container) {
 					return true;
 				}
 			}

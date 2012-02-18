@@ -33,9 +33,6 @@ public class ModelOptimizer {
 		initModelForSimulation();
 		for (SimulationObject d : model.getData()) {
 			if (d instanceof NamedSimulationObject) {
-				// TODO: debug
-				System.out.println(">>"+((NamedSimulationObject)d).getName());
-				
 				parseFormula((NamedSimulationObject) d);
 			}
 		}
@@ -51,7 +48,7 @@ public class ModelOptimizer {
 		// Constwerte auslesen
 		for (SimulationObject d : model.getData()) {
 			if (d instanceof NamedSimulationObject) {
-				setConstValue((NamedSimulationObject) d);
+				calculateConstValues((NamedSimulationObject) d);
 			}
 		}
 	}
@@ -69,7 +66,8 @@ public class ModelOptimizer {
 		}
 	}
 
-	private void parseFormula(NamedSimulationObject d) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException {
+	private void parseFormula(NamedSimulationObject d) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException,
+			VarNotFoundException {
 		MOAttachment a = (MOAttachment) d.a;
 
 		Vector<NamedSimulationObject> sources = model.getSource(d);
@@ -88,16 +86,21 @@ public class ModelOptimizer {
 		}
 	}
 
+	/**
+	 * Optimize out calculations which are static
+	 */
 	private void optimizeStatic(NamedSimulationObject d) throws SimulationParserException {
 		MOAttachment a = (MOAttachment) d.a;
 		try {
-			a.optimizeStatic();
+			a.optimizeStatic(model);
+			
+			a.calcOrder();
 		} catch (ParseException e) {
 			throw new SimulationParserException(d, e);
 		}
 	}
 
-	private void setConstValue(NamedSimulationObject d) {
+	private void calculateConstValues(NamedSimulationObject d) {
 		if (d instanceof SimulationContainer) {
 			// Container sind nur Konstant wenn keine Ein- Und
 			// Ausflüsse vorhanden sind!

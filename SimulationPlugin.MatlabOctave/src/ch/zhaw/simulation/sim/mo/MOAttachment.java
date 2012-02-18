@@ -15,6 +15,7 @@ import ch.zhaw.simulation.math.Parser.ParserNodePair;
 import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationAttachment;
 import ch.zhaw.simulation.model.SimulationContainer;
+import ch.zhaw.simulation.model.SimulationDocument;
 
 public class MOAttachment implements SimulationAttachment {
 	private Vector<NamedSimulationObject> sources;
@@ -22,6 +23,14 @@ public class MOAttachment implements SimulationAttachment {
 	private Vector<AssigmentPair> assigment = new Vector<AssigmentPair>();
 	private Node formula = null;
 	private Object value = null;
+
+	/**
+	 * Dependency Order: 0 no dependency, 1: depends on 0, 2: depends on 0 and 1
+	 * etc.
+	 * 
+	 * -1 means not yet calculated
+	 */
+	private int dependencyOrder = -1;
 
 	/**
 	 * The constant value if any
@@ -64,7 +73,7 @@ public class MOAttachment implements SimulationAttachment {
 	 * 
 	 * @throws ParseException
 	 */
-	public void optimizeStatic() throws ParseException {
+	public void optimizeStatic(SimulationDocument model) throws ParseException {
 		if (value != null) {
 			return; // bereits ausgerechnet
 		}
@@ -73,14 +82,18 @@ public class MOAttachment implements SimulationAttachment {
 
 		// Testen ob alle abhängigen Objekte const sind
 		for (AssigmentPair a : assigment) {
-			if (a.isNeverStatic()) {
-				// TODO: Container sind nur const wenn keine ein / ausflüse
-				// vorhanden sind
+			if(a.isSysvar()) {
 				return;
+			}
+			
+			if (a.getSimulationObject() instanceof SimulationContainer) {
+				if (model.hasFlowConnectors((SimulationContainer) a.getSimulationObject())) {
+					return;
+				}
 			}
 
 			MOAttachment x = (MOAttachment) a.getSimulationObject().a;
-			x.optimizeStatic();
+			x.optimizeStatic(model);
 			if (x.getValue() == null) {
 				return;
 			}
@@ -104,6 +117,36 @@ public class MOAttachment implements SimulationAttachment {
 			// System.out.println("Optimized formula: " + s);
 			value = null;
 		}
+	}
+
+	public int calcOrder() {
+		if (dependencyOrder != -1) {
+			// already calculated
+			return dependencyOrder;
+		}
+
+		if (assigment.size() == 0) {
+			dependencyOrder = 0;
+			return dependencyOrder;
+		}
+
+		int x = 0;
+		for (AssigmentPair ap : assigment) {
+			if(ap.isSysvar()) {
+				continue;
+			}
+			
+			MOAttachment a = (MOAttachment) ap.getSimulationObject().a;
+			x = Math.max(x, a.calcOrder());
+		}
+
+		dependencyOrder = x + 1;
+
+		return dependencyOrder;
+	}
+	
+	public int getDependencyOrder() {
+		return dependencyOrder;
 	}
 
 	private void checkAssignNodeTree(Node node) throws VarNotFoundExceptionTmp {
@@ -175,7 +218,7 @@ public class MOAttachment implements SimulationAttachment {
 
 		ByteArrayOutputStream bo = new ByteArrayOutputStream();
 		PrintStream s = new PrintStream(bo);
-		visitor.print((Node)this.formula, s);
+		visitor.print((Node) this.formula, s);
 		s.close();
 		return bo.toString();
 	}
@@ -184,19 +227,16 @@ public class MOAttachment implements SimulationAttachment {
 		private ASTVarNode node;
 		private NamedSimulationObject so;
 
-		private boolean neverStatic = false;
-
 		protected AssigmentPair() {
 		}
 
-		public boolean isNeverStatic() {
-			return neverStatic;
+		public boolean isSysvar() {
+			return false;
 		}
-
+		
 		public AssigmentPair(ASTVarNode node, NamedSimulationObject so) {
 			this.node = node;
 			this.so = so;
-			this.neverStatic = so instanceof SimulationContainer;
 
 			if (so == null) {
 				throw new NullPointerException("so == null");
@@ -204,10 +244,6 @@ public class MOAttachment implements SimulationAttachment {
 			if (node == null) {
 				throw new NullPointerException("node == null");
 			}
-		}
-
-		public ASTVarNode getNode() {
-			return node;
 		}
 
 		public NamedSimulationObject getSimulationObject() {
@@ -222,13 +258,8 @@ public class MOAttachment implements SimulationAttachment {
 		}
 
 		@Override
-		public boolean isNeverStatic() {
+		public boolean isSysvar() {
 			return true;
-		}
-
-		@Override
-		public ASTVarNode getNode() {
-			throw new RuntimeException("This method should not be called");
 		}
 
 		@Override
