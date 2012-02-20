@@ -13,7 +13,7 @@ import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationContainer;
 import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 
 import butti.javalibs.controls.AbstractListCellRenderer;
 
@@ -42,7 +42,7 @@ public class EntryRenderer extends AbstractListCellRenderer<NamedSimulationObjec
 	}
 
 	private BufferedImage getImage(NamedSimulationObject data) {
-		if (data instanceof FlowParameterPoint) {
+		if (data instanceof FlowValve) {
 			return flowParameterImage;
 		} else if (data instanceof SimulationContainer) {
 			return containerImage;

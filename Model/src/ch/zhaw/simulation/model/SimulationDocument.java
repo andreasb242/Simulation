@@ -6,7 +6,7 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.connection.Connector;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 
@@ -128,8 +128,8 @@ public class SimulationDocument {
 
 	private boolean existsFlowParameterId(String id) {
 		for (SimulationObject d : data) {
-			if (d instanceof FlowParameterPoint) {
-				FlowParameterPoint p = (FlowParameterPoint) d;
+			if (d instanceof FlowValve) {
+				FlowValve p = (FlowValve) d;
 				if (id.equals(p.getName())) {
 					return true;
 				}
@@ -139,7 +139,7 @@ public class SimulationDocument {
 		return false;
 	}
 
-	private void checkFlowParameterId(FlowParameterPoint pp) {
+	private void checkFlowParameterId(FlowValve pp) {
 		// if there is already a name assigned
 		if (pp.getName() != null) {
 			// check if the name not exists
@@ -160,7 +160,7 @@ public class SimulationDocument {
 		connectors.add(c);
 
 		if (c instanceof FlowConnector) {
-			FlowParameterPoint pp = ((FlowConnector) c).getParameterPoint();
+			FlowValve pp = ((FlowConnector) c).getParameterPoint();
 			checkFlowParameterId(pp);
 			data.add(pp);
 		}

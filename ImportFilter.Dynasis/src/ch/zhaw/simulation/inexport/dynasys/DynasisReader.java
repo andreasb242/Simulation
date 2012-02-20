@@ -20,7 +20,7 @@ import ch.zhaw.simulation.model.SimulationParameter;
 import ch.zhaw.simulation.model.TextData;
 import ch.zhaw.simulation.model.connection.Connector;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 
 import butti.javalibs.config.Settings;
@@ -194,7 +194,7 @@ public class DynasisReader extends BinaryImport {
 
 		for (Connector<?> c : readConnectors) {
 			if (c instanceof FlowConnector) {
-				FlowParameterPoint p = ((FlowConnector) c).getParameterPoint();
+				FlowValve p = ((FlowConnector) c).getParameterPoint();
 				x = Math.min(x, p.getX());
 				y = Math.min(y, p.getY());
 			}
@@ -217,7 +217,7 @@ public class DynasisReader extends BinaryImport {
 
 		for (Connector<?> c : readConnectors) {
 			if (c instanceof FlowConnector) {
-				FlowParameterPoint p = ((FlowConnector) c).getParameterPoint();
+				FlowValve p = ((FlowConnector) c).getParameterPoint();
 				p.move(dX, dY);
 			}
 		}
@@ -247,7 +247,7 @@ public class DynasisReader extends BinaryImport {
 				SimulationObject to = (SimulationObject) oTo;
 
 				FlowConnector conn = new FlowConnector(from, to);
-				FlowParameterPoint par = conn.getParameterPoint();
+				FlowValve par = conn.getParameterPoint();
 				par.setName(flow.getName());
 				par.setFormula(flow.getFormula());
 				Point pos = flow.getPos();

@@ -9,7 +9,7 @@ import ch.zhaw.simulation.model.SimulationAdapter;
 import ch.zhaw.simulation.model.SimulationObject;
 import ch.zhaw.simulation.model.connection.Connector;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.util.Range;
 
 
@@ -50,7 +50,7 @@ public class FlowConnectorControl {
 		int x = (connector.getSource().getXCenter() + connector.getTarget().getXCenter()) / 2;
 		int y = (connector.getSource().getYCenter() + connector.getTarget().getYCenter()) / 2;
 		
-		FlowParameterPoint pp = connector.getParameterPoint();
+		FlowValve pp = connector.getParameterPoint();
 		
 		pp.setX(x - pp.getWidth() / 2);
 		pp.setY(y - pp.getHeight() / 2);

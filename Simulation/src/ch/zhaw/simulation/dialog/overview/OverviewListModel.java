@@ -11,7 +11,7 @@ import ch.zhaw.simulation.model.SimulationContainer;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 
 import butti.javalibs.controls.listcontrol.AbstractSortableTableModel;
 import butti.javalibs.controls.listcontrol.searchmodules.SearchModul;
@@ -88,7 +88,7 @@ public class OverviewListModel extends AbstractSortableTableModel {
 			if (o instanceof SimulationContainer) {
 				return 3;
 			}
-			if (o instanceof FlowParameterPoint) {
+			if (o instanceof FlowValve) {
 				return 4;
 			}
 

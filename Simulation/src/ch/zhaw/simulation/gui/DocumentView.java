@@ -44,7 +44,7 @@ import ch.zhaw.simulation.model.SimulationParameter;
 import ch.zhaw.simulation.model.TextData;
 import ch.zhaw.simulation.model.connection.Connector;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
@@ -412,7 +412,7 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 			add(new ContainerView(o.getWidth(), o.getHeight(), control, (SimulationContainer) o));
 		} else if (o instanceof InfiniteData) {
 			add(new InfiniteSymbol((InfiniteData) o, control));
-		} else if (o instanceof FlowParameterPoint) {
+		} else if (o instanceof FlowValve) {
 		} else if (o instanceof TextData) {
 			TextView view = new TextView(control, (TextData) o);
 			add(view);

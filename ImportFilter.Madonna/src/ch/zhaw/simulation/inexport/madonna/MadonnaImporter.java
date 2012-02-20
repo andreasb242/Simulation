@@ -12,7 +12,7 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationObject;
 import ch.zhaw.simulation.model.SimulationParameter;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 
 
@@ -136,7 +136,7 @@ public class MadonnaImporter extends MadonnaReader {
 
 		FlowConnector flow = new FlowConnector(source, target);
 
-		FlowParameterPoint pp = flow.getParameterPoint();
+		FlowValve pp = flow.getParameterPoint();
 
 		pp.setName(f.getName());
 		pp.setFormula(f.getFormula());

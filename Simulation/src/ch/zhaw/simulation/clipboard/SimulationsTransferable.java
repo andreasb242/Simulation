@@ -21,7 +21,7 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationParameter;
 import ch.zhaw.simulation.model.TextData;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
@@ -72,7 +72,7 @@ public class SimulationsTransferable implements Transferable {
 			TextData d = ((TextView) s).getData();
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Text, d.getName(), d.getText(), 0, 0, null));
 		} else if (s instanceof FlowConnectorParameter) {
-			FlowParameterPoint d = ((FlowConnectorParameter) s).getData();
+			FlowValve d = ((FlowConnectorParameter) s).getData();
 
 			int source = 0;
 			int target = 0;

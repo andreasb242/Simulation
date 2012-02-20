@@ -9,11 +9,11 @@ import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.model.connection.FlowConnector.ConnectorDeletedListener;
 
 
-public class FlowConnectorParameter extends GuiDataTextElement<FlowParameterPoint>
+public class FlowConnectorParameter extends GuiDataTextElement<FlowValve>
 		implements ConnectorDeletedListener {
 	private static final long serialVersionUID = 1L;
 	private int size;
@@ -36,7 +36,7 @@ public class FlowConnectorParameter extends GuiDataTextElement<FlowParameterPoin
 		
 		this.connector = connector;
 
-		FlowParameterPoint p = connector.getParameterPoint();
+		FlowValve p = connector.getParameterPoint();
 		setLocation(new Point(p.getX(), p.getY()));
 	}
 

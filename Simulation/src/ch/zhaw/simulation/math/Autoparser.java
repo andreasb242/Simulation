@@ -13,7 +13,7 @@ import ch.zhaw.simulation.model.SimulationObject;
 import ch.zhaw.simulation.model.NamedSimulationObject.Status;
 import ch.zhaw.simulation.model.connection.Connector;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 
 import butti.javalibs.errorhandler.Errorhandler;
 
@@ -42,7 +42,7 @@ public class Autoparser {
 			@Override
 			public void connectorChanged(Connector<?> c) {
 				if (c instanceof FlowConnector) {
-					FlowParameterPoint p = ((FlowConnector) c).getParameterPoint();
+					FlowValve p = ((FlowConnector) c).getParameterPoint();
 					parse(p);
 				}
 
@@ -118,7 +118,7 @@ public class Autoparser {
 
 		for (Connector<?> c : model.getConnectors()) {
 			if (c instanceof FlowConnector) {
-				FlowParameterPoint p = ((FlowConnector) c).getParameterPoint();
+				FlowValve p = ((FlowConnector) c).getParameterPoint();
 				parse(p);
 			}
 		}

@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.SimulationObject;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 
 
 public class FlowCalculator {
@@ -15,7 +15,7 @@ public class FlowCalculator {
 	private Vector<Point> points = new Vector<Point>();
 	
 	private SimulationObject object1;
-	private FlowParameterPoint object2;
+	private FlowValve object2;
 
 	private int arrowWidth;
 	private int arrowHeight;

@@ -11,7 +11,7 @@ import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.model.SimulationContainer;
 import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 
 import butti.javalibs.controls.listcontrol.searchmodules.AbstractSearchModul;
 
@@ -25,7 +25,7 @@ public class TypeSearch extends AbstractSearchModul {
 		cbSearch.addItem(SimulationGlobal.class);
 		cbSearch.addItem(SimulationParameter.class);
 		cbSearch.addItem(SimulationContainer.class);
-		cbSearch.addItem(FlowParameterPoint.class);
+		cbSearch.addItem(FlowValve.class);
 
 		cbSearch.setRenderer(new TypeSearchRenderer(config, cbSearch.getRenderer()));
 

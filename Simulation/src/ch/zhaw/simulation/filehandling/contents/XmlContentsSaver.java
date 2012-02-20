@@ -19,7 +19,7 @@ import ch.zhaw.simulation.model.SimulationParameter;
 import ch.zhaw.simulation.model.TextData;
 import ch.zhaw.simulation.model.connection.Connector;
 import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 import ch.zhaw.simulation.model.connection.ParameterConnector;
 
 public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNames {
@@ -43,7 +43,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 			} else if (o instanceof TextData) {
 				visitTextdata(root, (TextData) o);
 			} else if (o instanceof InfiniteData) {
-			} else if (o instanceof FlowParameterPoint) {
+			} else if (o instanceof FlowValve) {
 			} else {
 				throw new RuntimeException("type " + o.getClass().getName() + " not available in visitor!");
 			}

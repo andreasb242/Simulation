@@ -1,7 +1,5 @@
 package ch.zhaw.simulation.editor.connector.flowarrow;
 
-
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -11,7 +9,6 @@ import java.util.Vector;
 import javax.swing.JComponent;
 
 import butti.javalibs.util.DrawHelper;
-
 import ch.zhaw.simulation.editor.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorControl.FlowControlListener;
 import ch.zhaw.simulation.gui.control.GuiConfig;
@@ -20,9 +17,8 @@ import ch.zhaw.simulation.model.connection.FlowConnector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 
-
-
-public class FlowConnectorUi implements ConnectorUi, FlowControlListener, SelectionListener {
+public class FlowConnectorUi implements ConnectorUi, FlowControlListener,
+		SelectionListener {
 	private FlowConnectorControl flowControl;
 
 	private FlowArrowImage arrowImage;
@@ -37,7 +33,8 @@ public class FlowConnectorUi implements ConnectorUi, FlowControlListener, Select
 
 	private boolean selected = false;
 
-	public FlowConnectorUi(JComponent parent, FlowConnector connector, SimulationControl control, FlowConnectorParameter connectorControl) {
+	public FlowConnectorUi(JComponent parent, FlowConnector connector,
+			SimulationControl control, FlowConnectorParameter connectorControl) {
 		this.parent = parent;
 		this.connectorControl = connectorControl;
 		this.connector = connector;
@@ -47,7 +44,8 @@ public class FlowConnectorUi implements ConnectorUi, FlowControlListener, Select
 		int arrowSize = control.getConfig().getFlowArrowSize();
 		arrowImage = new FlowArrowImage(arrowSize, control.getConfig());
 
-		flowControl = new FlowConnectorControl(connector, control, arrowImage.getArrowWidth());
+		flowControl = new FlowConnectorControl(connector, control,
+				arrowImage.getArrowWidth());
 
 		flowControl.addListener(this);
 
@@ -110,20 +108,21 @@ public class FlowConnectorUi implements ConnectorUi, FlowControlListener, Select
 		drawLine(g, flowControl.getFlow2().getPoints());
 
 		g.setPaint(config.getFlowArrowFill(selected));
-		
+
 		int s = arrowImage.getArrowWidth();
 
 		switch (direction) {
 		case LEFT:
 			y += (h - s) / 2;
 			g.drawLine(x, y + 1, x, y + s - 1);
-			
-			// TODO: Übergang zwischen FlowPoint und Flow links ohne zusätzliche Linie lösen
+
+			// TODO: Übergang zwischen FlowPoint und Flow links ohne zusätzliche
+			// Linie lösen
 			break;
 		case RIGHT:
 			y = y + (h - s) / 2;
 			x += arrow.getWidth();
-			g.drawLine(x-100, y + 1, x, y + s - 1);
+			g.drawLine(x - 100, y + 1, x, y + s - 1);
 			break;
 		case TOP:
 			x += (w - s) / 2;
@@ -190,7 +189,8 @@ public class FlowConnectorUi implements ConnectorUi, FlowControlListener, Select
 
 	@Override
 	public void selectionChanged() {
-		this.selected = control.getSelectionModel().isSelected(connectorControl);
+		this.selected = control.getSelectionModel()
+				.isSelected(connectorControl);
 	}
 
 	@Override

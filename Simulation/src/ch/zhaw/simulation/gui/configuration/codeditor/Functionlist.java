@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.gui.configuration.codeditor;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -17,9 +16,7 @@ import ch.zhaw.simulation.model.SimulationContainer;
 import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 
-
 public class Functionlist extends ToolbarAction {
-	private static final long serialVersionUID = 1L;
 	private JPopupMenu menu = new JPopupMenu();
 	private FormulaEditor editor;
 	private JComponent component;
@@ -43,7 +40,8 @@ public class Functionlist extends ToolbarAction {
 	}
 
 	public void addElement(final Constant c) {
-		JMenuItem mi = new JMenuItem("<html><b>" + c.name + "</b> " + c.value + "</html>");
+		JMenuItem mi = new JMenuItem("<html><b>" + c.name + "</b> " + c.value
+				+ "</html>");
 		menu.add(mi);
 		mi.addActionListener(new ActionListener() {
 
@@ -64,7 +62,8 @@ public class Functionlist extends ToolbarAction {
 		} else {
 			type = "Parameter";
 		}
-		JMenuItem mi = new JMenuItem("<html><b>" + p.getName() + "</b> " + type + "</html>");
+		JMenuItem mi = new JMenuItem("<html><b>" + p.getName() + "</b> " + type
+				+ "</html>");
 		menu.add(mi);
 		mi.addActionListener(new ActionListener() {
 
@@ -88,7 +87,9 @@ public class Functionlist extends ToolbarAction {
 	}
 
 	private void addElement(JMenu menu, final FunctionInformation info) {
-		JMenuItem mi = new JMenuItem("<html><b>" + info.getName() + "</b>(" + info.getParameter() + ")<br>" + info.getDescription() + "</html>");
+		JMenuItem mi = new JMenuItem("<html><b>" + info.getName() + "</b>("
+				+ info.getParameter() + ")<br>" + info.getDescription()
+				+ "</html>");
 		menu.add(mi);
 		mi.addActionListener(new ActionListener() {
 

@@ -7,7 +7,7 @@ import ch.zhaw.simulation.model.SimulationObject;
 
 public class FlowConnector extends Connector<SimulationObject> {
 	private Vector<ConnectorDeletedListener> listener = new Vector<ConnectorDeletedListener>();
-	private FlowParameterPoint parameterPoint = new FlowParameterPoint(-1, -1);
+	private FlowValve parameterPoint = new FlowValve(-1, -1);
 	
 	public FlowConnector(SimulationObject source, SimulationObject target) {
 		super(source, target);
@@ -19,7 +19,7 @@ public class FlowConnector extends Connector<SimulationObject> {
 		}
 	}
 	
-	public FlowParameterPoint getParameterPoint() {
+	public FlowValve getParameterPoint() {
 		return parameterPoint;
 	}
 	

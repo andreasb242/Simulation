@@ -15,7 +15,7 @@ import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.model.SimulationContainer;
 import ch.zhaw.simulation.model.SimulationGlobal;
 import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowParameterPoint;
+import ch.zhaw.simulation.model.connection.FlowValve;
 
 public class TypeSearchRenderer implements ListCellRenderer {
 	private ImageIcon containerImage;
@@ -45,7 +45,7 @@ public class TypeSearchRenderer implements ListCellRenderer {
 		} else if (value.equals(SimulationContainer.class)) {
 			comp.setText("Container");
 			comp.setIcon(containerImage);
-		} else if (value.equals(FlowParameterPoint.class)) {
+		} else if (value.equals(FlowValve.class)) {
 			comp.setText("Fluss");
 			comp.setIcon(flowParameterImage);
 		} else {
