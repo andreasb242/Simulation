@@ -12,6 +12,10 @@ import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 
 public class SimulationDocument {
 	private boolean changed;
+
+	/**
+	 * The ID is used for creating unique IDs
+	 */
 	private int id = 0;
 
 	private int lastFlowParameterId = 0;
