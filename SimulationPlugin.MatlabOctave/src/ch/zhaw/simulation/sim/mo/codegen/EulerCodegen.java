@@ -3,14 +3,13 @@ package ch.zhaw.simulation.sim.mo.codegen;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
+import ch.zhaw.simulation.model.NamedSimulationObject;
 import ch.zhaw.simulation.model.SimulationContainer;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationObject;
 import ch.zhaw.simulation.model.SimulationParameter;
 import ch.zhaw.simulation.model.connection.FlowConnector;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
@@ -36,17 +35,20 @@ import ch.zhaw.simulation.sim.mo.MOVisitor;
  * 
  * @author Andreas Butti
  */
-public class RungeKuttaCodegen extends AbstractCodegen {
+public class EulerCodegen extends AbstractCodegen {
 	private CodeOutput out;
 	private SimulationDocument model;
 	private MOVisitor visitor = new MOVisitor();
+	private Vector<String> openFiles = new Vector<String>();
 
-	public RungeKuttaCodegen() {
+	public EulerCodegen() {
 	}
 
 	@Override
 	public void crateSimulation(SimulationDocument model) throws IOException {
 		extractBaseFile();
+
+		openFiles.clear();
 
 		this.model = model;
 		SimulationConfiguration config = model.getSimulationConfiguration();
@@ -80,6 +82,12 @@ public class RungeKuttaCodegen extends AbstractCodegen {
 
 		outputContainerInitialisation();
 		outputParameterInitialisation();
+
+		out.newline();
+		out.printComment("Open output files");
+
+		outputOpenFiles(model.getSimulationContainer());
+		outputOpenFiles(model.getSimulationParameter());
 
 		out.newline();
 		out.println("_count = ceil(_end / _dt)");
@@ -146,7 +154,7 @@ public class RungeKuttaCodegen extends AbstractCodegen {
 					}
 				}
 
-				out.println(c.getName() + ".value+=" + flows.toString() + "/_dt;");
+				out.println(c.getName() + ".value+=" + flows.toString() + "*_dt;");
 			}
 		}
 	}
@@ -169,7 +177,10 @@ public class RungeKuttaCodegen extends AbstractCodegen {
 		out.newline();
 		out.printComment("Parameter calculations");
 
-		for (SimulationParameter p : model.getSimulationParameter()) {
+		Vector<SimulationParameter> parameters = model.getSimulationParameter();
+		sortByRelevanz(parameters);
+
+		for (SimulationParameter p : parameters) {
 			MOAttachment a = (MOAttachment) p.a;
 
 			// Konstanten nicht neu berechnen
@@ -184,24 +195,13 @@ public class RungeKuttaCodegen extends AbstractCodegen {
 		out.printComment("Init parameter and flow values");
 
 		Vector<SimulationParameter> parameters = model.getSimulationParameter();
-
-		Collections.sort(parameters, new Comparator<SimulationParameter>() {
-
-			@Override
-			public int compare(SimulationParameter o1, SimulationParameter o2) {
-				MOAttachment a = (MOAttachment) o1.a;
-				MOAttachment b = (MOAttachment) o2.a;
-
-				return a.getDependencyOrder() - b.getDependencyOrder();
-			}
-
-		});
+		sortByRelevanz(parameters);
 
 		for (SimulationParameter p : parameters) {
 			MOAttachment a = (MOAttachment) p.a;
 
 			if (a.isConst()) {
-				out.println(p.getName() + ".value=" + a.getConstValue() + ";");
+				out.println(p.getName() + ".value=" + a.getConstValue() + "; # constant");
 			} else {
 				try {
 					out.println(p.getName() + ".value=" + a.getPreparedFormula(visitor) + ";");
@@ -213,17 +213,46 @@ public class RungeKuttaCodegen extends AbstractCodegen {
 		}
 	}
 
+	private static <T extends NamedSimulationObject> void sortByRelevanz(Vector<T> data) {
+		Collections.sort(data, new Comparator<NamedSimulationObject>() {
+
+			@Override
+			public int compare(NamedSimulationObject o1, NamedSimulationObject o2) {
+				MOAttachment a = (MOAttachment) o1.a;
+				MOAttachment b = (MOAttachment) o2.a;
+
+				return a.getDependencyOrder() - b.getDependencyOrder();
+			}
+
+		});
+	}
+
+	private <T extends NamedSimulationObject> void outputOpenFiles(Vector<T> data) {
+		for (T n : data) {
+			String var = n.getName() + ".fp";
+			this.out.println(var+"=fopen('" + n.getName() + "_data.txt', 'w');");
+			openFiles.add(var);
+		}
+	}
+	
+	private void outputCloseFiles() {
+		// TODO: Files schliessen: openFiles
+	}
+
 	private void outputContainerInitialisation() {
 		out.newline();
 		out.printComment("Init container values");
 
-		for (SimulationContainer c : model.getSimulationContainer()) {
+		Vector<SimulationContainer> containers = model.getSimulationContainer();
+		sortByRelevanz(containers);
+
+		for (SimulationContainer c : containers) {
 			MOAttachment a = (MOAttachment) c.a;
 
 			if (a.isConst()) {
 				out.println(c.getName() + ".value=" + a.getConstValue() + ";");
 			} else {
-				out.println(c.getName() + ".value=" + a.getPreparedFormula(visitor) + ";");
+				out.println(c.getName() + ".value=" + a.getPreparedFormula(visitor) + "; # constant");
 			}
 		}
 	}

@@ -752,7 +752,7 @@ public class SimulationControl {
 			Messagebox.showError(getParent(), "Simulation nicht möglich", ex.getMessage());
 
 			view.selectElement(ex.getSimObject());
-			
+
 			ex.printStackTrace();
 			return;
 		}

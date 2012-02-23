@@ -12,7 +12,7 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
-import ch.zhaw.simulation.sim.mo.codegen.RungeKuttaCodegen;
+import ch.zhaw.simulation.sim.mo.codegen.EulerCodegen;
 import ch.zhaw.simulation.sim.mo.gui.SettingsGui;
 import ch.zhaw.simulation.sim.sidebar.DefaultSimulationSidebar;
 
@@ -57,7 +57,7 @@ public class SimulationMatlabOctave implements SimulationPlugin {
 
 	@Override
 	public void prepareSimulation(SimulationDocument model) throws Exception {
-		AbstractCodegen codegen = new RungeKuttaCodegen();
+		AbstractCodegen codegen = new EulerCodegen();
 		codegen.setWorkingFolder(settings.getSetting("workpath"));
 
 		codegen.crateSimulation(model);
