@@ -8,8 +8,8 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
 import ch.zhaw.simulation.sim.mo.codegen.EulerCodegen;

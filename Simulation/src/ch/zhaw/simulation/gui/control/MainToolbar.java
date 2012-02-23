@@ -17,11 +17,11 @@ import javax.swing.undo.UndoManager;
 import butti.javalibs.util.DrawHelper;
 
 import ch.zhaw.simulation.clipboard.ClipboardListener;
-import ch.zhaw.simulation.editor.connector.flowarrow.FlowArrowImage;
-import ch.zhaw.simulation.editor.connector.parameterarrow.ParameterConnectorUi;
-import ch.zhaw.simulation.editor.elements.container.ContainerImage;
-import ch.zhaw.simulation.editor.elements.global.GlobalImage;
-import ch.zhaw.simulation.editor.elements.parameter.ParameterImage;
+import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
+import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
+import ch.zhaw.simulation.editor.flow.elements.global.GlobalImage;
+import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;

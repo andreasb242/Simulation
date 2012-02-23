@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import ch.zhaw.simulation.inexport.ImportException;
-import ch.zhaw.simulation.model.InfiniteData;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationContainer;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationObject;
-import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowValve;
-import ch.zhaw.simulation.model.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.InfiniteData;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 
 
 public class MadonnaImporter extends MadonnaReader {

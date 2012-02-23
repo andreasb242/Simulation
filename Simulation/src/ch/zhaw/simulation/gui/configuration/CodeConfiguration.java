@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.model.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 
 
 public abstract class CodeConfiguration<E extends NamedSimulationObject> extends AbstractConfiguration<E> {

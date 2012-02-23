@@ -18,7 +18,7 @@ import org.jdesktop.swingx.HorizontalLayout;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
-import ch.zhaw.simulation.model.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 
 public class ListRenderer implements ListCellRenderer {
 

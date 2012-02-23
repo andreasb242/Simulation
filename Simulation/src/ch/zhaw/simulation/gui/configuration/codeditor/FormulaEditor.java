@@ -28,10 +28,10 @@ import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationGlobal;
-import ch.zhaw.simulation.model.NamedSimulationObject.Status;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject.Status;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 
 import butti.javalibs.gui.BDialog;

@@ -7,12 +7,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationContainer;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.sim.mo.MOAttachment;
 import ch.zhaw.simulation.sim.mo.MOVisitor;

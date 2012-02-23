@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import butti.javalibs.util.FileUtil;
-import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
 
 /**
  * Class for Matlab / Octave Codegenration

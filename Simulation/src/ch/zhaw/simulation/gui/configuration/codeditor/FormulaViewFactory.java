@@ -8,8 +8,8 @@ import javax.swing.text.ViewFactory;
 
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
 
 
 public class FormulaViewFactory extends Object implements ViewFactory {

@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.numerictextfield.NumericTextField;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.flow.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.sim.StandardParameter;
 
 public class DefaultSimulationSidebar extends JXTaskPane implements FocusListener {

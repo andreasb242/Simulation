@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 
 import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;

@@ -9,7 +9,7 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 
 import ch.zhaw.simulation.filehandling.AbstractXmlSaver;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 
 public class XmlConfigurationSaver extends AbstractXmlSaver implements XmlConfigurationNames {
 	private Element root;

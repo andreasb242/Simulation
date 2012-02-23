@@ -6,10 +6,10 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
-import ch.zhaw.simulation.model.InfiniteData;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.connection.Connector;
+import ch.zhaw.simulation.model.flow.InfiniteData;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.connection.Connector;
 
 public class DeleteUndoAction extends AbstractUndoableEdit {
 	private Vector<NamedSimulationObject> removedObjects;

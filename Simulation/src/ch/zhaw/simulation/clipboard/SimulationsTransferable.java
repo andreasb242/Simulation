@@ -9,21 +9,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import ch.zhaw.simulation.clipboard.TransferData.Type;
-import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorParameter;
-import ch.zhaw.simulation.editor.connector.parameterarrow.ConnectorPoint;
-import ch.zhaw.simulation.editor.connector.parameterarrow.InfiniteSymbol;
-import ch.zhaw.simulation.editor.elements.TextView;
-import ch.zhaw.simulation.editor.elements.container.ContainerView;
-import ch.zhaw.simulation.editor.elements.parameter.ParameterView;
-import ch.zhaw.simulation.model.InfiniteData;
-import ch.zhaw.simulation.model.SimulationContainer;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.TextData;
-import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowValve;
-import ch.zhaw.simulation.model.connection.ParameterConnector;
-import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
+import ch.zhaw.simulation.editor.flow.elements.TextView;
+import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
+import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.model.flow.InfiniteData;
+import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 
 
 public class SimulationsTransferable implements Transferable {

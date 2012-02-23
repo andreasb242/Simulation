@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
 
 
 public class ArrowDragView extends JComponent {

@@ -6,12 +6,12 @@ import java.util.Comparator;
 import java.util.Vector;
 
 import ch.zhaw.simulation.gui.control.GuiConfig;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationContainer;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationGlobal;
-import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.flow.connection.FlowValve;
 
 import butti.javalibs.controls.listcontrol.AbstractSortableTableModel;
 import butti.javalibs.controls.listcontrol.searchmodules.SearchModul;

@@ -13,8 +13,8 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
 
 import butti.javalibs.gui.GridBagManager;
 

@@ -13,7 +13,7 @@ import javax.xml.transform.TransformerException;
 
 import ch.zhaw.simulation.filehandling.configuration.XmlConfigurationSaver;
 import ch.zhaw.simulation.filehandling.contents.XmlContentsSaver;
-import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
 
 /**
  * Saves a .simz file

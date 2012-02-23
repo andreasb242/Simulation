@@ -12,8 +12,8 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.model.simulation.PluginChangeListener;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationManager;
 
 public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {

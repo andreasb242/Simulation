@@ -7,15 +7,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import ch.zhaw.simulation.editor.connector.flowarrow.FlowArrowImage;
-import ch.zhaw.simulation.editor.elements.container.ContainerImage;
-import ch.zhaw.simulation.editor.elements.global.GlobalImage;
-import ch.zhaw.simulation.editor.elements.parameter.ParameterImage;
+import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
+import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
+import ch.zhaw.simulation.editor.flow.elements.global.GlobalImage;
+import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.gui.control.GuiConfig;
-import ch.zhaw.simulation.model.SimulationContainer;
-import ch.zhaw.simulation.model.SimulationGlobal;
-import ch.zhaw.simulation.model.SimulationParameter;
-import ch.zhaw.simulation.model.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.flow.connection.FlowValve;
 
 public class TypeSearchRenderer implements ListCellRenderer {
 	private ImageIcon containerImage;

@@ -9,18 +9,17 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorParameter;
-import ch.zhaw.simulation.editor.elements.HideableSplitComponent;
-import ch.zhaw.simulation.editor.elements.container.ContainerView;
-import ch.zhaw.simulation.editor.elements.global.GlobalView;
-import ch.zhaw.simulation.editor.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
+import ch.zhaw.simulation.editor.flow.elements.HideableSplitComponent;
+import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
+import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
+import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
 import ch.zhaw.simulation.gui.control.SimulationControl;
-import ch.zhaw.simulation.model.selection.SelectableElement;
-import ch.zhaw.simulation.model.selection.SelectionListener;
-import ch.zhaw.simulation.model.selection.SelectionModel;
-import ch.zhaw.simulation.model.simulation.PluginChangeListener;
-import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
+import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.flow.selection.SelectionListener;
+import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 
@@ -77,7 +76,7 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 		control.addDrawModusListener(this);
 
 		control.getModel().getSimulationConfiguration().addPluginChangeListener(new PluginChangeListener() {
-			
+
 			@Override
 			public void pluginChanged(String plugin) {
 				if (selectedSimulationSettings != null) {

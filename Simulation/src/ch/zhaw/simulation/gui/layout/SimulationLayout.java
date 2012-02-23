@@ -7,9 +7,9 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 
-import ch.zhaw.simulation.editor.connector.parameterarrow.ConnectorPoint;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
-import ch.zhaw.simulation.model.SimulationObject;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
+import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
+import ch.zhaw.simulation.model.flow.SimulationObject;
 
 
 public class SimulationLayout implements LayoutManager {

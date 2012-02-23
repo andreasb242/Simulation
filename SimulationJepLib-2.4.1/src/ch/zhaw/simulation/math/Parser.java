@@ -14,10 +14,10 @@ import org.nfunk.jep.function.PostfixMathCommandI;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.EmptyFormulaException;
 import ch.zhaw.simulation.math.exception.NotUsedException;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationGlobal;
-import ch.zhaw.simulation.model.SimulationObject;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.SimulationObject;
 
 public class Parser {
 	private MatrixJep jep;

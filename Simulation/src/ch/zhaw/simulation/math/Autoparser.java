@@ -6,14 +6,14 @@ import java.util.Vector;
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationAdapter;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationObject;
-import ch.zhaw.simulation.model.NamedSimulationObject.Status;
-import ch.zhaw.simulation.model.connection.Connector;
-import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationAdapter;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject.Status;
+import ch.zhaw.simulation.model.flow.connection.Connector;
+import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowValve;
 
 import butti.javalibs.errorhandler.Errorhandler;
 

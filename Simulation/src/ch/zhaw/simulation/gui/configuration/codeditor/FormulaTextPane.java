@@ -16,8 +16,8 @@ import ch.zhaw.simulation.gui.configuration.codeditor.Autocomplete.AutocompleteW
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;

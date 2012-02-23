@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
-import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 
 
 public class LayoutUndoAction extends AbstractUndoableEdit {

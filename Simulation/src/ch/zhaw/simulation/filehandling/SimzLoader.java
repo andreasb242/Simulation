@@ -12,7 +12,7 @@ import java.util.zip.ZipInputStream;
 
 import ch.zhaw.simulation.filehandling.configuration.XmlConfigurationLoader;
 import ch.zhaw.simulation.filehandling.contents.XmlContentsLoader;
-import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
 
 /**
  * Loads a .sizm file

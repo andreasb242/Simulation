@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
-import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationDocument;
 
 public abstract class ImportReader implements AbstractPlugin {
 	public ImportReader() {

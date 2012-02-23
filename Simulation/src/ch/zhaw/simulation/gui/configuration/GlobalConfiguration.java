@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.gui.configuration;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
-import ch.zhaw.simulation.model.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
 
 class GlobalConfiguration extends CodeConfiguration<SimulationGlobal> {
 	private static final long serialVersionUID = 1L;

@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import ch.zhaw.simulation.editor.connector.flowarrow.FlowArrowImage;
+import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.gui.control.MainToolbar;
 import ch.zhaw.simulation.gui.control.SimulationControl;
 

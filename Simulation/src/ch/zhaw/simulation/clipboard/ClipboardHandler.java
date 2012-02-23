@@ -12,8 +12,8 @@ import java.awt.datatransfer.Transferable;
 import java.util.Vector;
 
 import ch.zhaw.simulation.gui.control.SimulationControl;
-import ch.zhaw.simulation.model.selection.SelectableElement;
-import ch.zhaw.simulation.model.selection.SelectionListener;
+import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 
 import butti.javalibs.errorhandler.Errorhandler;
 

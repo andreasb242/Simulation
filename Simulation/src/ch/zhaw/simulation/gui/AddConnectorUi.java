@@ -12,22 +12,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import butti.javalibs.gui.messagebox.Messagebox;
-import ch.zhaw.simulation.editor.connector.flowarrow.FlowConnectorParameter;
-import ch.zhaw.simulation.editor.connector.parameterarrow.InfiniteSymbol;
-import ch.zhaw.simulation.editor.connector.parameterarrow.ParameterConnectorUi;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
-import ch.zhaw.simulation.editor.elements.container.ContainerView;
-import ch.zhaw.simulation.editor.elements.global.GlobalView;
-import ch.zhaw.simulation.editor.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
+import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
+import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
+import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.gui.control.SimulationControl;
-import ch.zhaw.simulation.model.InfiniteData;
-import ch.zhaw.simulation.model.NamedSimulationObject;
-import ch.zhaw.simulation.model.SimulationObject;
-import ch.zhaw.simulation.model.connection.Connector;
-import ch.zhaw.simulation.model.connection.FlowConnector;
-import ch.zhaw.simulation.model.connection.ParameterConnector;
-import ch.zhaw.simulation.model.selection.SelectableElement;
-import ch.zhaw.simulation.model.selection.SelectionModel;
+import ch.zhaw.simulation.model.flow.InfiniteData;
+import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.flow.connection.Connector;
+import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 
 public class AddConnectorUi {
 

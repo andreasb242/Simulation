@@ -9,7 +9,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import ch.zhaw.simulation.filehandling.XmlHelper;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 
 public class XmlConfigurationLoader implements XmlConfigurationNames {
 	public XmlConfigurationLoader() {
