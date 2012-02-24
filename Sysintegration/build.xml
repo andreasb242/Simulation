@@ -1,0 +1,44 @@
+<project name="Sysintegration" basedir="." default="error">
+	<target name="error">
+		<echo message="Build should be started with SimulationBuild/build.xml else build order is not correct" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<!-- Compile the java code -->
+		<javac debug="true" srcdir="src" destdir="${build}" encoding="UTF-8" includeantruntime="false">
+			<classpath>
+				<path>
+					<fileset dir="${lib}">
+						<include name="**/*.jar" />
+					</fileset>
+				</path>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<copy todir="${build}">
+			<fileset dir="src">
+				<include name="**/*.png" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.svg" />
+				<include name="**/*.html" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+
+
+		<!-- Build the jar file -->
+		<jar basedir="${build}" destfile="${build}/Sysintegration.jar" />
+
+	</target>
+</project>

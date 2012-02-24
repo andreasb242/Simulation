@@ -1,3 +1,5 @@
+package ch.zhaw.simulation.model;
+
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.xy.XYModel;
 
