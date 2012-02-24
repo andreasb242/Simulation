@@ -17,9 +17,9 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
@@ -45,13 +45,13 @@ public class SimulationsTransferable implements Transferable {
 	/**
 	 * Das Model um zusätzliche Daten abzufragen
 	 */
-	private SimulationDocument model;
+	private SimulationFlowModel model;
 
 	/**
 	 * Creates a transferable object capable of transferring the specified
 	 * string in plain text format.
 	 */
-	public SimulationsTransferable(SelectableElement[] selected, SimulationDocument model) {
+	public SimulationsTransferable(SelectableElement[] selected, SimulationFlowModel model) {
 		this.model = model;
 		for (SelectableElement s : selected) {
 			addCopy(s);
@@ -69,7 +69,7 @@ public class SimulationsTransferable implements Transferable {
 			SimulationParameter d = ((ParameterView) s).getData();
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Parameter, d.getName(), d.getFormula(), 0, 0, null));
 		} else if (s instanceof TextView) {
-			TextData d = ((TextView) s).getData();
+			CommentData d = ((TextView) s).getData();
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Text, d.getName(), d.getText(), 0, 0, null));
 		} else if (s instanceof FlowConnectorParameter) {
 			FlowValve d = ((FlowConnectorParameter) s).getData();
@@ -78,7 +78,7 @@ public class SimulationsTransferable implements Transferable {
 			int target = 0;
 
 			for (FlowConnector f : model.getFlowConnectors()) {
-				if (f.getParameterPoint() == d) {
+				if (f.getValve() == d) {
 					source = f.getSource().getId();
 					target = f.getTarget().getId();
 					break;

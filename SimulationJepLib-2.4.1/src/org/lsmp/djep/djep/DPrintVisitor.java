@@ -14,7 +14,7 @@ import org.nfunk.jep.Variable;
  * PRINT_PARTIAL_EQNS and PRINT_VARIABLE_EQNS. When a variable or partial
  * derivative is encountered then its equation may be printed. By default
  * equations for PartialDerivatives are printed but equations for normal
- * derivatives are not. TODO might want to print eqn for y=sin(x) but not x=3
+ * derivatives are not. TODO_YEP might want to print eqn for y=sin(x) but not x=3
  * 
  * @author Rich Morris Created on 26-Feb-2004
  */

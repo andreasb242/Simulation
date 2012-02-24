@@ -14,10 +14,10 @@ import ch.zhaw.simulation.inexport.gui.settings.DynasysImportSettings;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
@@ -194,7 +194,7 @@ public class DynasisReader extends BinaryImport {
 
 		for (Connector<?> c : readConnectors) {
 			if (c instanceof FlowConnector) {
-				FlowValve p = ((FlowConnector) c).getParameterPoint();
+				FlowValve p = ((FlowConnector) c).getValve();
 				x = Math.min(x, p.getX());
 				y = Math.min(y, p.getY());
 			}
@@ -217,7 +217,7 @@ public class DynasisReader extends BinaryImport {
 
 		for (Connector<?> c : readConnectors) {
 			if (c instanceof FlowConnector) {
-				FlowValve p = ((FlowConnector) c).getParameterPoint();
+				FlowValve p = ((FlowConnector) c).getValve();
 				p.move(dX, dY);
 			}
 		}
@@ -247,7 +247,7 @@ public class DynasisReader extends BinaryImport {
 				SimulationObject to = (SimulationObject) oTo;
 
 				FlowConnector conn = new FlowConnector(from, to);
-				FlowValve par = conn.getParameterPoint();
+				FlowValve par = conn.getValve();
 				par.setName(flow.getName());
 				par.setFormula(flow.getFormula());
 				Point pos = flow.getPos();
@@ -267,11 +267,11 @@ public class DynasisReader extends BinaryImport {
 
 			if (oTarget instanceof FlowConnector) {
 				FlowConnector flowConnector = (FlowConnector) oTarget;
-				oTarget = flowConnector.getParameterPoint();
+				oTarget = flowConnector.getValve();
 			}
 			if (oSource instanceof FlowConnector) {
 				FlowConnector flowConnector = (FlowConnector) oSource;
-				oSource = flowConnector.getParameterPoint();
+				oSource = flowConnector.getValve();
 			}
 
 			if (!(oSource instanceof NamedSimulationObject) || !(oTarget instanceof NamedSimulationObject)) {
@@ -421,7 +421,7 @@ public class DynasisReader extends BinaryImport {
 		formula = formula.replaceAll("([0-9]),([0-9])", "$1.$2");
 	}
 
-	public boolean load(SimulationDocument model) {
+	public boolean load(SimulationFlowModel model) {
 		model.clear();
 
 		model.putMetainf("imported.type", "Dynasis");
@@ -455,7 +455,7 @@ public class DynasisReader extends BinaryImport {
 				}
 			}
 
-			TextData txt = new TextData(padding, maxY + padding);
+			CommentData txt = new CommentData(padding, maxY + padding);
 			txt.setText(description);
 			txt.setWidth(width);
 			txt.setHeight(200);

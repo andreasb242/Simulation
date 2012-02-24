@@ -30,7 +30,7 @@ public class FlowConnectorControl {
 		this.control = control;
 		this.connector = connector;
 
-		if(connector.getParameterPoint().getX() == -1) {
+		if(connector.getValve().getX() == -1) {
 			centerPoint();
 		}
 
@@ -50,7 +50,7 @@ public class FlowConnectorControl {
 		int x = (connector.getSource().getXCenter() + connector.getTarget().getXCenter()) / 2;
 		int y = (connector.getSource().getYCenter() + connector.getTarget().getYCenter()) / 2;
 		
-		FlowValve pp = connector.getParameterPoint();
+		FlowValve pp = connector.getValve();
 		
 		pp.setX(x - pp.getWidth() / 2);
 		pp.setY(y - pp.getHeight() / 2);
@@ -58,7 +58,7 @@ public class FlowConnectorControl {
 
 	public void dispose() {
 		control.getModel().removeListener(simulationListener);
-		control.getModel().removeData(connector.getParameterPoint());
+		control.getModel().removeData(connector.getValve());
 		
 		listener.clear();
 		listener = null;
@@ -104,7 +104,7 @@ public class FlowConnectorControl {
 			}
 			
 			private void checkData(SimulationObject o) {
-				if(o == connector.getSource() || o == connector.getTarget() || o == connector.getParameterPoint()) {
+				if(o == connector.getSource() || o == connector.getTarget() || o == connector.getValve()) {
 					FlowConnectorControl.this.dataChanged();
 				}
 			}

@@ -4,9 +4,16 @@ import java.awt.Point;
 
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 
-
+/**
+ * A parameter connector, this is the thin arrow, wich allows only the use of
+ * the value, but don't change values
+ * 
+ * @author Andreas Butti
+ */
 public class ParameterConnector extends Connector<NamedSimulationObject> {
-
+	/**
+	 * The point for our bezier calculation
+	 */
 	private Point connectorPoint;
 
 	public ParameterConnector(NamedSimulationObject source, NamedSimulationObject target) {

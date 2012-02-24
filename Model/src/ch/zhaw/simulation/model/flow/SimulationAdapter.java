@@ -2,6 +2,12 @@ package ch.zhaw.simulation.model.flow;
 
 import ch.zhaw.simulation.model.flow.connection.Connector;
 
+/**
+ * This adapter prevents to implement all, even the unused, methods, so only the
+ * needed methods need to be implemented
+ * 
+ * @author Andreas Butti
+ */
 public abstract class SimulationAdapter implements SimulationListener {
 
 	@Override

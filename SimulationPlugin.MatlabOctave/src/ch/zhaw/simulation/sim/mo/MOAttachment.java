@@ -15,7 +15,7 @@ import ch.zhaw.simulation.math.Parser.ParserNodePair;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationAttachment;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 public class MOAttachment implements SimulationAttachment {
 	private Vector<NamedSimulationObject> sources;
@@ -73,7 +73,7 @@ public class MOAttachment implements SimulationAttachment {
 	 * 
 	 * @throws ParseException
 	 */
-	public void optimizeStatic(SimulationDocument model) throws ParseException {
+	public void optimizeStatic(SimulationFlowModel model) throws ParseException {
 		if (value != null) {
 			return; // bereits ausgerechnet
 		}

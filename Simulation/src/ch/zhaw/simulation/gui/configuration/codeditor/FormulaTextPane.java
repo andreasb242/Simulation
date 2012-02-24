@@ -68,7 +68,7 @@ public class FormulaTextPane extends JTextPane {
 		
 		System.out.println(getText().substring(start, end));
 		
-		// TODO: Tooltip implementiärä
+		// TODO: Tooltip implementieren
 		tip.setTitle("Funktion xyz(x, y, z)");
 		tip.setContents("dies ist ein Test" + pos);
 

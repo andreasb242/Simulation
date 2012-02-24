@@ -12,7 +12,7 @@ import java.util.zip.ZipInputStream;
 
 import ch.zhaw.simulation.filehandling.configuration.XmlConfigurationLoader;
 import ch.zhaw.simulation.filehandling.contents.XmlContentsLoader;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 /**
  * Loads a .sizm file
@@ -75,7 +75,7 @@ public class SimzLoader implements SimzFileVersion {
 		return fileData.toString();
 	}
 
-	public boolean load(SimulationDocument model) throws Exception {
+	public boolean load(SimulationFlowModel model) throws Exception {
 		model.clearMetadata();
 		model.getSimulationConfiguration().clear();
 

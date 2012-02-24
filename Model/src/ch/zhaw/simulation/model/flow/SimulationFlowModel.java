@@ -10,7 +10,15 @@ import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 
-public class SimulationDocument {
+/**
+ * This is the model for Flow Simulations
+ * 
+ * @author Andreas Butti
+ */
+public class SimulationFlowModel {
+	/**
+	 * If the model has changed (saved / not saved)
+	 */
 	private boolean changed;
 
 	/**
@@ -18,6 +26,9 @@ public class SimulationDocument {
 	 */
 	private int id = 0;
 
+	/**
+	 * Used to calculate the next id
+	 */
 	private int lastFlowParameterId = 0;
 
 	private Vector<SimulationObject> data = new Vector<SimulationObject>();
@@ -25,11 +36,13 @@ public class SimulationDocument {
 
 	private Vector<SimulationListener> listener = new Vector<SimulationListener>();
 
+	// TODO: !! move to SimulationDocument
 	private HashMap<String, String> metainf = new HashMap<String, String>();
 
 	private SimulationConfiguration simModel = new SimulationConfiguration();
+	// TODO !! docu
 
-	public SimulationDocument() {
+	public SimulationFlowModel() {
 		setSaved();
 	}
 
@@ -164,7 +177,7 @@ public class SimulationDocument {
 		connectors.add(c);
 
 		if (c instanceof FlowConnector) {
-			FlowValve pp = ((FlowConnector) c).getParameterPoint();
+			FlowValve pp = ((FlowConnector) c).getValve();
 			checkFlowParameterId(pp);
 			data.add(pp);
 		}

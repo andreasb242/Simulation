@@ -8,7 +8,7 @@ import javax.swing.undo.CannotUndoException;
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 
 public class DeleteUndoAction extends AbstractUndoableEdit {
@@ -48,7 +48,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 	public void undo() throws CannotUndoException {
 		super.undo();
 
-		SimulationDocument model = control.getModel();
+		SimulationFlowModel model = control.getModel();
 
 		for (NamedSimulationObject o : removedObjects) {
 			model.addData(o);
@@ -70,7 +70,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 	}
 
 	private void delete() {
-		SimulationDocument model = control.getModel();
+		SimulationFlowModel model = control.getModel();
 
 		for (Connector<?> c : removedConnectors) {
 			model.removeConnector(c);

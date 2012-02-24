@@ -31,12 +31,12 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * and preproc will be null if a Define statement is encountered. This is
  * probably a bug.
  * 
- * TODO improve syntax. So can have Define("half(x)",x/2)
+ * TODO_YEP improve syntax. So can have Define("half(x)",x/2)
  * 
- * TODO work out how to simplify and evaluate Define statements which don't
+ * TODO_YEP work out how to simplify and evaluate Define statements which don't
  * really have a value.
  * 
- * TODO fix parser so can do half(x) = x/2
+ * TODO_YEP fix parser so can do half(x) = x/2
  * 
  * @author Rich Morris Created on 21-Jul-2005
  */

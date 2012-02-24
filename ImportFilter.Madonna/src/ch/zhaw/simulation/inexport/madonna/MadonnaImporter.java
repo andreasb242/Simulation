@@ -8,7 +8,7 @@ import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
@@ -23,7 +23,7 @@ public class MadonnaImporter extends MadonnaReader {
 	}
 
 	@Override
-	public boolean load(SimulationDocument model) throws ImportException {
+	public boolean load(SimulationFlowModel model) throws ImportException {
 		model.clear();
 
 		model.putMetainf("imported.type", "Barkley Madonna");
@@ -77,7 +77,7 @@ public class MadonnaImporter extends MadonnaReader {
 		return true;
 	}
 
-	private void handleConnector(MConnector arc, SimulationDocument model, int id) throws ImportException {
+	private void handleConnector(MConnector arc, SimulationFlowModel model, int id) throws ImportException {
 		NamedSimulationObject source = data2.get(arc.getFromId());
 		NamedSimulationObject target = data2.get(arc.getToId());
 
@@ -95,7 +95,7 @@ public class MadonnaImporter extends MadonnaReader {
 		model.addConnector(c);
 	}
 
-	private void handleFlow(MFlow f, SimulationDocument model, int id) throws ImportException {
+	private void handleFlow(MFlow f, SimulationFlowModel model, int id) throws ImportException {
 		MConnector2 toArrow = null;
 		MConnector2 fromArrow = null;
 
@@ -136,7 +136,7 @@ public class MadonnaImporter extends MadonnaReader {
 
 		FlowConnector flow = new FlowConnector(source, target);
 
-		FlowValve pp = flow.getParameterPoint();
+		FlowValve pp = flow.getValve();
 
 		pp.setName(f.getName());
 		pp.setFormula(f.getFormula());
@@ -145,7 +145,7 @@ public class MadonnaImporter extends MadonnaReader {
 		data2.put(id, pp);
 	}
 
-	private SimulationObject getValueFor(int id, SimulationDocument model) {
+	private SimulationObject getValueFor(int id, SimulationFlowModel model) {
 		NamedSimulationObject v = data2.get(id);
 
 		if (v == null && data.get(id) instanceof MCloud) {

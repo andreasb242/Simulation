@@ -16,7 +16,7 @@ import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
@@ -33,7 +33,7 @@ public class OverviewWindow extends BDialog {
 	private static final long serialVersionUID = 1L;
 	private OverviewListModel model;
 	private SortableTable list;
-	private SimulationDocument doc;
+	private SimulationFlowModel doc;
 	private SimulationControl control;
 
 	public OverviewWindow(JFrame parent, SimulationControl control) {
@@ -138,14 +138,14 @@ public class OverviewWindow extends BDialog {
 	}
 
 	private void addObject(StringBuilder txt, FlowConnector f) {
-		txt.append(f.getParameterPoint().getName());
+		txt.append(f.getValve().getName());
 		txt.append(": von ");
 		txt.append(getName(f.getSource()));
 		txt.append(" nach ");
 		txt.append(getName(f.getTarget()));
 		txt.append(":");
 
-		for (String s : f.getParameterPoint().getFormula().split("\n")) {
+		for (String s : f.getValve().getFormula().split("\n")) {
 			txt.append("\t");
 			txt.append(s);
 			txt.append("\n");

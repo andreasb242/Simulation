@@ -5,12 +5,19 @@ import java.util.Vector;
 
 import butti.javalibs.util.StringUtil;
 
+/**
+ * The configuration of this simulation
+ * 
+ * @author Andreas Butti
+ */
 public class SimulationConfiguration {
 	/**
 	 * The Simulationplugin which is used
 	 */
 	private String plugin = null;
 
+	// TODO !! docu
+	
 	private Vector<SimulationParameterListener> listener = new Vector<SimulationParameterListener>();
 	private Vector<PluginChangeListener> pluginChangeListener = new Vector<PluginChangeListener>();
 

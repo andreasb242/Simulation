@@ -12,7 +12,7 @@ import org.nfunk.jep.type.Complex;
  * @author Rich Morris Created on 04-Nov-2003
  * @version 1.3.0.2 now extends number
  * 
- *          TODO don't implement number! So what if a scaler is a boolean
+ *          TODO_YEP don't implement number! So what if a scaler is a boolean
  */
 public class Scaler extends Number implements MatrixValueI {
 

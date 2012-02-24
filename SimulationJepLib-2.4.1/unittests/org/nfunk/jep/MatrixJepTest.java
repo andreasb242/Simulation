@@ -175,7 +175,7 @@ public class MatrixJepTest extends DJepTest {
 	}
 
 	/*
-	 * TODO GenMat Not jet implemented for MatrixJep (can it be done?) public
+	 * TODO_YEP GenMat Not jet implemented for MatrixJep (can it be done?) public
 	 * void testGenMatEle() throws Exception {System.out.println(
 	 * "The following caused a problem as ele only acepted Double arguments");
 	 * valueTest("m=[1,2,3]","[1.0,2.0,3.0]");

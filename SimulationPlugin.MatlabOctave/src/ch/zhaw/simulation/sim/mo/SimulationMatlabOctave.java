@@ -8,7 +8,7 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
@@ -49,14 +49,14 @@ public class SimulationMatlabOctave implements SimulationPlugin {
 	}
 
 	@Override
-	public void checkModel(SimulationDocument model) throws SimulationModelException {
+	public void checkModel(SimulationFlowModel model) throws SimulationModelException {
 		optimizer = new ModelOptimizer(model);
 
 		optimizer.optimize();
 	}
 
 	@Override
-	public void prepareSimulation(SimulationDocument model) throws Exception {
+	public void prepareSimulation(SimulationFlowModel model) throws Exception {
 		AbstractCodegen codegen = new EulerCodegen();
 		codegen.setWorkingFolder(settings.getSetting("workpath"));
 

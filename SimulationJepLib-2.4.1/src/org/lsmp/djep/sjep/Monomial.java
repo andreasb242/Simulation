@@ -189,7 +189,7 @@ public class Monomial extends AbstractPNode {
 	/**
 	 * Compare this to argument. x < y 2 x < 3 x x < x^2 x^2 < x^3 x < x y
 	 * 
-	 * TODO x y < x^2
+	 * TODO_YEP x y < x^2
 	 * 
 	 * @return this < arg ---> -1, this > arg ---> 1
 	 */

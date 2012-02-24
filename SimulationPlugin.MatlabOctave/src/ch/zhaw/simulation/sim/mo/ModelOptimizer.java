@@ -13,16 +13,16 @@ import ch.zhaw.simulation.math.exception.SimulationParserException;
 import ch.zhaw.simulation.math.exception.VarNotFoundException;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.sim.mo.MOAttachment.VarNotFoundExceptionTmp;
 
 public class ModelOptimizer {
-	private SimulationDocument model;
+	private SimulationFlowModel model;
 	private Parser parser = new Parser();
 
-	public ModelOptimizer(SimulationDocument model) {
+	public ModelOptimizer(SimulationFlowModel model) {
 		this.model = model;
 		if (model == null) {
 			throw new NullPointerException("model == null");
@@ -62,7 +62,7 @@ public class ModelOptimizer {
 		}
 
 		for (FlowConnector c : model.getFlowConnectors()) {
-			c.getParameterPoint().a = new MOAttachment();
+			c.getValve().a = new MOAttachment();
 		}
 	}
 

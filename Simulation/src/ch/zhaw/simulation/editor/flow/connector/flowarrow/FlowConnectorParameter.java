@@ -23,7 +23,7 @@ public class FlowConnectorParameter extends GuiDataTextElement<FlowValve>
 
 	public FlowConnectorParameter(FlowConnector connector,
 			SimulationControl control) {
-		super(connector.getParameterPoint(), control);
+		super(connector.getValve(), control);
 
 		config = control.getConfig();
 		size = config.getFlowParameterSize();
@@ -36,7 +36,7 @@ public class FlowConnectorParameter extends GuiDataTextElement<FlowValve>
 		
 		this.connector = connector;
 
-		FlowValve p = connector.getParameterPoint();
+		FlowValve p = connector.getValve();
 		setLocation(new Point(p.getX(), p.getY()));
 	}
 

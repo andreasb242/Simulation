@@ -1,5 +1,10 @@
 package ch.zhaw.simulation.model.flow;
 
+/**
+ * An simulation container
+ * 
+ * @author Andreas Butti
+ */
 public class SimulationContainer extends NamedSimulationObject {
 	public SimulationContainer(int x, int y) {
 		super(x, y);

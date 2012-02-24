@@ -83,7 +83,7 @@ public class MatrixVariable extends DVariable implements MatrixVariableI {
 	 * Sets the value of this variable. Needed when using macro functions in
 	 * matrix calculations.
 	 * 
-	 * TODO might be better to change macro function behaviour.
+	 * TODO_YEP might be better to change macro function behaviour.
 	 */
 	protected boolean setValueRaw(Object val) {
 		if (val instanceof MatrixValueI) {

@@ -27,7 +27,7 @@ import org.nfunk.jep.function.LValueI;
  * 
  * @author Richard Morris
  * 
- *         TODO implement setting slices a[3:5]=[3,4,5] a[1,]=[1,3]
+ *         TODO_YEP implement setting slices a[3:5]=[3,4,5] a[1,]=[1,3]
  */
 public class ArrayAccess extends VEle implements LValueI {
 

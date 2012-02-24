@@ -49,11 +49,11 @@ import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationAdapter;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
@@ -72,7 +72,7 @@ import ch.zhaw.simulation.undo.action.DeleteUndoAction;
 
 public class SimulationControl {
 	private GuiConfig config = new GuiConfig();
-	private SimulationDocument model = new SimulationDocument();
+	private SimulationFlowModel model = new SimulationFlowModel();
 	private Settings settings;
 
 	private DocumentView view;
@@ -249,7 +249,7 @@ public class SimulationControl {
 
 				tmpRemovedConnectors.add(c);
 
-				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(c.getParameterPoint()));
+				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(c.getValve()));
 			} else if (el instanceof ConnectorPoint) {
 				tmpRemovedConnectors.add(((ConnectorPoint) el).getConnector());
 			}
@@ -385,13 +385,6 @@ public class SimulationControl {
 
 				Vector<SelectableElement> elements = view.convertToSelectable(shadowData);
 
-				// TODO: Debug
-				// for (Component c : view.getComponents()) {
-				// if (c instanceof SelectableElement) {
-				// elements.add((SelectableElement) c);
-				// }
-				// }
-
 				selectionModel.setDependentElement(elements);
 			}
 		});
@@ -504,8 +497,8 @@ public class SimulationControl {
 	}
 
 	private void postAddAction(NamedSimulationObject so) {
-		if (so instanceof TextData) {
-			TextData data = (TextData) so;
+		if (so instanceof CommentData) {
+			CommentData data = (CommentData) so;
 			for (Component c : view.getComponents()) {
 				if (c instanceof TextView) {
 					if (((TextView) c).getData() == data) {
@@ -532,7 +525,7 @@ public class SimulationControl {
 		return mb.getMenubar();
 	}
 
-	public SimulationDocument getModel() {
+	public SimulationFlowModel getModel() {
 		return model;
 	}
 
@@ -781,7 +774,7 @@ public class SimulationControl {
 
 	public void addText() {
 		cancelAllActions();
-		addComponent(new TextData(0, 0), "Text");
+		addComponent(new CommentData(0, 0), "Text");
 	}
 
 	public void setSidebarVisible(boolean visible) {

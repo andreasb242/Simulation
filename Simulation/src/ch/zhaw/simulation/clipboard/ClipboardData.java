@@ -9,10 +9,10 @@ import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
@@ -21,7 +21,7 @@ import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 public class ClipboardData extends Vector<TransferData> {
 	private static final long serialVersionUID = 1L;
 	private SelectionModel selectionModel;
-	private SimulationDocument model;
+	private SimulationFlowModel model;
 	private DocumentView view;
 
 	private HashMap<Integer, SimulationObject> data = new HashMap<Integer, SimulationObject>();
@@ -137,11 +137,11 @@ public class ClipboardData extends Vector<TransferData> {
 		}
 
 		FlowConnector c = new FlowConnector(source, target);
-		c.getParameterPoint().setName(f.getName());
+		c.getValve().setName(f.getName());
 
-		c.getParameterPoint().setFormula(f.getFormula());
+		c.getValve().setFormula(f.getFormula());
 
-		data.put(f.getId(), c.getParameterPoint());
+		data.put(f.getId(), c.getValve());
 
 		if (source instanceof InfiniteData) {
 			model.addData(source);
@@ -154,7 +154,7 @@ public class ClipboardData extends Vector<TransferData> {
 
 		model.addConnector(c);
 
-		select(c.getParameterPoint());
+		select(c.getValve());
 	}
 
 	private void handleInfiniteData(TransferData d) {
@@ -175,7 +175,7 @@ public class ClipboardData extends Vector<TransferData> {
 	}
 
 	private void handleText(TransferData d) {
-		TextData t = new TextData(d.getX(), d.getY());
+		CommentData t = new CommentData(d.getX(), d.getY());
 		t.setName(d.getName());
 		t.setText(d.getFormula());
 

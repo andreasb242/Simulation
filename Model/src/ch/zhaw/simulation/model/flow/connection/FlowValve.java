@@ -4,12 +4,12 @@ import java.awt.Point;
 
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 
-
+/**
+ * A valve, associated with a FlowConnector
+ * 
+ * @author Andreas Butti
+ */
 public class FlowValve extends NamedSimulationObject {
-
-	// TODO !!! remove?
-	private Object nextFlowValue;
-
 	public FlowValve(int x, int y) {
 		super(x, y);
 	}
@@ -30,14 +30,6 @@ public class FlowValve extends NamedSimulationObject {
 
 	public Point getPoint() {
 		return new Point(getX(), getY());
-	}
-
-	public void setNextFlowValue(Object nextFlowValue) {
-		this.nextFlowValue = nextFlowValue;
-	}
-
-	public Object getNextFlowValue() {
-		return nextFlowValue;
 	}
 
 	@Override

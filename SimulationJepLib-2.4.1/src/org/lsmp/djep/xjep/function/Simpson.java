@@ -25,7 +25,7 @@ public class Simpson extends Trapezium {
 
 		Object ret = add.add(elements[0], elements[elements.length - 1]);
 		for (int i = 1; i < elements.length - 1; ++i) {
-			// TODO could be quicker
+			// TODO_YEP could be quicker
 			if (i % 2 == 0)
 				ret = add.add(ret, mul.mul(TWO, elements[i]));
 			else

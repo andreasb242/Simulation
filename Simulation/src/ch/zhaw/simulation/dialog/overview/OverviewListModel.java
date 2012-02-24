@@ -8,7 +8,7 @@ import java.util.Vector;
 import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
@@ -20,14 +20,14 @@ import butti.javalibs.controls.listcontrol.searchmodules.Textsearch;
 
 public class OverviewListModel extends AbstractSortableTableModel {
 	private static final long serialVersionUID = 1L;
-	private SimulationDocument doc;
+	private SimulationFlowModel doc;
 	private NamedSimulationObject[] data = new NamedSimulationObject[] {};
 	private DataComparator comparator = new DataComparator();
 	private static final String[] HEADER = new String[] { "Typ", "Name", "Formel" };
 	private static final SearchModul[] SEARCHMODULES = new SearchModul[] { new TypeSearch(new GuiConfig()), new Textsearch(HEADER[1]),
 			new Textsearch(HEADER[2]) };
 
-	public OverviewListModel(SimulationDocument doc) {
+	public OverviewListModel(SimulationFlowModel doc) {
 		this.doc = doc;
 	}
 

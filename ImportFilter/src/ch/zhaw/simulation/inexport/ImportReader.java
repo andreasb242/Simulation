@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 public abstract class ImportReader implements AbstractPlugin {
 	public ImportReader() {
@@ -29,7 +29,7 @@ public abstract class ImportReader implements AbstractPlugin {
 
 	public abstract void read(File file) throws IOException, ImportException;
 
-	public abstract boolean load(SimulationDocument model)
+	public abstract boolean load(SimulationFlowModel model)
 			throws ImportException;
 
 	protected abstract boolean checkFile(InputStream in) throws IOException;

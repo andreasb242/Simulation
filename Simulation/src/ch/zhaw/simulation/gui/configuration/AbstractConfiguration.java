@@ -14,7 +14,7 @@ import javax.swing.text.JTextComponent;
 import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 import butti.javalibs.gui.GridBagManager;
 
@@ -28,11 +28,11 @@ abstract class AbstractConfiguration<E extends NamedSimulationObject> extends
 
 	private E data;
 
-	private SimulationDocument model;
+	private SimulationFlowModel model;
 
 	protected GridBagManager gbm;
 
-	public AbstractConfiguration(SimulationDocument model, boolean name) {
+	public AbstractConfiguration(SimulationFlowModel model, boolean name) {
 		this.model = model;
 		setTitle("Eigenschaften");
 		setSpecial(true);

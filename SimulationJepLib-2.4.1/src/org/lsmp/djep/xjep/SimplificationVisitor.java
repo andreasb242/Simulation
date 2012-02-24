@@ -23,9 +23,9 @@ import org.nfunk.jep.ParseException;
  * commutativity.
  * 
  * 
- * TODO cope with 'a - (-1) * b'
+ * TODO_YEP cope with 'a - (-1) * b'
  * 
- * TODO cope with simplifying complex numbers
+ * TODO_YEP cope with simplifying complex numbers
  * 
  * @author Rich Morris Created on 20-Jun-2003
  * 
@@ -197,7 +197,7 @@ public class SimplificationVisitor extends DoNothingVisitor {
 	 */
 	public Node simplifyAdd(Node lhs, Node rhs) throws ParseException {
 		if (tu.isInfinity(lhs)) { // Inf + Inf -> NaN
-			// TODO not correct for signed infinity
+			// TODO_YEP not correct for signed infinity
 			if (tu.isInfinity(rhs))
 				return nf.buildConstantNode(tu.getNAN());
 			// Inf + x -> Inf
@@ -251,7 +251,7 @@ public class SimplificationVisitor extends DoNothingVisitor {
 		if (tu.isInfinity(lhs)) {
 			// Inf + Inf -> NaN
 
-			// TODO not correct for signed infinity
+			// TODO_YEP not correct for signed infinity
 			if (tu.isInfinity(rhs))
 				return nf.buildConstantNode(tu.getNAN());
 			// Inf + x -> Inf
@@ -426,7 +426,7 @@ public class SimplificationVisitor extends DoNothingVisitor {
 	public Node simplifyOp(ASTFunNode node, Node children[]) throws ParseException {
 		boolean allConst = true;
 		XOperator op = (XOperator) node.getOperator();
-		// TODO a bit of a hack to prevent lists of constants being converted
+		// TODO_YEP a bit of a hack to prevent lists of constants being converted
 		// what happens is that for [[1,2],[3,4]] the dimension is not passed
 		// into buildConstantNode so list is treated as [1,2,3,4]
 		// Ideally there would be a special simplification rule for List

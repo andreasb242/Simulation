@@ -3,17 +3,17 @@ package ch.zhaw.simulation.undo.action;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 
 
 public class AddConnectorUndoAction extends AbstractUndoableEdit {
 	private static final long serialVersionUID = 1L;
 	private Connector<?> c;
-	private SimulationDocument model;
+	private SimulationFlowModel model;
 
 	public AddConnectorUndoAction(Connector<?> c,
-			SimulationDocument model) {
+			SimulationFlowModel model) {
 		this.c = c;
 		this.model = model;
 		add();

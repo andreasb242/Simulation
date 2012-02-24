@@ -34,7 +34,7 @@ public class MatrixOperatorSet extends XOperatorSet {
 		super();
 		OP_ADD.setPFMC(new MAdd());
 		OP_SUBTRACT.setPFMC(new MSubtract());
-		// TODO fix commutatitivity for matrix mult. How?
+		// TODO_YEP fix commutatitivity for matrix mult. How?
 		OP_MULTIPLY.setPFMC(new MMultiply());
 		OP_DIVIDE.setPFMC(new MDivide());
 		OP_POWER.setPFMC(new MPower());

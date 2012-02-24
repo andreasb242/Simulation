@@ -15,7 +15,7 @@ import org.nfunk.jep.ParseException;
  */
 public class ExpandBrackets extends AbstractRewrite {
 	/**
-	 * TODO cope with a * uminus(x+x)
+	 * TODO_YEP cope with a * uminus(x+x)
 	 */
 	public ExpandBrackets(XJep xj) {
 		super(xj);

@@ -200,7 +200,7 @@ public class TreeUtils {
 	/**
 	 * returns true if node is a ASTConstant with a Infinite component
 	 * 
-	 * TODO do proper treatment of signed infinity
+	 * TODO_YEP do proper treatment of signed infinity
 	 */
 	public boolean isInfinity(Node node) {
 		if (isReal(node)) {

@@ -12,7 +12,7 @@ import org.nfunk.jep.Node;
 /**
  * Contains information about a PartialDerivative of a variable.
  * 
- * @author Rich Morris Created on 29-Oct-2003 TODO Should setValue be
+ * @author Rich Morris Created on 29-Oct-2003 TODO_YEP Should setValue be
  *         overwritten?
  */
 public class MatrixPartialDerivative extends PartialDerivative implements MatrixVariableI {
@@ -25,7 +25,7 @@ public class MatrixPartialDerivative extends PartialDerivative implements Matrix
 	protected MatrixPartialDerivative(MatrixVariable var, String derivnames[], Node deriv) {
 		super(var, derivnames);
 		/*
-		 * TODO could be a little cleverer just have a partial derivative which
+		 * TODO_YEP could be a little cleverer just have a partial derivative which
 		 * is a constant dy/dx = 1 don't use an equation, instead use a value.
 		 * 
 		 * if(deriv instanceof ASTMConstant) { MatrixValueI val =

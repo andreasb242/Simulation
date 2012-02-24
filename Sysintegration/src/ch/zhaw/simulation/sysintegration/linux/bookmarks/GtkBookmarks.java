@@ -42,7 +42,7 @@ public class GtkBookmarks extends Bookmarks {
 
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("file://")) {
-					// TODO: parsen
+					// TODO: parsen GTK Bookmarks
 				}
 			}
 
@@ -83,7 +83,7 @@ public class GtkBookmarks extends Bookmarks {
 
 				String value = line.substring(pos, closingPos).trim();
 
-				// TODO: implement
+				// TODO: GtkBookmarks
 //				System.out.println("val: " + name + " = " + value);
 //				System.out.println(line);
 			}

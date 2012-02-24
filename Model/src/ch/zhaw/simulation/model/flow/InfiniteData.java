@@ -1,6 +1,11 @@
 package ch.zhaw.simulation.model.flow;
 
-
+/**
+ * This item is used if there is a flow from "noting" into a container, or from
+ * a container to "nothing"
+ * 
+ * @author Andreas Butti
+ */
 public class InfiniteData extends SimulationObject {
 
 	public InfiniteData(int x, int y) {
@@ -16,7 +21,7 @@ public class InfiniteData extends SimulationObject {
 	public int getWidth() {
 		return 50;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "InfiniteData: " + hashCode();

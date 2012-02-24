@@ -1,15 +1,12 @@
 package ch.zhaw.simulation.editor.flow.elements.container;
 
-
 import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 
 import butti.javalibs.util.DrawHelper;
-
 import ch.zhaw.simulation.editor.flow.elements.GuiImage;
 import ch.zhaw.simulation.gui.control.GuiConfig;
-
 
 public class ContainerImage extends GuiImage {
 	public ContainerImage(int width, int heigth, GuiConfig config) {
@@ -37,7 +34,7 @@ public class ContainerImage extends GuiImage {
 		g.setPaint(config.getContainerPaint(w, h, selected));
 		g.fill(rect);
 		g.setPaint(config.getObjectBorder(selected));
-		g.drawLine(x1 - 1, y1, x1 - 1, y2 + y1);// TODO: neues antialising -1
+		g.drawLine(x1 - 1, y1, x1 - 1, y2 + y1);
 		g.drawLine(x2, y1, x2, y2 + y1);
 		DrawHelper.antialisingOn(g);
 
@@ -49,7 +46,6 @@ public class ContainerImage extends GuiImage {
 		g.setPaint(config.getObjectBorder(selected));
 		g.draw(circleTop);
 
-		// TODO: neues antialising w - 3, war w - 2
 		Arc2D.Double circleBottom = new Arc2D.Double(1, cEndY, w - 3, circleHeight, 180, 180, Arc2D.OPEN);
 		g.setPaint(config.getContainerPaint(w, h, selected));
 		g.fill(circleBottom);

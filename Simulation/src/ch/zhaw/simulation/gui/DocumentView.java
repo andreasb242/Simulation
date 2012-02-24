@@ -36,12 +36,12 @@ import ch.zhaw.simulation.gui.layout.SimulationLayout;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationListener;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
@@ -333,7 +333,7 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 	}
 
 	private void initComponent() {
-		final SimulationDocument model = control.getModel();
+		final SimulationFlowModel model = control.getModel();
 
 		for (SimulationObject p : model.getData()) {
 			dataAdded(p);
@@ -413,8 +413,8 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 		} else if (o instanceof InfiniteData) {
 			add(new InfiniteSymbol((InfiniteData) o, control));
 		} else if (o instanceof FlowValve) {
-		} else if (o instanceof TextData) {
-			TextView view = new TextView(control, (TextData) o);
+		} else if (o instanceof CommentData) {
+			TextView view = new TextView(control, (CommentData) o);
 			add(view);
 			view.paintText();
 		} else {

@@ -24,14 +24,14 @@ public class FlowCalculator {
 	
 	public FlowCalculator(SimulationObject object, FlowConnector connector, int arrowWidth, int arrowHeight, int arrowSize) {
 		this.object1 = object;
-		this.object2 = connector.getParameterPoint();
+		this.object2 = connector.getValve();
 
 		this.arrowWidth = arrowWidth;
 		this.arrowHeight = arrowHeight;
 		this.arrowSize = arrowSize;
 
-		source = new ElementConnector(connector.getParameterPoint(), object);
-		target = new ElementConnector(object, connector.getParameterPoint());
+		source = new ElementConnector(connector.getValve(), object);
+		target = new ElementConnector(object, connector.getValve());
 	}
 
 	public ElementConnector getTarget() {

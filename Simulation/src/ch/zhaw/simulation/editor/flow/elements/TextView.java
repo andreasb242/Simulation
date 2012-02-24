@@ -15,12 +15,12 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.gui.control.SimulationControl;
 import ch.zhaw.simulation.htmleditor.HTMLEditor;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
 
-public class TextView extends GuiDataElement<TextData> {
+public class TextView extends GuiDataElement<CommentData> {
 	private static final long serialVersionUID = 1L;
 
 	private GuiConfig config;
@@ -33,7 +33,7 @@ public class TextView extends GuiDataElement<TextData> {
 
 	private JLabel lbConents = new JLabel();
 
-	public TextView(SimulationControl control, TextData data) {
+	public TextView(SimulationControl control, CommentData data) {
 		super(data, control);
 		config = control.getConfig();
 
@@ -83,7 +83,7 @@ public class TextView extends GuiDataElement<TextData> {
 	}
 
 	public void changeSize(int dX, int dY) {
-		TextData d = getData();
+		CommentData d = getData();
 		d.setWidth(d.getWidth() + dX);
 		d.setHeight(d.getHeight() + dY);
 

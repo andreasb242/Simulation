@@ -15,11 +15,11 @@ import ch.zhaw.simulation.filehandling.XmlHelper;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 
@@ -30,7 +30,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 	public XmlContentsLoader() {
 	}
 
-	private void parseNode(Node node, SimulationDocument model) {
+	private void parseNode(Node node, SimulationFlowModel model) {
 		String name = node.getNodeName();
 
 		if (XML_ELEMENT_CONTAINER.equals(name)) {
@@ -54,7 +54,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		} else if (XML_ELEMENT_FLOW_CONNECTOR.equals(name)) {
 			flowConnectors.add(node);
 		} else if ("text".equals(name)) {
-			TextData o = new TextData(0, 0);
+			CommentData o = new CommentData(0, 0);
 			parseSimulationText(node, o);
 			model.addData(o);
 		} else {
@@ -62,7 +62,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		}
 	}
 
-	private void parseSimulationText(Node node, TextData o) {
+	private void parseSimulationText(Node node, CommentData o) {
 		int x = XmlHelper.getAttributeInt(node, "x");
 		int y = XmlHelper.getAttributeInt(node, "y");
 		int width = XmlHelper.getAttributeInt(node, "width");
@@ -75,7 +75,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		o.setText(XmlHelper.getAttribute(node, "text"));
 	}
 
-	private void parseConnector(Node node, ParameterConnector c, SimulationDocument model) {
+	private void parseConnector(Node node, ParameterConnector c, SimulationFlowModel model) {
 
 		String sFrom = XmlHelper.getAttribute(node, "from");
 		String sTo = XmlHelper.getAttribute(node, "to");
@@ -94,7 +94,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		c.setTarget(to);
 	}
 
-	private void parseConnector(Node node, FlowConnector c, SimulationDocument model) {
+	private void parseConnector(Node node, FlowConnector c, SimulationFlowModel model) {
 
 		Node nFrom = node.getAttributes().getNamedItem("from");
 		Node nTo = node.getAttributes().getNamedItem("to");
@@ -120,7 +120,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		}
 
 		if (nName != null) {
-			c.getParameterPoint().setName(nName.getNodeValue());
+			c.getValve().setName(nName.getNodeValue());
 		}
 
 		NodeList list = node.getChildNodes();
@@ -154,8 +154,8 @@ public class XmlContentsLoader implements XmlContentsNames {
 
 		if (points.size() > 0) {
 			Point p = points.get(0);
-			c.getParameterPoint().setX(p.x);
-			c.getParameterPoint().setY(p.y);
+			c.getValve().setX(p.x);
+			c.getValve().setY(p.y);
 		}
 
 		if (from == null || to == null) {
@@ -184,7 +184,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		return points;
 	}
 
-	private boolean parseConnectors(SimulationDocument model) {
+	private boolean parseConnectors(SimulationFlowModel model) {
 		boolean error = false;
 
 		for (Node node : flowConnectors) {
@@ -195,7 +195,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 
 					Node nValue = node.getAttributes().getNamedItem("value");
 					if (nValue != null) {
-						c.getParameterPoint().setFormula(nValue.getNodeValue());
+						c.getValve().setFormula(nValue.getNodeValue());
 					}
 
 					model.addConnector(c);
@@ -253,7 +253,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 	 * @throws Exception
 	 *             If something went wrong, the file cannot be read
 	 */
-	public boolean parseXml(SimulationDocument model, InputStream in) throws Exception {
+	public boolean parseXml(SimulationFlowModel model, InputStream in) throws Exception {
 		flowConnectors.clear();
 		parameterConnectors.clear();
 

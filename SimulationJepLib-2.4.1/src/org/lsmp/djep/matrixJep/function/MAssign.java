@@ -82,7 +82,7 @@ public class MAssign extends Assign implements MatrixSpecialEvaluationI, Special
 			// Node preproc = (Node) simp.jjtAccept(this,data);
 			var.setEquation(simp);
 		}
-		// TODO cope with ArrayAccess. Should really set the array access
+		// TODO_YEP cope with ArrayAccess. Should really set the array access
 		// equations
 		return (ASTMFunNode) nf.buildOperatorNode(node.getOperator(), children, rhsDim);
 	}

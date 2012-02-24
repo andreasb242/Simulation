@@ -8,7 +8,7 @@ import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationAdapter;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject.Status;
 import ch.zhaw.simulation.model.flow.connection.Connector;
@@ -42,7 +42,7 @@ public class Autoparser {
 			@Override
 			public void connectorChanged(Connector<?> c) {
 				if (c instanceof FlowConnector) {
-					FlowValve p = ((FlowConnector) c).getParameterPoint();
+					FlowValve p = ((FlowConnector) c).getValve();
 					parse(p);
 				}
 
@@ -109,7 +109,7 @@ public class Autoparser {
 		}
 		running = true;
 
-		SimulationDocument model = control.getModel();
+		SimulationFlowModel model = control.getModel();
 		for (SimulationObject d : model.getData()) {
 			if (d instanceof NamedSimulationObject) {
 				parse((NamedSimulationObject) d);
@@ -118,7 +118,7 @@ public class Autoparser {
 
 		for (Connector<?> c : model.getConnectors()) {
 			if (c instanceof FlowConnector) {
-				FlowValve p = ((FlowConnector) c).getParameterPoint();
+				FlowValve p = ((FlowConnector) c).getValve();
 				parse(p);
 			}
 		}

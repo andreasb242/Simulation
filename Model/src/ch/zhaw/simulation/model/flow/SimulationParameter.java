@@ -1,5 +1,10 @@
 package ch.zhaw.simulation.model.flow;
 
+/**
+ * An simulation parameter
+ * 
+ * @author Andreas Butti
+ */
 public class SimulationParameter extends NamedSimulationObject {
 
 	public SimulationParameter(int x, int y) {

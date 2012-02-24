@@ -15,7 +15,7 @@ import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.EmptyFormulaException;
 import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 
@@ -78,7 +78,7 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, SimulationObject o, SimulationDocument model, Vector<NamedSimulationObject> sourcesConst, String name)
+	public ParserNodePair checkCode(String text, SimulationObject o, SimulationFlowModel model, Vector<NamedSimulationObject> sourcesConst, String name)
 			throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (text.isEmpty()) {
 			throw new EmptyFormulaException(o);

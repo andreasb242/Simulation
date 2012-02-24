@@ -29,7 +29,7 @@ import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject.Status;
 import ch.zhaw.simulation.sysintegration.Toolbar;
@@ -297,7 +297,7 @@ public class FormulaEditor extends BDialog {
 			text.addAutocomplete(new Autocomplete.AutocompleteWord(f.getDescription(), -1));
 		}
 
-		SimulationDocument model = control.getModel();
+		SimulationFlowModel model = control.getModel();
 
 		Vector<SimulationGlobal> globalData = model.getGlobalsFor(data);
 		text.setConsts(getConst(), getFunctions(), parameter, globalData);

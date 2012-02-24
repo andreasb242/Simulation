@@ -12,7 +12,7 @@ import org.nfunk.jep.function.Divide;
 /**
  * Multiplies any number of Vectors or Matrices element by element.
  * 
- * TODO could be much more efficient when called through run.
+ * TODO_YEP could be much more efficient when called through run.
  * 
  * @author Rich Morris Created on 10-Dec-2004
  */

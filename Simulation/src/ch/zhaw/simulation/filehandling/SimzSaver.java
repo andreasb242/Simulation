@@ -13,7 +13,7 @@ import javax.xml.transform.TransformerException;
 
 import ch.zhaw.simulation.filehandling.configuration.XmlConfigurationSaver;
 import ch.zhaw.simulation.filehandling.contents.XmlContentsSaver;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 /**
  * Saves a .simz file
@@ -27,7 +27,7 @@ public class SimzSaver implements SimzFileVersion {
 	public SimzSaver() {
 	}
 
-	public void save(File file, SimulationDocument model) throws IOException, ParserConfigurationException, TransformerException {
+	public void save(File file, SimulationFlowModel model) throws IOException, ParserConfigurationException, TransformerException {
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -56,7 +56,7 @@ public class SimzSaver implements SimzFileVersion {
 		}
 	}
 
-	private void storeMetainf(OutputStream out, SimulationDocument model) throws IOException {
+	private void storeMetainf(OutputStream out, SimulationFlowModel model) throws IOException {
 		Properties p = new Properties();
 
 		for (String key : model.getMetainfKeys()) {

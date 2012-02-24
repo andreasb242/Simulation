@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
@@ -37,7 +37,7 @@ import ch.zhaw.simulation.sim.mo.MOVisitor;
  */
 public class EulerCodegen extends AbstractCodegen {
 	private CodeOutput out;
-	private SimulationDocument model;
+	private SimulationFlowModel model;
 	private MOVisitor visitor = new MOVisitor();
 	private Vector<String> openFiles = new Vector<String>();
 
@@ -45,7 +45,7 @@ public class EulerCodegen extends AbstractCodegen {
 	}
 
 	@Override
-	public void crateSimulation(SimulationDocument model) throws IOException {
+	public void crateSimulation(SimulationFlowModel model) throws IOException {
 		extractBaseFile();
 
 		openFiles.clear();
@@ -143,14 +143,14 @@ public class EulerCodegen extends AbstractCodegen {
 				for (FlowConnector f : model.getFlowConnectors()) {
 					if (f.getSource() == c) {
 						flows.append("-");
-						flows.append(f.getParameterPoint().getName() + ".value");
+						flows.append(f.getValve().getName() + ".value");
 					}
 					if (f.getTarget() == c) {
 						if (flows.toString().length() != 0) {
 							flows.append("+");
 						}
 
-						flows.append(f.getParameterPoint().getName() + ".value");
+						flows.append(f.getValve().getName() + ".value");
 					}
 				}
 
@@ -164,11 +164,11 @@ public class EulerCodegen extends AbstractCodegen {
 		out.printComment("Flow calculations");
 
 		for (FlowConnector c : model.getFlowConnectors()) {
-			MOAttachment a = (MOAttachment) c.getParameterPoint().a;
+			MOAttachment a = (MOAttachment) c.getValve().a;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
-				out.println(c.getParameterPoint().getName() + ".value=" + a.getPreparedFormula(visitor) + ";");
+				out.println(c.getValve().getName() + ".value=" + a.getPreparedFormula(visitor) + ";");
 			}
 		}
 	}

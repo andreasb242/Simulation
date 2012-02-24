@@ -29,7 +29,7 @@ public class MDiff extends PostfixMathCommand implements SpecialPreProcessorI {
 		MatrixNodeI children[] = visitor.visitChildrenAsArray(node, null);
 		if (children.length != 2)
 			throw new ParseException("Diff opperator should have two children, it has " + children.length);
-		// TODO need to handle diff(x,[x,y])
+		// TODO_YEP need to handle diff(x,[x,y])
 		if (!(children[1] instanceof ASTMVarNode))
 			throw new ParseException("rhs of diff opperator should be a variable.");
 		ASTMVarNode varNode = (ASTMVarNode) children[1];

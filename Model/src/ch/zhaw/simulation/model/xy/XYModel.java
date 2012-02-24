@@ -1,8 +1,10 @@
 package ch.zhaw.simulation.model.xy;
 
-import java.util.Vector;
-
+/**
+ * The XY Model
+ * 
+ * @author Andreas Butti
+ */
 public class XYModel {
-	
 
 }

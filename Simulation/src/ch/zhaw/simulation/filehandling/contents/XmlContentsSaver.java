@@ -12,11 +12,11 @@ import ch.zhaw.simulation.filehandling.AbstractXmlSaver;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.TextData;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
@@ -24,7 +24,7 @@ import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 
 public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNames {
 
-	public void saveContents(OutputStream out, SimulationDocument model) throws ParserConfigurationException, TransformerException {
+	public void saveContents(OutputStream out, SimulationFlowModel model) throws ParserConfigurationException, TransformerException {
 		Element root = initDocument(XML_ROOT);
 
 		saveModel(root, model);
@@ -32,7 +32,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		saveOutDocument(out);
 	}
 
-	private void saveModel(Element root, SimulationDocument model) {
+	private void saveModel(Element root, SimulationFlowModel model) {
 		for (SimulationObject o : model.getData()) {
 			if (o instanceof SimulationParameter) {
 				visitSimulationParameter(root, (SimulationParameter) o);
@@ -40,8 +40,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 				visitSimulationcontainer(root, (SimulationContainer) o);
 			} else if (o instanceof SimulationGlobal) {
 				visitSimulationGlobal(root, (SimulationGlobal) o);
-			} else if (o instanceof TextData) {
-				visitTextdata(root, (TextData) o);
+			} else if (o instanceof CommentData) {
+				visitTextdata(root, (CommentData) o);
 			} else if (o instanceof InfiniteData) {
 			} else if (o instanceof FlowValve) {
 			} else {
@@ -60,7 +60,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		}
 	}
 
-	private void visitTextdata(Element root, TextData o) {
+	private void visitTextdata(Element root, CommentData o) {
 		Element text = document.createElement("text");
 		text.setAttribute("x", "" + o.getX());
 		text.setAttribute("y", "" + o.getY());
@@ -100,8 +100,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 
 	private void visitFlowConnector(Element root, FlowConnector c) {
 		Element connector = document.createElement(XML_ELEMENT_FLOW_CONNECTOR);
-		connector.setAttribute("name", c.getParameterPoint().getName());
-		connector.setAttribute("value", c.getParameterPoint().getFormula());
+		connector.setAttribute("name", c.getValve().getName());
+		connector.setAttribute("value", c.getValve().getFormula());
 
 		SimulationObject source = c.getSource();
 
@@ -135,7 +135,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 			throw new RuntimeException("Type of flow connector endpoint is unknown: " + to.getClass().getName());
 		}
 
-		connector.appendChild(visitPoint(c.getParameterPoint().getPoint()));
+		connector.appendChild(visitPoint(c.getValve().getPoint()));
 
 		root.appendChild(connector);
 	}

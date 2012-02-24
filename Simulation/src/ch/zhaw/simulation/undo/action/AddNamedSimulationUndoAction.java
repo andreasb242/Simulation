@@ -4,16 +4,16 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationDocument;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 
 public class AddNamedSimulationUndoAction extends AbstractUndoableEdit {
 	private static final long serialVersionUID = 1L;
 	private NamedSimulationObject so;
-	private SimulationDocument model;
+	private SimulationFlowModel model;
 
 	public AddNamedSimulationUndoAction(NamedSimulationObject so,
-			SimulationDocument model) {
+			SimulationFlowModel model) {
 		this.so = so;
 		this.model = model;
 		add();

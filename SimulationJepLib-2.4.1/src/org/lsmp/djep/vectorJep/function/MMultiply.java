@@ -21,7 +21,7 @@ import org.nfunk.jep.function.Subtract;
  * if used with MatrixJep and calcValue routines. Note vector * vector treated
  * as col_vec * row_vec -> matrix.
  * 
- * @author Rich Morris Created on 27-Jul-2003 TODO add handeling of tensors
+ * @author Rich Morris Created on 27-Jul-2003 TODO_YEP add handeling of tensors
  * @since 2.3.2 Improved error reporting
  */
 public class MMultiply extends Multiply implements BinaryOperatorI {

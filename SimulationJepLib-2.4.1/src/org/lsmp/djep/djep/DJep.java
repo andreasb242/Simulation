@@ -111,7 +111,7 @@ public class DJep extends XJep {
 	 * Also adds rules for functions not in JEP function list:
 	 * 	sec,cosec,cot,exp,pow,sgn 
 	 * 
-	 * TODO include if, min, max, sgn
+	 * TODO_YEP include if, min, max, sgn
 	 * </pre>
 	 * 
 	 * @return false on error
@@ -150,7 +150,7 @@ public class DJep extends XJep {
 														// know if e exists
 					this.getNodeFactory().buildOperatorNode(this.getOperatorSet().getDivide(), this.getNodeFactory().buildConstantNode(1 / Math.log(10.0)),
 							this.getNodeFactory().buildVariableNode(this.getSymbolTable().makeVarIfNeeded("x")))));
-			// TODO problems here with using a global variable (x) in an
+			// TODO_YEP problems here with using a global variable (x) in an
 			// essentially local context
 			addDiffRule(new MacroDiffRules(this, "abs", "abs(x)/x"));
 			addDiffRule(new MacroDiffRules(this, "atan2", "-y/(x^2+y^2)", "x/(x^2+y^2)"));
@@ -177,7 +177,7 @@ public class DJep extends XJep {
 			// Comparative(5)));
 
 			// addDiffRule(new DiffDiffRule(this,"diff"));
-			// TODO do we want to add eval here?
+			// TODO_YEP do we want to add eval here?
 			// addDiffRule(new EvalDiffRule(this,"eval",eval));
 
 			// addDiffRule(new PassThroughDiffRule("\"&&\""));

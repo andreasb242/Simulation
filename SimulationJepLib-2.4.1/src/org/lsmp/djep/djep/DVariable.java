@@ -79,7 +79,7 @@ public class DVariable extends XVariable {
 			sb.append("^" + dnames.length);
 		sb.append(rootname);
 		sb.append('/');
-		// TODO print d^2f/dxdx as d^2f/dx^2
+		// TODO_YEP print d^2f/dxdx as d^2f/dx^2
 		for (int i = 0; i < dnames.length; ++i) {
 			sb.append('d');
 			sb.append(dnames[i]);
