@@ -6,7 +6,7 @@ import javax.swing.UIManager;
 
 import org.jdesktop.swingx.util.OS;
 
-import ch.zhaw.simulation.editor.AbstractEditor;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditor;
 import ch.zhaw.simulation.frame.AbstractFrame;
 import ch.zhaw.simulation.frame.MainFrame;
@@ -41,7 +41,7 @@ public class TestMain {
 
 		System.out.println(openfile);
 		
-		AbstractEditor editor = new XYEditor();
+		AbstractEditorControl editor = new XYEditor();
 		
 		AbstractFrame frame = new MainFrame(editor);
 		frame.setVisible(true);

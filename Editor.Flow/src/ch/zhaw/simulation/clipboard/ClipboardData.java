@@ -3,7 +3,7 @@ package ch.zhaw.simulation.clipboard;
 import java.util.HashMap;
 import java.util.Vector;
 
-import ch.zhaw.simulation.gui.DocumentView;
+import ch.zhaw.simulation.gui.FlowEditorView;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
@@ -19,14 +19,14 @@ public class ClipboardData extends Vector<TransferData> {
 	private static final long serialVersionUID = 1L;
 	private SelectionModel selectionModel;
 	private SimulationFlowModel model;
-	private DocumentView view;
+	private FlowEditorView view;
 
 	private HashMap<Integer, SimulationObject> data = new HashMap<Integer, SimulationObject>();
 
 	private Vector<TransferData> flows = new Vector<TransferData>();
 	private Vector<TransferData> connectors = new Vector<TransferData>();
 
-	public void addToModel(SelectionModel selectionModel, SimulationFlowModel model, DocumentView view) {
+	public void addToModel(SelectionModel selectionModel, SimulationFlowModel model, FlowEditorView view) {
 		this.selectionModel = selectionModel;
 
 		this.model = model;

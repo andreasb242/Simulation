@@ -11,7 +11,7 @@ import javax.swing.SwingConstants;
 
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.gui.control.MainToolbar;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
@@ -24,7 +24,7 @@ public class ConnectorSelectDialog extends BDialog {
 
 	private GridBagManager gbm;
 
-	public ConnectorSelectDialog(SimulationControl control) {
+	public ConnectorSelectDialog(FlowEditorControl control) {
 		super(control.getParent());
 		setModal(true);
 

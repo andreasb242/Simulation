@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import butti.javalibs.util.DrawHelper;
 
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
@@ -31,7 +31,7 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 
 	private CubicCurve2D.Double connecorCurve;
 
-	private SimulationControl control;
+	private FlowEditorControl control;
 
 	private Point lastStartPoint;
 	private Point lastEndPoint;
@@ -39,7 +39,7 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 
 	private boolean selected = false;
 
-	public ParameterConnectorUi(JComponent parent, ParameterConnector c, SimulationControl control) {
+	public ParameterConnectorUi(JComponent parent, ParameterConnector c, FlowEditorControl control) {
 		this.parent = parent;
 		this.control = control;
 		this.data = c;

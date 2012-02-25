@@ -12,7 +12,7 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorControl.FlowControlListener;
 import ch.zhaw.simulation.gui.control.GuiConfig;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
@@ -29,12 +29,12 @@ public class FlowConnectorUi implements ConnectorUi, FlowControlListener,
 
 	private FlowConnectorParameter connectorControl;
 
-	private SimulationControl control;
+	private FlowEditorControl control;
 
 	private boolean selected = false;
 
 	public FlowConnectorUi(JComponent parent, FlowConnector connector,
-			SimulationControl control, FlowConnectorParameter connectorControl) {
+			FlowEditorControl control, FlowConnectorParameter connectorControl) {
 		this.parent = parent;
 		this.connectorControl = connectorControl;
 		this.connector = connector;

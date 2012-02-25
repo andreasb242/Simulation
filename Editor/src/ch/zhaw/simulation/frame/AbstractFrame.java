@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import ch.zhaw.simulation.editor.AbstractEditor;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.icon.IconSVG;
 
@@ -13,7 +13,7 @@ public class AbstractFrame extends JFrame {
 
 	private FrameSidebar sidebar = new FrameSidebar();
 
-	public AbstractFrame(AbstractEditor editor) {
+	public AbstractFrame(AbstractEditorControl editor) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setIconImage(IconSVG.getIcon("simulation", 128).getImage());
 

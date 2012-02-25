@@ -19,7 +19,7 @@ import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationObject;
@@ -35,8 +35,8 @@ public class AddConnectorUi {
 		FLOW, PARAMETER, SELECATABLE
 	};
 
-	private DocumentView view;
-	private SimulationControl control;
+	private FlowEditorView view;
+	private FlowEditorControl control;
 	private SelectionModel selectionModel;
 	private ArcType addArcType = ArcType.PARAMETER;
 
@@ -207,7 +207,7 @@ public class AddConnectorUi {
 
 	};
 
-	public AddConnectorUi(DocumentView view, SimulationControl control) {
+	public AddConnectorUi(FlowEditorView view, FlowEditorControl control) {
 		this.view = view;
 		this.control = control;
 		this.selectionModel = control.getSelectionModel();

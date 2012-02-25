@@ -5,19 +5,19 @@ import java.io.File;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.inexport.ImportReader;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 
 public class LoadSaveHandler {
 	private File path;
-	private SimulationControl control;
+	private FlowEditorControl control;
 	private SimzSaver saver = new SimzSaver();
 	private SimzLoader loader = new SimzLoader();
 
 	private static final String LAST_SAVEPATH = "opensave.lastpath";
 
-	public LoadSaveHandler(SimulationControl control) {
+	public LoadSaveHandler(FlowEditorControl control) {
 		this.control = control;
 	}
 

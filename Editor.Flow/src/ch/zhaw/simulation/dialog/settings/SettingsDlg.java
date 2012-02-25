@@ -18,7 +18,7 @@ import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.inexport.ImportReader;
 import ch.zhaw.simulation.sim.SimulationPlugin;
@@ -27,7 +27,7 @@ import ch.zhaw.simulation.util.gui.HeaderPanel;
 
 public class SettingsDlg extends BDialog {
 	private static final long serialVersionUID = 1L;
-	private SimulationControl control;
+	private FlowEditorControl control;
 	private HeaderPanel header = new HeaderPanel();
 
 	private JCheckBox cbAutoloadLastDocument = new JCheckBox("Letzte geöffnete Datei beim Start laden");
@@ -36,7 +36,7 @@ public class SettingsDlg extends BDialog {
 
 	private GridBagManager gbm;
 
-	public SettingsDlg(SimulationControl control) {
+	public SettingsDlg(FlowEditorControl control) {
 		super(control.getParent());
 		setTitle("Einstellungen");
 

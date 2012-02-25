@@ -16,7 +16,7 @@ public class ArrowDragView extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private GuiDataElement<?> data;
 
-	public ArrowDragView(final AddConnectorUi addConnectorUi, final DocumentView view) {
+	public ArrowDragView(final AddConnectorUi addConnectorUi, final FlowEditorView view) {
 		setSize(14, 20);
 
 		addMouseListener(new MouseAdapter() {

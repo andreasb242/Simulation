@@ -29,6 +29,7 @@ import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
@@ -40,15 +41,15 @@ import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.filehandling.ImportPlugins;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
-import ch.zhaw.simulation.gui.DocumentView;
+import ch.zhaw.simulation.gui.FlowEditorView;
 import ch.zhaw.simulation.gui.configuration.codeditor.FormulaEditor;
 import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.AbstractMenubar;
+import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menu.actions.MenuAction;
 import ch.zhaw.simulation.model.flow.CommentData;
@@ -64,7 +65,6 @@ import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sidebar.SidebarListener;
 import ch.zhaw.simulation.sim.SimulationManager;
@@ -77,14 +77,13 @@ import ch.zhaw.simulation.undo.action.AddConnectorUndoAction;
 import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
 import ch.zhaw.simulation.undo.action.DeleteUndoAction;
 
-public class SimulationControl implements MenuActionListener {
+public class FlowEditorControl extends AbstractEditorControl implements MenuActionListener {
 	private Vector<AppActionListener> appActionListeners = new Vector<AppActionListener>();
-
-	private GuiConfig config = new GuiConfig();
+	
 	private SimulationFlowModel model = new SimulationFlowModel();
 	private Settings settings;
 
-	private DocumentView view;
+	private FlowEditorView view;
 
 	private JXStatusBar sBar = new JXStatusBar();
 	private JLabel lbStatus = new JLabel(" ");
@@ -98,7 +97,6 @@ public class SimulationControl implements MenuActionListener {
 
 	private ImportPlugins importPlugins;
 	private LoadSaveHandler savehandler;
-	private SelectionModel selectionModel = new SelectionModel();
 
 	private Vector<DrawModusListener> drawModusListener = new Vector<DrawModusListener>();
 
@@ -127,7 +125,7 @@ public class SimulationControl implements MenuActionListener {
 
 	private SimulationManager manager;
 
-	public SimulationControl(JFrame parent, Settings settings) {
+	public FlowEditorControl(JFrame parent, Settings settings) {
 		this.parent = parent;
 		this.settings = settings;
 
@@ -137,7 +135,7 @@ public class SimulationControl implements MenuActionListener {
 		if (parent == null) {
 			throw new NullPointerException("parent == null");
 		}
-
+		
 		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
 		loadSimulationParameterFromSettings();
 
@@ -155,7 +153,7 @@ public class SimulationControl implements MenuActionListener {
 		recentMenu = new RecentMenu(settings);
 		recentMenu.addListener(this);
 
-		this.view = new DocumentView(this);
+		this.view = new FlowEditorView(this);
 		integration.initJComponnent(view);
 		toolbar.initToolbar();
 		initJcomponent(toolbar.getToolbar());
@@ -243,20 +241,14 @@ public class SimulationControl implements MenuActionListener {
 		undoHandler.redo();
 	}
 
-	public void deleteSelected() {
-		SelectableElement[] selected = selectionModel.getSelected();
-		selectionModel.clearSelection();
-
-		delete(selected);
-	}
-
-	private void delete(SelectableElement[] selected) {
+	@Override
+	protected void delete(SelectableElement[] elements) {
 		Vector<NamedSimulationObject> removedObjects = new Vector<NamedSimulationObject>();
 		Vector<Connector<?>> removedConnectors = new Vector<Connector<?>>();
 		Vector<InfiniteData> removedInfinite = new Vector<InfiniteData>();
 
 		Vector<Connector<?>> tmpRemovedConnectors = new Vector<Connector<?>>();
-		for (SelectableElement el : selected) {
+		for (SelectableElement el : elements) {
 			if (el instanceof FlowConnectorParameter) {
 				FlowConnector c = ((FlowConnectorParameter) el).getConnector();
 
@@ -270,7 +262,7 @@ public class SimulationControl implements MenuActionListener {
 
 		addConnectors(removedConnectors, removedInfinite, tmpRemovedConnectors);
 
-		for (SelectableElement el : selected) {
+		for (SelectableElement el : elements) {
 			if (el instanceof ParameterView || el instanceof ContainerView) {
 				GuiDataTextElement<?> control = (GuiDataTextElement<?>) el;
 				NamedSimulationObject data = (NamedSimulationObject) control.getData();
@@ -279,7 +271,7 @@ public class SimulationControl implements MenuActionListener {
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(data));
 			}
 		}
-		for (SelectableElement el : selected) {
+		for (SelectableElement el : elements) {
 			if (el instanceof InfiniteSymbol) {
 				addInfiniteData(removedInfinite, ((InfiniteSymbol) el).getData());
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(((InfiniteSymbol) el).getData()));
@@ -522,10 +514,6 @@ public class SimulationControl implements MenuActionListener {
 		}
 	}
 
-	public GuiConfig getConfig() {
-		return config;
-	}
-
 	public JComponent getToolbar() {
 		return toolbar.getToolbar();
 	}
@@ -542,7 +530,7 @@ public class SimulationControl implements MenuActionListener {
 		return model;
 	}
 
-	public DocumentView getView() {
+	public FlowEditorView getView() {
 		return view;
 	}
 
@@ -672,10 +660,6 @@ public class SimulationControl implements MenuActionListener {
 
 	public JFrame getParent() {
 		return parent;
-	}
-
-	public SelectionModel getSelectionModel() {
-		return selectionModel;
 	}
 
 	public void fireDrawModusFinished() {
@@ -887,35 +871,35 @@ public class SimulationControl implements MenuActionListener {
 		case SETTINGS:
 			this.settings();
 			break;
-			
+
 		case START_SIMULATION:
 			startSimulation();
 			break;
-			
+
 		case SAVE:
 			this.save();
 			break;
-			
+
 		case SAVE_AS:
 			this.saveAs();
 			break;
-			
+
 		case SNAPSHOT:
 			takeSnapshot();
 			break;
-			
+
 		case SELECT_ALL:
 			selectAll();
 			break;
-			
+
 		case SHOW_MATH_CONSOLE:
 			fireAppActionPerformed(AppAction.SHOW_MATH_CONSOLE);
 			break;
-			
+
 		case SHOW_SIDEBAR:
-			setSidebarVisible((Boolean)action.getData());
+			setSidebarVisible((Boolean) action.getData());
 			break;
-			
+
 		default:
 			throw new InvalidParameterException("SimulationControl.menuActionPerformed unimplemented action");
 		}

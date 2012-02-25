@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
@@ -24,7 +24,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 
 	private JButton btStart = new JButton("Simulieren");
 
-	public SimulationConfigurationPanel(final SimulationControl control) {
+	public SimulationConfigurationPanel(final FlowEditorControl control) {
 		setTitle("Simulation");
 		this.model = control.getModel().getSimulationConfiguration();
 		model.addPluginChangeListener(this);

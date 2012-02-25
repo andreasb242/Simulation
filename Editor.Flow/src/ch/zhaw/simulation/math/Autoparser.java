@@ -3,7 +3,7 @@ package ch.zhaw.simulation.math;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
@@ -19,11 +19,11 @@ import butti.javalibs.errorhandler.Errorhandler;
 
 public class Autoparser {
 	private Parser parser = new Parser();
-	private SimulationControl control;
+	private FlowEditorControl control;
 
 	private boolean running = true;
 
-	public Autoparser(SimulationControl control) {
+	public Autoparser(FlowEditorControl control) {
 		this.control = control;
 
 		control.getModel().addListener(new SimulationAdapter() {

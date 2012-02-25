@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.gui.control.GuiConfig;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.htmleditor.HTMLEditor;
 import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
@@ -33,7 +33,7 @@ public class TextView extends GuiDataElement<CommentData> {
 
 	private JLabel lbConents = new JLabel();
 
-	public TextView(SimulationControl control, CommentData data) {
+	public TextView(FlowEditorControl control, CommentData data) {
 		super(data, control);
 		config = control.getConfig();
 

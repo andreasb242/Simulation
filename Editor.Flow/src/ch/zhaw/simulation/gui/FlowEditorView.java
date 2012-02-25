@@ -1,22 +1,15 @@
 package ch.zhaw.simulation.gui;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-import javax.swing.JLayeredPane;
-
 import butti.javalibs.util.DrawHelper;
-
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorUi;
@@ -29,10 +22,11 @@ import ch.zhaw.simulation.editor.flow.elements.TextView;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
-import ch.zhaw.simulation.gui.control.GuiConfig;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.gui.layout.SimulationLayout;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
@@ -41,133 +35,30 @@ import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationListener;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 
-public class DocumentView extends JLayeredPane implements SimulationListener, DrawModusListener {
+public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements SimulationListener, DrawModusListener {
 	private static final long serialVersionUID = 1L;
 
-	private SelectionModel selectionModel;
-
-	private SimulationControl control;
-
 	private Vector<ConnectorUi> connectors = new Vector<ConnectorUi>();
-
-	private boolean showSelection = false;
-	private int sX = 0;
-	private int sY = 0;
-	private int sWidth = 0;
-	private int sHeight = 0;
 
 	private boolean drawModus = false;
 	private AddConnectorUi addConnectorUi;
 
 	private ArrowDragView arrowDrag;
 
-	private MouseAdapter selectionListener = new MouseAdapter() {
+	public FlowEditorView(FlowEditorControl control) {
+		super(control);
 
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			for (ConnectorUi c : connectors) {
-				if (c.isConnector(e.getPoint())) {
-					SelectableElement selected = c.getSelectableElement();
-
-					if (e.isShiftDown()) {
-						selectionModel.addSelected(selected);
-					} else if (e.isControlDown()) {
-						if (selectionModel.isSelected(selected)) {
-							selectionModel.removeSelected(selected);
-						} else {
-							selectionModel.addSelected(selected);
-						}
-					} else {
-						selectionModel.setSelected(selected);
-					}
-					return;
-				}
-			}
-
-			selectionModel.clearSelection();
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			sX = (int) e.getPoint().getX();
-			sY = (int) e.getPoint().getY();
-			showSelection = true;
-			requestFocus();
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			showSelection = false;
-			sWidth = 0;
-			sHeight = 0;
-
-			selectionModel.acceptTmpSelection();
-
-			repaint();
-		}
-
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			sWidth = (int) e.getPoint().getX() - sX;
-			sHeight = (int) e.getPoint().getY() - sY;
-			updateTempSelection();
-			repaint();
-		}
-
-	};
-
-	private KeyListener keyListener = new KeyAdapter() {
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				if (showSelection) {
-					showSelection = false;
-					selectionModel.clearTmpSelection();
-					repaint();
-				} else {
-					selectionModel.clearSelection();
-				}
-			} else if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-				control.deleteSelected();
-				e.consume();
-			} else if (e.getKeyChar() == '$') {
-				for (SelectableElement s : selectionModel.getSelected()) {
-					if (s instanceof ConnectorPoint) {
-						ConnectorPoint c = (ConnectorPoint) s;
-						c.getUi().centerMovePoint();
-						control.getModel().fireConnectorChanged(c.getConnector());
-					}
-				}
-			} else if (e.getKeyChar() == 'c') {
-				control.addContainer();
-			} else if (e.getKeyChar() == 'p') {
-				control.addParameter();
-			} else if (e.getKeyChar() == 'g') {
-				control.addGlobal();
-			}
-		}
-
-	};
-
-	public DocumentView(SimulationControl control) {
-		this.control = control;
-
-		selectionModel = control.getSelectionModel();
-
-		setBackground(Color.WHITE);
-		setFocusable(true);
-
+		// TODO: move to super class
 		setLayout(new SimulationLayout());
+
+		initSpecialKeyhandler();
 
 		initComponent();
 
@@ -183,49 +74,41 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 		setOpaque(false);
 	}
 
-	private void updateTempSelection() {
-		Vector<SelectableElement> tmp = new Vector<SelectableElement>();
-
-		for (Component c : getComponents()) {
-			if (c instanceof SelectableElement) {
-				if (isInSelection(c)) {
-					tmp.add((SelectableElement) c);
+	private void initSpecialKeyhandler() {
+		// TODO !!! was macht das?
+		registerKeyShortcut('$', new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (SelectableElement s : selectionModel.getSelected()) {
+					if (s instanceof ConnectorPoint) {
+						ConnectorPoint c = (ConnectorPoint) s;
+						c.getUi().centerMovePoint();
+						control.getModel().fireConnectorChanged(c.getConnector());
+					}
 				}
 			}
-		}
+		});
 
-		selectionModel.setTmpSelection(tmp);
-	}
+		registerKeyShortcut('c', new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				control.addContainer();
+			}
+		});
 
-	private boolean isInSelection(Component c) {
-		return isInSelection(c.getX(), c.getY(), c.getWidth(), c.getHeight());
-	}
+		registerKeyShortcut('p', new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				control.addParameter();
+			}
+		});
 
-	private boolean isInSelection(int x, int y, int w, int h) {
-		Rectangle selectionRange = getSelectionRange();
-
-		int sX = (int) selectionRange.getX();
-		int sY = (int) selectionRange.getY();
-		int sW = (int) selectionRange.getWidth();
-		int sH = (int) selectionRange.getHeight();
-
-		int hw = w / 2;
-		int hh = h / 2;
-
-		int ex = x + w;
-		int ey = y + h;
-
-		// obere bzw. linke Hälfe selektiert
-		if (x + hw >= sX && y + hh >= sY && ex <= sX + sW && ey <= sY + sH) {
-			return true;
-		}
-
-		// Untere bzw. rechte Hälfte selektiert
-		if (x >= sX && y >= sY && ex - hw <= sX + sW && ey - hh <= sY + sH) {
-			return true;
-		}
-
-		return false;
+		registerKeyShortcut('g', new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				control.addGlobal();
+			}
+		});
 	}
 
 	@Override
@@ -255,27 +138,6 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 		if (showSelection) {
 			paintSelection(g);
 		}
-	}
-
-	private void paintSelection(Graphics2D g) {
-		// Selektion zeichnen
-		GuiConfig cfg = control.getConfig();
-
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, cfg.getSelectionAlpha()));
-
-		g.setColor(cfg.getSelectionForegroundColor());
-
-		Rectangle selectionRange = getSelectionRange();
-
-		int x = (int) selectionRange.getX();
-		int y = (int) selectionRange.getY();
-		int w = (int) selectionRange.getWidth();
-		int h = (int) selectionRange.getHeight();
-
-		g.fillRect(x, y, w, h);
-
-		g.setColor(cfg.getSelectionColor());
-		g.drawRect(x, y, w, h);
 	}
 
 	private void paintElements(Graphics2D g) {
@@ -308,28 +170,6 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 			return;
 		}
 		addConnectorUi.paint(g);
-	}
-
-	private Rectangle getSelectionRange() {
-		int x = sX;
-		int y = sY;
-		int w = sWidth;
-		int h = sHeight;
-
-		x = Math.max(0, x);
-		y = Math.max(0, y);
-
-		if (sWidth < 0) {
-			x += sWidth;
-			w = -sWidth;
-		}
-
-		if (sHeight < 0) {
-			y += sHeight;
-			h = -sHeight;
-		}
-
-		return new Rectangle(x, y, w, h);
 	}
 
 	private void initComponent() {
@@ -596,7 +436,7 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 			if (c instanceof GuiDataElement<?>) {
 				GuiDataElement<?> e = ((GuiDataElement<?>) c);
 				SimulationObject d = e.getData();
-				if(d.equals(o)) {
+				if (d.equals(o)) {
 					selectionModel.setSelected(e);
 					break;
 				}
@@ -604,4 +444,28 @@ public class DocumentView extends JLayeredPane implements SimulationListener, Dr
 		}
 
 	}
+
+	@Override
+	protected boolean checkSelection(MouseEvent e) {
+		for (ConnectorUi c : connectors) {
+			if (c.isConnector(e.getPoint())) {
+				SelectableElement selected = c.getSelectableElement();
+
+				if (e.isShiftDown()) {
+					selectionModel.addSelected(selected);
+				} else if (e.isControlDown()) {
+					if (selectionModel.isSelected(selected)) {
+						selectionModel.removeSelected(selected);
+					} else {
+						selectionModel.addSelected(selected);
+					}
+				} else {
+					selectionModel.setSelected(selected);
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

@@ -4,7 +4,7 @@ package ch.zhaw.simulation.editor.flow.connector.flowarrow;
 import java.awt.Point;
 import java.util.Vector;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.SimulationAdapter;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.Connector;
@@ -15,7 +15,7 @@ import ch.zhaw.simulation.util.Range;
 
 
 public class FlowConnectorControl {
-	private SimulationControl control;
+	private FlowEditorControl control;
 	private FlowConnector connector;
 
 	private FlowCalculator flow1;
@@ -26,7 +26,7 @@ public class FlowConnectorControl {
 	private SimulationAdapter simulationListener;
 
 	public FlowConnectorControl(FlowConnector connector,
-			SimulationControl control, int size) {
+			FlowEditorControl control, int size) {
 		this.control = control;
 		this.connector = connector;
 

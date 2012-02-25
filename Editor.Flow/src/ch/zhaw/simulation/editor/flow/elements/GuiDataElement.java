@@ -3,7 +3,7 @@ package ch.zhaw.simulation.editor.flow.elements;
 
 import java.awt.Dimension;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 
 
@@ -11,7 +11,7 @@ public abstract class GuiDataElement<T extends SimulationObject> extends GuiElem
 	private static final long serialVersionUID = 1L;
 	private T data;
 
-	public GuiDataElement(T data, SimulationControl control) {
+	public GuiDataElement(T data, FlowEditorControl control) {
 		super(control);
 		this.data = data;
 

@@ -29,12 +29,12 @@ import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
 import ch.zhaw.simulation.undo.UndoListener;
 
 public class MainToolbar {
-	private SimulationControl control;
+	private FlowEditorControl control;
 	private GuiConfig config;
 	private Toolbar toolbar;
 	private LayoutControl layoutControl;
 
-	public MainToolbar(SimulationControl control) {
+	public MainToolbar(FlowEditorControl control) {
 		this.control = control;
 		this.config = control.getConfig();
 		toolbar = control.getSysintegration().createToolbar();

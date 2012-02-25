@@ -6,14 +6,11 @@ import javax.swing.undo.CannotUndoException;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 
-
 public class AddConnectorUndoAction extends AbstractUndoableEdit {
-	private static final long serialVersionUID = 1L;
 	private Connector<?> c;
 	private SimulationFlowModel model;
 
-	public AddConnectorUndoAction(Connector<?> c,
-			SimulationFlowModel model) {
+	public AddConnectorUndoAction(Connector<?> c, SimulationFlowModel model) {
 		this.c = c;
 		this.model = model;
 		add();
@@ -27,7 +24,7 @@ public class AddConnectorUndoAction extends AbstractUndoableEdit {
 	public void die() {
 		super.die();
 
-		if(!hasBeenDone) { // Rückgängig gemacht
+		if (!hasBeenDone) { // Rückgängig gemacht
 			c.dispose();
 		}
 		c = null;

@@ -13,7 +13,7 @@ import javax.swing.JToolTip;
 
 import butti.javalibs.util.DrawHelper;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationAdapter;
 import ch.zhaw.simulation.model.flow.SimulationObject;
@@ -31,7 +31,7 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 
 	private InfoTooltip tip;
 
-	public GuiDataTextElement(T data, SimulationControl control) {
+	public GuiDataTextElement(T data, FlowEditorControl control) {
 		super(data, control);
 		tip = new InfoTooltip();
 		control.getModel().addListener(new SimulationAdapter() {

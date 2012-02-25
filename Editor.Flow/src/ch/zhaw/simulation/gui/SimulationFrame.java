@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import ch.zhaw.simulation.gui.configuration.Configurationpanel;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.gui.control.SimulationSettingsSaver;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.sidebar.SidebarListener;
@@ -23,8 +23,8 @@ import butti.javalibs.config.WindowPositionSaver;
 public class SimulationFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private SimulationControl control;
-	private DocumentView view;
+	private FlowEditorControl control;
+	private FlowEditorView view;
 	private Configurationpanel cpanel;
 
 	public SimulationFrame(Settings settings, String openfile) {
@@ -32,7 +32,7 @@ public class SimulationFrame extends JFrame {
 
 		setIconImage(IconSVG.getIcon("simulation", 128).getImage());
 
-		control = new SimulationControl(this, settings);
+		control = new FlowEditorControl(this, settings);
 		view = control.getView();
 
 		cpanel = new Configurationpanel(control);
@@ -79,7 +79,7 @@ public class SimulationFrame extends JFrame {
 		setBackground(Color.WHITE);
 	}
 
-	public SimulationControl getControl() {
+	public FlowEditorControl getControl() {
 		return control;
 	}
 	

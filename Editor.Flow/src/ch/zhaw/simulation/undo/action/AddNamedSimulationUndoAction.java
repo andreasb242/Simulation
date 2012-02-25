@@ -6,14 +6,11 @@ import javax.swing.undo.CannotUndoException;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
-
 public class AddNamedSimulationUndoAction extends AbstractUndoableEdit {
-	private static final long serialVersionUID = 1L;
 	private NamedSimulationObject so;
 	private SimulationFlowModel model;
 
-	public AddNamedSimulationUndoAction(NamedSimulationObject so,
-			SimulationFlowModel model) {
+	public AddNamedSimulationUndoAction(NamedSimulationObject so, SimulationFlowModel model) {
 		this.so = so;
 		this.model = model;
 		add();

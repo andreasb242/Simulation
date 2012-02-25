@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import ch.zhaw.simulation.editor.flow.elements.GuiElement;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.util.Range;
 
@@ -23,7 +23,7 @@ public class ConnectorPoint extends GuiElement {
 
 	private ParameterConnectorUi connectorUi;
 
-	public ConnectorPoint(final ParameterConnector connector, final SimulationControl control, ParameterConnectorUi connectorUi) {
+	public ConnectorPoint(final ParameterConnector connector, final FlowEditorControl control, ParameterConnectorUi connectorUi) {
 		super(control);
 		this.connector = connector;
 		this.connectorUi = connectorUi;

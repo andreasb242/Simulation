@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -14,11 +14,11 @@ import ch.zhaw.simulation.model.flow.connection.Connector;
 public class DeleteUndoAction extends AbstractUndoableEdit {
 	private Vector<NamedSimulationObject> removedObjects;
 	private Vector<Connector<?>> removedConnectors;
-	private SimulationControl control;
+	private FlowEditorControl control;
 	private Vector<InfiniteData> removedInfinite;
 
 	public DeleteUndoAction(Vector<NamedSimulationObject> removedObjects, Vector<Connector<?>> removedConnectors, Vector<InfiniteData> removedInfinite,
-			SimulationControl control) {
+			FlowEditorControl control) {
 		this.removedObjects = removedObjects;
 		this.removedConnectors = removedConnectors;
 		this.removedInfinite = removedInfinite;

@@ -15,7 +15,7 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
@@ -40,7 +40,7 @@ public class Configurationpanel extends JPanel implements DrawModusListener, Hid
 
 	private JXTaskPane selectedSimulationSettings = null;
 
-	public Configurationpanel(final SimulationControl control) {
+	public Configurationpanel(final FlowEditorControl control) {
 		setLayout(new BorderLayout());
 
 		taskPaneContainer = new JXTaskPaneContainer();

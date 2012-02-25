@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 
@@ -17,7 +17,7 @@ public class InfiniteSymbol extends GuiDataElement<InfiniteData> {
 	private ImageIcon icon;
 	private ParameterImage pi;
 	
-	public InfiniteSymbol(InfiniteData data, SimulationControl control) {
+	public InfiniteSymbol(InfiniteData data, FlowEditorControl control) {
 		super(data, control);
 		setSize(50, 50);
 		

@@ -11,7 +11,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.Vector;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 
@@ -20,13 +20,13 @@ import butti.javalibs.errorhandler.Errorhandler;
 
 public class ClipboardHandler implements FlavorListener, ClipboardOwner, SelectionListener, ClipboardInterface {
 
-	private SimulationControl control;
+	private FlowEditorControl control;
 	private Clipboard cp;
 	private boolean lastCutCopyEnabled = false;
 
 	private Vector<ClipboardListener> listener = new Vector<ClipboardListener>();
 
-	public ClipboardHandler(SimulationControl control) {
+	public ClipboardHandler(FlowEditorControl control) {
 		this.control = control;
 		cp = Toolkit.getDefaultToolkit().getSystemClipboard();
 		cp.addFlavorListener(this);

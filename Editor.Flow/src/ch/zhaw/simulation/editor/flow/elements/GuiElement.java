@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 
 import ch.zhaw.simulation.gui.ViewComponent;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
@@ -25,7 +25,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 
 	private MouseAdapter listener;
 
-	private SimulationControl control;
+	private FlowEditorControl control;
 	private SimulationFlowModel model;
 
 	protected int lastX;
@@ -33,7 +33,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 
 	private boolean dependent;
 
-	public GuiElement(final SimulationControl control) {
+	public GuiElement(final FlowEditorControl control) {
 		this.selectionModel = control.getSelectionModel();
 		this.control = control;
 		this.model = control.getModel();
@@ -138,7 +138,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 		return model;
 	}
 
-	public SimulationControl getControl() {
+	public FlowEditorControl getControl() {
 		return control;
 	}
 

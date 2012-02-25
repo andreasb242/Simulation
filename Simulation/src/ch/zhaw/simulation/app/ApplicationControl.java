@@ -2,7 +2,7 @@ package ch.zhaw.simulation.app;
 
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.gui.SimulationFrame;
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.math.console.MatrixConsole;
 import butti.javalibs.config.Settings;
 
@@ -20,7 +20,7 @@ public class ApplicationControl implements AppActionListener {
 		this.mainFrame = new SimulationFrame(settings, openfile);
 
 		// TODO: remove
-		SimulationControl control = mainFrame.getControl();
+		FlowEditorControl control = mainFrame.getControl();
 
 		control.addAppActionListener(this);
 

@@ -19,7 +19,7 @@ import javax.swing.event.DocumentListener;
 
 import org.jdesktop.swingx.JXStatusBar;
 
-import ch.zhaw.simulation.gui.control.SimulationControl;
+import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.help.model.FunctionInformation;
 import ch.zhaw.simulation.icon.IconSVG;
@@ -57,7 +57,7 @@ public class FormulaEditor extends BDialog {
 
 	private String value;
 
-	private SimulationControl control;
+	private FlowEditorControl control;
 
 	private Parser parser = new Parser();
 
@@ -73,7 +73,7 @@ public class FormulaEditor extends BDialog {
 
 	private static final int CHECK_DELAY = 1000;
 
-	public FormulaEditor(JFrame parent, SimulationControl control) {
+	public FormulaEditor(JFrame parent, FlowEditorControl control) {
 		super(parent);
 		this.control = control;
 		help = control.getFunctionHelp();

@@ -7,9 +7,7 @@ import javax.swing.undo.CannotUndoException;
 
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 
-
 public class LayoutUndoAction extends AbstractUndoableEdit {
-
 	private Vector<ElemPoint> moves = new Vector<ElemPoint>();
 	private String name;
 
@@ -22,19 +20,19 @@ public class LayoutUndoAction extends AbstractUndoableEdit {
 		super.redo();
 		move(true);
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
 		move(false);
 	}
-	
+
 	private void move(boolean back) {
-		for(ElemPoint p : moves) {
+		for (ElemPoint p : moves) {
 			p.move(back);
 		}
 	}
-		
+
 	@Override
 	public String getRedoPresentationName() {
 		return "Ausrichten: " + name;
@@ -45,7 +43,6 @@ public class LayoutUndoAction extends AbstractUndoableEdit {
 		return "Ausrichten rückgängig";
 	}
 
-	
 	public void addPos() {
 	}
 
@@ -62,7 +59,7 @@ class ElemPoint {
 
 	protected ElemPoint() {
 	}
-	
+
 	public ElemPoint(SelectableElement e, int dX, int dY) {
 		this.e = e;
 		this.dX = dX;
@@ -70,7 +67,7 @@ class ElemPoint {
 	}
 
 	public void move(boolean back) {
-		if(back) {
+		if (back) {
 			e.moveElement(dX, dY);
 		} else {
 			e.moveElement(-dX, -dY);
