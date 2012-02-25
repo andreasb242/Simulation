@@ -12,7 +12,7 @@ public class ContainerView extends GuiDataTextElement<SimulationContainer> {
 	public ContainerView(int width, int heigth, FlowEditorControl control, SimulationContainer o) {
 		super(o, control);
 		
-		image = new ContainerImage(width, heigth, control.getConfig());
+		image = new ContainerImage(width, heigth, control.getSysintegration().getGuiConfig());
 		
 		textY = 45;
 		questionmarkY = 60;

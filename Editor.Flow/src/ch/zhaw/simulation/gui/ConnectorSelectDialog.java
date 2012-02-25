@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
-import ch.zhaw.simulation.gui.control.MainToolbar;
+import ch.zhaw.simulation.gui.control.FlowToolbar;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 
 import butti.javalibs.gui.BDialog;
@@ -36,7 +36,7 @@ public class ConnectorSelectDialog extends BDialog {
 
 		gbm.setX(1).setY(0).setComp(new JLabel("Bitte wählen Sie den Verbindungstyp"));
 
-		ImageIcon flowArrowIcon = MainToolbar.addShadow(new FlowArrowImage(24, control.getConfig()).getImage(false));
+		ImageIcon flowArrowIcon = FlowToolbar.addShadow(new FlowArrowImage(24, control.getSysintegration().getGuiConfig()).getImage(false));
 
 		JButton btFlow = new JButton("Fluss");
 		btFlow.setIcon(flowArrowIcon);
@@ -55,7 +55,7 @@ public class ConnectorSelectDialog extends BDialog {
 		gbm.setX(1).setY(2).setComp(btFlow);
 
 		JButton btParam = new JButton("Parameter");
-		btParam.setIcon(MainToolbar.drawArrowIcon(control.getConfig()));
+		btParam.setIcon(FlowToolbar.drawArrowIcon(control.getSysintegration().getGuiConfig()));
 		gbm.setX(1).setY(3).setComp(btParam);
 		btParam.setIconTextGap(20);
 		btParam.setHorizontalAlignment(SwingConstants.LEFT);

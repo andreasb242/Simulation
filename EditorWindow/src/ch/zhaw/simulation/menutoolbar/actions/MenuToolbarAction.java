@@ -1,27 +1,27 @@
-package ch.zhaw.simulation.menu.actions;
+package ch.zhaw.simulation.menutoolbar.actions;
 
 /**
  * A Menu action was performed
  * 
  * @author Andreas Butti
  */
-public class MenuAction {
+public class MenuToolbarAction {
 
 	/**
 	 * The type of the action
 	 */
-	private MenuActionType type;
+	private MenuToolbarActionType type;
 
 	/**
 	 * Additional provided data
 	 */
 	private Object data;
 
-	public MenuAction(MenuActionType type) {
+	public MenuToolbarAction(MenuToolbarActionType type) {
 		this.type = type;
 	}
 
-	public MenuAction(MenuActionType type, Object data) {
+	public MenuToolbarAction(MenuToolbarActionType type, Object data) {
 		this(type);
 		this.data = data;
 	}
@@ -38,7 +38,7 @@ public class MenuAction {
 	/**
 	 * @return The type of the action
 	 */
-	public MenuActionType getType() {
+	public MenuToolbarActionType getType() {
 		return type;
 	}
 }

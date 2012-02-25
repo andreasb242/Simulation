@@ -17,5 +17,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.MatlabOctave"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DirChooser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EditorWindow"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

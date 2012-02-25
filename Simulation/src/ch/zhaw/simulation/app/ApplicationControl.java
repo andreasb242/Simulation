@@ -1,50 +1,29 @@
 package ch.zhaw.simulation.app;
 
-import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
-import ch.zhaw.simulation.gui.SimulationFrame;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.math.console.MatrixConsole;
 import butti.javalibs.config.Settings;
+import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
+import ch.zhaw.simulation.gui.FlowFrame;
+import ch.zhaw.simulation.math.console.MatrixConsole;
 
-public class ApplicationControl implements AppActionListener {
+public class ApplicationControl implements SimulationApplication {
 
-	private Settings settings;
-	private SimulationFrame mainFrame;
+	private FlowFrame mainFrame;
 
 	public ApplicationControl() {
 	}
 
 	public void start(Settings settings, String openfile) {
-		this.settings = settings;
-
-		this.mainFrame = new SimulationFrame(settings, openfile);
-
-		// TODO: remove
-		FlowEditorControl control = mainFrame.getControl();
-
-		control.addAppActionListener(this);
-
+		this.mainFrame = new FlowFrame(this, settings, openfile);
 		mainFrame.setVisible(true);
-
 	}
 
-	public void showAbout() {
+	public void showAboutDialog() {
 		AboutDialog dlg = new AboutDialog(mainFrame);
 		dlg.setVisible(true);
 	}
 
 	@Override
-	public void actionPerformed(AppAction action) {
-		switch (action) {
-		case SHOW_ABOUT:
-			showAbout();
-			break;
-		case SHOW_MATH_CONSOLE:
-			new MatrixConsole().setVisible(true);
-			break;
-		default:
-			throw new IllegalArgumentException();
-		}
+	public void showMathConsole() {
+		new MatrixConsole().setVisible(true);
 	}
-
 }

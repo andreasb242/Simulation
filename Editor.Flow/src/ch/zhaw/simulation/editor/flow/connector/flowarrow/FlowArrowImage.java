@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import butti.javalibs.util.DrawHelper;
 
 import ch.zhaw.simulation.editor.flow.elements.GuiImage;
-import ch.zhaw.simulation.gui.control.GuiConfig;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.util.ImageMirrow;
 
 

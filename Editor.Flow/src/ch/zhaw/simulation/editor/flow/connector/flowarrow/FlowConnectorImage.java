@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import butti.javalibs.util.DrawHelper;
 
 import ch.zhaw.simulation.editor.flow.elements.GuiImage;
-import ch.zhaw.simulation.gui.control.GuiConfig;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 
 public class FlowConnectorImage extends GuiImage {

@@ -6,11 +6,11 @@ import java.awt.event.MouseEvent;
 
 import ch.zhaw.simulation.editor.flow.elements.GuiDataTextElement;
 import ch.zhaw.simulation.editor.flow.elements.GuiImage;
-import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector.ConnectorDeletedListener;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 
 public class FlowConnectorParameter extends GuiDataTextElement<FlowValve>
@@ -25,7 +25,7 @@ public class FlowConnectorParameter extends GuiDataTextElement<FlowValve>
 			FlowEditorControl control) {
 		super(connector.getValve(), control);
 
-		config = control.getConfig();
+		config = control.getSysintegration().getGuiConfig();
 		size = config.getFlowParameterSize();
 		image = new FlowConnectorImage(size, config);
 

@@ -17,9 +17,9 @@ import java.util.Vector;
 import javax.swing.JLayeredPane;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public abstract class AbstractEditorView<T extends AbstractEditorControl> extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
@@ -191,7 +191,7 @@ public abstract class AbstractEditorView<T extends AbstractEditorControl> extend
 	 */
 	protected void paintSelection(Graphics2D g) {
 		// Selektion zeichnen
-		GuiConfig cfg = control.getConfig();
+		GuiConfig cfg = control.getSysintegration().getGuiConfig();
 
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, cfg.getSelectionAlpha()));
 

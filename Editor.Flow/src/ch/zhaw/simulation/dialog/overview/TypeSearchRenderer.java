@@ -11,11 +11,11 @@ import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
-import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class TypeSearchRenderer implements ListCellRenderer {
 	private ImageIcon containerImage;

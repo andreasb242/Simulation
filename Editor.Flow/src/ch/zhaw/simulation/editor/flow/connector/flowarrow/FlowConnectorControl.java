@@ -34,7 +34,7 @@ public class FlowConnectorControl {
 			centerPoint();
 		}
 
-		int arrowSize = control.getConfig().getFlowArrowSize();
+		int arrowSize = control.getSysintegration().getGuiConfig().getFlowArrowSize();
 		flow1 = new FlowCalculator(connector.getSource(), connector, 0, 0, size);
 		flow2 = new FlowCalculator(connector.getTarget(), connector, arrowSize, arrowSize, size);
 

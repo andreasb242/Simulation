@@ -1,11 +1,11 @@
-package ch.zhaw.simulation.menu.actions;
+package ch.zhaw.simulation.menutoolbar.actions;
 
 /**
  * The Menu Actions
  * 
  * @author Andreas Butti
  */
-public enum MenuActionType {
+public enum MenuToolbarActionType {
 	/**
 	 * Creates a new Simulation Model
 	 */

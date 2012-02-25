@@ -1,9 +1,7 @@
 package ch.zhaw.simulation.gui;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ContainerListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -11,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.gui.configuration.Configurationpanel;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.gui.control.SimulationSettingsSaver;
@@ -20,26 +19,26 @@ import ch.zhaw.simulation.sidebar.SidebarListener;
 import butti.javalibs.config.Settings;
 import butti.javalibs.config.WindowPositionSaver;
 
-public class SimulationFrame extends JFrame {
+public class FlowFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private FlowEditorControl control;
 	private FlowEditorView view;
 	private Configurationpanel cpanel;
 
-	public SimulationFrame(Settings settings, String openfile) {
+	public FlowFrame(SimulationApplication app, Settings settings, String openfile) {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		setIconImage(IconSVG.getIcon("simulation", 128).getImage());
 
-		control = new FlowEditorControl(this, settings);
+		control = new FlowEditorControl(app, this, settings);
 		view = control.getView();
 
 		cpanel = new Configurationpanel(control);
 
 		SimulationSettingsSaver simulationsSettings = new SimulationSettingsSaver(control.getModel().getSimulationConfiguration(), settings);
 		simulationsSettings.load();
-		
+
 		control.setDocumentTitle(null);
 
 		setLayout(new BorderLayout());
@@ -82,7 +81,7 @@ public class SimulationFrame extends JFrame {
 	public FlowEditorControl getControl() {
 		return control;
 	}
-	
+
 	private void addWindowListener() {
 		addWindowListener(new WindowAdapter() {
 

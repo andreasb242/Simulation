@@ -1,10 +1,10 @@
-package ch.zhaw.simulation.menu;
+package ch.zhaw.simulation.menutoolbar.actions;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.menu.actions.MenuAction;
+import ch.zhaw.simulation.menu.MenuActionListener;
 
-public class MenuActionHandler {
+public class MenuToolbarActionHandler {
 	private Vector<MenuActionListener> listeners = new Vector<MenuActionListener>();
 
 	public void addListener(MenuActionListener l) {
@@ -15,7 +15,7 @@ public class MenuActionHandler {
 		listeners.remove(l);
 	}
 
-	public void fireMenuActionPerformed(MenuAction a) {
+	public void fireMenuActionPerformed(MenuToolbarAction a) {
 		for (MenuActionListener l : listeners) {
 			l.menuActionPerformed(a);
 		}

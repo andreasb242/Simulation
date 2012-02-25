@@ -21,7 +21,7 @@ public class InfiniteSymbol extends GuiDataElement<InfiniteData> {
 		super(data, control);
 		setSize(50, 50);
 		
-		pi = new ParameterImage(50, control.getConfig());
+		pi = new ParameterImage(50, control.getSysintegration().getGuiConfig());
 		icon = IconSVG.getIcon("Infinite", 50);
 	}
 

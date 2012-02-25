@@ -23,8 +23,7 @@ import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.util.RestartUtil;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.app.AppAction;
-import ch.zhaw.simulation.app.AppActionListener;
+import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
@@ -51,7 +50,7 @@ import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.AbstractMenubar;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;
-import ch.zhaw.simulation.menu.actions.MenuAction;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
@@ -78,7 +77,6 @@ import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
 import ch.zhaw.simulation.undo.action.DeleteUndoAction;
 
 public class FlowEditorControl extends AbstractEditorControl implements MenuActionListener {
-	private Vector<AppActionListener> appActionListeners = new Vector<AppActionListener>();
 	
 	private SimulationFlowModel model = new SimulationFlowModel();
 	private Settings settings;
@@ -111,29 +109,32 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 
 	private FormulaEditor formulaEditor;
 
-	private Sysintegration integration;
-
 	AbstractMenubar mb;
 	private SettingsDlg settigsDialog;
 	private Autoparser autoparser;
 
-	private MainToolbar toolbar;
+	private FlowToolbar toolbar;
 
 	private FunctionHelp functionHelp;
 
 	private ClipboardHandler clipboard = new ClipboardHandler(this);
 
 	private SimulationManager manager;
+	private SimulationApplication app;
 
-	public FlowEditorControl(JFrame parent, Settings settings) {
+	public FlowEditorControl(SimulationApplication app, JFrame parent, Settings settings) {
 		this.parent = parent;
 		this.settings = settings;
+		this.app = app;
 
 		if (settings == null) {
 			throw new NullPointerException("settings == null");
 		}
 		if (parent == null) {
 			throw new NullPointerException("parent == null");
+		}
+		if (app == null) {
+			throw new NullPointerException("app == null");
 		}
 		
 		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
@@ -142,8 +143,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		importPlugins = new ImportPlugins(settings);
 		savehandler = new LoadSaveHandler(this);
 
-		integration = SysintegrationFactory.createSysintegration();
-		toolbar = new MainToolbar(this);
+		toolbar = new FlowToolbar(this);
 		functionHelp = new FunctionHelp();
 
 		mb = new AbstractMenubar(getSysintegration(), getUndoManager(), getClipboard());
@@ -154,12 +154,10 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		recentMenu.addListener(this);
 
 		this.view = new FlowEditorView(this);
-		integration.initJComponnent(view);
 		toolbar.initToolbar();
-		initJcomponent(toolbar.getToolbar());
 
 		mb.initMenusToolbar(recentMenu.getMenu(), true);
-		mb.showSidebar(isSidebarVisible());
+//		TODO !!! mb.showSidebar(isSidebarVisible());
 
 		initMetadata();
 
@@ -201,10 +199,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		}
 	}
 
-	public void initJcomponent(JComponent c) {
-		integration.initJComponnent(c);
-	}
-
 	public FunctionHelp getFunctionHelp() {
 		return functionHelp;
 	}
@@ -227,10 +221,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 				}
 			}
 		}
-	}
-
-	public Sysintegration getSysintegration() {
-		return integration;
 	}
 
 	public void undo() {
@@ -655,7 +645,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 	}
 
 	public void about() {
-		fireAppActionPerformed(AppAction.SHOW_ABOUT);
+		this.app.showAboutDialog();
 	}
 
 	public JFrame getParent() {
@@ -785,7 +775,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 	}
 
 	public void takeSnapshot() {
-		SnapshotDialog dlg = new SnapshotDialog(parent, integration, view, view.getBounds());
+		SnapshotDialog dlg = new SnapshotDialog(parent, getSysintegration(), view, view.getBounds());
 		dlg.setVisible(true);
 	}
 
@@ -793,22 +783,8 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		return manager;
 	}
 
-	public void addAppActionListener(AppActionListener a) {
-		appActionListeners.add(a);
-	}
-
-	public void removeAppActionListener(AppActionListener a) {
-		appActionListeners.remove(a);
-	}
-
-	public void fireAppActionPerformed(AppAction a) {
-		for (AppActionListener l : appActionListeners) {
-			l.actionPerformed(a);
-		}
-	}
-
 	@Override
-	public void menuActionPerformed(MenuAction action) {
+	public void menuActionPerformed(MenuToolbarAction action) {
 		switch (action.getType()) {
 
 		case NEW_FILE:
@@ -848,7 +824,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 			break;
 
 		case FORMULA_OVERVIEW:
-			OverviewWindow w = new OverviewWindow(getParent(), getClipboard(), getModel(), getConfig());
+			OverviewWindow w = new OverviewWindow(getParent(), getClipboard(), getModel(), getSysintegration().getGuiConfig());
 			w.setVisible(true);
 			break;
 
@@ -893,7 +869,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 			break;
 
 		case SHOW_MATH_CONSOLE:
-			fireAppActionPerformed(AppAction.SHOW_MATH_CONSOLE);
+			this.app.showMathConsole();
 			break;
 
 		case SHOW_SIDEBAR:

@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import ch.zhaw.simulation.gui.control.GuiConfig;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.errorhandler.Errorhandler;
 

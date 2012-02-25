@@ -9,8 +9,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.menu.actions.MenuAction;
-import ch.zhaw.simulation.menu.actions.MenuActionType;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
@@ -20,7 +21,7 @@ import butti.javalibs.errorhandler.Errorhandler;
  * 
  * @author Andreas Butti
  */
-public class RecentMenu extends MenuActionHandler {
+public class RecentMenu extends MenuToolbarActionHandler {
 	/**
 	 * The settings tag to save the list
 	 */
@@ -162,7 +163,7 @@ public class RecentMenu extends MenuActionHandler {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						fireMenuActionPerformed(new MenuAction(MenuActionType.OPEN_FILE, RecentItem.this.path));
+						fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.OPEN_FILE, RecentItem.this.path));
 					} catch (Exception ex) {
 						Errorhandler.showError(ex);
 					}

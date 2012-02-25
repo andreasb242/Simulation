@@ -1,8 +1,9 @@
 package ch.zhaw.simulation.editor.control;
 
-import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
+import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 
 /**
  * The controler of a model editor
@@ -11,19 +12,20 @@ import ch.zhaw.simulation.model.flow.selection.SelectionModel;
  */
 public abstract class AbstractEditorControl {
 	/**
-	 * The color and size configuration
-	 */
-	private GuiConfig config = new GuiConfig();
-
-	/**
 	 * The selection model, contains the current selected gui elements
 	 */
 	protected SelectionModel selectionModel = new SelectionModel();
 
 	/**
+	 * The system integration object
+	 */
+	private Sysintegration integration;
+
+	/**
 	 * CTor
 	 */
 	public AbstractEditorControl() {
+		integration = SysintegrationFactory.createSysintegration();
 	}
 
 	/**
@@ -47,11 +49,12 @@ public abstract class AbstractEditorControl {
 	public SelectionModel getSelectionModel() {
 		return selectionModel;
 	}
-	
+
 	/**
-	 * @return The color and size configuration
+	 * @return The system integration object
 	 */
-	public GuiConfig getConfig() {
-		return config;
+	public Sysintegration getSysintegration() {
+		return integration;
 	}
+
 }

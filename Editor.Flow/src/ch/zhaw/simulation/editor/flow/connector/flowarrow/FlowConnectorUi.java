@@ -11,11 +11,11 @@ import javax.swing.JComponent;
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorControl.FlowControlListener;
-import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class FlowConnectorUi implements ConnectorUi, FlowControlListener,
 		SelectionListener {
@@ -38,11 +38,11 @@ public class FlowConnectorUi implements ConnectorUi, FlowControlListener,
 		this.parent = parent;
 		this.connectorControl = connectorControl;
 		this.connector = connector;
-		this.config = control.getConfig();
+		this.config = control.getSysintegration().getGuiConfig();
 		this.control = control;
 
-		int arrowSize = control.getConfig().getFlowArrowSize();
-		arrowImage = new FlowArrowImage(arrowSize, control.getConfig());
+		int arrowSize = config.getFlowArrowSize();
+		arrowImage = new FlowArrowImage(arrowSize, config);
 
 		flowControl = new FlowConnectorControl(connector, control,
 				arrowImage.getArrowWidth());

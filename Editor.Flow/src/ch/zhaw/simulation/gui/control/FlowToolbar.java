@@ -23,20 +23,21 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
 import ch.zhaw.simulation.undo.UndoListener;
 
-public class MainToolbar {
+public class FlowToolbar {
 	private FlowEditorControl control;
 	private GuiConfig config;
 	private Toolbar toolbar;
 	private LayoutControl layoutControl;
 
-	public MainToolbar(FlowEditorControl control) {
+	public FlowToolbar(FlowEditorControl control) {
 		this.control = control;
-		this.config = control.getConfig();
+		this.config = control.getSysintegration().getGuiConfig();
 		toolbar = control.getSysintegration().createToolbar();
 		layoutControl = new LayoutControl(control.getSelectionModel(), control.getUndoManager());
 	}
@@ -116,7 +117,7 @@ public class MainToolbar {
 			}
 		});
 
-		toolbar.add(new ToolbarAction("Verbindung", drawArrowIcon(control.getConfig())) {
+		toolbar.add(new ToolbarAction("Verbindung", drawArrowIcon(control.getSysintegration().getGuiConfig())) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				control.cancelAllActions();

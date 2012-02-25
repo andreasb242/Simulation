@@ -80,7 +80,6 @@ public class FormulaEditor extends BDialog {
 		tb = control.getSysintegration().createToolbar();
 
 		text = new FormulaTextPane(help);
-		control.initJcomponent(text);
 
 		gbm = new GridBagManager(this);
 

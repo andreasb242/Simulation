@@ -12,11 +12,11 @@ import javax.swing.JLabel;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;
-import ch.zhaw.simulation.gui.control.GuiConfig;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.htmleditor.HTMLEditor;
 import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
 
@@ -35,7 +35,7 @@ public class TextView extends GuiDataElement<CommentData> {
 
 	public TextView(FlowEditorControl control, CommentData data) {
 		super(data, control);
-		config = control.getConfig();
+		config = control.getSysintegration().getGuiConfig();
 
 		editor = new HTMLEditor(control.getParent(), control.getSysintegration(), control.getSettings());
 		editor.setContents(data.getText());

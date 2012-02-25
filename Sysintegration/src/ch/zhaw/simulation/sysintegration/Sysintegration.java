@@ -4,7 +4,6 @@ import java.awt.Window;
 import java.io.File;
 
 import javax.swing.ComboBoxModel;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
@@ -19,9 +18,19 @@ public class Sysintegration {
 	protected Bookmarks bookmarks;
 	protected SysMenuShortcuts sysMenuShortcuts;
 
+	/**
+	 * The color and size configuration of gui components
+	 */
+	protected GuiConfig guiConfig;
+
 	public Sysintegration() {
 		initBookmarks();
 		initSysMenuShortcuts();
+		initGuiConfig();
+	}
+
+	protected void initGuiConfig() {
+		this.guiConfig = new GuiConfig();
 	}
 
 	protected void initBookmarks() {
@@ -30,9 +39,6 @@ public class Sysintegration {
 
 	protected void initSysMenuShortcuts() {
 		this.sysMenuShortcuts = new SysMenuShortcuts();
-	}
-
-	public void initJComponnent(JComponent c) {
 	}
 
 	public SysMenuShortcuts getMenu() {
@@ -45,6 +51,13 @@ public class Sysintegration {
 
 	public ComboBoxModel getBookmarks() {
 		return bookmarks;
+	}
+	
+	/**
+	 * @return The color and size configuration of gui components
+	 */
+	public GuiConfig getGuiConfig() {
+		return guiConfig;
 	}
 
 	public File checkFile(String file, Window parent, SimFileFilter filefilter, String lastSavePath) {
@@ -123,6 +136,5 @@ public class Sysintegration {
 		}
 		return null;
 	}
-
 
 }

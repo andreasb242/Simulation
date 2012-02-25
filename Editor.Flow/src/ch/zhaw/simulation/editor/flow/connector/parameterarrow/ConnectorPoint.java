@@ -28,11 +28,11 @@ public class ConnectorPoint extends GuiElement {
 		this.connector = connector;
 		this.connectorUi = connectorUi;
 
-		width = control.getConfig().getConnectorPointWidth();
+		width = control.getSysintegration().getGuiConfig().getConnectorPointWidth();
 
 		setBounds(0, 0, width, width);
 
-		image = new ConnectorPointImage(width, width, control.getConfig());
+		image = new ConnectorPointImage(width, width, control.getSysintegration().getGuiConfig());
 
 		Point p = this.connector.getConnectorPoint();
 		if (p != null) {

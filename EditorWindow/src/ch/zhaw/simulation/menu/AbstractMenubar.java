@@ -12,9 +12,9 @@ import javax.swing.KeyStroke;
 import ch.zhaw.simulation.clipboard.ClipboardInterface;
 import ch.zhaw.simulation.clipboard.ClipboardListener;
 import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.menu.actions.MenuAction;
-import ch.zhaw.simulation.menu.actions.MenuActionType;
-import ch.zhaw.simulation.sidebar.SidebarListener;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.sysintegration.SysMenuShortcuts;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -25,7 +25,7 @@ import ch.zhaw.simulation.undo.UndoListener;
  * 
  * @author Andreas Butti
  */
-public class AbstractMenubar extends MenuActionHandler implements UndoListener, SidebarListener {
+public class AbstractMenubar extends MenuToolbarActionHandler implements UndoListener {
 	/**
 	 * The menubar
 	 */
@@ -141,11 +141,11 @@ public class AbstractMenubar extends MenuActionHandler implements UndoListener, 
 		mSimulation = new JMenu("Simulation");
 		mSimulation.setMnemonic('S');
 
-		addMenuItem(mSimulation, "Zeitsimulation", "start-simulation", MenuActionType.START_SIMULATION, sysmenu.getSimulationSimulation());
-		addMenuItem(mSimulation, "Forml Übersicht", "overview", MenuActionType.FORMULA_OVERVIEW, sysmenu.getFormulaOverview());
+		addMenuItem(mSimulation, "Zeitsimulation", "start-simulation", MenuToolbarActionType.START_SIMULATION, sysmenu.getSimulationSimulation());
+		addMenuItem(mSimulation, "Forml Übersicht", "overview", MenuToolbarActionType.FORMULA_OVERVIEW, sysmenu.getFormulaOverview());
 		mSimulation.addSeparator();
 
-		addMenuItem(mSimulation, "Mathekonsole", "math", MenuActionType.SHOW_MATH_CONSOLE, sysmenu.getSimulationMathconsole());
+		addMenuItem(mSimulation, "Mathekonsole", "math", MenuToolbarActionType.SHOW_MATH_CONSOLE, sysmenu.getSimulationMathconsole());
 		mb.add(mSimulation);
 	}
 
@@ -187,7 +187,7 @@ public class AbstractMenubar extends MenuActionHandler implements UndoListener, 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireMenuActionPerformed(new MenuAction(MenuActionType.SHOW_SIDEBAR, sidebar.isSelected()));
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.SHOW_SIDEBAR, sidebar.isSelected()));
 			}
 		});
 
@@ -198,24 +198,24 @@ public class AbstractMenubar extends MenuActionHandler implements UndoListener, 
 		mb.add(mView);
 	}
 
-	@Override
-	public void showSidebar(boolean show) {
-		if (sidebar.isSelected() != show) {
-			sidebar.setSelected(show);
-		}
-	}
+//	@Override
+//	public void showSidebar(boolean show) {
+//		if (sidebar.isSelected() != show) {
+//			sidebar.setSelected(show);
+//		}
+//	}
 
 	private void setLookAndFeel(String lookAndFeel) {
-		fireMenuActionPerformed(new MenuAction(MenuActionType.LOOK_AND_FEEL_CHANGED, lookAndFeel));
+		fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LOOK_AND_FEEL_CHANGED, lookAndFeel));
 	}
 
 	private void initHelpMenu() {
 		mHelp = new JMenu("Hilfe");
 		mHelp.setMnemonic('H');
 
-		addMenuItem(mHelp, "Hilfe", "help", MenuActionType.HELP, sysmenu.getHelpHelp());
+		addMenuItem(mHelp, "Hilfe", "help", MenuToolbarActionType.HELP, sysmenu.getHelpHelp());
 
-		addMenuItem(mHelp, "Über", "help-about", MenuActionType.ABOUT, sysmenu.getHelpAbout());
+		addMenuItem(mHelp, "Über", "help-about", MenuToolbarActionType.ABOUT, sysmenu.getHelpAbout());
 
 		mb.add(mHelp);
 	}
@@ -248,7 +248,7 @@ public class AbstractMenubar extends MenuActionHandler implements UndoListener, 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireMenuActionPerformed(new MenuAction(MenuActionType.UNDO));
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.UNDO));
 			}
 		});
 		mEdit.add(mUndo);
@@ -259,16 +259,16 @@ public class AbstractMenubar extends MenuActionHandler implements UndoListener, 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireMenuActionPerformed(new MenuAction(MenuActionType.REDO));
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.REDO));
 			}
 		});
 		mEdit.add(mRedo);
 
 		undoRedoUpdated();
 
-		final JMenuItem mCut = addMenuItem(mEdit, "Ausschneiden", "edit-cut", MenuActionType.CUT, sysmenu.getEditCut());
-		final JMenuItem mCopy = addMenuItem(mEdit, "Kopieren", "editcopy", MenuActionType.COPY, sysmenu.getEditCopy());
-		final JMenuItem mPaste = addMenuItem(mEdit, "Einfügen", "editpaste", MenuActionType.PASTE, sysmenu.getEditPaste());
+		final JMenuItem mCut = addMenuItem(mEdit, "Ausschneiden", "edit-cut", MenuToolbarActionType.CUT, sysmenu.getEditCut());
+		final JMenuItem mCopy = addMenuItem(mEdit, "Kopieren", "editcopy", MenuToolbarActionType.COPY, sysmenu.getEditCopy());
+		final JMenuItem mPaste = addMenuItem(mEdit, "Einfügen", "editpaste", MenuToolbarActionType.PASTE, sysmenu.getEditPaste());
 
 		mCopy.setEnabled(false);
 		mPaste.setEnabled(false);
@@ -290,13 +290,13 @@ public class AbstractMenubar extends MenuActionHandler implements UndoListener, 
 
 		mEdit.addSeparator();
 
-		addMenuItem(mEdit, "Alles markieren", "edit-select-all", MenuActionType.SELECT_ALL, sysmenu.getEditSelectAll());
-		addMenuItem(mEdit, "Löschen", "edit-delete", MenuActionType.DELETE_SELECTION, sysmenu.getEditDelete());
+		addMenuItem(mEdit, "Alles markieren", "edit-select-all", MenuToolbarActionType.SELECT_ALL, sysmenu.getEditSelectAll());
+		addMenuItem(mEdit, "Löschen", "edit-delete", MenuToolbarActionType.DELETE_SELECTION, sysmenu.getEditDelete());
 
 		mLayout.setIcon(IconSVG.getIcon("alignCenterVertical"));
 		mEdit.add(mLayout);
 
-		addMenuItem(mEdit, "Einstellungen", "preferences", MenuActionType.SETTINGS, sysmenu.getEditSettings());
+		addMenuItem(mEdit, "Einstellungen", "preferences", MenuToolbarActionType.SETTINGS, sysmenu.getEditSettings());
 
 		mb.add(mEdit);
 	}
@@ -309,30 +309,30 @@ public class AbstractMenubar extends MenuActionHandler implements UndoListener, 
 		mFile = new JMenu("Datei");
 		mFile.setMnemonic('D');
 
-		addMenuItem(mFile, "Neu", "file-new", MenuActionType.NEW_FILE, sysmenu.getFileNew());
+		addMenuItem(mFile, "Neu", "file-new", MenuToolbarActionType.NEW_FILE, sysmenu.getFileNew());
 		mFile.addSeparator();
 
-		addMenuItem(mFile, "Öffnen", "open", MenuActionType.OPEN_FILE, sysmenu.getFileOpen());
+		addMenuItem(mFile, "Öffnen", "open", MenuToolbarActionType.OPEN_FILE, sysmenu.getFileOpen());
 		mFile.add(recentMenu);
 		mFile.addSeparator();
 
-		addMenuItem(mFile, "Speichern", "save", MenuActionType.SAVE, sysmenu.getFileSave());
-		addMenuItem(mFile, "Speichern unter", "save-as", MenuActionType.SAVE_AS, sysmenu.getFileSaveAs());
+		addMenuItem(mFile, "Speichern", "save", MenuToolbarActionType.SAVE, sysmenu.getFileSave());
+		addMenuItem(mFile, "Speichern unter", "save-as", MenuToolbarActionType.SAVE_AS, sysmenu.getFileSaveAs());
 		mFile.addSeparator();
 
-		addMenuItem(mFile, "Speichern als Bild", "photos", MenuActionType.SNAPSHOT, sysmenu.getFileTakeSnapshot());
+		addMenuItem(mFile, "Speichern als Bild", "photos", MenuToolbarActionType.SNAPSHOT, sysmenu.getFileTakeSnapshot());
 		mFile.addSeparator();
 
-		addMenuItem(mFile, "Beenden", "exit", MenuActionType.EXIT, sysmenu.getFileExitApplication());
+		addMenuItem(mFile, "Beenden", "exit", MenuToolbarActionType.EXIT, sysmenu.getFileExitApplication());
 		mb.add(mFile);
 	}
 
-	protected JMenuItem addMenuItem(JMenu menu, String name, String icon, final MenuActionType action, KeyStroke keyStroke) {
+	protected JMenuItem addMenuItem(JMenu menu, String name, String icon, final MenuToolbarActionType action, KeyStroke keyStroke) {
 		return addMenuItem(menu, name, icon, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireMenuActionPerformed(new MenuAction(action));
+				fireMenuActionPerformed(new MenuToolbarAction(action));
 			}
 		}, keyStroke);
 	}

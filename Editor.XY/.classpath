@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

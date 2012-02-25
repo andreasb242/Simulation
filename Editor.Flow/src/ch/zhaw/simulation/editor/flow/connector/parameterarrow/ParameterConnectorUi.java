@@ -43,8 +43,8 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 		this.parent = parent;
 		this.control = control;
 		this.data = c;
-		color = control.getConfig().getConnectorLineColor();
-		colorSelected = control.getConfig().getConnectorLineColorSelected();
+		color = control.getSysintegration().getGuiConfig().getConnectorLineColor();
+		colorSelected = control.getSysintegration().getGuiConfig().getConnectorLineColorSelected();
 
 		start = new ElementConnectorParameter(c.getSource(), this);
 		end = new ElementConnectorParameter(c.getTarget(), this);

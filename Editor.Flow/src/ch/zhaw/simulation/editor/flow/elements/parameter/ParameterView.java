@@ -12,7 +12,7 @@ public class ParameterView extends GuiDataTextElement<SimulationParameter> {
 	public ParameterView(int size, FlowEditorControl control, SimulationParameter data) {
 		super(data, control);
 
-		image = new ParameterImage(size, control.getConfig());
+		image = new ParameterImage(size, control.getSysintegration().getGuiConfig());
 
 		textY = 30;
 		questionmarkY = 45;

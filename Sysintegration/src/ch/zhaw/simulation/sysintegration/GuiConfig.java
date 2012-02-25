@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.control;
+package ch.zhaw.simulation.sysintegration;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
