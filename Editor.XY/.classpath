@@ -8,7 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/EditorWindow"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HelpBrowser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
