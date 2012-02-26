@@ -1,7 +1,6 @@
 package ch.zhaw.simulation.gui.control;
 
 import java.awt.Component;
-import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -10,11 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXStatusBar;
 
@@ -24,7 +19,6 @@ import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.util.RestartUtil;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.SimulationApplication;
-import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
@@ -41,15 +35,11 @@ import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.filehandling.ImportPlugins;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.gui.FlowEditorView;
-import ch.zhaw.simulation.gui.configuration.codeditor.FormulaEditor;
-import ch.zhaw.simulation.help.gui.HelpFrame;
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;
-import ch.zhaw.simulation.menu.flow.FlowMenubar;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.InfiniteData;
@@ -69,7 +59,6 @@ import ch.zhaw.simulation.sidebar.SidebarListener;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.StandardParameter;
-import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction;
 import ch.zhaw.simulation.undo.action.flow.AddNamedSimulationUndoAction;
 import ch.zhaw.simulation.undo.action.flow.DeleteUndoAction;
@@ -86,7 +75,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	private RecentMenu recentMenu;
 
 
-	private ImportPlugins importPlugins;
 	private LoadSaveHandler savehandler;
 
 	private Vector<DrawModusListener> drawModusListener = new Vector<DrawModusListener>();
@@ -100,12 +88,29 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	private SettingsDlg settigsDialog;
 	private Autoparser autoparser;
 
-	private FlowToolbar toolbar;
-
-
 	private SimulationManager manager;
 	private SimulationApplication app;
 
+	
+	
+	
+	
+
+	private ImportPlugins importPlugins;
+
+	private void initPlugins() {
+		importPlugins = new ImportPlugins(this.settings);
+
+	}
+
+	public ImportPlugins getImportPlugins() {
+		return importPlugins;
+	}
+
+	
+	
+	
+	
 	public FlowEditorControl(SimulationApplication app, FlowWindow parent, Settings settings) {
 		super(parent, settings);
 		this.app = app;
@@ -118,19 +123,14 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
 		loadSimulationParameterFromSettings();
 
-		importPlugins = new ImportPlugins(settings);
+		initPlugins();
+		
 		savehandler = new LoadSaveHandler(this);
-
-		toolbar = new FlowToolbar(getSysintegration(), true);
 
 		recentMenu = new RecentMenu(settings);
 		recentMenu.addListener(this);
 
 		this.view = new FlowEditorView(this);
-		toolbar.initToolbar();
-
-// 		mb.initMenusToolbar(recentMenu.getMenu(), true);
-//		TODO !!! mb.showSidebar(isSidebarVisible());
 
 		initMetadata();
 
@@ -431,10 +431,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		}
 	}
 
-	public JComponent getToolbar() {
-		return toolbar.getToolbar();
-	}
-
 	public JXStatusBar getStatusBar() {
 		return sBar;
 	}
@@ -451,10 +447,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 		updatePaths();
 		return true;
-	}
-
-	public ImportPlugins getImportPlugins() {
-		return importPlugins;
 	}
 
 	private void updatePaths() {
@@ -637,33 +629,13 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	public SimulationManager getManager() {
 		return manager;
 	}
-
+	
 	@Override
 	public void menuActionPerformed(MenuToolbarAction action) {
 		switch (action.getType()) {
 
 		case NEW_FILE:
 			this.newFile();
-			break;
-
-		case COPY:
-			this.getClipboard().copy();
-			break;
-
-		case CUT:
-			this.getClipboard().cut();
-			break;
-
-		case PASTE:
-			this.getClipboard().paste();
-			break;
-
-		case UNDO:
-			getUndoManager().undo();
-			break;
-
-		case REDO:
-			getUndoManager().redo();
 			break;
 
 		case OPEN_FILE:

@@ -21,12 +21,12 @@ import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnecto
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.CommentView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.gui.layout.SimulationLayout;
 import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
@@ -55,9 +55,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 	public FlowEditorView(FlowEditorControl control) {
 		super(control);
-
-		// TODO: move to super class
-		setLayout(new SimulationLayout());
 
 		initSpecialKeyhandler();
 

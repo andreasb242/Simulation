@@ -18,8 +18,10 @@ import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
+import ch.zhaw.simulation.undo.UndoHandler;
+import ch.zhaw.simulation.undo.UndoListener;
 
-public abstract class AbstractToolbar extends MenuToolbarActionHandler implements ClipboardListener {
+public abstract class AbstractToolbar extends MenuToolbarActionHandler implements ClipboardListener, UndoListener {
 	protected GuiConfig config;
 	protected Toolbar toolbar;
 
@@ -30,6 +32,9 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 	private ToolbarButton clipboardCut;
 	private ToolbarButton clipboarCopy;
 	private ToolbarButton clipboarPaste;
+	private UndoHandler undo;
+	private ToolbarButton btUndo;
+	private ToolbarButton btRedo;
 
 	/**
 	 * 
@@ -57,7 +62,8 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 
 	protected abstract void initCustomToolitems();
 
-	public void initToolbar() {
+	public void initToolbar(UndoHandler undo) {
+		this.undo = undo;
 		initCustomToolitems();
 
 		if (mainToolbar) {
@@ -172,49 +178,42 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 	}
 
 	private void addUndoRedoButtons() {
-		// final ToolbarButton undo = toolbar.add(new
-		// ToolbarAction("Rückgängig", "edit-undo") {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// control.undo();
-		// }
-		// });
-		//
-		// final ToolbarButton redo = toolbar.add(new
-		// ToolbarAction("Widerherstellen", "edit-redo") {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// control.redo();
-		// }
-		// });
-		//
-		// UndoListener listener = new UndoListener() {
-		//
-		// @Override
-		// public void undoRedoUpdated() {
-		// UndoManager um = control.getUndoManager();
-		//
-		// undo.setEnabled(um.canUndo());
-		// redo.setEnabled(um.canRedo());
-		//
-		// if (um.canUndo()) {
-		// undo.setText(um.getUndoPresentationName());
-		// } else {
-		// undo.setText("Rückgängig");
-		// }
-		//
-		// if (um.canRedo()) {
-		// redo.setText(um.getRedoPresentationName());
-		// } else {
-		// redo.setText("Widerherstellen");
-		// }
-		// }
-		// };
-		//
-		// control.getUndoManager().addUndoListener(listener);
-		// listener.undoRedoUpdated();
+		this.btUndo = toolbar.add(new ToolbarAction("Rückgängig", "edit-undo") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.UNDO));
+			}
+		});
+
+		this.btRedo = toolbar.add(new ToolbarAction("Widerherstellen", "edit-redo") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.REDO));
+			}
+		});
+
+		// refresh buttons
+		undoRedoUpdated();
 
 		addSeparator();
+	}
+
+	@Override
+	public void undoRedoUpdated() {
+		btUndo.setEnabled(this.undo.canUndo());
+		btRedo.setEnabled(this.undo.canRedo());
+
+		if (this.undo.canUndo()) {
+			btUndo.setText(this.undo.getUndoPresentationName());
+		} else {
+			btUndo.setText("Rückgängig");
+		}
+
+		if (this.undo.canRedo()) {
+			btRedo.setText(this.undo.getRedoPresentationName());
+		} else {
+			btRedo.setText("Widerherstellen");
+		}
 	}
 
 	protected void addSeparator() {

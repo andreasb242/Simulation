@@ -17,13 +17,35 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolbar, V extends AbstractEditorView<?>> extends JFrame implements MenuActionListener {
+/**
+ * A simulation window
+ * 
+ * @author Andreas Butti
+ * 
+ * @param <M>
+ *            The model type
+ * @param <T>
+ *            The toolbar type
+ * @param <V>
+ *            The view type
+ */
+public abstract class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolbar, V extends AbstractEditorView<?>> extends JFrame implements
+		MenuActionListener {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Listener for menu action
+	 */
 	private Vector<MenuActionListener> listeners = new Vector<MenuActionListener>();
 
+	/**
+	 * The sidebar
+	 */
 	private FrameSidebar sidebar = new FrameSidebar();
 
+	/**
+	 * Undo / Redo handler
+	 */
 	protected UndoHandler um = new UndoHandler();
 
 	protected M menubar;
@@ -36,7 +58,8 @@ public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolb
 	protected boolean mainWindow;
 
 	/**
-	 * @param mainWindow If this is the main application window
+	 * @param mainWindow
+	 *            If this is the main application window
 	 */
 	public SimulationWindow(boolean mainWindow) {
 		this.mainWindow = mainWindow;
@@ -50,7 +73,7 @@ public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolb
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if(SimulationWindow.this.mainWindow) {
+				if (SimulationWindow.this.mainWindow) {
 					fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.EXIT));
 				} else {
 					fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.CLOSE));
@@ -58,7 +81,7 @@ public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolb
 			}
 
 		});
-		
+
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 	}
@@ -72,13 +95,49 @@ public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolb
 		this.menubar.addListener(this);
 		this.toolbar.addListener(this);
 
+		view.getUndoHandler().addUndoListener(toolbar);
+		view.getClipboard().addListener(toolbar);
+
 		add(BorderLayout.NORTH, toolbar.getToolbar());
-		
+
 		add(BorderLayout.CENTER, view);
+
+		initSidebar(sidebar);
 	}
+
+	/**
+	 * Initialize the sidebar contents
+	 * 
+	 * @param sidebar
+	 *            The sidebar
+	 */
+	protected abstract void initSidebar(FrameSidebar sidebar);
 
 	@Override
 	public void menuActionPerformed(MenuToolbarAction action) {
+		switch (action.getType()) {
+
+		case COPY:
+			view.getClipboard().copy();
+			return;
+
+		case CUT:
+			view.getClipboard().cut();
+			return;
+
+		case PASTE:
+			view.getClipboard().paste();
+			return;
+
+		case UNDO:
+			view.getUndoHandler().undo();
+			return;
+
+		case REDO:
+			view.getUndoHandler().redo();
+			return;
+		}
+
 		fireMenuActionPerformed(action);
 	}
 

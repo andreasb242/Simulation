@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.configuration;
+package ch.zhaw.simulation.window.flow.sidebar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +16,7 @@ import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationManager;
 
-public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {
+public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener  {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbSimulationtype;

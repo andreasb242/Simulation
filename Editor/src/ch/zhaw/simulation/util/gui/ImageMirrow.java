@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.util;
+package ch.zhaw.simulation.util.gui;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;

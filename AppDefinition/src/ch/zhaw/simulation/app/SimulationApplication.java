@@ -10,7 +10,7 @@ public interface SimulationApplication {
 	 * Shows the about dialog
 	 */
 	public void showAboutDialog();
-	
+
 	/**
 	 * Shows the math console
 	 */

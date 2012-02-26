@@ -15,7 +15,7 @@ import butti.javalibs.util.DrawHelper;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
-import ch.zhaw.simulation.editor.flow.elements.GuiImage;
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationAdapter;
 import ch.zhaw.simulation.model.flow.SimulationObject;

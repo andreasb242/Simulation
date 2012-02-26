@@ -5,7 +5,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 
 import butti.javalibs.util.DrawHelper;
-import ch.zhaw.simulation.editor.flow.elements.GuiImage;
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class ContainerImage extends GuiImage {

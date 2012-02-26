@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.flow.elements;
+package ch.zhaw.simulation.editor.elements;
 
 
 import java.awt.Graphics2D;
@@ -142,7 +142,7 @@ public abstract class GuiImage {
 			String filename = getClass().getSimpleName();
 			
 			// because of inheritance call Classloader instead of getClass().getRessourceAsStream()
-			InputStream in = getClass().getClassLoader().getResourceAsStream("ch/zhaw/simulation/editor/flow/elements/shadowimage/" + filename + ".png");
+			InputStream in = getClass().getClassLoader().getResourceAsStream("ch/zhaw/simulation/editor/elements/shadowimage/" + filename + ".png");
 
 			if (in == null) {
 				throw new RuntimeException("shadow image not found: " + filename);

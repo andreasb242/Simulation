@@ -1,5 +1,4 @@
-package ch.zhaw.simulation.gui.layout;
-
+package ch.zhaw.simulation.editor.layout;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -8,9 +7,7 @@ import java.awt.LayoutManager;
 import java.awt.Rectangle;
 
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
 import ch.zhaw.simulation.model.flow.SimulationObject;
-
 
 public class SimulationLayout implements LayoutManager {
 
@@ -21,19 +18,19 @@ public class SimulationLayout implements LayoutManager {
 
 	@Override
 	public void layoutContainer(Container parent) {
-		for(Component c : parent.getComponents()) {
+		for (Component c : parent.getComponents()) {
 			layoutComponent(c, parent);
 		}
 	}
-	
+
 	private void layoutComponent(Component c, Container parent) {
-		if(c instanceof GuiDataElement<?>) {
+		if (c instanceof GuiDataElement<?>) {
 			GuiDataElement<?> e = (GuiDataElement<?>) c;
 			SimulationObject data = e.getData();
-			
+
 			Dimension size = e.getPreferredSize();
-			
-			c.setBounds(data.getX(), data.getY(), (int)size.getWidth(), (int)size.getHeight());
+
+			c.setBounds(data.getX(), data.getY(), (int) size.getWidth(), (int) size.getHeight());
 		}
 	}
 
@@ -41,31 +38,31 @@ public class SimulationLayout implements LayoutManager {
 	public Dimension minimumLayoutSize(Container parent) {
 		int w = 0;
 		int h = 0;
-		
-		for(Component c : parent.getComponents()) {
-			if(c instanceof GuiDataElement<?>) {
+
+		for (Component c : parent.getComponents()) {
+			if (c instanceof GuiDataElement<?>) {
 				GuiDataElement<?> e = (GuiDataElement<?>) c;
-				
+
 				Dimension p = e.getPreferredSize();
 				SimulationObject d = e.getData();
-				
-				w = Math.max(w, d.getX() + (int)p.getWidth());
-				h = Math.max(h, d.getY() + (int)p.getHeight());
-			} else if (c instanceof ConnectorPoint) {
+
+				w = Math.max(w, d.getX() + (int) p.getWidth());
+				h = Math.max(h, d.getY() + (int) p.getHeight());
+			} else {
 				Rectangle b = c.getBounds();
 
-				w = Math.max(w, (int)(b.getX() + b.getWidth()));
-				h = Math.max(h, (int)(b.getY() + b.getHeight()));
+				w = Math.max(w, (int) (b.getX() + b.getWidth()));
+				h = Math.max(h, (int) (b.getY() + b.getHeight()));
 			}
 		}
-		
+
 		return new Dimension(w, h);
 	}
 
 	@Override
 	public Dimension preferredLayoutSize(Container parent) {
 		Dimension d = minimumLayoutSize(parent);
-		return new Dimension((int)d.getWidth() + 10, (int)d.getHeight() + 10);
+		return new Dimension((int) d.getWidth() + 10, (int) d.getHeight() + 10);
 	}
 
 	@Override

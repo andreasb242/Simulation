@@ -19,13 +19,14 @@ import javax.swing.JLayeredPane;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public abstract class AbstractEditorView<C extends AbstractEditorControl> extends JLayeredPane {
+public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -146,6 +147,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl> extend
 			throw new NullPointerException("control == null");
 		}
 
+		setLayout(new SimulationLayout());
+		
 		clipboard = new ClipboardHandler<C>(control);
 		selectionModel = control.getSelectionModel();
 
@@ -172,7 +175,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl> extend
 	public C getControl() {
 		return control;
 	}
-
+	
 	/**
 	 * @return The current selected rectangle
 	 */

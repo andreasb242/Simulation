@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.configuration;
+package ch.zhaw.simulation.model;
 
 public class NameChecker {
 	private static final String FIRST_ALLOWED = "abcedfghijklmnopqrstuvwxyzABCEDFGHIJKLMNOPQRSTUVWXYZ_";
@@ -11,6 +11,9 @@ public class NameChecker {
 		if(name.length() < 1 || name.length() > 32) {
 			return false;
 		}
+		
+		// TODO: konstanten wie PI oder e nicht erlauben als namen!
+		
 		
 		char c = name.charAt(0);
 		if(FIRST_ALLOWED.indexOf(c) == -1) {

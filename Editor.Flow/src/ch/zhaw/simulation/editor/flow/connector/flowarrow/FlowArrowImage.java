@@ -9,9 +9,9 @@ import java.awt.image.BufferedImage;
 
 import butti.javalibs.util.DrawHelper;
 
-import ch.zhaw.simulation.editor.flow.elements.GuiImage;
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
-import ch.zhaw.simulation.util.ImageMirrow;
+import ch.zhaw.simulation.util.gui.ImageMirrow;
 
 
 public class FlowArrowImage extends GuiImage {
