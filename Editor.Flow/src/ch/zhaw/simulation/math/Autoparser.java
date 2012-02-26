@@ -13,7 +13,7 @@ import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.listener.SimulationAdapter;
+import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 
 import butti.javalibs.errorhandler.Errorhandler;
 
@@ -26,7 +26,7 @@ public class Autoparser {
 	public Autoparser(FlowEditorControl control) {
 		this.control = control;
 
-		control.getModel().addListener(new SimulationAdapter() {
+		control.getModel().addListener(new FlowSimulationAdapter() {
 			@Override
 			public void dataChanged(SimulationObject o) {
 				if (o instanceof NamedSimulationObject) {

@@ -9,10 +9,10 @@ import ch.zhaw.simulation.clipboard.TransferData;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.gui.FlowEditorView;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.element.TextData;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
@@ -24,7 +24,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	private static final long serialVersionUID = 1L;
 
 	private SelectionModel selectionModel;
-	private AbstractSimulationModel model;
+	private SimulationFlowModel model;
 	private FlowEditorView view;
 
 	private HashMap<Integer, SimulationObject> data = new HashMap<Integer, SimulationObject>();
@@ -37,7 +37,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	}
 
 	// TODO: im vordergrund einfügen!!!
-	public void addToModel(SelectionModel selectionModel, AbstractSimulationModel model, FlowEditorView view) {
+	public void addToModel(SelectionModel selectionModel, SimulationFlowModel model, FlowEditorView view) {
 		this.selectionModel = selectionModel;
 
 		this.model = model;
@@ -231,12 +231,12 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 
 	@Override
 	public boolean addToModel(AbstractEditorControl<?> control) {
-		if(control instanceof FlowEditorControl) {
+		if (control instanceof FlowEditorControl) {
 			FlowEditorControl c = (FlowEditorControl) control;
 			addToModel(c.getSelectionModel(), c.getModel(), c.getView());
 			return true;
 		}
-		
+
 		return false;
 	}
 }

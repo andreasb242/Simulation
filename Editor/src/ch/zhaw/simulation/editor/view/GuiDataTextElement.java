@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.JToolTip;
 
 import butti.javalibs.util.DrawHelper;
-
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.GuiImage;
@@ -37,7 +36,7 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 	public GuiDataTextElement(T data, AbstractEditorControl<?> control) {
 		super(data, control);
 		tip = new InfoTooltip();
-		control.getModel().addListener(new SimulationAdapter() {
+		control.getModel().addSimulationListener(new SimulationAdapter() {
 			@Override
 			public void dataChanged(SimulationObject o) {
 				recalcFontMetrics(null);

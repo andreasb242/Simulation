@@ -9,7 +9,7 @@ import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.listener.SimulationAdapter;
+import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.util.Range;
 
 
@@ -23,7 +23,7 @@ public class FlowConnectorControl {
 
 	private Vector<FlowControlListener> listener = new Vector<FlowControlListener>();
 	
-	private SimulationAdapter simulationListener;
+	private FlowSimulationAdapter simulationListener;
 
 	public FlowConnectorControl(FlowConnector connector,
 			FlowEditorControl control, int size) {
@@ -71,7 +71,7 @@ public class FlowConnectorControl {
 	}
 
 	private void initListener() {
-		simulationListener = new SimulationAdapter() {
+		simulationListener = new FlowSimulationAdapter() {
 			
 			@Override
 			public void dataAdded(SimulationObject o) {

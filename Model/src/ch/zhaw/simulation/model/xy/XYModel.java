@@ -1,13 +1,14 @@
 package ch.zhaw.simulation.model.xy;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.listener.SimulationListener;
 
 /**
  * The XY Model
  * 
  * @author Andreas Butti
  */
-public class XYModel extends AbstractSimulationModel {
+public class XYModel extends AbstractSimulationModel<SimulationListener> {
 
 	/**
 	 * The width of the model, cannot be extended during simulation!
@@ -54,6 +55,12 @@ public class XYModel extends AbstractSimulationModel {
 	@Override
 	public boolean isFlowModel() {
 		return false;
+	}
+
+	@Override
+	public SimulationListener addSimulationListener(SimulationListener l) {
+		addSimulationListener(l);
+		return l;
 	}
 
 }

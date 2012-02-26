@@ -1,7 +1,6 @@
 package ch.zhaw.simulation.model.listener;
 
 import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.flow.connection.Connector;
 
 /**
  * Listener for the simulation flow model
@@ -42,30 +41,6 @@ public interface SimulationListener {
 	 *            not saved
 	 */
 	public void dataSaved(boolean saved);
-
-	/**
-	 * A connector was added
-	 * 
-	 * @param c
-	 *            The connector
-	 */
-	public void connectorAdded(Connector<?> c);
-
-	/**
-	 * A connector was removed
-	 * 
-	 * @param c
-	 *            The connector
-	 */
-	public void connectorRemoved(Connector<?> c);
-
-	/**
-	 * A connector was changed
-	 * 
-	 * @param c
-	 *            The connector
-	 */
-	public void connectorChanged(Connector<?> c);
 
 	/**
 	 * The complete Model was cleared, this means everything has to be removed

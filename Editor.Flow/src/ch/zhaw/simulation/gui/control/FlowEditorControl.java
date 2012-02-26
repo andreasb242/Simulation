@@ -52,7 +52,7 @@ import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.model.listener.SimulationAdapter;
+import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.StandardParameter;
@@ -112,7 +112,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 		initStatusBar();
 
-		model.addListener(new SimulationAdapter() {
+		model.addListener(new FlowSimulationAdapter() {
 			@Override
 			public void dataChanged(SimulationObject o) {
 				updateTitle();
@@ -230,7 +230,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	}
 
 	private void addListeners() {
-		model.addListener(new SimulationAdapter() {
+		model.addListener(new FlowSimulationAdapter() {
 
 			@Override
 			public void dataRemoved(SimulationObject o) {

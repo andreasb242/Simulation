@@ -294,7 +294,7 @@ public class FormulaEditor extends BDialog {
 			text.addAutocomplete(new Autocomplete.AutocompleteWord(f.getDescription(), -1));
 		}
 
-		AbstractSimulationModel model = control.getModel();
+		AbstractSimulationModel<?> model = control.getModel();
 
 		Vector<SimulationGlobal> globalData = model.getGlobalsFor(data);
 		text.setConsts(getConst(), getFunctions(), parameter, globalData);

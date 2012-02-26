@@ -43,9 +43,9 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-import ch.zhaw.simulation.model.listener.SimulationListener;
+import ch.zhaw.simulation.model.listener.FlowSimulationListener;
 
-public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements SimulationListener, DrawModusListener {
+public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements FlowSimulationListener, DrawModusListener {
 	private static final long serialVersionUID = 1L;
 
 	private Vector<ConnectorUi> connectors = new Vector<ConnectorUi>();

@@ -28,7 +28,7 @@ import ch.zhaw.simulation.undo.UndoHandler;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractEditorControl<M extends AbstractSimulationModel>  implements MenuActionListener  {
+public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>>  implements MenuActionListener  {
 	/**
 	 * The selection model, contains the current selected gui elements
 	 */

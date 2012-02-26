@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.dialog.snapshot;
 
-
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Rectangle;
@@ -28,7 +27,6 @@ import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 
-
 public class SnapshotDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +49,7 @@ public class SnapshotDialog extends BDialog {
 		gbm = new GridBagManager(this);
 
 		cbSavePath = new JComboBox(sys.getBookmarks());
-		
+
 		ImageIcon img = IconSVG.getIcon("photos", 64);
 		gbm.setX(0).setY(0).setHeight(5).setWeightX(0).setWeightY(0).setComp(new JLabel(img));
 
