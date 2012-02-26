@@ -1,8 +1,8 @@
 package ch.zhaw.simulation.math;
 
 import java.util.Enumeration;
-import java.util.Vector;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import org.lsmp.djep.matrixJep.MatrixJep;
 import org.nfunk.jep.ASTVarNode;
@@ -14,8 +14,8 @@ import org.nfunk.jep.function.PostfixMathCommandI;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.EmptyFormulaException;
 import ch.zhaw.simulation.math.exception.NotUsedException;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 
@@ -78,7 +78,7 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, SimulationObject o, SimulationFlowModel model, Vector<NamedSimulationObject> sourcesConst, String name)
+	public ParserNodePair checkCode(String text, SimulationObject o, AbstractSimulationModel model, Vector<NamedSimulationObject> sourcesConst, String name)
 			throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (text.isEmpty()) {
 			throw new EmptyFormulaException(o);
@@ -89,7 +89,7 @@ public class Parser {
 
 		Vector<NamedSimulationObject> sources = new Vector<NamedSimulationObject>();
 		sources.addAll(sourcesConst);
-		
+
 		for (NamedSimulationObject s : sources) {
 			if (jep.getVar(s.getName()) != null) {
 				jep.removeVariable(s.getName());

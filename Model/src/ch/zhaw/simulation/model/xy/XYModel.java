@@ -1,11 +1,13 @@
 package ch.zhaw.simulation.model.xy;
 
+import ch.zhaw.simulation.model.AbstractSimulationModel;
+
 /**
  * The XY Model
  * 
  * @author Andreas Butti
  */
-public class XYModel {
+public class XYModel extends AbstractSimulationModel {
 
 	/**
 	 * The width of the model, cannot be extended during simulation!

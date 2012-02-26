@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 
-import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;

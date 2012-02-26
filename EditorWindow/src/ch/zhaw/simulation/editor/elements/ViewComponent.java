@@ -1,11 +1,12 @@
-package ch.zhaw.simulation.gui;
+package ch.zhaw.simulation.editor.elements;
 
 import java.awt.Graphics2D;
 
 /**
- * Ein Element aus dem View, das zum Dokument ghört
+ * This is an interface for a View element reponds to a model element
  */
 public interface ViewComponent {
+	// TODO: docu
 	public boolean isDependent();
 
 	public void paintShadow(Graphics2D g);

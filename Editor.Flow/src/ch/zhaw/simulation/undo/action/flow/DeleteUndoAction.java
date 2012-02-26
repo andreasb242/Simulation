@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.undo.action;
+package ch.zhaw.simulation.undo.action.flow;
 
 import java.util.Vector;
 
@@ -10,6 +10,7 @@ import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.Connector;
+import ch.zhaw.simulation.undo.action.AbstractUndoableEdit;
 
 public class DeleteUndoAction extends AbstractUndoableEdit {
 	private Vector<NamedSimulationObject> removedObjects;

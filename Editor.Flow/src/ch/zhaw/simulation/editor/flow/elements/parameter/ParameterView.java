@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.editor.flow.elements.parameter;
 
-import ch.zhaw.simulation.editor.flow.elements.GuiDataTextElement;
 import ch.zhaw.simulation.editor.flow.elements.GuiImage;
+import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
 

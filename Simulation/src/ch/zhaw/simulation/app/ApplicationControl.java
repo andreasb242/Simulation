@@ -3,8 +3,6 @@ package ch.zhaw.simulation.app;
 import javax.swing.JFrame;
 
 import butti.javalibs.config.Settings;
-import ch.zhaw.simulation.clipboard.ClipboardInterface;
-import ch.zhaw.simulation.clipboard.ClipboardListener;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
@@ -20,29 +18,24 @@ public class ApplicationControl implements SimulationApplication {
 	}
 
 	public void start(Settings settings, String openfile) {
+		boolean mainWindow = true;
+		
 		int x = 2;
 		if (x == 1) {
-			XYEditorControl control = new XYEditorControl();
-			XYWindow win = new XYWindow(control,new ClipboardInterface() {
-				
-				@Override
-				public void removeListener(ClipboardListener l) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void addListener(ClipboardListener l) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
+			XYWindow win = new XYWindow(mainWindow);
 			
+			XYEditorControl control = new XYEditorControl(win, settings);
+			win.init(control, control.getClipboard());
+
+			this.mainFrame = win;
+
 			win.setVisible(true);
 			
 
 		} else {
-			FlowWindow win = new FlowWindow();
+			
+			
+			FlowWindow win = new FlowWindow(mainWindow);
 			FlowEditorControl control = new FlowEditorControl(this, win, settings);
 			win.init(control, control.getClipboard());
 			win.addListener(control);

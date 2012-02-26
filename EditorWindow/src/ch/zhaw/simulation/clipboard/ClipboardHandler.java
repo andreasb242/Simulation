@@ -11,22 +11,22 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.Vector;
 
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 
 import butti.javalibs.errorhandler.Errorhandler;
 
 
-public class ClipboardHandler implements FlavorListener, ClipboardOwner, SelectionListener, ClipboardInterface {
-
-	private FlowEditorControl control;
+public class ClipboardHandler<C extends AbstractEditorControl<?>> implements FlavorListener, ClipboardOwner, SelectionListener, ClipboardInterface {
+	private C control;
 	private Clipboard cp;
 	private boolean lastCutCopyEnabled = false;
 
 	private Vector<ClipboardListener> listener = new Vector<ClipboardListener>();
 
-	public ClipboardHandler(FlowEditorControl control) {
+	public ClipboardHandler(C control) {
 		this.control = control;
 		cp = Toolkit.getDefaultToolkit().getSystemClipboard();
 		cp.addFlavorListener(this);

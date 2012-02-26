@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import ch.zhaw.simulation.editor.flow.elements.GuiElement;
+import ch.zhaw.simulation.editor.elements.GuiElement;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.util.Range;

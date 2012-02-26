@@ -1,5 +1,4 @@
-package ch.zhaw.simulation.editor.flow.elements;
-
+package ch.zhaw.simulation.editor.elements;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,14 +7,11 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
-import ch.zhaw.simulation.gui.ViewComponent;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
-import ch.zhaw.simulation.undo.action.MoveUndoAction;
-
 
 public abstract class GuiElement extends JComponent implements SelectionListener, SelectableElement, ViewComponent {
 	private static final long serialVersionUID = 1L;
@@ -25,15 +21,15 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 
 	private MouseAdapter listener;
 
-	private FlowEditorControl control;
-	private SimulationFlowModel model;
+	private AbstractEditorControl<?> control;
+	private AbstractSimulationModel model;
 
 	protected int lastX;
 	protected int lastY;
 
 	private boolean dependent;
 
-	public GuiElement(final FlowEditorControl control) {
+	public GuiElement(final AbstractEditorControl<?> control) {
 		this.selectionModel = control.getSelectionModel();
 		this.control = control;
 		this.model = control.getModel();
@@ -86,9 +82,19 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 		selectionModel.addSelectionListener(this);
 	}
 
+	/**
+	 * TODO docu
+	 * 
+	 * @param p
+	 */
 	protected void mouseReleased(Point p) {
 	}
 
+	/**
+	 * TODO docu
+	 * 
+	 * @param p
+	 */
 	protected void dragged(Point p) {
 		// Wenn noch nicht gewählt beim verschieben wählen
 		if (!selectionModel.isSelected(this)) {
@@ -99,7 +105,8 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 		int dY = (int) p.getY() - lastY;
 		selectionModel.move(dX, dY);
 
-		control.getUndoManager().addEdit(new MoveUndoAction(selectionModel.getSelected(), dX, dY));
+		// TODO !!! control.getUndoManager().addEdit(new
+		// MoveUndoAction(selectionModel.getSelected(), dX, dY));
 	}
 
 	protected void doubleClicked(MouseEvent e) {
@@ -107,6 +114,14 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 
 	@Override
 	public void paintShadow(Graphics2D g) {
+	}
+
+	public AbstractSimulationModel getModel() {
+		return model;
+	}
+
+	public AbstractEditorControl<?> getControl() {
+		return control;
 	}
 
 	public void dispose() {
@@ -132,14 +147,6 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 
 	public SelectionModel getSelectionModel() {
 		return selectionModel;
-	}
-
-	public SimulationFlowModel getModel() {
-		return model;
-	}
-
-	public FlowEditorControl getControl() {
-		return control;
 	}
 
 	@Override

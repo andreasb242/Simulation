@@ -3,7 +3,7 @@ package ch.zhaw.simulation.gui.control;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.undo.UndoHandler;
-import ch.zhaw.simulation.undo.action.LayoutUndoAction;
+import ch.zhaw.simulation.undo.action.flow.LayoutUndoAction;
 
 public class LayoutControl {
 

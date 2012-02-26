@@ -29,15 +29,15 @@ import ch.zhaw.simulation.dialog.overview.OverviewWindow;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
-import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
-import ch.zhaw.simulation.editor.flow.elements.GuiDataTextElement;
-import ch.zhaw.simulation.editor.flow.elements.TextView;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.view.CommentView;
+import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.filehandling.ImportPlugins;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.gui.FlowEditorView;
@@ -70,15 +70,12 @@ import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.undo.UndoHandler;
-import ch.zhaw.simulation.undo.action.AddConnectorUndoAction;
-import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
-import ch.zhaw.simulation.undo.action.DeleteUndoAction;
+import ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction;
+import ch.zhaw.simulation.undo.action.flow.AddNamedSimulationUndoAction;
+import ch.zhaw.simulation.undo.action.flow.DeleteUndoAction;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 
-public class FlowEditorControl extends AbstractEditorControl implements MenuActionListener {
-	
-	private SimulationFlowModel model = new SimulationFlowModel();
-	private Settings settings;
+public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel> implements MenuActionListener {
 
 	private FlowEditorView view;
 
@@ -88,9 +85,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 
 	private RecentMenu recentMenu;
 
-	private JFrame parent;
-
-	private String documentName = null;
 
 	private ImportPlugins importPlugins;
 	private LoadSaveHandler savehandler;
@@ -102,39 +96,25 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 
 	private MouseAdapter lastMouseListener;
 
-	private UndoHandler undoHandler = new UndoHandler();
-
-	private HelpFrame helpFrame;
-
-	private FormulaEditor formulaEditor;
 
 	private SettingsDlg settigsDialog;
 	private Autoparser autoparser;
 
 	private FlowToolbar toolbar;
 
-	private FunctionHelp functionHelp;
-
-	private ClipboardHandler clipboard = new ClipboardHandler(this);
 
 	private SimulationManager manager;
 	private SimulationApplication app;
 
 	public FlowEditorControl(SimulationApplication app, FlowWindow parent, Settings settings) {
-		this.parent = parent;
-		this.settings = settings;
+		super(parent, settings);
 		this.app = app;
 
-		if (settings == null) {
-			throw new NullPointerException("settings == null");
-		}
-		if (parent == null) {
-			throw new NullPointerException("parent == null");
-		}
 		if (app == null) {
 			throw new NullPointerException("app == null");
 		}
 		
+		model = new SimulationFlowModel();
 		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
 		loadSimulationParameterFromSettings();
 
@@ -142,7 +122,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		savehandler = new LoadSaveHandler(this);
 
 		toolbar = new FlowToolbar(getSysintegration(), true);
-		functionHelp = new FunctionHelp();
 
 		recentMenu = new RecentMenu(settings);
 		recentMenu.addListener(this);
@@ -193,10 +172,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		}
 	}
 
-	public FunctionHelp getFunctionHelp() {
-		return functionHelp;
-	}
-
 	public void stopAutoparser() {
 		autoparser.stop();
 	}
@@ -215,14 +190,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 				}
 			}
 		}
-	}
-
-	public void undo() {
-		undoHandler.undo();
-	}
-
-	public void redo() {
-		undoHandler.redo();
 	}
 
 	@Override
@@ -262,7 +229,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 			}
 		}
 
-		undoHandler.addEdit(new DeleteUndoAction(removedObjects, removedConnectors, removedInfinite, this));
+		getUndoManager().addEdit(new DeleteUndoAction(removedObjects, removedConnectors, removedInfinite, this));
 	}
 
 	private void addInfiniteData(Vector<InfiniteData> removedInfinite, InfiniteData d) {
@@ -296,10 +263,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 				}
 			}
 		}
-	}
-
-	public UndoHandler getUndoManager() {
-		return undoHandler;
 	}
 
 	private void addListeners() {
@@ -425,36 +388,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		emptyStatus = true;
 	}
 
-	public void setDocumentTitle(String name) {
-		documentName = name;
-		updateTitle();
-	}
-
-	private void updateTitle() {
-		if (documentName == null) {
-			parent.setTitle("Simulation");
-		} else {
-			String saved = "";
-			if (model.isChanged()) {
-				saved = " *";
-			}
-			parent.setTitle(documentName + saved + " - Simulation");
-		}
-	}
-
-	public String getDocumentName() {
-		return documentName;
-	}
-
-	public void showFormulaEditor(NamedSimulationObject data) {
-		if (formulaEditor == null) {
-			formulaEditor = new FormulaEditor(parent, this);
-		}
-
-		formulaEditor.setData(data);
-		formulaEditor.setVisible(true);
-	}
-
 	void cancelAllActions() {
 		if (lastMouseListener != null) {
 			view.removeMouseListener(lastMouseListener);
@@ -476,7 +409,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 
 				lastMouseListener = null;
 
-				undoHandler.addEdit(new AddNamedSimulationUndoAction(so, model));
+				getUndoManager().addEdit(new AddNamedSimulationUndoAction(so, model));
 
 				postAddAction(so);
 			}
@@ -489,9 +422,9 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		if (so instanceof CommentData) {
 			CommentData data = (CommentData) so;
 			for (Component c : view.getComponents()) {
-				if (c instanceof TextView) {
-					if (((TextView) c).getData() == data) {
-						((TextView) c).showTextEditor();
+				if (c instanceof CommentView) {
+					if (((CommentView) c).getData() == data) {
+						((CommentView) c).showTextEditor();
 					}
 				}
 			}
@@ -506,16 +439,8 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		return sBar;
 	}
 
-	public SimulationFlowModel getModel() {
-		return model;
-	}
-
 	public FlowEditorView getView() {
 		return view;
-	}
-
-	public Settings getSettings() {
-		return settings;
 	}
 
 	public boolean save() {
@@ -567,6 +492,10 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		}
 	}
 
+	public void about() {
+		this.app.showAboutDialog();
+	}
+
 	public void newFile() {
 		if (askSave() == true) {
 			model.clear();
@@ -577,70 +506,10 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 			savehandler.clear();
 			model.setSaved();
 
-			undoHandler.discardAllEdits();
+			getUndoManager().discardAllEdits();
 		}
 	}
 
-	public boolean exit() {
-		if (askSave() == true) {
-			parent.setVisible(false);
-			parent.dispose();
-
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					Window[] windows = Window.getWindows();
-					if (windows.length > 0) {
-						System.err.println("Open windows (disposing now):");
-						for (Window frame : windows) {
-							System.err.println(frame.getName() + ": " + frame.getClass());
-							frame.dispose();
-						}
-					}
-				}
-			});
-
-			return true;
-		}
-
-		return false;
-	}
-
-	private boolean askSave() {
-		if (model.isChanged()) {
-			Messagebox msg = new Messagebox(parent, "Aktuelles Dokument", "Soll das aktuelle Dokument verworfen werden?", Messagebox.QUESTION);
-			msg.addButton("Abbrechen", 0);
-			msg.addButton("Verwerfen", 1);
-			msg.addButton("Speichern", 2, true);
-
-			int result = msg.display();
-			if (result == 1) {
-				return true;
-			}
-			if (result == 2) {
-				return save();
-			}
-
-			return false;
-		}
-		return true;
-	}
-
-	public void help() {
-		if (helpFrame == null) {
-			helpFrame = new HelpFrame(parent);
-		}
-		helpFrame.setVisible(true);
-	}
-
-	public void about() {
-		this.app.showAboutDialog();
-	}
-
-	public JFrame getParent() {
-		return parent;
-	}
 
 	public void fireDrawModusFinished() {
 		for (DrawModusListener l : drawModusListener) {
@@ -677,11 +546,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 	}
 
 	public void addConnector(Connector<?> c) {
-		undoHandler.addEdit(new AddConnectorUndoAction(c, model));
-	}
-
-	public ClipboardHandler getClipboard() {
-		return clipboard;
+		getUndoManager().addEdit(new AddConnectorUndoAction(c, model));
 	}
 
 	public void settings() {
@@ -765,7 +630,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 	}
 
 	public void takeSnapshot() {
-		SnapshotDialog dlg = new SnapshotDialog(parent, getSysintegration(), view, view.getBounds());
+		SnapshotDialog dlg = new SnapshotDialog(getParent(), getSysintegration(), view, view.getBounds());
 		dlg.setVisible(true);
 	}
 
@@ -794,11 +659,11 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 			break;
 
 		case UNDO:
-			this.undo();
+			getUndoManager().undo();
 			break;
 
 		case REDO:
-			this.redo();
+			getUndoManager().redo();
 			break;
 
 		case OPEN_FILE:

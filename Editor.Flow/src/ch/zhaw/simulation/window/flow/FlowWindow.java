@@ -12,14 +12,15 @@ import ch.zhaw.simulation.window.SimulationWindow;
 public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowEditorView> {
 	private static final long serialVersionUID = 1L;
 
-	public FlowWindow() {
+	public FlowWindow(boolean mainWindow) {
+		super(mainWindow);
 	}
 	
 	public void init(FlowEditorControl control, ClipboardInterface clipboard) {
 		FlowMenubar menubar = new FlowMenubar(control.getSysintegration(), um, clipboard);
 		menubar.initMenusToolbar(new JMenu(), true);
 
-		FlowToolbar tb = new FlowToolbar(control.getSysintegration(), true);
+		FlowToolbar tb = new FlowToolbar(control.getSysintegration(), mainWindow);
 		tb.initToolbar();
 
 		FlowEditorView view = new FlowEditorView(control);

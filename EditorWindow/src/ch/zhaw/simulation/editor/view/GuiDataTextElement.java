@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.flow.elements;
+package ch.zhaw.simulation.editor.view;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -13,10 +13,13 @@ import javax.swing.JToolTip;
 
 import butti.javalibs.util.DrawHelper;
 
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.flow.elements.GuiImage;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationAdapter;
 import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.util.gui.InfoTooltip;
 
 public abstract class GuiDataTextElement<T extends NamedSimulationObject> extends GuiDataElement<T> {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +34,7 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 
 	private InfoTooltip tip;
 
-	public GuiDataTextElement(T data, FlowEditorControl control) {
+	public GuiDataTextElement(T data, AbstractEditorControl<?> control) {
 		super(data, control);
 		tip = new InfoTooltip();
 		control.getModel().addListener(new SimulationAdapter() {

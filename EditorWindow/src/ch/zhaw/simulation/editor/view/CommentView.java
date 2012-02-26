@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.flow.elements;
+package ch.zhaw.simulation.editor.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,7 +12,8 @@ import javax.swing.JLabel;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.htmleditor.HTMLEditor;
 import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
@@ -20,7 +21,7 @@ import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
 
-public class TextView extends GuiDataElement<CommentData> {
+public class CommentView extends GuiDataElement<CommentData> {
 	private static final long serialVersionUID = 1L;
 
 	private GuiConfig config;
@@ -33,7 +34,7 @@ public class TextView extends GuiDataElement<CommentData> {
 
 	private JLabel lbConents = new JLabel();
 
-	public TextView(FlowEditorControl control, CommentData data) {
+	public CommentView(AbstractEditorControl<?> control, CommentData data) {
 		super(data, control);
 		config = control.getSysintegration().getGuiConfig();
 

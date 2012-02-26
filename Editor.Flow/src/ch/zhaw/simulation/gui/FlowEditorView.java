@@ -10,19 +10,20 @@ import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import butti.javalibs.util.DrawHelper;
+import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorUi;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
-import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
-import ch.zhaw.simulation.editor.flow.elements.GuiDataTextElement;
-import ch.zhaw.simulation.editor.flow.elements.TextView;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
+import ch.zhaw.simulation.editor.view.CommentView;
+import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.gui.layout.SimulationLayout;
@@ -228,20 +229,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		});
 	}
 
-	public GuiDataElement<?> findGuiComponent(SimulationObject b) {
-		for (Component c : getComponents()) {
-			if (c instanceof GuiDataElement<?>) {
-				GuiDataElement<?> e = (GuiDataElement<?>) c;
-
-				if (e.getData() == b) {
-					return e;
-				}
-			}
-		}
-
-		return null;
-	}
-
 	@Override
 	public void dataAdded(SimulationObject o) {
 		if (o instanceof SimulationParameter) {
@@ -254,7 +241,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			add(new InfiniteSymbol((InfiniteData) o, control));
 		} else if (o instanceof FlowValve) {
 		} else if (o instanceof CommentData) {
-			TextView view = new TextView(control, (CommentData) o);
+			CommentView view = new CommentView(control, (CommentData) o);
 			add(view);
 			view.paintText();
 		} else {

@@ -12,15 +12,19 @@ import ch.zhaw.simulation.window.SimulationWindow;
 public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorView> {
 	private static final long serialVersionUID = 1L;
 
-	public XYWindow(XYEditorControl control, ClipboardInterface clipboard) {
+	public XYWindow(boolean mainWindow) {
+		super(mainWindow);
+	}
+
+	public void init(XYEditorControl control, ClipboardInterface clipboard) {
 		XYMenubar menubar = new XYMenubar(control.getSysintegration(), um, clipboard);
 		menubar.initMenusToolbar(new JMenu(), true);
-		
-		XYToolbar tb = new XYToolbar(control.getSysintegration(), true);
+
+		XYToolbar tb = new XYToolbar(control.getSysintegration(), mainWindow);
 		tb.initToolbar();
-		
+
 		XYEditorView view = new XYEditorView(control);
-		
+
 		init(menubar, tb, view);
 	}
 

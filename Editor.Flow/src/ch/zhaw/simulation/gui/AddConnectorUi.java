@@ -12,10 +12,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import butti.javalibs.gui.messagebox.Messagebox;
+import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
-import ch.zhaw.simulation.editor.flow.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;

@@ -6,10 +6,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
-import java.util.Map.Entry;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -19,7 +19,11 @@ import javax.swing.event.DocumentListener;
 
 import org.jdesktop.swingx.JXStatusBar;
 
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import butti.javalibs.config.WindowPositionSaver;
+import butti.javalibs.errorhandler.Errorhandler;
+import butti.javalibs.gui.BDialog;
+import butti.javalibs.gui.GridBagManager;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.help.model.FunctionInformation;
 import ch.zhaw.simulation.icon.IconSVG;
@@ -28,17 +32,11 @@ import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject.Status;
+import ch.zhaw.simulation.model.flow.SimulationGlobal;
 import ch.zhaw.simulation.sysintegration.Toolbar;
-
-import butti.javalibs.gui.BDialog;
-import butti.javalibs.gui.GridBagManager;
-
-import butti.javalibs.config.WindowPositionSaver;
-import butti.javalibs.errorhandler.Errorhandler;
 
 public class FormulaEditor extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -57,7 +55,7 @@ public class FormulaEditor extends BDialog {
 
 	private String value;
 
-	private FlowEditorControl control;
+	private AbstractEditorControl<?> control;
 
 	private Parser parser = new Parser();
 
@@ -73,7 +71,7 @@ public class FormulaEditor extends BDialog {
 
 	private static final int CHECK_DELAY = 1000;
 
-	public FormulaEditor(JFrame parent, FlowEditorControl control) {
+	public FormulaEditor(JFrame parent, AbstractEditorControl<?> control) {
 		super(parent);
 		this.control = control;
 		help = control.getFunctionHelp();
@@ -270,6 +268,7 @@ public class FormulaEditor extends BDialog {
 		Vector<NamedSimulationObject> parameter = control.getModel().getSource(data);
 
 		constants.clear();
+
 		for (Constant c : getConst()) {
 			constants.addElement(c);
 			text.addAutocomplete(new Autocomplete.AutocompleteWord(c.name, 0));
@@ -291,12 +290,11 @@ public class FormulaEditor extends BDialog {
 		for (Entry<String, Vector<FunctionInformation>> e : help.getData().entrySet()) {
 			functions.addElement(e.getKey(), e.getValue());
 		}
-
 		for (Function f : getFunctions()) {
 			text.addAutocomplete(new Autocomplete.AutocompleteWord(f.getDescription(), -1));
 		}
 
-		SimulationFlowModel model = control.getModel();
+		AbstractSimulationModel model = control.getModel();
 
 		Vector<SimulationGlobal> globalData = model.getGlobalsFor(data);
 		text.setConsts(getConst(), getFunctions(), parameter, globalData);

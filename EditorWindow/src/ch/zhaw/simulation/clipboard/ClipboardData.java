@@ -3,14 +3,14 @@ package ch.zhaw.simulation.clipboard;
 import java.util.HashMap;
 import java.util.Vector;
 
-import ch.zhaw.simulation.gui.FlowEditorView;
+import ch.zhaw.simulation.editor.view.AbstractEditorView;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
@@ -18,15 +18,15 @@ import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 public class ClipboardData extends Vector<TransferData> {
 	private static final long serialVersionUID = 1L;
 	private SelectionModel selectionModel;
-	private SimulationFlowModel model;
-	private FlowEditorView view;
+	private AbstractSimulationModel model;
+	private AbstractEditorView<?> view;
 
 	private HashMap<Integer, SimulationObject> data = new HashMap<Integer, SimulationObject>();
 
 	private Vector<TransferData> flows = new Vector<TransferData>();
 	private Vector<TransferData> connectors = new Vector<TransferData>();
 
-	public void addToModel(SelectionModel selectionModel, SimulationFlowModel model, FlowEditorView view) {
+	public void addToModel(SelectionModel selectionModel, AbstractSimulationModel model, AbstractEditorView<?> view) {
 		this.selectionModel = selectionModel;
 
 		this.model = model;
@@ -87,7 +87,9 @@ public class ClipboardData extends Vector<TransferData> {
 		ParameterConnector p = new ParameterConnector((NamedSimulationObject) source, (NamedSimulationObject) target);
 		p.setConnectorPoint(c.getPoint());
 		model.addConnector(p);
-		selectionModel.addSelectedInt(view.findGuiComponent(p));
+
+		// TODO check if allowed to insert this componentn to this model!
+		// selectionModel.addSelectedInt(view.findGuiComponent(p));
 	}
 
 	private void handleFlow(TransferData f) {

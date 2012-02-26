@@ -16,18 +16,22 @@ import java.util.Vector;
 
 import javax.swing.JLayeredPane;
 
+import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
+import ch.zhaw.simulation.undo.UndoHandler;
 
-public abstract class AbstractEditorView<T extends AbstractEditorControl> extends JLayeredPane {
+public abstract class AbstractEditorView<C extends AbstractEditorControl> extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The editor controller
 	 */
-	protected T control;
+	protected C control;
 
 	/**
 	 * The selection model
@@ -44,6 +48,16 @@ public abstract class AbstractEditorView<T extends AbstractEditorControl> extend
 	 * This is a map mit key shortcuts, e.g. if you press c to add a container
 	 */
 	private HashMap<Character, ActionListener> keyShortcuts = new HashMap<Character, ActionListener>();
+
+	/**
+	 * Undo handler
+	 */
+	private UndoHandler undoHandler = new UndoHandler();
+
+	/**
+	 * Clipboard handler
+	 */
+	private ClipboardHandler<C> clipboard;
 
 	/**
 	 * The key listener
@@ -125,13 +139,14 @@ public abstract class AbstractEditorView<T extends AbstractEditorControl> extend
 
 	};
 
-	public AbstractEditorView(T control) {
+	public AbstractEditorView(C control) {
 		this.control = control;
 
 		if (control == null) {
 			throw new NullPointerException("control == null");
 		}
 
+		clipboard = new ClipboardHandler<C>(control);
 		selectionModel = control.getSelectionModel();
 
 		setBackground(Color.WHITE);
@@ -154,7 +169,7 @@ public abstract class AbstractEditorView<T extends AbstractEditorControl> extend
 	/**
 	 * @return The controller of this editor
 	 */
-	public T getControl() {
+	public C getControl() {
 		return control;
 	}
 
@@ -263,6 +278,35 @@ public abstract class AbstractEditorView<T extends AbstractEditorControl> extend
 		}
 
 		return false;
+	}
+
+	/**
+	 * Searches a rgui representation of a model element
+	 * 
+	 * @param b
+	 *            The Model element
+	 * @return The GuiElement or <code>null</code> if not found
+	 */
+	public GuiDataElement<?> findGuiComponent(SimulationObject b) {
+		for (Component c : getComponents()) {
+			if (c instanceof GuiDataElement<?>) {
+				GuiDataElement<?> e = (GuiDataElement<?>) c;
+
+				if (e.getData() == b) {
+					return e;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public UndoHandler getUndoHandler() {
+		return undoHandler;
+	}
+	
+	public ClipboardHandler<C> getClipboard() {
+		return clipboard;
 	}
 
 	/**

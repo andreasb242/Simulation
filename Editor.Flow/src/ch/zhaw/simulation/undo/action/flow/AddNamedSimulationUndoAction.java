@@ -1,10 +1,11 @@
-package ch.zhaw.simulation.undo.action;
+package ch.zhaw.simulation.undo.action.flow;
 
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import ch.zhaw.simulation.model.flow.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.undo.action.AbstractUndoableEdit;
 
 public class AddNamedSimulationUndoAction extends AbstractUndoableEdit {
 	private NamedSimulationObject so;

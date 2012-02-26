@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.undo.action;
+package ch.zhaw.simulation.undo.action.flow;
 
 import java.util.Vector;
 
@@ -6,6 +6,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.undo.action.AbstractUndoableEdit;
 
 public class LayoutUndoAction extends AbstractUndoableEdit {
 	private Vector<ElemPoint> moves = new Vector<ElemPoint>();

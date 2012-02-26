@@ -9,12 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import ch.zhaw.simulation.clipboard.TransferData.Type;
-import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
-import ch.zhaw.simulation.editor.flow.elements.TextView;
-import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
-import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.flow.InfiniteData;
 import ch.zhaw.simulation.model.flow.SimulationContainer;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -45,13 +40,13 @@ public class SimulationsTransferable implements Transferable {
 	/**
 	 * Das Model um zusätzliche Daten abzufragen
 	 */
-	private SimulationFlowModel model;
+	private AbstractSimulationModel model;
 
 	/**
 	 * Creates a transferable object capable of transferring the specified
 	 * string in plain text format.
 	 */
-	public SimulationsTransferable(SelectableElement[] selected, SimulationFlowModel model) {
+	public SimulationsTransferable(SelectableElement[] selected, AbstractSimulationModel model) {
 		this.model = model;
 		for (SelectableElement s : selected) {
 			addCopy(s);
@@ -59,40 +54,41 @@ public class SimulationsTransferable implements Transferable {
 	}
 
 	private void addCopy(SelectableElement s) {
-		if (s instanceof ContainerView) {
-			SimulationContainer c = ((ContainerView) s).getData();
-			data.add(new TransferData(c.getId(), c.getX(), c.getY(), Type.Container, c.getName(), c.getFormula(), 0, 0, null));
-		} else if (s instanceof InfiniteSymbol) {
-			InfiniteData d = ((InfiniteSymbol) s).getData();
-			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.InfiniteSymbol, "", "", 0, 0, null));
-		} else if (s instanceof ParameterView) {
-			SimulationParameter d = ((ParameterView) s).getData();
-			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Parameter, d.getName(), d.getFormula(), 0, 0, null));
-		} else if (s instanceof TextView) {
-			CommentData d = ((TextView) s).getData();
-			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Text, d.getName(), d.getText(), 0, 0, null));
-		} else if (s instanceof FlowConnectorParameter) {
-			FlowValve d = ((FlowConnectorParameter) s).getData();
-
-			int source = 0;
-			int target = 0;
-
-			for (FlowConnector f : model.getFlowConnectors()) {
-				if (f.getValve() == d) {
-					source = f.getSource().getId();
-					target = f.getTarget().getId();
-					break;
-				}
-			}
-
-			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Flow, d.getName(), d.getFormula(), source, target, null));
-		} else if (s instanceof ConnectorPoint) {
-			ParameterConnector d = ((ConnectorPoint) s).getConnector();
-			Point p = d.getConnectorPoint();
-			data.add(new TransferData(0, p.x, p.y, Type.Connector, null, null, d.getSource().getId(), d.getTarget().getId(), d.getConnectorPoint()));
-		} else {
-			throw new RuntimeException("Class not handled in copy / paste: " + s.getClass().getName());
-		}
+		// TODO !!!!!
+//		if (s instanceof ContainerView) {
+//			SimulationContainer c = ((ContainerView) s).getData();
+//			data.add(new TransferData(c.getId(), c.getX(), c.getY(), Type.Container, c.getName(), c.getFormula(), 0, 0, null));
+//		} else if (s instanceof InfiniteSymbol) {
+//			InfiniteData d = ((InfiniteSymbol) s).getData();
+//			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.InfiniteSymbol, "", "", 0, 0, null));
+//		} else if (s instanceof ParameterView) {
+//			SimulationParameter d = ((ParameterView) s).getData();
+//			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Parameter, d.getName(), d.getFormula(), 0, 0, null));
+//		} else if (s instanceof TextView) {
+//			CommentData d = ((TextView) s).getData();
+//			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Text, d.getName(), d.getText(), 0, 0, null));
+//		} else if (s instanceof FlowConnectorParameter) {
+//			FlowValve d = ((FlowConnectorParameter) s).getData();
+//
+//			int source = 0;
+//			int target = 0;
+//
+//			for (FlowConnector f : model.getFlowConnectors()) {
+//				if (f.getValve() == d) {
+//					source = f.getSource().getId();
+//					target = f.getTarget().getId();
+//					break;
+//				}
+//			}
+//
+//			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Flow, d.getName(), d.getFormula(), source, target, null));
+//		} else if (s instanceof ConnectorPoint) {
+//			ParameterConnector d = ((ConnectorPoint) s).getConnector();
+//			Point p = d.getConnectorPoint();
+//			data.add(new TransferData(0, p.x, p.y, Type.Connector, null, null, d.getSource().getId(), d.getTarget().getId(), d.getConnectorPoint()));
+//		} else {
+//			throw new RuntimeException("Class not handled in copy / paste: " + s.getClass().getName());
+//		}
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.flow.elements;
+package ch.zhaw.simulation.util.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,8 +10,6 @@ import javax.swing.JToolTip;
 
 import org.jdesktop.swingx.VerticalLayout;
 
-import ch.zhaw.simulation.util.gui.GradientPanel;
-import ch.zhaw.simulation.util.gui.HeaderPanel;
 
 public class InfoTooltip extends JToolTip {
 	private static final long serialVersionUID = 1L;
