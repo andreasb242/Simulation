@@ -47,9 +47,9 @@ import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.menu.AbstractMenubar;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;
+import ch.zhaw.simulation.menu.flow.FlowMenubar;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.InfiniteData;
@@ -69,12 +69,11 @@ import ch.zhaw.simulation.sidebar.SidebarListener;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.StandardParameter;
-import ch.zhaw.simulation.sysintegration.Sysintegration;
-import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.undo.action.AddConnectorUndoAction;
 import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
 import ch.zhaw.simulation.undo.action.DeleteUndoAction;
+import ch.zhaw.simulation.window.flow.FlowWindow;
 
 public class FlowEditorControl extends AbstractEditorControl implements MenuActionListener {
 	
@@ -109,7 +108,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 
 	private FormulaEditor formulaEditor;
 
-	AbstractMenubar mb;
 	private SettingsDlg settigsDialog;
 	private Autoparser autoparser;
 
@@ -122,7 +120,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 	private SimulationManager manager;
 	private SimulationApplication app;
 
-	public FlowEditorControl(SimulationApplication app, JFrame parent, Settings settings) {
+	public FlowEditorControl(SimulationApplication app, FlowWindow parent, Settings settings) {
 		this.parent = parent;
 		this.settings = settings;
 		this.app = app;
@@ -143,12 +141,8 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		importPlugins = new ImportPlugins(settings);
 		savehandler = new LoadSaveHandler(this);
 
-		toolbar = new FlowToolbar(this);
+		toolbar = new FlowToolbar(getSysintegration(), true);
 		functionHelp = new FunctionHelp();
-
-		mb = new AbstractMenubar(getSysintegration(), getUndoManager(), getClipboard());
-		mb.addListener(this);
-		getUndoManager().addUndoListener(mb);
 
 		recentMenu = new RecentMenu(settings);
 		recentMenu.addListener(this);
@@ -156,7 +150,7 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 		this.view = new FlowEditorView(this);
 		toolbar.initToolbar();
 
-		mb.initMenusToolbar(recentMenu.getMenu(), true);
+// 		mb.initMenusToolbar(recentMenu.getMenu(), true);
 //		TODO !!! mb.showSidebar(isSidebarVisible());
 
 		initMetadata();
@@ -510,10 +504,6 @@ public class FlowEditorControl extends AbstractEditorControl implements MenuActi
 
 	public JXStatusBar getStatusBar() {
 		return sBar;
-	}
-
-	public JMenuBar getMenuBar() {
-		return mb.getMenubar();
 	}
 
 	public SimulationFlowModel getModel() {

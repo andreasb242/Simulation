@@ -29,72 +29,71 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 	/**
 	 * The menubar
 	 */
-	private JMenuBar mb = new JMenuBar();
+	protected JMenuBar mb = new JMenuBar();
 
 	/**
 	 * Menu file
 	 */
-	private JMenu mFile;
+	protected JMenu mFile;
 
 	/**
 	 * Menu view
 	 */
-	private JMenu mView;
+	protected JMenu mView;
 
 	/**
 	 * Menu edit
 	 */
-	private JMenu mEdit;
+	protected JMenu mEdit;
 
 	/**
 	 * Menu simulation
 	 */
-	private JMenu mSimulation;
+	protected JMenu mSimulation;
 
 	/**
 	 * Menu help
 	 */
-	private JMenu mHelp;
+	protected JMenu mHelp;
 
 	/**
 	 * Redo menuitem
 	 */
-	private JMenuItem mRedo;
+	protected JMenuItem mRedo;
 
 	/**
 	 * Undo menuitem
 	 */
-	private JMenuItem mUndo;
+	protected JMenuItem mUndo;
 
 	/**
 	 * Layout menu
 	 */
-	private JMenu mLayout = new JMenu("Layout");
+	protected JMenu mLayout = new JMenu("Layout");
 
 	/**
 	 * Recent menu
 	 */
-	private JMenu recentMenu;
+	protected JMenu recentMenu;
 
 	/**
 	 * The shortcuts for a specific command
 	 */
-	private SysMenuShortcuts sysmenu;
+	protected SysMenuShortcuts sysmenu;
 
 	/**
 	 * The undo redo handle, to read the undo redo state
 	 */
-	private UndoHandler um;
+	protected UndoHandler um;
 
 	/**
 	 * true if this is the main menu with all menupoints or false if this is a
 	 * submenu with only a part of
 	 */
-	private boolean mainMenu;
+	protected boolean mainMenu;
 
-	private ClipboardInterface clipboard;
-
-	private JCheckBoxMenuItem sidebar;
+	protected ClipboardInterface clipboard;
+	protected JCheckBoxMenuItem sidebar;
 
 	public AbstractMenubar(Sysintegration sysintegration, UndoHandler um, ClipboardInterface clipboard) {
 		this.sysmenu = sysintegration.getMenu();
@@ -137,50 +136,60 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		initHelpMenu();
 	}
 
-	private void initSimulationMenu() {
+	protected void initSimulationMenu() {
 		mSimulation = new JMenu("Simulation");
 		mSimulation.setMnemonic('S');
 
-		addMenuItem(mSimulation, "Zeitsimulation", "start-simulation", MenuToolbarActionType.START_SIMULATION, sysmenu.getSimulationSimulation());
-		addMenuItem(mSimulation, "Forml Übersicht", "overview", MenuToolbarActionType.FORMULA_OVERVIEW, sysmenu.getFormulaOverview());
-		mSimulation.addSeparator();
+		if (mainMenu) {
+			addMenuItem(mSimulation, "Zeitsimulation", "start-simulation", MenuToolbarActionType.START_SIMULATION, sysmenu.getSimulationSimulation());
+		}
 
+		addAdditionalSimulation();
+		addMathConsole();
+	}
+
+	protected void addAdditionalSimulation() {
+	}
+
+	protected void addMathConsole() {
 		addMenuItem(mSimulation, "Mathekonsole", "math", MenuToolbarActionType.SHOW_MATH_CONSOLE, sysmenu.getSimulationMathconsole());
 		mb.add(mSimulation);
 	}
 
-	private void initViewMenu() {
+	protected void initViewMenu() {
 		mView = new JMenu("Ansicht");
 		mView.setMnemonic('A');
+		if (mainMenu) {
 
-		JMenu laf = new JMenu("Look & Feel");
-		laf.setIcon(IconSVG.getIcon("style"));
+			JMenu laf = new JMenu("Look & Feel");
+			laf.setIcon(IconSVG.getIcon("style"));
 
-		addMenuItem(laf, "System LAF", "system", new ActionListener() {
+			addMenuItem(laf, "System LAF", "system", new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setLookAndFeel("sys");
-			}
-		}, null);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setLookAndFeel("sys");
+				}
+			}, null);
 
-		addMenuItem(laf, "Nimbus", "Java-Logo", new ActionListener() {
+			addMenuItem(laf, "Nimbus", "Java-Logo", new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setLookAndFeel("nimbus");
-			}
-		}, null);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setLookAndFeel("nimbus");
+				}
+			}, null);
 
-		addMenuItem(laf, "Java LAF", "Java-Logo", new ActionListener() {
+			addMenuItem(laf, "Java LAF", "Java-Logo", new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setLookAndFeel("java");
-			}
-		}, null);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setLookAndFeel("java");
+				}
+			}, null);
 
-		mView.add(laf);
+			mView.add(laf);
+		}
 
 		this.sidebar = new JCheckBoxMenuItem("Seitenleiste");
 		sidebar.addActionListener(new ActionListener() {
@@ -198,18 +207,18 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		mb.add(mView);
 	}
 
-//	@Override
-//	public void showSidebar(boolean show) {
-//		if (sidebar.isSelected() != show) {
-//			sidebar.setSelected(show);
-//		}
-//	}
+	// @Override
+	// public void showSidebar(boolean show) {
+	// if (sidebar.isSelected() != show) {
+	// sidebar.setSelected(show);
+	// }
+	// }
 
-	private void setLookAndFeel(String lookAndFeel) {
+	protected void setLookAndFeel(String lookAndFeel) {
 		fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LOOK_AND_FEEL_CHANGED, lookAndFeel));
 	}
 
-	private void initHelpMenu() {
+	protected void initHelpMenu() {
 		mHelp = new JMenu("Hilfe");
 		mHelp.setMnemonic('H');
 
@@ -238,7 +247,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		}
 	}
 
-	private void initEditMenu() {
+	protected void initEditMenu() {
 		mEdit = new JMenu("Bearbeiten");
 		mEdit.setMnemonic('B');
 
@@ -296,8 +305,9 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		mLayout.setIcon(IconSVG.getIcon("alignCenterVertical"));
 		mEdit.add(mLayout);
 
-		addMenuItem(mEdit, "Einstellungen", "preferences", MenuToolbarActionType.SETTINGS, sysmenu.getEditSettings());
-
+		if (mainMenu) {
+			addMenuItem(mEdit, "Einstellungen", "preferences", MenuToolbarActionType.SETTINGS, sysmenu.getEditSettings());
+		}
 		mb.add(mEdit);
 	}
 
@@ -305,26 +315,32 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		return mLayout;
 	}
 
-	private void initFileMenu() {
+	protected void initFileMenu() {
 		mFile = new JMenu("Datei");
 		mFile.setMnemonic('D');
+		if (mainMenu) {
 
-		addMenuItem(mFile, "Neu", "file-new", MenuToolbarActionType.NEW_FILE, sysmenu.getFileNew());
-		mFile.addSeparator();
+			addMenuItem(mFile, "Neu", "file-new", MenuToolbarActionType.NEW_FILE, sysmenu.getFileNew());
+			mFile.addSeparator();
 
-		addMenuItem(mFile, "Öffnen", "open", MenuToolbarActionType.OPEN_FILE, sysmenu.getFileOpen());
-		mFile.add(recentMenu);
-		mFile.addSeparator();
+			addMenuItem(mFile, "Öffnen", "open", MenuToolbarActionType.OPEN_FILE, sysmenu.getFileOpen());
+			mFile.add(recentMenu);
+			mFile.addSeparator();
 
-		addMenuItem(mFile, "Speichern", "save", MenuToolbarActionType.SAVE, sysmenu.getFileSave());
-		addMenuItem(mFile, "Speichern unter", "save-as", MenuToolbarActionType.SAVE_AS, sysmenu.getFileSaveAs());
-		mFile.addSeparator();
-
+			addMenuItem(mFile, "Speichern", "save", MenuToolbarActionType.SAVE, sysmenu.getFileSave());
+			addMenuItem(mFile, "Speichern unter", "save-as", MenuToolbarActionType.SAVE_AS, sysmenu.getFileSaveAs());
+			mFile.addSeparator();
+		}
 		addMenuItem(mFile, "Speichern als Bild", "photos", MenuToolbarActionType.SNAPSHOT, sysmenu.getFileTakeSnapshot());
 		mFile.addSeparator();
 
-		addMenuItem(mFile, "Beenden", "exit", MenuToolbarActionType.EXIT, sysmenu.getFileExitApplication());
+		if (mainMenu) {
+			addMenuItem(mFile, "Beenden", "exit", MenuToolbarActionType.EXIT, sysmenu.getFileExitApplication());
+		} else {
+			addMenuItem(mFile, "Schliessen", "exit", MenuToolbarActionType.CLOSE, sysmenu.getFileClose());
+		}
 		mb.add(mFile);
+
 	}
 
 	protected JMenuItem addMenuItem(JMenu menu, String name, String icon, final MenuToolbarActionType action, KeyStroke keyStroke) {

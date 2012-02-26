@@ -32,6 +32,11 @@ public enum MenuToolbarActionType {
 	SNAPSHOT,
 
 	/**
+	 * Close the current window (without quit the application)
+	 */
+	CLOSE,
+	
+	/**
 	 * Quits the application
 	 */
 	EXIT,
@@ -108,5 +113,20 @@ public enum MenuToolbarActionType {
 	/**
 	 * The Look & Feel was changed, the new name is provided as string
 	 */
-	LOOK_AND_FEEL_CHANGED
+	LOOK_AND_FEEL_CHANGED,
+	
+	
+	///////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////
+	// Flow specific enums
+	
+	FLOW_ADD_CONTAINER,
+	FLOW_ADD_PARAMETER,
+	FLOW_ADD_GLOBAL,
+	FLOW_ADD_TEXT,
+	FLOW_ADD_FLOW,
+	FLOW_ADD_CONNECTOR,
+	
+	
 }

@@ -20,8 +20,8 @@ import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
 
 public abstract class AbstractToolbar extends MenuToolbarActionHandler implements ClipboardListener {
-	private GuiConfig config;
-	private Toolbar toolbar;
+	protected GuiConfig config;
+	protected Toolbar toolbar;
 
 	/**
 	 * If this is the toolbar of the main window or of an additional window
@@ -217,7 +217,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 		addSeparator();
 	}
 
-	private void addSeparator() {
+	protected void addSeparator() {
 		toolbar.addSeparator();
 	}
 

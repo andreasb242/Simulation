@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 
+import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.menu.AbstractMenubar;
@@ -13,7 +14,7 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolbar> extends JFrame implements MenuActionListener {
+public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolbar, V extends AbstractEditorView<?>> extends JFrame implements MenuActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private Vector<MenuActionListener> listeners = new Vector<MenuActionListener>();
@@ -24,6 +25,7 @@ public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolb
 
 	protected M menubar;
 	protected T toolbar;
+	protected V view;
 
 	public SimulationWindow() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -36,15 +38,18 @@ public class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolb
 		setLocationRelativeTo(null);
 	}
 
-	protected void init(M menubar, T toolbar) {
+	protected void init(M menubar, T toolbar, V view) {
 		this.menubar = menubar;
 		this.toolbar = toolbar;
+		this.view = view;
 		setJMenuBar(menubar.getMenubar());
 
 		this.menubar.addListener(this);
 		this.toolbar.addListener(this);
 
 		add(BorderLayout.NORTH, toolbar.getToolbar());
+		
+		add(BorderLayout.CENTER, view);
 	}
 
 	@Override

@@ -23,23 +23,20 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
+import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoListener;
 
-public class FlowToolbar {
-	private FlowEditorControl control;
-	private GuiConfig config;
-	private Toolbar toolbar;
-	private LayoutControl layoutControl;
+public class FlowToolbar extends AbstractToolbar {
 
-	public FlowToolbar(FlowEditorControl control) {
-		this.control = control;
-		this.config = control.getSysintegration().getGuiConfig();
-		toolbar = control.getSysintegration().createToolbar();
-		layoutControl = new LayoutControl(control.getSelectionModel(), control.getUndoManager());
+	public FlowToolbar(Sysintegration sys, boolean mainToolbar) {
+		super(sys, mainToolbar);
 	}
 
 	public static Icon drawArrowIcon(GuiConfig config) {
@@ -64,23 +61,168 @@ public class FlowToolbar {
 		return addShadow(img);
 	}
 
-	public static ImageIcon addShadow(BufferedImage icon) {
-		BufferedImage img = new BufferedImage(icon.getWidth(), icon.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Image shadowImage = IconSVG.getIcon("iconShadow", icon.getWidth()).getImage();
+//	public void initToolbar() {
+//	
+//
+//		toolbar.add(new ToolbarAction("Speichern", "save") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				control.save();
+//			}
+//		});
+//
+//		addSeparator();
+//
+//		addUndoRedoButtons();
+//
+//		addCopyPasteButtons();
+//
+//		addSeparator();
+//
+//		addLayoutToolbarItems();
+//	}
+//
+//	private void addLayoutToolbarItems() {
+//		JMenu menu = control.mb.getMLayout();
+//
+//		addTb(menu, new ToolbarAction("Unten ausrichten", "alignBottom") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				layoutControl.layoutBottom();
+//			}
+//		});
+//
+//		addTb(menu, new ToolbarAction("Oben ausrichten", "alingTop") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				layoutControl.layoutTop();
+//			}
+//		});
+//
+//		addTb(menu, new ToolbarAction("Links ausrichten", "alingLeft") {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				layoutControl.layoutLeft();
+//			}
+//		});
+//
+//		addTb(menu, new ToolbarAction("Rechts ausrichten", "alingRight") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				layoutControl.layoutRight();
+//			}
+//		});
+//
+//		addTb(menu, new ToolbarAction("Horizontal zentrieren", "alignCenterHorizontal") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				layoutControl.layoutCenterHorizontal();
+//			}
+//		});
+//
+//		addTb(menu, new ToolbarAction("Vertikal zentrieren", "alignCenterVertical") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				layoutControl.layoutCenterVertical();
+//			}
+//		});
+//	}
+//
+//	private void addCopyPasteButtons() {
+//
+//		final ToolbarButton cut = toolbar.add(new ToolbarAction("Ausschneiden", IconSVG.getIconShadow("edit-cut", 24)) {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				control.getClipboard().cut();
+//			}
+//		});
+//
+//		final ToolbarButton copy = toolbar.add(new ToolbarAction("Kopieren", IconSVG.getIconShadow("editcopy", 24)) {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				control.getClipboard().copy();
+//			}
+//		});
+//
+//		final ToolbarButton paste = toolbar.add(new ToolbarAction("Einfügen", IconSVG.getIcon("editpaste", 24)) {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				control.getClipboard().paste();
+//			}
+//		});
+//
+//		cut.setEnabled(false);
+//		copy.setEnabled(false);
+//		paste.setEnabled(false);
+//
+//		control.getClipboard().addListener(new ClipboardListener() {
+//
+//			@Override
+//			public void pasteEnabled(boolean enabled) {
+//				paste.setEnabled(enabled);
+//			}
+//
+//			@Override
+//			public void cutCopyEnabled(boolean enabled) {
+//				cut.setEnabled(enabled);
+//				copy.setEnabled(enabled);
+//			}
+//		});
+//	}
+//
+//	private void addUndoRedoButtons() {
+//		final ToolbarButton undo = toolbar.add(new ToolbarAction("Rückgängig", "edit-undo") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				control.undo();
+//			}
+//		});
+//
+//		final ToolbarButton redo = toolbar.add(new ToolbarAction("Widerherstellen", "edit-redo") {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				control.redo();
+//			}
+//		});
+//
+//		UndoListener listener = new UndoListener() {
+//
+//			@Override
+//			public void undoRedoUpdated() {
+//				UndoManager um = control.getUndoManager();
+//
+//				undo.setEnabled(um.canUndo());
+//				redo.setEnabled(um.canRedo());
+//
+//				if (um.canUndo()) {
+//					undo.setText(um.getUndoPresentationName());
+//				} else {
+//					undo.setText("Rückgängig");
+//				}
+//
+//				if (um.canRedo()) {
+//					redo.setText(um.getRedoPresentationName());
+//				} else {
+//					redo.setText("Widerherstellen");
+//				}
+//			}
+//		};
+//
+//		control.getUndoManager().addUndoListener(listener);
+//		listener.undoRedoUpdated();
+//
+//		addSeparator();
+//	}
 
-		img.getGraphics().drawImage(shadowImage, 0, icon.getHeight() - shadowImage.getHeight(null), null);
-		img.getGraphics().drawImage(icon, 0, 0, null);
-
-		return new ImageIcon(img);
-	}
-
-	public void initToolbar() {
+	@Override
+	protected void initCustomToolitems() {
 		ImageIcon parameterIcon = addShadow(new ParameterImage(24, config).getImage(false));
 
 		toolbar.add(new ToolbarAction("Parameter (p)", parameterIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.addParameter();
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_PARAMETER));
 			}
 		});
 
@@ -89,7 +231,7 @@ public class FlowToolbar {
 		toolbar.add(new ToolbarAction("Container (c)", containerIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.addContainer();
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_CONTAINER));
 			}
 		});
 
@@ -113,16 +255,20 @@ public class FlowToolbar {
 		toolbar.add(new ToolbarAction("Global (g)", globalIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.addGlobal();
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_GLOBAL));
 			}
 		});
 
-		toolbar.add(new ToolbarAction("Verbindung", drawArrowIcon(control.getSysintegration().getGuiConfig())) {
+		toolbar.add(new ToolbarAction("Verbindung", drawArrowIcon(config)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.cancelAllActions();
-				control.getSelectionModel().clearSelection();
-				control.getView().addConnectArrow();
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_CONNECTOR));
+
+				// TODO !!!!
+				
+				//				control.cancelAllActions();
+//				control.getSelectionModel().clearSelection();
+//				control.getView().addConnectArrow();
 			}
 		});
 
@@ -131,186 +277,24 @@ public class FlowToolbar {
 		toolbar.add(new ToolbarAction("Fluss", flowArrowIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.cancelAllActions();
-				control.getSelectionModel().clearSelection();
-				control.getView().addFlowArrow();
+				// TODO !!!!
+//				control.cancelAllActions();
+//				control.getSelectionModel().clearSelection();
+//				control.getView().addFlowArrow();
+
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_FLOW));
+
 			}
 		});
 
 		toolbar.add(new ToolbarAction("Text", "text") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.addText();
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_TEXT));
 			}
 		});
 
-		addSeparator();
-
-		toolbar.add(new ToolbarAction("Speichern", "save") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				control.save();
-			}
-		});
-
-		addSeparator();
-
-		addUndoRedoButtons();
-
-		addCopyPasteButtons();
-
-		addSeparator();
-
-		addLayoutToolbarItems();
-	}
-
-	private void addLayoutToolbarItems() {
-		JMenu menu = control.mb.getMLayout();
-
-		addTb(menu, new ToolbarAction("Unten ausrichten", "alignBottom") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layoutControl.layoutBottom();
-			}
-		});
-
-		addTb(menu, new ToolbarAction("Oben ausrichten", "alingTop") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layoutControl.layoutTop();
-			}
-		});
-
-		addTb(menu, new ToolbarAction("Links ausrichten", "alingLeft") {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layoutControl.layoutLeft();
-			}
-		});
-
-		addTb(menu, new ToolbarAction("Rechts ausrichten", "alingRight") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layoutControl.layoutRight();
-			}
-		});
-
-		addTb(menu, new ToolbarAction("Horizontal zentrieren", "alignCenterHorizontal") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layoutControl.layoutCenterHorizontal();
-			}
-		});
-
-		addTb(menu, new ToolbarAction("Vertikal zentrieren", "alignCenterVertical") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layoutControl.layoutCenterVertical();
-			}
-		});
-	}
-
-	private void addCopyPasteButtons() {
-
-		final ToolbarButton cut = toolbar.add(new ToolbarAction("Ausschneiden", IconSVG.getIconShadow("edit-cut", 24)) {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				control.getClipboard().cut();
-			}
-		});
-
-		final ToolbarButton copy = toolbar.add(new ToolbarAction("Kopieren", IconSVG.getIconShadow("editcopy", 24)) {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				control.getClipboard().copy();
-			}
-		});
-
-		final ToolbarButton paste = toolbar.add(new ToolbarAction("Einfügen", IconSVG.getIcon("editpaste", 24)) {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				control.getClipboard().paste();
-			}
-		});
-
-		cut.setEnabled(false);
-		copy.setEnabled(false);
-		paste.setEnabled(false);
-
-		control.getClipboard().addListener(new ClipboardListener() {
-
-			@Override
-			public void pasteEnabled(boolean enabled) {
-				paste.setEnabled(enabled);
-			}
-
-			@Override
-			public void cutCopyEnabled(boolean enabled) {
-				cut.setEnabled(enabled);
-				copy.setEnabled(enabled);
-			}
-		});
-	}
-
-	private void addUndoRedoButtons() {
-		final ToolbarButton undo = toolbar.add(new ToolbarAction("Rückgängig", "edit-undo") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				control.undo();
-			}
-		});
-
-		final ToolbarButton redo = toolbar.add(new ToolbarAction("Widerherstellen", "edit-redo") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				control.redo();
-			}
-		});
-
-		UndoListener listener = new UndoListener() {
-
-			@Override
-			public void undoRedoUpdated() {
-				UndoManager um = control.getUndoManager();
-
-				undo.setEnabled(um.canUndo());
-				redo.setEnabled(um.canRedo());
-
-				if (um.canUndo()) {
-					undo.setText(um.getUndoPresentationName());
-				} else {
-					undo.setText("Rückgängig");
-				}
-
-				if (um.canRedo()) {
-					redo.setText(um.getRedoPresentationName());
-				} else {
-					redo.setText("Widerherstellen");
-				}
-			}
-		};
-
-		control.getUndoManager().addUndoListener(listener);
-		listener.undoRedoUpdated();
-
-		addSeparator();
-	}
-
-	private void addSeparator() {
-		toolbar.addSeparator();
-	}
-
-	private ToolbarAction addTb(JMenu menu, ToolbarAction a) {
-		toolbar.add(a);
-
-		menu.add(a.getMenuItem());
-
-		return a;
-	}
-
-	public JComponent getToolbar() {
-		return toolbar.getComponent();
+		addSeparator();		
 	}
 
 }

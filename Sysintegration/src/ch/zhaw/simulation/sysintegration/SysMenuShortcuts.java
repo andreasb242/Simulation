@@ -37,10 +37,6 @@ public class SysMenuShortcuts {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_N, getCommandModifier());
 	}
 
-	public KeyStroke getFileClose() {
-		return KeyStroke.getKeyStroke(KeyEvent.VK_W, getCommandModifier());
-	}
-
 	public KeyStroke getEditCopy() {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_C, getCommandModifier());
 	}
@@ -75,6 +71,10 @@ public class SysMenuShortcuts {
 
 	public KeyStroke getFileExitApplication() {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_MASK);
+	}
+
+	public KeyStroke getFileClose() {
+		return KeyStroke.getKeyStroke(KeyEvent.VK_W, getCommandModifier());
 	}
 
 	public KeyStroke getEditSelectAll() {
