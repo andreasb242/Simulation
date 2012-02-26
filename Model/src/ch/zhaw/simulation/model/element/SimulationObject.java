@@ -1,6 +1,7 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model.element;
 
 import java.util.Vector;
+
 
 /**
  * 

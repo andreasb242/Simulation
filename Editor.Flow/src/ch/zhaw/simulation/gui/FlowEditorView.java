@@ -27,21 +27,21 @@ import ch.zhaw.simulation.editor.view.CommentView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.model.flow.CommentData;
-import ch.zhaw.simulation.model.flow.InfiniteData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.SimulationListener;
-import ch.zhaw.simulation.model.flow.SimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
+import ch.zhaw.simulation.model.listener.SimulationListener;
 
 public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements SimulationListener, DrawModusListener {
 	private static final long serialVersionUID = 1L;
@@ -237,8 +237,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		} else if (o instanceof InfiniteData) {
 			add(new InfiniteSymbol((InfiniteData) o, control));
 		} else if (o instanceof FlowValve) {
-		} else if (o instanceof CommentData) {
-			CommentView view = new CommentView(control, (CommentData) o);
+		} else if (o instanceof TextData) {
+			CommentView view = new CommentView(control, (TextData) o);
 			add(view);
 			view.paintText();
 		} else {

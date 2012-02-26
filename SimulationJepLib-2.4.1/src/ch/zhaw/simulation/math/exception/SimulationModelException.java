@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.math.exception;
 
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 public class SimulationModelException extends Exception {
 	private static final long serialVersionUID = 1L;

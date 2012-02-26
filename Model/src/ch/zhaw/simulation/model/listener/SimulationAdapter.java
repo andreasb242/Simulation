@@ -1,5 +1,6 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model.listener;
 
+import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 
 /**

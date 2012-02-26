@@ -16,9 +16,9 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.GuiImage;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationAdapter;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.listener.SimulationAdapter;
 import ch.zhaw.simulation.util.gui.InfoTooltip;
 
 public abstract class GuiDataTextElement<T extends NamedSimulationObject> extends GuiDataElement<T> {

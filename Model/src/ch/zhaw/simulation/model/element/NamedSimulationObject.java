@@ -1,4 +1,6 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model.element;
+
+import ch.zhaw.simulation.model.SimulationAttachment;
 
 /**
  * A named simulation object contains a name, a formula and an Attachment

@@ -41,20 +41,20 @@ import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
-import ch.zhaw.simulation.model.flow.CommentData;
-import ch.zhaw.simulation.model.flow.InfiniteData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationAdapter;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.SimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.listener.SimulationAdapter;
 import ch.zhaw.simulation.sidebar.SidebarListener;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
@@ -74,7 +74,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	private RecentMenu recentMenu;
 
-
 	private LoadSaveHandler savehandler;
 
 	private Vector<DrawModusListener> drawModusListener = new Vector<DrawModusListener>();
@@ -84,17 +83,11 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	private MouseAdapter lastMouseListener;
 
-
 	private SettingsDlg settigsDialog;
 	private Autoparser autoparser;
 
 	private SimulationManager manager;
 	private SimulationApplication app;
-
-	
-	
-	
-	
 
 	private ImportPlugins importPlugins;
 
@@ -107,10 +100,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		return importPlugins;
 	}
 
-	
-	
-	
-	
 	public FlowEditorControl(SimulationApplication app, FlowWindow parent, Settings settings) {
 		super(parent, settings);
 		this.app = app;
@@ -118,13 +107,13 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		if (app == null) {
 			throw new NullPointerException("app == null");
 		}
-		
+
 		model = new SimulationFlowModel();
 		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
 		loadSimulationParameterFromSettings();
 
 		initPlugins();
-		
+
 		savehandler = new LoadSaveHandler(this);
 
 		recentMenu = new RecentMenu(settings);
@@ -419,8 +408,8 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	}
 
 	private void postAddAction(NamedSimulationObject so) {
-		if (so instanceof CommentData) {
-			CommentData data = (CommentData) so;
+		if (so instanceof TextData) {
+			TextData data = (TextData) so;
 			for (Component c : view.getComponents()) {
 				if (c instanceof CommentView) {
 					if (((CommentView) c).getData() == data) {
@@ -501,7 +490,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			getUndoManager().discardAllEdits();
 		}
 	}
-
 
 	public void fireDrawModusFinished() {
 		for (DrawModusListener l : drawModusListener) {
@@ -607,7 +595,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	public void addText() {
 		cancelAllActions();
-		addComponent(new CommentData(0, 0), "Text");
+		addComponent(new TextData(0, 0), "Text");
 	}
 
 	public void setSidebarVisible(boolean visible) {
@@ -629,10 +617,34 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	public SimulationManager getManager() {
 		return manager;
 	}
-	
+
 	@Override
 	public void menuActionPerformed(MenuToolbarAction action) {
 		switch (action.getType()) {
+
+		case FLOW_ADD_CONTAINER:
+			addContainer();
+			break;
+		case FLOW_ADD_GLOBAL:
+			addGlobal();
+			break;
+		case FLOW_ADD_PARAMETER:
+			addParameter();
+			break;
+		case FLOW_ADD_TEXT:
+			addText();
+			break;
+
+		case FLOW_ADD_CONNECTOR:
+			cancelAllActions();
+			getSelectionModel().clearSelection();
+			getView().addConnectArrow();
+		
+		case FLOW_ADD_FLOW:
+			cancelAllActions();
+			getSelectionModel().clearSelection();
+			getView().addFlowArrow();
+			break;
 
 		case NEW_FILE:
 			this.newFile();

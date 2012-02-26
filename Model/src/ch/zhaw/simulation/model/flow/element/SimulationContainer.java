@@ -1,4 +1,6 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model.flow.element;
+
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
 
 /**
  * An simulation container

@@ -11,14 +11,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
-import ch.zhaw.simulation.model.flow.InfiniteData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.SimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.gui.BDialog;

@@ -15,9 +15,9 @@ import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.EmptyFormulaException;
 import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 public class Parser {
 	private MatrixJep jep;

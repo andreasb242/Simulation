@@ -1,6 +1,6 @@
 package ch.zhaw.simulation.model.flow.connection;
 
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 /**
  * This is a connector within the flow model

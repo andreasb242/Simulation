@@ -11,9 +11,9 @@ import javax.swing.JPopupMenu;
 
 import ch.zhaw.simulation.help.model.FunctionInformation;
 import ch.zhaw.simulation.math.Constant;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 
 public class Functionlist extends ToolbarAction {

@@ -15,13 +15,13 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.htmleditor.HTMLEditor;
-import ch.zhaw.simulation.model.flow.CommentData;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
 
-public class CommentView extends GuiDataElement<CommentData> {
+public class CommentView extends GuiDataElement<TextData> {
 	private static final long serialVersionUID = 1L;
 
 	private GuiConfig config;
@@ -34,7 +34,7 @@ public class CommentView extends GuiDataElement<CommentData> {
 
 	private JLabel lbConents = new JLabel();
 
-	public CommentView(AbstractEditorControl<?> control, CommentData data) {
+	public CommentView(AbstractEditorControl<?> control, TextData data) {
 		super(data, control);
 		config = control.getSysintegration().getGuiConfig();
 
@@ -84,7 +84,7 @@ public class CommentView extends GuiDataElement<CommentData> {
 	}
 
 	public void changeSize(int dX, int dY) {
-		CommentData d = getData();
+		TextData d = getData();
 		d.setWidth(d.getWidth() + dX);
 		d.setHeight(d.getHeight() + dY);
 

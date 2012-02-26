@@ -3,7 +3,7 @@ package ch.zhaw.simulation.editor.flow.elements.parameter;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 
 public class ParameterView extends GuiDataTextElement<SimulationParameter> {
 	private static final long serialVersionUID = 1L;

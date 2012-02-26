@@ -12,6 +12,7 @@ import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.undo.action.MoveUndoAction;
 
 public abstract class GuiElement extends JComponent implements SelectionListener, SelectableElement, ViewComponent {
 	private static final long serialVersionUID = 1L;
@@ -105,8 +106,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 		int dY = (int) p.getY() - lastY;
 		selectionModel.move(dX, dY);
 
-		// TODO !!! control.getUndoManager().addEdit(new
-		// MoveUndoAction(selectionModel.getSelected(), dX, dY));
+		control.getUndoManager().addEdit(new MoveUndoAction(selectionModel.getSelected(), dX, dY));
 	}
 
 	protected void doubleClicked(MouseEvent e) {

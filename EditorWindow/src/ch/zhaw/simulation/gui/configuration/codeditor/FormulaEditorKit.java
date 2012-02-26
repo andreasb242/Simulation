@@ -7,8 +7,8 @@ import javax.swing.text.ViewFactory;
 
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
 
 
 public class FormulaEditorKit extends StyledEditorKit {

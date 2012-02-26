@@ -19,9 +19,9 @@ import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NameChecker;
-import ch.zhaw.simulation.model.flow.CommentData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
@@ -167,7 +167,7 @@ public class NameFormulaConfiguration extends JXTaskPane implements SelectionLis
 
 			if (s instanceof GuiDataElement) {
 				SimulationObject data = ((GuiDataElement<?>) s).getData();
-				if (data instanceof NamedSimulationObject && !(data instanceof CommentData)) {
+				if (data instanceof NamedSimulationObject && !(data instanceof TextData)) {
 					setSelected((NamedSimulationObject) data);
 				}
 				return;

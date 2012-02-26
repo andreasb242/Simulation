@@ -11,17 +11,17 @@ import javax.swing.JPanel;
 
 import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.inexport.gui.settings.DynasysImportSettings;
-import ch.zhaw.simulation.model.flow.InfiniteData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 
 import butti.javalibs.config.Settings;
 
@@ -455,7 +455,7 @@ public class DynasisReader extends BinaryImport {
 				}
 			}
 
-			CommentData txt = new CommentData(padding, maxY + padding);
+			TextData txt = new TextData(padding, maxY + padding);
 			txt.setText(description);
 			txt.setWidth(width);
 			txt.setHeight(200);

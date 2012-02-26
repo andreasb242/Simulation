@@ -1,4 +1,5 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model.element;
+
 
 /**
  * This is a comment
@@ -9,7 +10,7 @@ package ch.zhaw.simulation.model.flow;
  * 
  * @author Andreas Butti
  */
-public class CommentData extends NamedSimulationObject {
+public class TextData extends NamedSimulationObject {
 	/**
 	 * The width of this comment (initialized to a default value)
 	 */
@@ -25,7 +26,7 @@ public class CommentData extends NamedSimulationObject {
 	 */
 	private String text = "";
 
-	public CommentData(int x, int y) {
+	public TextData(int x, int y) {
 		super(x, y);
 		setName("Text");
 	}

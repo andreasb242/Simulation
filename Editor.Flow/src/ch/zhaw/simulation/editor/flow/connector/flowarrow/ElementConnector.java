@@ -2,7 +2,7 @@ package ch.zhaw.simulation.editor.flow.connector.flowarrow;
 
 import java.awt.Point;
 
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 
 public class ElementConnector {

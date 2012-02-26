@@ -12,16 +12,16 @@ import org.w3c.dom.NodeList;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.filehandling.XmlHelper;
-import ch.zhaw.simulation.model.flow.InfiniteData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.SimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 
 public class XmlContentsLoader implements XmlContentsNames {
 	private Vector<Node> parameterConnectors = new Vector<Node>();
@@ -54,7 +54,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		} else if (XML_ELEMENT_FLOW_CONNECTOR.equals(name)) {
 			flowConnectors.add(node);
 		} else if ("text".equals(name)) {
-			CommentData o = new CommentData(0, 0);
+			TextData o = new TextData(0, 0);
 			parseSimulationText(node, o);
 			model.addData(o);
 		} else {
@@ -62,7 +62,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 		}
 	}
 
-	private void parseSimulationText(Node node, CommentData o) {
+	private void parseSimulationText(Node node, TextData o) {
 		int x = XmlHelper.getAttributeInt(node, "x");
 		int y = XmlHelper.getAttributeInt(node, "y");
 		int width = XmlHelper.getAttributeInt(node, "width");

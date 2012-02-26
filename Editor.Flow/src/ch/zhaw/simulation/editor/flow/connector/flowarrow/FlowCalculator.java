@@ -3,7 +3,7 @@ package ch.zhaw.simulation.editor.flow.connector.flowarrow;
 import java.awt.Point;
 import java.util.Vector;
 
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
 

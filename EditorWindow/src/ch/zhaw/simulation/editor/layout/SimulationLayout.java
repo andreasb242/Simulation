@@ -7,7 +7,7 @@ import java.awt.LayoutManager;
 import java.awt.Rectangle;
 
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 public class SimulationLayout implements LayoutManager {
 

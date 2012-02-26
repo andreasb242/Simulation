@@ -11,11 +11,11 @@ import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.math.exception.SimulationParserException;
 import ch.zhaw.simulation.math.exception.VarNotFoundException;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.sim.mo.MOAttachment.VarNotFoundExceptionTmp;
 
 public class ModelOptimizer {

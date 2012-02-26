@@ -1,4 +1,5 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model.element;
+
 
 /**
  * A global simulation parameter, this don't need to be connected (and event

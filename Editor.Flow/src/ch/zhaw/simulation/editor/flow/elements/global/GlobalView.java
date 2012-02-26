@@ -3,7 +3,7 @@ package ch.zhaw.simulation.editor.flow.elements.global;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
 
 public class GlobalView extends GuiDataTextElement<SimulationGlobal> {
 	private static final long serialVersionUID = 1L;

@@ -3,7 +3,7 @@ package ch.zhaw.simulation.editor.elements;
 import java.awt.Dimension;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 public abstract class GuiDataElement<T extends SimulationObject> extends GuiElement {
 	private static final long serialVersionUID = 1L;

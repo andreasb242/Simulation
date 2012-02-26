@@ -12,7 +12,7 @@ import butti.javalibs.util.DrawHelper;
 
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;

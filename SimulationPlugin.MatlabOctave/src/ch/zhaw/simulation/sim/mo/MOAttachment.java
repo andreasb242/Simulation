@@ -12,10 +12,10 @@ import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.Parser.ParserNodePair;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationAttachment;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.SimulationAttachment;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 
 public class MOAttachment implements SimulationAttachment {
 	private Vector<NamedSimulationObject> sources;

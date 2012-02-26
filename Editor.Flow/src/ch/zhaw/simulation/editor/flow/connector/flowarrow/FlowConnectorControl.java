@@ -5,11 +5,11 @@ import java.awt.Point;
 import java.util.Vector;
 
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
-import ch.zhaw.simulation.model.flow.SimulationAdapter;
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
+import ch.zhaw.simulation.model.listener.SimulationAdapter;
 import ch.zhaw.simulation.util.Range;
 
 

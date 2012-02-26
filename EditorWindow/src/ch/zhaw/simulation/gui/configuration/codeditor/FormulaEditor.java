@@ -33,9 +33,9 @@ import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject.Status;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.NamedSimulationObject.Status;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 
 public class FormulaEditor extends BDialog {

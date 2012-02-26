@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model;
 
 /**
  * This is the base interface for all simulation attachments, the don't need to

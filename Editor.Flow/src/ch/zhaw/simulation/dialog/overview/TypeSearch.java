@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.controls.listcontrol.searchmodules.AbstractSearchModul;

@@ -9,18 +9,18 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 
 import ch.zhaw.simulation.filehandling.AbstractXmlSaver;
-import ch.zhaw.simulation.model.flow.InfiniteData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.SimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
-import ch.zhaw.simulation.model.flow.CommentData;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 
 public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNames {
 
@@ -40,8 +40,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 				visitSimulationcontainer(root, (SimulationContainer) o);
 			} else if (o instanceof SimulationGlobal) {
 				visitSimulationGlobal(root, (SimulationGlobal) o);
-			} else if (o instanceof CommentData) {
-				visitTextdata(root, (CommentData) o);
+			} else if (o instanceof TextData) {
+				visitTextdata(root, (TextData) o);
 			} else if (o instanceof InfiniteData) {
 			} else if (o instanceof FlowValve) {
 			} else {
@@ -60,7 +60,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		}
 	}
 
-	private void visitTextdata(Element root, CommentData o) {
+	private void visitTextdata(Element root, TextData o) {
 		Element text = document.createElement("text");
 		text.setAttribute("x", "" + o.getX());
 		text.setAttribute("y", "" + o.getY());

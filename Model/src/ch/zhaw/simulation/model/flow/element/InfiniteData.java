@@ -1,4 +1,6 @@
-package ch.zhaw.simulation.model.flow;
+package ch.zhaw.simulation.model.flow.element;
+
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 /**
  * This item is used if there is a flow from "noting" into a container, or from

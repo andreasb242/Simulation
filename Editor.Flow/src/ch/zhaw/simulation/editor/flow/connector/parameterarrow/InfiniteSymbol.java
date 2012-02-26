@@ -9,7 +9,7 @@ import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.model.flow.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
 
 
 public class InfiniteSymbol extends GuiDataElement<InfiniteData> {

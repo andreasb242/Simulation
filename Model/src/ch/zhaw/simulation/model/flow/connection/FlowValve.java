@@ -2,7 +2,7 @@ package ch.zhaw.simulation.model.flow.connection;
 
 import java.awt.Point;
 
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
 
 /**
  * A valve, associated with a FlowConnector

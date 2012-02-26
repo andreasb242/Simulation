@@ -13,7 +13,7 @@ import ch.zhaw.simulation.gui.configuration.codeditor.FormulaEditor;
 import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;

@@ -5,14 +5,14 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.flow.CommentData;
-import ch.zhaw.simulation.model.flow.InfiniteData;
-import ch.zhaw.simulation.model.flow.NamedSimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationContainer;
-import ch.zhaw.simulation.model.flow.SimulationObject;
-import ch.zhaw.simulation.model.flow.SimulationParameter;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.element.InfiniteData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 
 public class ClipboardData extends Vector<TransferData> {
@@ -176,7 +176,7 @@ public class ClipboardData extends Vector<TransferData> {
 	}
 
 	private void handleText(TransferData d) {
-		CommentData t = new CommentData(d.getX(), d.getY());
+		TextData t = new TextData(d.getX(), d.getY());
 		t.setName(d.getName());
 		t.setText(d.getFormula());
 

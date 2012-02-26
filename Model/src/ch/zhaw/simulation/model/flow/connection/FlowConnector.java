@@ -2,7 +2,7 @@ package ch.zhaw.simulation.model.flow.connection;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.model.flow.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationObject;
 
 /**
  * A Flow connction between two Containers, or a Container and an InfiniteData
