@@ -85,6 +85,30 @@ public class SysMenuShortcuts {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0);
 	}
 
+	public KeyStroke getLayoutBottom() {
+		return null;
+	}
+
+	public KeyStroke getLayoutTop() {
+		return null;
+	}
+
+	public KeyStroke getLayoutLeft() {
+		return null;
+	}
+
+	public KeyStroke getLayoutRight() {
+		return null;
+	}
+
+	public KeyStroke getLayoutCenterVertical() {
+		return null;
+	}
+
+	public KeyStroke getLayoutCenterHorizontal() {
+		return null;
+	}
+
 	public KeyStroke getEditSettings() {
 		return null;
 	}

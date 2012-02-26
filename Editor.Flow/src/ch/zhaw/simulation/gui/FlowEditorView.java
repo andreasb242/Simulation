@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import butti.javalibs.util.DrawHelper;
+import ch.zhaw.simulation.clipboard.AbstractTransferable;
+import ch.zhaw.simulation.clipboard.TransferableFactory;
+import ch.zhaw.simulation.clipboard.flow.FlowTransferable;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
@@ -21,10 +24,9 @@ import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnecto
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
-import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
-import ch.zhaw.simulation.editor.view.CommentView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
+import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.gui.control.DrawModusListener;
 import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
@@ -53,8 +55,15 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 	private ArrowDragView arrowDrag;
 
-	public FlowEditorView(FlowEditorControl control) {
-		super(control);
+	public FlowEditorView(final FlowEditorControl control) {
+		super(control, new TransferableFactory() {
+
+			@Override
+			public AbstractTransferable createTransferable(SelectableElement[] selected) {
+				return new FlowTransferable(selected, (SimulationFlowModel) control.getModel());
+			}
+			
+		});
 
 		initSpecialKeyhandler();
 
@@ -238,7 +247,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			add(new InfiniteSymbol((InfiniteData) o, control));
 		} else if (o instanceof FlowValve) {
 		} else if (o instanceof TextData) {
-			CommentView view = new CommentView(control, (TextData) o);
+			TextView view = new TextView(control, (TextData) o);
 			add(view);
 			view.paintText();
 		} else {

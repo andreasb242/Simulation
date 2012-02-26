@@ -26,7 +26,7 @@ import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 
-public class NameFormulaConfiguration extends JXTaskPane implements SelectionListener {
+public abstract class NameFormulaConfiguration extends JXTaskPane implements SelectionListener {
 	private static final long serialVersionUID = 1L;
 
 	private JTextField txtName = new JTextField();
@@ -86,13 +86,19 @@ public class NameFormulaConfiguration extends JXTaskPane implements SelectionLis
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO !!! control.showFormulaEditor(getData());
+				showFormulaEditor(getData());
 			}
 
 		});
 
 		setVisible(false);
 	}
+	
+	/**
+	 * Shows the formula editor to
+	 * @param data The data to edit
+	 */
+	public abstract void showFormulaEditor(NamedSimulationObject data);
 
 	protected void addAdditionalDataListener(JTextComponent txt) {
 		txt.getDocument().addDocumentListener(new DocumentListener() {

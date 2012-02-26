@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.clipboard;
 
-
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
@@ -11,13 +10,11 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.Vector;
 
+import butti.javalibs.errorhandler.Errorhandler;
+import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-
-import butti.javalibs.errorhandler.Errorhandler;
-
 
 public class ClipboardHandler<C extends AbstractEditorControl<?>> implements FlavorListener, ClipboardOwner, SelectionListener, ClipboardInterface {
 	private C control;
@@ -25,9 +22,11 @@ public class ClipboardHandler<C extends AbstractEditorControl<?>> implements Fla
 	private boolean lastCutCopyEnabled = false;
 
 	private Vector<ClipboardListener> listener = new Vector<ClipboardListener>();
+	private TransferableFactory factory;
 
-	public ClipboardHandler(C control) {
+	public ClipboardHandler(C control, TransferableFactory factory) {
 		this.control = control;
+		this.factory = factory;
 		cp = Toolkit.getDefaultToolkit().getSystemClipboard();
 		cp.addFlavorListener(this);
 
@@ -39,7 +38,7 @@ public class ClipboardHandler<C extends AbstractEditorControl<?>> implements Fla
 		boolean supported = false;
 
 		for (DataFlavor f : cp.getAvailableDataFlavors()) {
-			if (f.equals(SimulationsTransferable.SIMULATION_FLOWER)) {
+			if (f.equals(AbstractTransferable.SIMULATION_FLOWER)) {
 				supported = true;
 				break;
 			}
@@ -71,7 +70,7 @@ public class ClipboardHandler<C extends AbstractEditorControl<?>> implements Fla
 	public void copy() {
 		SelectableElement[] selected = control.getSelectionModel().getSelected();
 		if (selected.length > 0) {
-			cp.setContents(new SimulationsTransferable(selected, control.getModel()), this);
+			cp.setContents(factory.createTransferable(selected), this);
 		}
 	}
 
@@ -82,9 +81,10 @@ public class ClipboardHandler<C extends AbstractEditorControl<?>> implements Fla
 	public void paste() {
 		try {
 			Transferable contents = cp.getContents(this);
-			ClipboardData transfer = (ClipboardData) contents.getTransferData(SimulationsTransferable.SIMULATION_FLOWER);
-
-			transfer.addToModel(control.getSelectionModel(), control.getModel(), control.getView());
+			ClipboardData transfer = (ClipboardData) contents.getTransferData(AbstractTransferable.SIMULATION_FLOWER);
+			if (!transfer.addToModel(control)) {
+				Messagebox.showWarning(control.getParent(), "Einfügen", "Elemente können hier nicht eingefügt werden");
+			}
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Einfügen fehlgeschlagen!");
 		}

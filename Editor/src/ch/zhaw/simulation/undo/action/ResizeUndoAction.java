@@ -4,14 +4,14 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 
-import ch.zhaw.simulation.editor.view.CommentView;
+import ch.zhaw.simulation.editor.view.TextView;
 
 public class ResizeUndoAction extends AbstractUndoableEdit {
-	private CommentView element;
+	private TextView element;
 	private int dX;
 	private int dY;
 
-	public ResizeUndoAction(CommentView element, int dX, int dY) {
+	public ResizeUndoAction(TextView element, int dX, int dY) {
 		this.element = element;
 		this.dX = dX;
 		this.dY = dY;

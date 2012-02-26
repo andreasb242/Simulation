@@ -9,4 +9,9 @@ import ch.zhaw.simulation.model.AbstractSimulationModel;
  */
 public class SimulationFlowModel extends AbstractSimulationModel {
 
+	@Override
+	public boolean isFlowModel() {
+		return true;
+	}
+
 }

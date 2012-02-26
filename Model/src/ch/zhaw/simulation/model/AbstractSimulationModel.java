@@ -17,7 +17,7 @@ import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 
-public class AbstractSimulationModel {
+public abstract class AbstractSimulationModel {
 	/**
 	 * If the model has changed (saved / not saved)
 	 */
@@ -467,4 +467,6 @@ public class AbstractSimulationModel {
 
 		return false;
 	}
+	
+	public abstract boolean isFlowModel();
 }

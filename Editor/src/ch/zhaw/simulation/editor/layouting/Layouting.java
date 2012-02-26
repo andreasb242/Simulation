@@ -1,16 +1,16 @@
-package ch.zhaw.simulation.gui.control;
+package ch.zhaw.simulation.editor.layouting;
 
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.undo.UndoHandler;
-import ch.zhaw.simulation.undo.action.flow.LayoutUndoAction;
+import ch.zhaw.simulation.undo.action.LayoutUndoAction;
 
-public class LayoutControl {
+public class Layouting {
 
 	private SelectionModel selectionModel;
 	private UndoHandler undo;
 
-	public LayoutControl(SelectionModel selectionModel, UndoHandler undo) {
+	public Layouting(SelectionModel selectionModel, UndoHandler undo) {
 		this.selectionModel = selectionModel;
 		this.undo = undo;
 	}

@@ -30,16 +30,14 @@ import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
-import ch.zhaw.simulation.editor.view.CommentView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
+import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.filehandling.ImportPlugins;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.gui.FlowEditorView;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.menu.MenuActionListener;
-import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
@@ -55,7 +53,6 @@ import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
-import ch.zhaw.simulation.sidebar.SidebarListener;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.StandardParameter;
@@ -64,7 +61,7 @@ import ch.zhaw.simulation.undo.action.flow.AddNamedSimulationUndoAction;
 import ch.zhaw.simulation.undo.action.flow.DeleteUndoAction;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 
-public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel> implements MenuActionListener {
+public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel>{
 
 	private FlowEditorView view;
 
@@ -72,14 +69,9 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	private JLabel lbStatus = new JLabel(" ");
 	private boolean emptyStatus = true;
 
-	private RecentMenu recentMenu;
-
 	private LoadSaveHandler savehandler;
 
 	private Vector<DrawModusListener> drawModusListener = new Vector<DrawModusListener>();
-
-	private Vector<SidebarListener> sidebarListener = new Vector<SidebarListener>();
-	private boolean sidebarVisible = true;
 
 	private MouseAdapter lastMouseListener;
 
@@ -115,11 +107,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		initPlugins();
 
 		savehandler = new LoadSaveHandler(this);
-
-		recentMenu = new RecentMenu(settings);
-		recentMenu.addListener(this);
-
-		this.view = new FlowEditorView(this);
 
 		initMetadata();
 
@@ -167,18 +154,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	public void startAutoparser() {
 		autoparser.start();
-	}
-
-	public void openLastFile() {
-		if (settings.isSetting("autoloadLastDocument", false)) {
-			String path = recentMenu.getNewstEntry();
-			if (path != null) {
-				File f = new File(path);
-				if (f.exists() && f.canRead()) {
-					open(path);
-				}
-			}
-		}
 	}
 
 	@Override
@@ -411,9 +386,9 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		if (so instanceof TextData) {
 			TextData data = (TextData) so;
 			for (Component c : view.getComponents()) {
-				if (c instanceof CommentView) {
-					if (((CommentView) c).getData() == data) {
-						((CommentView) c).showTextEditor();
+				if (c instanceof TextView) {
+					if (((TextView) c).getData() == data) {
+						((TextView) c).showTextEditor();
 					}
 				}
 			}
@@ -511,20 +486,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		drawModusListener.remove(l);
 	}
 
-	public void fireSidebarVisible(boolean visible) {
-		for (SidebarListener l : sidebarListener) {
-			l.showSidebar(visible);
-		}
-	}
-
-	public void addSidebarListener(SidebarListener l) {
-		sidebarListener.add(l);
-	}
-
-	public void removeSidebarListener(SidebarListener l) {
-		sidebarListener.remove(l);
-	}
-
 	public void addConnector(Connector<?> c) {
 		getUndoManager().addEdit(new AddConnectorUndoAction(c, model));
 	}
@@ -596,17 +557,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	public void addText() {
 		cancelAllActions();
 		addComponent(new TextData(0, 0), "Text");
-	}
-
-	public void setSidebarVisible(boolean visible) {
-		if (sidebarVisible != visible) {
-			fireSidebarVisible(visible);
-			sidebarVisible = visible;
-		}
-	}
-
-	public boolean isSidebarVisible() {
-		return sidebarVisible;
 	}
 
 	public void takeSnapshot() {
@@ -711,10 +661,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			this.app.showMathConsole();
 			break;
 
-		case SHOW_SIDEBAR:
-			setSidebarVisible((Boolean) action.getData());
-			break;
-
 		default:
 			throw new InvalidParameterException("SimulationControl.menuActionPerformed unimplemented action");
 		}
@@ -732,5 +678,9 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			}
 		}
 
+	}
+
+	public void setView(FlowEditorView view) {
+		this.view = view;
 	}
 }

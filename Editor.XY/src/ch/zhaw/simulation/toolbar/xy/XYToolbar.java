@@ -1,6 +1,7 @@
-package ch.zhaw.simulation.toolbar;
+package ch.zhaw.simulation.toolbar.xy;
 
 import ch.zhaw.simulation.sysintegration.Sysintegration;
+import ch.zhaw.simulation.toolbar.AbstractToolbar;
 
 public class XYToolbar extends AbstractToolbar {
 

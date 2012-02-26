@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JMenu;
 
 import ch.zhaw.simulation.clipboard.ClipboardListener;
 import ch.zhaw.simulation.icon.IconSVG;
@@ -89,52 +88,48 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 	}
 
 	private void addLayoutToolbarItems() {
-		// JMenu menu = control.mb.getMLayout();
-		//
-		// addTb(menu, new ToolbarAction("Unten ausrichten", "alignBottom") {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// layoutControl.layoutBottom();
-		// }
-		// });
-		//
-		// addTb(menu, new ToolbarAction("Oben ausrichten", "alingTop") {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// layoutControl.layoutTop();
-		// }
-		// });
-		//
-		// addTb(menu, new ToolbarAction("Links ausrichten", "alingLeft") {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// layoutControl.layoutLeft();
-		// }
-		// });
-		//
-		// addTb(menu, new ToolbarAction("Rechts ausrichten", "alingRight") {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// layoutControl.layoutRight();
-		// }
-		// });
-		//
-		// addTb(menu, new ToolbarAction("Horizontal zentrieren",
-		// "alignCenterHorizontal") {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// layoutControl.layoutCenterHorizontal();
-		// }
-		// });
-		//
-		// addTb(menu, new ToolbarAction("Vertikal zentrieren",
-		// "alignCenterVertical") {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// layoutControl.layoutCenterVertical();
-		// }
-		// });
+		toolbar.add(new ToolbarAction("Unten ausrichten", "alignBottom") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_BOTTOM));
+			}
+		});
+
+		toolbar.add(new ToolbarAction("Oben ausrichten", "alingTop") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_TOP));
+			}
+		});
+
+		toolbar.add(new ToolbarAction("Links ausrichten", "alingLeft") {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_LEFT));
+			}
+		});
+
+		toolbar.add(new ToolbarAction("Rechts ausrichten", "alingRight") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_RIGHT));
+			}
+		});
+
+		toolbar.add(new ToolbarAction("Horizontal zentrieren", "alignCenterHorizontal") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_CENTER_HORIZONTAL));
+			}
+		});
+
+		toolbar.add(new ToolbarAction("Vertikal zentrieren", "alignCenterVertical") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_CENTER_VERTICAL));
+			}
+		});
 	}
 
 	private void addCopyPasteButtons() {
@@ -218,14 +213,6 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 
 	protected void addSeparator() {
 		toolbar.addSeparator();
-	}
-
-	private ToolbarAction addTb(JMenu menu, ToolbarAction a) {
-		toolbar.add(a);
-
-		menu.add(a.getMenuItem());
-
-		return a;
 	}
 
 	public JComponent getToolbar() {

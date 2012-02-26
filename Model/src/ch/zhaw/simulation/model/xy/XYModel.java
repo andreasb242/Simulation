@@ -51,4 +51,9 @@ public class XYModel extends AbstractSimulationModel {
 		this.grid = grid;
 	}
 
+	@Override
+	public boolean isFlowModel() {
+		return false;
+	}
+
 }

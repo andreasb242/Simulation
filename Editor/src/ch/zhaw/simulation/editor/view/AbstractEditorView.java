@@ -17,6 +17,7 @@ import java.util.Vector;
 import javax.swing.JLayeredPane;
 
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
+import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
@@ -140,7 +141,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 
 	};
 
-	public AbstractEditorView(C control) {
+	public AbstractEditorView(C control, TransferableFactory factory) {
 		this.control = control;
 
 		if (control == null) {
@@ -149,7 +150,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 
 		setLayout(new SimulationLayout());
 		
-		clipboard = new ClipboardHandler<C>(control);
+		clipboard = new ClipboardHandler<C>(control, factory);
 		selectionModel = control.getSelectionModel();
 
 		setBackground(Color.WHITE);

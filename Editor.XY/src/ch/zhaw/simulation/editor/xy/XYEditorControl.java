@@ -4,17 +4,16 @@ import javax.swing.JFrame;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.xy.XYModel;
 
 public class XYEditorControl extends AbstractEditorControl<XYModel> {
 
 	private XYEditorView view;
-	
+
 	public XYEditorControl(JFrame parent, Settings settings) {
 		super(parent, settings);
-		
-		view = new XYEditorView(this);
 	}
 
 	@Override
@@ -27,11 +26,27 @@ public class XYEditorControl extends AbstractEditorControl<XYModel> {
 	public XYEditorView getView() {
 		return view;
 	}
+	
+	public void setView(XYEditorView view) {
+		this.view = view;
+	}
 
 	@Override
 	public boolean save() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void open(String path) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void menuActionPerformed(MenuToolbarAction action) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

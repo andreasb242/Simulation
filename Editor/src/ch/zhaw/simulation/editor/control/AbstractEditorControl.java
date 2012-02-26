@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.editor.control;
 
 import java.awt.Window;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -12,6 +13,8 @@ import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.gui.configuration.codeditor.FormulaEditor;
 import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.help.model.FunctionHelp;
+import ch.zhaw.simulation.menu.MenuActionListener;
+import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
@@ -25,7 +28,7 @@ import ch.zhaw.simulation.undo.UndoHandler;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractEditorControl<M extends AbstractSimulationModel> {
+public abstract class AbstractEditorControl<M extends AbstractSimulationModel>  implements MenuActionListener  {
 	/**
 	 * The selection model, contains the current selected gui elements
 	 */
@@ -40,6 +43,9 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel> {
 	private FormulaEditor formulaEditor;
 	private HelpFrame helpFrame;
 
+	// TODO: move to application
+	protected RecentMenu recentMenu;
+	
 	/**
 	 * The parent JFrame
 	 */
@@ -74,6 +80,10 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel> {
 			throw new NullPointerException("parent == null");
 		}
 
+		this.recentMenu = new RecentMenu(settings);
+		
+		this.recentMenu.addListener(this);
+		
 		integration = SysintegrationFactory.createSysintegration();
 	}
 
@@ -242,5 +252,25 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel> {
 
 	public String getDocumentName() {
 		return documentName;
+	}
+	
+	
+
+	public void openLastFile() {
+		if (settings.isSetting("autoloadLastDocument", false)) {
+			String path = recentMenu.getNewstEntry();
+			if (path != null) {
+				File f = new File(path);
+				if (f.exists() && f.canRead()) {
+					open(path);
+				}
+			}
+		}
+	}
+	
+	public abstract void open(String path);
+	
+	public RecentMenu getRecentMenu() {
+		return recentMenu;
 	}
 }

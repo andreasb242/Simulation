@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 
+import ch.zhaw.simulation.editor.layouting.Layouting;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.icon.IconSVG;
@@ -48,6 +49,11 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	 */
 	protected UndoHandler um = new UndoHandler();
 
+	/**
+	 * Used for layouting elements
+	 */
+	private Layouting layouter;
+	
 	protected M menubar;
 	protected T toolbar;
 	protected V view;
@@ -56,7 +62,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	 * If this is the main application window
 	 */
 	protected boolean mainWindow;
-
+	
 	/**
 	 * @param mainWindow
 	 *            If this is the main application window
@@ -90,6 +96,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		this.menubar = menubar;
 		this.toolbar = toolbar;
 		this.view = view;
+		this.layouter = new Layouting(view.getControl().getSelectionModel(), view.getUndoHandler());
+		
 		setJMenuBar(menubar.getMenubar());
 
 		this.menubar.addListener(this);
@@ -135,6 +143,34 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 		case REDO:
 			view.getUndoHandler().redo();
+			return;
+
+		case LAYOUT_BOTTOM:
+			this.layouter.layoutBottom();
+			return;
+			
+		case LAYOUT_LEFT:
+			this.layouter.layoutLeft();
+			return;
+			
+		case LAYOUT_RIGHT:
+			this.layouter.layoutRight();
+			return;
+			
+		case LAYOUT_TOP:
+			this.layouter.layoutTop();
+			return;
+			
+		case LAYOUT_CENTER_HORIZONTAL:
+			this.layouter.layoutCenterHorizontal();
+			return;
+			
+		case LAYOUT_CENTER_VERTICAL:
+			this.layouter.layoutCenterVertical();
+			return;
+			
+		case SHOW_SIDEBAR:
+			this.sidebar.setVisible((Boolean)action.getData());
 			return;
 		}
 

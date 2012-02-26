@@ -35,6 +35,10 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		cbSimulationtype = new JComboBox(manager.getPlugins());
 
 		cbSimulationtype.setSelectedItem(model.getPlugin());
+		
+		if(cbSimulationtype.getSelectedIndex() < 0 && manager.getPlugins().size() > 0) {
+			cbSimulationtype.setSelectedIndex(0);
+		}
 
 		add(cbSimulationtype);
 

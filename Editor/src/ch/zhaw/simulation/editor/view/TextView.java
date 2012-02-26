@@ -21,7 +21,7 @@ import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
 
-public class CommentView extends GuiDataElement<TextData> {
+public class TextView extends GuiDataElement<TextData> {
 	private static final long serialVersionUID = 1L;
 
 	private GuiConfig config;
@@ -34,7 +34,7 @@ public class CommentView extends GuiDataElement<TextData> {
 
 	private JLabel lbConents = new JLabel();
 
-	public CommentView(AbstractEditorControl<?> control, TextData data) {
+	public TextView(AbstractEditorControl<?> control, TextData data) {
 		super(data, control);
 		config = control.getSysintegration().getGuiConfig();
 

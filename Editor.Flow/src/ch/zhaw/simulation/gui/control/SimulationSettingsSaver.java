@@ -6,6 +6,7 @@ import ch.zhaw.simulation.model.flow.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.sim.StandardParameter;
 import butti.javalibs.config.Settings;
 
+// TODO: diese klasse wider einbauen
 public class SimulationSettingsSaver implements SimulationParameterListener, PluginChangeListener {
 
 	private Settings settings;

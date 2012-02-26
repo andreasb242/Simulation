@@ -192,6 +192,8 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		}
 
 		this.sidebar = new JCheckBoxMenuItem("Seitenleiste");
+		this.sidebar.setSelected(true);
+		
 		sidebar.addActionListener(new ActionListener() {
 
 			@Override
@@ -206,13 +208,6 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 		mb.add(mView);
 	}
-
-	// @Override
-	// public void showSidebar(boolean show) {
-	// if (sidebar.isSelected() != show) {
-	// sidebar.setSelected(show);
-	// }
-	// }
 
 	protected void setLookAndFeel(String lookAndFeel) {
 		fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LOOK_AND_FEEL_CHANGED, lookAndFeel));
@@ -305,21 +300,29 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		mLayout.setIcon(IconSVG.getIcon("alignCenterVertical"));
 		mEdit.add(mLayout);
 
+		initLayoutMenu();
+
 		if (mainMenu) {
 			addMenuItem(mEdit, "Einstellungen", "preferences", MenuToolbarActionType.SETTINGS, sysmenu.getEditSettings());
 		}
 		mb.add(mEdit);
 	}
 
-	public JMenu getMLayout() {
-		return mLayout;
+	protected void initLayoutMenu() {
+		addMenuItem(mLayout, "Unten ausrichten", "alignBottom", MenuToolbarActionType.LAYOUT_BOTTOM, sysmenu.getLayoutBottom());
+		addMenuItem(mLayout, "Oben ausrichten", "alingTop", MenuToolbarActionType.LAYOUT_TOP, sysmenu.getLayoutTop());
+		addMenuItem(mLayout, "Links ausrichten", "alingLeft", MenuToolbarActionType.LAYOUT_LEFT, sysmenu.getLayoutLeft());
+		addMenuItem(mLayout, "Rechts ausrichten", "alingRight", MenuToolbarActionType.LAYOUT_RIGHT, sysmenu.getLayoutRight());
+		addMenuItem(mLayout, "Horizontal zentrieren", "alignCenterHorizontal", MenuToolbarActionType.LAYOUT_CENTER_HORIZONTAL,
+				sysmenu.getLayoutCenterHorizontal());
+		addMenuItem(mLayout, "Vertikal zentrieren", "alignCenterVertical", MenuToolbarActionType.LAYOUT_CENTER_VERTICAL, sysmenu.getLayoutCenterVertical());
 	}
 
 	protected void initFileMenu() {
 		mFile = new JMenu("Datei");
 		mFile.setMnemonic('D');
-		if (mainMenu) {
 
+		if (mainMenu) {
 			addMenuItem(mFile, "Neu", "file-new", MenuToolbarActionType.NEW_FILE, sysmenu.getFileNew());
 			mFile.addSeparator();
 
@@ -331,6 +334,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 			addMenuItem(mFile, "Speichern unter", "save-as", MenuToolbarActionType.SAVE_AS, sysmenu.getFileSaveAs());
 			mFile.addSeparator();
 		}
+
 		addMenuItem(mFile, "Speichern als Bild", "photos", MenuToolbarActionType.SNAPSHOT, sysmenu.getFileTakeSnapshot());
 		mFile.addSeparator();
 

@@ -35,12 +35,12 @@ public class ApplicationControl implements SimulationApplication {
 
 		boolean mainWindow = true;
 
-		int x = 2;
-		if (x == 1) {
+		int x = 1;
+		if (x == 2) {
 			XYWindow win = new XYWindow(mainWindow);
 
 			XYEditorControl control = new XYEditorControl(win, settings);
-			win.init(control, control.getClipboard());
+			win.init(control);
 
 			this.mainFrame = win;
 
@@ -50,7 +50,7 @@ public class ApplicationControl implements SimulationApplication {
 
 			FlowWindow win = new FlowWindow(mainWindow);
 			FlowEditorControl control = new FlowEditorControl(this, win, settings);
-			win.init(control, control.getClipboard());
+			win.init(control);
 			win.addListener(control);
 			// control.getUndoManager().addUndoListener(l)
 			// getUndoManager().addUndoListener(mb);
