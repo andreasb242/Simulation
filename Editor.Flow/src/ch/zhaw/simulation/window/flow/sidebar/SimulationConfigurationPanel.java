@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;

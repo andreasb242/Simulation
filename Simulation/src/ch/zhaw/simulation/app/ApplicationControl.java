@@ -3,10 +3,9 @@ package ch.zhaw.simulation.app;
 import javax.swing.JFrame;
 
 import butti.javalibs.config.Settings;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
-import ch.zhaw.simulation.filehandling.ImportPlugins;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.math.console.MatrixConsole;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
@@ -35,12 +34,12 @@ public class ApplicationControl implements SimulationApplication {
 
 		boolean mainWindow = true;
 
-		int x = 1;
+		int x = 2;
 		if (x == 2) {
 			XYWindow win = new XYWindow(mainWindow);
-
-			XYEditorControl control = new XYEditorControl(win, settings);
+			XYEditorControl control = new XYEditorControl(this, win, settings);
 			win.init(control);
+			win.addListener(control);
 
 			this.mainFrame = win;
 
@@ -52,10 +51,6 @@ public class ApplicationControl implements SimulationApplication {
 			FlowEditorControl control = new FlowEditorControl(this, win, settings);
 			win.init(control);
 			win.addListener(control);
-			// control.getUndoManager().addUndoListener(l)
-			// getUndoManager().addUndoListener(mb);
-
-			// this.mainFrame = new FlowFrame(this, settings, openfile);
 
 			this.mainFrame = win;
 			mainFrame.setVisible(true);

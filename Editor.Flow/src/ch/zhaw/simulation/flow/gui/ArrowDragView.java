@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui;
+package ch.zhaw.simulation.flow.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;

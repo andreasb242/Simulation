@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/HelpBrowser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

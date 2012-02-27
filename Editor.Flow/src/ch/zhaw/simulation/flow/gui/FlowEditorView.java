@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui;
+package ch.zhaw.simulation.flow.gui;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,6 +13,8 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.clipboard.flow.FlowTransferable;
+import ch.zhaw.simulation.control.flow.DrawModusListener;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
@@ -22,17 +24,11 @@ import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
-import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
-import ch.zhaw.simulation.editor.view.TextView;
-import ch.zhaw.simulation.gui.control.DrawModusListener;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
@@ -42,7 +38,6 @@ import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
 
 public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements FlowSimulationListener, DrawModusListener {
@@ -62,12 +57,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			public AbstractTransferable createTransferable(SelectableElement[] selected) {
 				return new FlowTransferable(selected, (SimulationFlowModel) control.getModel());
 			}
-			
+
 		});
-
-		initSpecialKeyhandler();
-
-		initComponent();
 
 		addConnectorUi = new AddConnectorUi(this, control);
 
@@ -77,11 +68,30 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 		add(arrowDrag);
 		arrowDrag.setVisible(false);
-
-		setOpaque(false);
 	}
 
-	private void initSpecialKeyhandler() {
+	@Override
+	protected void addModellistener() {
+		getControl().getModel().addListener(this);
+	}
+
+	@Override
+	protected void loadDataFromModel() {
+		SimulationFlowModel model = control.getModel();
+
+		for (SimulationObject p : model.getData()) {
+			dataAdded(p);
+		}
+
+		for (Connector<?> c : model.getConnectors()) {
+			connectorAdded(c);
+		}
+	}
+
+	@Override
+	protected void initKeyhandler() {
+		super.initKeyhandler();
+
 		// TODO !!! was macht das?
 		registerKeyShortcut('$', new ActionListener() {
 			@Override
@@ -110,12 +120,21 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			}
 		});
 
-		registerKeyShortcut('g', new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				control.addGlobal();
+	}
+
+	@Override
+	protected void showArrowDrag() {
+		SelectableElement[] selected = selectionModel.getSelected();
+		if (selected.length == 1 && !drawModus) {
+			SelectableElement s = selected[0];
+			if (s instanceof ContainerView || s instanceof FlowConnectorParameter || s instanceof ParameterView) {
+				arrowDrag.setLocation(s.getX() + s.getWidth(), s.getY());
+				arrowDrag.setVisible(true);
+				arrowDrag.setElement((GuiDataElement<?>) s);
+				return;
 			}
-		});
+		}
+		arrowDrag.setVisible(false);
 	}
 
 	@Override
@@ -179,82 +198,21 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		addConnectorUi.paint(g);
 	}
 
-	private void initComponent() {
-		final SimulationFlowModel model = control.getModel();
-
-		for (SimulationObject p : model.getData()) {
-			dataAdded(p);
-		}
-
-		for (Connector<?> c : model.getConnectors()) {
-			connectorAdded(c);
-		}
-
-		model.addListener(this);
-
-		addKeyListener(keyListener);
-
-		addMouseMotionListener(selectionListener);
-		addMouseListener(selectionListener);
-
-		selectionModel.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void selectionChanged() {
-				for (Component c : getComponents()) {
-					setLayer(c, DEFAULT_LAYER, 0);
-				}
-
-				SelectableElement[] selected = selectionModel.getSelected();
-
-				for (SelectableElement e : selected) {
-					setLayer((Component) e, POPUP_LAYER, 1);
-				}
-				showArrowDrag();
-			}
-
-			@Override
-			public void selectionMoved(int dX, int dY) {
-				showArrowDrag();
-			}
-
-			private void showArrowDrag() {
-				SelectableElement[] selected = selectionModel.getSelected();
-				if (selected.length == 1 && !drawModus) {
-					SelectableElement s = selected[0];
-					if (s instanceof ContainerView || s instanceof FlowConnectorParameter || s instanceof ParameterView) {
-						arrowDrag.setLocation(s.getX() + s.getWidth(), s.getY());
-						arrowDrag.setVisible(true);
-						arrowDrag.setElement((GuiDataElement<?>) s);
-						setLayer(arrowDrag, POPUP_LAYER, 2);
-						return;
-					}
-				}
-				arrowDrag.setVisible(false);
-			}
-		});
-	}
-
 	@Override
-	public void dataAdded(SimulationObject o) {
+	protected boolean dataAddedImpl(SimulationObject o) {
 		if (o instanceof SimulationParameter) {
 			add(new ParameterView(o.getWidth(), control, (SimulationParameter) o));
-		} else if (o instanceof SimulationGlobal) {
-			add(new GlobalView(o.getWidth(), control, (SimulationGlobal) o));
+			return true;
 		} else if (o instanceof SimulationContainer) {
 			add(new ContainerView(o.getWidth(), o.getHeight(), control, (SimulationContainer) o));
+			return true;
 		} else if (o instanceof InfiniteData) {
 			add(new InfiniteSymbol((InfiniteData) o, control));
+			return true;
 		} else if (o instanceof FlowValve) {
-		} else if (o instanceof TextData) {
-			TextView view = new TextView(control, (TextData) o);
-			add(view);
-			view.paintText();
-		} else {
-			throw new RuntimeException("Unknown SimulationObject: " + o.getClass().getName());
+			return true;
 		}
-
-		revalidate();
+		return false;
 	}
 
 	@Override
@@ -287,14 +245,10 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	public void dataRemoved(SimulationObject o) {
 		if (o instanceof InfiniteData) {
 			removeInfiniteData((InfiniteData) o);
+			return;
 		}
 
-		GuiDataElement<?> c = findGuiComponent(o);
-		if (c != null) {
-			remove(c);
-			repaint();
-			c.dispose();
-		}
+		super.dataRemoved(o);
 	}
 
 	private void removeInfiniteData(InfiniteData o) {
@@ -306,10 +260,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 				}
 			}
 		}
-	}
-
-	@Override
-	public void dataSaved(boolean saved) {
 	}
 
 	public SelectableElement findGuiComponent(ParameterConnector con) {
@@ -373,15 +323,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	public void connectorChanged(Connector<?> c) {
 	}
 
-	public GuiDataElement<?> getElementAt(int x, int y) {
-		for (Component comp : getComponents()) {
-			if (comp instanceof GuiDataElement<?> && comp.getBounds().contains(x, y)) {
-				return (GuiDataElement<?>) comp;
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public void drawModusEnabled() {
 		drawModus = true;
@@ -420,22 +361,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		connectors.clear();
 		removeAll();
 		add(arrowDrag);
-	}
-
-	public void selectElement(SimulationObject o) {
-		selectionModel.clearSelection();
-
-		for (Component c : getComponents()) {
-			if (c instanceof GuiDataElement<?>) {
-				GuiDataElement<?> e = ((GuiDataElement<?>) c);
-				SimulationObject d = e.getData();
-				if (d.equals(o)) {
-					selectionModel.setSelected(e);
-					break;
-				}
-			}
-		}
-
 	}
 
 	@Override

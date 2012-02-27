@@ -3,7 +3,7 @@ package ch.zhaw.simulation.math;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;

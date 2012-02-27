@@ -33,9 +33,9 @@ public class OverviewWindow extends BDialog {
 	private OverviewListModel model;
 	private SortableTable list;
 	private SimulationFlowModel doc;
-	private ClipboardHandler clipboardHandler;
+	private ClipboardHandler<?> clipboardHandler;
 
-	public OverviewWindow(JFrame parent, ClipboardHandler clipboardHandler, SimulationFlowModel doc, GuiConfig config) {
+	public OverviewWindow(JFrame parent, ClipboardHandler<?> clipboardHandler, SimulationFlowModel doc, GuiConfig config) {
 		super(parent);
 		setTitle("Übersicht");
 		this.doc = doc;
@@ -123,8 +123,7 @@ public class OverviewWindow extends BDialog {
 			}
 		}
 
-		ClipboardHandler cb = clipboardHandler;
-		cb.copy(txt.toString());
+		clipboardHandler.copy(txt.toString());
 	}
 
 	private String getName(SimulationObject o) {

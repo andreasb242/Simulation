@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.control;
+package ch.zhaw.simulation.control.flow;
 
 import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;

@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.layouting.Layouting;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
@@ -15,8 +16,10 @@ import ch.zhaw.simulation.menu.AbstractMenubar;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
+import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
 
 /**
  * A simulation window
@@ -107,8 +110,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		view.getClipboard().addListener(toolbar);
 
 		add(BorderLayout.NORTH, toolbar.getToolbar());
-
 		add(BorderLayout.CENTER, view);
+		add(BorderLayout.SOUTH, view.getControl().getStatus().getStatusBar());
 
 		initSidebar(sidebar);
 	}
@@ -119,7 +122,21 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	 * @param sidebar
 	 *            The sidebar
 	 */
-	protected abstract void initSidebar(FrameSidebar sidebar);
+	protected void initSidebar(FrameSidebar sidebar) {
+		final AbstractEditorControl<?> control = view.getControl();
+
+		NameFormulaConfiguration formulaConfiguration = new NameFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void showFormulaEditor(NamedSimulationObject data) {
+				control.showFormulaEditor(getData());
+			}
+			
+		};
+		sidebar.add(formulaConfiguration);
+		view.getControl().getSelectionModel().addSelectionListener(formulaConfiguration);
+	}
 
 	@Override
 	public void menuActionPerformed(MenuToolbarAction action) {

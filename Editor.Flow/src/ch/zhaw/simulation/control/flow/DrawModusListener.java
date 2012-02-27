@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.control;
+package ch.zhaw.simulation.control.flow;
 
 public interface DrawModusListener {
 	public void drawModusFinished();

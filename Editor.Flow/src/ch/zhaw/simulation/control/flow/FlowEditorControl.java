@@ -1,22 +1,13 @@
-package ch.zhaw.simulation.gui.control;
+package ch.zhaw.simulation.control.flow;
 
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
-import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
 
-import javax.swing.JLabel;
-
-import org.jdesktop.swingx.JXStatusBar;
-
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
-import butti.javalibs.util.RestartUtil;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
@@ -24,25 +15,22 @@ import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
-import ch.zhaw.simulation.editor.flow.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
-import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.filehandling.ImportPlugins;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
-import ch.zhaw.simulation.gui.FlowEditorView;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
@@ -57,29 +45,21 @@ import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction;
-import ch.zhaw.simulation.undo.action.flow.AddNamedSimulationUndoAction;
 import ch.zhaw.simulation.undo.action.flow.DeleteUndoAction;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 
-public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel>{
+public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel> {
 
 	private FlowEditorView view;
-
-	private JXStatusBar sBar = new JXStatusBar();
-	private JLabel lbStatus = new JLabel(" ");
-	private boolean emptyStatus = true;
 
 	private LoadSaveHandler savehandler;
 
 	private Vector<DrawModusListener> drawModusListener = new Vector<DrawModusListener>();
 
-	private MouseAdapter lastMouseListener;
-
 	private SettingsDlg settigsDialog;
 	private Autoparser autoparser;
 
 	private SimulationManager manager;
-	private SimulationApplication app;
 
 	private ImportPlugins importPlugins;
 
@@ -93,14 +73,8 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	}
 
 	public FlowEditorControl(SimulationApplication app, FlowWindow parent, Settings settings) {
-		super(parent, settings);
-		this.app = app;
+		super(parent, settings, app, new SimulationFlowModel());
 
-		if (app == null) {
-			throw new NullPointerException("app == null");
-		}
-
-		model = new SimulationFlowModel();
 		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
 		loadSimulationParameterFromSettings();
 
@@ -109,20 +83,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		savehandler = new LoadSaveHandler(this);
 
 		initMetadata();
-
-		initStatusBar();
-
-		model.addListener(new FlowSimulationAdapter() {
-			@Override
-			public void dataChanged(SimulationObject o) {
-				updateTitle();
-			}
-
-			@Override
-			public void dataSaved(boolean saved) {
-				updateTitle();
-			}
-		});
 
 		addListeners();
 
@@ -200,16 +160,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		if (!removedInfinite.contains(d)) {
 			removedInfinite.add(d);
 		}
-	}
-
-	public void selectAll() {
-		for (Component c : view.getComponents()) {
-			if (c instanceof SelectableElement) {
-				selectionModel.addSelectedInt((SelectableElement) c);
-			}
-		}
-
-		selectionModel.fireSelectionChanged();
 	}
 
 	private void addConnectors(Vector<Connector<?>> removedConnectors, Vector<InfiniteData> removedInfinite, Vector<Connector<?>> add) {
@@ -328,75 +278,10 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		model.putMetainf(prefix + ".date", sdf.format(cal.getTime()));
 	}
 
-	private void initStatusBar() {
-		sBar.add(lbStatus);
-	}
-
-	public void setStatusText(String text) {
-		lbStatus.setText(text);
-		emptyStatus = false;
-	}
-
-	public void setStatusTextInfo(String text) {
-		setStatusText(text);
-		lbStatus.setIcon(IconSVG.getIcon("info", 22));
-		emptyStatus = false;
-	}
-
-	public void clearStatus() {
-		if (emptyStatus) {
-			return;
-		}
-		lbStatus.setIcon(null);
-		setStatusText(" ");
-		emptyStatus = true;
-	}
-
-	void cancelAllActions() {
-		if (lastMouseListener != null) {
-			view.removeMouseListener(lastMouseListener);
-			lastMouseListener = null;
-		}
+	@Override
+	protected void cancelAllActions() {
+		super.cancelAllActions();
 		view.cancelAddArrow();
-	}
-
-	void addComponent(final NamedSimulationObject so, String type) {
-		setStatusTextInfo("Ins Dokument klicken um " + type + " einzufügen");
-
-		lastMouseListener = new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				so.setX((int) e.getPoint().getX() - so.getWidth() / 2);
-				so.setY((int) e.getPoint().getY() - so.getHeight() / 2);
-				clearStatus();
-				view.removeMouseListener(this);
-
-				lastMouseListener = null;
-
-				getUndoManager().addEdit(new AddNamedSimulationUndoAction(so, model));
-
-				postAddAction(so);
-			}
-		};
-
-		view.addMouseListener(lastMouseListener);
-	}
-
-	private void postAddAction(NamedSimulationObject so) {
-		if (so instanceof TextData) {
-			TextData data = (TextData) so;
-			for (Component c : view.getComponents()) {
-				if (c instanceof TextView) {
-					if (((TextView) c).getData() == data) {
-						((TextView) c).showTextEditor();
-					}
-				}
-			}
-		}
-	}
-
-	public JXStatusBar getStatusBar() {
-		return sBar;
 	}
 
 	public FlowEditorView getView() {
@@ -446,10 +331,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				updatePaths();
 			}
 		}
-	}
-
-	public void about() {
-		this.app.showAboutDialog();
 	}
 
 	public void newFile() {
@@ -549,16 +430,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		addComponent(new SimulationContainer(0, 0), "Container");
 	}
 
-	public void addGlobal() {
-		cancelAllActions();
-		addComponent(new SimulationGlobal(0, 0), "Global");
-	}
-
-	public void addText() {
-		cancelAllActions();
-		addComponent(new TextData(0, 0), "Text");
-	}
-
 	public void takeSnapshot() {
 		SnapshotDialog dlg = new SnapshotDialog(getParent(), getSysintegration(), view, view.getBounds());
 		dlg.setVisible(true);
@@ -569,36 +440,32 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	}
 
 	@Override
-	public void menuActionPerformed(MenuToolbarAction action) {
-		switch (action.getType()) {
+	public boolean menuActionPerformedOverwrite(MenuToolbarAction action) {
 
+		switch (action.getType()) {
 		case FLOW_ADD_CONTAINER:
 			addContainer();
-			break;
-		case FLOW_ADD_GLOBAL:
-			addGlobal();
-			break;
+			return true;
+
 		case FLOW_ADD_PARAMETER:
 			addParameter();
-			break;
-		case FLOW_ADD_TEXT:
-			addText();
-			break;
+			return true;
 
 		case FLOW_ADD_CONNECTOR:
 			cancelAllActions();
 			getSelectionModel().clearSelection();
 			getView().addConnectArrow();
-		
+			return true;
+
 		case FLOW_ADD_FLOW:
 			cancelAllActions();
 			getSelectionModel().clearSelection();
 			getView().addFlowArrow();
-			break;
+			return true;
 
 		case NEW_FILE:
 			this.newFile();
-			break;
+			return true;
 
 		case OPEN_FILE:
 			if (action.getData() != null) {
@@ -606,78 +473,32 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			} else {
 				this.open();
 			}
-			break;
-
-		case EXIT:
-			this.exit();
-			break;
+			return true;
 
 		case FORMULA_OVERVIEW:
 			OverviewWindow w = new OverviewWindow(getParent(), getClipboard(), getModel(), getSysintegration().getGuiConfig());
 			w.setVisible(true);
-			break;
-
-		case HELP:
-			this.help();
-			break;
-
-		case ABOUT:
-			this.about();
-			break;
-
-		case LOOK_AND_FEEL_CHANGED:
-			setLookAndFeel(action.getData().toString());
-			break;
-
-		case DELETE_SELECTION:
-			this.deleteSelected();
-			break;
+			return true;
 
 		case SETTINGS:
 			this.settings();
-			break;
+			return true;
 
 		case START_SIMULATION:
 			startSimulation();
-			break;
-
-		case SAVE:
-			this.save();
-			break;
+			return true;
 
 		case SAVE_AS:
 			this.saveAs();
-			break;
+			return true;
 
 		case SNAPSHOT:
 			takeSnapshot();
-			break;
+			return true;
 
-		case SELECT_ALL:
-			selectAll();
-			break;
-
-		case SHOW_MATH_CONSOLE:
-			this.app.showMathConsole();
-			break;
-
-		default:
-			throw new InvalidParameterException("SimulationControl.menuActionPerformed unimplemented action");
-		}
-	}
-
-	private void setLookAndFeel(String lookAndFeel) {
-		settings.setSetting("ui.look-and-feel", lookAndFeel);
-
-		if (this.exit()) {
-			if (!RestartUtil.restartApplication("startup.Startup")) {
-				Messagebox msg = new Messagebox(null, "Neu Starten", "<html>Das Programm konnte nicht neu gstartet werden.<br>"
-						+ "Es wird jetzt beendet, bitte starten Sie es manuell neu.</html>", Messagebox.ERROR);
-				msg.addButton("OK", 0);
-				msg.display();
-			}
 		}
 
+		return false;
 	}
 
 	public void setView(FlowEditorView view) {

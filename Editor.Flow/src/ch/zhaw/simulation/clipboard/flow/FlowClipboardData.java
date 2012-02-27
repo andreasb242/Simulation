@@ -6,9 +6,9 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.clipboard.ClipboardData;
 import ch.zhaw.simulation.clipboard.TransferData;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.gui.FlowEditorView;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.element.TextData;

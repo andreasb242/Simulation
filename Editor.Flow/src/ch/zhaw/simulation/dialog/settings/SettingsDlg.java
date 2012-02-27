@@ -18,7 +18,7 @@ import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.inexport.ImportReader;
 import ch.zhaw.simulation.sim.SimulationPlugin;

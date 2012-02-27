@@ -1,5 +1,8 @@
 package ch.zhaw.simulation.toolbar;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -7,7 +10,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.ClipboardListener;
+import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
@@ -209,6 +214,48 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 		} else {
 			btRedo.setText("Widerherstellen");
 		}
+	}
+
+	/**
+	 * Creates the global toolbar item
+	 */
+	public void addGlobalIcon() {
+		BufferedImage image = new GlobalImage(24, config).getImage(false);
+		int height = image.getHeight();
+		int width = image.getWidth();
+		image = image.getSubimage(0, 0, width, height);
+
+		Graphics g = image.getGraphics();
+
+		DrawHelper.antialisingOn(g);
+
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Sans", Font.BOLD, 16));
+		g.drawString("G", 5, 19);
+
+		g.dispose();
+
+		ImageIcon globalIcon = addShadow(image);
+
+		toolbar.add(new ToolbarAction("Global (g)", globalIcon) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_GLOBAL));
+			}
+		});
+	}
+
+	/**
+	 * Creates the text toolbar item
+	 */
+	protected void addTextIcon() {
+		toolbar.add(new ToolbarAction("Text", "text") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_TEXT));
+			}
+		});
+
 	}
 
 	protected void addSeparator() {

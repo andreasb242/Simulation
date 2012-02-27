@@ -1,5 +1,4 @@
-package ch.zhaw.simulation.editor.flow.elements.global;
-
+package ch.zhaw.simulation.editor.elements.global;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
@@ -8,7 +7,6 @@ import butti.javalibs.util.DrawHelper;
 
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
-
 
 public class GlobalImage extends GuiImage {
 

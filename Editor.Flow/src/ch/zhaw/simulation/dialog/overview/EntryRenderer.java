@@ -4,9 +4,9 @@ package ch.zhaw.simulation.dialog.overview;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
-import ch.zhaw.simulation.editor.flow.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;

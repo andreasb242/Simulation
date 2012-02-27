@@ -11,8 +11,8 @@ public class XYToolbar extends AbstractToolbar {
 
 	@Override
 	protected void initCustomToolitems() {
-		// TODO Auto-generated method stub
-
+		addGlobalIcon();
+		addTextIcon();
 	}
 
 }

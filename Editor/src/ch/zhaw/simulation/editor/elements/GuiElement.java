@@ -23,7 +23,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 	private MouseAdapter listener;
 
 	private AbstractEditorControl<?> control;
-	private AbstractSimulationModel model;
+	private AbstractSimulationModel<?> model;
 
 	protected int lastX;
 	protected int lastY;
@@ -116,7 +116,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 	public void paintShadow(Graphics2D g) {
 	}
 
-	public AbstractSimulationModel getModel() {
+	public AbstractSimulationModel<?> getModel() {
 		return model;
 	}
 

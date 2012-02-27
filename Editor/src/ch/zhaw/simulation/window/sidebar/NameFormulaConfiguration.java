@@ -37,13 +37,13 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 
 	private NamedSimulationObject data;
 
-	private AbstractSimulationModel model;
+	private AbstractSimulationModel<?> model;
 
 	protected GridBagManager gbm;
 
 	private SelectionModel selectionModel;
 
-	public NameFormulaConfiguration(AbstractSimulationModel model, SelectionModel selectionModel) {
+	public NameFormulaConfiguration(AbstractSimulationModel<?> model, SelectionModel selectionModel) {
 		this.model = model;
 		this.selectionModel = selectionModel;
 		setTitle("Eigenschaften");

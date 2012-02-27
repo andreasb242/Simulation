@@ -5,7 +5,7 @@ import java.io.File;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.inexport.ImportReader;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -14,20 +15,26 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Vector;
 
-import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
+import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JLayeredPane {
+public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JPanel implements SimulationListener {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -149,13 +156,77 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		}
 
 		setLayout(new SimulationLayout());
-		
+
 		clipboard = new ClipboardHandler<C>(control, factory);
 		selectionModel = control.getSelectionModel();
 
 		setBackground(Color.WHITE);
 		setFocusable(true);
+		setOpaque(false);
 
+		initKeyhandler();
+
+		initComponent();
+	}
+
+	/**
+	 * Initialize keyhandlers for keyboard shortcuts
+	 */
+	protected void initKeyhandler() {
+		registerKeyShortcut('g', new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				control.addGlobal();
+			}
+		});
+
+		registerKeyShortcut('t', new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				control.addText();
+			}
+		});
+	}
+
+	private void initComponent() {
+		loadDataFromModel();
+
+		addModellistener();
+
+		addKeyListener(keyListener);
+
+		addMouseMotionListener(selectionListener);
+		addMouseListener(selectionListener);
+
+		selectionModel.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void selectionChanged() {
+				showArrowDrag();
+			}
+
+			@Override
+			public void selectionMoved(int dX, int dY) {
+				showArrowDrag();
+			}
+
+		});
+	}
+
+	/**
+	 * Loads all data from the model to the view
+	 */
+	protected abstract void loadDataFromModel();
+
+	/**
+	 * Adds a listener to the model
+	 */
+	protected abstract void addModellistener();
+
+	/**
+	 * The method is only used for arrow dragging
+	 */
+	protected void showArrowDrag() {
 	}
 
 	/**
@@ -176,7 +247,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	public C getControl() {
 		return control;
 	}
-	
+
 	/**
 	 * @return The current selected rectangle
 	 */
@@ -308,7 +379,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	public UndoHandler getUndoHandler() {
 		return undoHandler;
 	}
-	
+
 	public ClipboardHandler<C> getClipboard() {
 		return clipboard;
 	}
@@ -323,4 +394,90 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	protected boolean checkSelection(MouseEvent e) {
 		return false;
 	}
+
+	public GuiDataElement<?> getElementAt(int x, int y) {
+		for (Component comp : getComponents()) {
+			if (comp instanceof GuiDataElement<?> && comp.getBounds().contains(x, y)) {
+				return (GuiDataElement<?>) comp;
+			}
+		}
+		return null;
+	}
+
+	public void selectElement(SimulationObject o) {
+		selectionModel.clearSelection();
+
+		for (Component c : getComponents()) {
+			if (c instanceof GuiDataElement<?>) {
+				GuiDataElement<?> e = ((GuiDataElement<?>) c);
+				SimulationObject d = e.getData();
+				if (d.equals(o)) {
+					selectionModel.setSelected(e);
+					break;
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Overwrite this method to handle dataAdded events, @see dataAdded
+	 */
+	protected boolean dataAddedImpl(SimulationObject o) {
+		return false;
+	}
+
+	@Override
+	public final void dataAdded(SimulationObject o) {
+		if (dataAddedImpl(o)) {
+			// nothing to do here
+		} else if (o instanceof SimulationGlobal) {
+			add(new GlobalView(o.getWidth(), control, (SimulationGlobal) o));
+		} else if (o instanceof TextData) {
+			TextView view = new TextView(control, (TextData) o);
+			add(view);
+			view.paintText();
+		} else {
+			throw new RuntimeException("Unknown SimulationObject: " + o.getClass().getName());
+		}
+
+		revalidate();
+	}
+
+	@Override
+	public void dataRemoved(SimulationObject o) {
+		GuiDataElement<?> c = findGuiComponent(o);
+		if (c != null) {
+			remove(c);
+			repaint();
+			c.dispose();
+		}
+	}
+
+	@Override
+	public void dataChanged(SimulationObject o) {
+		revalidate();
+
+		GuiDataElement<?> c = findGuiComponent(o);
+		if (c == null) {
+			repaint();
+			return;
+		}
+
+		SimulationObject d = c.getData();
+		if (d instanceof NamedSimulationObject && c instanceof GuiDataTextElement<?>) {
+			String text = ((NamedSimulationObject) d).getStatusText();
+			((GuiDataTextElement<?>) c).setStatus(text);
+		}
+	}
+
+	@Override
+	public void dataSaved(boolean saved) {
+	}
+
+	@Override
+	public void clearData() {
+		removeAll();
+	}
+
 }

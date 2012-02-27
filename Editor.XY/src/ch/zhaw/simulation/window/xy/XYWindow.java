@@ -9,10 +9,13 @@ import ch.zhaw.simulation.menu.xy.XYMenubar;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
+import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;
 
 public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorView> {
 	private static final long serialVersionUID = 1L;
 
+	private DensitySidebar densitySidebar = new DensitySidebar();
+	
 	public XYWindow(boolean mainWindow) {
 		super(mainWindow);
 	}
@@ -40,8 +43,9 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 	@Override
 	protected void initSidebar(FrameSidebar sidebar) {
-		// TODO Auto-generated method stub
-
+		super.initSidebar(sidebar);
+		
+		sidebar.add(densitySidebar);
 	}
 
 }

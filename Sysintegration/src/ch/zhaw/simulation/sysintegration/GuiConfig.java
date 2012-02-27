@@ -138,4 +138,8 @@ public class GuiConfig {
 	public int getFlowArrowSize() {
 		return 50;
 	}
+
+	public Color getRasterColor() {
+		return Color.LIGHT_GRAY;
+	}
 }

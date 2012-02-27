@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui;
+package ch.zhaw.simulation.flow.gui;
 
 
 import java.awt.event.ActionEvent;
@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.toolbar.xy.FlowToolbar;
 
 import butti.javalibs.gui.BDialog;

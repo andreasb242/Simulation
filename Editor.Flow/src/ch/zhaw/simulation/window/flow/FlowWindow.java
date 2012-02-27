@@ -1,16 +1,12 @@
 package ch.zhaw.simulation.window.flow;
 
-import java.awt.BorderLayout;
-
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
-import ch.zhaw.simulation.gui.FlowEditorView;
-import ch.zhaw.simulation.gui.control.FlowEditorControl;
 import ch.zhaw.simulation.menu.flow.FlowMenubar;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.toolbar.xy.FlowToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.sidebar.SimulationConfigurationPanel;
-import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
 
 public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowEditorView> {
 	private static final long serialVersionUID = 1L;
@@ -30,29 +26,13 @@ public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowE
 		tb.initToolbar(view.getUndoHandler());
 
 		init(menubar, tb, view);
-		
-		
-		add(BorderLayout.SOUTH, control.getStatusBar());
 	}
 
 	@Override
 	protected void initSidebar(FrameSidebar sidebar) {
-		final FlowEditorControl control = view.getControl();
+		super.initSidebar(sidebar);
 
-		NameFormulaConfiguration formulaConfiguration = new NameFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showFormulaEditor(NamedSimulationObject data) {
-				control.showFormulaEditor(getData());
-			}
-			
-		};
-		sidebar.add(formulaConfiguration);
-
-		view.getControl().getSelectionModel().addSelectionListener(formulaConfiguration);
-
-		SimulationConfigurationPanel simConfig = new SimulationConfigurationPanel(control);
+		SimulationConfigurationPanel simConfig = new SimulationConfigurationPanel(view.getControl());
 		sidebar.add(simConfig);
 	}
 

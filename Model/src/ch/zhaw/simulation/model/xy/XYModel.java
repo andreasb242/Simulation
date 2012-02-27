@@ -59,7 +59,7 @@ public class XYModel extends AbstractSimulationModel<SimulationListener> {
 
 	@Override
 	public SimulationListener addSimulationListener(SimulationListener l) {
-		addSimulationListener(l);
+		addListener(l);
 		return l;
 	}
 
