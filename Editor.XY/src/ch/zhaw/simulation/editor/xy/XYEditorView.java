@@ -58,16 +58,15 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 		}
 	}
 
-	private void paintElements(Graphics2D g) {
-		for (Component c : getComponents()) {
-			Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+	@Override
+	protected void paintSubComponent(Graphics2D g, Component c) {
+		Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
 
-			if (c instanceof ViewComponent) {
-				if (((ViewComponent) c).isDependent()) {
-					((ViewComponent) c).paintShadow(g);
-				}
-				c.paint(cg);
+		if (c instanceof ViewComponent) {
+			if (((ViewComponent) c).isDependent()) {
+				((ViewComponent) c).paintShadow(g);
 			}
+			c.paint(cg);
 		}
 	}
 

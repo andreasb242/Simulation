@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import java.util.Vector;
 
 import butti.javalibs.util.DrawHelper;
@@ -49,6 +50,11 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	private AddConnectorUi addConnectorUi;
 
 	private ArrowDragView arrowDrag;
+
+	/**
+	 * The point handles, needed only for drawing components
+	 */
+	private LinkedList<ConnectorPoint> tmpPoints = new LinkedList<ConnectorPoint>();
 
 	public FlowEditorView(final FlowEditorControl control) {
 		super(control, new TransferableFactory() {
@@ -166,27 +172,11 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		}
 	}
 
-	private void paintElements(Graphics2D g) {
-		Vector<ConnectorPoint> tmpPoints = new Vector<ConnectorPoint>();
+	@Override
+	protected void paintElements(Graphics2D g) {
+		tmpPoints.clear();
+		super.paintElements(g);
 
-		for (Component c : getComponents()) {
-			Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
-
-			if (c instanceof ConnectorPoint) {
-				tmpPoints.add((ConnectorPoint) c);
-			} else if (c instanceof ViewComponent) {
-				if (((ViewComponent) c).isDependent()) {
-					((ViewComponent) c).paintShadow(g);
-				}
-				c.paint(cg);
-			} else if (!drawModus) {
-				if (c.isVisible()) {
-					c.paint(cg);
-				}
-			}
-		}
-
-		// Flackern verhindern
 		for (ConnectorPoint c : tmpPoints) {
 			Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
 			c.paint(cg);
@@ -196,6 +186,24 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			return;
 		}
 		addConnectorUi.paint(g);
+	}
+
+	@Override
+	protected void paintSubComponent(Graphics2D g, Component c) {
+		Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+
+		if (c instanceof ConnectorPoint) {
+			tmpPoints.add((ConnectorPoint) c);
+		} else if (c instanceof ViewComponent) {
+			if (((ViewComponent) c).isDependent()) {
+				((ViewComponent) c).paintShadow(g);
+			}
+			c.paint(cg);
+		} else if (!drawModus) {
+			if (c.isVisible()) {
+				c.paint(cg);
+			}
+		}
 	}
 
 	@Override

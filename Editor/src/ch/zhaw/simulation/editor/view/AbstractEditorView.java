@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Vector;
 
 import javax.swing.JPanel;
@@ -313,6 +314,26 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 
 		selectionModel.setTmpSelection(tmp);
 	}
+
+	protected void paintElements(Graphics2D g) {
+		LinkedList<Component> selected = new LinkedList<Component>();
+
+		for (Component c : getComponents()) {
+			if (c instanceof SelectableElement) {
+				if (selectionModel.isSelected((SelectableElement) c)) {
+					selected.add(c);
+				} else {
+					paintSubComponent(g, c);
+				}
+			}
+		}
+
+		for (Component c : selected) {
+			paintSubComponent(g, c);
+		}
+	}
+
+	protected abstract void paintSubComponent(Graphics2D g, Component c);
 
 	/**
 	 * Checks if a component is within the selected range
