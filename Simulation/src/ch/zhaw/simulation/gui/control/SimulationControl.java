@@ -241,8 +241,8 @@ public class SimulationControl {
 		Vector<NamedSimulationObject> removedObjects = new Vector<NamedSimulationObject>();
 		Vector<Connector<?>> removedConnectors = new Vector<Connector<?>>();
 		Vector<InfiniteData> removedInfinite = new Vector<InfiniteData>();
-
 		Vector<Connector<?>> tmpRemovedConnectors = new Vector<Connector<?>>();
+
 		for (SelectableElement el : selected) {
 			if (el instanceof FlowConnectorParameter) {
 				FlowConnector c = ((FlowConnectorParameter) el).getConnector();

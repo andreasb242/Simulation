@@ -391,10 +391,21 @@ public class SimulationFlowModel {
 		for (Connector<?> c : this.connectors) {
 			if (c.getTarget() == data || c.getSource() == data) {
 				connectors.add(c);
+				if (c instanceof FlowConnector) {
+					getDeepConnectorsTo(connectors, ((FlowConnector) c).getValve());
+				}
 			}
 		}
 
 		return connectors;
+	}
+
+	private void getDeepConnectorsTo(Vector<Connector<?>> connectors, FlowValve flowValve) {
+		for (Connector<?> c : this.connectors) {
+			if (c.getTarget() == flowValve || c.getSource() == flowValve) {
+				connectors.add(c);
+			}
+		}
 	}
 
 	public Vector<ParameterConnector> getParameterConnectorsTo(SimulationObject data) {
