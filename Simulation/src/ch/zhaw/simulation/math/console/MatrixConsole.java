@@ -15,6 +15,10 @@ import org.lsmp.djep.matrixJep.*;
 public class MatrixConsole extends DJepConsole {
 	private static final long serialVersionUID = -4768856862892634425L;
 
+	public MatrixConsole() {
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}
+	
 	public String getPrompt() {
 		return "MatrixJep > ";
 	}

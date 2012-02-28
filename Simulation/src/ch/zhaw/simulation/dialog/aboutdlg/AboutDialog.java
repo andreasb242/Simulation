@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.dialog.aboutdlg;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Insets;
@@ -13,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jdesktop.swingx.action.OpenBrowserAction;
+
+import ch.zhaw.simulation.util.gui.GradientPanel;
 
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
@@ -72,7 +73,6 @@ public class AboutDialog extends BDialog {
 		addLib("SwingX (Sun)", "http://swinglabs.org/");
 		addLib("SvgSalamander", "https://svgsalamander.dev.java.net/");
 		addLib("Jep Java - Math Expression Parser", "http://sourceforge.net/projects/jep/");
-		addLib("EPS Library", "http://www.abeel.be/epsgraphics/");
 		addLib("JOpenChart", "http://jopenchart.sourceforge.net/");
 
 		pack();

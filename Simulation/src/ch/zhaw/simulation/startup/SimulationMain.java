@@ -6,12 +6,16 @@ import javax.swing.UIManager;
 
 import org.jdesktop.swingx.util.OS;
 
-import ch.zhaw.simulation.gui.SimulationFrame;
-
-import butti.javalibs.config.Settings;
 import butti.javalibs.config.FileSettings;
+import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
+import ch.zhaw.simulation.app.ApplicationControl;
 
+/**
+ * Initializes the application
+ * 
+ * @author Andreas Butti
+ */
 public class SimulationMain {
 	private static String openfile;
 
@@ -36,8 +40,8 @@ public class SimulationMain {
 			Errorhandler.logError(e);
 		}
 
-		SimulationFrame frame = new SimulationFrame(settings, openfile);
-		frame.setVisible(true);
+		ApplicationControl app = new ApplicationControl();
+		app.start(settings, openfile);
 	}
 
 	public static void main(String[] args) {

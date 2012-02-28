@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ch.zhaw.simulation.gui.HeaderPanel;
 import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.util.gui.HeaderPanel;
 
 import butti.javalibs.controls.TitleLabel;
 
@@ -37,12 +37,12 @@ public class AboutHeader extends HeaderPanel {
         titel.add(titleLabel);
 
         JLabel lbTitle;
-        titel.add(lbTitle = new JLabel("Programmiert von Andreas Butti"));
+        titel.add(lbTitle = new JLabel("Programmiert von Andreas Bachmann, Andreas Butti"));
         police = lbTitle.getFont().deriveFont(Font.PLAIN);
         lbTitle.setFont(police);
         lbTitle.setBorder(new EmptyBorder(0, 24, 0, 0));
 
-        titel.add(lbTitle = new JLabel("andreasbutti@gmail.com"));
+        titel.add(lbTitle = new JLabel("ZHAW"));
         police = lbTitle.getFont().deriveFont(Font.PLAIN);
         lbTitle.setFont(police);
         lbTitle.setBorder(new EmptyBorder(0, 24, 0, 0));
