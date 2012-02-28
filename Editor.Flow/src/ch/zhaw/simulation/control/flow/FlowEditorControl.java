@@ -18,6 +18,7 @@ import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
@@ -27,6 +28,7 @@ import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
@@ -246,6 +248,11 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		addComponent(new SimulationContainer(0, 0), "Container");
 	}
 
+	public void addDensity() {
+		cancelAllActions();
+		addComponent(new SimulationDensityContainer(0, 0), "Container");
+	}
+	
 	public void takeSnapshot() {
 		SnapshotDialog dlg = new SnapshotDialog(getParent(), getSysintegration(), view, view.getBounds());
 		dlg.setVisible(true);
@@ -259,6 +266,10 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			addContainer();
 			return true;
 
+		case FLOW_ADD_DENSITY:
+			addDensity();
+			return true;
+			
 		case FLOW_ADD_PARAMETER:
 			addParameter();
 			return true;
@@ -284,6 +295,11 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			takeSnapshot();
 			return true;
 
+		case CLOSE:
+			// TODO DEBUG
+			System.err.println("CLOSE => EXIT !!! DEBUG !!!");
+			menuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.EXIT));
+			return true;
 		}
 
 		return false;
@@ -292,4 +308,5 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	public void setView(FlowEditorView view) {
 		this.view = view;
 	}
+
 }

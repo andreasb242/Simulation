@@ -189,7 +189,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 		listener.add(l);
 	}
 
-	public void removeListener(T l) {
+	public void removeListener(SimulationListener l) {
 		listener.remove(l);
 	}
 

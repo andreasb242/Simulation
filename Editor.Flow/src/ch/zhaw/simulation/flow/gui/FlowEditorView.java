@@ -25,6 +25,7 @@ import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
+import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
@@ -37,6 +38,7 @@ import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
@@ -56,7 +58,9 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	 */
 	private LinkedList<ConnectorPoint> tmpPoints = new LinkedList<ConnectorPoint>();
 
-	public FlowEditorView(final FlowEditorControl control) {
+	private boolean mainWindow;
+
+	public FlowEditorView(final FlowEditorControl control, boolean mainWindow) {
 		super(control, new TransferableFactory() {
 
 			@Override
@@ -65,6 +69,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			}
 
 		});
+
+		this.mainWindow = mainWindow;
 
 		addConnectorUi = new AddConnectorUi(this, control);
 
@@ -126,6 +132,15 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			}
 		});
 
+		if (!this.mainWindow) {
+			registerKeyShortcut('d', new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					control.addDensity();
+				}
+			});
+		}
 	}
 
 	@Override
@@ -213,6 +228,9 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			return true;
 		} else if (o instanceof SimulationContainer) {
 			add(new ContainerView(o.getWidth(), o.getHeight(), control, (SimulationContainer) o));
+			return true;
+		} else if (o instanceof SimulationDensityContainer) {
+			add(new DensityContainerView(o.getWidth(), o.getHeight(), control, (SimulationDensityContainer) o));
 			return true;
 		} else if (o instanceof InfiniteData) {
 			add(new InfiniteSymbol((InfiniteData) o, control));

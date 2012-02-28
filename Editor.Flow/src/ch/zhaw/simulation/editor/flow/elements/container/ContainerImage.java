@@ -40,13 +40,13 @@ public class ContainerImage extends GuiImage {
 
 		int cEndY = h - circleHeight - 2;
 
-		Arc2D.Double circleTop = new Arc2D.Double(1, 1, w - 2, circleHeight, 0, 360, Arc2D.OPEN);
+		Arc2D.Double circleTop = new Arc2D.Double(0, 1, w - 2, circleHeight, 0, 360, Arc2D.OPEN);
 		g.setPaint(config.getContainerPaintTop(w, h, selected));
 		g.fill(circleTop);
 		g.setPaint(config.getObjectBorder(selected));
 		g.draw(circleTop);
 
-		Arc2D.Double circleBottom = new Arc2D.Double(1, cEndY, w - 3, circleHeight, 180, 180, Arc2D.OPEN);
+		Arc2D.Double circleBottom = new Arc2D.Double(0, cEndY, w - 2, circleHeight, 180, 180, Arc2D.OPEN);
 		g.setPaint(config.getContainerPaint(w, h, selected));
 		g.fill(circleBottom);
 		g.setPaint(config.getObjectBorder(selected));

@@ -12,6 +12,7 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
+import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
@@ -67,6 +68,17 @@ public class FlowToolbar extends AbstractToolbar {
 				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_CONTAINER));
 			}
 		});
+
+		if (!this.mainToolbar) {
+			ImageIcon densityIcon = addShadow(new DensityContainerImage(18, 24, config).getImage(false));
+
+			toolbar.add(new ToolbarAction("Dichte (d)", densityIcon) {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_DENSITY));
+				}
+			});
+		}
 
 		addGlobalIcon();
 

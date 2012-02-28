@@ -11,7 +11,11 @@ import javax.swing.JComponent;
 
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 
-
+/**
+ * This is the bluew arrow on the right of a component to add a new connection
+ * 
+ * @author Andreas Butti
+ */
 public class ArrowDragView extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private GuiDataElement<?> data;

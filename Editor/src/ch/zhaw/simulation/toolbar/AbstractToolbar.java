@@ -32,7 +32,8 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 	/**
 	 * If this is the toolbar of the main window or of an additional window
 	 */
-	private boolean mainToolbar;
+	protected boolean mainToolbar;
+	
 	private ToolbarButton clipboardCut;
 	private ToolbarButton clipboarCopy;
 	private ToolbarButton clipboarPaste;
@@ -240,7 +241,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 		toolbar.add(new ToolbarAction("Global (g)", globalIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_GLOBAL));
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.EDITOR_ADD_GLOBAL));
 			}
 		});
 	}
@@ -249,10 +250,10 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 	 * Creates the text toolbar item
 	 */
 	protected void addTextIcon() {
-		toolbar.add(new ToolbarAction("Text", "text") {
+		toolbar.add(new ToolbarAction("Text (t)", "text") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_ADD_TEXT));
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.EDITOR_ADD_TEXT));
 			}
 		});
 

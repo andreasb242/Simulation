@@ -18,6 +18,7 @@ import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
+import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.util.gui.InfoTooltip;
 
 public abstract class GuiDataTextElement<T extends NamedSimulationObject> extends GuiDataElement<T> {
@@ -33,10 +34,12 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 
 	private InfoTooltip tip;
 
+	private SimulationListener changeListener;
+
 	public GuiDataTextElement(T data, AbstractEditorControl<?> control) {
 		super(data, control);
 		tip = new InfoTooltip();
-		control.getModel().addSimulationListener(new SimulationAdapter() {
+		changeListener = control.getModel().addSimulationListener(new SimulationAdapter() {
 			@Override
 			public void dataChanged(SimulationObject o) {
 				recalcFontMetrics(null);
@@ -160,5 +163,12 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 
 	public void setStatus(String text) {
 		tip.setStatus(text);
+	}
+
+	@Override
+	public void dispose() {
+		getModel().removeListener(changeListener);
+
+		super.dispose();
 	}
 }

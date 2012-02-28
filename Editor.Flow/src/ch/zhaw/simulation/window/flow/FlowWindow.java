@@ -16,7 +16,7 @@ public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowE
 	}
 
 	public void init(FlowEditorControl control) {
-		FlowEditorView view = new FlowEditorView(control);
+		FlowEditorView view = new FlowEditorView(control, mainWindow);
 		control.setView(view);
 
 		FlowMenubar menubar = new FlowMenubar(control.getSysintegration(), um, control.getClipboard());

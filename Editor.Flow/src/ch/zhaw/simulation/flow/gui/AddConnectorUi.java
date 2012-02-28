@@ -20,6 +20,7 @@ import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
+import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationObject;
@@ -70,13 +71,25 @@ public class AddConnectorUi {
 
 		private boolean isSelectElementAllowed(GuiDataElement<?> elem) {
 			if (addArcType == ArcType.FLOW) {
-				return elem instanceof ContainerView;
+				if(elem instanceof ContainerView) {
+					return true;
+				}
+				
+				if(elem instanceof DensityContainerView) {
+					return true;
+				}
+				
+				return false;
 			} else {
 				if (elem instanceof FlowConnectorParameter) {
 					return targetNotAlreadyConnected(elem);
 				}
 
 				if (elem instanceof ContainerView) {
+					return targetNotAlreadyConnected(elem);
+				}
+
+				if (elem instanceof DensityContainerView) {
 					return targetNotAlreadyConnected(elem);
 				}
 

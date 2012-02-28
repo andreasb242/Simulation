@@ -351,11 +351,11 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 			this.save();
 			break;
 
-		case FLOW_ADD_GLOBAL:
+		case EDITOR_ADD_GLOBAL:
 			addGlobal();
 			break;
 
-		case FLOW_ADD_TEXT:
+		case EDITOR_ADD_TEXT:
 			addText();
 			break;
 
