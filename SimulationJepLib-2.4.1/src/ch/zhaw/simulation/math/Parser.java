@@ -78,7 +78,7 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, SimulationObject o, AbstractSimulationModel model, Vector<NamedSimulationObject> sourcesConst, String name)
+	public ParserNodePair checkCode(String text, SimulationObject o, AbstractSimulationModel<?> model, Vector<NamedSimulationObject> sourcesConst, String name)
 			throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (text.isEmpty()) {
 			throw new EmptyFormulaException(o);

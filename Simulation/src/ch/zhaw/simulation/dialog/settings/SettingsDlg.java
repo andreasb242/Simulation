@@ -5,9 +5,11 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -27,7 +29,6 @@ import ch.zhaw.simulation.util.gui.HeaderPanel;
 
 public class SettingsDlg extends BDialog {
 	private static final long serialVersionUID = 1L;
-	private FlowEditorControl control;
 	private HeaderPanel header = new HeaderPanel();
 
 	private JCheckBox cbAutoloadLastDocument = new JCheckBox("Letzte geöffnete Datei beim Start laden");
@@ -35,12 +36,14 @@ public class SettingsDlg extends BDialog {
 	private JTabbedPane tabs = new JTabbedPane();
 
 	private GridBagManager gbm;
+	private Settings settings;
 
-	public SettingsDlg(FlowEditorControl control) {
-		super(control.getParent());
+	public SettingsDlg(JFrame parent, Settings settings, Vector<PluginDescription<ImportReader>> filter) {
+		super(parent);
 		setTitle("Einstellungen");
+		
+		this.settings = settings;
 
-		this.control = control;
 		add(header, BorderLayout.NORTH);
 
 		GradientPanel panel = new GradientPanel();
@@ -51,7 +54,7 @@ public class SettingsDlg extends BDialog {
 
 		tabs.addTab("Generell", cbAutoloadLastDocument);
 
-		for (PluginDescription<ImportReader> p : control.getImportPlugins().getPlugins()) {
+		for (PluginDescription<ImportReader> p : filter) {
 			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
@@ -59,13 +62,14 @@ public class SettingsDlg extends BDialog {
 			}
 		}
 
-		for (PluginDescription<SimulationPlugin> p : control.getManager().getPlugins()) {
-			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
-
-			if (settingsPanel != null) {
-				tabs.addTab(p.getName(), settingsPanel);
-			}
-		}
+		// TODO !!! add plugin settings
+//		for (PluginDescription<SimulationPlugin> p : control.getManager().getPlugins()) {
+//			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
+//
+//			if (settingsPanel != null) {
+//				tabs.addTab(p.getName(), settingsPanel);
+//			}
+//		}
 
 		initHeader();
 		initData();
@@ -77,12 +81,10 @@ public class SettingsDlg extends BDialog {
 		}
 		setSize(w, getHeight());
 
-		setLocationRelativeTo(control.getParent());
+		setLocationRelativeTo(parent);
 	}
 
 	private void initData() {
-		final Settings settings = control.getSettings();
-
 		cbAutoloadLastDocument.setSelected(settings.isSetting("autoloadLastDocument", false));
 		cbAutoloadLastDocument.addActionListener(new ActionListener() {
 

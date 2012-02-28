@@ -7,23 +7,31 @@ import ch.zhaw.simulation.sysintegration.windows.WindowsSysintegration;
 
 public class SysintegrationFactory {
 
+	private static Sysintegration cached = null;
+
 	/**
 	 * Creates the sysintegration objects depending on the operatings system
 	 * 
 	 * @return A new instance of Sysintegration
 	 */
-	public static Sysintegration createSysintegration() {
-		if (OS.isMacOSX()) {
-			return new WindowsSysintegration();
-		}
-		if (OS.isLinux()) {
-			return new LinuxSysintegration();
-		}
-		if (OS.isWindows()) {
-			return new WindowsSysintegration();
+	public static synchronized Sysintegration createSysintegration() {
+		if (cached != null) {
+			return cached;
 		}
 
-		return new Sysintegration();
+		if (OS.isMacOSX()) {
+			cached = new WindowsSysintegration();
+		}
+		if (OS.isLinux()) {
+			cached = new LinuxSysintegration();
+		}
+		if (OS.isWindows()) {
+			cached = new WindowsSysintegration();
+		}
+
+		cached = new Sysintegration();
+
+		return cached;
 	}
 
 }

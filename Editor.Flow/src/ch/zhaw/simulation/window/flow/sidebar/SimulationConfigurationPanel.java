@@ -26,7 +26,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 
 	public SimulationConfigurationPanel(final FlowEditorControl control) {
 		setTitle("Simulation");
-		this.model = control.getModel().getSimulationConfiguration();
+		this.model = control.getSimulationConfiguration();
 		model.addPluginChangeListener(this);
 
 		add(new JLabel("Simulation"));

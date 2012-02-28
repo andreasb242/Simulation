@@ -2,61 +2,83 @@ package ch.zhaw.simulation.filehandling;
 
 import java.io.File;
 
+import javax.swing.JFrame;
+
+import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.inexport.ImportReader;
+import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.SimulationDocument.SimulationType;
+import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
 
-public class LoadSaveHandler {
+public class LoadSaveHandler extends StatusHandler {
 	private File path;
-	private FlowEditorControl control;
 	private SimzSaver saver = new SimzSaver();
 	private SimzLoader loader = new SimzLoader();
+	private Settings settings;
+	private JFrame parent;
+	private Sysintegration sys;
+	private ImportPlugins importPlugins;
 
 	private static final String LAST_SAVEPATH = "opensave.lastpath";
 
-	public LoadSaveHandler(FlowEditorControl control) {
-		this.control = control;
+	public LoadSaveHandler(JFrame parent, Settings settings, Sysintegration sys, ImportPlugins importPlugins) {
+		this.settings = settings;
+		this.parent = parent;
+		this.sys = sys;
+		this.importPlugins = importPlugins;
+
+		if (settings == null) {
+			throw new NullPointerException("settings == null");
+		}
+		if (sys == null) {
+			throw new NullPointerException("sys == null");
+		}
+		if (importPlugins == null) {
+			throw new NullPointerException("importPlugins == null");
+		}
 	}
 
 	private String getLastSavePath() {
-		return control.getSettings().getSetting(LAST_SAVEPATH, System.getProperty("user.home"));
+		return settings.getSetting(LAST_SAVEPATH, System.getProperty("user.home"));
 	}
 
 	private void setLastSavePath(File f) {
-		control.getSettings().setSetting(LAST_SAVEPATH, f.getParentFile().getAbsolutePath());
+		settings.setSetting(LAST_SAVEPATH, f.getParentFile().getAbsolutePath());
 	}
 
-	public boolean save() {
+	public boolean save(SimulationDocument doc) {
 		if (path == null || !path.getName().endsWith(".simz")) {
-			return saveAs();
+			return saveAs(doc);
 		} else {
-			if (!checkCanSave(path)) {
+			if (!checkCanSave(path, doc)) {
 				return false;
 			}
-			if (!doSave(path)) {
-				errorSaveFile();
+			if (!doSave(path, doc)) {
+				errorSaveFile(doc);
 				return false;
 			} else {
-				control.setStatusText("Datei gespeichert");
+				setStatusText("Datei gespeichert");
 				return true;
 			}
 		}
 	}
 
-	private void errorSaveFile() {
-		Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Speichern",
+	private void errorSaveFile(SimulationDocument doc) {
+		Messagebox msg = new Messagebox(parent, "Fehler beim Speichern",
 				"<html>Die Datei konnte nicht gespeichert werden!<br>Versuchen Sie die Datei an einen anderen Ort zu speichern.</html>", Messagebox.ERROR);
 		msg.addButton("Speichern untern", 0);
 		msg.addButton("OK", 1, true);
 		if (msg.display() == 0) {
-			saveAs();
+			saveAs(doc);
 		}
 	}
 
-	private boolean checkCanSave(File file) {
+	private boolean checkCanSave(File file, SimulationDocument doc) {
 		boolean canWrite = true;
 
 		if (!file.exists()) {
@@ -75,23 +97,23 @@ public class LoadSaveHandler {
 		}
 
 		if (!canWrite) {
-			Messagebox msg = new Messagebox(control.getParent(), "Schreibgeschützt", "Die Datei \"" + file.getAbsolutePath() + "\" ist schreibgeschützt.",
+			Messagebox msg = new Messagebox(parent, "Schreibgeschützt", "Die Datei \"" + file.getAbsolutePath() + "\" ist schreibgeschützt.",
 					Messagebox.WARNING);
 			msg.addButton("Anderswo speichern", 0);
 			msg.addButton("Abbrechen", 1);
 
 			if (msg.display() == 0) {
-				saveAs();
+				saveAs(doc);
 			}
 			return false;
 		}
 		return true;
 	}
 
-	private boolean doSave(File file) {
+	private boolean doSave(File file, SimulationDocument doc) {
 		try {
-			saver.save(file, control.getModel());
-			control.getModel().setSaved();
+			saver.save(file, doc);
+			doc.setSaved();
 			return true;
 		} catch (Exception e) {
 			Errorhandler.logError(e, "Save failed");
@@ -99,16 +121,16 @@ public class LoadSaveHandler {
 		}
 	}
 
-	public boolean saveAs() {
-		File f = control.getSysintegration().showSaveDialog(control.getParent(), simulationXMLSave, getLastSavePath());
+	public boolean saveAs(SimulationDocument doc) {
+		File f = sys.showSaveDialog(parent, simulationXMLSave, getLastSavePath());
 		if (f != null) {
 			setLastSavePath(f);
 
-			if (!doSave(f)) {
-				errorSaveFile();
+			if (!doSave(f, doc)) {
+				errorSaveFile(doc);
 				return false;
 			} else {
-				control.setStatusText("Datei gespeichert");
+				setStatusText("Datei gespeichert");
 				path = f;
 				return true;
 			}
@@ -116,27 +138,27 @@ public class LoadSaveHandler {
 		return false;
 	}
 
-	public boolean open() {
-		File f = control.getSysintegration().showOpenDialog(control.getParent(), control.getImportPlugins().getSimulationFileOpen(), getLastSavePath());
+	public boolean open(SimulationDocument doc) {
+		File f = sys.showOpenDialog(parent, importPlugins.getSimulationFileOpen(), getLastSavePath());
 
 		if (f != null) {
 			if (!f.isFile()) {
-				Messagebox.showError(control.getParent(), "Öffnen fehlgeschlagen", "Dies ist keine Datei!");
+				Messagebox.showError(parent, "Öffnen fehlgeschlagen", "Dies ist keine Datei!");
 				return false;
 			}
-			return open(f);
+			return open(f, doc);
 		}
 		return true;
 	}
 
-	public boolean open(File file) {
+	public boolean open(File file, SimulationDocument doc) {
 		if (!file.canRead()) {
-			Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Öffnen", "Die Datei \"" + file.getAbsolutePath()
+			Messagebox msg = new Messagebox(parent, "Fehler beim Öffnen", "Die Datei \"" + file.getAbsolutePath()
 					+ "\" kann nicht gelesen werden, keine Rechte!", Messagebox.ERROR);
 			msg.addButton("andere Datei öffnen", 0);
 			msg.addButton("Abbrechen", 1, true);
 			if (msg.display() == 0) {
-				return open();
+				return open(doc);
 			}
 			return false;
 		}
@@ -145,23 +167,25 @@ public class LoadSaveHandler {
 		// import other files
 		// /////////////////////////
 
-		for (PluginDescription<ImportReader> plugin : control.getImportPlugins().getPlugins()) {
+		for (PluginDescription<ImportReader> plugin : importPlugins.getPlugins()) {
 			ImportReader handler = plugin.getPlugin();
 
 			try {
 				if (handler.canHandle(file)) {
 					handler.read(file);
-					control.stopAutoparser();
-					if (handler.load(control.getModel())) {
+					doc.stopAutoparser();
+
+					doc.setType(SimulationType.FLOW);
+
+					if (handler.load(doc.getFlowModel())) {
 						path = file;
-						control.setStatusText("Datei importiert");
-						control.getModel().setSaved();
+						setStatusText("Datei importiert");
+						doc.setSaved();
 						setLastSavePath(file);
 
-						control.initMetadata();
 						return true;
 					} else {
-						Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Import",
+						Messagebox msg = new Messagebox(parent, "Fehler beim Import",
 								"Die Datei konnte nicht gelesen werden. Ggf. ist die Datei beschädigt oder vom falschen Format.", Messagebox.ERROR);
 						msg.addButton("OK", 0, true);
 						msg.display();
@@ -172,7 +196,7 @@ public class LoadSaveHandler {
 				Errorhandler.showError(e);
 				return false;
 			} finally {
-				control.startAutoparser();
+				doc.startAutoparser();
 			}
 		}
 
@@ -183,15 +207,15 @@ public class LoadSaveHandler {
 		try {
 			loader.open(file);
 		} catch (Exception e) {
-			Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Öffnen", "Die Datei \"" + file.getAbsolutePath()
-					+ "\" konnte nicht gelesen werden!\n" + e.getMessage(), Messagebox.ERROR);
+			Messagebox msg = new Messagebox(parent, "Fehler beim Öffnen", "Die Datei \"" + file.getAbsolutePath() + "\" konnte nicht gelesen werden!\n"
+					+ e.getMessage(), Messagebox.ERROR);
 			msg.addButton("OK", 0, true);
 			msg.display();
 			return false;
 		}
 
 		if (!loader.versionCompatible()) {
-			Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Öffnen",
+			Messagebox msg = new Messagebox(parent, "Fehler beim Öffnen",
 					"Die Datei ist von einer neuen Vesion des Programms erstellt worden und kann nicht gelesen werden!", Messagebox.ERROR);
 			msg.addButton("OK", 0, true);
 			msg.display();
@@ -200,7 +224,7 @@ public class LoadSaveHandler {
 
 		if (!loader.versionOk()) {
 			Messagebox msg = new Messagebox(
-					control.getParent(),
+					parent,
 					"Warnung",
 					"<html>Die Datei ist von einer neuen Vesion des Programms erstellt worden!<br>"
 							+ "Möglicherweise können nicht alle Daten eingelesen werden,<br>erstellen Sie eine Sicherungskopie bevor Sie diese Datei überschreiben!</html>",
@@ -215,24 +239,23 @@ public class LoadSaveHandler {
 		setLastSavePath(file);
 
 		try {
-			control.stopAutoparser();
+			doc.stopAutoparser();
 
-			if (!loader.load(control.getModel())) {
-				Messagebox.showWarning(control.getParent(), "Probleme beim lesen",
-						"Die Datei enthielt Fehler und konnte möglicherweise nicht korrekt eingelesen werden.");
+			if (!loader.load(doc)) {
+				Messagebox.showWarning(parent, "Probleme beim lesen", "Die Datei enthielt Fehler und konnte möglicherweise nicht korrekt eingelesen werden.");
 			}
 			path = file;
-			control.setStatusText("Datei geladen");
-			control.getModel().setSaved();
+			setStatusText("Datei geladen");
+			doc.setSaved();
 		} catch (Exception e) {
-			Messagebox msg = new Messagebox(control.getParent(), "Fehler beim Öffnen",
+			Messagebox msg = new Messagebox(parent, "Fehler beim Öffnen",
 					"Die Datei konnte nicht gelesen werden. Ggf. ist die Datei beschädigt oder vom falschen Format.\n" + e.getMessage(), Messagebox.ERROR);
 			msg.addButton("OK", 0, true);
 			msg.display();
 
 			return false;
 		} finally {
-			control.startAutoparser();
+			doc.startAutoparser();
 		}
 		return true;
 	}

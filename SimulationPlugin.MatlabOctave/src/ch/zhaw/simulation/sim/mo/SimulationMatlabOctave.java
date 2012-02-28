@@ -8,7 +8,7 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
@@ -49,18 +49,22 @@ public class SimulationMatlabOctave implements SimulationPlugin {
 	}
 
 	@Override
-	public void checkModel(SimulationFlowModel model) throws SimulationModelException {
-		optimizer = new ModelOptimizer(model);
+	public void checkModel(SimulationDocument doc) throws SimulationModelException {
+		if (doc.getType() != SimulationDocument.SimulationType.FLOW) {
+			throw new IllegalArgumentException("only flow model supported currently");
+		}
+
+		optimizer = new ModelOptimizer(doc.getFlowModel());
 
 		optimizer.optimize();
 	}
 
 	@Override
-	public void prepareSimulation(SimulationFlowModel model) throws Exception {
+	public void prepareSimulation(SimulationDocument doc) throws Exception {
 		AbstractCodegen codegen = new EulerCodegen();
 		codegen.setWorkingFolder(settings.getSetting("workpath"));
 
-		codegen.crateSimulation(model);
+		codegen.crateSimulation(doc);
 	}
 
 	@Override

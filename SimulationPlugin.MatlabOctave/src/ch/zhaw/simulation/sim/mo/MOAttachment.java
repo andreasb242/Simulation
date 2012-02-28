@@ -82,10 +82,10 @@ public class MOAttachment implements SimulationAttachment {
 
 		// Testen ob alle abhängigen Objekte const sind
 		for (AssigmentPair a : assigment) {
-			if(a.isSysvar()) {
+			if (a.isSysvar()) {
 				return;
 			}
-			
+
 			if (a.getSimulationObject() instanceof SimulationContainer) {
 				if (model.hasFlowConnectors((SimulationContainer) a.getSimulationObject())) {
 					return;
@@ -132,10 +132,10 @@ public class MOAttachment implements SimulationAttachment {
 
 		int x = 0;
 		for (AssigmentPair ap : assigment) {
-			if(ap.isSysvar()) {
+			if (ap.isSysvar()) {
 				continue;
 			}
-			
+
 			MOAttachment a = (MOAttachment) ap.getSimulationObject().a;
 			x = Math.max(x, a.calcOrder());
 		}
@@ -144,7 +144,7 @@ public class MOAttachment implements SimulationAttachment {
 
 		return dependencyOrder;
 	}
-	
+
 	public int getDependencyOrder() {
 		return dependencyOrder;
 	}
@@ -233,7 +233,7 @@ public class MOAttachment implements SimulationAttachment {
 		public boolean isSysvar() {
 			return false;
 		}
-		
+
 		public AssigmentPair(ASTVarNode node, NamedSimulationObject so) {
 			this.node = node;
 			this.so = so;

@@ -1,8 +1,6 @@
 package ch.zhaw.simulation.toolbar.xy;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -11,7 +9,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import butti.javalibs.util.DrawHelper;
-import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
@@ -90,7 +87,7 @@ public class FlowToolbar extends AbstractToolbar {
 		});
 
 		addTextIcon();
-		
+
 		addSeparator();
 	}
 

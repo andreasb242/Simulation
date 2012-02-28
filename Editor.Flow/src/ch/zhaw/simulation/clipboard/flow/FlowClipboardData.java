@@ -9,6 +9,7 @@ import ch.zhaw.simulation.clipboard.TransferData;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.element.TextData;
@@ -43,7 +44,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 		this.model = model;
 		this.view = view;
 
-		this.flowModel = model.isFlowModel();
+		this.flowModel = model.getModelType() == SimulationType.FLOW_SIMULATION;
 
 		selectionModel.clearSelection();
 

@@ -12,7 +12,7 @@ import java.util.zip.ZipInputStream;
 
 import ch.zhaw.simulation.filehandling.configuration.XmlConfigurationLoader;
 import ch.zhaw.simulation.filehandling.contents.XmlContentsLoader;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.SimulationDocument;
 
 /**
  * Loads a .sizm file
@@ -75,19 +75,14 @@ public class SimzLoader implements SimzFileVersion {
 		return fileData.toString();
 	}
 
-	public boolean load(SimulationFlowModel model) throws Exception {
-		model.clearMetadata();
-		model.getSimulationConfiguration().clear();
+	public boolean load(SimulationDocument doc) throws Exception {
+		doc.getSimulationConfiguration().clear();
 
-		for (Object key : properties.keySet()) {
-			model.putMetainf(key.toString(), properties.getProperty(key.toString()));
-		}
+		doc.clear();
 
-		model.clear();
+		configLoader.parseXml(doc.getSimulationConfiguration(), new ByteArrayInputStream(xmlConfiguration.getBytes()));
 
-		configLoader.parseXml(model.getSimulationConfiguration(), new ByteArrayInputStream(xmlConfiguration.getBytes()));
-
-		return contentsLoader.parseXml(model, new ByteArrayInputStream(xmlContents.getBytes()));
+		return contentsLoader.parseXml(doc, new ByteArrayInputStream(xmlContents.getBytes()));
 	}
 
 	private void parseMetainf(ZipInputStream in) throws IOException {

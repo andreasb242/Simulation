@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.model.xy;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 
 /**
@@ -53,8 +54,8 @@ public class XYModel extends AbstractSimulationModel<SimulationListener> {
 	}
 
 	@Override
-	public boolean isFlowModel() {
-		return false;
+	public SimulationType getModelType() {
+		return SimulationType.XY_MODEL;
 	}
 
 	@Override

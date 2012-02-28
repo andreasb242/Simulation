@@ -5,16 +5,18 @@ import javax.swing.JLabel;
 import org.jdesktop.swingx.JXStatusBar;
 
 import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.status.StatusListener;
 
-public class StatusHandler {
+public class StatusLabelHandler implements StatusListener {
 	private JXStatusBar sBar = new JXStatusBar();
 	private JLabel lbStatus = new JLabel(" ");
 	private boolean emptyStatus = true;
 
-	public StatusHandler() {
+	public StatusLabelHandler() {
 		sBar.add(lbStatus);
 	}
-	
+
+	@Override
 	public void clearStatus() {
 		if (emptyStatus) {
 			return;
@@ -22,20 +24,23 @@ public class StatusHandler {
 		lbStatus.setIcon(null);
 		setStatusText(" ");
 		emptyStatus = true;
-		
+
 	}
 
+	@Override
 	public void setStatusText(String text) {
 		lbStatus.setText(text);
 		lbStatus.setIcon(null);
 		emptyStatus = false;
 	}
 
+	@Override
 	public void setStatusTextInfo(String text) {
 		setStatusText(text);
 		lbStatus.setIcon(IconSVG.getIcon("info", 22));
 		emptyStatus = false;
 	}
+
 	public JXStatusBar getStatusBar() {
 		return sBar;
 	}

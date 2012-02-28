@@ -142,7 +142,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 
 		return globals;
 	}
-	
+
 	public Vector<NamedSimulationObject> getSource(SimulationObject data) {
 		return new Vector<NamedSimulationObject>();
 	}
@@ -282,7 +282,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	}
 
 	/**
-	 * @return true if this a flow model, false if this a XY model
+	 * @return the type of this model
 	 */
-	public abstract boolean isFlowModel();
+	public abstract SimulationType getModelType();
 }

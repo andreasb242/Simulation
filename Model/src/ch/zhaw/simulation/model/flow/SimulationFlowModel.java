@@ -1,9 +1,9 @@
 package ch.zhaw.simulation.model.flow;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
@@ -13,7 +13,6 @@ import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
 import ch.zhaw.simulation.model.listener.SimulationListener;
@@ -31,27 +30,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	private int lastFlowParameterId = 0;
 	private Vector<Connector<?>> connectors = new Vector<Connector<?>>();
 
-	private HashMap<String, String> metainf = new HashMap<String, String>();
-
-	private SimulationConfiguration simModel = new SimulationConfiguration();
-
 	public SimulationFlowModel() {
-	}
-
-	public void clearMetadata() {
-		metainf.clear();
-	}
-
-	public void putMetainf(String key, String value) {
-		metainf.put(key, value);
-	}
-
-	public String getMetainf(String key) {
-		return metainf.get(key);
-	}
-
-	public String[] getMetainfKeys() {
-		return metainf.keySet().toArray(new String[] {});
 	}
 
 	private boolean existsFlowParameterId(String id) {
@@ -135,13 +114,9 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		}
 	}
 
-	public SimulationConfiguration getSimulationConfiguration() {
-		return simModel;
-	}
-
 	@Override
-	public boolean isFlowModel() {
-		return true;
+	public SimulationType getModelType() {
+		return SimulationType.FLOW_SIMULATION;
 	}
 
 	@Override
@@ -289,17 +264,17 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 			public void dataAdded(SimulationObject o) {
 				l.dataAdded(o);
 			}
-			
+
 			@Override
 			public void dataRemoved(SimulationObject o) {
 				l.dataRemoved(o);
 			}
-			
+
 			@Override
 			public void dataChanged(SimulationObject o) {
 				l.dataChanged(o);
 			}
-			
+
 			@Override
 			public void dataSaved(boolean saved) {
 				l.dataSaved(saved);
@@ -310,9 +285,9 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 				l.clearData();
 			}
 		};
-		
+
 		addListener(adapter);
-		
+
 		return adapter;
 	}
 

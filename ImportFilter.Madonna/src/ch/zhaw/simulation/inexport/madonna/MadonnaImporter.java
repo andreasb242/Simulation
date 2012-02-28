@@ -26,8 +26,6 @@ public class MadonnaImporter extends MadonnaReader {
 	public boolean load(SimulationFlowModel model) throws ImportException {
 		model.clear();
 
-		model.putMetainf("imported.type", "Barkley Madonna");
-
 		for (Entry<Integer, MadonnaElement> element : data.entrySet()) {
 			MadonnaElement d = element.getValue();
 			int id = element.getKey();

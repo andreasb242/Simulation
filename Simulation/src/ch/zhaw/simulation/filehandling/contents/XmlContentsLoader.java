@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.filehandling.XmlHelper;
+import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
@@ -244,7 +245,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 	/**
 	 * Parses a Content XML File
 	 * 
-	 * @param model
+	 * @param doc
 	 *            The model to be overwritten
 	 * @param in
 	 *            The Inputstream
@@ -253,44 +254,46 @@ public class XmlContentsLoader implements XmlContentsNames {
 	 * @throws Exception
 	 *             If something went wrong, the file cannot be read
 	 */
-	public boolean parseXml(SimulationFlowModel model, InputStream in) throws Exception {
-		flowConnectors.clear();
-		parameterConnectors.clear();
-
-		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
-
-		// Mögliche Kommentare überlesen
-		NodeList rootNodes = document.getChildNodes();
-		Node root = null;
-		for (int i = 0; i < rootNodes.getLength(); i++) {
-			Node n = rootNodes.item(i);
-			if (n.getNodeType() == Node.ELEMENT_NODE) {
-				root = n;
-				break;
-			}
-		}
-
-		if (root == null) {
-			throw new Exception("Root node not found!");
-		}
-
-		if (!XML_ROOT.equals(root.getNodeName())) {
-			throw new Exception("Root node name != " + XML_ROOT + "!");
-		}
-
-		NodeList nodes = root.getChildNodes();
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node n = nodes.item(i);
-
-			if (n.getNodeType() == Node.ELEMENT_NODE) {
-				parseNode(n, model);
-			}
-		}
-
-		boolean result = parseConnectors(model);
-
-		model.calculateIds();
-
-		return result;
+	public boolean parseXml(SimulationDocument doc, InputStream in) throws Exception {
+//		flowConnectors.clear();
+//		parameterConnectors.clear();
+//
+//		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+//
+//		// Mögliche Kommentare überlesen
+//		NodeList rootNodes = document.getChildNodes();
+//		Node root = null;
+//		for (int i = 0; i < rootNodes.getLength(); i++) {
+//			Node n = rootNodes.item(i);
+//			if (n.getNodeType() == Node.ELEMENT_NODE) {
+//				root = n;
+//				break;
+//			}
+//		}
+//
+//		if (root == null) {
+//			throw new Exception("Root node not found!");
+//		}
+//
+//		if (!XML_ROOT.equals(root.getNodeName())) {
+//			throw new Exception("Root node name != " + XML_ROOT + "!");
+//		}
+//
+//		NodeList nodes = root.getChildNodes();
+//		for (int i = 0; i < nodes.getLength(); i++) {
+//			Node n = nodes.item(i);
+//
+//			if (n.getNodeType() == Node.ELEMENT_NODE) {
+//				parseNode(n, doc);
+//			}
+//		}
+//
+//		boolean result = parseConnectors(doc);
+//
+//		doc.calculateIds();
+//
+//		return result;
+		
+		return false;
 	}
 }

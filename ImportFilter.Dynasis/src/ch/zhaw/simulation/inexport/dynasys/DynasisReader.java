@@ -424,8 +424,6 @@ public class DynasisReader extends BinaryImport {
 	public boolean load(SimulationFlowModel model) {
 		model.clear();
 
-		model.putMetainf("imported.type", "Dynasis");
-
 		for (SimulationObject s : readData) {
 			model.addData(s);
 		}

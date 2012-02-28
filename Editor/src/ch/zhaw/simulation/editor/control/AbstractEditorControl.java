@@ -1,37 +1,34 @@
 package ch.zhaw.simulation.editor.control;
 
 import java.awt.Component;
-import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.JMenu;
 
 import butti.javalibs.config.Settings;
-import butti.javalibs.gui.messagebox.Messagebox;
-import butti.javalibs.util.RestartUtil;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
-import ch.zhaw.simulation.editor.status.StatusHandler;
+import ch.zhaw.simulation.editor.status.StatusLabelHandler;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.gui.configuration.codeditor.FormulaEditor;
-import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.menu.MenuActionListener;
-import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
+import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -42,7 +39,7 @@ import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>> implements MenuActionListener {
+public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>> extends StatusHandler implements MenuActionListener {
 	/**
 	 * The selection model, contains the current selected gui elements
 	 */
@@ -53,14 +50,15 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	 */
 	protected M model;
 
-	private String documentName = null;
+	/**
+	 * The formula editor with syntax hilighting etc.
+	 */
 	private FormulaEditor formulaEditor;
-	private HelpFrame helpFrame;
 
+	/**
+	 * The simulation application
+	 */
 	private SimulationApplication app;
-
-	// TODO: move to application
-	protected RecentMenu recentMenu;
 
 	/**
 	 * The parent JFrame
@@ -76,7 +74,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	 * The settings of this application
 	 * 
 	 */
-	// TODO: mode to application control
 	protected Settings settings;
 
 	/**
@@ -87,15 +84,17 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	/**
 	 * Status handler, for statusbar text / icons
 	 */
-	private StatusHandler status = new StatusHandler();
-	
+	private StatusLabelHandler status = new StatusLabelHandler();
+
+	private SimulationDocument doc;
+
 	/**
 	 * CTor
 	 * 
 	 * @param parent
 	 * @param settings
 	 */
-	public AbstractEditorControl(JFrame parent, Settings settings, SimulationApplication app, M model) {
+	public AbstractEditorControl(JFrame parent, Settings settings, SimulationApplication app, SimulationDocument doc, M model) {
 		this.settings = settings;
 		if (settings == null) {
 			throw new NullPointerException("settings == null");
@@ -116,21 +115,24 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 			throw new NullPointerException("model == null");
 		}
 
+		this.addListener(status);
+		
+		this.doc = doc;
+		if (doc == null) {
+			throw new NullPointerException("doc == null");
+		}
+
 		model.addSimulationListener(new SimulationAdapter() {
 			@Override
 			public void dataChanged(SimulationObject o) {
-				updateTitle();
+				AbstractEditorControl.this.app.updateTitle();
 			}
 
 			@Override
 			public void dataSaved(boolean saved) {
-				updateTitle();
+				AbstractEditorControl.this.app.updateTitle();
 			}
 		});
-
-		this.recentMenu = new RecentMenu(settings);
-
-		this.recentMenu.addListener(this);
 
 		integration = SysintegrationFactory.createSysintegration();
 	}
@@ -155,6 +157,14 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	 */
 	public SelectionModel getSelectionModel() {
 		return selectionModel;
+	}
+
+	public SimulationConfiguration getSimulationConfiguration() {
+		return doc.getSimulationConfiguration();
+	}
+	
+	public SimulationDocument getDoc() {
+		return doc;
 	}
 
 	/**
@@ -197,60 +207,14 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		return getView().getClipboard();
 	}
 
-	public boolean exit() {
-		if (askSave() == true) {
-			parent.setVisible(false);
-			parent.dispose();
-
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					Window[] windows = Window.getWindows();
-					if (windows.length > 0) {
-						System.err.println("Open windows (disposing now):");
-						for (Window frame : windows) {
-							System.err.println(frame.getName() + ": " + frame.getClass());
-							frame.dispose();
-						}
-					}
-				}
-			});
-
-			return true;
-		}
-
-		return false;
+	/**
+	 * Saves this (and all depeding) model(x)
+	 * 
+	 * @return true if successfully, false if not saved
+	 */
+	public final boolean save() {
+		return this.app.save();
 	}
-
-	protected boolean askSave() {
-		if (model.isChanged()) {
-			Messagebox msg = new Messagebox(parent, "Aktuelles Dokument", "Soll das aktuelle Dokument verworfen werden?", Messagebox.QUESTION);
-			msg.addButton("Abbrechen", 0);
-			msg.addButton("Verwerfen", 1);
-			msg.addButton("Speichern", 2, true);
-
-			int result = msg.display();
-			if (result == 1) {
-				return true;
-			}
-			if (result == 2) {
-				return save();
-			}
-
-			return false;
-		}
-		return true;
-	}
-
-	public void help() {
-		if (helpFrame == null) {
-			helpFrame = new HelpFrame(parent);
-		}
-		helpFrame.setVisible(true);
-	}
-
-	public abstract boolean save();
 
 	public JFrame getParent() {
 		return parent;
@@ -263,23 +227,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		return functionHelp;
 	}
 
-	public void setDocumentTitle(String name) {
-		documentName = name;
-		updateTitle();
-	}
-
-	protected void updateTitle() {
-		if (documentName == null) {
-			parent.setTitle("Simulation");
-		} else {
-			String saved = "";
-			if (model.isChanged()) {
-				saved = " *";
-			}
-			parent.setTitle(documentName + saved + " - Simulation");
-		}
-	}
-
 	public void showFormulaEditor(NamedSimulationObject data) {
 		if (formulaEditor == null) {
 			formulaEditor = new FormulaEditor(parent, this);
@@ -287,28 +234,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 		formulaEditor.setData(data);
 		formulaEditor.setVisible(true);
-	}
-
-	public String getDocumentName() {
-		return documentName;
-	}
-
-	public void openLastFile() {
-		if (settings.isSetting("autoloadLastDocument", false)) {
-			String path = recentMenu.getNewstEntry();
-			if (path != null) {
-				File f = new File(path);
-				if (f.exists() && f.canRead()) {
-					open(path);
-				}
-			}
-		}
-	}
-
-	public abstract void open(String path);
-
-	public RecentMenu getRecentMenu() {
-		return recentMenu;
 	}
 
 	/**
@@ -321,10 +246,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		return false;
 	}
 
-	public void about() {
-		this.app.showAboutDialog();
-	}
-
 	public void selectAll() {
 		for (Component c : getView().getComponents()) {
 			if (c instanceof SelectableElement) {
@@ -333,20 +254,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		}
 
 		selectionModel.fireSelectionChanged();
-	}
-
-	private void setLookAndFeel(String lookAndFeel) {
-		settings.setSetting("ui.look-and-feel", lookAndFeel);
-
-		if (this.exit()) {
-			if (!RestartUtil.restartApplication("startup.Startup")) {
-				Messagebox msg = new Messagebox(null, "Neu Starten", "<html>Das Programm konnte nicht neu gstartet werden.<br>"
-						+ "Es wird jetzt beendet, bitte starten Sie es manuell neu.</html>", Messagebox.ERROR);
-				msg.addButton("OK", 0);
-				msg.display();
-			}
-		}
-
 	}
 
 	/**
@@ -358,7 +265,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 			lastMouseListener = null;
 		}
 	}
-
 
 	private void postAddAction(NamedSimulationObject so) {
 		if (so instanceof TextData) {
@@ -372,13 +278,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 			}
 		}
 	}
-	
 
-	public void clearStatus() {
-		status.clearStatus();
-	}
-
-	
 	public void addComponent(final NamedSimulationObject so, String type) {
 		setStatusTextInfo("Ins Dokument klicken um " + type + " einzufügen");
 
@@ -400,24 +300,28 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 		getView().addMouseListener(lastMouseListener);
 	}
-	
+
 	public void setStatusTextInfo(String text) {
 		getStatus().setStatusTextInfo(text);
 	}
 
 	public void setStatusText(String text) {
-		getStatus().setStatusText(text);		
+		getStatus().setStatusText(text);
 	}
-	
-	public StatusHandler getStatus() {
+
+	public StatusLabelHandler getStatus() {
 		return status;
+	}
+
+	public JMenu getRecentMenu() {
+		return this.app.getRecentMenu();
 	}
 
 	public void addGlobal() {
 		cancelAllActions();
 		addComponent(new SimulationGlobal(0, 0), "Global");
 	}
-	
+
 	public void addText() {
 		cancelAllActions();
 		addComponent(new TextData(0, 0), "Text");
@@ -430,17 +334,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		}
 
 		switch (action.getType()) {
-		case EXIT:
-			this.exit();
-			break;
-
-		case HELP:
-			this.help();
-			break;
-
-		case ABOUT:
-			this.about();
-			break;
 
 		case SELECT_ALL:
 			selectAll();
@@ -450,14 +343,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 			this.deleteSelected();
 			break;
 
-		case SHOW_MATH_CONSOLE:
-			this.app.showMathConsole();
-			break;
-
-		case LOOK_AND_FEEL_CHANGED:
-			setLookAndFeel(action.getData().toString());
-			break;
-
 		case SAVE:
 			this.save();
 			break;
@@ -465,20 +350,31 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		case FLOW_ADD_GLOBAL:
 			addGlobal();
 			break;
-			
+
 		case FLOW_ADD_TEXT:
 			addText();
 			break;
 
-
+		case HELP:
+		case LOOK_AND_FEEL_CHANGED:
+		case EXIT:
 		case NEW_FILE:
+		case SAVE_AS:
+		case SHOW_MATH_CONSOLE:
 		case OPEN_FILE:
 		case SETTINGS:
-		case SAVE_AS:
+		case ABOUT:
+			this.app.menuActionPerformed(action);
+			break;
 
 		default:
 			System.err.println("Unhandled event: " + action.getType() + " / " + action.getData());
 		}
+	}
+
+	public void dispose() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

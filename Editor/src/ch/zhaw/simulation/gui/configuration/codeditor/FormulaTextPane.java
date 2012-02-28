@@ -42,6 +42,9 @@ public class FormulaTextPane extends JTextPane {
 		setContentType("text/formula");
 		setFont(new Font("Monospaced", Font.PLAIN, 12));
 		this.help = help;
+		
+		// TODO debug
+		System.out.println(this.help);
 
 		new LineHighlighter(this, new Color(0xfffbbd));
 

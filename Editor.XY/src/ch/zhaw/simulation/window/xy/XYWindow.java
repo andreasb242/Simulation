@@ -15,7 +15,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	private static final long serialVersionUID = 1L;
 
 	private DensitySidebar densitySidebar = new DensitySidebar();
-	
+
 	public XYWindow(boolean mainWindow) {
 		super(mainWindow);
 	}
@@ -33,7 +33,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		control.setView(view);
 
 		XYMenubar menubar = new XYMenubar(control.getSysintegration(), um, control.getClipboard());
-		menubar.initMenusToolbar(control.getRecentMenu().getMenu(), true);
+		menubar.initMenusToolbar(control.getRecentMenu(), true);
 
 		XYToolbar tb = new XYToolbar(control.getSysintegration(), mainWindow);
 		tb.initToolbar(view.getUndoHandler());
@@ -44,7 +44,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	@Override
 	protected void initSidebar(FrameSidebar sidebar) {
 		super.initSidebar(sidebar);
-		
+
 		sidebar.add(densitySidebar);
 	}
 

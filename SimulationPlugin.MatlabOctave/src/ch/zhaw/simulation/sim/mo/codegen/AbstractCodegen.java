@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import butti.javalibs.util.FileUtil;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.SimulationDocument;
 
 /**
  * Class for Matlab / Octave Codegenration
@@ -42,7 +42,7 @@ public abstract class AbstractCodegen {
 	 *            The model to simulate
 	 * @throws IOException
 	 */
-	public abstract void crateSimulation(SimulationFlowModel model) throws Exception;
+	public abstract void crateSimulation(SimulationDocument doc) throws Exception;
 
 	/**
 	 * Extracts the Basefile for the simulation model

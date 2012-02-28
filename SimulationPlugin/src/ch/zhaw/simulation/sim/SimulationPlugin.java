@@ -6,12 +6,11 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
-
 import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
+import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 
 public interface SimulationPlugin extends AbstractPlugin {
 
@@ -44,7 +43,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * @param model
 	 *            Das zu simulierende Model
 	 */
-	public void checkModel(SimulationFlowModel model) throws SimulationModelException;
+	public void checkModel(SimulationDocument doc) throws SimulationModelException;
 
 	/**
 	 * Hier wird die Simulation vorbereitet, z.B. ein Simulationfile erzeugt
@@ -57,6 +56,6 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 *             Falls etwas schief geht, die Meldung wird dem Benutzer
 	 *             angezeigt
 	 */
-	public void prepareSimulation(SimulationFlowModel model) throws Exception;
+	public void prepareSimulation(SimulationDocument doc) throws Exception;
 
 }

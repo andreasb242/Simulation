@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
+import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
@@ -45,13 +46,17 @@ public class EulerCodegen extends AbstractCodegen {
 	}
 
 	@Override
-	public void crateSimulation(SimulationFlowModel model) throws IOException {
+	public void crateSimulation(SimulationDocument doc) throws IOException {
 		extractBaseFile();
 
 		openFiles.clear();
 
-		this.model = model;
-		SimulationConfiguration config = model.getSimulationConfiguration();
+		if (doc.getType() != SimulationDocument.SimulationType.FLOW) {
+			throw new IllegalArgumentException("only flow model supported currently");
+		}
+
+		this.model = doc.getFlowModel();
+		SimulationConfiguration config = doc.getSimulationConfiguration();
 
 		String outputFile = getWorkingFolder() + File.separator + "simulation.m";
 		this.out = new CodeOutput(new FileOutputStream(outputFile));
@@ -230,11 +235,11 @@ public class EulerCodegen extends AbstractCodegen {
 	private <T extends NamedSimulationObject> void outputOpenFiles(Vector<T> data) {
 		for (T n : data) {
 			String var = n.getName() + ".fp";
-			this.out.println(var+"=fopen('" + n.getName() + "_data.txt', 'w');");
+			this.out.println(var + "=fopen('" + n.getName() + "_data.txt', 'w');");
 			openFiles.add(var);
 		}
 	}
-	
+
 	private void outputCloseFiles() {
 		// TODO: Files schliessen: openFiles
 	}

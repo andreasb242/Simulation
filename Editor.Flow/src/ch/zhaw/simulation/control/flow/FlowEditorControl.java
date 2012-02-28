@@ -1,8 +1,5 @@
 package ch.zhaw.simulation.control.flow;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Vector;
 
 import butti.javalibs.config.Settings;
@@ -11,7 +8,6 @@ import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
-import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
@@ -22,12 +18,11 @@ import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
-import ch.zhaw.simulation.filehandling.ImportPlugins;
-import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
@@ -39,7 +34,6 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.sim.SimulationManager;
 import ch.zhaw.simulation.sim.SimulationPlugin;
@@ -52,37 +46,18 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	private FlowEditorView view;
 
-	private LoadSaveHandler savehandler;
-
 	private Vector<DrawModusListener> drawModusListener = new Vector<DrawModusListener>();
 
-	private SettingsDlg settigsDialog;
 	private Autoparser autoparser;
 
 	private SimulationManager manager;
 
-	private ImportPlugins importPlugins;
+	public FlowEditorControl(SimulationApplication app, SimulationFlowModel model, SimulationDocument doc, FlowWindow parent,
+			Settings settings) {
+		super(parent, settings, app, doc, model);
 
-	private void initPlugins() {
-		importPlugins = new ImportPlugins(this.settings);
-
-	}
-
-	public ImportPlugins getImportPlugins() {
-		return importPlugins;
-	}
-
-	public FlowEditorControl(SimulationApplication app, FlowWindow parent, Settings settings) {
-		super(parent, settings, app, new SimulationFlowModel());
-
-		manager = new SimulationManager(settings, model.getSimulationConfiguration(), parent);
+		manager = new SimulationManager(settings, getSimulationConfiguration(), parent);
 		loadSimulationParameterFromSettings();
-
-		initPlugins();
-
-		savehandler = new LoadSaveHandler(this);
-
-		initMetadata();
 
 		addListeners();
 
@@ -90,18 +65,16 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	}
 
 	private void loadSimulationParameterFromSettings() {
-		SimulationConfiguration conf = model.getSimulationConfiguration();
-
 		int prefixLen = StandardParameter.SIM_PROPERTY_STRING_PREFIX.length();
 		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_STRING_PREFIX)) {
-			conf.setParameter(k.substring(prefixLen), settings.getSetting(k));
+			getSimulationConfiguration().setParameter(k.substring(prefixLen), settings.getSetting(k));
 		}
 
 		prefixLen = StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX.length();
 		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX)) {
 			try {
 				double d = Double.parseDouble(settings.getSetting(k));
-				conf.setParameter(k.substring(prefixLen), d);
+				getSimulationConfiguration().setParameter(k.substring(prefixLen), d);
 			} catch (Exception e) {
 				System.err.println("Invalid double setting: \"" + k + "\" = \"" + settings.getSetting(k) + "\"");
 			}
@@ -256,28 +229,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		});
 	}
 
-	public void initMetadata() {
-		model.clearMetadata();
-		updateMetadata("orig");
-		updateLastMetadata();
-	}
-
-	private void updateLastMetadata() {
-		updateMetadata("last");
-	}
-
-	private void updateMetadata(String prefix) {
-		model.putMetainf(prefix + ".author", System.getProperty("user.name"));
-		model.putMetainf(prefix + ".os", System.getProperty("os.name"));
-		model.putMetainf(prefix + ".os.version", System.getProperty("os.version"));
-		model.putMetainf(prefix + ".os.desktop", System.getProperty("sun.desktop"));
-
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
-
-		model.putMetainf(prefix + ".date", sdf.format(cal.getTime()));
-	}
-
 	@Override
 	protected void cancelAllActions() {
 		super.cancelAllActions();
@@ -286,65 +237,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	public FlowEditorView getView() {
 		return view;
-	}
-
-	public boolean save() {
-		updateLastMetadata();
-		if (!savehandler.save()) {
-			return false;
-		}
-
-		updatePaths();
-		return true;
-	}
-
-	private void updatePaths() {
-		if (savehandler.getPath() != null) {
-			recentMenu.addFile(savehandler.getPath().getAbsolutePath());
-			setDocumentTitle(savehandler.getPath().getName());
-		}
-	}
-
-	public boolean saveAs() {
-		updateLastMetadata();
-		if (!savehandler.saveAs()) {
-			return false;
-		}
-		updatePaths();
-
-		return true;
-	}
-
-	public void open(String path) {
-		if (askSave() == true) {
-			if (savehandler.open(new File(path))) {
-				selectionModel.clearSelection();
-				updatePaths();
-			}
-		}
-	}
-
-	public void open() {
-		if (askSave() == true) {
-			if (savehandler.open()) {
-				selectionModel.clearSelection();
-				updatePaths();
-			}
-		}
-	}
-
-	public void newFile() {
-		if (askSave() == true) {
-			model.clear();
-			initMetadata();
-			selectionModel.clearSelection();
-			setDocumentTitle(null);
-			setStatusText("Neues Dokument erstellt");
-			savehandler.clear();
-			model.setSaved();
-
-			getUndoManager().discardAllEdits();
-		}
 	}
 
 	public void fireDrawModusFinished() {
@@ -371,16 +263,8 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		getUndoManager().addEdit(new AddConnectorUndoAction(c, model));
 	}
 
-	public void settings() {
-		if (settigsDialog == null) {
-			settigsDialog = new SettingsDlg(this);
-		}
-		settigsDialog.setVisible(true);
-	}
-
 	public void startSimulation() {
-		SimulationConfiguration simulationConfiguration = getModel().getSimulationConfiguration();
-		String plugin = simulationConfiguration.getPlugin();
+		String plugin = getSimulationConfiguration().getPlugin();
 
 		if (plugin == null) {
 			Messagebox.showError(getParent(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
@@ -403,7 +287,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		SimulationPlugin handler = selectedPlugin.getPlugin();
 
 		try {
-			handler.checkModel(getModel());
+			handler.checkModel(getDoc());
 		} catch (SimulationModelException ex) {
 			Messagebox.showError(getParent(), "Simulation nicht möglich", ex.getMessage());
 
@@ -414,7 +298,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		}
 
 		try {
-			handler.prepareSimulation(getModel());
+			handler.prepareSimulation(getDoc());
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}
@@ -463,33 +347,13 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			getView().addFlowArrow();
 			return true;
 
-		case NEW_FILE:
-			this.newFile();
-			return true;
-
-		case OPEN_FILE:
-			if (action.getData() != null) {
-				this.open(action.getData().toString());
-			} else {
-				this.open();
-			}
-			return true;
-
 		case FORMULA_OVERVIEW:
 			OverviewWindow w = new OverviewWindow(getParent(), getClipboard(), getModel(), getSysintegration().getGuiConfig());
 			w.setVisible(true);
 			return true;
 
-		case SETTINGS:
-			this.settings();
-			return true;
-
 		case START_SIMULATION:
 			startSimulation();
-			return true;
-
-		case SAVE_AS:
-			this.saveAs();
 			return true;
 
 		case SNAPSHOT:
