@@ -66,4 +66,9 @@ public class DensityDraw {
 		return img;
 	}
 
+	public void setFormula(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

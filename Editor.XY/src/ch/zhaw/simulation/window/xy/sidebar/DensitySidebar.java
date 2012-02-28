@@ -8,13 +8,15 @@ import javax.swing.JTextPane;
 
 import org.jdesktop.swingx.JXTaskPane;
 
+import ch.zhaw.simulation.editor.xy.DensityDraw;
+
 public class DensitySidebar extends JXTaskPane {
 	private static final long serialVersionUID = 1L;
 
 	private JTextPane txtDensity = new JTextPane();
 	private JButton btOk = new JButton("OK");
 	
-	public DensitySidebar() {
+	public DensitySidebar(final DensityDraw draw) {
 		setTitle("Dichte");
 		
 		add(txtDensity);
@@ -24,12 +26,8 @@ public class DensitySidebar extends JXTaskPane {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				draw.setFormula(txtDensity.getText());
 			}
 		});
-		
 	}
-	
-	
 }
