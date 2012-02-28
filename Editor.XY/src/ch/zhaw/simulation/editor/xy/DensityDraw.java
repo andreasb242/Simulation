@@ -2,15 +2,28 @@ package ch.zhaw.simulation.editor.xy;
 
 import java.awt.image.BufferedImage;
 
+import org.nfunk.jep.ParseException;
+
+import butti.javalibs.errorhandler.Errorhandler;
+
+import ch.zhaw.simulation.math.Parser;
+
+
 public class DensityDraw {
 	private int width;
 	private int height;
 
 	private BufferedImage img;
+	
+	private Parser parser = new Parser();
 
 	public DensityDraw(int width, int height) {
 		this.width = width;
 		this.height = height;
+		
+		parser.addVar("x", 0);
+		parser.addVar("y", 0);
+		setFormula("x+y");
 	}
 
 	public void updateImage() {
@@ -58,17 +71,26 @@ public class DensityDraw {
 	}
 
 	private double valueFor(int x, int y) {
-		//return Math.sin(x / 20.0) + Math.sin(y / 10.0);
-		return Math.hypot(x, y);
+		try {
+			parser.setVar("x", x);
+			parser.setVar("y", y);
+			return parser.evaluate();
+		} catch (ParseException e) {
+			Errorhandler.showError(e, "Formel fehler");
+		}
+		return 0;
 	}
 
 	public BufferedImage getImage() {
 		return img;
 	}
 
-	public void setFormula(String text) {
-		// TODO Auto-generated method stub
-		
+	public void setFormula(String formula) {
+		try {
+			parser.simplyfy(formula);
+		} catch (ParseException e) {
+			Errorhandler.showError(e, "Formel fehler");
+		}
 	}
 
 }

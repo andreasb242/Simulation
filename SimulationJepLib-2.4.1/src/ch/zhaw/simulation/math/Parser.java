@@ -192,6 +192,43 @@ public class Parser {
 		}
 	}
 
+	
+	////////////////////////////////////////////////////////////
+	// TODO DEBUG
+	////////////////////////////////////////////////////////////
+	
+	public void addVar(String name, double value) {
+		jep.addVariable(name, value);
+	}
+	
+	public void setVar(String name, double value) {
+		jep.setVarValue(name, value);
+	}
+	
+	
+	private Node simp;
+	public void simplyfy(String formula) throws ParseException {
+		Node node = jep.parse(formula);
+		// System.err.println("Parsed:\t\t");
+		// System.err.println(jep.toString(node));
+		Node processed = jep.preprocess(node);
+		// System.err.println("Processed:\t");
+		// System.err.println(jep.toString(processed));
+
+		simp = jep.simplify(processed);
+		// System.err.println("Simplified:\t");
+		// System.err.println(jep.toString(simp));
+
+	}
+	
+	public double evaluate() throws ParseException {
+		return (Double) jep.evaluate(simp);
+	}
+	
+	////////////////////////////////////////////////////////////
+	// TODO DEBUG
+	////////////////////////////////////////////////////////////
+
 	public Object processEquation(Node node) throws ParseException {
 		if (node == null) {
 			throw new NullPointerException("node == null");

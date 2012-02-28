@@ -84,4 +84,8 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 		}
 	}
 
+	public DensityDraw getDensity() {
+		return density;
+	}
+	
 }
