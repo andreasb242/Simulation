@@ -87,8 +87,6 @@ public class FlowToolbar extends AbstractToolbar {
 		});
 
 		addTextIcon();
-
-		addSeparator();
 	}
 
 }

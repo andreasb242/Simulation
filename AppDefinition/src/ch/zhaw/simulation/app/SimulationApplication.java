@@ -4,6 +4,7 @@ import javax.swing.JMenu;
 
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.sim.SimulationManager;
 
 /**
  * The Interface for the application base implementation
@@ -38,4 +39,6 @@ public interface SimulationApplication extends MenuActionListener {
 	public void setLookAndFeel(String lookAndFeel);
 
 	public void updateTitle();
+
+	SimulationManager getManager();
 }

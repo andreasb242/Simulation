@@ -1,7 +1,5 @@
 package ch.zhaw.simulation.sim;
 
-import java.awt.Window;
-
 import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXTaskPane;
@@ -33,7 +31,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	/**
 	 * Initialisiert das Plugin mit den Einstellungen
 	 */
-	public void init(Settings settings, SimulationConfiguration config, Window parent);
+	public void init(Settings settings, SimulationConfiguration config, PluginDataProvider provider);
 
 	/**
 	 * Prüft ob ein Model für die Simulation geeignet ist oder nicht

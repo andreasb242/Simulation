@@ -11,19 +11,6 @@ import ch.zhaw.simulation.model.xy.XYModel;
  * @author Andreas Butti
  */
 public class SimulationDocument {
-	public enum SimulationType {
-		/**
-		 * The Simulation Document contains a single flow document
-		 */
-		FLOW,
-
-		/**
-		 * The Simulation Document contains a XY Diagramm, containing Flow
-		 * diagramms
-		 */
-		XY
-	};
-
 	/**
 	 * The type of the simulation
 	 */
@@ -50,6 +37,14 @@ public class SimulationDocument {
 	public void setType(SimulationType type) {
 		// TODO !!!! fire xxxx
 
+		if (type == SimulationType.FLOW_SIMULATION) {
+			this.flowModel = new SimulationFlowModel();
+			this.xyModel = null;
+		} else {
+			this.flowModel = null;
+			this.xyModel = new XYModel();
+		}
+
 		this.type = type;
 	}
 
@@ -66,7 +61,7 @@ public class SimulationDocument {
 	}
 
 	public AbstractSimulationModel<?> getModel() {
-		if (type == SimulationType.FLOW) {
+		if (type == SimulationType.FLOW_SIMULATION) {
 			return flowModel;
 		} else {
 			return xyModel;

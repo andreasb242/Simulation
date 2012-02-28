@@ -12,11 +12,13 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationManager;
 
-public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener  {
+public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbSimulationtype;
@@ -31,12 +33,12 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 
 		add(new JLabel("Simulation"));
 
-		SimulationManager manager = control.getManager();
+		SimulationManager manager = control.getApp().getManager();
 		cbSimulationtype = new JComboBox(manager.getPlugins());
 
 		cbSimulationtype.setSelectedItem(model.getPlugin());
-		
-		if(cbSimulationtype.getSelectedIndex() < 0 && manager.getPlugins().size() > 0) {
+
+		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPlugins().size() > 0) {
 			cbSimulationtype.setSelectedIndex(0);
 		}
 
@@ -46,7 +48,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.startSimulation();
+				control.menuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.START_SIMULATION));
 			}
 		});
 		add(btStart);

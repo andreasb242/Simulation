@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.sim;
 
-import java.awt.Window;
 import java.util.Vector;
 
 import butti.javalibs.config.Config;
@@ -18,7 +17,7 @@ public class SimulationManager {
 
 	private PluginDescription<SimulationPlugin> selectedPlugin;
 
-	public SimulationManager(Settings settings, SimulationConfiguration config, Window parent) {
+	public SimulationManager(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
 		String path = Config.get("simulationPluginFolder");
 		if (path != null) {
 			plugins.loadPlugins(path);
@@ -30,7 +29,7 @@ public class SimulationManager {
 			for (PluginDescription<SimulationPlugin> p : plugins.getPlugins()) {
 				SimulationPlugin handler = p.getPlugin();
 				SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + p.getName());
-				handler.init(sp, config, parent);
+				handler.init(sp, config, provider);
 			}
 
 		} else {

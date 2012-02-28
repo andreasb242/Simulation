@@ -3,9 +3,6 @@ package ch.zhaw.simulation.control.flow;
 import java.util.Vector;
 
 import butti.javalibs.config.Settings;
-import butti.javalibs.errorhandler.Errorhandler;
-import butti.javalibs.gui.messagebox.Messagebox;
-import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
@@ -20,7 +17,6 @@ import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.math.Autoparser;
-import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
@@ -35,9 +31,6 @@ import ch.zhaw.simulation.model.flow.element.SimulationParameter;
 import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionListener;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
-import ch.zhaw.simulation.sim.SimulationManager;
-import ch.zhaw.simulation.sim.SimulationPlugin;
-import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction;
 import ch.zhaw.simulation.undo.action.flow.DeleteUndoAction;
 import ch.zhaw.simulation.window.flow.FlowWindow;
@@ -50,36 +43,16 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	private Autoparser autoparser;
 
-	private SimulationManager manager;
-
 	public FlowEditorControl(SimulationApplication app, SimulationFlowModel model, SimulationDocument doc, FlowWindow parent,
 			Settings settings) {
 		super(parent, settings, app, doc, model);
 
-		manager = new SimulationManager(settings, getSimulationConfiguration(), parent);
-		loadSimulationParameterFromSettings();
 
 		addListeners();
 
 		autoparser = new Autoparser(this);
 	}
 
-	private void loadSimulationParameterFromSettings() {
-		int prefixLen = StandardParameter.SIM_PROPERTY_STRING_PREFIX.length();
-		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_STRING_PREFIX)) {
-			getSimulationConfiguration().setParameter(k.substring(prefixLen), settings.getSetting(k));
-		}
-
-		prefixLen = StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX.length();
-		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX)) {
-			try {
-				double d = Double.parseDouble(settings.getSetting(k));
-				getSimulationConfiguration().setParameter(k.substring(prefixLen), d);
-			} catch (Exception e) {
-				System.err.println("Invalid double setting: \"" + k + "\" = \"" + settings.getSetting(k) + "\"");
-			}
-		}
-	}
 
 	public void stopAutoparser() {
 		autoparser.stop();
@@ -263,47 +236,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		getUndoManager().addEdit(new AddConnectorUndoAction(c, model));
 	}
 
-	public void startSimulation() {
-		String plugin = getSimulationConfiguration().getPlugin();
-
-		if (plugin == null) {
-			Messagebox.showError(getParent(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
-			return;
-		}
-
-		PluginDescription<SimulationPlugin> selectedPlugin = null;
-		for (PluginDescription<SimulationPlugin> p : manager.getPlugins()) {
-			if (plugin.equalsIgnoreCase(p.getName())) {
-				selectedPlugin = p;
-				break;
-			}
-		}
-
-		if (selectedPlugin == null) {
-			Messagebox.showError(getParent(), "Plugin nicht gefunden", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
-			return;
-		}
-
-		SimulationPlugin handler = selectedPlugin.getPlugin();
-
-		try {
-			handler.checkModel(getDoc());
-		} catch (SimulationModelException ex) {
-			Messagebox.showError(getParent(), "Simulation nicht möglich", ex.getMessage());
-
-			view.selectElement(ex.getSimObject());
-
-			ex.printStackTrace();
-			return;
-		}
-
-		try {
-			handler.prepareSimulation(getDoc());
-		} catch (Exception e) {
-			Errorhandler.showError(e, "Simulation fehlgeschlagen");
-		}
-	}
-
 	public void addParameter() {
 		cancelAllActions();
 		addComponent(new SimulationParameter(0, 0), "Parameter");
@@ -317,10 +249,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	public void takeSnapshot() {
 		SnapshotDialog dlg = new SnapshotDialog(getParent(), getSysintegration(), view, view.getBounds());
 		dlg.setVisible(true);
-	}
-
-	public SimulationManager getManager() {
-		return manager;
 	}
 
 	@Override
@@ -350,10 +278,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		case FORMULA_OVERVIEW:
 			OverviewWindow w = new OverviewWindow(getParent(), getClipboard(), getModel(), getSysintegration().getGuiConfig());
 			w.setVisible(true);
-			return true;
-
-		case START_SIMULATION:
-			startSimulation();
 			return true;
 
 		case SNAPSHOT:

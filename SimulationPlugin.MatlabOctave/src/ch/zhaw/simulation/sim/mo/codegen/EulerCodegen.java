@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
@@ -51,7 +52,7 @@ public class EulerCodegen extends AbstractCodegen {
 
 		openFiles.clear();
 
-		if (doc.getType() != SimulationDocument.SimulationType.FLOW) {
+		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
 			throw new IllegalArgumentException("only flow model supported currently");
 		}
 

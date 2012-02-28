@@ -8,8 +8,10 @@ import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.util.RestartUtil;
+import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
@@ -19,11 +21,16 @@ import ch.zhaw.simulation.filehandling.ImportPlugins;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.math.console.MatrixConsole;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.sim.PluginDataProvider;
+import ch.zhaw.simulation.sim.SimulationManager;
+import ch.zhaw.simulation.sim.SimulationPlugin;
+import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.window.flow.FlowWindow;
@@ -81,6 +88,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	private String documentName = null;
 
+	private SimulationManager manager;
+
 	/**
 	 * Ctor
 	 */
@@ -100,23 +109,45 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		this.recentMenu = new RecentMenu(settings);
 		this.recentMenu.addListener(this);
 
+		this.manager = new SimulationManager(settings, doc.getSimulationConfiguration(), new PluginDataProvider() {
+
+			@Override
+			public JFrame getParent() {
+				return ApplicationControl.this.mainFrame;
+			}
+
+		});
+
 		boolean mainWindow = true;
 
-		int x = 2;
-		if (x == 2) {
-			showXYWindow(mainWindow);
-		} else {
+		SimulationType type = SimulationType.FLOW_SIMULATION;
+
+		Messagebox msg = new Messagebox(null, "Typ wählen", "Simulationstyp wählen", Messagebox.QUESTION);
+		msg.addButton("XY", 0);
+		msg.addButton("Flow", 1);
+		msg.addButton("Flow [Child]", 2);
+		int res = msg.display();
+		if (res == 0) {
+			type = SimulationType.XY_MODEL;
+		} else if(res == 2) {
+			mainWindow = false;
+		}
+
+		doc.setType(type);
+		loadSimulationParameterFromSettings();
+
+		if (type == SimulationType.FLOW_SIMULATION) {
 			showFlowWindow(mainWindow);
+		} else {
+			showXYWindow();
 		}
 
 		this.savehandler = new LoadSaveHandler(mainFrame, settings, SysintegrationFactory.createSysintegration(), this.importPlugins);
 		this.savehandler.addListener(this);
-
-		// TODO: check status handling
 	}
 
-	public void showXYWindow(boolean mainWindow) {
-		XYWindow win = new XYWindow(mainWindow);
+	public void showXYWindow() {
+		XYWindow win = new XYWindow();
 		XYEditorControl control = new XYEditorControl(this, doc, doc.getXyModel(), win, settings);
 		this.controller = control;
 		this.addListener(control);
@@ -140,14 +171,40 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		mainFrame.setVisible(true);
 	}
 
+	private void loadSimulationParameterFromSettings() {
+		int prefixLen = StandardParameter.SIM_PROPERTY_STRING_PREFIX.length();
+		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_STRING_PREFIX)) {
+			doc.getSimulationConfiguration().setParameter(k.substring(prefixLen), settings.getSetting(k));
+		}
+
+		prefixLen = StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX.length();
+		for (String k : settings.getKeysStartingWith(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX)) {
+			try {
+				double d = Double.parseDouble(settings.getSetting(k));
+				doc.getSimulationConfiguration().setParameter(k.substring(prefixLen), d);
+			} catch (Exception e) {
+				System.err.println("Invalid double setting: \"" + k + "\" = \"" + settings.getSetting(k) + "\"");
+			}
+		}
+	}
+
 	public void releaseOpenWindow() {
 		this.controller.dispose();
 
 		// TODO release
 	}
 
+	@Override
+	public SimulationManager getManager() {
+		return manager;
+	}
+
 	public Settings getSettings() {
 		return settings;
+	}
+
+	public AbstractEditorControl<?> getController() {
+		return controller;
 	}
 
 	/**
@@ -163,7 +220,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	public void showSettingsDialog() {
 		if (settigsDialog == null) {
-			settigsDialog = new SettingsDlg(this.mainFrame, this.settings, getImportPlugins().getPlugins());
+			settigsDialog = new SettingsDlg(this);
 		}
 		settigsDialog.setVisible(true);
 	}
@@ -189,10 +246,57 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return importPlugins;
 	}
 
+	public JFrame getMainFrame() {
+		return mainFrame;
+	}
+
+	public void startSimulation() {
+		String plugin = doc.getSimulationConfiguration().getPlugin();
+
+		if (plugin == null) {
+			Messagebox.showError(getMainFrame(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
+			return;
+		}
+
+		PluginDescription<SimulationPlugin> selectedPlugin = null;
+		for (PluginDescription<SimulationPlugin> p : manager.getPlugins()) {
+			if (plugin.equalsIgnoreCase(p.getName())) {
+				selectedPlugin = p;
+				break;
+			}
+		}
+
+		if (selectedPlugin == null) {
+			Messagebox.showError(getMainFrame(), "Plugin nicht gefunden", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
+			return;
+		}
+
+		SimulationPlugin handler = selectedPlugin.getPlugin();
+
+		try {
+			handler.checkModel(doc);
+		} catch (SimulationModelException ex) {
+			Messagebox.showError(getMainFrame(), "Simulation nicht möglich", ex.getMessage());
+
+			controller.getView().selectElement(ex.getSimObject());
+
+			ex.printStackTrace();
+			return;
+		}
+
+		try {
+			handler.prepareSimulation(doc);
+		} catch (Exception e) {
+			Errorhandler.showError(e, "Simulation fehlgeschlagen");
+		}
+	}
+
 	@Override
 	public void newFile(SimulationType flowSimulation) {
 		if (askSave() == true) {
 			doc.clear();
+			loadSimulationParameterFromSettings();
+
 			this.controller.getSelectionModel().clearSelection();
 			setDocumentTitle(null);
 
@@ -360,6 +464,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		case LOOK_AND_FEEL_CHANGED:
 			setLookAndFeel(action.getData().toString());
+			break;
+
+		case START_SIMULATION:
+			startSimulation();
 			break;
 
 		default:

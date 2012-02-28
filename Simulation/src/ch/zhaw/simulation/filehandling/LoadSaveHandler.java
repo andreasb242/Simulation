@@ -10,7 +10,7 @@ import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.inexport.ImportReader;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationDocument.SimulationType;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -175,7 +175,7 @@ public class LoadSaveHandler extends StatusHandler {
 					handler.read(file);
 					doc.stopAutoparser();
 
-					doc.setType(SimulationType.FLOW);
+					doc.setType(SimulationType.FLOW_SIMULATION);
 
 					if (handler.load(doc.getFlowModel())) {
 						path = file;

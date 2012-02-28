@@ -215,6 +215,10 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	public final boolean save() {
 		return this.app.save();
 	}
+	
+	public SimulationApplication getApp() {
+		return app;
+	}
 
 	public JFrame getParent() {
 		return parent;
@@ -364,6 +368,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		case OPEN_FILE:
 		case SETTINGS:
 		case ABOUT:
+		case START_SIMULATION:
 			this.app.menuActionPerformed(action);
 			break;
 

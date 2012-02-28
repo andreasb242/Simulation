@@ -5,11 +5,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -20,7 +18,7 @@ import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.app.ApplicationControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.inexport.ImportReader;
 import ch.zhaw.simulation.sim.SimulationPlugin;
@@ -38,11 +36,11 @@ public class SettingsDlg extends BDialog {
 	private GridBagManager gbm;
 	private Settings settings;
 
-	public SettingsDlg(JFrame parent, Settings settings, Vector<PluginDescription<ImportReader>> filter) {
-		super(parent);
+	public SettingsDlg(ApplicationControl app) {
+		super(app.getMainFrame());
 		setTitle("Einstellungen");
-		
-		this.settings = settings;
+
+		this.settings = app.getSettings();
 
 		add(header, BorderLayout.NORTH);
 
@@ -54,7 +52,7 @@ public class SettingsDlg extends BDialog {
 
 		tabs.addTab("Generell", cbAutoloadLastDocument);
 
-		for (PluginDescription<ImportReader> p : filter) {
+		for (PluginDescription<ImportReader> p : app.getImportPlugins().getPlugins()) {
 			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
@@ -62,14 +60,13 @@ public class SettingsDlg extends BDialog {
 			}
 		}
 
-		// TODO !!! add plugin settings
-//		for (PluginDescription<SimulationPlugin> p : control.getManager().getPlugins()) {
-//			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
-//
-//			if (settingsPanel != null) {
-//				tabs.addTab(p.getName(), settingsPanel);
-//			}
-//		}
+		for (PluginDescription<SimulationPlugin> p : app.getManager().getPlugins()) {
+			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
+
+			if (settingsPanel != null) {
+				tabs.addTab(p.getName(), settingsPanel);
+			}
+		}
 
 		initHeader();
 		initData();
@@ -81,7 +78,7 @@ public class SettingsDlg extends BDialog {
 		}
 		setSize(w, getHeight());
 
-		setLocationRelativeTo(parent);
+		setLocationRelativeTo(app.getMainFrame());
 	}
 
 	private void initData() {
