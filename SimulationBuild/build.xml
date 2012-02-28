@@ -48,7 +48,7 @@
 			</fileset>
 		</copy>
 
-		<ant antfile="../Plugin_/build.xml" target="jar" useNativeBasedir="true">
+		<ant antfile="../Plugin/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/lib" />
 			<property name="build" value="${build}/Plugin_" />
 		</ant>
