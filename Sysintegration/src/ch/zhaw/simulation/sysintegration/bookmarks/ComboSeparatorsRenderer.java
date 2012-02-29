@@ -38,14 +38,20 @@ public abstract class ComboSeparatorsRenderer implements ListCellRenderer {
 
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		Component comp = delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		
+		initComponent(comp, value);
+		
 		if (index != -1 && addSeparatorAfter(list, value, index)) {
 			separatorPanel.removeAll();
 			separatorPanel.add(comp, BorderLayout.CENTER);
 			separatorPanel.add(separator, BorderLayout.SOUTH);
 			return separatorPanel;
-		} else
+		} else {
 			return comp;
+		}
 	}
+	
+	public abstract void initComponent(Component comp, Object value);
 
 	protected abstract boolean addSeparatorAfter(JList list, Object value, int index);
 }

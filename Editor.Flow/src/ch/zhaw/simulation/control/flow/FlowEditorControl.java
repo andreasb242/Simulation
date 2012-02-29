@@ -5,7 +5,6 @@ import java.util.Vector;
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
-import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
@@ -45,16 +44,13 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	private Autoparser autoparser;
 
-	public FlowEditorControl(SimulationApplication app, SimulationFlowModel model, SimulationDocument doc, FlowWindow parent,
-			Settings settings) {
+	public FlowEditorControl(SimulationApplication app, SimulationFlowModel model, SimulationDocument doc, FlowWindow parent, Settings settings) {
 		super(parent, settings, app, doc, model);
-
 
 		addListeners();
 
 		autoparser = new Autoparser(this);
 	}
-
 
 	public void stopAutoparser() {
 		autoparser.stop();
@@ -252,11 +248,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		cancelAllActions();
 		addComponent(new SimulationDensityContainer(0, 0), "Container");
 	}
-	
-	public void takeSnapshot() {
-		SnapshotDialog dlg = new SnapshotDialog(getParent(), getSysintegration(), view, view.getBounds());
-		dlg.setVisible(true);
-	}
 
 	@Override
 	public boolean menuActionPerformedOverwrite(MenuToolbarAction action) {
@@ -269,7 +260,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		case FLOW_ADD_DENSITY:
 			addDensity();
 			return true;
-			
+
 		case FLOW_ADD_PARAMETER:
 			addParameter();
 			return true;
@@ -289,10 +280,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		case FORMULA_OVERVIEW:
 			OverviewWindow w = new OverviewWindow(getParent(), getClipboard(), getModel(), getSysintegration().getGuiConfig());
 			w.setVisible(true);
-			return true;
-
-		case SNAPSHOT:
-			takeSnapshot();
 			return true;
 
 		case CLOSE:

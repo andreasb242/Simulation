@@ -3,7 +3,6 @@ package ch.zhaw.simulation.sysintegration;
 import java.awt.Window;
 import java.io.File;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
@@ -49,7 +48,7 @@ public class Sysintegration {
 		return new DefaultToolbar();
 	}
 
-	public ComboBoxModel getBookmarks() {
+	public Bookmarks getBookmarks() {
 		return bookmarks;
 	}
 	

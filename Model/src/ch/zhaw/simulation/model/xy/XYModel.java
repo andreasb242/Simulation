@@ -1,7 +1,10 @@
 package ch.zhaw.simulation.model.xy;
 
+import java.util.Vector;
+
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 
 /**
@@ -25,6 +28,8 @@ public class XYModel extends AbstractSimulationModel<SimulationListener> {
 	 * The grid size in pixel
 	 */
 	private int grid = 5;
+
+	private Vector<Density> density = new Vector<Density>();
 
 	public XYModel() {
 	}
@@ -62,6 +67,10 @@ public class XYModel extends AbstractSimulationModel<SimulationListener> {
 	public SimulationListener addSimulationListener(SimulationListener l) {
 		addListener(l);
 		return l;
+	}
+
+	public Vector<Density> getDensity() {
+		return density;
 	}
 
 }

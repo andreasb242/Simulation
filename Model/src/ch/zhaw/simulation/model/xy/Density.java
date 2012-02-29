@@ -7,6 +7,8 @@ package ch.zhaw.simulation.model.xy;
  */
 public class Density {
 	private String formula = "";
+	private String name;
+	private String description;
 
 	public Density() {
 	}
@@ -20,6 +22,22 @@ public class Density {
 			throw new NullPointerException("formula == null");
 		}
 		this.formula = formula;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

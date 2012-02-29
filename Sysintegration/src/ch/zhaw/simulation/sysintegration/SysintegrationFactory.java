@@ -29,7 +29,9 @@ public class SysintegrationFactory {
 			cached = new WindowsSysintegration();
 		}
 
-		cached = new Sysintegration();
+		if (cached == null) {
+			cached = new Sysintegration();
+		}
 
 		return cached;
 	}

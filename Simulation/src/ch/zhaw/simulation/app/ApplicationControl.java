@@ -15,6 +15,7 @@ import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
+import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.filehandling.ImportPlugins;
@@ -129,7 +130,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		int res = msg.display();
 		if (res == 0) {
 			type = SimulationType.XY_MODEL;
-		} else if(res == 2) {
+		} else if (res == 2) {
 			mainWindow = false;
 		}
 
@@ -169,6 +170,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		this.mainFrame = win;
 		mainFrame.setVisible(true);
+	}
+
+	public void takeSnapshot() {
+		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, getController().getSysintegration(), null, null);
+		dlg.setVisible(true);
 	}
 
 	private void loadSimulationParameterFromSettings() {
@@ -292,12 +298,21 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	@Override
-	public void newFile(SimulationType flowSimulation) {
+	public void newFile(SimulationType type) {
 		if (askSave() == true) {
+			releaseOpenWindow();
 			doc.clear();
+			doc.setType(type);
 			loadSimulationParameterFromSettings();
 
-			this.controller.getSelectionModel().clearSelection();
+			if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+				showFlowWindow(true);
+			} else if (doc.getType() == SimulationType.XY_MODEL) {
+				showXYWindow();
+			} else {
+				throw new RuntimeException("Simulation type " + doc.getType() + " unhandled");
+			}
+
 			setDocumentTitle(null);
 
 			setStatusText("Neues Dokument erstellt");
@@ -321,9 +336,14 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	@Override
 	public void open(String path) {
 		if (askSave() == true) {
+			releaseOpenWindow();
+			doc.clear();
 			if (savehandler.open(new File(path), doc)) {
 				this.controller.getSelectionModel().clearSelection();
 				updatePaths();
+			} else {
+				// TODO: use last used type
+				newFile(SimulationType.FLOW_SIMULATION);
 			}
 		}
 	}
@@ -440,6 +460,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			} else {
 				this.open();
 			}
+			break;
+
+		case SNAPSHOT:
+			takeSnapshot();
 			break;
 
 		case ABOUT:

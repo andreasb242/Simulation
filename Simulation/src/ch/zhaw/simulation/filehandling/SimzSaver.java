@@ -12,7 +12,6 @@ import javax.xml.transform.TransformerException;
 import ch.zhaw.simulation.filehandling.configuration.XmlConfigurationSaver;
 import ch.zhaw.simulation.filehandling.contents.XmlContentsSaver;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 /**
  * Saves a .simz file
@@ -41,14 +40,12 @@ public class SimzSaver implements SimzFileVersion {
 			out.write(("version=" + SIMZ_VERSION + "\ncompatible=" + SIMZ_VERSION_COMPATIBLE).getBytes());
 
 			out.putNextEntry(new ZipEntry("simulation.xml"));
-			
-			// TODO !!!!!!!!!!
-			
-//			contentsSaver.saveContents(out, model);
+
+			contentsSaver.saveContents(out, doc);
 
 			out.putNextEntry(new ZipEntry("configuration.xml"));
 
-//			configurationSaver.save(out, model.getSimulationConfiguration());
+			configurationSaver.save(out, doc.getSimulationConfiguration());
 
 		} finally {
 			out.close();

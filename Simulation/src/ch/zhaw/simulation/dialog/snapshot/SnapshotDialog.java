@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.dialog.snapshot;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Rectangle;
@@ -21,6 +22,8 @@ import javax.swing.JTextField;
 
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
+import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
+import ch.zhaw.simulation.sysintegration.bookmarks.Bookmark;
 import ch.zhaw.simulation.sysintegration.bookmarks.ComboSeparatorsRenderer;
 
 import butti.javalibs.gui.BDialog;
@@ -60,8 +63,23 @@ public class SnapshotDialog extends BDialog {
 
 			@Override
 			protected boolean addSeparatorAfter(JList list, Object value, int index) {
-				return index % 2 == 0;
+				if (value instanceof Bookmark) {
+					return ((Bookmark) value).isSeparator();
+				}
+				return false;
 			}
+
+			@Override
+			public void initComponent(Component comp, Object value) {
+				if (comp instanceof JLabel) {
+					if (value instanceof Bookmark) {
+						((JLabel) comp).setIcon(((Bookmark) value).getIcon());
+					} else {
+						((JLabel) comp).setIcon(null);
+					}
+				}
+			}
+
 		});
 
 		gbm.setX(1).setY(1).setWeightY(0).setComp(new JLabel("Im Ordner speichern"));
@@ -106,5 +124,12 @@ public class SnapshotDialog extends BDialog {
 		setModal(true);
 		pack();
 		setLocationRelativeTo(parent);
+	}
+
+	public static void main(String[] args) {
+		SnapshotDialog dlg = new SnapshotDialog(null, SysintegrationFactory.createSysintegration(), null, null);
+		dlg.setVisible(true);
+
+		System.exit(0);
 	}
 }

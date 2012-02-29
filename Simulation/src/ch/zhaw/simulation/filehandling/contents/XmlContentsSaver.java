@@ -9,6 +9,9 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 
 import ch.zhaw.simulation.filehandling.AbstractXmlSaver;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
@@ -20,55 +23,114 @@ import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.xy.Density;
+import ch.zhaw.simulation.model.xy.XYModel;
 
+/**
+ * Saves an SimulationDocument to an XML file
+ * 
+ * @author Andreas Butti
+ */
 public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNames {
 
-	public void saveContents(OutputStream out, SimulationFlowModel model) throws ParserConfigurationException, TransformerException {
+	public void saveContents(OutputStream out, SimulationDocument doc) throws ParserConfigurationException, TransformerException {
 		Element root = initDocument(XML_ROOT);
 
-		saveModel(root, model);
+		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+			visitFlowModel(root, doc.getFlowModel());
+		} else if (doc.getType() == SimulationType.XY_MODEL) {
+			visitXyModel(root, doc.getXyModel());
+		} else {
+			throw new RuntimeException("Unknown Model type: " + doc.getType());
+		}
 
 		saveOutDocument(out);
 	}
 
-	private void saveModel(Element root, SimulationFlowModel model) {
-		for (SimulationObject o : model.getData()) {
-			if (o instanceof SimulationParameter) {
-				visitSimulationParameter(root, (SimulationParameter) o);
-			} else if (o instanceof SimulationContainer) {
-				visitSimulationcontainer(root, (SimulationContainer) o);
-			} else if (o instanceof SimulationGlobal) {
-				visitSimulationGlobal(root, (SimulationGlobal) o);
-			} else if (o instanceof TextData) {
-				visitTextdata(root, (TextData) o);
-			} else if (o instanceof InfiniteData) {
-			} else if (o instanceof FlowValve) {
-			} else {
-				throw new RuntimeException("type " + o.getClass().getName() + " not available in visitor!");
-			}
+	private void visitXyModel(Element root, XYModel xyModel) {
+		Element xmlModel = createModelElement(root, XML_MODEL_TYPE_XY);
+
+		xmlModel.setAttribute(XML_MODEL_XY_GRID, "" + xyModel.getGrid());
+		xmlModel.setAttribute(XML_MODEL_XY_WIDTH, "" + xyModel.getWidth());
+		xmlModel.setAttribute(XML_MODEL_XY_HEIGHT, "" + xyModel.getHeight());
+
+		visitSimulationData(xmlModel, xyModel);
+
+		for (Density d : xyModel.getDensity()) {
+			visitDensity(xmlModel, d);
 		}
+	}
+
+	private void visitDensity(Element xmlModel, Density d) {
+		Element density = document.createElement(XML_MODEL_XY_ELEMENT_DENSITY);
+		density.setAttribute(XML_ELEMENT_ATTRIB_NAME, d.getName());
+		density.setAttribute(XML_ELEMENT_ATTRIB_VALUE, d.getFormula());
+		density.setAttribute(XML_ELEMENT_ATTRIB_TEXT, d.getDescription());
+
+		xmlModel.appendChild(density);
+	}
+
+	private void visitFlowModel(Element root, SimulationFlowModel model) {
+		Element xmlModel = createModelElement(root, XML_MODEL_TYPE_FLOW);
+
+		visitSimulationData(xmlModel, model);
 
 		for (Connector<?> c : model.getConnectors()) {
 			if (c instanceof FlowConnector) {
-				visitFlowConnector(root, (FlowConnector) c);
+				visitFlowConnector(xmlModel, (FlowConnector) c);
 			} else if (c instanceof ParameterConnector) {
-				visitParameterConnector(root, (ParameterConnector) c);
+				visitParameterConnector(xmlModel, (ParameterConnector) c);
 			} else {
 				throw new RuntimeException("type " + c.getClass().getName() + " not available in visitor!");
 			}
 		}
 	}
 
+	private void visitSimulationData(Element xmlModel, AbstractSimulationModel<?> model) {
+		for (SimulationObject o : model.getData()) {
+			if (o instanceof SimulationParameter) {
+				visitSimulationParameter(xmlModel, (SimulationParameter) o);
+			} else if (o instanceof SimulationDensityContainer) {
+				visitSimulationDensityContainer(xmlModel, (SimulationDensityContainer) o);
+			} else if (o instanceof SimulationContainer) {
+				visitSimulationContainer(xmlModel, (SimulationContainer) o);
+			} else if (o instanceof SimulationGlobal) {
+				visitSimulationGlobal(xmlModel, (SimulationGlobal) o);
+			} else if (o instanceof TextData) {
+				visitTextdata(xmlModel, (TextData) o);
+			} else if (o instanceof InfiniteData) {
+			} else if (o instanceof FlowValve) {
+			} else {
+				throw new RuntimeException("type " + o.getClass().getName() + " not available in visitor!");
+			}
+		}
+	}
+
+	/**
+	 * Creates a simulation model tag, for flow or xy model
+	 */
+	private Element createModelElement(Element root, String type) {
+		Element elem = document.createElement(XML_MODEL);
+		elem.setAttribute(XML_MODEL_TYPE, type);
+		root.appendChild(elem);
+
+		return elem;
+	}
+
+	/**
+	 * Visit a text element ("comment")
+	 */
 	private void visitTextdata(Element root, TextData o) {
-		Element text = document.createElement("text");
-		text.setAttribute("x", "" + o.getX());
-		text.setAttribute("y", "" + o.getY());
+		Element text = document.createElement(XML_ELEMENT_TEXT);
+		text.setAttribute(XML_ELEMENT_ATTRIB_X, "" + o.getX());
+		text.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + o.getY());
 
-		text.setAttribute("width", "" + o.getWidth());
-		text.setAttribute("height", "" + o.getHeight());
+		text.setAttribute(XML_ELEMENT_ATTRIB_WIDTH, "" + o.getWidth());
+		text.setAttribute(XML_ELEMENT_ATTRIB_HEIGHT, "" + o.getHeight());
 
-		text.setAttribute("text", o.getText());
+		text.setAttribute(XML_ELEMENT_TEXT, o.getText());
 
 		root.appendChild(text);
 	}
@@ -76,16 +138,16 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 	private Element createConnectorElement(String element, Connector<? extends NamedSimulationObject> c) {
 		Element connector = document.createElement(element);
 
-		connector.setAttribute("from", c.getSource().getName());
-		connector.setAttribute("to", c.getTarget().getName());
+		connector.setAttribute(XML_ELEMENT_ATTRIB_FROM, c.getSource().getName());
+		connector.setAttribute(XML_ELEMENT_ATTRIB_TO, c.getTarget().getName());
 
 		return connector;
 	}
 
 	private Element visitPoint(Point p) {
-		Element point = document.createElement("point");
-		point.setAttribute("x", "" + p.x);
-		point.setAttribute("y", "" + p.y);
+		Element point = document.createElement(XML_ELEMENT_POINT);
+		point.setAttribute(XML_ELEMENT_ATTRIB_X, "" + p.x);
+		point.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + p.y);
 
 		return point;
 	}
@@ -100,19 +162,19 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 
 	private void visitFlowConnector(Element root, FlowConnector c) {
 		Element connector = document.createElement(XML_ELEMENT_FLOW_CONNECTOR);
-		connector.setAttribute("name", c.getValve().getName());
-		connector.setAttribute("value", c.getValve().getFormula());
+		connector.setAttribute(XML_ELEMENT_ATTRIB_NAME, c.getValve().getName());
+		connector.setAttribute(XML_ELEMENT_ATTRIB_VALUE, c.getValve().getFormula());
 
 		SimulationObject source = c.getSource();
 
 		if (source instanceof NamedSimulationObject) {
-			connector.setAttribute("from", ((NamedSimulationObject) source).getName());
+			connector.setAttribute(XML_ELEMENT_ATTRIB_FROM, ((NamedSimulationObject) source).getName());
 		} else if (source instanceof InfiniteData) {
-			Element infinite = document.createElement("infinite");
+			Element infinite = document.createElement(XML_ELEMENT_INFINITE);
 
-			infinite.setAttribute("connector", "from");
-			infinite.setAttribute("x", "" + source.getX());
-			infinite.setAttribute("y", "" + source.getY());
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_CONNECTOR, XML_ELEMENT_ATTRIB_FROM);
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_X, "" + source.getX());
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + source.getY());
 
 			connector.appendChild(infinite);
 		} else {
@@ -122,13 +184,13 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		SimulationObject to = c.getTarget();
 
 		if (to instanceof NamedSimulationObject) {
-			connector.setAttribute("to", ((NamedSimulationObject) to).getName());
+			connector.setAttribute(XML_ELEMENT_ATTRIB_TO, ((NamedSimulationObject) to).getName());
 		} else if (to instanceof InfiniteData) {
-			Element infinite = document.createElement("infinite");
+			Element infinite = document.createElement(XML_ELEMENT_INFINITE);
 
-			infinite.setAttribute("connector", "to");
-			infinite.setAttribute("x", "" + to.getX());
-			infinite.setAttribute("y", "" + to.getY());
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_CONNECTOR, XML_ELEMENT_ATTRIB_TO);
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_X, "" + to.getX());
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + to.getY());
 
 			connector.appendChild(infinite);
 		} else {
@@ -140,7 +202,13 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		root.appendChild(connector);
 	}
 
-	private void visitSimulationcontainer(Element root, SimulationContainer c) {
+	private void visitSimulationDensityContainer(Element root, SimulationDensityContainer c) {
+		Element xml = createXmlElement(c, XML_ELEMENT_DENSITY_CONTAINER);
+
+		root.appendChild(xml);
+	}
+
+	private void visitSimulationContainer(Element root, SimulationContainer c) {
 		Element xml = createXmlElement(c, XML_ELEMENT_CONTAINER);
 
 		root.appendChild(xml);
@@ -161,11 +229,11 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 	private Element createXmlElement(NamedSimulationObject o, String type) {
 		Element xml = document.createElement(type);
 
-		xml.setAttribute("x", "" + o.getX());
-		xml.setAttribute("y", "" + o.getY());
-		xml.setAttribute("name", o.getName());
+		xml.setAttribute(XML_ELEMENT_ATTRIB_X, "" + o.getX());
+		xml.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + o.getY());
+		xml.setAttribute(XML_ELEMENT_ATTRIB_NAME, o.getName());
 
-		xml.setAttribute("value", o.getFormula());
+		xml.setAttribute(XML_ELEMENT_ATTRIB_VALUE, o.getFormula());
 		return xml;
 	}
 }
