@@ -8,6 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.config.WindowPositionProperties;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.util.RestartUtil;
@@ -34,6 +35,7 @@ import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
+import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
 
@@ -77,7 +79,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	/**
 	 * The main frame
 	 */
-	private JFrame mainFrame;
+	private SimulationWindow<?, ?, ?> mainFrame;
 
 	/**
 	 * The main editor controller
@@ -90,6 +92,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	private String documentName = null;
 
 	private SimulationManager manager;
+
+	/**
+	 * The window position of the main window
+	 */
+	private WindowPositionProperties windowPosition = new WindowPositionProperties();
 
 	/**
 	 * Ctor
@@ -173,8 +180,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void takeSnapshot() {
-		// TODO !! Create snapshot
-		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController().getView(), getController().getView().getBounds(), "Simulation");
+		// TODO !! name, selection, svg
+		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController().getView(), getController()
+				.getView().getBounds(), "Simulation");
 		dlg.setVisible(true);
 	}
 
@@ -196,9 +204,12 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void releaseOpenWindow() {
-		this.controller.dispose();
+		windowPosition.readWindowPos(this.mainFrame);
 
-		// TODO release
+		this.controller.dispose();
+		this.mainFrame.dispose();
+		this.removeListener(this.controller);
+		this.mainFrame.removeListener(this.controller);
 	}
 
 	@Override
@@ -306,13 +317,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			doc.setType(type);
 			loadSimulationParameterFromSettings();
 
-			if (doc.getType() == SimulationType.FLOW_SIMULATION) {
-				showFlowWindow(true);
-			} else if (doc.getType() == SimulationType.XY_MODEL) {
-				showXYWindow();
-			} else {
-				throw new RuntimeException("Simulation type " + doc.getType() + " unhandled");
-			}
+			createMainWindow();
 
 			setDocumentTitle(null);
 
@@ -322,6 +327,18 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 			this.controller.getUndoManager().discardAllEdits();
 		}
+	}
+
+	private void createMainWindow() {
+		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+			showFlowWindow(true);
+		} else if (doc.getType() == SimulationType.XY_MODEL) {
+			showXYWindow();
+		} else {
+			throw new RuntimeException("Simulation type " + doc.getType() + " unhandled");
+		}
+		
+		windowPosition.applay(this.mainFrame);
 	}
 
 	@Override
@@ -340,8 +357,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			releaseOpenWindow();
 			doc.clear();
 			if (savehandler.open(new File(path), doc)) {
-				this.controller.getSelectionModel().clearSelection();
 				updatePaths();
+
+				createMainWindow();
 			} else {
 				// TODO: use last used type
 				newFile(SimulationType.FLOW_SIMULATION);

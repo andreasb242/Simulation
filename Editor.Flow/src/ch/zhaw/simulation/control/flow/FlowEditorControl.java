@@ -295,5 +295,17 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	public void setView(FlowEditorView view) {
 		this.view = view;
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		this.autoparser.stop();
+		this.autoparser = null;
+
+		this.drawModusListener.clear();
+		
+		this.view = null;
+	}
 
 }

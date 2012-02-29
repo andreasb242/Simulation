@@ -35,8 +35,6 @@ public class SimulationDocument {
 	}
 
 	public void setType(SimulationType type) {
-		// TODO !!!! fire xxxx
-
 		if (type == SimulationType.FLOW_SIMULATION) {
 			this.flowModel = new SimulationFlowModel();
 			this.xyModel = null;

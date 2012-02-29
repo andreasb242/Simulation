@@ -23,6 +23,8 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 
 		density = new DensityDraw(800, 600);
 		density.updateImage();
+		
+		loadDataFromModel();
 	}
 
 	@Override

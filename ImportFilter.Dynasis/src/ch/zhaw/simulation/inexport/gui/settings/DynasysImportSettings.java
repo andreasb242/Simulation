@@ -86,7 +86,6 @@ public class DynasysImportSettings extends JPanel {
 			}
 		});
 
-		// TODO: checkbox always use addItemListener
 		cbAlign.addActionListener(new ActionListener() {
 			
 			@Override

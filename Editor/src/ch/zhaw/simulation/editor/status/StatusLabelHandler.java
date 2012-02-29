@@ -45,4 +45,9 @@ public class StatusLabelHandler implements StatusListener {
 		return sBar;
 	}
 
+	public void dispose() {
+		this.sBar = null;
+		this.lbStatus = null;
+	}
+
 }

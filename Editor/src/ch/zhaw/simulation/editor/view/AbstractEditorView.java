@@ -166,8 +166,6 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		setOpaque(false);
 
 		initKeyhandler();
-
-		initComponent();
 	}
 
 	/**

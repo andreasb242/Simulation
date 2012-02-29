@@ -80,6 +80,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 		add(arrowDrag);
 		arrowDrag.setVisible(false);
+		
+		loadDataFromModel();
 	}
 
 	@Override

@@ -37,4 +37,8 @@ public class StatusHandler implements StatusListener {
 		}
 	}
 
+	public void dispose() {
+		this.listener.clear();
+	}
+
 }

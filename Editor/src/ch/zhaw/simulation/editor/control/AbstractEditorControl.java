@@ -28,6 +28,7 @@ import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
+import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
@@ -88,6 +89,8 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 	private SimulationDocument doc;
 
+	private SimulationListener simListener;
+
 	/**
 	 * CTor
 	 * 
@@ -116,13 +119,13 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		}
 
 		this.addListener(status);
-		
+
 		this.doc = doc;
 		if (doc == null) {
 			throw new NullPointerException("doc == null");
 		}
 
-		model.addSimulationListener(new SimulationAdapter() {
+		simListener = model.addSimulationListener(new SimulationAdapter() {
 			@Override
 			public void dataChanged(SimulationObject o) {
 				AbstractEditorControl.this.app.updateTitle();
@@ -162,7 +165,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	public SimulationConfiguration getSimulationConfiguration() {
 		return doc.getSimulationConfiguration();
 	}
-	
+
 	public SimulationDocument getDoc() {
 		return doc;
 	}
@@ -215,7 +218,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	public final boolean save() {
 		return this.app.save();
 	}
-	
+
 	public SimulationApplication getApp() {
 		return app;
 	}
@@ -379,8 +382,37 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	}
 
 	public void dispose() {
-		// TODO Auto-generated method stub
+		this.removeListener(this.status);
 
+		this.status.dispose();
+		this.status = null;
+
+		this.selectionModel.clearSelection();
+		this.selectionModel.clearTmpSelection();
+		this.selectionModel = null;
+
+		this.model.removeListener(simListener);
+		this.model = null;
+
+		if (this.formulaEditor != null) {
+			this.formulaEditor.dispose();
+			this.formulaEditor = null;
+		}
+
+		this.app = null;
+
+		this.parent = null;
+
+		this.integration = null;
+
+		this.settings = null;
+
+		getView().removeMouseListener(lastMouseListener);
+		this.lastMouseListener = null;
+
+		this.doc = null;
+
+		super.dispose();
 	}
 
 }
