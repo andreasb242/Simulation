@@ -173,7 +173,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void takeSnapshot() {
-		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, getController().getSysintegration(), null, null);
+		// TODO !! Create snapshot
+		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController().getView(), getController().getView().getBounds(), "Simulation");
 		dlg.setVisible(true);
 	}
 

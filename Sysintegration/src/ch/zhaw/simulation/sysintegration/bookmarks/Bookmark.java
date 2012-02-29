@@ -40,4 +40,13 @@ public class Bookmark {
 	public String toString() {
 		return name;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof String) {
+			return obj.equals(path);
+		}
+		
+		return super.equals(obj);
+	}
 }

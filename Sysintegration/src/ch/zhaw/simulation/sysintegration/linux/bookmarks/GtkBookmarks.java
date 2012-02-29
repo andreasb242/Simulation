@@ -49,20 +49,20 @@ public class GtkBookmarks extends Bookmarks {
 			String line = null;
 
 			Icon icon = icons.get("default");
-			
+
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("file://")) {
 					String path = line.substring(7);
-					
+
 					File file = new File(path);
-					if(!file.exists()) {
+					if (!file.exists()) {
 						continue;
 					}
-					
+
 					String name = file.getName();
 					addElement(new Bookmark(name, path, icon));
-					
-					System.out.println(path);
+
+					// System.out.println(path);
 				}
 			}
 
@@ -102,8 +102,8 @@ public class GtkBookmarks extends Bookmarks {
 
 				int closingPos = line.indexOf("\"", pos + 1);
 
-				String value = line.substring(pos, closingPos).trim();
-				
+				String value = line.substring(pos + 1, closingPos).trim();
+
 				value = StringUtil.replace(value, "$HOME", home);
 
 				String name = new File(value).getName();
@@ -114,7 +114,7 @@ public class GtkBookmarks extends Bookmarks {
 					icon = icons.get("default");
 				}
 				Bookmark b = new Bookmark(name, value, icon);
-//				System.out.println(id + "=" + value);
+				// System.out.println(id + "=" + value);
 
 				addElement(b);
 			}
