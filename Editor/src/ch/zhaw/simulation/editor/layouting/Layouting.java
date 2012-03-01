@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.editor.layouting;
 
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.undo.action.LayoutUndoAction;
 

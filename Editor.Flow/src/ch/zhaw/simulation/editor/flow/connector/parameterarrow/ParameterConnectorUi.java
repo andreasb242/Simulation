@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.editor.flow.connector.parameterarrow;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,15 +8,12 @@ import java.awt.geom.CubicCurve2D;
 import javax.swing.JComponent;
 
 import butti.javalibs.util.DrawHelper;
-
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-
-
+import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionListener;
 
 public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 	private ElementConnectorParameter start;
@@ -144,7 +140,7 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 		} else {
 			g.setColor(color);
 		}
-		
+
 		DrawHelper.antialisingOn(g);
 
 		Point startPoint = start.getPoint();

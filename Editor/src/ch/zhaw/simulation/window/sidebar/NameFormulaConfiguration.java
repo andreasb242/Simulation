@@ -22,9 +22,9 @@ import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.element.TextData;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionListener;
+import ch.zhaw.simulation.model.selection.SelectionModel;
 
 public abstract class NameFormulaConfiguration extends JXTaskPane implements SelectionListener {
 	private static final long serialVersionUID = 1L;

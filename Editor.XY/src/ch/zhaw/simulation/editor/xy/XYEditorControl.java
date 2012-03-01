@@ -6,7 +6,7 @@ import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.xy.XYModel;
 
 public class XYEditorControl extends AbstractEditorControl<XYModel> {

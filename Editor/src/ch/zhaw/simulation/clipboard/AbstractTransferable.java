@@ -6,7 +6,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectableElement;
 
 public abstract class AbstractTransferable implements Transferable {
 	public static DataFlavor SIMULATION_FLOWER = new DataFlavor("application/x-simulation", "Simulation");
@@ -23,9 +23,11 @@ public abstract class AbstractTransferable implements Transferable {
 	 * Creates a transferable object capable of transferring the specified
 	 * string in plain text format.
 	 */
-	public AbstractTransferable(SelectableElement[] selected) {
+	public AbstractTransferable() {
 		initClipboardData();
-
+	}
+	
+	protected void addCopy(SelectableElement[] selected) {
 		for (SelectableElement s : selected) {
 			addCopy(s);
 		}

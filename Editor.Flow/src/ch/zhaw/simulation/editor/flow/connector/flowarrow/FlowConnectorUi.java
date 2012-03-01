@@ -13,8 +13,8 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorControl.FlowControlListener;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionListener;
+import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class FlowConnectorUi implements ConnectorUi, FlowControlListener,

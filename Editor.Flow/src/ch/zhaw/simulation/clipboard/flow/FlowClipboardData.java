@@ -19,7 +19,7 @@ import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
-import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.model.selection.SelectionModel;
 
 public class FlowClipboardData extends Vector<TransferData> implements ClipboardData {
 	private static final long serialVersionUID = 1L;

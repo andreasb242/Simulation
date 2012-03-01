@@ -6,7 +6,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectableElement;
 
 public class MoveUndoAction extends AbstractUndoableEdit {
 	private SelectableElement[] elements;

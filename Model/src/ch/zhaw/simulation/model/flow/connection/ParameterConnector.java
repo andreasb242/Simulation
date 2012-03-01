@@ -5,7 +5,7 @@ import java.awt.Point;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 
 /**
- * A parameter connector, this is the thin arrow, wich allows only the use of
+ * A parameter connector, this is the thin arrow, which allows only the use of
  * the value, but don't change values
  * 
  * @author Andreas Butti

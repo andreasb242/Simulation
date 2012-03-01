@@ -40,8 +40,8 @@ import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
+import ch.zhaw.simulation.model.selection.SelectableElement;
 
 public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements FlowSimulationListener, DrawModusListener {
 	private static final long serialVersionUID = 1L;

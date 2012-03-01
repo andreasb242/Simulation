@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectableElement;
 
 
 /**

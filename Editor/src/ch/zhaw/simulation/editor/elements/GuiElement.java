@@ -9,9 +9,9 @@ import javax.swing.JComponent;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-import ch.zhaw.simulation.model.flow.selection.SelectionModel;
+import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionListener;
+import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 
 public abstract class GuiElement extends JComponent implements SelectionListener, SelectableElement, ViewComponent {

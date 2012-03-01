@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.model.flow.selection;
+package ch.zhaw.simulation.model.selection;
 
 import java.util.Vector;
 

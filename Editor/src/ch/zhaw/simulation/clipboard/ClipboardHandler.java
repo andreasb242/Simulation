@@ -13,8 +13,8 @@ import java.util.Vector;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionListener;
+import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionListener;
 
 public class ClipboardHandler<C extends AbstractEditorControl<?>> implements FlavorListener, ClipboardOwner, SelectionListener, ClipboardInterface {
 	private C control;

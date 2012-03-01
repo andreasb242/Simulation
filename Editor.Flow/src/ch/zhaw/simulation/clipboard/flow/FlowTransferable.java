@@ -19,7 +19,7 @@ import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
 import ch.zhaw.simulation.model.flow.element.SimulationParameter;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectableElement;
 
 public class FlowTransferable extends AbstractTransferable {
 	/**
@@ -33,9 +33,13 @@ public class FlowTransferable extends AbstractTransferable {
 	protected FlowClipboardData data;
 
 	public FlowTransferable(SelectableElement[] selected, SimulationFlowModel model) {
-		super(selected);
-
 		this.model = model;
+		
+		if(model == null) {
+			throw new NullPointerException("model == null");
+		}
+		
+		addCopy(selected);
 	}
 
 	@Override

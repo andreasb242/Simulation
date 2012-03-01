@@ -6,7 +6,7 @@ import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.menu.xy.XYMenubar;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;

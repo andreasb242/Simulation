@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.layouting.Layouting;
@@ -110,7 +112,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		view.getClipboard().addListener(toolbar);
 
 		add(BorderLayout.NORTH, toolbar.getToolbar());
-		add(BorderLayout.CENTER, view);
+		add(BorderLayout.CENTER, new JScrollPane(view));
 		add(BorderLayout.SOUTH, view.getControl().getStatus().getStatusBar());
 
 		initSidebar(sidebar);
@@ -206,5 +208,14 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		for (MenuActionListener l : listeners) {
 			l.menuActionPerformed(a);
 		}
+	}
+	
+	@Override
+	public void dispose() {
+		view.getUndoHandler().removeUndoListener(toolbar);
+		view.getClipboard().removeListener(toolbar);
+		view.dispose();
+		
+		super.dispose();
 	}
 }

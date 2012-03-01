@@ -13,9 +13,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Vector;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
@@ -28,14 +28,14 @@ import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.element.TextData;
-import ch.zhaw.simulation.model.flow.selection.SelectableElement;
-import ch.zhaw.simulation.model.flow.selection.SelectionListener;
-import ch.zhaw.simulation.model.flow.selection.SelectionModel;
 import ch.zhaw.simulation.model.listener.SimulationListener;
+import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionListener;
+import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JPanel implements SimulationListener {
+public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JPanel implements SimulationListener, SelectionListener {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -51,7 +51,6 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	/**
 	 * Shows a selection rectange (while selecting)
 	 */
-	// TODO: !! private
 	protected boolean showSelection = false;
 
 	/**
@@ -72,7 +71,6 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	/**
 	 * The key listener
 	 */
-	// TODO: !! private
 	protected KeyListener keyListener = new KeyAdapter() {
 
 		@Override
@@ -110,7 +108,6 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	/**
 	 * Mouse listener, used for selecting
 	 */
-	// TODO: !! private
 	protected MouseAdapter selectionListener = new MouseAdapter() {
 
 		@Override
@@ -166,6 +163,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		setOpaque(false);
 
 		initKeyhandler();
+
+		initComponent();
 	}
 
 	/**
@@ -188,8 +187,6 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	private void initComponent() {
-		loadDataFromModel();
-
 		addModellistener();
 
 		addKeyListener(keyListener);
@@ -197,19 +194,26 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		addMouseMotionListener(selectionListener);
 		addMouseListener(selectionListener);
 
-		selectionModel.addSelectionListener(new SelectionListener() {
+		selectionModel.addSelectionListener(this);
+	}
 
-			@Override
-			public void selectionChanged() {
-				showArrowDrag();
-			}
+	@Override
+	public void selectionChanged() {
+		showArrowDrag();
 
-			@Override
-			public void selectionMoved(int dX, int dY) {
-				showArrowDrag();
-			}
+		bringSelectedObjectsToFront();
+	}
 
-		});
+	protected void bringSelectedObjectsToFront() {
+		for (SelectableElement se : selectionModel.getSelected()) {
+			JComponent comp = (JComponent) se;
+			setComponentZOrder(comp, 0);
+		}
+	}
+
+	@Override
+	public void selectionMoved(int dX, int dY) {
+		showArrowDrag();
 	}
 
 	/**
@@ -314,20 +318,11 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	protected void paintElements(Graphics2D g) {
-		LinkedList<Component> selected = new LinkedList<Component>();
-
-		for (Component c : getComponents()) {
+		for (int i = getComponentCount() - 1; i >= 0; i--) {
+			Component c = getComponent(i);
 			if (c instanceof SelectableElement) {
-				if (selectionModel.isSelected((SelectableElement) c)) {
-					selected.add(c);
-				} else {
-					paintSubComponent(g, c);
-				}
+				paintSubComponent(g, c);
 			}
-		}
-
-		for (Component c : selected) {
-			paintSubComponent(g, c);
 		}
 	}
 
@@ -499,4 +494,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		removeAll();
 	}
 
+	public void dispose() {
+		selectionModel.removeSelectionListener(this);
+	}
 }
