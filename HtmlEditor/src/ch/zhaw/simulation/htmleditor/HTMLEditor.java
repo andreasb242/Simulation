@@ -495,12 +495,8 @@ public class HTMLEditor extends BDialog {
 		HTMLWriter w = new HTMLWriter(textOut, doc, 0, doc.getLength());
 		try {
 			w.write();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			Errorhandler.showError(e, "Fehler bei der HTML code Generierung");
 		}
 		return textOut.toString();
 

@@ -139,6 +139,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			type = SimulationType.XY_MODEL;
 		} else if (res == 2) {
 			mainWindow = false;
+		} else if(res == 1) {
+		} else {
+			return;
 		}
 
 		doc.setType(type);
@@ -175,6 +178,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		win.init(control);
 		win.addListener(control);
 
+		
 		this.mainFrame = win;
 		mainFrame.setVisible(true);
 	}

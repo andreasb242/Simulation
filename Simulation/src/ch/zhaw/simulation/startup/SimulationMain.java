@@ -32,6 +32,9 @@ public class SimulationMain {
 			if ("metal".equals(lookAndFeel)) {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			} else if ("nimbus".equals(lookAndFeel)) {
+				
+				// 100ms faster than only setLookAndFeel
+				System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 			} else {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -39,7 +42,7 @@ public class SimulationMain {
 		} catch (Exception e) {
 			Errorhandler.logError(e);
 		}
-
+		
 		ApplicationControl app = new ApplicationControl();
 		app.start(settings, openfile);
 	}

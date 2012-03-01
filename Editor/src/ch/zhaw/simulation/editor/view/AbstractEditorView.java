@@ -370,7 +370,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	/**
-	 * Searches a rgui representation of a model element
+	 * Searches a gui representation of a model element
 	 * 
 	 * @param b
 	 *            The Model element
