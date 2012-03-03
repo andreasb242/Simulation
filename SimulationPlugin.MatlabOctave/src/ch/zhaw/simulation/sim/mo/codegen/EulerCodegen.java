@@ -14,7 +14,7 @@ import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.sim.mo.MOAttachment;
 import ch.zhaw.simulation.sim.mo.MOVisitor;

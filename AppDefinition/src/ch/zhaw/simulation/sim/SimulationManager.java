@@ -8,8 +8,8 @@ import butti.javalibs.config.SettingsPrefix;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.plugin.PluginDescription;
 import butti.plugin.PluginManager;
-import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.simulation.PluginChangeListener;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 
 public class SimulationManager {
 
@@ -65,6 +65,10 @@ public class SimulationManager {
 		});
 	}
 
+	public PluginDescription<SimulationPlugin> getSelectedPlugin() {
+		return selectedPlugin;
+	}
+	
 	public Vector<PluginDescription<SimulationPlugin>> getPlugins() {
 		return plugins.getPlugins();
 	}

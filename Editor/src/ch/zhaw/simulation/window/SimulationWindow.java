@@ -8,6 +8,10 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import org.jdesktop.swingx.JXTaskPane;
+
+import butti.plugin.PluginDescription;
+
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.layouting.Layouting;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
@@ -17,10 +21,14 @@ import ch.zhaw.simulation.menu.AbstractMenubar;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
+import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.simulation.PluginChangeListener;
+import ch.zhaw.simulation.sim.SimulationPlugin;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
+import ch.zhaw.simulation.window.sidebar.SimulationConfigurationPanel;
 
 /**
  * A simulation window
@@ -35,7 +43,7 @@ import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
  *            The view type
  */
 public abstract class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolbar, V extends AbstractEditorView<?>> extends JFrame implements
-		MenuActionListener {
+		MenuActionListener, PluginChangeListener {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -63,9 +71,18 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	protected V view;
 
 	/**
+	 * The Simulation plugin which is used
+	 */
+	private PluginDescription<SimulationPlugin> currentSelectedPlugin;
+
+	/**
 	 * If this is the main application window
 	 */
 	protected boolean mainWindow;
+
+	private SimulationDocument doc;
+
+	private SimulationConfigurationPanel simConfig;
 
 	/**
 	 * @param mainWindow
@@ -101,6 +118,9 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		this.toolbar = toolbar;
 		this.view = view;
 		this.layouter = new Layouting(view.getControl().getSelectionModel(), view.getUndoHandler());
+		this.doc = view.getControl().getDoc();
+
+		doc.getSimulationConfiguration().addPluginChangeListener(this);
 
 		setJMenuBar(menubar.getMenubar());
 
@@ -137,6 +157,9 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		};
 		sidebar.add(formulaConfiguration);
 		view.getControl().getSelectionModel().addSelectionListener(formulaConfiguration);
+
+		this.simConfig = new SimulationConfigurationPanel(view.getControl());
+		sidebar.add(simConfig);
 	}
 
 	@Override
@@ -215,6 +238,29 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		view.getClipboard().removeListener(toolbar);
 		view.dispose();
 
+		doc.getSimulationConfiguration().removePluginChangeListener(this);
+
+		this.simConfig.dispose();
+
 		super.dispose();
+	}
+
+	@Override
+	public void pluginChanged(String pluginName) {
+		PluginDescription<SimulationPlugin> plugin = view.getControl().getApp().getManager().getSelectedPlugin();
+
+		if (currentSelectedPlugin != plugin && currentSelectedPlugin != null) {
+			JXTaskPane sb = currentSelectedPlugin.getPlugin().getConfigurationSettingsSidebar();
+			if (sb != null) {
+				this.sidebar.remove(sb);
+			}
+		}
+
+		currentSelectedPlugin = plugin;
+
+		JXTaskPane sb = plugin.getPlugin().getConfigurationSettingsSidebar();
+		if (sb != null) {
+			this.sidebar.add(sb);
+		}
 	}
 }

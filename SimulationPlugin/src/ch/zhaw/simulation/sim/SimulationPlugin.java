@@ -8,7 +8,7 @@ import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 
 public interface SimulationPlugin extends AbstractPlugin {
 

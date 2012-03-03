@@ -10,5 +10,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HelpBrowser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

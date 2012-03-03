@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.window.flow.sidebar;
+package ch.zhaw.simulation.window.sidebar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,12 +10,12 @@ import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
-import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.simulation.PluginChangeListener;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.SimulationManager;
 
 public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {
@@ -26,7 +26,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 
 	private JButton btStart = new JButton("Simulieren");
 
-	public SimulationConfigurationPanel(final FlowEditorControl control) {
+	public SimulationConfigurationPanel(final AbstractEditorControl<?> control) {
 		setTitle("Simulation");
 		this.model = control.getSimulationConfiguration();
 		model.addPluginChangeListener(this);
@@ -79,5 +79,9 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 				break;
 			}
 		}
+	}
+
+	public void dispose() {
+		model.removePluginChangeListener(this);
 	}
 }

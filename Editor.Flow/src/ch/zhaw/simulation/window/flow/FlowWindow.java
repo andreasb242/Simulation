@@ -6,7 +6,7 @@ import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.menu.flow.FlowMenubar;
 import ch.zhaw.simulation.toolbar.xy.FlowToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
-import ch.zhaw.simulation.window.flow.sidebar.SimulationConfigurationPanel;
+import ch.zhaw.simulation.window.sidebar.SimulationConfigurationPanel;
 
 public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowEditorView> {
 	private static final long serialVersionUID = 1L;
@@ -31,9 +31,5 @@ public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowE
 	@Override
 	protected void initSidebar(FrameSidebar sidebar) {
 		super.initSidebar(sidebar);
-
-		SimulationConfigurationPanel simConfig = new SimulationConfigurationPanel(view.getControl());
-		sidebar.add(simConfig);
 	}
-
 }

@@ -3,7 +3,7 @@ package ch.zhaw.simulation.model;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.xy.XYModel;
 
 /**

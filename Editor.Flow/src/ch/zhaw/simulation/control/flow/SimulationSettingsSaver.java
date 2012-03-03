@@ -1,8 +1,8 @@
 package ch.zhaw.simulation.control.flow;
 
-import ch.zhaw.simulation.model.flow.simulation.PluginChangeListener;
-import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.model.flow.simulation.SimulationParameterListener;
+import ch.zhaw.simulation.model.simulation.PluginChangeListener;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.sim.StandardParameter;
 import butti.javalibs.config.Settings;
 

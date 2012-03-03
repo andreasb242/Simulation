@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.model.flow.simulation;
+package ch.zhaw.simulation.model.simulation;
 
 /**
  * SimulationPlugin Listener
