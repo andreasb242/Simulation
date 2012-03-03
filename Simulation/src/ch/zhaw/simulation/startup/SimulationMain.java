@@ -5,6 +5,7 @@ import java.io.File;
 import javax.swing.UIManager;
 
 import org.jdesktop.swingx.util.OS;
+import org.netbeans.swing.dirchooser.FolderChooserUi;
 
 import butti.javalibs.config.FileSettings;
 import butti.javalibs.config.Settings;
@@ -42,6 +43,10 @@ public class SimulationMain {
 		} catch (Exception e) {
 			Errorhandler.logError(e);
 		}
+		
+		// install netbeans Folderchooser for JFilechooser
+		FolderChooserUi m = new FolderChooserUi();
+		m.installUI();
 		
 		ApplicationControl app = new ApplicationControl();
 		app.start(settings, openfile);
