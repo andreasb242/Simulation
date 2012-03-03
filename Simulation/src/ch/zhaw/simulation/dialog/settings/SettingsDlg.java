@@ -21,7 +21,7 @@ import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.ApplicationControl;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.inexport.ImportReader;
-import ch.zhaw.simulation.sim.SimulationPlugin;
+import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.util.gui.GradientPanel;
 import ch.zhaw.simulation.util.gui.HeaderPanel;
 

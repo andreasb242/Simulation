@@ -3,7 +3,7 @@ package ch.zhaw.simulation.control.flow;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
-import ch.zhaw.simulation.sim.StandardParameter;
+import ch.zhaw.simulation.plugin.StandardParameter;
 import butti.javalibs.config.Settings;
 
 // TODO: diese klasse wider einbauen

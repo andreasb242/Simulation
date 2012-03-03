@@ -1,7 +1,10 @@
-package ch.zhaw.simulation.sim.mo;
+package ch.zhaw.simulation.plugin.matlab;
 
 import javax.swing.JPanel;
 
+import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodegen;
+import ch.zhaw.simulation.plugin.matlab.codegen.EulerCodegen;
+import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
@@ -9,12 +12,9 @@ import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.sim.PluginDataProvider;
-import ch.zhaw.simulation.sim.SimulationPlugin;
-import ch.zhaw.simulation.sim.mo.codegen.AbstractCodegen;
-import ch.zhaw.simulation.sim.mo.codegen.EulerCodegen;
-import ch.zhaw.simulation.sim.mo.gui.SettingsGui;
-import ch.zhaw.simulation.sim.sidebar.DefaultSimulationSidebar;
+import ch.zhaw.simulation.plugin.PluginDataProvider;
+import ch.zhaw.simulation.plugin.SimulationPlugin;
+import ch.zhaw.simulation.plugin.sidebar.DefaultSimulationSidebar;
 
 public class SimulationMatlabOctave implements SimulationPlugin {
 	private Settings settings;

@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.mo.codegen;
+package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,9 +15,9 @@ import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.sim.StandardParameter;
-import ch.zhaw.simulation.sim.mo.MOAttachment;
-import ch.zhaw.simulation.sim.mo.MOVisitor;
+import ch.zhaw.simulation.plugin.matlab.MOAttachment;
+import ch.zhaw.simulation.plugin.matlab.MOVisitor;
+import ch.zhaw.simulation.plugin.StandardParameter;
 
 /**
  * Code Generation for Runge-Kutta

@@ -24,7 +24,7 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
-import ch.zhaw.simulation.sim.SimulationPlugin;
+import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;

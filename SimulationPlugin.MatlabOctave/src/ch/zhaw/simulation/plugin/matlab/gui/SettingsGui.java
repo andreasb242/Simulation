@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.mo.gui;
+package ch.zhaw.simulation.plugin.matlab.gui;
 
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 import butti.filechooser.TxtDirChooser;
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
-import ch.zhaw.simulation.sim.mo.SimulationTool;
+import ch.zhaw.simulation.plugin.matlab.SimulationTool;
 
 public class SettingsGui extends JPanel {
 	private static final long serialVersionUID = 1L;

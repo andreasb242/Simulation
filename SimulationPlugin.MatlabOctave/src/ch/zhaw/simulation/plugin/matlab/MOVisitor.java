@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.mo;
+package ch.zhaw.simulation.plugin.matlab;
 
 import org.lsmp.djep.xjep.PrintVisitor;
 import org.nfunk.jep.ASTVarNode;

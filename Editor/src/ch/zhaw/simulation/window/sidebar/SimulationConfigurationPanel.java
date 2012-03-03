@@ -16,7 +16,7 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.sim.SimulationManager;
+import ch.zhaw.simulation.plugin.SimulationManager;
 
 public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.mo;
+package ch.zhaw.simulation.plugin.matlab;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

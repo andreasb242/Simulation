@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim;
+package ch.zhaw.simulation.plugin;
 
 import java.util.Vector;
 

@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.mo;
+package ch.zhaw.simulation.plugin.matlab;
 
 import java.util.Vector;
 
@@ -16,7 +16,7 @@ import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.sim.mo.MOAttachment.VarNotFoundExceptionTmp;
+import ch.zhaw.simulation.plugin.matlab.MOAttachment.VarNotFoundExceptionTmp;
 
 public class ModelOptimizer {
 	private SimulationFlowModel model;
