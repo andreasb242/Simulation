@@ -3,6 +3,7 @@ package ch.zhaw.simulation.model.flow.connection;
 import java.awt.Point;
 
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.flow.BezierConnectorData;
 
 /**
  * A parameter connector, this is the thin arrow, which allows only the use of
@@ -10,7 +11,7 @@ import ch.zhaw.simulation.model.element.NamedSimulationObject;
  * 
  * @author Andreas Butti
  */
-public class ParameterConnector extends Connector<NamedSimulationObject> {
+public class ParameterConnector extends Connector<NamedSimulationObject> implements BezierConnectorData {
 	/**
 	 * The point for our bezier calculation
 	 */
@@ -20,11 +21,12 @@ public class ParameterConnector extends Connector<NamedSimulationObject> {
 		super(source, target);
 	}
 
-	public Point getConnectorPoint() {
+	@Override
+	public Point getHelperPoint() {
 		return connectorPoint;
 	}
 
-	public void setConnectorPoint(Point connectorPoint) {
+	public void setHelperPoint(Point connectorPoint) {
 		this.connectorPoint = connectorPoint;
 	}
 }

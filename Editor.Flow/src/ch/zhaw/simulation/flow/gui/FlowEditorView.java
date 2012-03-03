@@ -19,14 +19,14 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
-import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorUi;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
@@ -56,7 +56,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	/**
 	 * The point handles, needed only for drawing components
 	 */
-	private LinkedList<ConnectorPoint> tmpPoints = new LinkedList<ConnectorPoint>();
+	private LinkedList<BezierHelperPoint> tmpPoints = new LinkedList<BezierHelperPoint>();
 
 	private boolean mainWindow;
 
@@ -106,20 +106,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	protected void initKeyhandler() {
 		super.initKeyhandler();
 
-		// TODO !!! was macht das?
-		registerKeyShortcut('$', new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (SelectableElement s : selectionModel.getSelected()) {
-					if (s instanceof ConnectorPoint) {
-						ConnectorPoint c = (ConnectorPoint) s;
-						c.getUi().centerMovePoint();
-						control.getModel().fireConnectorChanged(c.getConnector());
-					}
-				}
-			}
-		});
-
 		registerKeyShortcut('c', new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -150,7 +136,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		SelectableElement[] selected = selectionModel.getSelected();
 		if (selected.length == 1 && !drawModus) {
 			SelectableElement s = selected[0];
-			if (s instanceof ContainerView || s instanceof FlowConnectorParameter || s instanceof ParameterView) {
+			if (s instanceof ContainerView || s instanceof FlowValveElement || s instanceof ParameterView) {
 				arrowDrag.setLocation(s.getX() + s.getWidth(), s.getY());
 				arrowDrag.setVisible(true);
 				arrowDrag.setElement((GuiDataElement<?>) s);
@@ -194,7 +180,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		tmpPoints.clear();
 		super.paintElements(g);
 
-		for (ConnectorPoint c : tmpPoints) {
+		for (BezierHelperPoint c : tmpPoints) {
 			Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
 			c.paint(cg);
 		}
@@ -209,8 +195,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	protected void paintSubComponent(Graphics2D g, Component c) {
 		Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
 
-		if (c instanceof ConnectorPoint) {
-			tmpPoints.add((ConnectorPoint) c);
+		if (c instanceof BezierHelperPoint) {
+			tmpPoints.add((BezierHelperPoint) c);
 		} else if (c instanceof ViewComponent) {
 			if (((ViewComponent) c).isDependent()) {
 				((ViewComponent) c).paintShadow(g);
@@ -323,7 +309,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	@Override
 	public void connectorAdded(Connector<?> c) {
 		if (c instanceof FlowConnector) {
-			FlowConnectorParameter connectorControl = new FlowConnectorParameter((FlowConnector) c, control);
+			FlowValveElement connectorControl = new FlowValveElement((FlowConnector) c, control);
 			add(connectorControl);
 			connectors.add(new FlowConnectorUi(this, (FlowConnector) c, control, connectorControl));
 			revalidate();

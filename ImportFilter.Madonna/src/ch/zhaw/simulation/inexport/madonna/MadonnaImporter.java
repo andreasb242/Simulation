@@ -88,7 +88,7 @@ public class MadonnaImporter extends MadonnaReader {
 
 		ParameterConnector c = new ParameterConnector(source, target);
 
-		c.setConnectorPoint(arc.getPos());
+		c.setHelperPoint(arc.getPos());
 
 		model.addConnector(c);
 	}

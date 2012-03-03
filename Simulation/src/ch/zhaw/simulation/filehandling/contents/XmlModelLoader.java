@@ -13,8 +13,10 @@ import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationGlobal;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.element.TextData;
+import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowValve;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainer;
@@ -32,8 +34,8 @@ public class XmlModelLoader implements XmlContentsNames {
 	private void parseNode(Node node, AbstractSimulationModel<?> model) {
 		String name = node.getNodeName();
 
-		// even if some elemnts are not allowed within a XY Model, don't check
-		// if the file is manupulated the model may not work, but there is no
+		// even if some elements are not allowed within a XY Model, don't check
+		// if the file is manipulated the model may not work, but there is no
 		// "risk"
 
 		if (XML_ELEMENT_CONTAINER.equals(name)) {
@@ -52,9 +54,12 @@ public class XmlModelLoader implements XmlContentsNames {
 
 			model.addData(o);
 		} else if (XML_ELEMENT_CONNECTOR.equals(name)) {
-			// Connectors erst am Schluss parsen, das sicher alles geladen ist
+			// parse the connectors at the end, when we have all elements
+			// already read
 			parameterConnectors.add(node);
 		} else if (XML_ELEMENT_FLOW_CONNECTOR.equals(name)) {
+			// parse the connectors at the end, when we have all elements
+			// already read
 			flowConnectors.add(node);
 		} else if (XML_ELEMENT_TEXT.equals(name)) {
 			TextData o = new TextData(0, 0);
@@ -84,7 +89,6 @@ public class XmlModelLoader implements XmlContentsNames {
 	}
 
 	private void parseConnector(Node node, ParameterConnector c, SimulationFlowModel model) {
-
 		String sFrom = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_FROM);
 		String sTo = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_TO);
 
@@ -103,93 +107,97 @@ public class XmlModelLoader implements XmlContentsNames {
 	}
 
 	private void parseConnector(Node node, FlowConnector c, SimulationFlowModel model) {
-
-		Node nFrom = node.getAttributes().getNamedItem(XML_ELEMENT_ATTRIB_FROM);
-		Node nTo = node.getAttributes().getNamedItem(XML_ELEMENT_ATTRIB_TO);
-		Node nName = node.getAttributes().getNamedItem(XML_ELEMENT_ATTRIB_NAME);
-
 		SimulationObject from = null;
 		SimulationObject to = null;
-
-		if (nFrom != null) {
-			from = model.getByName(nFrom.getNodeValue());
-
-			if (from == null) {
-				throw new RuntimeException("from not available! \"" + nFrom.getNodeValue() + "\"");
-			}
-		}
-
-		if (nTo != null) {
-			to = model.getByName(nTo.getNodeValue());
-
-			if (to == null) {
-				throw new RuntimeException("to not available! \"" + nTo.getNodeValue() + "\"");
-			}
-		}
-
-		if (nName != null) {
-			c.getValve().setName(nName.getNodeValue());
-		}
 
 		NodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
 			Node n = list.item(i);
-			if (XML_ELEMENT_INFINITE.equals(n.getNodeName())) {
-				int x = XmlHelper.getAttributeInt(node, XML_ELEMENT_ATTRIB_X);
-				int y = XmlHelper.getAttributeInt(node, XML_ELEMENT_ATTRIB_Y);
+			if (n.getNodeType() != Node.ELEMENT_NODE) {
+				continue;
+			}
 
-				InfiniteData d = new InfiniteData(x, y);
+			if (XML_ELEMENT_SOURCE.equals(n.getNodeName())) {
+				parseHelperPoint(c.getBezierSource(), n);
+				from = parseFlowConnectorEnd(n, model, XML_ELEMENT_ATTRIB_FROM);
 
-				Node connectorNode = n.getAttributes().getNamedItem(XML_ELEMENT_CONNECTOR);
-				if (connectorNode == null) {
-					throw new RuntimeException("Error parsing FlowConnector: infinite connector is null");
-				}
+			} else if (XML_ELEMENT_TARGET.equals(n.getNodeName())) {
+				parseHelperPoint(c.getBezierTarget(), n);
 
-				String connector = connectorNode.getNodeValue();
-				if (XML_ELEMENT_ATTRIB_FROM.equals(connector)) {
-					from = d;
-				} else if (XML_ELEMENT_ATTRIB_TO.equals(connector)) {
-					to = d;
-				} else {
-					throw new RuntimeException("Error parsing FlowConnector: infinite connector: \"" + connector + "\"");
-				}
+				to = parseFlowConnectorEnd(n, model, XML_ELEMENT_ATTRIB_TO);
 
-				model.addData(d);
+			} else if (XML_ELEMENT_VALVE.equals(n.getNodeName())) {
+				c.getValve().setX(XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_X));
+				c.getValve().setY(XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_Y));
+
+			} else {
+				System.err.println("Unexpected element within flow connector: «" + n.getNodeName() + "»");
 			}
 		}
 
-		Vector<Point> points = parsePoints(node);
-
-		if (points.size() > 0) {
-			Point p = points.get(0);
-			c.getValve().setX(p.x);
-			c.getValve().setY(p.y);
-		}
-
 		if (from == null || to == null) {
-			throw new RuntimeException("Error parsing FlowConnector: from and to has to be set!");
+			throw new RuntimeException("Error parsing FlowConnector: Target and Source has to be valid!");
 		}
 
 		c.setSource(from);
 		c.setTarget(to);
 	}
 
-	private Vector<Point> parsePoints(Node node) {
-		Vector<Point> points = new Vector<Point>();
+	private SimulationObject parseFlowConnectorEnd(Node node, AbstractSimulationModel<?> model, String attribTarget) {
+		String target = XmlHelper.getAttribute(node, attribTarget);
 
-		NodeList nodeList = node.getChildNodes();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node n = nodeList.item(i);
+		if (target != null) {
+			NamedSimulationObject object = model.getByName(target);
+			if (object == null) {
+				throw new RuntimeException("Within flow connector: " + attribTarget + "; Element «" + target + "» not found!");
+			}
+			
+			return object;
+		}
 
-			if (n.getNodeType() == Node.ELEMENT_NODE && XML_ELEMENT_POINT.equals(n.getNodeName())) {
-				int x = XmlHelper.getAttributeInt(node, XML_ELEMENT_ATTRIB_X);
-				int y = XmlHelper.getAttributeInt(node, XML_ELEMENT_ATTRIB_Y);
+		InfiniteData infinite = null;
 
-				points.add(new Point(x, y));
+		NodeList list = node.getChildNodes();
+		for (int i = 0; i < list.getLength(); i++) {
+			Node n = list.item(i);
+			if (n.getNodeType() != Node.ELEMENT_NODE) {
+				continue;
+			}
+
+			if (XML_ELEMENT_INFINITE.equals(n.getNodeName())) {
+				int x = XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_X);
+				int y = XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_Y);
+				infinite = new InfiniteData(x, y);
+
+			} else {
+				System.err.println("Unexpected element within flow source / target: «" + n.getNodeName() + "»");
 			}
 		}
 
-		return points;
+		if (infinite == null) {
+			throw new RuntimeException("Wihtin flow start / end no target and no infinite found!");
+		}
+
+		model.addData(infinite);
+
+		return infinite;
+	}
+
+	private void parseHelperPoint(BezierConnectorData bezier, Node node) {
+		NodeList list = node.getChildNodes();
+		for (int i = 0; i < list.getLength(); i++) {
+			Node n = list.item(i);
+			if (n.getNodeType() != Node.ELEMENT_NODE) {
+				continue;
+			}
+
+			if (XML_ELEMENT_HELPER_POINT.equals(n.getNodeName())) {
+				bezier.setHelperPoint(new Point(XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_X), XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_Y)));
+			} else {
+				System.err.println("Unexpected element within " + XML_ELEMENT_HELPER_POINT + " «" + n.getNodeName() + "»");
+			}
+		}
+
 	}
 
 	private boolean parseConnectors(SimulationFlowModel model) {
@@ -201,10 +209,11 @@ public class XmlModelLoader implements XmlContentsNames {
 					FlowConnector c = new FlowConnector(null, null);
 					parseConnector(node, c, model);
 
-					Node nValue = node.getAttributes().getNamedItem(XML_ELEMENT_ATTRIB_VALUE);
-					if (nValue != null) {
-						c.getValve().setFormula(nValue.getNodeValue());
-					}
+					String value = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_VALUE);
+					String name = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_NAME);
+					FlowValve valve = c.getValve();
+					valve.setFormula(value);
+					valve.setName(name);
 
 					model.addConnector(c);
 				} catch (Exception e) {
@@ -219,11 +228,8 @@ public class XmlModelLoader implements XmlContentsNames {
 				try {
 					ParameterConnector c = new ParameterConnector(null, null);
 					parseConnector(node, c, model);
-					Vector<Point> points = parsePoints(node);
-
-					if (points.size() > 0) {
-						c.setConnectorPoint(points.get(0));
-					}
+					Point point = parseHelperPoint(node);
+					c.setHelperPoint(point);
 
 					model.addConnector(c);
 				} catch (Exception e) {
@@ -233,6 +239,22 @@ public class XmlModelLoader implements XmlContentsNames {
 		}
 
 		return !error;
+	}
+
+	private Point parseHelperPoint(Node node) {
+		NodeList nodeList = node.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node n = nodeList.item(i);
+
+			if (n.getNodeType() == Node.ELEMENT_NODE && XML_ELEMENT_HELPER_POINT.equals(n.getNodeName())) {
+				int x = XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_X);
+				int y = XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_Y);
+
+				return new Point(x, y);
+			}
+		}
+
+		return null;
 	}
 
 	private void parseSimulationObject(Node node, NamedSimulationObject o) {
@@ -299,7 +321,7 @@ public class XmlModelLoader implements XmlContentsNames {
 		}
 
 		// TODO: parse densisty
-		
+
 		NodeList nodes = root.getChildNodes();
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);

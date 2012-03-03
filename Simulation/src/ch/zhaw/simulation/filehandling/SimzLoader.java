@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -23,7 +22,6 @@ public class SimzLoader implements SimzFileVersion {
 	private ZipInputStream in;
 	private boolean versionCompatible;
 	private boolean versionOk;
-	private Properties properties;
 	private String xmlContents;
 	private String xmlConfiguration;
 
@@ -33,7 +31,6 @@ public class SimzLoader implements SimzFileVersion {
 	public void open(File selectedFile) throws IOException, Exception {
 		versionCompatible = false;
 		versionOk = false;
-		properties = new Properties();
 
 		try {
 			in = new ZipInputStream(new FileInputStream(selectedFile));
@@ -46,8 +43,6 @@ public class SimzLoader implements SimzFileVersion {
 					continue;
 				} else if ("version".equals(name)) {
 					parseVersion(in);
-				} else if ("metainf".equals(name)) {
-					parseMetainf(in);
 				} else if ("simulation.xml".equals(name)) {
 					this.xmlContents = readFileToString(in);
 				} else if ("configuration.xml".equals(name)) {
@@ -83,10 +78,6 @@ public class SimzLoader implements SimzFileVersion {
 		configLoader.parseXml(doc.getSimulationConfiguration(), new ByteArrayInputStream(xmlConfiguration.getBytes()));
 
 		return contentsLoader.parseXml(doc, new ByteArrayInputStream(xmlContents.getBytes()));
-	}
-
-	private void parseMetainf(ZipInputStream in) throws IOException {
-		properties.load(in);
 	}
 
 	private void parseVersion(ZipInputStream in) throws IOException {

@@ -75,8 +75,18 @@ public class GuiConfig {
 		return Color.BLACK;
 	}
 
-	public Color getConnectorLineColor() {
+	public Color getConnectorLineColor(boolean selected) {
+		if (selected) {
+			return new Color(0xffa857);
+		}
 		return Color.BLACK;
+	}
+
+	public Color getFlowLineColor(boolean selected) {
+		if (selected) {
+			return new Color(0xffa857);
+		}
+		return Color.GRAY;
 	}
 
 	public Paint getTextBackgroundPaint(int width, int height, boolean selected) {
@@ -90,10 +100,6 @@ public class GuiConfig {
 		return Color.GRAY;
 	}
 
-	public Color getConnectorLineColorSelected() {
-		return new Color(0xffa857);
-	}
-
 	private static final Color FLOW_ARROW_C1 = new Color(0x1a80ff);
 	private static final Color FLOW_ARROW_C2 = new Color(0xbedbff);
 
@@ -103,17 +109,6 @@ public class GuiConfig {
 
 	public Paint getFlowArrowForeground(int width, int height) {
 		return new GradientPaint(0, 0, FLOW_ARROW_C2, 0, height, FLOW_ARROW_C1, false);
-	}
-
-	public Paint getFlowArrowBorder(boolean selected) {
-		return Color.BLACK;
-	}
-
-	public Paint getFlowArrowFill(boolean selected) {
-		if (selected) {
-			return new Color(215, 215, 215);
-		}
-		return Color.LIGHT_GRAY;
 	}
 
 	public int getFlowParameterSize() {
@@ -136,7 +131,7 @@ public class GuiConfig {
 	}
 
 	public int getFlowArrowSize() {
-		return 50;
+		return 30;
 	}
 
 	public Color getRasterColor() {

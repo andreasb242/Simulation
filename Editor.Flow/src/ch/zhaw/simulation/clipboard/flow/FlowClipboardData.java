@@ -37,7 +37,6 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	public FlowClipboardData() {
 	}
 
-	// TODO: im vordergrund einfügen!!!
 	public void addToModel(SelectionModel selectionModel, SimulationFlowModel model, FlowEditorView view) {
 		this.selectionModel = selectionModel;
 
@@ -113,7 +112,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 		}
 
 		ParameterConnector p = new ParameterConnector((NamedSimulationObject) source, (NamedSimulationObject) target);
-		p.setConnectorPoint(c.getPoint());
+		p.setHelperPoint(c.getPoint());
 		model.addConnector(p);
 
 		selectionModel.addSelectedInt(view.findGuiComponent(p));

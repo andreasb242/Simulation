@@ -8,11 +8,11 @@ import ch.zhaw.simulation.dialog.overview.OverviewWindow;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
-import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.math.Autoparser;
@@ -68,14 +68,17 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 		Vector<Connector<?>> tmpRemovedConnectors = new Vector<Connector<?>>();
 		for (SelectableElement el : elements) {
-			if (el instanceof FlowConnectorParameter) {
-				FlowConnector c = ((FlowConnectorParameter) el).getConnector();
+			if (el instanceof FlowValveElement) {
+				FlowConnector c = ((FlowValveElement) el).getConnector();
 
 				tmpRemovedConnectors.add(c);
 
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(c.getValve()));
-			} else if (el instanceof ConnectorPoint) {
-				tmpRemovedConnectors.add(((ConnectorPoint) el).getConnector());
+			} else if (el instanceof BezierHelperPoint) {
+				
+				// TODO !!!!!!!!!!
+				
+//				tmpRemovedConnectors.add(((BezierHelperPoint) el).getConnector());
 			}
 		}
 

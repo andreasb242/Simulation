@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.editor.flow.connector.flowarrow;
 
-
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.geom.Arc2D;
@@ -8,19 +7,27 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 
 import butti.javalibs.util.DrawHelper;
-
+import ch.zhaw.simulation.editor.connector.bezier.Direction;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.util.gui.ImageMirrow;
 
-
 public class FlowArrowImage extends GuiImage {
+	/**
+	 * Right
+	 */
 	protected BufferedImage imageR;
 	protected BufferedImage imageSelectedR;
 
+	/**
+	 * Top
+	 */
 	protected BufferedImage imageT;
 	protected BufferedImage imageSelectedT;
 
+	/**
+	 * Bottom
+	 */
 	protected BufferedImage imageB;
 	protected BufferedImage imageSelectedB;
 
@@ -83,22 +90,14 @@ public class FlowArrowImage extends GuiImage {
 
 		g.fill(circle);
 
-		g.setPaint(config.getFlowArrowBorder(selected));
+		g.setPaint(config.getConnectorLineColor(selected));
 		g.draw(leftCircle);
 
-		g.setPaint(config.getFlowArrowBorder(selected));
+		g.setPaint(config.getConnectorLineColor(selected));
 
 		int y1 = (w - arrowDiameter) / 2;
 
-		DrawHelper.antialisingOff(g);
-
-		g.drawLine(0, y1, arrowWidth, y1);
-		g.drawLine(0, y1 + arrowDiameter, arrowWidth, y1 + arrowDiameter);
-
-		DrawHelper.antialisingOn(g);
-		
-		g.setPaint(config.getFlowArrowFill(selected));
-
+		g.setPaint(config.getFlowLineColor(selected));
 		g.fillRect(0, y1 + 1, arrowWidth, arrowDiameter - 1);
 
 		g.setPaint(config.getFlowArrowForeground(circleWidth - 2, w));
@@ -113,7 +112,7 @@ public class FlowArrowImage extends GuiImage {
 		arrow.subtract(new Area(rightCircle));
 		g.fill(arrow);
 
-		g.setPaint(config.getFlowArrowBorder(selected));
+		g.setPaint(config.getConnectorLineColor(selected));
 		g.draw(arrow);
 		g.draw(rightCircle);
 

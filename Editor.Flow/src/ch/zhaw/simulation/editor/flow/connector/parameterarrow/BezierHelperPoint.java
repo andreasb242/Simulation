@@ -1,32 +1,27 @@
 package ch.zhaw.simulation.editor.flow.connector.parameterarrow;
 
-
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiElement;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.util.Range;
 
-
-public class ConnectorPoint extends GuiElement {
+public class BezierHelperPoint extends GuiElement {
 	private static final long serialVersionUID = 1L;
 
 	private int width;
 
-	private ParameterConnector connector;
+	private BezierConnectorData connector;
 
 	private ConnectorPointImage image;
 
-	private ParameterConnectorUi connectorUi;
-
-	public ConnectorPoint(final ParameterConnector connector, final FlowEditorControl control, ParameterConnectorUi connectorUi) {
+	public BezierHelperPoint(BezierConnectorData connector, AbstractEditorControl<?> control) {
 		super(control);
 		this.connector = connector;
-		this.connectorUi = connectorUi;
 
 		width = control.getSysintegration().getGuiConfig().getConnectorPointWidth();
 
@@ -34,17 +29,13 @@ public class ConnectorPoint extends GuiElement {
 
 		image = new ConnectorPointImage(width, width, control.getSysintegration().getGuiConfig());
 
-		Point p = this.connector.getConnectorPoint();
+		Point p = this.connector.getHelperPoint();
 		if (p != null) {
 			setPosition(p.x, p.y);
 		}
 	}
 
-	public ParameterConnectorUi getUi() {
-		return connectorUi;
-	}
-
-	public ParameterConnector getConnector() {
+	public BezierConnectorData getConnector() {
 		return connector;
 	}
 
@@ -80,7 +71,7 @@ public class ConnectorPoint extends GuiElement {
 		}
 
 		setLocation(x, y);
-		connector.setConnectorPoint(new Point(x + width / 2, y + width / 2));
+		connector.setHelperPoint(new Point(x + width / 2, y + width / 2));
 		getControl().getModel().setChanged();
 
 		Range rx = new Range(x);
@@ -100,7 +91,7 @@ public class ConnectorPoint extends GuiElement {
 
 	public void setPosition(int x, int y) {
 		setLocation(x - width / 2, y - width / 2);
-		connector.setConnectorPoint(new Point(x, y));
+		connector.setHelperPoint(new Point(x, y));
 		getControl().getModel().setChanged();
 	}
 }

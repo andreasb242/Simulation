@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.flow.gui;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -13,15 +12,15 @@ import java.awt.event.MouseEvent;
 
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.editor.connector.bezier.BezierConnector;
 import ch.zhaw.simulation.editor.elements.GuiDataElement;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
-import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.model.element.NamedSimulationObject;
 import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.flow.connection.Connector;
@@ -71,17 +70,17 @@ public class AddConnectorUi {
 
 		private boolean isSelectElementAllowed(GuiDataElement<?> elem) {
 			if (addArcType == ArcType.FLOW) {
-				if(elem instanceof ContainerView) {
+				if (elem instanceof ContainerView) {
 					return true;
 				}
-				
-				if(elem instanceof DensityContainerView) {
+
+				if (elem instanceof DensityContainerView) {
 					return true;
 				}
-				
+
 				return false;
 			} else {
-				if (elem instanceof FlowConnectorParameter) {
+				if (elem instanceof FlowValveElement) {
 					return targetNotAlreadyConnected(elem);
 				}
 
@@ -329,7 +328,7 @@ public class AddConnectorUi {
 			int y1 = start.getY() + start.getHeight() / 2;
 
 			g.drawLine(x1, y1, target.x, target.y);
-			ParameterConnectorUi.drawArrow(g, x1, y1, target.x, target.y);
+			BezierConnector.drawArrow(g, x1, y1, target.x, target.y);
 		}
 	}
 

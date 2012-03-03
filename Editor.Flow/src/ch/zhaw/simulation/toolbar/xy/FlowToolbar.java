@@ -9,8 +9,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import butti.javalibs.util.DrawHelper;
+import ch.zhaw.simulation.editor.connector.bezier.BezierConnector;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ParameterConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
@@ -30,7 +30,7 @@ public class FlowToolbar extends AbstractToolbar {
 	public static Icon drawArrowIcon(GuiConfig config) {
 		BufferedImage img = new BufferedImage(24, 24, BufferedImage.TYPE_INT_ARGB);
 
-		Color color = config.getConnectorLineColor();
+		Color color = config.getConnectorLineColor(false);
 
 		Graphics2D g = (Graphics2D) img.getGraphics();
 
@@ -44,7 +44,7 @@ public class FlowToolbar extends AbstractToolbar {
 		int y2 = 12;
 
 		g.drawLine(x1, y1, x2, y2);
-		ParameterConnectorUi.drawArrow(g, x1, y1, x2, y2);
+		BezierConnector.drawArrow(g, x1, y1, x2, y2);
 
 		return addShadow(img);
 	}

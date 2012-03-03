@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import ch.zhaw.simulation.filehandling.AbstractXmlSaver;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
@@ -145,7 +146,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 	}
 
 	private Element visitPoint(Point p) {
-		Element point = document.createElement(XML_ELEMENT_POINT);
+		Element point = document.createElement(XML_ELEMENT_HELPER_POINT);
 		point.setAttribute(XML_ELEMENT_ATTRIB_X, "" + p.x);
 		point.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + p.y);
 
@@ -155,7 +156,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 	private void visitParameterConnector(Element root, ParameterConnector c) {
 		Element connector = createConnectorElement(XML_ELEMENT_CONNECTOR, c);
 
-		connector.appendChild(visitPoint(c.getConnectorPoint()));
+		connector.appendChild(visitPoint(c.getHelperPoint()));
 
 		root.appendChild(connector);
 	}
@@ -167,39 +168,53 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 
 		SimulationObject source = c.getSource();
 
+		Element xmlSource = document.createElement(XML_ELEMENT_SOURCE);
+		connector.appendChild(xmlSource);
+		xmlSource.appendChild(visitPoint(c.getBezierSource().getHelperPoint()));
+
 		if (source instanceof NamedSimulationObject) {
-			connector.setAttribute(XML_ELEMENT_ATTRIB_FROM, ((NamedSimulationObject) source).getName());
+			xmlSource.setAttribute(XML_ELEMENT_ATTRIB_FROM, ((NamedSimulationObject) source).getName());
 		} else if (source instanceof InfiniteData) {
 			Element infinite = document.createElement(XML_ELEMENT_INFINITE);
 
-			infinite.setAttribute(XML_ELEMENT_ATTRIB_CONNECTOR, XML_ELEMENT_ATTRIB_FROM);
 			infinite.setAttribute(XML_ELEMENT_ATTRIB_X, "" + source.getX());
 			infinite.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + source.getY());
 
-			connector.appendChild(infinite);
+			xmlSource.appendChild(infinite);
 		} else {
 			throw new RuntimeException("Type of flow connector endpoint is unknown: " + source.getClass().getName());
 		}
 
-		SimulationObject to = c.getTarget();
+		SimulationObject target = c.getTarget();
 
-		if (to instanceof NamedSimulationObject) {
-			connector.setAttribute(XML_ELEMENT_ATTRIB_TO, ((NamedSimulationObject) to).getName());
-		} else if (to instanceof InfiniteData) {
+		Element xmlTarget = document.createElement(XML_ELEMENT_TARGET);
+		connector.appendChild(xmlTarget);
+		xmlTarget.appendChild(visitPoint(c.getBezierTarget().getHelperPoint()));
+
+		if (target instanceof NamedSimulationObject) {
+			xmlTarget.setAttribute(XML_ELEMENT_ATTRIB_TO, ((NamedSimulationObject) target).getName());
+		} else if (target instanceof InfiniteData) {
 			Element infinite = document.createElement(XML_ELEMENT_INFINITE);
 
-			infinite.setAttribute(XML_ELEMENT_ATTRIB_CONNECTOR, XML_ELEMENT_ATTRIB_TO);
-			infinite.setAttribute(XML_ELEMENT_ATTRIB_X, "" + to.getX());
-			infinite.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + to.getY());
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_X, "" + target.getX());
+			infinite.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + target.getY());
 
-			connector.appendChild(infinite);
+			xmlTarget.appendChild(infinite);
 		} else {
-			throw new RuntimeException("Type of flow connector endpoint is unknown: " + to.getClass().getName());
+			throw new RuntimeException("Type of flow connector endpoint is unknown: " + target.getClass().getName());
 		}
 
-		connector.appendChild(visitPoint(c.getValve().getPoint()));
+		connector.appendChild(visitValvePoint(c.getValve().getPoint()));
 
 		root.appendChild(connector);
+	}
+
+	private Node visitValvePoint(Point p) {
+		Element valve = document.createElement(XML_ELEMENT_VALVE);
+		valve.setAttribute(XML_ELEMENT_ATTRIB_X, "" + p.x);
+		valve.setAttribute(XML_ELEMENT_ATTRIB_Y, "" + p.y);
+
+		return valve;
 	}
 
 	private void visitSimulationDensityContainer(Element root, SimulationDensityContainer c) {

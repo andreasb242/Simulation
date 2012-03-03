@@ -1,16 +1,13 @@
-package ch.zhaw.simulation.editor.flow.connector.flowarrow;
-
+package ch.zhaw.simulation.editor.flow.elements.valve;
 
 import java.awt.Graphics2D;
 
 import butti.javalibs.util.DrawHelper;
-
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-
-public class FlowConnectorImage extends GuiImage {
-	public FlowConnectorImage(int size, GuiConfig config) {
+public class FlowValveImage extends GuiImage {
+	public FlowValveImage(int size, GuiConfig config) {
 		super(size, size, config, true);
 	}
 

@@ -19,9 +19,14 @@ public interface XmlContentsNames {
 	public static String XML_ELEMENT_DENSITY_CONTAINER = "density";
 	public static String XML_ELEMENT_CONTAINER = "container";
 	public static String XML_ELEMENT_GLOBAL = "global";
+	
 	public static String XML_ELEMENT_CONNECTOR = "connector";
+	public static String XML_ELEMENT_VALVE = "valve";
+	public static String XML_ELEMENT_TARGET = "target";
+	public static String XML_ELEMENT_SOURCE = "source";
 	public static String XML_ELEMENT_INFINITE = "infinite";
-	public static String XML_ELEMENT_POINT = "point";
+	
+	public static String XML_ELEMENT_HELPER_POINT = "helperpoint";
 	public static String XML_ELEMENT_TEXT = "text";
 	public static String XML_ELEMENT_FLOW_CONNECTOR = "flowConnector";
 

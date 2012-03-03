@@ -6,7 +6,6 @@ import java.awt.Point;
 import ch.zhaw.simulation.model.flow.connection.Connector;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
-
 /**
  * Connector
  * 
@@ -20,7 +19,9 @@ public interface ConnectorUi {
 
 	/**
 	 * Paints the Connector
-	 * @param g The Graphicts to paint on
+	 * 
+	 * @param g
+	 *            The Graphicts to paint on
 	 */
 	public void paint(Graphics2D g);
 
@@ -31,14 +32,14 @@ public interface ConnectorUi {
 
 	/**
 	 * 
-	 * @param point Die koordinate auf die geklickt wurde
+	 * @param point
+	 *            Die koordinate auf die geklickt wurde
 	 * @return true if on the connector
 	 */
 	public boolean isConnector(Point point);
 
 	/**
 	 * Gets the selectable element
-	 * @return
 	 */
 	public SelectableElement getSelectableElement();
 }

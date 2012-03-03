@@ -5,11 +5,11 @@ import java.awt.Point;
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferData;
 import ch.zhaw.simulation.clipboard.TransferData.Type;
-import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorParameter;
-import ch.zhaw.simulation.editor.flow.connector.parameterarrow.ConnectorPoint;
+import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
+import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -56,8 +56,8 @@ public class FlowTransferable extends AbstractTransferable {
 		} else if (s instanceof TextView) {
 			TextData d = ((TextView) s).getData();
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Text, d.getName(), d.getText(), 0, 0, null));
-		} else if (s instanceof FlowConnectorParameter) {
-			FlowValve d = ((FlowConnectorParameter) s).getData();
+		} else if (s instanceof FlowValveElement) {
+			FlowValve d = ((FlowValveElement) s).getData();
 
 			int source = 0;
 			int target = 0;
@@ -71,10 +71,13 @@ public class FlowTransferable extends AbstractTransferable {
 			}
 
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Flow, d.getName(), d.getFormula(), source, target, null));
-		} else if (s instanceof ConnectorPoint) {
-			ParameterConnector d = ((ConnectorPoint) s).getConnector();
-			Point p = d.getConnectorPoint();
-			data.add(new TransferData(0, p.x, p.y, Type.Connector, null, null, d.getSource().getId(), d.getTarget().getId(), d.getConnectorPoint()));
+		} else if (s instanceof BezierHelperPoint) {
+			
+			// TODO !!!!!
+			
+//			ParameterConnector d = ((BezierHelperPoint) s).getConnector();
+//			Point p = d.getHelperPoint();
+//			data.add(new TransferData(0, p.x, p.y, Type.Connector, null, null, d.getSource().getId(), d.getTarget().getId(), d.getHelperPoint()));
 		} else {
 			throw new RuntimeException("Class not handled in copy / paste: " + s.getClass().getName());
 		}
