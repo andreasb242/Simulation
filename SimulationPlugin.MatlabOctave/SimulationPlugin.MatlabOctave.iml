@@ -12,9 +12,9 @@
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="BJavalibs" />
     <orderEntry type="module" module-name="Model" />
-    <orderEntry type="module" module-name="DirChooser" />
     <orderEntry type="module" module-name="ExternLibraries" />
     <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
+    <orderEntry type="module" module-name="NetbeansDirchooser" />
   </component>
 </module>
 

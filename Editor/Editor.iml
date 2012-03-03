@@ -16,6 +16,8 @@
     <orderEntry type="module" module-name="HtmlEditor" />
     <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
     <orderEntry type="module" module-name="AppDefinition" />
+    <orderEntry type="module" module-name="Plugin" />
+    <orderEntry type="module" module-name="SimulationPlugin" />
   </component>
 </module>
 

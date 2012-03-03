@@ -22,7 +22,6 @@
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
     <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
-    <orderEntry type="module" module-name="DirChooser" />
     <orderEntry type="module" module-name="AppDefinition" />
   </component>
 </module>
