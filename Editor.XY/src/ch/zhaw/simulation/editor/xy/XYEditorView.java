@@ -9,7 +9,7 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.xy.XYModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
@@ -81,7 +81,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 	protected void loadDataFromModel() {
 		XYModel model = control.getModel();
 
-		for (SimulationObject p : model.getData()) {
+		for (SimulationData p : model.getData()) {
 			dataAdded(p);
 		}
 	}

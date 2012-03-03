@@ -11,11 +11,11 @@ import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.math.exception.SimulationParserException;
 import ch.zhaw.simulation.math.exception.VarNotFoundException;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.sim.mo.MOAttachment.VarNotFoundExceptionTmp;
 
 public class ModelOptimizer {
@@ -31,46 +31,46 @@ public class ModelOptimizer {
 
 	public void optimize() throws SimulationModelException {
 		initModelForSimulation();
-		for (SimulationObject d : model.getData()) {
-			if (d instanceof NamedSimulationObject) {
-				parseFormula((NamedSimulationObject) d);
+		for (SimulationData d : model.getData()) {
+			if (d instanceof AbstractNamedSimulationData) {
+				parseFormula((AbstractNamedSimulationData) d);
 			}
 		}
 
 		// Wenn möglich optimieren (Parameter die nur von konstanten Parametern
 		// abhängig sind auch konstant machen)
-		for (SimulationObject d : model.getData()) {
-			if (d instanceof NamedSimulationObject) {
-				optimizeStatic((NamedSimulationObject) d);
+		for (SimulationData d : model.getData()) {
+			if (d instanceof AbstractNamedSimulationData) {
+				optimizeStatic((AbstractNamedSimulationData) d);
 			}
 		}
 
 		// Constwerte auslesen
-		for (SimulationObject d : model.getData()) {
-			if (d instanceof NamedSimulationObject) {
-				calculateConstValues((NamedSimulationObject) d);
+		for (SimulationData d : model.getData()) {
+			if (d instanceof AbstractNamedSimulationData) {
+				calculateConstValues((AbstractNamedSimulationData) d);
 			}
 		}
 	}
 
 	private void initModelForSimulation() {
-		for (SimulationObject d : model.getData()) {
-			if (d instanceof NamedSimulationObject) {
-				NamedSimulationObject n = (NamedSimulationObject) d;
+		for (SimulationData d : model.getData()) {
+			if (d instanceof AbstractNamedSimulationData) {
+				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
 				n.a = new MOAttachment();
 			}
 		}
 
-		for (FlowConnector c : model.getFlowConnectors()) {
+		for (FlowConnectorData c : model.getFlowConnectors()) {
 			c.getValve().a = new MOAttachment();
 		}
 	}
 
-	private void parseFormula(NamedSimulationObject d) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException,
+	private void parseFormula(AbstractNamedSimulationData d) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException,
 			VarNotFoundException {
 		MOAttachment a = (MOAttachment) d.a;
 
-		Vector<NamedSimulationObject> sources = model.getSource(d);
+		Vector<AbstractNamedSimulationData> sources = model.getSource(d);
 		a.setSources(sources);
 
 		a.setParsed(parser.checkCode(d.getFormula(), d, model, sources, d.getName()));
@@ -89,7 +89,7 @@ public class ModelOptimizer {
 	/**
 	 * Optimize out calculations which are static
 	 */
-	private void optimizeStatic(NamedSimulationObject d) throws SimulationParserException {
+	private void optimizeStatic(AbstractNamedSimulationData d) throws SimulationParserException {
 		MOAttachment a = (MOAttachment) d.a;
 		try {
 			a.optimizeStatic(model);
@@ -100,12 +100,12 @@ public class ModelOptimizer {
 		}
 	}
 
-	private void calculateConstValues(NamedSimulationObject d) {
-		if (d instanceof SimulationContainer) {
+	private void calculateConstValues(AbstractNamedSimulationData d) {
+		if (d instanceof SimulationContainerData) {
 			// Container sind nur Konstant wenn keine Ein- Und
 			// Ausflüsse vorhanden sind!
 
-			SimulationContainer c = (SimulationContainer) d;
+			SimulationContainerData c = (SimulationContainerData) d;
 			if (model.hasFlowConnectors(c)) {
 				// ein und / oder Ausflüsse vorhanden
 				return;

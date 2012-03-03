@@ -11,14 +11,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.gui.BDialog;
@@ -87,38 +87,38 @@ public class OverviewWindow extends BDialog {
 	protected void copyClipboard() {
 		StringBuilder txt = new StringBuilder();
 
-		Vector<SimulationGlobal> data1 = doc.getSimulationGlobal();
+		Vector<SimulationGlobalData> data1 = doc.getSimulationGlobal();
 
 		if (data1.size() != 0) {
 			txt.append("Globals:\n");
-			for (SimulationGlobal g : data1) {
+			for (SimulationGlobalData g : data1) {
 				addObject(txt, g);
 			}
 			txt.append("\n");
 		}
 
-		Vector<SimulationContainer> data2 = doc.getSimulationContainer();
+		Vector<SimulationContainerData> data2 = doc.getSimulationContainer();
 		if (data2.size() != 0) {
 			txt.append("Container:\n");
-			for (SimulationContainer c : data2) {
+			for (SimulationContainerData c : data2) {
 				addObject(txt, c);
 			}
 			txt.append("\n");
 		}
 
-		Vector<SimulationParameter> data3 = doc.getSimulationParameter();
+		Vector<SimulationParameterData> data3 = doc.getSimulationParameter();
 		if (data3.size() != 0) {
 			txt.append("Parameter:\n");
-			for (SimulationParameter g : data3) {
+			for (SimulationParameterData g : data3) {
 				addObject(txt, g);
 			}
 			txt.append("\n");
 		}
 
-		Vector<FlowConnector> data4 = doc.getFlowConnectors();
+		Vector<FlowConnectorData> data4 = doc.getFlowConnectors();
 		if (data4.size() != 0) {
 			txt.append("Flüsse:\n");
-			for (FlowConnector f : data4) {
+			for (FlowConnectorData f : data4) {
 				addObject(txt, f);
 			}
 		}
@@ -126,16 +126,16 @@ public class OverviewWindow extends BDialog {
 		clipboardHandler.copy(txt.toString());
 	}
 
-	private String getName(SimulationObject o) {
-		if (o instanceof NamedSimulationObject) {
-			return ((NamedSimulationObject) o).getName();
+	private String getName(SimulationData o) {
+		if (o instanceof AbstractNamedSimulationData) {
+			return ((AbstractNamedSimulationData) o).getName();
 		} else if (o instanceof InfiniteData) {
 			return "Unendlich";
 		}
 		return "type: " + o.getClass() + " #" + Integer.toHexString(o.hashCode());
 	}
 
-	private void addObject(StringBuilder txt, FlowConnector f) {
+	private void addObject(StringBuilder txt, FlowConnectorData f) {
 		txt.append(f.getValve().getName());
 		txt.append(": von ");
 		txt.append(getName(f.getSource()));
@@ -150,7 +150,7 @@ public class OverviewWindow extends BDialog {
 		}
 	}
 
-	private void addObject(StringBuilder txt, NamedSimulationObject g) {
+	private void addObject(StringBuilder txt, AbstractNamedSimulationData g) {
 		txt.append(g.getName());
 		txt.append(":");
 

@@ -6,13 +6,13 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 
 
-public class InfiniteSymbol extends GuiDataElement<InfiniteData> {
+public class InfiniteSymbol extends AbstractDataView<InfiniteData> {
 	private static final long serialVersionUID = 1L;
 	private ImageIcon icon;
 	private ParameterImage pi;

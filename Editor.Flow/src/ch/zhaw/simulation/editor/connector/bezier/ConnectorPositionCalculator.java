@@ -3,14 +3,14 @@ package ch.zhaw.simulation.editor.connector.bezier;
 import java.awt.Point;
 
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationData;
 
 public class ConnectorPositionCalculator {
-	private SimulationObject object;
+	private SimulationData object;
 	private BezierHelperPoint connectorPoint;
 	private Direction anchorDirection = Direction.RIGHT;
 
-	public ConnectorPositionCalculator(SimulationObject object, BezierHelperPoint connectorPoint) {
+	public ConnectorPositionCalculator(SimulationData object, BezierHelperPoint connectorPoint) {
 		this.object = object;
 		this.connectorPoint = connectorPoint;
 

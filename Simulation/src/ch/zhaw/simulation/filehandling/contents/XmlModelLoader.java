@@ -9,19 +9,19 @@ import org.w3c.dom.NodeList;
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.filehandling.XmlHelper;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.XYModel;
 
 public class XmlModelLoader implements XmlContentsNames {
@@ -39,17 +39,17 @@ public class XmlModelLoader implements XmlContentsNames {
 		// "risk"
 
 		if (XML_ELEMENT_CONTAINER.equals(name)) {
-			SimulationContainer o = new SimulationContainer(0, 0);
+			SimulationContainerData o = new SimulationContainerData(0, 0);
 			parseSimulationObject(node, o);
 
 			model.addData(o);
 		} else if (XML_ELEMENT_PARAMETER.equals(name)) {
-			SimulationParameter o = new SimulationParameter(0, 0);
+			SimulationParameterData o = new SimulationParameterData(0, 0);
 			parseSimulationObject(node, o);
 
 			model.addData(o);
 		} else if (XML_ELEMENT_GLOBAL.equals(name)) {
-			SimulationGlobal o = new SimulationGlobal(0, 0);
+			SimulationGlobalData o = new SimulationGlobalData(0, 0);
 			parseSimulationObject(node, o);
 
 			model.addData(o);
@@ -66,7 +66,7 @@ public class XmlModelLoader implements XmlContentsNames {
 			parseSimulationText(node, o);
 			model.addData(o);
 		} else if (XML_ELEMENT_DENSITY_CONTAINER.equals(name)) {
-			SimulationDensityContainer o = new SimulationDensityContainer(0, 0);
+			SimulationDensityContainerData o = new SimulationDensityContainerData(0, 0);
 			parseSimulationObject(node, o);
 			model.addData(o);
 
@@ -88,12 +88,12 @@ public class XmlModelLoader implements XmlContentsNames {
 		o.setText(XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_TEXT));
 	}
 
-	private void parseConnector(Node node, ParameterConnector c, SimulationFlowModel model) {
+	private void parseConnector(Node node, ParameterConnectorData c, SimulationFlowModel model) {
 		String sFrom = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_FROM);
 		String sTo = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_TO);
 
-		NamedSimulationObject from = model.getByName(sFrom);
-		NamedSimulationObject to = model.getByName(sTo);
+		AbstractNamedSimulationData from = model.getByName(sFrom);
+		AbstractNamedSimulationData to = model.getByName(sTo);
 
 		if (from == null) {
 			throw new RuntimeException("from not available! \"" + sFrom + "\"");
@@ -106,9 +106,9 @@ public class XmlModelLoader implements XmlContentsNames {
 		c.setTarget(to);
 	}
 
-	private void parseConnector(Node node, FlowConnector c, SimulationFlowModel model) {
-		SimulationObject from = null;
-		SimulationObject to = null;
+	private void parseConnector(Node node, FlowConnectorData c, SimulationFlowModel model) {
+		SimulationData from = null;
+		SimulationData to = null;
 
 		NodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
@@ -143,15 +143,15 @@ public class XmlModelLoader implements XmlContentsNames {
 		c.setTarget(to);
 	}
 
-	private SimulationObject parseFlowConnectorEnd(Node node, AbstractSimulationModel<?> model, String attribTarget) {
+	private SimulationData parseFlowConnectorEnd(Node node, AbstractSimulationModel<?> model, String attribTarget) {
 		String target = XmlHelper.getAttribute(node, attribTarget);
 
 		if (target != null) {
-			NamedSimulationObject object = model.getByName(target);
+			AbstractNamedSimulationData object = model.getByName(target);
 			if (object == null) {
 				throw new RuntimeException("Within flow connector: " + attribTarget + "; Element «" + target + "» not found!");
 			}
-			
+
 			return object;
 		}
 
@@ -168,7 +168,7 @@ public class XmlModelLoader implements XmlContentsNames {
 				int x = XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_X);
 				int y = XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_Y);
 				infinite = new InfiniteData(x, y);
-
+			} else if (XML_ELEMENT_HELPER_POINT.equals(n.getNodeName())) {
 			} else {
 				System.err.println("Unexpected element within flow source / target: «" + n.getNodeName() + "»");
 			}
@@ -193,6 +193,7 @@ public class XmlModelLoader implements XmlContentsNames {
 
 			if (XML_ELEMENT_HELPER_POINT.equals(n.getNodeName())) {
 				bezier.setHelperPoint(new Point(XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_X), XmlHelper.getAttributeInt(n, XML_ELEMENT_ATTRIB_Y)));
+			} else if (XML_ELEMENT_INFINITE.equals(n.getNodeName())) {
 			} else {
 				System.err.println("Unexpected element within " + XML_ELEMENT_HELPER_POINT + " «" + n.getNodeName() + "»");
 			}
@@ -206,12 +207,12 @@ public class XmlModelLoader implements XmlContentsNames {
 		for (Node node : flowConnectors) {
 			if (XML_ELEMENT_FLOW_CONNECTOR.equals(node.getNodeName())) {
 				try {
-					FlowConnector c = new FlowConnector(null, null);
+					FlowConnectorData c = new FlowConnectorData(null, null);
 					parseConnector(node, c, model);
 
 					String value = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_VALUE);
 					String name = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_NAME);
-					FlowValve valve = c.getValve();
+					FlowValveData valve = c.getValve();
 					valve.setFormula(value);
 					valve.setName(name);
 
@@ -226,7 +227,7 @@ public class XmlModelLoader implements XmlContentsNames {
 		for (Node node : parameterConnectors) {
 			if (XML_ELEMENT_CONNECTOR.equals(node.getNodeName())) {
 				try {
-					ParameterConnector c = new ParameterConnector(null, null);
+					ParameterConnectorData c = new ParameterConnectorData(null, null);
 					parseConnector(node, c, model);
 					Point point = parseHelperPoint(node);
 					c.setHelperPoint(point);
@@ -257,7 +258,7 @@ public class XmlModelLoader implements XmlContentsNames {
 		return null;
 	}
 
-	private void parseSimulationObject(Node node, NamedSimulationObject o) {
+	private void parseSimulationObject(Node node, AbstractNamedSimulationData o) {
 		int x = XmlHelper.getAttributeInt(node, XML_ELEMENT_ATTRIB_X);
 		int y = XmlHelper.getAttributeInt(node, XML_ELEMENT_ATTRIB_Y);
 

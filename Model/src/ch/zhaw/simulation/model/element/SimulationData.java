@@ -2,12 +2,11 @@ package ch.zhaw.simulation.model.element;
 
 import java.util.Vector;
 
-
 /**
  * 
  * @author Andreas Butti
  */
-public abstract class SimulationObject {
+public abstract class SimulationData {
 	/**
 	 * The X coordinate on the document, on top left
 	 */
@@ -32,7 +31,7 @@ public abstract class SimulationObject {
 	 * If this object references globals, this are saved here during parsing and
 	 * checking formula
 	 */
-	private Vector<SimulationGlobal> usedGlobals = null;
+	private Vector<SimulationGlobalData> usedGlobals = null;
 
 	/**
 	 * Creates a Simulation object
@@ -42,7 +41,7 @@ public abstract class SimulationObject {
 	 * @param y
 	 *            The Y coordinate on the Document
 	 */
-	public SimulationObject(int x, int y) {
+	public SimulationData(int x, int y) {
 		this.x = x;
 		this.y = y;
 		id = sid++;
@@ -139,7 +138,7 @@ public abstract class SimulationObject {
 	 *            The other object
 	 * @return true if intersects
 	 */
-	public boolean intersects(SimulationObject other) {
+	public boolean intersects(SimulationData other) {
 		int tw = getWidth();
 		int th = getHeight();
 		int rw = other.getWidth();
@@ -191,14 +190,14 @@ public abstract class SimulationObject {
 	 * @param usedGlobals
 	 *            The vector to save
 	 */
-	public void setUsedGlobals(Vector<SimulationGlobal> usedGlobals) {
+	public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
 		this.usedGlobals = usedGlobals;
 	}
 
 	/**
 	 * @return referenced globals if any set
 	 */
-	public Vector<SimulationGlobal> getUsedGlobals() {
+	public Vector<SimulationGlobalData> getUsedGlobals() {
 		return usedGlobals;
 	}
 }

@@ -18,7 +18,7 @@ import org.jdesktop.swingx.HorizontalLayout;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
 public class ListRenderer implements ListCellRenderer {
 
@@ -89,8 +89,8 @@ public class ListRenderer implements ListCellRenderer {
 			}
 
 			return lbFunction;
-		} else if (value instanceof NamedSimulationObject) {
-			lbParam.setText(((NamedSimulationObject) value).getName());
+		} else if (value instanceof AbstractNamedSimulationData) {
+			lbParam.setText(((AbstractNamedSimulationData) value).getName());
 
 			if (isSelected) {
 				lbParam.setBackground(new Color(0xfffbbd));

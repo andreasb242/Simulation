@@ -6,7 +6,6 @@ import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 import javax.swing.JFrame;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
@@ -18,7 +17,7 @@ import ch.zhaw.simulation.menu.AbstractMenubar;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
@@ -58,7 +57,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	 * Used for layouting elements
 	 */
 	private Layouting layouter;
-	
+
 	protected M menubar;
 	protected T toolbar;
 	protected V view;
@@ -67,7 +66,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	 * If this is the main application window
 	 */
 	protected boolean mainWindow;
-	
+
 	/**
 	 * @param mainWindow
 	 *            If this is the main application window
@@ -102,7 +101,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		this.toolbar = toolbar;
 		this.view = view;
 		this.layouter = new Layouting(view.getControl().getSelectionModel(), view.getUndoHandler());
-		
+
 		setJMenuBar(menubar.getMenubar());
 
 		this.menubar.addListener(this);
@@ -131,10 +130,10 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void showFormulaEditor(NamedSimulationObject data) {
+			public void showFormulaEditor(AbstractNamedSimulationData data) {
 				control.showFormulaEditor(getData());
 			}
-			
+
 		};
 		sidebar.add(formulaConfiguration);
 		view.getControl().getSelectionModel().addSelectionListener(formulaConfiguration);
@@ -167,29 +166,29 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		case LAYOUT_BOTTOM:
 			this.layouter.layoutBottom();
 			return;
-			
+
 		case LAYOUT_LEFT:
 			this.layouter.layoutLeft();
 			return;
-			
+
 		case LAYOUT_RIGHT:
 			this.layouter.layoutRight();
 			return;
-			
+
 		case LAYOUT_TOP:
 			this.layouter.layoutTop();
 			return;
-			
+
 		case LAYOUT_CENTER_HORIZONTAL:
 			this.layouter.layoutCenterHorizontal();
 			return;
-			
+
 		case LAYOUT_CENTER_VERTICAL:
 			this.layouter.layoutCenterVertical();
 			return;
-			
+
 		case SHOW_SIDEBAR:
-			this.sidebar.setVisible((Boolean)action.getData());
+			this.sidebar.setVisible((Boolean) action.getData());
 			return;
 		}
 
@@ -209,13 +208,13 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 			l.menuActionPerformed(a);
 		}
 	}
-	
+
 	@Override
 	public void dispose() {
 		view.getUndoHandler().removeUndoListener(toolbar);
 		view.getClipboard().removeListener(toolbar);
 		view.dispose();
-		
+
 		super.dispose();
 	}
 }

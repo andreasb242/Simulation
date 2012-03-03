@@ -5,6 +5,12 @@ import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.undo.action.LayoutUndoAction;
 
+/**
+ * This class handles layouting actions, e.g. align all selected elements to,
+ * left right etc.
+ * 
+ * @author Andreas Butti
+ */
 public class Layouting {
 
 	private SelectionModel selectionModel;

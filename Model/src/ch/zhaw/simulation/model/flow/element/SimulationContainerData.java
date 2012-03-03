@@ -1,21 +1,20 @@
 package ch.zhaw.simulation.model.flow.element;
 
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
 /**
- * An simulation parameter
+ * An simulation container
  * 
  * @author Andreas Butti
  */
-public class SimulationParameter extends NamedSimulationObject {
-
-	public SimulationParameter(int x, int y) {
+public class SimulationContainerData extends AbstractNamedSimulationData {
+	public SimulationContainerData(int x, int y) {
 		super(x, y);
 	}
 
 	@Override
 	public int getHeight() {
-		return 50;
+		return 70;
 	}
 
 	@Override
@@ -25,6 +24,6 @@ public class SimulationParameter extends NamedSimulationObject {
 
 	@Override
 	public String getDefaultName() {
-		return "var";
+		return "con";
 	}
 }

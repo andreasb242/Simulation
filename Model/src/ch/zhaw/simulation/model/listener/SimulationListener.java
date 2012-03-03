@@ -1,6 +1,6 @@
 package ch.zhaw.simulation.model.listener;
 
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationData;
 
 /**
  * Listener for the simulation flow model
@@ -15,7 +15,7 @@ public interface SimulationListener {
 	 * @param o
 	 *            The added object
 	 */
-	public void dataAdded(SimulationObject o);
+	public void dataAdded(SimulationData o);
 
 	/**
 	 * An object was removed
@@ -23,7 +23,7 @@ public interface SimulationListener {
 	 * @param o
 	 *            The removed object
 	 */
-	public void dataRemoved(SimulationObject o);
+	public void dataRemoved(SimulationData o);
 
 	/**
 	 * A SimulationObject was changed (moved ... etc)
@@ -31,7 +31,7 @@ public interface SimulationListener {
 	 * @param o
 	 *            The changed object
 	 */
-	public void dataChanged(SimulationObject o);
+	public void dataChanged(SimulationData o);
 
 	/**
 	 * The model was saved or changed

@@ -2,7 +2,7 @@ package ch.zhaw.simulation.model.flow.connection;
 
 import java.awt.Point;
 
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 
 /**
@@ -11,13 +11,13 @@ import ch.zhaw.simulation.model.flow.BezierConnectorData;
  * 
  * @author Andreas Butti
  */
-public class ParameterConnector extends Connector<NamedSimulationObject> implements BezierConnectorData {
+public class ParameterConnectorData extends AbstractConnectorData<AbstractNamedSimulationData> implements BezierConnectorData {
 	/**
 	 * The point for our bezier calculation
 	 */
 	private Point connectorPoint;
 
-	public ParameterConnector(NamedSimulationObject source, NamedSimulationObject target) {
+	public ParameterConnectorData(AbstractNamedSimulationData source, AbstractNamedSimulationData target) {
 		super(source, target);
 	}
 

@@ -8,5 +8,4 @@ package ch.zhaw.simulation.model;
  * @author Andreas Butti
  */
 public interface SimulationAttachment {
-
 }

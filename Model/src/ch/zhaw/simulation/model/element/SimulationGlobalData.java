@@ -7,9 +7,9 @@ package ch.zhaw.simulation.model.element;
  * 
  * @author Andreas Butti
  */
-public class SimulationGlobal extends NamedSimulationObject {
+public class SimulationGlobalData extends AbstractNamedSimulationData {
 
-	public SimulationGlobal(int x, int y) {
+	public SimulationGlobalData(int x, int y) {
 		super(x, y);
 	}
 

@@ -7,6 +7,11 @@ import org.jdesktop.swingx.JXStatusBar;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.status.StatusListener;
 
+/**
+ * This is the statusbar for our editors
+ * 
+ * @author Andreas Butti
+ */
 public class StatusLabelHandler implements StatusListener {
 	private JXStatusBar sBar = new JXStatusBar();
 	private JLabel lbStatus = new JLabel(" ");

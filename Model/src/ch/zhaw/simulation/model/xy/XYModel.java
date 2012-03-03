@@ -28,7 +28,7 @@ public class XYModel extends AbstractSimulationModel<SimulationListener> {
 	 */
 	private int grid = 5;
 
-	private Vector<Density> density = new Vector<Density>();
+	private Vector<DensityData> density = new Vector<DensityData>();
 
 	public XYModel() {
 	}
@@ -68,7 +68,7 @@ public class XYModel extends AbstractSimulationModel<SimulationListener> {
 		return l;
 	}
 
-	public Vector<Density> getDensity() {
+	public Vector<DensityData> getDensity() {
 		return density;
 	}
 

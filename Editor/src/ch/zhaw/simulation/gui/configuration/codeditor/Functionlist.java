@@ -11,9 +11,9 @@ import javax.swing.JPopupMenu;
 
 import ch.zhaw.simulation.help.model.FunctionInformation;
 import ch.zhaw.simulation.math.Constant;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 
 public class Functionlist extends ToolbarAction {
@@ -53,11 +53,11 @@ public class Functionlist extends ToolbarAction {
 		component.setEnabled(true);
 	}
 
-	public void addElement(final NamedSimulationObject p) {
+	public void addElement(final AbstractNamedSimulationData p) {
 		String type;
-		if (p instanceof SimulationContainer) {
+		if (p instanceof SimulationContainerData) {
 			type = "Container";
-		} else if (p instanceof SimulationGlobal) {
+		} else if (p instanceof SimulationGlobalData) {
 			type = "Globale";
 		} else {
 			type = "Parameter";

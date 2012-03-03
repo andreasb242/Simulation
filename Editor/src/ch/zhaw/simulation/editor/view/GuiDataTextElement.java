@@ -13,15 +13,15 @@ import javax.swing.JToolTip;
 
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.GuiImage;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.util.gui.InfoTooltip;
 
-public abstract class GuiDataTextElement<T extends NamedSimulationObject> extends GuiDataElement<T> {
+public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> extends AbstractDataView<T> {
 	private static final long serialVersionUID = 1L;
 
 	protected int textY = 10;
@@ -41,7 +41,7 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 		tip = new InfoTooltip();
 		changeListener = control.getModel().addSimulationListener(new SimulationAdapter() {
 			@Override
-			public void dataChanged(SimulationObject o) {
+			public void dataChanged(SimulationData o) {
 				recalcFontMetrics(null);
 			}
 		});
@@ -100,7 +100,7 @@ public abstract class GuiDataTextElement<T extends NamedSimulationObject> extend
 
 		g.drawString(name, textX, textY);
 
-		if (!getData().getStaus().equals(NamedSimulationObject.Status.SYNTAX_OK)) {
+		if (!getData().getStaus().equals(AbstractNamedSimulationData.Status.SYNTAX_OK)) {
 			g.setColor(Color.RED);
 
 			int x = (getWidth() - g.getFontMetrics().stringWidth("?")) / 2;

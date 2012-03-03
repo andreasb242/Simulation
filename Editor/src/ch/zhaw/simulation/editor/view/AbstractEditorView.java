@@ -21,12 +21,12 @@ import javax.swing.JPanel;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.selection.SelectableElement;
@@ -382,10 +382,10 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	 *            The Model element
 	 * @return The GuiElement or <code>null</code> if not found
 	 */
-	public GuiDataElement<?> findGuiComponent(SimulationObject b) {
+	public AbstractDataView<?> findGuiComponent(SimulationData b) {
 		for (Component c : getComponents()) {
-			if (c instanceof GuiDataElement<?>) {
-				GuiDataElement<?> e = (GuiDataElement<?>) c;
+			if (c instanceof AbstractDataView<?>) {
+				AbstractDataView<?> e = (AbstractDataView<?>) c;
 
 				if (e.getData() == b) {
 					return e;
@@ -415,22 +415,22 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		return false;
 	}
 
-	public GuiDataElement<?> getElementAt(int x, int y) {
+	public AbstractDataView<?> getElementAt(int x, int y) {
 		for (Component comp : getComponents()) {
-			if (comp instanceof GuiDataElement<?> && comp.getBounds().contains(x, y)) {
-				return (GuiDataElement<?>) comp;
+			if (comp instanceof AbstractDataView<?> && comp.getBounds().contains(x, y)) {
+				return (AbstractDataView<?>) comp;
 			}
 		}
 		return null;
 	}
 
-	public void selectElement(SimulationObject o) {
+	public void selectElement(SimulationData o) {
 		selectionModel.clearSelection();
 
 		for (Component c : getComponents()) {
-			if (c instanceof GuiDataElement<?>) {
-				GuiDataElement<?> e = ((GuiDataElement<?>) c);
-				SimulationObject d = e.getData();
+			if (c instanceof AbstractDataView<?>) {
+				AbstractDataView<?> e = ((AbstractDataView<?>) c);
+				SimulationData d = e.getData();
 				if (d.equals(o)) {
 					selectionModel.setSelected(e);
 					break;
@@ -443,16 +443,16 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	/**
 	 * Overwrite this method to handle dataAdded events, @see dataAdded
 	 */
-	protected boolean dataAddedImpl(SimulationObject o) {
+	protected boolean dataAddedImpl(SimulationData o) {
 		return false;
 	}
 
 	@Override
-	public final void dataAdded(SimulationObject o) {
+	public final void dataAdded(SimulationData o) {
 		if (dataAddedImpl(o)) {
 			// nothing to do here
-		} else if (o instanceof SimulationGlobal) {
-			add(new GlobalView(o.getWidth(), control, (SimulationGlobal) o));
+		} else if (o instanceof SimulationGlobalData) {
+			add(new GlobalView(o.getWidth(), control, (SimulationGlobalData) o));
 		} else if (o instanceof TextData) {
 			TextView view = new TextView(control, (TextData) o);
 			add(view);
@@ -465,8 +465,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	@Override
-	public void dataRemoved(SimulationObject o) {
-		GuiDataElement<?> c = findGuiComponent(o);
+	public void dataRemoved(SimulationData o) {
+		AbstractDataView<?> c = findGuiComponent(o);
 		if (c != null) {
 			remove(c);
 			repaint();
@@ -475,18 +475,18 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	@Override
-	public void dataChanged(SimulationObject o) {
+	public void dataChanged(SimulationData o) {
 		revalidate();
 
-		GuiDataElement<?> c = findGuiComponent(o);
+		AbstractDataView<?> c = findGuiComponent(o);
 		if (c == null) {
 			repaint();
 			return;
 		}
 
-		SimulationObject d = c.getData();
-		if (d instanceof NamedSimulationObject && c instanceof GuiDataTextElement<?>) {
-			String text = ((NamedSimulationObject) d).getStatusText();
+		SimulationData d = c.getData();
+		if (d instanceof AbstractNamedSimulationData && c instanceof GuiDataTextElement<?>) {
+			String text = ((AbstractNamedSimulationData) d).getStatusText();
 			((GuiDataTextElement<?>) c).setStatus(text);
 		}
 	}

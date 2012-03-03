@@ -8,19 +8,19 @@ import javax.swing.JComponent;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.connector.bezier.ConnectorBezierParameterConnector;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 
 public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 
-	private ParameterConnector data;
+	private ParameterConnectorData data;
 
 	private ConnectorBezierParameterConnector curve;
 
 	private FlowEditorControl control;
 
-	public ParameterConnectorUi(JComponent parent, ParameterConnector connector, FlowEditorControl control) {
+	public ParameterConnectorUi(JComponent parent, ParameterConnectorData connector, FlowEditorControl control) {
 		this.control = control;
 		this.data = connector;
 
@@ -46,7 +46,7 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 	}
 
 	@Override
-	public ParameterConnector getData() {
+	public ParameterConnectorData getData() {
 		return data;
 	}
 

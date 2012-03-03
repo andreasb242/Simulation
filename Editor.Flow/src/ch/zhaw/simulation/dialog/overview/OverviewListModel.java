@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.controls.listcontrol.AbstractSortableTableModel;
@@ -21,7 +21,7 @@ import butti.javalibs.controls.listcontrol.searchmodules.Textsearch;
 public class OverviewListModel extends AbstractSortableTableModel {
 	private static final long serialVersionUID = 1L;
 	private SimulationFlowModel doc;
-	private NamedSimulationObject[] data = new NamedSimulationObject[] {};
+	private AbstractNamedSimulationData[] data = new AbstractNamedSimulationData[] {};
 	private DataComparator comparator = new DataComparator();
 	private static final String[] HEADER = new String[] { "Typ", "Name", "Formel" };
 	private static final SearchModul[] SEARCHMODULES = new SearchModul[] { new TypeSearch(new GuiConfig()), new Textsearch(HEADER[1]),
@@ -48,7 +48,7 @@ public class OverviewListModel extends AbstractSortableTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		NamedSimulationObject d = data[rowIndex];
+		AbstractNamedSimulationData d = data[rowIndex];
 
 		if (columnIndex == 0) {
 			return d.getClass();
@@ -64,31 +64,31 @@ public class OverviewListModel extends AbstractSortableTableModel {
 	}
 
 	public void refresh() {
-		Vector<NamedSimulationObject> objects = doc.getNamedSimulationObject();
+		Vector<AbstractNamedSimulationData> objects = doc.getNamedSimulationObject();
 		Collections.sort(objects, comparator);
 
-		data = objects.toArray(new NamedSimulationObject[] {});
+		data = objects.toArray(new AbstractNamedSimulationData[] {});
 		fireTableDataChanged();
 	}
 
 	@Override
-	public NamedSimulationObject getElementAt(int index) {
+	public AbstractNamedSimulationData getElementAt(int index) {
 		return data[index];
 	}
 
-	public static class DataComparator implements Comparator<NamedSimulationObject> {
+	public static class DataComparator implements Comparator<AbstractNamedSimulationData> {
 
-		private int getRanking(NamedSimulationObject o) {
-			if (o instanceof SimulationGlobal) {
+		private int getRanking(AbstractNamedSimulationData o) {
+			if (o instanceof SimulationGlobalData) {
 				return 1;
 			}
-			if (o instanceof SimulationParameter) {
+			if (o instanceof SimulationParameterData) {
 				return 2;
 			}
-			if (o instanceof SimulationContainer) {
+			if (o instanceof SimulationContainerData) {
 				return 3;
 			}
-			if (o instanceof FlowValve) {
+			if (o instanceof FlowValveData) {
 				return 4;
 			}
 
@@ -98,7 +98,7 @@ public class OverviewListModel extends AbstractSortableTableModel {
 		}
 
 		@Override
-		public int compare(NamedSimulationObject o1, NamedSimulationObject o2) {
+		public int compare(AbstractNamedSimulationData o1, AbstractNamedSimulationData o2) {
 			int i1 = getRanking(o1);
 			int i2 = getRanking(o2);
 

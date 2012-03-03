@@ -10,7 +10,7 @@ package ch.zhaw.simulation.model.element;
  * 
  * @author Andreas Butti
  */
-public class TextData extends NamedSimulationObject {
+public class TextData extends AbstractNamedSimulationData {
 	/**
 	 * The width of this comment (initialized to a default value)
 	 */

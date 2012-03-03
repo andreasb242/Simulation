@@ -6,8 +6,8 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
+import ch.zhaw.simulation.model.element.SimulationData;
 
 public class SimulationLayout implements LayoutManager {
 
@@ -24,9 +24,9 @@ public class SimulationLayout implements LayoutManager {
 	}
 
 	private void layoutComponent(Component c, Container parent) {
-		if (c instanceof GuiDataElement<?>) {
-			GuiDataElement<?> e = (GuiDataElement<?>) c;
-			SimulationObject data = e.getData();
+		if (c instanceof AbstractDataView<?>) {
+			AbstractDataView<?> e = (AbstractDataView<?>) c;
+			SimulationData data = e.getData();
 
 			Dimension size = e.getPreferredSize();
 
@@ -40,11 +40,11 @@ public class SimulationLayout implements LayoutManager {
 		int h = 0;
 
 		for (Component c : parent.getComponents()) {
-			if (c instanceof GuiDataElement<?>) {
-				GuiDataElement<?> e = (GuiDataElement<?>) c;
+			if (c instanceof AbstractDataView<?>) {
+				AbstractDataView<?> e = (AbstractDataView<?>) c;
 
 				Dimension p = e.getPreferredSize();
-				SimulationObject d = e.getData();
+				SimulationData d = e.getData();
 
 				w = Math.max(w, d.getX() + (int) p.getWidth());
 				h = Math.max(h, d.getY() + (int) p.getHeight());

@@ -14,7 +14,7 @@ import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 
-public abstract class GuiElement extends JComponent implements SelectionListener, SelectableElement, ViewComponent {
+public abstract class AbstractView extends JComponent implements SelectionListener, SelectableElement, ViewComponent {
 	private static final long serialVersionUID = 1L;
 
 	private boolean selected = false;
@@ -30,7 +30,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 
 	private boolean dependent;
 
-	public GuiElement(final AbstractEditorControl<?> control) {
+	public AbstractView(final AbstractEditorControl<?> control) {
 		this.selectionModel = control.getSelectionModel();
 		this.control = control;
 		this.model = control.getModel();
@@ -44,15 +44,15 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 				}
 
 				if (e.isShiftDown()) {
-					selectionModel.addSelected(GuiElement.this);
+					selectionModel.addSelected(AbstractView.this);
 				} else if (e.isControlDown()) {
-					if (selectionModel.isSelected(GuiElement.this)) {
-						selectionModel.removeSelected(GuiElement.this);
+					if (selectionModel.isSelected(AbstractView.this)) {
+						selectionModel.removeSelected(AbstractView.this);
 					} else {
-						selectionModel.addSelected(GuiElement.this);
+						selectionModel.addSelected(AbstractView.this);
 					}
 				} else {
-					selectionModel.setSelected(GuiElement.this);
+					selectionModel.setSelected(AbstractView.this);
 				}
 
 				getParent().requestFocus();
@@ -60,7 +60,7 @@ public abstract class GuiElement extends JComponent implements SelectionListener
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				GuiElement.this.mouseReleased(e.getPoint());
+				AbstractView.this.mouseReleased(e.getPoint());
 			}
 
 			@Override

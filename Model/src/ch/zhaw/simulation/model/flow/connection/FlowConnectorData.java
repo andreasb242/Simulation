@@ -2,7 +2,7 @@ package ch.zhaw.simulation.model.flow.connection;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 
 /**
@@ -10,7 +10,7 @@ import ch.zhaw.simulation.model.flow.BezierConnectorData;
  * 
  * @author Andreas Butti
  */
-public class FlowConnector extends Connector<SimulationObject> {
+public class FlowConnectorData extends AbstractConnectorData<SimulationData> {
 	/**
 	 * The listeners for this Connector
 	 */
@@ -19,36 +19,36 @@ public class FlowConnector extends Connector<SimulationObject> {
 	/**
 	 * The valve of this flow
 	 */
-	private FlowValve valve = new FlowValve(-1, -1);
+	private FlowValveData valve = new FlowValveData(-1, -1);
 
 	
 	// TODO !! LOAD !! SAVE !!
 	private BezierConnectorData bezier1 = new FlowConnectorBezierData() {
 
 		@Override
-		public SimulationObject getTarget() {
+		public SimulationData getTarget() {
 			return valve;
 		}
 
 		@Override
-		public SimulationObject getSource() {
-			return FlowConnector.this.getSource();
+		public SimulationData getSource() {
+			return FlowConnectorData.this.getSource();
 		}
 	};
 
 	private BezierConnectorData bezier2 = new FlowConnectorBezierData() {
 
-		public SimulationObject getTarget() {
-			return FlowConnector.this.getTarget();
+		public SimulationData getTarget() {
+			return FlowConnectorData.this.getTarget();
 		}
 
 		@Override
-		public SimulationObject getSource() {
+		public SimulationData getSource() {
 			return valve;
 		}
 	};
 
-	public FlowConnector(SimulationObject source, SimulationObject target) {
+	public FlowConnectorData(SimulationData source, SimulationData target) {
 		super(source, target);
 	}
 
@@ -64,7 +64,7 @@ public class FlowConnector extends Connector<SimulationObject> {
 	/**
 	 * @return The valve
 	 */
-	public FlowValve getValve() {
+	public FlowValveData getValve() {
 		return valve;
 	}
 

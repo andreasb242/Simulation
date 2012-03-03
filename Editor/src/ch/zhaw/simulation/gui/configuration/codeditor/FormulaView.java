@@ -21,8 +21,8 @@ import javax.swing.text.Utilities;
 
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 
 
 /**
@@ -116,7 +116,7 @@ public class FormulaView extends PlainView {
 		return x;
 	}
 
-	public void setHilighter(Constant[] constants, Function[] functions, Vector<NamedSimulationObject> parameter, Vector<SimulationGlobal> globals) {
+	public void setHilighter(Constant[] constants, Function[] functions, Vector<AbstractNamedSimulationData> parameter, Vector<SimulationGlobalData> globals) {
 		patternColors.clear();
 
 		for (Constant c : constants) {
@@ -131,14 +131,14 @@ public class FormulaView extends PlainView {
 			patternColors.put(Pattern.compile(pattern), ENTRY_FUNCTION.get(1, 1));
 		}
 
-		for (NamedSimulationObject p : parameter) {
+		for (AbstractNamedSimulationData p : parameter) {
 			String pattern = "(\\W|^)(" + p.getName() + ")\\W";
 			patternColors.put(Pattern.compile(pattern), ENTRY_PARAMETER.get(1, 1));
 			pattern = "(\\W|^)(" + p.getName() + ")$";
 			patternColors.put(Pattern.compile(pattern), ENTRY_PARAMETER.get(1, 0));
 		}
 		
-		for(SimulationGlobal g : globals) {
+		for(SimulationGlobalData g : globals) {
 			String pattern = "(\\W|^)(" + g.getName() + ")\\W";
 			patternColors.put(Pattern.compile(pattern), ENTRY_GLOBAL.get(1, 1));
 			pattern = "(\\W|^)(" + g.getName() + ")$";

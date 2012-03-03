@@ -13,12 +13,12 @@ import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
 public class FlowTransferable extends AbstractTransferable {
@@ -45,24 +45,24 @@ public class FlowTransferable extends AbstractTransferable {
 	@Override
 	protected void addCopy(SelectableElement s) {
 		if (s instanceof ContainerView) {
-			SimulationContainer c = ((ContainerView) s).getData();
+			SimulationContainerData c = ((ContainerView) s).getData();
 			data.add(new TransferData(c.getId(), c.getX(), c.getY(), Type.Container, c.getName(), c.getFormula(), 0, 0, null));
 		} else if (s instanceof InfiniteSymbol) {
 			InfiniteData d = ((InfiniteSymbol) s).getData();
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.InfiniteSymbol, "", "", 0, 0, null));
 		} else if (s instanceof ParameterView) {
-			SimulationParameter d = ((ParameterView) s).getData();
+			SimulationParameterData d = ((ParameterView) s).getData();
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Parameter, d.getName(), d.getFormula(), 0, 0, null));
 		} else if (s instanceof TextView) {
 			TextData d = ((TextView) s).getData();
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Text, d.getName(), d.getText(), 0, 0, null));
 		} else if (s instanceof FlowValveElement) {
-			FlowValve d = ((FlowValveElement) s).getData();
+			FlowValveData d = ((FlowValveElement) s).getData();
 
 			int source = 0;
 			int target = 0;
 
-			for (FlowConnector f : model.getFlowConnectors()) {
+			for (FlowConnectorData f : model.getFlowConnectors()) {
 				if (f.getValve() == d) {
 					source = f.getSource().getId();
 					target = f.getTarget().getId();

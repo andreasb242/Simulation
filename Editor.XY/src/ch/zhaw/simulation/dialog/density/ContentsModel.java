@@ -5,7 +5,7 @@ import java.util.Vector;
 import butti.javalibs.controls.listcontrol.AbstractSortableTableModel;
 import butti.javalibs.controls.listcontrol.searchmodules.SearchModul;
 import butti.javalibs.controls.listcontrol.searchmodules.Textsearch;
-import ch.zhaw.simulation.model.xy.Density;
+import ch.zhaw.simulation.model.xy.DensityData;
 
 public class ContentsModel extends AbstractSortableTableModel {
 	private static final long serialVersionUID = 1L;
@@ -13,16 +13,16 @@ public class ContentsModel extends AbstractSortableTableModel {
 	private static final String[] HEADER = new String[] { "Name", "Beschreibung", "Formel" };
 	private static final SearchModul[] SEARCHMODULES = new SearchModul[] { new Textsearch(HEADER[0]), new Textsearch(HEADER[1]), new Textsearch(HEADER[2]) };
 
-	private Vector<Density> data = new Vector<Density>();
+	private Vector<DensityData> data = new Vector<DensityData>();
 
 	public ContentsModel() {
-		Density d = new Density();
+		DensityData d = new DensityData();
 		d.setName("a");
 		d.setDescription("Gras");
 		d.setFormula("sin(x)/x");
 		data.add(d);
 
-		d = new Density();
+		d = new DensityData();
 		d.setName("b");
 		d.setDescription("Löwenzahn");
 		d.setFormula("sqrt(x^2+y^2)");
@@ -51,7 +51,7 @@ public class ContentsModel extends AbstractSortableTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Density d = data.get(rowIndex);
+		DensityData d = data.get(rowIndex);
 
 		if (d == null) {
 			return "";

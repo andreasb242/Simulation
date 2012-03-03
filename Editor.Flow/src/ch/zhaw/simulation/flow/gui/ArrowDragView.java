@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 
 /**
  * This is the bluew arrow on the right of a component to add a new connection
@@ -18,7 +18,7 @@ import ch.zhaw.simulation.editor.elements.GuiDataElement;
  */
 public class ArrowDragView extends JComponent {
 	private static final long serialVersionUID = 1L;
-	private GuiDataElement<?> data;
+	private AbstractDataView<?> data;
 
 	public ArrowDragView(final AddConnectorUi addConnectorUi, final FlowEditorView view) {
 		setSize(14, 20);
@@ -49,7 +49,7 @@ public class ArrowDragView extends JComponent {
 		g.drawLine(13, 10, end.x, end.y);
 	}
 
-	public void setElement(GuiDataElement<?> e) {
+	public void setElement(AbstractDataView<?> e) {
 		this.data = e;
 	}
 }

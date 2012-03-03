@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import ch.zhaw.simulation.inexport.ImportException;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 
 
 public class MadonnaImporter extends MadonnaReader {
-	private HashMap<Integer, NamedSimulationObject> data2 = new HashMap<Integer, NamedSimulationObject>();
+	private HashMap<Integer, AbstractNamedSimulationData> data2 = new HashMap<Integer, AbstractNamedSimulationData>();
 
 	public MadonnaImporter() {
 	}
@@ -32,7 +32,7 @@ public class MadonnaImporter extends MadonnaReader {
 
 			if (d instanceof MContainer) {
 				MContainer e = (MContainer) d;
-				SimulationContainer c = new SimulationContainer(e.getPos().x, e.getPos().y);
+				SimulationContainerData c = new SimulationContainerData(e.getPos().x, e.getPos().y);
 
 				c.setName(e.getName());
 				c.setFormula(e.getFormula());
@@ -42,7 +42,7 @@ public class MadonnaImporter extends MadonnaReader {
 			} else if (d instanceof MFormula) {
 				MFormula e = (MFormula) d;
 
-				SimulationParameter c = new SimulationParameter(e.getPos().x, e.getPos().y);
+				SimulationParameterData c = new SimulationParameterData(e.getPos().x, e.getPos().y);
 
 				c.setName(e.getName());
 				c.setFormula(e.getFormula());
@@ -76,8 +76,8 @@ public class MadonnaImporter extends MadonnaReader {
 	}
 
 	private void handleConnector(MConnector arc, SimulationFlowModel model, int id) throws ImportException {
-		NamedSimulationObject source = data2.get(arc.getFromId());
-		NamedSimulationObject target = data2.get(arc.getToId());
+		AbstractNamedSimulationData source = data2.get(arc.getFromId());
+		AbstractNamedSimulationData target = data2.get(arc.getToId());
 
 		if (source == null) {
 			throw new ImportException("Source from flow #" + id + " is null!");
@@ -86,7 +86,7 @@ public class MadonnaImporter extends MadonnaReader {
 			throw new ImportException("Target from flow #" + id + " is null!");
 		}
 
-		ParameterConnector c = new ParameterConnector(source, target);
+		ParameterConnectorData c = new ParameterConnectorData(source, target);
 
 		c.setHelperPoint(arc.getPos());
 
@@ -122,8 +122,8 @@ public class MadonnaImporter extends MadonnaReader {
 			throw new ImportException("Found no Connector from Flow id #" + id);
 		}
 
-		SimulationObject source = getValueFor(fromArrow.getFromId(), model);
-		SimulationObject target = getValueFor(toArrow.getToId(), model);
+		SimulationData source = getValueFor(fromArrow.getFromId(), model);
+		SimulationData target = getValueFor(toArrow.getToId(), model);
 
 		if (source == null) {
 			throw new ImportException("Source from flow #" + id + " is null!");
@@ -132,9 +132,9 @@ public class MadonnaImporter extends MadonnaReader {
 			throw new ImportException("Target from flow #" + id + " is null!");
 		}
 
-		FlowConnector flow = new FlowConnector(source, target);
+		FlowConnectorData flow = new FlowConnectorData(source, target);
 
-		FlowValve pp = flow.getValve();
+		FlowValveData pp = flow.getValve();
 
 		pp.setName(f.getName());
 		pp.setFormula(f.getFormula());
@@ -143,8 +143,8 @@ public class MadonnaImporter extends MadonnaReader {
 		data2.put(id, pp);
 	}
 
-	private SimulationObject getValueFor(int id, SimulationFlowModel model) {
-		NamedSimulationObject v = data2.get(id);
+	private SimulationData getValueFor(int id, SimulationFlowModel model) {
+		AbstractNamedSimulationData v = data2.get(id);
 
 		if (v == null && data.get(id) instanceof MCloud) {
 			MCloud c = (MCloud) data.get(id);

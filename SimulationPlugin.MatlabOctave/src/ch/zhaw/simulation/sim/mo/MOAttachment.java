@@ -13,12 +13,12 @@ import org.nfunk.jep.ParseException;
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.Parser.ParserNodePair;
 import ch.zhaw.simulation.model.SimulationAttachment;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 
 public class MOAttachment implements SimulationAttachment {
-	private Vector<NamedSimulationObject> sources;
+	private Vector<AbstractNamedSimulationData> sources;
 	private ParserNodePair parsed;
 	private Vector<AssigmentPair> assigment = new Vector<AssigmentPair>();
 	private Node formula = null;
@@ -43,7 +43,7 @@ public class MOAttachment implements SimulationAttachment {
 	 */
 	private boolean isConst = false;
 
-	public void setSources(Vector<NamedSimulationObject> sources) {
+	public void setSources(Vector<AbstractNamedSimulationData> sources) {
 		if (sources == null) {
 			throw new NullPointerException("sources == null");
 		}
@@ -86,8 +86,8 @@ public class MOAttachment implements SimulationAttachment {
 				return;
 			}
 
-			if (a.getSimulationObject() instanceof SimulationContainer) {
-				if (model.hasFlowConnectors((SimulationContainer) a.getSimulationObject())) {
+			if (a.getSimulationObject() instanceof SimulationContainerData) {
+				if (model.hasFlowConnectors((SimulationContainerData) a.getSimulationObject())) {
 					return;
 				}
 			}
@@ -159,7 +159,7 @@ public class MOAttachment implements SimulationAttachment {
 
 			String name = a.getName();
 
-			NamedSimulationObject found = null;
+			AbstractNamedSimulationData found = null;
 
 			if ("time".equals(name)) {
 				assigment.add(new TimeDtAssigmentPair());
@@ -170,7 +170,7 @@ public class MOAttachment implements SimulationAttachment {
 				return;
 			}
 
-			for (NamedSimulationObject s : sources) {
+			for (AbstractNamedSimulationData s : sources) {
 				if (s.getName().equals(name)) {
 					found = s;
 					break;
@@ -225,7 +225,7 @@ public class MOAttachment implements SimulationAttachment {
 
 	private static class AssigmentPair {
 		private ASTVarNode node;
-		private NamedSimulationObject so;
+		private AbstractNamedSimulationData so;
 
 		protected AssigmentPair() {
 		}
@@ -234,7 +234,7 @@ public class MOAttachment implements SimulationAttachment {
 			return false;
 		}
 
-		public AssigmentPair(ASTVarNode node, NamedSimulationObject so) {
+		public AssigmentPair(ASTVarNode node, AbstractNamedSimulationData so) {
 			this.node = node;
 			this.so = so;
 
@@ -246,7 +246,7 @@ public class MOAttachment implements SimulationAttachment {
 			}
 		}
 
-		public NamedSimulationObject getSimulationObject() {
+		public AbstractNamedSimulationData getSimulationObject() {
 			return so;
 		}
 	}
@@ -263,7 +263,7 @@ public class MOAttachment implements SimulationAttachment {
 		}
 
 		@Override
-		public NamedSimulationObject getSimulationObject() {
+		public AbstractNamedSimulationData getSimulationObject() {
 			throw new RuntimeException("This method should not be called");
 		}
 	}

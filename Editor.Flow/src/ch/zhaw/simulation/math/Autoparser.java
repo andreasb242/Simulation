@@ -6,13 +6,13 @@ import java.util.Vector;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.element.NamedSimulationObject.Status;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData.Status;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 
 import butti.javalibs.errorhandler.Errorhandler;
@@ -28,21 +28,21 @@ public class Autoparser {
 
 		control.getModel().addListener(new FlowSimulationAdapter() {
 			@Override
-			public void dataChanged(SimulationObject o) {
-				if (o instanceof NamedSimulationObject) {
-					parse((NamedSimulationObject) o);
+			public void dataChanged(SimulationData o) {
+				if (o instanceof AbstractNamedSimulationData) {
+					parse((AbstractNamedSimulationData) o);
 				}
 			}
 
 			@Override
-			public void dataAdded(SimulationObject o) {
+			public void dataAdded(SimulationData o) {
 				dataChanged(o);
 			}
 
 			@Override
-			public void connectorChanged(Connector<?> c) {
-				if (c instanceof FlowConnector) {
-					FlowValve p = ((FlowConnector) c).getValve();
+			public void connectorChanged(AbstractConnectorData<?> c) {
+				if (c instanceof FlowConnectorData) {
+					FlowValveData p = ((FlowConnectorData) c).getValve();
 					parse(p);
 				}
 
@@ -51,48 +51,48 @@ public class Autoparser {
 			}
 
 			private void reparse(Object o) {
-				if (o instanceof NamedSimulationObject) {
-					NamedSimulationObject n = (NamedSimulationObject) o;
+				if (o instanceof AbstractNamedSimulationData) {
+					AbstractNamedSimulationData n = (AbstractNamedSimulationData) o;
 					n.setStaus(Status.NOT_PARSED, "");
 					parse(n);
 				}
 			}
 
 			@Override
-			public void connectorAdded(Connector<?> c) {
+			public void connectorAdded(AbstractConnectorData<?> c) {
 				connectorChanged(c);
 			}
 
 			@Override
-			public void dataRemoved(SimulationObject o) {
+			public void dataRemoved(SimulationData o) {
 				dataChanged(o);
 			}
 
-			public void connectorRemoved(Connector<?> c) {
+			public void connectorRemoved(AbstractConnectorData<?> c) {
 				connectorChanged(c);
 			};
 		});
 	}
 
-	private void parse(NamedSimulationObject o) {
+	private void parse(AbstractNamedSimulationData o) {
 		if (!running) {
 			return;
 		}
 
-		if (o.getStaus() != NamedSimulationObject.Status.NOT_PARSED) {
+		if (o.getStaus() != AbstractNamedSimulationData.Status.NOT_PARSED) {
 			return;
 		}
 
-		Vector<NamedSimulationObject> sources = control.getModel().getSource(o);
+		Vector<AbstractNamedSimulationData> sources = control.getModel().getSource(o);
 		try {
 			parser.checkCode(o.getFormula(), o, control.getModel(), sources, o.getName());
-			o.setStaus(NamedSimulationObject.Status.SYNTAX_OK, null);
+			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_OK, null);
 		} catch (CompilerError e) {
-			o.setStaus(NamedSimulationObject.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (SimulationModelException e) {
-			o.setStaus(NamedSimulationObject.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (Exception e) {
-			o.setStaus(NamedSimulationObject.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 			Errorhandler.logError(e);
 		}
 
@@ -110,15 +110,15 @@ public class Autoparser {
 		running = true;
 
 		SimulationFlowModel model = control.getModel();
-		for (SimulationObject d : model.getData()) {
-			if (d instanceof NamedSimulationObject) {
-				parse((NamedSimulationObject) d);
+		for (SimulationData d : model.getData()) {
+			if (d instanceof AbstractNamedSimulationData) {
+				parse((AbstractNamedSimulationData) d);
 			}
 		}
 
-		for (Connector<?> c : model.getConnectors()) {
-			if (c instanceof FlowConnector) {
-				FlowValve p = ((FlowConnector) c).getValve();
+		for (AbstractConnectorData<?> c : model.getConnectors()) {
+			if (c instanceof FlowConnectorData) {
+				FlowValveData p = ((FlowConnectorData) c).getValve();
 				parse(p);
 			}
 		}

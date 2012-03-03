@@ -1,19 +1,19 @@
 package ch.zhaw.simulation.model.listener;
 
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationData;
 
 public abstract class SimulationAdapter implements SimulationListener {
 
 	@Override
-	public void dataAdded(SimulationObject o) {
+	public void dataAdded(SimulationData o) {
 	}
 
 	@Override
-	public void dataRemoved(SimulationObject o) {
+	public void dataRemoved(SimulationData o) {
 	}
 
 	@Override
-	public void dataChanged(SimulationObject o) {
+	public void dataChanged(SimulationData o) {
 	}
 
 	@Override

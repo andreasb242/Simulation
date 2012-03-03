@@ -12,7 +12,7 @@ import ch.zhaw.simulation.model.SimulationAttachment;
  * 
  * @author Andreas Butti
  */
-public abstract class NamedSimulationObject extends SimulationObject implements Comparable<NamedSimulationObject> {
+public abstract class AbstractNamedSimulationData extends SimulationData implements Comparable<AbstractNamedSimulationData> {
 	/**
 	 * The name of the simulation object
 	 */
@@ -45,7 +45,7 @@ public abstract class NamedSimulationObject extends SimulationObject implements 
 		NOT_PARSED, SYNTAX_OK, SYNTAX_ERROR
 	};
 
-	public NamedSimulationObject(int x, int y) {
+	public AbstractNamedSimulationData(int x, int y) {
 		super(x, y);
 	}
 
@@ -145,7 +145,7 @@ public abstract class NamedSimulationObject extends SimulationObject implements 
 	public abstract String getDefaultName();
 
 	@Override
-	public int compareTo(NamedSimulationObject o) {
+	public int compareTo(AbstractNamedSimulationData o) {
 		return name.compareTo(o.name);
 	}
 

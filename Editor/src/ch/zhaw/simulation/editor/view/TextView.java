@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.htmleditor.HTMLEditor;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.selection.SelectionModel;
@@ -21,7 +21,7 @@ import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
 
-public class TextView extends GuiDataElement<TextData> {
+public class TextView extends AbstractDataView<TextData> {
 	private static final long serialVersionUID = 1L;
 
 	private GuiConfig config;

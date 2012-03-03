@@ -10,15 +10,15 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 
 public class FlowClipboardData extends Vector<TransferData> implements ClipboardData {
@@ -28,7 +28,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	private SimulationFlowModel model;
 	private FlowEditorView view;
 
-	private HashMap<Integer, SimulationObject> data = new HashMap<Integer, SimulationObject>();
+	private HashMap<Integer, SimulationData> data = new HashMap<Integer, SimulationData>();
 
 	private Vector<TransferData> flows = new Vector<TransferData>();
 	private Vector<TransferData> connectors = new Vector<TransferData>();
@@ -98,8 +98,8 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 			throw new InvalidParameterException();
 		}
 
-		SimulationObject source = data.get(c.getSource());
-		SimulationObject target = data.get(c.getTarget());
+		SimulationData source = data.get(c.getSource());
+		SimulationData target = data.get(c.getTarget());
 
 		// Verbindung nur möglich wenn alles kopiert wurde
 		if (source == null || target == null) {
@@ -107,11 +107,11 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 		}
 
 		// Ungültige Daten, woher auch immer
-		if (!(source instanceof NamedSimulationObject && target instanceof NamedSimulationObject)) {
+		if (!(source instanceof AbstractNamedSimulationData && target instanceof AbstractNamedSimulationData)) {
 			return;
 		}
 
-		ParameterConnector p = new ParameterConnector((NamedSimulationObject) source, (NamedSimulationObject) target);
+		ParameterConnectorData p = new ParameterConnectorData((AbstractNamedSimulationData) source, (AbstractNamedSimulationData) target);
 		p.setHelperPoint(c.getPoint());
 		model.addConnector(p);
 
@@ -119,8 +119,8 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	}
 
 	private void handleFlow(TransferData f) {
-		SimulationObject source = data.get(f.getSource());
-		SimulationObject target = data.get(f.getTarget());
+		SimulationData source = data.get(f.getSource());
+		SimulationData target = data.get(f.getTarget());
 
 		// Verbindung alleine wird nicht verarbeitet
 		if (source == null && target == null) {
@@ -163,7 +163,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 			source = new InfiniteData(x + 70, y);
 		}
 
-		FlowConnector c = new FlowConnector(source, target);
+		FlowConnectorData c = new FlowConnectorData(source, target);
 		c.getValve().setName(f.getName());
 
 		c.getValve().setFormula(f.getFormula());
@@ -190,7 +190,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	}
 
 	private void handleParameter(TransferData d) {
-		SimulationParameter c = new SimulationParameter(d.getX(), d.getY());
+		SimulationParameterData c = new SimulationParameterData(d.getX(), d.getY());
 		c.setName(d.getName());
 		c.setFormula(d.getFormula());
 
@@ -213,12 +213,12 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 		select(t);
 	}
 
-	private void select(SimulationObject c) {
+	private void select(SimulationData c) {
 		selectionModel.addSelectedInt(view.findGuiComponent(c));
 	}
 
 	private void handleContainer(TransferData d) {
-		SimulationContainer c = new SimulationContainer(d.getX(), d.getY());
+		SimulationContainerData c = new SimulationContainerData(d.getX(), d.getY());
 		c.setName(d.getName());
 		c.setFormula(d.getFormula());
 

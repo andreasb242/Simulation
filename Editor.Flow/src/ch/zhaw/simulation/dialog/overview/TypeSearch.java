@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.controls.listcontrol.searchmodules.AbstractSearchModul;
@@ -22,10 +22,10 @@ public class TypeSearch extends AbstractSearchModul {
 
 	public TypeSearch(GuiConfig config) {
 		cbSearch.addItem("Typ filtern");
-		cbSearch.addItem(SimulationGlobal.class);
-		cbSearch.addItem(SimulationParameter.class);
-		cbSearch.addItem(SimulationContainer.class);
-		cbSearch.addItem(FlowValve.class);
+		cbSearch.addItem(SimulationGlobalData.class);
+		cbSearch.addItem(SimulationParameterData.class);
+		cbSearch.addItem(SimulationContainerData.class);
+		cbSearch.addItem(FlowValveData.class);
 
 		cbSearch.setRenderer(new TypeSearchRenderer(config, cbSearch.getRenderer()));
 

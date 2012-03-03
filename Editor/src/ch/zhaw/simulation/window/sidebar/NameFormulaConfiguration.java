@@ -15,12 +15,12 @@ import javax.swing.text.JTextComponent;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.gui.GridBagManager;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NameChecker;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
@@ -35,7 +35,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 
 	private NameChecker nameChecker = new NameChecker();
 
-	private NamedSimulationObject data;
+	private AbstractNamedSimulationData data;
 
 	private AbstractSimulationModel<?> model;
 
@@ -98,7 +98,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 	 * Shows the formula editor to
 	 * @param data The data to edit
 	 */
-	public abstract void showFormulaEditor(NamedSimulationObject data);
+	public abstract void showFormulaEditor(AbstractNamedSimulationData data);
 
 	protected void addAdditionalDataListener(JTextComponent txt) {
 		txt.getDocument().addDocumentListener(new DocumentListener() {
@@ -129,7 +129,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 		});
 	}
 
-	protected void additionalDataChanged(NamedSimulationObject data) {
+	protected void additionalDataChanged(AbstractNamedSimulationData data) {
 		model.fireObjectChanged(data, false);
 	}
 
@@ -147,11 +147,11 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 		}
 	}
 
-	public NamedSimulationObject getData() {
+	public AbstractNamedSimulationData getData() {
 		return data;
 	}
 
-	public void setSelected(NamedSimulationObject data) {
+	public void setSelected(AbstractNamedSimulationData data) {
 		this.data = data;
 
 		txtName.setText(data.getName());
@@ -171,10 +171,10 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 		if (selected.length == 1) {
 			SelectableElement s = selected[0];
 
-			if (s instanceof GuiDataElement) {
-				SimulationObject data = ((GuiDataElement<?>) s).getData();
-				if (data instanceof NamedSimulationObject && !(data instanceof TextData)) {
-					setSelected((NamedSimulationObject) data);
+			if (s instanceof AbstractDataView) {
+				SimulationData data = ((AbstractDataView<?>) s).getData();
+				if (data instanceof AbstractNamedSimulationData && !(data instanceof TextData)) {
+					setSelected((AbstractNamedSimulationData) data);
 				}
 				return;
 			}

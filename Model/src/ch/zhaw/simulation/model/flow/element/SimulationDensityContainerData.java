@@ -1,14 +1,14 @@
 package ch.zhaw.simulation.model.flow.element;
 
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
 /**
  * An simulation density container
  * 
  * @author Andreas Butti
  */
-public class SimulationDensityContainer extends NamedSimulationObject {
-	public SimulationDensityContainer(int x, int y) {
+public class SimulationDensityContainerData extends AbstractNamedSimulationData {
+	public SimulationDensityContainerData(int x, int y) {
 		super(x, y);
 	}
 

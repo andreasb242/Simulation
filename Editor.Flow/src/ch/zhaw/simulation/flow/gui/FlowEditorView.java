@@ -16,7 +16,7 @@ import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.clipboard.flow.FlowTransferable;
 import ch.zhaw.simulation.control.flow.DrawModusListener;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowConnectorUi;
@@ -29,17 +29,17 @@ import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
@@ -93,11 +93,11 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	protected void loadDataFromModel() {
 		SimulationFlowModel model = control.getModel();
 
-		for (SimulationObject p : model.getData()) {
+		for (SimulationData p : model.getData()) {
 			dataAdded(p);
 		}
 
-		for (Connector<?> c : model.getConnectors()) {
+		for (AbstractConnectorData<?> c : model.getConnectors()) {
 			connectorAdded(c);
 		}
 	}
@@ -139,7 +139,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			if (s instanceof ContainerView || s instanceof FlowValveElement || s instanceof ParameterView) {
 				arrowDrag.setLocation(s.getX() + s.getWidth(), s.getY());
 				arrowDrag.setVisible(true);
-				arrowDrag.setElement((GuiDataElement<?>) s);
+				arrowDrag.setElement((AbstractDataView<?>) s);
 				return;
 			}
 		}
@@ -210,30 +210,30 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	protected boolean dataAddedImpl(SimulationObject o) {
-		if (o instanceof SimulationParameter) {
-			add(new ParameterView(o.getWidth(), control, (SimulationParameter) o));
+	protected boolean dataAddedImpl(SimulationData o) {
+		if (o instanceof SimulationParameterData) {
+			add(new ParameterView(o.getWidth(), control, (SimulationParameterData) o));
 			return true;
-		} else if (o instanceof SimulationContainer) {
-			add(new ContainerView(o.getWidth(), o.getHeight(), control, (SimulationContainer) o));
+		} else if (o instanceof SimulationContainerData) {
+			add(new ContainerView(o.getWidth(), o.getHeight(), control, (SimulationContainerData) o));
 			return true;
-		} else if (o instanceof SimulationDensityContainer) {
-			add(new DensityContainerView(o.getWidth(), o.getHeight(), control, (SimulationDensityContainer) o));
+		} else if (o instanceof SimulationDensityContainerData) {
+			add(new DensityContainerView(o.getWidth(), o.getHeight(), control, (SimulationDensityContainerData) o));
 			return true;
 		} else if (o instanceof InfiniteData) {
 			add(new InfiniteSymbol((InfiniteData) o, control));
 			return true;
-		} else if (o instanceof FlowValve) {
+		} else if (o instanceof FlowValveData) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void dataChanged(SimulationObject o) {
+	public void dataChanged(SimulationData o) {
 		revalidate();
 
-		GuiDataElement<?> c = findGuiComponent(o);
+		AbstractDataView<?> c = findGuiComponent(o);
 		if (c == null) {
 			repaint();
 			return;
@@ -248,15 +248,15 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			c.repaint();
 		}
 
-		SimulationObject d = c.getData();
-		if (d instanceof NamedSimulationObject && c instanceof GuiDataTextElement<?>) {
-			String text = ((NamedSimulationObject) d).getStatusText();
+		SimulationData d = c.getData();
+		if (d instanceof AbstractNamedSimulationData && c instanceof GuiDataTextElement<?>) {
+			String text = ((AbstractNamedSimulationData) d).getStatusText();
 			((GuiDataTextElement<?>) c).setStatus(text);
 		}
 	}
 
 	@Override
-	public void dataRemoved(SimulationObject o) {
+	public void dataRemoved(SimulationData o) {
 		if (o instanceof InfiniteData) {
 			removeInfiniteData((InfiniteData) o);
 			return;
@@ -276,7 +276,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		}
 	}
 
-	public SelectableElement findGuiComponent(ParameterConnector con) {
+	public SelectableElement findGuiComponent(ParameterConnectorData con) {
 		for (ConnectorUi c : connectors) {
 			if (c instanceof ParameterConnectorUi) {
 				ParameterConnectorUi pc = (ParameterConnectorUi) c;
@@ -290,12 +290,12 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		return null;
 	}
 
-	public Vector<SelectableElement> convertToSelectable(Vector<SimulationObject> shadowData) {
+	public Vector<SelectableElement> convertToSelectable(Vector<SimulationData> shadowData) {
 		Vector<SelectableElement> found = new Vector<SelectableElement>();
 
 		for (Component c : getComponents()) {
-			if (c instanceof GuiDataElement<?>) {
-				SimulationObject d = ((GuiDataElement<?>) c).getData();
+			if (c instanceof AbstractDataView<?>) {
+				SimulationData d = ((AbstractDataView<?>) c).getData();
 				if (shadowData.contains(d)) {
 					shadowData.remove(d);
 					found.add((SelectableElement) c);
@@ -307,15 +307,15 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	public void connectorAdded(Connector<?> c) {
-		if (c instanceof FlowConnector) {
-			FlowValveElement connectorControl = new FlowValveElement((FlowConnector) c, control);
+	public void connectorAdded(AbstractConnectorData<?> c) {
+		if (c instanceof FlowConnectorData) {
+			FlowValveElement connectorControl = new FlowValveElement((FlowConnectorData) c, control);
 			add(connectorControl);
-			connectors.add(new FlowConnectorUi(this, (FlowConnector) c, control, connectorControl));
+			connectors.add(new FlowConnectorUi(this, (FlowConnectorData) c, control, connectorControl));
 			revalidate();
 			repaint();
-		} else if (c instanceof ParameterConnector) {
-			connectors.add(new ParameterConnectorUi(this, (ParameterConnector) c, control));
+		} else if (c instanceof ParameterConnectorData) {
+			connectors.add(new ParameterConnectorUi(this, (ParameterConnectorData) c, control));
 			revalidate();
 			repaint();
 		} else {
@@ -324,7 +324,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	public void connectorRemoved(Connector<?> c) {
+	public void connectorRemoved(AbstractConnectorData<?> c) {
 		for (ConnectorUi ui : connectors.toArray(new ConnectorUi[] {})) {
 			if (ui.getData() == c) {
 				connectors.remove(ui);
@@ -334,7 +334,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	public void connectorChanged(Connector<?> c) {
+	public void connectorChanged(AbstractConnectorData<?> c) {
 	}
 
 	@Override

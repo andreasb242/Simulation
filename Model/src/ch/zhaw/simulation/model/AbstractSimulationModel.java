@@ -3,9 +3,9 @@ package ch.zhaw.simulation.model;
 import java.security.InvalidParameterException;
 import java.util.Vector;
 
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 
@@ -23,7 +23,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	/**
 	 * The simulation objects
 	 */
-	protected Vector<SimulationObject> data = new Vector<SimulationObject>();
+	protected Vector<SimulationData> data = new Vector<SimulationData>();
 
 	/**
 	 * The listeners
@@ -40,18 +40,18 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	/**
 	 * Adds a simulation object to the model
 	 */
-	public void addData(SimulationObject so) {
+	public void addData(SimulationData so) {
 		if (data.contains(so)) {
 			throw new InvalidParameterException("Model contains already this Object: " + so);
 		}
 
-		if (so instanceof NamedSimulationObject) {
-			if (((NamedSimulationObject) so).getName() == null) {
-				String defaultName = ((NamedSimulationObject) so).getDefaultName();
-				((NamedSimulationObject) so).setName(defaultName + id);
+		if (so instanceof AbstractNamedSimulationData) {
+			if (((AbstractNamedSimulationData) so).getName() == null) {
+				String defaultName = ((AbstractNamedSimulationData) so).getDefaultName();
+				((AbstractNamedSimulationData) so).setName(defaultName + id);
 				id++;
 			}
-			checkIntegrity((NamedSimulationObject) so);
+			checkIntegrity((AbstractNamedSimulationData) so);
 		}
 
 		data.add(so);
@@ -62,15 +62,15 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 * Checks if this object can be inserted into this model, if not it will be
 	 * reanamed
 	 */
-	private void checkIntegrity(NamedSimulationObject newObject) {
+	private void checkIntegrity(AbstractNamedSimulationData newObject) {
 		String searchName = newObject.getName();
 
-		for (SimulationObject d : data) {
-			if (d instanceof NamedSimulationObject) {
+		for (SimulationData d : data) {
+			if (d instanceof AbstractNamedSimulationData) {
 				if (d == newObject) {
 					continue;
 				}
-				String name = ((NamedSimulationObject) d).getName();
+				String name = ((AbstractNamedSimulationData) d).getName();
 				if (name.equals(searchName)) {
 					String newName = getNewNameFor(newObject);
 					newObject.setName(newName);
@@ -86,13 +86,13 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 *            The object
 	 * @return The new name
 	 */
-	private String getNewNameFor(NamedSimulationObject newObject) {
+	private String getNewNameFor(AbstractNamedSimulationData newObject) {
 		Vector<String> names = new Vector<String>();
 		String name = newObject.getName();
 
-		for (SimulationObject d : data) {
-			if (d instanceof NamedSimulationObject) {
-				String tmp = ((NamedSimulationObject) d).getName();
+		for (SimulationData d : data) {
+			if (d instanceof AbstractNamedSimulationData) {
+				String tmp = ((AbstractNamedSimulationData) d).getName();
 				if (tmp.startsWith(name)) {
 					names.add(tmp);
 				}
@@ -116,11 +116,11 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 *            The name to search for
 	 * @return The object or <code>null</code> if not found
 	 */
-	public NamedSimulationObject getByName(String name) {
-		for (SimulationObject o : data) {
-			if (o instanceof NamedSimulationObject) {
-				if (((NamedSimulationObject) o).getName().equals(name)) {
-					return (NamedSimulationObject) o;
+	public AbstractNamedSimulationData getByName(String name) {
+		for (SimulationData o : data) {
+			if (o instanceof AbstractNamedSimulationData) {
+				if (((AbstractNamedSimulationData) o).getName().equals(name)) {
+					return (AbstractNamedSimulationData) o;
 				}
 			}
 		}
@@ -132,19 +132,19 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 * 
 	 * @return The global objects
 	 */
-	public Vector<SimulationGlobal> getGlobalsFor(SimulationObject o) {
-		Vector<SimulationGlobal> globals = new Vector<SimulationGlobal>();
-		for (SimulationObject d : data) {
-			if (d instanceof SimulationGlobal) {
-				globals.add((SimulationGlobal) d);
+	public Vector<SimulationGlobalData> getGlobalsFor(SimulationData o) {
+		Vector<SimulationGlobalData> globals = new Vector<SimulationGlobalData>();
+		for (SimulationData d : data) {
+			if (d instanceof SimulationGlobalData) {
+				globals.add((SimulationGlobalData) d);
 			}
 		}
 
 		return globals;
 	}
 
-	public Vector<NamedSimulationObject> getSource(SimulationObject data) {
-		return new Vector<NamedSimulationObject>();
+	public Vector<AbstractNamedSimulationData> getSource(SimulationData data) {
+		return new Vector<AbstractNamedSimulationData>();
 	}
 
 	/**
@@ -153,7 +153,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 * @param o
 	 *            The object to remove
 	 */
-	public void removeData(SimulationObject o) {
+	public void removeData(SimulationData o) {
 		if (data.remove(o)) {
 			fireObjectRemoved(o);
 		} else if (o instanceof InfiniteData) {
@@ -164,15 +164,15 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	/**
 	 * @return All objects (without connectors)
 	 */
-	public SimulationObject[] getData() {
-		return data.toArray(new SimulationObject[] {});
+	public SimulationData[] getData() {
+		return data.toArray(new SimulationData[] {});
 	}
 
 	/**
 	 * Clears the model
 	 */
 	public void clear() {
-		for (SimulationObject o : getData()) {
+		for (SimulationData o : getData()) {
 			removeData(o);
 		}
 		data.clear();
@@ -199,26 +199,26 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 		}
 	}
 
-	public void fireObjectAdded(SimulationObject o) {
+	public void fireObjectAdded(SimulationData o) {
 		setChanged();
 		for (int i = 0; i < listener.size(); i++) {
 			listener.get(i).dataAdded(o);
 		}
 	}
 
-	public void fireObjectRemoved(SimulationObject o) {
+	public void fireObjectRemoved(SimulationData o) {
 		setChanged();
 		for (int i = 0; i < listener.size(); i++) {
 			listener.get(i).dataRemoved(o);
 		}
 	}
 
-	public void fireObjectChanged(SimulationObject o, boolean state) {
+	public void fireObjectChanged(SimulationData o, boolean state) {
 		if (!state) {
 			setChanged();
 		}
-		if (o instanceof NamedSimulationObject) {
-			checkIntegrity((NamedSimulationObject) o);
+		if (o instanceof AbstractNamedSimulationData) {
+			checkIntegrity((AbstractNamedSimulationData) o);
 		}
 		for (int i = 0; i < listener.size(); i++) {
 			listener.get(i).dataChanged(o);
@@ -252,9 +252,9 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	public void calculateIds() {
 		id = -1;
 
-		for (SimulationObject d : data) {
-			if (d instanceof NamedSimulationObject) {
-				NamedSimulationObject n = (NamedSimulationObject) d;
+		for (SimulationData d : data) {
+			if (d instanceof AbstractNamedSimulationData) {
+				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
 				if (n.getName().startsWith("var")) {
 					try {
 						int i = Integer.parseInt(n.getName().substring(3));
@@ -270,12 +270,12 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 		id++;
 	}
 
-	public Vector<SimulationGlobal> getSimulationGlobal() {
-		Vector<SimulationGlobal> globals = new Vector<SimulationGlobal>();
+	public Vector<SimulationGlobalData> getSimulationGlobal() {
+		Vector<SimulationGlobalData> globals = new Vector<SimulationGlobalData>();
 
-		for (SimulationObject d : data) {
-			if (d instanceof SimulationGlobal) {
-				globals.add((SimulationGlobal) d);
+		for (SimulationData d : data) {
+			if (d instanceof SimulationGlobalData) {
+				globals.add((SimulationGlobalData) d);
 			}
 		}
 		return globals;

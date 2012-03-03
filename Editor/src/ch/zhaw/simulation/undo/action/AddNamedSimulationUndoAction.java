@@ -4,13 +4,13 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
 public class AddNamedSimulationUndoAction extends AbstractUndoableEdit {
-	private NamedSimulationObject so;
+	private AbstractNamedSimulationData so;
 	private AbstractSimulationModel<?> model;
 
-	public AddNamedSimulationUndoAction(NamedSimulationObject so, AbstractSimulationModel<?> model) {
+	public AddNamedSimulationUndoAction(AbstractNamedSimulationData so, AbstractSimulationModel<?> model) {
 		this.so = so;
 		this.model = model;
 		add();

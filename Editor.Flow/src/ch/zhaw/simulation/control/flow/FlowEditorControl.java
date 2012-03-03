@@ -6,7 +6,7 @@ import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.dialog.overview.OverviewWindow;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
@@ -19,16 +19,16 @@ import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
@@ -50,35 +50,44 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		addListeners();
 
 		autoparser = new Autoparser(this);
+
+		doc.addListener(this);
+		
+		startAutoparser();
 	}
 
+	@Override
 	public void stopAutoparser() {
 		autoparser.stop();
+		System.out.println("stop autoparser");
 	}
 
+	@Override
 	public void startAutoparser() {
 		autoparser.start();
+		System.out.println("start autoparser");
 	}
 
 	@Override
 	protected void delete(SelectableElement[] elements) {
-		Vector<NamedSimulationObject> removedObjects = new Vector<NamedSimulationObject>();
-		Vector<Connector<?>> removedConnectors = new Vector<Connector<?>>();
+		Vector<AbstractNamedSimulationData> removedObjects = new Vector<AbstractNamedSimulationData>();
+		Vector<AbstractConnectorData<?>> removedConnectors = new Vector<AbstractConnectorData<?>>();
 		Vector<InfiniteData> removedInfinite = new Vector<InfiniteData>();
 
-		Vector<Connector<?>> tmpRemovedConnectors = new Vector<Connector<?>>();
+		Vector<AbstractConnectorData<?>> tmpRemovedConnectors = new Vector<AbstractConnectorData<?>>();
 		for (SelectableElement el : elements) {
 			if (el instanceof FlowValveElement) {
-				FlowConnector c = ((FlowValveElement) el).getConnector();
+				FlowConnectorData c = ((FlowValveElement) el).getConnector();
 
 				tmpRemovedConnectors.add(c);
 
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(c.getValve()));
 			} else if (el instanceof BezierHelperPoint) {
-				
+
 				// TODO !!!!!!!!!!
-				
-//				tmpRemovedConnectors.add(((BezierHelperPoint) el).getConnector());
+
+				// tmpRemovedConnectors.add(((BezierHelperPoint)
+				// el).getConnector());
 			}
 		}
 
@@ -87,7 +96,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		for (SelectableElement el : elements) {
 			if (el instanceof ParameterView || el instanceof ContainerView) {
 				GuiDataTextElement<?> control = (GuiDataTextElement<?>) el;
-				NamedSimulationObject data = (NamedSimulationObject) control.getData();
+				AbstractNamedSimulationData data = (AbstractNamedSimulationData) control.getData();
 
 				removedObjects.add(data);
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(data));
@@ -109,12 +118,12 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		}
 	}
 
-	private void addConnectors(Vector<Connector<?>> removedConnectors, Vector<InfiniteData> removedInfinite, Vector<Connector<?>> add) {
-		for (Connector<?> c : add) {
+	private void addConnectors(Vector<AbstractConnectorData<?>> removedConnectors, Vector<InfiniteData> removedInfinite, Vector<AbstractConnectorData<?>> add) {
+		for (AbstractConnectorData<?> c : add) {
 			if (!removedConnectors.contains(c)) {
 				removedConnectors.add(c);
 
-				if (c instanceof FlowConnector) {
+				if (c instanceof FlowConnectorData) {
 					if (c.getSource() instanceof InfiniteData) {
 						addInfiniteData(removedInfinite, (InfiniteData) c.getSource());
 					}
@@ -130,32 +139,32 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		model.addListener(new FlowSimulationAdapter() {
 
 			@Override
-			public void dataRemoved(SimulationObject o) {
+			public void dataRemoved(SimulationData o) {
 				clearStatus();
 			}
 
 			@Override
-			public void dataChanged(SimulationObject o) {
+			public void dataChanged(SimulationData o) {
 				clearStatus();
 			}
 
 			@Override
-			public void dataAdded(SimulationObject o) {
+			public void dataAdded(SimulationData o) {
 				clearStatus();
 			}
 
 			@Override
-			public void connectorChanged(Connector<?> c) {
+			public void connectorChanged(AbstractConnectorData<?> c) {
 				clearStatus();
 			}
 
 			@Override
-			public void connectorRemoved(Connector<?> c) {
+			public void connectorRemoved(AbstractConnectorData<?> c) {
 				clearStatus();
 			}
 
 			@Override
-			public void connectorAdded(Connector<?> c) {
+			public void connectorAdded(AbstractConnectorData<?> c) {
 				clearStatus();
 			}
 		});
@@ -174,23 +183,23 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 					return;
 				}
 
-				Vector<SimulationObject> shadowData = new Vector<SimulationObject>();
+				Vector<SimulationData> shadowData = new Vector<SimulationData>();
 
 				if (elem instanceof GlobalView) {
-					SimulationGlobal g = ((GlobalView) elem).getData();
+					SimulationGlobalData g = ((GlobalView) elem).getData();
 
-					for (SimulationObject d : model.getData()) {
-						Vector<SimulationGlobal> usedGlobals = d.getUsedGlobals();
+					for (SimulationData d : model.getData()) {
+						Vector<SimulationGlobalData> usedGlobals = d.getUsedGlobals();
 						if (usedGlobals != null && usedGlobals.contains(g)) {
 							shadowData.add(d);
 						}
 					}
 				}
 
-				if (elem instanceof GuiDataElement<?>) {
-					SimulationObject d = ((GuiDataElement<?>) elem).getData();
+				if (elem instanceof AbstractDataView<?>) {
+					SimulationData d = ((AbstractDataView<?>) elem).getData();
 
-					Vector<SimulationGlobal> globals = d.getUsedGlobals();
+					Vector<SimulationGlobalData> globals = d.getUsedGlobals();
 					if (globals != null) {
 						shadowData.addAll(globals);
 					}
@@ -233,23 +242,23 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		drawModusListener.remove(l);
 	}
 
-	public void addConnector(Connector<?> c) {
+	public void addConnector(AbstractConnectorData<?> c) {
 		getUndoManager().addEdit(new AddConnectorUndoAction(c, model));
 	}
 
 	public void addParameter() {
 		cancelAllActions();
-		addComponent(new SimulationParameter(0, 0), "Parameter");
+		addComponent(new SimulationParameterData(0, 0), "Parameter");
 	}
 
 	public void addContainer() {
 		cancelAllActions();
-		addComponent(new SimulationContainer(0, 0), "Container");
+		addComponent(new SimulationContainerData(0, 0), "Container");
 	}
 
 	public void addDensity() {
 		cancelAllActions();
-		addComponent(new SimulationDensityContainer(0, 0), "Container");
+		addComponent(new SimulationDensityContainerData(0, 0), "Container");
 	}
 
 	@Override
@@ -298,16 +307,18 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	public void setView(FlowEditorView view) {
 		this.view = view;
 	}
-	
+
 	@Override
 	public void dispose() {
+		this.doc.removeListener(this);
+
 		super.dispose();
 
 		this.autoparser.stop();
 		this.autoparser = null;
 
 		this.drawModusListener.clear();
-		
+
 		this.view = null;
 	}
 

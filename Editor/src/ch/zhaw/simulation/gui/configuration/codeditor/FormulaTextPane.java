@@ -16,8 +16,8 @@ import ch.zhaw.simulation.gui.configuration.codeditor.Autocomplete.AutocompleteW
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;
@@ -174,7 +174,7 @@ public class FormulaTextPane extends JTextPane {
 	}
 
 	public void setConsts(Constant[] constants, Function[] functions,
-			Vector<NamedSimulationObject> parameter, Vector<SimulationGlobal> globals) {
+			Vector<AbstractNamedSimulationData> parameter, Vector<SimulationGlobalData> globals) {
 		editor.setConsts(constants, functions, parameter, globals);
 	}
 

@@ -5,12 +5,12 @@ package ch.zhaw.simulation.model.xy;
  * 
  * @author Andreas Butti
  */
-public class Density {
+public class DensityData {
 	private String formula = "";
 	private String name;
 	private String description;
 
-	public Density() {
+	public DensityData() {
 	}
 
 	public String getFormula() {

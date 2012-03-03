@@ -9,11 +9,11 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.sim.StandardParameter;
 import ch.zhaw.simulation.sim.mo.MOAttachment;
@@ -140,13 +140,13 @@ public class EulerCodegen extends AbstractCodegen {
 		out.newline();
 		out.printComment("Container calculations");
 
-		for (SimulationContainer c : model.getSimulationContainer()) {
+		for (SimulationContainerData c : model.getSimulationContainer()) {
 			MOAttachment a = (MOAttachment) c.a;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
 				StringBuffer flows = new StringBuffer();
-				for (FlowConnector f : model.getFlowConnectors()) {
+				for (FlowConnectorData f : model.getFlowConnectors()) {
 					if (f.getSource() == c) {
 						flows.append("-");
 						flows.append(f.getValve().getName() + ".value");
@@ -169,7 +169,7 @@ public class EulerCodegen extends AbstractCodegen {
 		out.newline();
 		out.printComment("Flow calculations");
 
-		for (FlowConnector c : model.getFlowConnectors()) {
+		for (FlowConnectorData c : model.getFlowConnectors()) {
 			MOAttachment a = (MOAttachment) c.getValve().a;
 
 			// Konstanten nicht neu berechnen
@@ -183,10 +183,10 @@ public class EulerCodegen extends AbstractCodegen {
 		out.newline();
 		out.printComment("Parameter calculations");
 
-		Vector<SimulationParameter> parameters = model.getSimulationParameter();
+		Vector<SimulationParameterData> parameters = model.getSimulationParameter();
 		sortByRelevanz(parameters);
 
-		for (SimulationParameter p : parameters) {
+		for (SimulationParameterData p : parameters) {
 			MOAttachment a = (MOAttachment) p.a;
 
 			// Konstanten nicht neu berechnen
@@ -200,10 +200,10 @@ public class EulerCodegen extends AbstractCodegen {
 		out.newline();
 		out.printComment("Init parameter and flow values");
 
-		Vector<SimulationParameter> parameters = model.getSimulationParameter();
+		Vector<SimulationParameterData> parameters = model.getSimulationParameter();
 		sortByRelevanz(parameters);
 
-		for (SimulationParameter p : parameters) {
+		for (SimulationParameterData p : parameters) {
 			MOAttachment a = (MOAttachment) p.a;
 
 			if (a.isConst()) {
@@ -219,11 +219,11 @@ public class EulerCodegen extends AbstractCodegen {
 		}
 	}
 
-	private static <T extends NamedSimulationObject> void sortByRelevanz(Vector<T> data) {
-		Collections.sort(data, new Comparator<NamedSimulationObject>() {
+	private static <T extends AbstractNamedSimulationData> void sortByRelevanz(Vector<T> data) {
+		Collections.sort(data, new Comparator<AbstractNamedSimulationData>() {
 
 			@Override
-			public int compare(NamedSimulationObject o1, NamedSimulationObject o2) {
+			public int compare(AbstractNamedSimulationData o1, AbstractNamedSimulationData o2) {
 				MOAttachment a = (MOAttachment) o1.a;
 				MOAttachment b = (MOAttachment) o2.a;
 
@@ -233,7 +233,7 @@ public class EulerCodegen extends AbstractCodegen {
 		});
 	}
 
-	private <T extends NamedSimulationObject> void outputOpenFiles(Vector<T> data) {
+	private <T extends AbstractNamedSimulationData> void outputOpenFiles(Vector<T> data) {
 		for (T n : data) {
 			String var = n.getName() + ".fp";
 			this.out.println(var + "=fopen('" + n.getName() + "_data.txt', 'w');");
@@ -249,10 +249,10 @@ public class EulerCodegen extends AbstractCodegen {
 		out.newline();
 		out.printComment("Init container values");
 
-		Vector<SimulationContainer> containers = model.getSimulationContainer();
+		Vector<SimulationContainerData> containers = model.getSimulationContainer();
 		sortByRelevanz(containers);
 
-		for (SimulationContainer c : containers) {
+		for (SimulationContainerData c : containers) {
 			MOAttachment a = (MOAttachment) c.a;
 
 			if (a.isConst()) {

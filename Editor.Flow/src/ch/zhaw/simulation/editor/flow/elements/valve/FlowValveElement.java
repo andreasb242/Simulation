@@ -6,19 +6,19 @@ import java.awt.event.MouseEvent;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector.ConnectorDeletedListener;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData.ConnectorDeletedListener;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-public class FlowValveElement extends GuiDataTextElement<FlowValve> implements ConnectorDeletedListener {
+public class FlowValveElement extends GuiDataTextElement<FlowValveData> implements ConnectorDeletedListener {
 	private static final long serialVersionUID = 1L;
 	private int size;
 	private GuiConfig config;
-	private FlowConnector connector;
+	private FlowConnectorData connector;
 	private FlowValveImage image;
 
-	public FlowValveElement(FlowConnector connector, FlowEditorControl control) {
+	public FlowValveElement(FlowConnectorData connector, FlowEditorControl control) {
 		super(connector.getValve(), control);
 
 		config = control.getSysintegration().getGuiConfig();
@@ -32,11 +32,11 @@ public class FlowValveElement extends GuiDataTextElement<FlowValve> implements C
 
 		this.connector = connector;
 
-		FlowValve p = connector.getValve();
+		FlowValveData p = connector.getValve();
 		setLocation(new Point(p.getX(), p.getY()));
 	}
 
-	public FlowConnector getConnector() {
+	public FlowConnectorData getConnector() {
 		return connector;
 	}
 

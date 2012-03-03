@@ -11,10 +11,10 @@ import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class TypeSearchRenderer implements ListCellRenderer {
@@ -36,16 +36,16 @@ public class TypeSearchRenderer implements ListCellRenderer {
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		JLabel comp = (JLabel) delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-		if (value.equals(SimulationGlobal.class)) {
+		if (value.equals(SimulationGlobalData.class)) {
 			comp.setText("Global");
 			comp.setIcon(globalImage);
-		} else if (value.equals(SimulationParameter.class)) {
+		} else if (value.equals(SimulationParameterData.class)) {
 			comp.setText("Parameter");
 			comp.setIcon(parameterImage);
-		} else if (value.equals(SimulationContainer.class)) {
+		} else if (value.equals(SimulationContainerData.class)) {
 			comp.setText("Container");
 			comp.setIcon(containerImage);
-		} else if (value.equals(FlowValve.class)) {
+		} else if (value.equals(FlowValveData.class)) {
 			comp.setText("Fluss");
 			comp.setIcon(flowParameterImage);
 		} else {

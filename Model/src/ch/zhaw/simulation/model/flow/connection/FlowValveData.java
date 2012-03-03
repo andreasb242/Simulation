@@ -2,19 +2,19 @@ package ch.zhaw.simulation.model.flow.connection;
 
 import java.awt.Point;
 
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
 /**
  * A valve, associated with a FlowConnector
  * 
  * @author Andreas Butti
  */
-public class FlowValve extends NamedSimulationObject {
-	public FlowValve(int x, int y) {
+public class FlowValveData extends AbstractNamedSimulationData {
+	public FlowValveData(int x, int y) {
 		super(x, y);
 	}
 
-	public FlowValve(Point point) {
+	public FlowValveData(Point point) {
 		super(point.x, point.y);
 	}
 

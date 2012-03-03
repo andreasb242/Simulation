@@ -3,13 +3,13 @@ package ch.zhaw.simulation.editor.flow.elements.density;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
-import ch.zhaw.simulation.model.flow.element.SimulationDensityContainer;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 
-public class DensityContainerView extends GuiDataTextElement<SimulationDensityContainer> {
+public class DensityContainerView extends GuiDataTextElement<SimulationDensityContainerData> {
 	private static final long serialVersionUID = 1L;
 	private DensityContainerImage image;
 
-	public DensityContainerView(int width, int heigth, FlowEditorControl control, SimulationDensityContainer o) {
+	public DensityContainerView(int width, int heigth, FlowEditorControl control, SimulationDensityContainerData o) {
 		super(o, control);
 
 		image = new DensityContainerImage(width, heigth, control.getSysintegration().getGuiConfig());

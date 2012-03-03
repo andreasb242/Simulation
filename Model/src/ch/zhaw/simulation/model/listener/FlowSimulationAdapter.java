@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.model.listener;
 
-import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.flow.connection.Connector;
+import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 
 /**
  * This adapter prevents to implement all, even the unused, methods, so only the
@@ -12,27 +12,27 @@ import ch.zhaw.simulation.model.flow.connection.Connector;
 public abstract class FlowSimulationAdapter implements FlowSimulationListener {
 
 	@Override
-	public void connectorAdded(Connector<?> c) {
+	public void connectorAdded(AbstractConnectorData<?> c) {
 	}
 
 	@Override
-	public void connectorRemoved(Connector<?> c) {
+	public void connectorRemoved(AbstractConnectorData<?> c) {
 	}
 
 	@Override
-	public void connectorChanged(Connector<?> c) {
+	public void connectorChanged(AbstractConnectorData<?> c) {
 	}
 
 	@Override
-	public void dataAdded(SimulationObject o) {
+	public void dataAdded(SimulationData o) {
 	}
 
 	@Override
-	public void dataChanged(SimulationObject o) {
+	public void dataChanged(SimulationData o) {
 	}
 
 	@Override
-	public void dataRemoved(SimulationObject o) {
+	public void dataRemoved(SimulationData o) {
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.model;
 
+import java.util.Vector;
+
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.xy.XYModel;
@@ -30,6 +32,11 @@ public class SimulationDocument {
 	 * The configuration for the simulation
 	 */
 	private SimulationConfiguration simulationConfiguration = new SimulationConfiguration();
+
+	/**
+	 * The autoparser enabled / disabled listener
+	 */
+	private Vector<AutoparserListener> autoparserListener = new Vector<AutoparserListener>();
 
 	public SimulationDocument() {
 	}
@@ -88,13 +95,23 @@ public class SimulationDocument {
 	}
 
 	public void stopAutoparser() {
-		// TODO Auto-generated method stub
-
+		for (AutoparserListener l : autoparserListener) {
+			l.startAutoparser();
+		}
 	}
 
 	public void startAutoparser() {
-		// TODO Auto-generated method stub
+		for (AutoparserListener l : autoparserListener) {
+			l.stopAutoparser();
+		}
+	}
 
+	public void addListener(AutoparserListener l) {
+		this.autoparserListener.add(l);
+	}
+
+	public void removeListener(AutoparserListener l) {
+		this.autoparserListener.remove(l);
 	}
 
 	public void clear() {

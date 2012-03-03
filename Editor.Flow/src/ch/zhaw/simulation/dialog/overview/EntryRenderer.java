@@ -8,17 +8,17 @@ import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.controls.AbstractListCellRenderer;
 
 
-public class EntryRenderer extends AbstractListCellRenderer<NamedSimulationObject> {
+public class EntryRenderer extends AbstractListCellRenderer<AbstractNamedSimulationData> {
 
 	private BufferedImage containerImage;
 	private BufferedImage parameterImage;
@@ -36,32 +36,32 @@ public class EntryRenderer extends AbstractListCellRenderer<NamedSimulationObjec
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void calculateMinWidth(NamedSimulationObject data) {
+	protected void calculateMinWidth(AbstractNamedSimulationData data) {
 		setMinWidth(45, data.getName(), true);
 		setMinWidth(45, data.getFormula(), false);
 	}
 
-	private BufferedImage getImage(NamedSimulationObject data) {
-		if (data instanceof FlowValve) {
+	private BufferedImage getImage(AbstractNamedSimulationData data) {
+		if (data instanceof FlowValveData) {
 			return flowParameterImage;
-		} else if (data instanceof SimulationContainer) {
+		} else if (data instanceof SimulationContainerData) {
 			return containerImage;
-		} else if (data instanceof SimulationParameter) {
+		} else if (data instanceof SimulationParameterData) {
 			return parameterImage;
-		} else if (data instanceof SimulationGlobal) {
+		} else if (data instanceof SimulationGlobalData) {
 			return globalImage;
 		}
 		return null;
 	}
 
 	@Override
-	protected int calcHeight(NamedSimulationObject data) {
+	protected int calcHeight(AbstractNamedSimulationData data) {
 		String[] lines = data.getFormula().split("\n");
 		return HEIGHT + 15 * lines.length;
 	}
 
 	@Override
-	protected void paintData(Graphics2D g, NamedSimulationObject data) {
+	protected void paintData(Graphics2D g, AbstractNamedSimulationData data) {
 		setTitleFont();
 		drawStringFilter(data.getName(), 40, 20, 0);
 

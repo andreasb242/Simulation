@@ -4,15 +4,15 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
 import ch.zhaw.simulation.model.listener.SimulationListener;
@@ -28,15 +28,15 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	 * Used to calculate the next id
 	 */
 	private int lastFlowParameterId = 0;
-	private Vector<Connector<?>> connectors = new Vector<Connector<?>>();
+	private Vector<AbstractConnectorData<?>> connectors = new Vector<AbstractConnectorData<?>>();
 
 	public SimulationFlowModel() {
 	}
 
 	private boolean existsFlowParameterId(String id) {
-		for (SimulationObject d : data) {
-			if (d instanceof FlowValve) {
-				FlowValve p = (FlowValve) d;
+		for (SimulationData d : data) {
+			if (d instanceof FlowValveData) {
+				FlowValveData p = (FlowValveData) d;
 				if (id.equals(p.getName())) {
 					return true;
 				}
@@ -46,7 +46,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		return false;
 	}
 
-	private void checkFlowParameterId(FlowValve pp) {
+	private void checkFlowParameterId(FlowValveData pp) {
 		// if there is already a name assigned
 		if (pp.getName() != null) {
 			// check if the name not exists
@@ -65,7 +65,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 
 	@Override
 	public void clear() {
-		for (Connector<?> c : getConnectors()) {
+		for (AbstractConnectorData<?> c : getConnectors()) {
 			removeConnector(c);
 		}
 		connectors.clear();
@@ -73,41 +73,41 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		super.clear();
 	}
 
-	public void addConnector(Connector<?> c) {
+	public void addConnector(AbstractConnectorData<?> c) {
 		connectors.add(c);
 
-		if (c instanceof FlowConnector) {
-			FlowValve pp = ((FlowConnector) c).getValve();
+		if (c instanceof FlowConnectorData) {
+			FlowValveData pp = ((FlowConnectorData) c).getValve();
 			checkFlowParameterId(pp);
 			data.add(pp);
 		}
 		fireConnectorAdded(c);
 	}
 
-	public void removeConnector(Connector<?> c) {
+	public void removeConnector(AbstractConnectorData<?> c) {
 		connectors.remove(c);
 		fireConnectorRemoved(c);
 	}
 
-	public Connector<?>[] getConnectors() {
-		return connectors.toArray(new Connector<?>[] {});
+	public AbstractConnectorData<?>[] getConnectors() {
+		return connectors.toArray(new AbstractConnectorData<?>[] {});
 	}
 
-	public void fireConnectorAdded(Connector<?> c) {
+	public void fireConnectorAdded(AbstractConnectorData<?> c) {
 		setChanged();
 		for (int i = 0; i < listener.size(); i++) {
 			listener.get(i).connectorAdded(c);
 		}
 	}
 
-	public void fireConnectorRemoved(Connector<?> c) {
+	public void fireConnectorRemoved(AbstractConnectorData<?> c) {
 		setChanged();
 		for (int i = 0; i < listener.size(); i++) {
 			listener.get(i).connectorRemoved(c);
 		}
 	}
 
-	public void fireConnectorChanged(Connector<?> c) {
+	public void fireConnectorChanged(AbstractConnectorData<?> c) {
 		setChanged();
 		for (int i = 0; i < listener.size(); i++) {
 			listener.get(i).connectorChanged(c);
@@ -120,11 +120,11 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	}
 
 	@Override
-	public Vector<SimulationGlobal> getGlobalsFor(SimulationObject o) {
-		Vector<SimulationGlobal> globals = new Vector<SimulationGlobal>();
-		for (SimulationObject d : data) {
-			if (d instanceof SimulationGlobal && !checkDependency(d, o)) {
-				globals.add((SimulationGlobal) d);
+	public Vector<SimulationGlobalData> getGlobalsFor(SimulationData o) {
+		Vector<SimulationGlobalData> globals = new Vector<SimulationGlobalData>();
+		for (SimulationData d : data) {
+			if (d instanceof SimulationGlobalData && !checkDependency(d, o)) {
+				globals.add((SimulationGlobalData) d);
 			}
 		}
 
@@ -137,8 +137,8 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	 * @param o
 	 * @return true wenn eine Abhängigkeit vorhanden ist
 	 */
-	private boolean checkDependency(SimulationObject o, SimulationObject to) {
-		for (Connector<?> c : getConnectorsTo(o)) {
+	private boolean checkDependency(SimulationData o, SimulationData to) {
+		for (AbstractConnectorData<?> c : getConnectorsTo(o)) {
 			if (c.getSource() == to) {
 				// Beziehung vorhanden: Globale ist Abhängig von "o", somit kann
 				// in "o" die globale nicht verwendet werden
@@ -151,10 +151,10 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		return false;
 	}
 
-	public boolean hasFlowConnectors(SimulationContainer container) {
-		for (Connector<?> c : connectors) {
-			if (c instanceof FlowConnector) {
-				FlowConnector flow = (FlowConnector) c;
+	public boolean hasFlowConnectors(SimulationContainerData container) {
+		for (AbstractConnectorData<?> c : connectors) {
+			if (c instanceof FlowConnectorData) {
+				FlowConnectorData flow = (FlowConnectorData) c;
 				if (flow.getSource() == container || flow.getTarget() == container) {
 					return true;
 				}
@@ -164,11 +164,11 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		return false;
 	}
 
-	public Vector<FlowConnector> getFlowConnectors() {
-		Vector<FlowConnector> flows = new Vector<FlowConnector>();
-		for (Connector<?> c : connectors) {
-			if (c instanceof FlowConnector) {
-				flows.add((FlowConnector) c);
+	public Vector<FlowConnectorData> getFlowConnectors() {
+		Vector<FlowConnectorData> flows = new Vector<FlowConnectorData>();
+		for (AbstractConnectorData<?> c : connectors) {
+			if (c instanceof FlowConnectorData) {
+				flows.add((FlowConnectorData) c);
 			}
 		}
 
@@ -176,24 +176,24 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	}
 
 	@Override
-	public Vector<NamedSimulationObject> getSource(SimulationObject data) {
-		Vector<NamedSimulationObject> source = new Vector<NamedSimulationObject>();
-		for (Connector<?> c : connectors) {
-			if (c instanceof ParameterConnector && c.getTarget() == data && c.getSource() instanceof NamedSimulationObject) {
-				source.add((NamedSimulationObject) c.getSource());
+	public Vector<AbstractNamedSimulationData> getSource(SimulationData data) {
+		Vector<AbstractNamedSimulationData> source = new Vector<AbstractNamedSimulationData>();
+		for (AbstractConnectorData<?> c : connectors) {
+			if (c instanceof ParameterConnectorData && c.getTarget() == data && c.getSource() instanceof AbstractNamedSimulationData) {
+				source.add((AbstractNamedSimulationData) c.getSource());
 			}
 		}
 
 		return source;
 	}
 
-	public Vector<Connector<?>> getConnectorsTo(SimulationObject data) {
-		Vector<Connector<?>> connectors = new Vector<Connector<?>>();
-		for (Connector<?> c : this.connectors) {
+	public Vector<AbstractConnectorData<?>> getConnectorsTo(SimulationData data) {
+		Vector<AbstractConnectorData<?>> connectors = new Vector<AbstractConnectorData<?>>();
+		for (AbstractConnectorData<?> c : this.connectors) {
 			if (c.getTarget() == data || c.getSource() == data) {
 				connectors.add(c);
-				if (c instanceof FlowConnector) {
-					getDeepConnectorsTo(connectors, ((FlowConnector) c).getValve());
+				if (c instanceof FlowConnectorData) {
+					getDeepConnectorsTo(connectors, ((FlowConnectorData) c).getValve());
 				}
 			}
 		}
@@ -201,53 +201,53 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		return connectors;
 	}
 
-	private void getDeepConnectorsTo(Vector<Connector<?>> connectors, FlowValve flowValve) {
-		for (Connector<?> c : this.connectors) {
+	private void getDeepConnectorsTo(Vector<AbstractConnectorData<?>> connectors, FlowValveData flowValve) {
+		for (AbstractConnectorData<?> c : this.connectors) {
 			if (c.getTarget() == flowValve || c.getSource() == flowValve) {
 				connectors.add(c);
 			}
 		}
 	}
 
-	public Vector<ParameterConnector> getParameterConnectorsTo(SimulationObject data) {
-		Vector<ParameterConnector> connectors = new Vector<ParameterConnector>();
-		for (Connector<?> c : this.connectors) {
-			if (c instanceof ParameterConnector && (c.getTarget() == data || c.getSource() == data)) {
-				connectors.add((ParameterConnector) c);
+	public Vector<ParameterConnectorData> getParameterConnectorsTo(SimulationData data) {
+		Vector<ParameterConnectorData> connectors = new Vector<ParameterConnectorData>();
+		for (AbstractConnectorData<?> c : this.connectors) {
+			if (c instanceof ParameterConnectorData && (c.getTarget() == data || c.getSource() == data)) {
+				connectors.add((ParameterConnectorData) c);
 			}
 		}
 
 		return connectors;
 	}
 
-	public Vector<SimulationContainer> getSimulationContainer() {
-		Vector<SimulationContainer> containers = new Vector<SimulationContainer>();
+	public Vector<SimulationContainerData> getSimulationContainer() {
+		Vector<SimulationContainerData> containers = new Vector<SimulationContainerData>();
 
-		for (SimulationObject d : data) {
-			if (d instanceof SimulationContainer) {
-				containers.add((SimulationContainer) d);
+		for (SimulationData d : data) {
+			if (d instanceof SimulationContainerData) {
+				containers.add((SimulationContainerData) d);
 			}
 		}
 		return containers;
 	}
 
-	public Vector<SimulationParameter> getSimulationParameter() {
-		Vector<SimulationParameter> parameteres = new Vector<SimulationParameter>();
+	public Vector<SimulationParameterData> getSimulationParameter() {
+		Vector<SimulationParameterData> parameteres = new Vector<SimulationParameterData>();
 
-		for (SimulationObject d : data) {
-			if (d instanceof SimulationParameter) {
-				parameteres.add((SimulationParameter) d);
+		for (SimulationData d : data) {
+			if (d instanceof SimulationParameterData) {
+				parameteres.add((SimulationParameterData) d);
 			}
 		}
 		return parameteres;
 	}
 
-	public Vector<NamedSimulationObject> getNamedSimulationObject() {
-		Vector<NamedSimulationObject> containers = new Vector<NamedSimulationObject>();
+	public Vector<AbstractNamedSimulationData> getNamedSimulationObject() {
+		Vector<AbstractNamedSimulationData> containers = new Vector<AbstractNamedSimulationData>();
 
-		for (SimulationObject d : data) {
-			if (d instanceof NamedSimulationObject) {
-				containers.add((NamedSimulationObject) d);
+		for (SimulationData d : data) {
+			if (d instanceof AbstractNamedSimulationData) {
+				containers.add((AbstractNamedSimulationData) d);
 			}
 		}
 
@@ -255,11 +255,11 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	}
 
 	public boolean containsContainerOrParameter() {
-		for (SimulationObject d : data) {
-			if (d instanceof SimulationContainer) {
+		for (SimulationData d : data) {
+			if (d instanceof SimulationContainerData) {
 				return true;
 			}
-			if (d instanceof SimulationParameter) {
+			if (d instanceof SimulationParameterData) {
 				return true;
 			}
 		}
@@ -272,17 +272,17 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		FlowSimulationAdapter adapter = new FlowSimulationAdapter() {
 
 			@Override
-			public void dataAdded(SimulationObject o) {
+			public void dataAdded(SimulationData o) {
 				l.dataAdded(o);
 			}
 
 			@Override
-			public void dataRemoved(SimulationObject o) {
+			public void dataRemoved(SimulationData o) {
 				l.dataRemoved(o);
 			}
 
 			@Override
-			public void dataChanged(SimulationObject o) {
+			public void dataChanged(SimulationData o) {
 				l.dataChanged(o);
 			}
 

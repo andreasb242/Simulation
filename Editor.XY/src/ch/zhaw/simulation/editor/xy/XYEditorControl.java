@@ -32,4 +32,16 @@ public class XYEditorControl extends AbstractEditorControl<XYModel> {
 		this.view = view;
 	}
 
+	@Override
+	public void stopAutoparser() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startAutoparser() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

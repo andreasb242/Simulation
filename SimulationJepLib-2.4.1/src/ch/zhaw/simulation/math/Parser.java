@@ -15,9 +15,9 @@ import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.EmptyFormulaException;
 import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.SimulationData;
 
 public class Parser {
 	private MatrixJep jep;
@@ -78,7 +78,7 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, SimulationObject o, AbstractSimulationModel<?> model, Vector<NamedSimulationObject> sourcesConst, String name)
+	public ParserNodePair checkCode(String text, SimulationData o, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
 			throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (text.isEmpty()) {
 			throw new EmptyFormulaException(o);
@@ -87,10 +87,10 @@ public class Parser {
 		Line[] data = getFormulas(text);
 		newParser();
 
-		Vector<NamedSimulationObject> sources = new Vector<NamedSimulationObject>();
+		Vector<AbstractNamedSimulationData> sources = new Vector<AbstractNamedSimulationData>();
 		sources.addAll(sourcesConst);
 
-		for (NamedSimulationObject s : sources) {
+		for (AbstractNamedSimulationData s : sources) {
 			if (jep.getVar(s.getName()) != null) {
 				jep.removeVariable(s.getName());
 			}
@@ -99,8 +99,8 @@ public class Parser {
 			jep.addConstant(s.getName(), new VarPlaceholder());
 		}
 
-		Vector<SimulationGlobal> globals = model.getGlobalsFor(o);
-		for (SimulationGlobal g : globals) {
+		Vector<SimulationGlobalData> globals = model.getGlobalsFor(o);
+		for (SimulationGlobalData g : globals) {
 			if (jep.getVar(g.getName()) != null) {
 				jep.removeVariable(g.getName());
 			}
@@ -125,7 +125,7 @@ public class Parser {
 			}
 		}
 
-		Vector<SimulationGlobal> usedGlobals = new Vector<SimulationGlobal>();
+		Vector<SimulationGlobalData> usedGlobals = new Vector<SimulationGlobalData>();
 
 		for (Node n : nodes) {
 			checkUsedParameter(n, sources, globals, usedGlobals);
@@ -135,7 +135,7 @@ public class Parser {
 
 		if (sources.size() > 0) {
 			StringBuilder vars = new StringBuilder();
-			for (NamedSimulationObject n : sources) {
+			for (AbstractNamedSimulationData n : sources) {
 				vars.append(", ");
 				vars.append(n.getName());
 			}
@@ -153,7 +153,7 @@ public class Parser {
 	 * @param globals
 	 * @param usedGlobals
 	 */
-	private void checkUsedParameter(Node node, Vector<NamedSimulationObject> sourcesTmp, Vector<SimulationGlobal> globals, Vector<SimulationGlobal> usedGlobals) {
+	private void checkUsedParameter(Node node, Vector<AbstractNamedSimulationData> sourcesTmp, Vector<SimulationGlobalData> globals, Vector<SimulationGlobalData> usedGlobals) {
 		int len = node.jjtGetNumChildren();
 		for (int i = 0; i < len; i++) {
 			Node c = node.jjtGetChild(i);
@@ -164,8 +164,8 @@ public class Parser {
 			ASTVarNode a = (ASTVarNode) node;
 			String name = a.getName();
 
-			NamedSimulationObject found = null;
-			for (NamedSimulationObject s : sourcesTmp) {
+			AbstractNamedSimulationData found = null;
+			for (AbstractNamedSimulationData s : sourcesTmp) {
 				if (s.getName().equals(name)) {
 					found = s;
 					break;
@@ -176,8 +176,8 @@ public class Parser {
 				sourcesTmp.remove(found);
 			}
 
-			SimulationGlobal foundGlobal = null;
-			for (SimulationGlobal g : globals) {
+			SimulationGlobalData foundGlobal = null;
+			for (SimulationGlobalData g : globals) {
 				if (g.getName().equals(name)) {
 					foundGlobal = g;
 					break;

@@ -6,19 +6,19 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.Connector;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.undo.action.AbstractUndoableEdit;
 
 public class DeleteUndoAction extends AbstractUndoableEdit {
-	private Vector<NamedSimulationObject> removedObjects;
-	private Vector<Connector<?>> removedConnectors;
+	private Vector<AbstractNamedSimulationData> removedObjects;
+	private Vector<AbstractConnectorData<?>> removedConnectors;
 	private FlowEditorControl control;
 	private Vector<InfiniteData> removedInfinite;
 
-	public DeleteUndoAction(Vector<NamedSimulationObject> removedObjects, Vector<Connector<?>> removedConnectors, Vector<InfiniteData> removedInfinite,
+	public DeleteUndoAction(Vector<AbstractNamedSimulationData> removedObjects, Vector<AbstractConnectorData<?>> removedConnectors, Vector<InfiniteData> removedInfinite,
 			FlowEditorControl control) {
 		this.removedObjects = removedObjects;
 		this.removedConnectors = removedConnectors;
@@ -37,7 +37,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 		// Gemacht, also nicht rückgängig gemacht, somit kann
 		// es nun wirklich gelöscht werden
 		if (hasBeenDone) {
-			for (Connector<?> c : removedConnectors) {
+			for (AbstractConnectorData<?> c : removedConnectors) {
 				c.dispose();
 			}
 		}
@@ -51,7 +51,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 
 		SimulationFlowModel model = control.getModel();
 
-		for (NamedSimulationObject o : removedObjects) {
+		for (AbstractNamedSimulationData o : removedObjects) {
 			model.addData(o);
 		}
 
@@ -59,7 +59,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 			model.addData(i);
 		}
 
-		for (Connector<?> c : removedConnectors) {
+		for (AbstractConnectorData<?> c : removedConnectors) {
 			model.addConnector(c);
 		}
 	}
@@ -73,7 +73,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 	private void delete() {
 		SimulationFlowModel model = control.getModel();
 
-		for (Connector<?> c : removedConnectors) {
+		for (AbstractConnectorData<?> c : removedConnectors) {
 			model.removeConnector(c);
 		}
 
@@ -81,7 +81,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 			model.removeData(i);
 		}
 
-		for (NamedSimulationObject o : removedObjects) {
+		for (AbstractNamedSimulationData o : removedObjects) {
 			model.removeData(o);
 		}
 	}
@@ -93,7 +93,7 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 			return "Verbinder";
 		}
 
-		for (NamedSimulationObject o : removedObjects) {
+		for (AbstractNamedSimulationData o : removedObjects) {
 			b.append(", ");
 			b.append(o.getName());
 		}

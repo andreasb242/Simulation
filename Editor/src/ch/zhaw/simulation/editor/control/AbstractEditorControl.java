@@ -19,10 +19,11 @@ import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.AutoparserListener;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
@@ -40,7 +41,7 @@ import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>> extends StatusHandler implements MenuActionListener {
+public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>> extends StatusHandler implements MenuActionListener, AutoparserListener {
 	/**
 	 * The selection model, contains the current selected gui elements
 	 */
@@ -87,7 +88,10 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	 */
 	private StatusLabelHandler status = new StatusLabelHandler();
 
-	private SimulationDocument doc;
+	/**
+	 * The simulation document
+	 */
+	protected SimulationDocument doc;
 
 	private SimulationListener simListener;
 
@@ -127,7 +131,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 		simListener = model.addSimulationListener(new SimulationAdapter() {
 			@Override
-			public void dataChanged(SimulationObject o) {
+			public void dataChanged(SimulationData o) {
 				AbstractEditorControl.this.app.updateTitle();
 			}
 
@@ -234,7 +238,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		return functionHelp;
 	}
 
-	public void showFormulaEditor(NamedSimulationObject data) {
+	public void showFormulaEditor(AbstractNamedSimulationData data) {
 		if (formulaEditor == null) {
 			formulaEditor = new FormulaEditor(parent, this);
 		}
@@ -273,7 +277,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		}
 	}
 
-	private void postAddAction(NamedSimulationObject so) {
+	private void postAddAction(AbstractNamedSimulationData so) {
 		if (so instanceof TextData) {
 			TextData data = (TextData) so;
 			for (Component c : getView().getComponents()) {
@@ -286,7 +290,13 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		}
 	}
 
-	public void addComponent(final NamedSimulationObject so, String type) {
+	@Override
+	public abstract void stopAutoparser();
+
+	@Override
+	public abstract void startAutoparser();
+
+	public void addComponent(final AbstractNamedSimulationData so, String type) {
 		setStatusTextInfo("Ins Dokument klicken um " + type + " einzufügen");
 
 		lastMouseListener = new MouseAdapter() {
@@ -326,7 +336,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 	public void addGlobal() {
 		cancelAllActions();
-		addComponent(new SimulationGlobal(0, 0), "Global");
+		addComponent(new SimulationGlobalData(0, 0), "Global");
 	}
 
 	public void addText() {

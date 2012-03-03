@@ -11,17 +11,17 @@ import javax.swing.JPanel;
 
 import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.inexport.gui.settings.DynasysImportSettings;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.FlowValve;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainer;
-import ch.zhaw.simulation.model.flow.element.SimulationParameter;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 
 import butti.javalibs.config.Settings;
 
@@ -41,8 +41,8 @@ public class DynasisReader extends BinaryImport {
 	private Vector<TmpParameterArrow> tmpParameterArrow = new Vector<TmpParameterArrow>();
 	private Vector<Object> objects = new Vector<Object>();
 
-	private Vector<SimulationObject> readData = new Vector<SimulationObject>();
-	private Vector<Connector<?>> readConnectors = new Vector<Connector<?>>();
+	private Vector<SimulationData> readData = new Vector<SimulationData>();
+	private Vector<AbstractConnectorData<?>> readConnectors = new Vector<AbstractConnectorData<?>>();
 
 	private DynasysModel model;
 	private String description;
@@ -154,13 +154,13 @@ public class DynasisReader extends BinaryImport {
 			if (o instanceof InfiniteData) {
 				InfiniteData d = (InfiniteData) o;
 				System.out.println("|id: " + d.getId());
-			} else if (o instanceof SimulationParameter) {
-				SimulationParameter p = (SimulationParameter) o;
+			} else if (o instanceof SimulationParameterData) {
+				SimulationParameterData p = (SimulationParameterData) o;
 				System.out.println("|id: " + p.getId());
 				System.out.println("|name: " + p.getName());
 				System.out.println("|formula: " + p.getFormula());
-			} else if (o instanceof SimulationContainer) {
-				SimulationContainer p = (SimulationContainer) o;
+			} else if (o instanceof SimulationContainerData) {
+				SimulationContainerData p = (SimulationContainerData) o;
 				System.out.println("|id: " + p.getId());
 				System.out.println("|name: " + p.getName());
 				System.out.println("|formula: " + p.getFormula());
@@ -187,14 +187,14 @@ public class DynasisReader extends BinaryImport {
 		int x = Integer.MAX_VALUE;
 		int y = Integer.MAX_VALUE;
 
-		for (SimulationObject s : readData) {
+		for (SimulationData s : readData) {
 			x = Math.min(x, s.getX());
 			y = Math.min(y, s.getY());
 		}
 
-		for (Connector<?> c : readConnectors) {
-			if (c instanceof FlowConnector) {
-				FlowValve p = ((FlowConnector) c).getValve();
+		for (AbstractConnectorData<?> c : readConnectors) {
+			if (c instanceof FlowConnectorData) {
+				FlowValveData p = ((FlowConnectorData) c).getValve();
 				x = Math.min(x, p.getX());
 				y = Math.min(y, p.getY());
 			}
@@ -211,13 +211,13 @@ public class DynasisReader extends BinaryImport {
 		int dX = -x + model.getPaddingLeft();
 		int dY = -y + model.getPaddingTop();
 
-		for (SimulationObject s : readData) {
+		for (SimulationData s : readData) {
 			s.move(dX, dY);
 		}
 
-		for (Connector<?> c : readConnectors) {
-			if (c instanceof FlowConnector) {
-				FlowValve p = ((FlowConnector) c).getValve();
+		for (AbstractConnectorData<?> c : readConnectors) {
+			if (c instanceof FlowConnectorData) {
+				FlowValveData p = ((FlowConnectorData) c).getValve();
 				p.move(dX, dY);
 			}
 		}
@@ -239,15 +239,15 @@ public class DynasisReader extends BinaryImport {
 				Object oFrom = objects.get(flow.getSource());
 				Object oTo = objects.get(flow.getTarget());
 
-				if (!(oFrom instanceof SimulationObject) || !(oTo instanceof SimulationObject)) {
+				if (!(oFrom instanceof SimulationData) || !(oTo instanceof SimulationData)) {
 					throw new ImportException("Flow was from: " + oFrom.getClass() + " to " + oTo.getClass());
 				}
 
-				SimulationObject from = (SimulationObject) oFrom;
-				SimulationObject to = (SimulationObject) oTo;
+				SimulationData from = (SimulationData) oFrom;
+				SimulationData to = (SimulationData) oTo;
 
-				FlowConnector conn = new FlowConnector(from, to);
-				FlowValve par = conn.getValve();
+				FlowConnectorData conn = new FlowConnectorData(from, to);
+				FlowValveData par = conn.getValve();
 				par.setName(flow.getName());
 				par.setFormula(flow.getFormula());
 				Point pos = flow.getPos();
@@ -265,23 +265,23 @@ public class DynasisReader extends BinaryImport {
 			Object oSource = objects.get(flow.getSource());
 			Object oTarget = objects.get(flow.getTarget());
 
-			if (oTarget instanceof FlowConnector) {
-				FlowConnector flowConnector = (FlowConnector) oTarget;
+			if (oTarget instanceof FlowConnectorData) {
+				FlowConnectorData flowConnector = (FlowConnectorData) oTarget;
 				oTarget = flowConnector.getValve();
 			}
-			if (oSource instanceof FlowConnector) {
-				FlowConnector flowConnector = (FlowConnector) oSource;
+			if (oSource instanceof FlowConnectorData) {
+				FlowConnectorData flowConnector = (FlowConnectorData) oSource;
 				oSource = flowConnector.getValve();
 			}
 
-			if (!(oSource instanceof NamedSimulationObject) || !(oTarget instanceof NamedSimulationObject)) {
+			if (!(oSource instanceof AbstractNamedSimulationData) || !(oTarget instanceof AbstractNamedSimulationData)) {
 				throw new ImportException("Connector was from: " + oSource.getClass() + " to " + oTarget.getClass());
 			}
 
-			NamedSimulationObject source = (NamedSimulationObject) oSource;
-			NamedSimulationObject target = (NamedSimulationObject) oTarget;
+			AbstractNamedSimulationData source = (AbstractNamedSimulationData) oSource;
+			AbstractNamedSimulationData target = (AbstractNamedSimulationData) oTarget;
 
-			readConnectors.add(new ParameterConnector(source, target));
+			readConnectors.add(new ParameterConnectorData(source, target));
 		}
 	}
 
@@ -319,7 +319,7 @@ public class DynasisReader extends BinaryImport {
 		return new TmpFlow(name, formula, pos, source, target);
 	}
 
-	private SimulationParameter readParameter() throws IOException, ImportException {
+	private SimulationParameterData readParameter() throws IOException, ImportException {
 		readObject();
 
 		int valueTable = in.read();
@@ -351,7 +351,7 @@ public class DynasisReader extends BinaryImport {
 		// end
 		// end
 
-		SimulationParameter p = new SimulationParameter(0, 0);
+		SimulationParameterData p = new SimulationParameterData(0, 0);
 		readData(p);
 		p.setFormula(formula);
 
@@ -360,7 +360,7 @@ public class DynasisReader extends BinaryImport {
 		return p;
 	}
 
-	private void readData(NamedSimulationObject s) {
+	private void readData(AbstractNamedSimulationData s) {
 		s.setName(name);
 
 		int x = (int) (pos.x * model.getScaleFactor()) - s.getWidth() / 2;
@@ -370,11 +370,11 @@ public class DynasisReader extends BinaryImport {
 		s.setY(y);
 	}
 
-	private SimulationContainer readContainer() throws IOException, ImportException {
+	private SimulationContainerData readContainer() throws IOException, ImportException {
 		readObject();
 		readData(88);
 
-		SimulationContainer p = new SimulationContainer(0, 0);
+		SimulationContainerData p = new SimulationContainerData(0, 0);
 		readData(p);
 		p.setFormula(formula);
 
@@ -424,11 +424,11 @@ public class DynasisReader extends BinaryImport {
 	public boolean load(SimulationFlowModel model) {
 		model.clear();
 
-		for (SimulationObject s : readData) {
+		for (SimulationData s : readData) {
 			model.addData(s);
 		}
 
-		for (Connector<?> c : readConnectors) {
+		for (AbstractConnectorData<?> c : readConnectors) {
 			model.addConnector(c);
 		}
 
@@ -444,7 +444,7 @@ public class DynasisReader extends BinaryImport {
 
 		if (!"".equals(description)) {
 			int maxY = 0;
-			for (SimulationObject d : model.getData()) {
+			for (SimulationData d : model.getData()) {
 				if (width > d.getX() - padding) {
 					int y = d.getHeight() + d.getY();
 					if (maxY < y) {

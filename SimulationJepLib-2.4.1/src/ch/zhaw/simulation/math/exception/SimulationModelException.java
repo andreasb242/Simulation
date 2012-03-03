@@ -1,39 +1,39 @@
 package ch.zhaw.simulation.math.exception;
 
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
 
 public class SimulationModelException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	private SimulationObject simObject;
+	private SimulationData simObject;
 
-	public SimulationModelException(SimulationObject simObject, String message) {
+	public SimulationModelException(SimulationData simObject, String message) {
 		super(message);
 		this.simObject = simObject;
 	}
 
-	public SimulationModelException(SimulationObject simObject) {
+	public SimulationModelException(SimulationData simObject) {
 		this.simObject = simObject;
 	}
 
-	public SimulationModelException(SimulationObject simObject, Throwable cause) {
+	public SimulationModelException(SimulationData simObject, Throwable cause) {
 		super(cause);
 		this.simObject = simObject;
 	}
 
-	public SimulationModelException(SimulationObject simObject, String message, Throwable cause) {
+	public SimulationModelException(SimulationData simObject, String message, Throwable cause) {
 		super(message, cause);
 		this.simObject = simObject;
 	}
 
-	public SimulationObject getSimObject() {
+	public SimulationData getSimObject() {
 		return simObject;
 	}
 
-	public static String getNameFor(SimulationObject o) {
-		if (o instanceof NamedSimulationObject) {
-			return ((NamedSimulationObject) o).getName();
+	public static String getNameFor(SimulationData o) {
+		if (o instanceof AbstractNamedSimulationData) {
+			return ((AbstractNamedSimulationData) o).getName();
 		}
 		return o.getClass() + "/" + o.hashCode();
 	}

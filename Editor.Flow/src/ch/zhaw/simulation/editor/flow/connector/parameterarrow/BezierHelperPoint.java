@@ -6,11 +6,11 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.editor.elements.GuiElement;
+import ch.zhaw.simulation.editor.elements.AbstractView;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.util.Range;
 
-public class BezierHelperPoint extends GuiElement {
+public class BezierHelperPoint extends AbstractView {
 	private static final long serialVersionUID = 1L;
 
 	private int width;

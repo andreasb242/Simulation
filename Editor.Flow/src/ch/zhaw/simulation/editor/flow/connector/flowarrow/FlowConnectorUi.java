@@ -10,9 +10,9 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.connector.bezier.FlowBezierConnector;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
-import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
+import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
@@ -24,7 +24,7 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	private FlowArrowImage arrowImage;
 	private JComponent parent;
 
-	private FlowConnector connector;
+	private FlowConnectorData connector;
 	private GuiConfig config;
 
 	private FlowValveElement valve;
@@ -39,49 +39,49 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	private FlowSimulationAdapter simulationListener = new FlowSimulationAdapter() {
 
 		@Override
-		public void dataAdded(SimulationObject o) {
+		public void dataAdded(SimulationData o) {
 			checkData(o);
 		}
 
 		@Override
-		public void dataRemoved(SimulationObject o) {
+		public void dataRemoved(SimulationData o) {
 			checkData(o);
 		}
 
 		@Override
-		public void dataChanged(SimulationObject o) {
+		public void dataChanged(SimulationData o) {
 			checkData(o);
 		}
 
 		@Override
-		public void connectorAdded(Connector<?> c) {
+		public void connectorAdded(AbstractConnectorData<?> c) {
 			checkData(c);
 		}
 
 		@Override
-		public void connectorChanged(Connector<?> c) {
+		public void connectorChanged(AbstractConnectorData<?> c) {
 			checkData(c);
 		}
 
 		@Override
-		public void connectorRemoved(Connector<?> c) {
+		public void connectorRemoved(AbstractConnectorData<?> c) {
 			checkData(c);
 		}
 
-		private void checkData(SimulationObject o) {
+		private void checkData(SimulationData o) {
 			if (o == connector.getSource() || o == connector.getTarget() || o == connector.getValve()) {
 				FlowConnectorUi.this.fireRepaint();
 			}
 		}
 
-		private void checkData(Connector<?> c) {
+		private void checkData(AbstractConnectorData<?> c) {
 			if (c == connector) {
 				FlowConnectorUi.this.fireRepaint();
 			}
 		}
 	};
 
-	public FlowConnectorUi(JComponent parent, FlowConnector connector, FlowEditorControl control, FlowValveElement valve) {
+	public FlowConnectorUi(JComponent parent, FlowConnectorData connector, FlowEditorControl control, FlowValveElement valve) {
 		this.parent = parent;
 		this.valve = valve;
 		this.connector = connector;
@@ -117,7 +117,7 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	}
 
 	@Override
-	public FlowConnector getData() {
+	public FlowConnectorData getData() {
 		return connector;
 	}
 
@@ -145,8 +145,8 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 
 		Rectangle r = bounds.union((Rectangle) lastBound);
 
-		// TODO repaint 
-//		parent.repaint(r.x - 100, r.y - 100, r.width + 200, r.height + 200);
+		// TODO repaint
+		// parent.repaint(r.x - 100, r.y - 100, r.width + 200, r.height + 200);
 		parent.repaint();
 
 		lastBound = bounds;

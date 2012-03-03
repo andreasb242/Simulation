@@ -33,9 +33,9 @@ import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationGlobal;
-import ch.zhaw.simulation.model.element.NamedSimulationObject.Status;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData.Status;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 
 public class FormulaEditor extends BDialog {
@@ -59,7 +59,7 @@ public class FormulaEditor extends BDialog {
 
 	private Parser parser = new Parser();
 
-	private NamedSimulationObject data;
+	private AbstractNamedSimulationData data;
 
 	private FormularKeyboard keyboard;
 
@@ -212,16 +212,16 @@ public class FormulaEditor extends BDialog {
 			return;
 		}
 
-		Status status = NamedSimulationObject.Status.SYNTAX_ERROR;
+		Status status = AbstractNamedSimulationData.Status.SYNTAX_ERROR;
 
 		Calendar cal = Calendar.getInstance();
 		String statusText = null;
 
 		try {
-			Vector<NamedSimulationObject> sources = control.getModel().getSource(data);
+			Vector<AbstractNamedSimulationData> sources = control.getModel().getSource(data);
 
 			parser.checkCode(text.getText(), data, control.getModel(), sources, data.getName());
-			status = NamedSimulationObject.Status.SYNTAX_OK;
+			status = AbstractNamedSimulationData.Status.SYNTAX_OK;
 
 			text.setError(0, 0);
 			statusLabel.setText(sdf.format(cal.getTime()) + ": Formel OK");
@@ -250,7 +250,7 @@ public class FormulaEditor extends BDialog {
 		this.text.requestFocus();
 	}
 
-	public void setData(NamedSimulationObject data) {
+	public void setData(AbstractNamedSimulationData data) {
 		if (this.data != null) {
 			// Save Data
 			checkFormula();
@@ -265,7 +265,7 @@ public class FormulaEditor extends BDialog {
 
 		text.clearAutocompletet();
 
-		Vector<NamedSimulationObject> parameter = control.getModel().getSource(data);
+		Vector<AbstractNamedSimulationData> parameter = control.getModel().getSource(data);
 
 		constants.clear();
 
@@ -275,7 +275,7 @@ public class FormulaEditor extends BDialog {
 		}
 
 		variables.clear();
-		for (NamedSimulationObject p : parameter) {
+		for (AbstractNamedSimulationData p : parameter) {
 			variables.addElement(p);
 			text.addAutocomplete(new Autocomplete.AutocompleteWord(p.getName(), 0));
 		}
@@ -296,17 +296,17 @@ public class FormulaEditor extends BDialog {
 
 		AbstractSimulationModel<?> model = control.getModel();
 
-		Vector<SimulationGlobal> globalData = model.getGlobalsFor(data);
+		Vector<SimulationGlobalData> globalData = model.getGlobalsFor(data);
 		text.setConsts(getConst(), getFunctions(), parameter, globalData);
 		updateGlobals(globalData);
 
 		checkFormula();
 	}
 
-	private void updateGlobals(Vector<SimulationGlobal> global) {
+	private void updateGlobals(Vector<SimulationGlobalData> global) {
 		globals.clear();
 
-		for (SimulationGlobal g : global) {
+		for (SimulationGlobalData g : global) {
 			globals.addElement(g);
 		}
 	}

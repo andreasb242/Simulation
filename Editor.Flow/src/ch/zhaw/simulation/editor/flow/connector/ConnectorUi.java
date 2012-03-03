@@ -3,7 +3,7 @@ package ch.zhaw.simulation.editor.flow.connector;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import ch.zhaw.simulation.model.flow.connection.Connector;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
 /**
@@ -28,7 +28,7 @@ public interface ConnectorUi {
 	/**
 	 * Gets the Data
 	 */
-	public Connector<?> getData();
+	public AbstractConnectorData<?> getData();
 
 	/**
 	 * 

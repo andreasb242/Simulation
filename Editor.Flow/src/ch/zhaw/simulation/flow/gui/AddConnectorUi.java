@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.connector.bezier.BezierConnector;
-import ch.zhaw.simulation.editor.elements.GuiDataElement;
+import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
@@ -21,11 +21,11 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
-import ch.zhaw.simulation.model.element.NamedSimulationObject;
-import ch.zhaw.simulation.model.element.SimulationObject;
-import ch.zhaw.simulation.model.flow.connection.Connector;
-import ch.zhaw.simulation.model.flow.connection.FlowConnector;
-import ch.zhaw.simulation.model.flow.connection.ParameterConnector;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionModel;
@@ -41,7 +41,7 @@ public class AddConnectorUi {
 	private SelectionModel selectionModel;
 	private ArcType addArcType = ArcType.PARAMETER;
 
-	private GuiDataElement<?> start;
+	private AbstractDataView<?> start;
 
 	private Point target;
 
@@ -52,7 +52,7 @@ public class AddConnectorUi {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			GuiDataElement<?> elem = view.getElementAt(e.getX(), e.getY());
+			AbstractDataView<?> elem = view.getElementAt(e.getX(), e.getY());
 
 			if (elem != null && isSelectElementAllowed(elem)) {
 				selectionModel.setTmpSelection(elem);
@@ -68,7 +68,7 @@ public class AddConnectorUi {
 			}
 		}
 
-		private boolean isSelectElementAllowed(GuiDataElement<?> elem) {
+		private boolean isSelectElementAllowed(AbstractDataView<?> elem) {
 			if (addArcType == ArcType.FLOW) {
 				if (elem instanceof ContainerView) {
 					return true;
@@ -104,11 +104,11 @@ public class AddConnectorUi {
 			}
 		}
 
-		private boolean targetNotAlreadyConnected(GuiDataElement<?> elem) {
+		private boolean targetNotAlreadyConnected(AbstractDataView<?> elem) {
 			if (start == null) {
 				return true;
 			}
-			for (Connector<?> c : control.getModel().getConnectors()) {
+			for (AbstractConnectorData<?> c : control.getModel().getConnectors()) {
 				if (c.getSource() == start.getData() || c.getTarget() == start.getData()) {
 					if (c.getSource() == elem.getData() || c.getTarget() == elem.getData()) {
 						return false;
@@ -137,7 +137,7 @@ public class AddConnectorUi {
 						}
 
 						// Unendlich nach Container
-						setEndElement((GuiDataElement<?>) selected[0]);
+						setEndElement((AbstractDataView<?>) selected[0]);
 						return;
 					}
 
@@ -146,7 +146,7 @@ public class AddConnectorUi {
 							System.err.println("check type failed: 1");
 							return; // Sollte nicht auftreten, error Handling
 						}
-						setEndElement((GuiDataElement<?>) selected[1]);
+						setEndElement((AbstractDataView<?>) selected[1]);
 					} else if (!(start instanceof InfiniteSymbol)) {
 						addInfiniteEnd(e);
 					} else {
@@ -157,7 +157,7 @@ public class AddConnectorUi {
 						System.err.println("check type failed: 2");
 						return; // Sollte nicht auftreten, error Handling
 					}
-					setStartElement((GuiDataElement<?>) selected[0]);
+					setStartElement((AbstractDataView<?>) selected[0]);
 					selectionModel.acceptTmpSelection();
 				} else {
 					InfiniteData data = new InfiniteData(e.getX(), e.getY());
@@ -178,7 +178,7 @@ public class AddConnectorUi {
 							System.err.println("check type failed: 3");
 							return; // Sollte nicht auftreten, error Handling
 						}
-						setEndElement((GuiDataElement<?>) selected[1]);
+						setEndElement((AbstractDataView<?>) selected[1]);
 					} else {
 						control.setStatusTextInfo("Auf Ziel klicken oder mit <ESC> abbrechen");
 					}
@@ -187,14 +187,14 @@ public class AddConnectorUi {
 						System.err.println("check type failed: 4");
 						return; // Sollte nicht auftreten, error Handling
 					}
-					setStartElement((GuiDataElement<?>) selected[0]);
+					setStartElement((AbstractDataView<?>) selected[0]);
 					selectionModel.acceptTmpSelection();
 				}
 			}
 		};
 	};
 
-	public void startWith(GuiDataElement<?> data) {
+	public void startWith(AbstractDataView<?> data) {
 		addArcType = ArcType.SELECATABLE;
 		enableDrawModus();
 		setStartElement(data);
@@ -202,7 +202,7 @@ public class AddConnectorUi {
 	}
 
 	private boolean checkType(SelectableElement selected) {
-		if (!(selected instanceof GuiDataElement<?>)) {
+		if (!(selected instanceof AbstractDataView<?>)) {
 			Messagebox.showError(null, "Das gewählte Element ist vom falschen Typ.", "Type: " + selected.getClass().getName());
 			return false;
 		}
@@ -267,12 +267,12 @@ public class AddConnectorUi {
 		enableDrawModus();
 	}
 
-	private void setStartElement(GuiDataElement<?> start) {
+	private void setStartElement(AbstractDataView<?> start) {
 		this.start = start;
 		control.setStatusTextInfo("Endelement wählen");
 	}
 
-	protected void setEndElement(GuiDataElement<?> end) {
+	protected void setEndElement(AbstractDataView<?> end) {
 		if (addArcType == ArcType.SELECATABLE) {
 			if (start instanceof ContainerView || end instanceof ContainerView) {
 				ConnectorSelectDialog dlg = new ConnectorSelectDialog(control);
@@ -284,9 +284,9 @@ public class AddConnectorUi {
 		}
 
 		if (addArcType == ArcType.FLOW) {
-			control.addConnector(new FlowConnector((SimulationObject) start.getData(), (SimulationObject) end.getData()));
+			control.addConnector(new FlowConnectorData((SimulationData) start.getData(), (SimulationData) end.getData()));
 		} else {
-			control.addConnector(new ParameterConnector((NamedSimulationObject) start.getData(), (NamedSimulationObject) end.getData()));
+			control.addConnector(new ParameterConnectorData((AbstractNamedSimulationData) start.getData(), (AbstractNamedSimulationData) end.getData()));
 		}
 		control.clearStatus();
 		selectionModel.clearSelection();
@@ -303,7 +303,7 @@ public class AddConnectorUi {
 		view.add(infinite);
 		view.revalidate();
 
-		control.addConnector(new FlowConnector((SimulationObject) start.getData(), data));
+		control.addConnector(new FlowConnectorData((SimulationData) start.getData(), data));
 
 		control.clearStatus();
 		selectionModel.clearSelection();

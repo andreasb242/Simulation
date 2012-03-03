@@ -41,6 +41,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPlugins().size() > 0) {
 			cbSimulationtype.setSelectedIndex(0);
 		}
+		actionPerformed(null);
 
 		add(cbSimulationtype);
 

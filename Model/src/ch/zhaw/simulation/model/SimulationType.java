@@ -7,8 +7,7 @@ public enum SimulationType {
 	FLOW_SIMULATION,
 
 	/**
-	 * The Simulation Document contains a XY Diagramm, containing Flow diagramms
+	 * The Simulation Document contains a XY Diagram, may containing Flow Diagrams
 	 */
 	XY_MODEL
-
 }

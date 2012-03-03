@@ -1,6 +1,6 @@
 package ch.zhaw.simulation.model.listener;
 
-import ch.zhaw.simulation.model.flow.connection.Connector;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 
 public interface FlowSimulationListener extends SimulationListener {
 
@@ -10,7 +10,7 @@ public interface FlowSimulationListener extends SimulationListener {
 	 * @param c
 	 *            The connector
 	 */
-	public void connectorAdded(Connector<?> c);
+	public void connectorAdded(AbstractConnectorData<?> c);
 
 	/**
 	 * A connector was removed
@@ -18,7 +18,7 @@ public interface FlowSimulationListener extends SimulationListener {
 	 * @param c
 	 *            The connector
 	 */
-	public void connectorRemoved(Connector<?> c);
+	public void connectorRemoved(AbstractConnectorData<?> c);
 
 	/**
 	 * A connector was changed
@@ -26,6 +26,6 @@ public interface FlowSimulationListener extends SimulationListener {
 	 * @param c
 	 *            The connector
 	 */
-	public void connectorChanged(Connector<?> c);
+	public void connectorChanged(AbstractConnectorData<?> c);
 
 }

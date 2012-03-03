@@ -3,13 +3,13 @@ package ch.zhaw.simulation.editor.elements;
 import java.awt.Dimension;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.model.element.SimulationObject;
+import ch.zhaw.simulation.model.element.SimulationData;
 
-public abstract class GuiDataElement<T extends SimulationObject> extends GuiElement {
+public abstract class AbstractDataView<T extends SimulationData> extends AbstractView {
 	private static final long serialVersionUID = 1L;
 	private T data;
 
-	public GuiDataElement(T data, AbstractEditorControl<?> control) {
+	public AbstractDataView(T data, AbstractEditorControl<?> control) {
 		super(control);
 		this.data = data;
 
