@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.model.element.SimulationObject;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 
 /**
