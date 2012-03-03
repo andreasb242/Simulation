@@ -17,7 +17,7 @@ import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 
-public class MOAttachment implements SimulationAttachment {
+public class MatlabAttachment implements SimulationAttachment {
 	private Vector<AbstractNamedSimulationData> sources;
 	private ParserNodePair parsed;
 	private Vector<AssigmentPair> assigment = new Vector<AssigmentPair>();
@@ -92,7 +92,7 @@ public class MOAttachment implements SimulationAttachment {
 				}
 			}
 
-			MOAttachment x = (MOAttachment) a.getSimulationObject().a;
+			MatlabAttachment x = (MatlabAttachment) a.getSimulationObject().a;
 			x.optimizeStatic(model);
 			if (x.getValue() == null) {
 				return;
@@ -136,7 +136,7 @@ public class MOAttachment implements SimulationAttachment {
 				continue;
 			}
 
-			MOAttachment a = (MOAttachment) ap.getSimulationObject().a;
+			MatlabAttachment a = (MatlabAttachment) ap.getSimulationObject().a;
 			x = Math.max(x, a.calcOrder());
 		}
 

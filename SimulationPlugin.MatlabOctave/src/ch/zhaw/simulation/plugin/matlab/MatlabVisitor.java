@@ -4,7 +4,7 @@ import org.lsmp.djep.xjep.PrintVisitor;
 import org.nfunk.jep.ASTVarNode;
 import org.nfunk.jep.ParseException;
 
-public class MOVisitor extends PrintVisitor {
+public class MatlabVisitor extends PrintVisitor {
 	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		if ("time".equals(node.getName())) {

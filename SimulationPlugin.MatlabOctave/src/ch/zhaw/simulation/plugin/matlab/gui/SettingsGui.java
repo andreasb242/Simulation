@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 import butti.filechooser.TxtDirChooser;
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
-import ch.zhaw.simulation.plugin.matlab.SimulationTool;
+import ch.zhaw.simulation.plugin.matlab.MatlabTool;
 
 public class SettingsGui extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class SettingsGui extends JPanel {
 
 		setBorder(new TitledBorder("Software"));
 
-		for (SimulationTool t : SimulationTool.values()) {
+		for (MatlabTool t : MatlabTool.values()) {
 			toolModel.addElement(t);
 		}
 
@@ -40,7 +40,7 @@ public class SettingsGui extends JPanel {
 		gbm.setX(1).setY(0).setWeightY(0).setComp(cbTool);
 
 		String tool = settings.getSetting("tool", "Octave");
-		SimulationTool t = SimulationTool.fromString(tool);
+		MatlabTool t = MatlabTool.fromString(tool);
 		if (t != null) {
 			cbTool.setSelectedItem(t);
 		}

@@ -15,8 +15,8 @@ import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.matlab.MOAttachment;
-import ch.zhaw.simulation.plugin.matlab.MOVisitor;
+import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
+import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
 import ch.zhaw.simulation.plugin.StandardParameter;
 
 /**
@@ -40,7 +40,7 @@ import ch.zhaw.simulation.plugin.StandardParameter;
 public class EulerCodegen extends AbstractCodegen {
 	private CodeOutput out;
 	private SimulationFlowModel model;
-	private MOVisitor visitor = new MOVisitor();
+	private MatlabVisitor visitor = new MatlabVisitor();
 	private Vector<String> openFiles = new Vector<String>();
 
 	public EulerCodegen() {
@@ -141,7 +141,7 @@ public class EulerCodegen extends AbstractCodegen {
 		out.printComment("Container calculations");
 
 		for (SimulationContainerData c : model.getSimulationContainer()) {
-			MOAttachment a = (MOAttachment) c.a;
+			MatlabAttachment a = (MatlabAttachment) c.a;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
@@ -170,7 +170,7 @@ public class EulerCodegen extends AbstractCodegen {
 		out.printComment("Flow calculations");
 
 		for (FlowConnectorData c : model.getFlowConnectors()) {
-			MOAttachment a = (MOAttachment) c.getValve().a;
+			MatlabAttachment a = (MatlabAttachment) c.getValve().a;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
@@ -187,7 +187,7 @@ public class EulerCodegen extends AbstractCodegen {
 		sortByRelevanz(parameters);
 
 		for (SimulationParameterData p : parameters) {
-			MOAttachment a = (MOAttachment) p.a;
+			MatlabAttachment a = (MatlabAttachment) p.a;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
@@ -204,7 +204,7 @@ public class EulerCodegen extends AbstractCodegen {
 		sortByRelevanz(parameters);
 
 		for (SimulationParameterData p : parameters) {
-			MOAttachment a = (MOAttachment) p.a;
+			MatlabAttachment a = (MatlabAttachment) p.a;
 
 			if (a.isConst()) {
 				out.println(p.getName() + ".value=" + a.getConstValue() + "; # constant");
@@ -224,8 +224,8 @@ public class EulerCodegen extends AbstractCodegen {
 
 			@Override
 			public int compare(AbstractNamedSimulationData o1, AbstractNamedSimulationData o2) {
-				MOAttachment a = (MOAttachment) o1.a;
-				MOAttachment b = (MOAttachment) o2.a;
+				MatlabAttachment a = (MatlabAttachment) o1.a;
+				MatlabAttachment b = (MatlabAttachment) o2.a;
 
 				return a.getDependencyOrder() - b.getDependencyOrder();
 			}
@@ -253,7 +253,7 @@ public class EulerCodegen extends AbstractCodegen {
 		sortByRelevanz(containers);
 
 		for (SimulationContainerData c : containers) {
-			MOAttachment a = (MOAttachment) c.a;
+			MatlabAttachment a = (MatlabAttachment) c.a;
 
 			if (a.isConst()) {
 				out.println(c.getName() + ".value=" + a.getConstValue() + ";");

@@ -16,13 +16,13 @@ import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.sidebar.DefaultSimulationSidebar;
 
-public class SimulationMatlabOctave implements SimulationPlugin {
+public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
 	private PluginDataProvider provider;
 	private DefaultSimulationSidebar sidebar;
 	private ModelOptimizer optimizer;
 
-	public SimulationMatlabOctave() {
+	public MatlabCompatiblePlugin() {
 	}
 
 	@Override
