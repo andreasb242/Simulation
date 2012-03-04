@@ -31,7 +31,7 @@ import butti.javalibs.config.Settings;
  * @author Andreas Butti
  * 
  */
-public class DynasisReader extends BinaryImport {
+public class DynasisImportPlugin extends BinaryImportPlugin {
 	private String name;
 	private String formula;
 	private Point pos;
@@ -49,7 +49,7 @@ public class DynasisReader extends BinaryImport {
 	
 	private Settings settings;
 
-	public DynasisReader() {
+	public DynasisImportPlugin() {
 	}
 
 	@Override

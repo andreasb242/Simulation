@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-	<class>ch.zhaw.simulation.sim.mo.SimulationMatlabOctave</class>
+	<class>ch.zhaw.simulation.plugin.matlab.MatlabCompatiblePlugin</class>
 	<name>MatlabOctave Simulator</name>
 	<description>Simulation mit Matlab oder Octave</description>
 	<author>Andreas Bachmann</author>

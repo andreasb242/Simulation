@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim;
+package ch.zhaw.simulation.plugin;
 
 public interface StandardParameter {
 	public static String SIM_PROPERTY_DOUBLE_PREFIX = "simulation.dproperty.";

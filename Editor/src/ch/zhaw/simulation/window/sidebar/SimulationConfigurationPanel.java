@@ -16,31 +16,35 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.sim.SimulationManager;
+import ch.zhaw.simulation.plugin.SimulationManager;
 
 public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbSimulationtype;
-	private SimulationConfiguration model;
+	private SimulationConfiguration configuration;
 
 	private JButton btStart = new JButton("Simulieren");
 
 	public SimulationConfigurationPanel(final AbstractEditorControl<?> control) {
 		setTitle("Simulation");
-		this.model = control.getSimulationConfiguration();
-		model.addPluginChangeListener(this);
+		this.configuration = control.getSimulationConfiguration();
+		configuration.addPluginChangeListener(this);
 
 		add(new JLabel("Simulation"));
 
 		SimulationManager manager = control.getApp().getManager();
-		cbSimulationtype = new JComboBox(manager.getPlugins());
 
-		cbSimulationtype.setSelectedItem(model.getPlugin());
+		// Die Liste aller Plugin-Beschreibungen als Grundlage für die JComboBox verwenden
+		cbSimulationtype = new JComboBox(manager.getPluginDescriptions());
 
-		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPlugins().size() > 0) {
+		cbSimulationtype.setSelectedItem(configuration.getSelectedPluginName());
+
+		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPluginDescriptions().size() > 0) {
 			cbSimulationtype.setSelectedIndex(0);
 		}
+
+		// Ein Synchroner aufruf
 		actionPerformed(null);
 
 		add(cbSimulationtype);
@@ -63,18 +67,18 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		if (cbSimulationtype.getSelectedItem() == null) {
 			return;
 		}
-		model.setPlugin(cbSimulationtype.getSelectedItem().toString());
+		configuration.setSelectedPluginName(cbSimulationtype.getSelectedItem().toString());
 	}
 
 	@Override
-	public void pluginChanged(String plugin) {
-		if (plugin == null) {
+	public void pluginChanged(String pluginName) {
+		if (pluginName == null) {
 			return;
 		}
 
 		ComboBoxModel model = cbSimulationtype.getModel();
 		for (int i = 0; i < model.getSize(); i++) {
-			if (plugin.equalsIgnoreCase(model.getElementAt(i).toString())) {
+			if (pluginName.equalsIgnoreCase(model.getElementAt(i).toString())) {
 				cbSimulationtype.setSelectedIndex(i);
 				break;
 			}
@@ -82,6 +86,6 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 	}
 
 	public void dispose() {
-		model.removePluginChangeListener(this);
+		configuration.removePluginChangeListener(this);
 	}
 }

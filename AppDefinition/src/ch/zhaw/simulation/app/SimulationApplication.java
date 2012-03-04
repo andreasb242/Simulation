@@ -4,7 +4,7 @@ import javax.swing.JMenu;
 
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.sim.SimulationManager;
+import ch.zhaw.simulation.plugin.SimulationManager;
 
 /**
  * The Interface for the application base implementation

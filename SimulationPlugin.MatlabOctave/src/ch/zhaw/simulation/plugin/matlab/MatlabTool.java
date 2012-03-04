@@ -1,11 +1,11 @@
-package ch.zhaw.simulation.sim.mo;
+package ch.zhaw.simulation.plugin.matlab;
 
-public enum SimulationTool {
+public enum MatlabTool {
 	OCTAVE("Octave"), MATLAB("Matlab");
 
 	public final String name;
 
-	private SimulationTool(String name) {
+	private MatlabTool(String name) {
 		this.name = name;
 	}
 
@@ -14,8 +14,8 @@ public enum SimulationTool {
 		return this.name;
 	}
 
-	public static SimulationTool fromString(String str) {
-		for (SimulationTool t : SimulationTool.values()) {
+	public static MatlabTool fromString(String str) {
+		for (MatlabTool t : MatlabTool.values()) {
 			if (t.name.equalsIgnoreCase(str)) {
 				return t;
 			}

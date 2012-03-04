@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.mo;
+package ch.zhaw.simulation.plugin.matlab;
 
 import java.util.Vector;
 
@@ -16,7 +16,7 @@ import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.sim.mo.MOAttachment.VarNotFoundExceptionTmp;
+import ch.zhaw.simulation.plugin.matlab.MatlabAttachment.VarNotFoundExceptionTmp;
 
 public class ModelOptimizer {
 	private SimulationFlowModel model;
@@ -57,18 +57,18 @@ public class ModelOptimizer {
 		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
-				n.a = new MOAttachment();
+				n.a = new MatlabAttachment();
 			}
 		}
 
 		for (FlowConnectorData c : model.getFlowConnectors()) {
-			c.getValve().a = new MOAttachment();
+			c.getValve().a = new MatlabAttachment();
 		}
 	}
 
 	private void parseFormula(AbstractNamedSimulationData d) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException,
 			VarNotFoundException {
-		MOAttachment a = (MOAttachment) d.a;
+		MatlabAttachment a = (MatlabAttachment) d.a;
 
 		Vector<AbstractNamedSimulationData> sources = model.getSource(d);
 		a.setSources(sources);
@@ -90,7 +90,7 @@ public class ModelOptimizer {
 	 * Optimize out calculations which are static
 	 */
 	private void optimizeStatic(AbstractNamedSimulationData d) throws SimulationParserException {
-		MOAttachment a = (MOAttachment) d.a;
+		MatlabAttachment a = (MatlabAttachment) d.a;
 		try {
 			a.optimizeStatic(model);
 			
@@ -112,7 +112,7 @@ public class ModelOptimizer {
 			}
 		}
 
-		MOAttachment a = (MOAttachment) d.a;
+		MatlabAttachment a = (MatlabAttachment) d.a;
 
 		Object value = a.getValue();
 		if (value != null) {

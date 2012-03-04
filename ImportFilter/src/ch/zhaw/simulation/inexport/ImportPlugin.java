@@ -12,8 +12,8 @@ import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
-public abstract class ImportReader implements AbstractPlugin {
-	public ImportReader() {
+public abstract class ImportPlugin implements AbstractPlugin {
+	public ImportPlugin() {
 	}
 
 	public void init(Settings settings) {

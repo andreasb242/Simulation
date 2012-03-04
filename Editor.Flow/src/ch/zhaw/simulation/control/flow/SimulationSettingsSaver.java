@@ -3,31 +3,31 @@ package ch.zhaw.simulation.control.flow;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
-import ch.zhaw.simulation.sim.StandardParameter;
+import ch.zhaw.simulation.plugin.StandardParameter;
 import butti.javalibs.config.Settings;
 
 // TODO: diese klasse wider einbauen
 public class SimulationSettingsSaver implements SimulationParameterListener, PluginChangeListener {
 
 	private Settings settings;
-	private SimulationConfiguration model;
+	private SimulationConfiguration configuration;
 
-	public SimulationSettingsSaver(SimulationConfiguration model, Settings settings) {
+	public SimulationSettingsSaver(SimulationConfiguration configuration, Settings settings) {
 		this.settings = settings;
-		this.model = model;
+		this.configuration = configuration;
 
-		model.addSimulationParameterListener(this);
-		model.addPluginChangeListener(this);
+		configuration.addSimulationParameterListener(this);
+		configuration.addPluginChangeListener(this);
 	}
 
 	public void load() {
-		String plugin = settings.getSetting("simulation.plugin");
-		model.setPlugin(plugin);
+		String pluginName = settings.getSetting("simulation.plugin");
+		configuration.setSelectedPluginName(pluginName);
 	}
 
 	@Override
-	public void pluginChanged(String plugin) {
-		settings.setSetting("simulation.plugin", plugin);
+	public void pluginChanged(String pluginName) {
+		settings.setSetting("simulation.plugin", pluginName);
 	}
 
 	@Override

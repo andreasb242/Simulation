@@ -11,12 +11,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import ch.zhaw.simulation.inexport.ImportReader;
+import ch.zhaw.simulation.inexport.ImportPlugin;
 
-public abstract class BinaryImport extends ImportReader {
+public abstract class BinaryImportPlugin extends ImportPlugin {
 	protected InputStream in;
 
-	public BinaryImport() {
+	public BinaryImportPlugin() {
 	}
 
 	protected void openFile(File file) throws FileNotFoundException {

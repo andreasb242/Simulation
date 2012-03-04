@@ -19,7 +19,7 @@ import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
-import ch.zhaw.simulation.filehandling.ImportPlugins;
+import ch.zhaw.simulation.filehandling.ImportPluginLoader;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.math.console.MatrixConsole;
@@ -29,10 +29,10 @@ import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.sim.PluginDataProvider;
-import ch.zhaw.simulation.sim.SimulationManager;
-import ch.zhaw.simulation.sim.SimulationPlugin;
-import ch.zhaw.simulation.sim.StandardParameter;
+import ch.zhaw.simulation.plugin.PluginDataProvider;
+import ch.zhaw.simulation.plugin.SimulationManager;
+import ch.zhaw.simulation.plugin.SimulationPlugin;
+import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.window.SimulationWindow;
@@ -49,7 +49,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	/**
 	 * The import plugins
 	 */
-	private ImportPlugins importPlugins;
+	private ImportPluginLoader importPluginLoader;
 
 	/**
 	 * The settings Dialog
@@ -112,7 +112,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		// Load and initialize the import plugins
-		this.importPlugins = new ImportPlugins(settings);
+		this.importPluginLoader = new ImportPluginLoader(settings);
 
 		this.recentMenu = new RecentMenu(settings);
 		this.recentMenu.addListener(this);
@@ -153,7 +153,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			showXYWindow();
 		}
 
-		this.savehandler = new LoadSaveHandler(mainFrame, settings, SysintegrationFactory.createSysintegration(), this.importPlugins);
+		this.savehandler = new LoadSaveHandler(mainFrame, settings, SysintegrationFactory.createSysintegration(), this.importPluginLoader);
 		this.savehandler.addListener(this);
 	}
 
@@ -264,8 +264,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		new MatrixConsole().setVisible(true);
 	}
 
-	public ImportPlugins getImportPlugins() {
-		return importPlugins;
+	public ImportPluginLoader getImportPluginLoader() {
+		return importPluginLoader;
 	}
 
 	public JFrame getMainFrame() {
@@ -273,30 +273,30 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void startSimulation() {
-		String plugin = doc.getSimulationConfiguration().getPlugin();
+		String pluginName = doc.getSimulationConfiguration().getSelectedPluginName();
 
-		if (plugin == null) {
+		if (pluginName == null) {
 			Messagebox.showError(getMainFrame(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
 			return;
 		}
 
-		PluginDescription<SimulationPlugin> selectedPlugin = null;
-		for (PluginDescription<SimulationPlugin> p : manager.getPlugins()) {
-			if (plugin.equalsIgnoreCase(p.getName())) {
-				selectedPlugin = p;
+		PluginDescription<SimulationPlugin> selectedPluginDescription = null;
+		for (PluginDescription<SimulationPlugin> pluginDescription : manager.getPluginDescriptions()) {
+			if (pluginName.equalsIgnoreCase(pluginDescription.getName())) {
+				selectedPluginDescription = pluginDescription;
 				break;
 			}
 		}
 
-		if (selectedPlugin == null) {
+		if (selectedPluginDescription == null) {
 			Messagebox.showError(getMainFrame(), "Plugin nicht gefunden", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
 			return;
 		}
 
-		SimulationPlugin handler = selectedPlugin.getPlugin();
+		SimulationPlugin plugin = selectedPluginDescription.getPlugin();
 
 		try {
-			handler.checkModel(doc);
+			plugin.checkModel(doc);
 		} catch (SimulationModelException ex) {
 			Messagebox.showError(getMainFrame(), "Simulation nicht möglich", ex.getMessage());
 
@@ -307,7 +307,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		try {
-			handler.prepareSimulation(doc);
+			plugin.prepareSimulation(doc);
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}

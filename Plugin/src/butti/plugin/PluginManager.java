@@ -34,7 +34,7 @@ public class PluginManager<E extends AbstractPlugin> {
 	/**
 	 * Alle geladenen Plugins
 	 */
-	private Vector<PluginDescription<E>> plugins = new Vector<PluginDescription<E>>();
+	private Vector<PluginDescription<E>> pluginDescriptions = new Vector<PluginDescription<E>>();
 
 	/**
 	 * Lädt alle Plugins
@@ -106,24 +106,24 @@ public class PluginManager<E extends AbstractPlugin> {
 
 		String clazz = "";
 
-		PluginDescription<E> plugin = new PluginDescription<E>();
+		PluginDescription<E> pluginDescription = new PluginDescription<E>();
 
-		plugin.setFilename(getFileName(path));
+		pluginDescription.setFilename(getFileName(path));
 
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);
 			if ("class".equals(n.getNodeName())) {
 				clazz = n.getChildNodes().item(0).getNodeValue();
 			} else if ("name".equals(n.getNodeName())) {
-				plugin.setName(n.getChildNodes().item(0).getNodeValue());
+				pluginDescription.setName(n.getChildNodes().item(0).getNodeValue());
 			} else if ("description".equals(n.getNodeName())) {
-				plugin.setDescription(n.getChildNodes().item(0).getNodeValue());
+				pluginDescription.setDescription(n.getChildNodes().item(0).getNodeValue());
 			} else if ("author".equals(n.getNodeName())) {
-				plugin.setAuthor(n.getChildNodes().item(0).getNodeValue());
+				pluginDescription.setAuthor(n.getChildNodes().item(0).getNodeValue());
 			}
 		}
 
-		if (!plugin.isValid() || clazz.equals("")) {
+		if (!pluginDescription.isValid() || clazz.equals("")) {
 			return false;
 		}
 
@@ -136,8 +136,8 @@ public class PluginManager<E extends AbstractPlugin> {
 			throw new Exception("Failed to instance «" + clazz + "»", e);
 		}
 
-		plugin.setPlugin(obj);
-		plugins.add(plugin);
+		pluginDescription.setPlugin(obj);
+		pluginDescriptions.add(pluginDescription);
 
 		return true;
 	}
@@ -172,8 +172,8 @@ public class PluginManager<E extends AbstractPlugin> {
 	/**
 	 * Gibt alle geladenen Plugins zurück
 	 */
-	public Vector<PluginDescription<E>> getPlugins() {
-		return plugins;
+	public Vector<PluginDescription<E>> getPluginDescriptions() {
+		return pluginDescriptions;
 	}
 
 	/**
@@ -185,6 +185,6 @@ public class PluginManager<E extends AbstractPlugin> {
 	 */
 	public boolean unloadPlugin(E plugin) {
 		plugin.unload();
-		return plugins.remove(plugin);
+		return pluginDescriptions.remove(plugin);
 	}
 }

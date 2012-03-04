@@ -11,10 +11,10 @@ import java.util.HashMap;
 
 import ch.zhaw.simulation.inexport.ImportException;
 
-public abstract class MadonnaReader extends ObjectImport {
+public abstract class AbstractMadonnaImportPlugin extends ObjectImportPlugin {
 	protected HashMap<Integer, MadonnaElement> data = new HashMap<Integer, MadonnaElement>();
 
-	public MadonnaReader() {
+	public AbstractMadonnaImportPlugin() {
 	}
 
 	@Override

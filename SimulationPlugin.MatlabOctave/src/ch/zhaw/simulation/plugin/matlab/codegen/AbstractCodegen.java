@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.mo.codegen;
+package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import java.io.File;
 import java.io.IOException;
