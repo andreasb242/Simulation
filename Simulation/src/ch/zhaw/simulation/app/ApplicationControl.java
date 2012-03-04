@@ -34,6 +34,7 @@ import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.status.StatusHandler;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
@@ -98,6 +99,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	private WindowPositionProperties windowPosition = new WindowPositionProperties();
 
+	private Sysintegration sysintegration;
+
 	/**
 	 * Ctor
 	 */
@@ -152,8 +155,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		} else {
 			showXYWindow();
 		}
+		
+		this.sysintegration = SysintegrationFactory.createSysintegration();
 
-		this.savehandler = new LoadSaveHandler(mainFrame, settings, SysintegrationFactory.createSysintegration(), this.importPluginLoader);
+		this.savehandler = new LoadSaveHandler(mainFrame, settings, sysintegration, this.importPluginLoader);
 		this.savehandler.addListener(this);
 	}
 
@@ -268,6 +273,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return importPluginLoader;
 	}
 
+	@Override
 	public JFrame getMainFrame() {
 		return mainFrame;
 	}
@@ -538,6 +544,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public void setDocumentTitle(String name) {
 		documentName = name;
 		updateTitle();
+	}
+	
+	public Sysintegration getSysintegration() {
+		return sysintegration;
 	}
 
 	@Override

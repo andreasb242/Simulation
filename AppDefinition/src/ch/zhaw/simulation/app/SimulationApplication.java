@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.app;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 
 import ch.zhaw.simulation.menu.MenuActionListener;
@@ -40,5 +41,7 @@ public interface SimulationApplication extends MenuActionListener {
 
 	public void updateTitle();
 
-	SimulationManager getManager();
+	public SimulationManager getManager();
+
+	public JFrame getMainFrame();
 }

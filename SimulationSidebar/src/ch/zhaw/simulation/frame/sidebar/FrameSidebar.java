@@ -47,6 +47,8 @@ public class FrameSidebar extends JXTaskPaneContainer {
 			Component c = comps.get(i);
 			setComponentZOrder(c, i);
 		}
+		
+		super.revalidate();
 	}
 
 	@Override
@@ -56,7 +58,6 @@ public class FrameSidebar extends JXTaskPaneContainer {
 		}
 
 		super.add(group);
-
 		reorderTaskPanes();
 	}
 

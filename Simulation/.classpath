@@ -20,5 +20,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.MatlabOctave"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/InternSimulation"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.Intern"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

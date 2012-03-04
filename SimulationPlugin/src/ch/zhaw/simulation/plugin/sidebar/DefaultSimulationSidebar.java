@@ -21,7 +21,7 @@ public class DefaultSimulationSidebar extends JXTaskPane implements FocusListene
 	private NumericTextField ntEnd = new NumericTextField();
 	private NumericTextField ntDt = new NumericTextField();
 
-	private SimulationConfiguration config;
+	protected SimulationConfiguration config;
 
 	public DefaultSimulationSidebar(SimulationConfiguration config) {
 		this.config = config;
