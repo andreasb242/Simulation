@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-	<class>ch.zhaw.simulation.inexport.madonna.MadonnaImporter</class>
+	<class>ch.zhaw.simulation.inexport.madonna.MadonnaImportPlugin</class>
 	<name>MadonnaImporter</name>
 	<description>Barkley Madonna Importer</description>
 	<author>Andreas Butti</author>

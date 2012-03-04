@@ -14,7 +14,7 @@ public class SimulationConfiguration {
 	/**
 	 * The Simulationplugin which is used
 	 */
-	private String plugin = null;
+	private String selectedPluginName = null;
 
 	// TODO !! docu
 	
@@ -27,19 +27,19 @@ public class SimulationConfiguration {
 	public SimulationConfiguration() {
 	}
 
-	public void setPlugin(String plugin) {
-		if (StringUtil.equals(this.plugin, plugin)) {
+	public void setSelectedPluginName(String selectedPluginName) {
+		if (StringUtil.equals(this.selectedPluginName, selectedPluginName)) {
 			return;
 		}
-		this.plugin = plugin;
+		this.selectedPluginName = selectedPluginName;
 		fireTypeChanged();
 	}
 
 	/**
 	 * The current selected simulation plugin
 	 */
-	public String getPlugin() {
-		return plugin;
+	public String getSelectedPluginName() {
+		return selectedPluginName;
 	}
 
 	public HashMap<String, String> getStringParameter() {
@@ -106,7 +106,7 @@ public class SimulationConfiguration {
 
 	private void fireTypeChanged() {
 		for (PluginChangeListener l : pluginChangeListener) {
-			l.pluginChanged(plugin);
+			l.pluginChanged(selectedPluginName);
 		}
 	}
 

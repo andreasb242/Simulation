@@ -20,7 +20,7 @@ import butti.javalibs.gui.GridBagManager;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.ApplicationControl;
 import ch.zhaw.simulation.icon.IconSVG;
-import ch.zhaw.simulation.inexport.ImportReader;
+import ch.zhaw.simulation.inexport.ImportPlugin;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.util.gui.GradientPanel;
 import ch.zhaw.simulation.util.gui.HeaderPanel;
@@ -52,19 +52,19 @@ public class SettingsDlg extends BDialog {
 
 		tabs.addTab("Generell", cbAutoloadLastDocument);
 
-		for (PluginDescription<ImportReader> p : app.getImportPlugins().getPlugins()) {
-			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
+		for (PluginDescription<ImportPlugin> pluginDescription : app.getImportPluginLoader().getPluginDescriptions()) {
+			JPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
-				tabs.addTab(p.getName(), settingsPanel);
+				tabs.addTab(pluginDescription.getName(), settingsPanel);
 			}
 		}
 
-		for (PluginDescription<SimulationPlugin> p : app.getManager().getPluginManager()) {
-			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
+		for (PluginDescription<SimulationPlugin> pluginDescription : app.getManager().getPluginDescriptions()) {
+			JPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
-				tabs.addTab(p.getName(), settingsPanel);
+				tabs.addTab(pluginDescription.getName(), settingsPanel);
 			}
 		}
 

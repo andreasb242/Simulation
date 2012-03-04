@@ -22,7 +22,7 @@ public class SimulationSettingsSaver implements SimulationParameterListener, Plu
 
 	public void load() {
 		String plugin = settings.getSetting("simulation.plugin");
-		model.setPlugin(plugin);
+		model.setSelectedPluginName(plugin);
 	}
 
 	@Override

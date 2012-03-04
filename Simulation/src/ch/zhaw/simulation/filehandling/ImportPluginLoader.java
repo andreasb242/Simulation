@@ -9,7 +9,7 @@ import butti.javalibs.config.SettingsPrefix;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.plugin.PluginDescription;
 import butti.plugin.PluginManager;
-import ch.zhaw.simulation.inexport.ImportReader;
+import ch.zhaw.simulation.inexport.ImportPlugin;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 
 /**
@@ -17,18 +17,18 @@ import ch.zhaw.simulation.sysintegration.SimFileFilter;
  * 
  * @author Andreas Butti
  */
-public class ImportPlugins {
+public class ImportPluginLoader {
 	private Settings settings;
-	private PluginManager<ImportReader> importPlugins = new PluginManager<ImportReader>();
-	private Vector<PluginDescription<ImportReader>> plugins;
+	private PluginManager<ImportPlugin> importPlugins = new PluginManager<ImportPlugin>();
+	private Vector<PluginDescription<ImportPlugin>> pluginDescriptions;
 	private SimFileFilter simulationFileOpen;
 
-	public ImportPlugins(Settings settings) {
+	public ImportPluginLoader(Settings settings) {
 		this.settings = settings;
 	}
 
 	private void loadPlugins() {
-		if (this.plugins != null) {
+		if (this.pluginDescriptions != null) {
 			return;
 		}
 
@@ -40,8 +40,8 @@ public class ImportPlugins {
 				Errorhandler.showError(e, "Plugin laden fehlgeschlagen");
 			}
 
-			for (PluginDescription<ImportReader> plugin : importPlugins.getPluginDescriptions()) {
-				ImportReader handler = plugin.getPlugin();
+			for (PluginDescription<ImportPlugin> plugin : importPlugins.getPluginDescriptions()) {
+				ImportPlugin handler = plugin.getPlugin();
 				SettingsPrefix sp = new SettingsPrefix(settings, "importplugin." + plugin.getName());
 				handler.init(sp);
 			}
@@ -50,13 +50,13 @@ public class ImportPlugins {
 			System.err.println("No importPluginFolder defined in config/config.properties");
 		}
 
-		this.plugins = importPlugins.getPluginDescriptions();
+		this.pluginDescriptions = importPlugins.getPluginDescriptions();
 
 		simulationFileOpen = new SimFileFilter() {
 			@Override
 			public boolean accept(File f) {
-				for (PluginDescription<ImportReader> def : plugins) {
-					ImportReader p = def.getPlugin();
+				for (PluginDescription<ImportPlugin> def : pluginDescriptions) {
+					ImportPlugin p = def.getPlugin();
 					String[] exts = p.getFileExtension();
 					if (exts != null) {
 						for (String ext : exts) {
@@ -88,9 +88,9 @@ public class ImportPlugins {
 		return simulationFileOpen;
 	}
 
-	public Vector<PluginDescription<ImportReader>> getPlugins() {
+	public Vector<PluginDescription<ImportPlugin>> getPluginDescriptions() {
 		loadPlugins();
 
-		return plugins;
+		return pluginDescriptions;
 	}
 }

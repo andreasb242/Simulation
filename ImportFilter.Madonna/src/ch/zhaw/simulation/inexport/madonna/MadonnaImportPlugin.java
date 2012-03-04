@@ -16,10 +16,10 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 
 
-public class MadonnaImporter extends MadonnaReader {
+public class MadonnaImportPlugin extends AbstractMadonnaImportPlugin {
 	private HashMap<Integer, AbstractNamedSimulationData> data2 = new HashMap<Integer, AbstractNamedSimulationData>();
 
-	public MadonnaImporter() {
+	public MadonnaImportPlugin() {
 	}
 
 	@Override

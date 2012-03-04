@@ -73,7 +73,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	/**
 	 * The Simulation plugin which is used
 	 */
-	private PluginDescription<SimulationPlugin> currentSelectedPlugin;
+	private PluginDescription<SimulationPlugin> selectedPluginDescription;
 
 	/**
 	 * If this is the main application window
@@ -247,18 +247,18 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 	@Override
 	public void pluginChanged(String pluginName) {
-		PluginDescription<SimulationPlugin> plugin = view.getControl().getApp().getManager().getSelectedPlugin();
+		PluginDescription<SimulationPlugin> pluginDescription = view.getControl().getApp().getManager().getSelectedPluginDescription();
 
-		if (currentSelectedPlugin != plugin && currentSelectedPlugin != null) {
-			JXTaskPane sb = currentSelectedPlugin.getPlugin().getConfigurationSettingsSidebar();
+		if (selectedPluginDescription != pluginDescription && selectedPluginDescription != null) {
+			JXTaskPane sb = selectedPluginDescription.getPlugin().getConfigurationSettingsSidebar();
 			if (sb != null) {
 				this.sidebar.remove(sb);
 			}
 		}
 
-		currentSelectedPlugin = plugin;
+		selectedPluginDescription = pluginDescription;
 
-		JXTaskPane sb = plugin.getPlugin().getConfigurationSettingsSidebar();
+		JXTaskPane sb = pluginDescription.getPlugin().getConfigurationSettingsSidebar();
 		if (sb != null) {
 			this.sidebar.add(sb);
 		}

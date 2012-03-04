@@ -15,7 +15,7 @@ public class SimulationManager {
 
 	private PluginManager<SimulationPlugin> pluginManager = new PluginManager<SimulationPlugin>();
 
-	private PluginDescription<SimulationPlugin> selectedPlugin;
+	private PluginDescription<SimulationPlugin> selectedPluginDescription;
 
 	public SimulationManager(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
 		String path = Config.get("simulationPluginFolder");
@@ -39,25 +39,25 @@ public class SimulationManager {
 		config.addPluginChangeListener(new PluginChangeListener() {
 
 			@Override
-			public void pluginChanged(String plugin) {
-				if (selectedPlugin != null && selectedPlugin.getName().equals(plugin)) {
+			public void pluginChanged(String pluginName) {
+				if (selectedPluginDescription != null && selectedPluginDescription.getName().equals(pluginName)) {
 					return;
 				}
 
-				if (selectedPlugin != null) {
-					selectedPlugin.getPlugin().unload();
+				if (selectedPluginDescription != null) {
+					selectedPluginDescription.getPlugin().unload();
 				}
-				selectedPlugin = null;
+				selectedPluginDescription = null;
 
 				for (PluginDescription<SimulationPlugin> p : pluginManager.getPluginDescriptions()) {
-					if (p.getName().equals(plugin)) {
-						SimulationPlugin handler = p.getPlugin();
+					if (p.getName().equals(pluginName)) {
+						SimulationPlugin plugin = p.getPlugin();
 						try {
-							handler.load();
+							plugin.load();
 						} catch (Exception e) {
 							Errorhandler.showError(e, "Simulationsplugin konnte nicht aktiviert werden");
 						}
-						selectedPlugin = p;
+						selectedPluginDescription = p;
 						break;
 					}
 				}
@@ -65,15 +65,15 @@ public class SimulationManager {
 		});
 	}
 
-	public PluginDescription<SimulationPlugin> getSelectedPlugin() {
-		return selectedPlugin;
+	public PluginDescription<SimulationPlugin> getSelectedPluginDescription() {
+		return selectedPluginDescription;
 	}
 	
-	public Vector<PluginDescription<SimulationPlugin>> getPluginManager() {
+	public Vector<PluginDescription<SimulationPlugin>> getPluginDescriptions() {
 		return pluginManager.getPluginDescriptions();
 	}
 
-	public PluginDescription<SimulationPlugin> getPluginByName(String name) {
+	public PluginDescription<SimulationPlugin> getPluginDescriptionByName(String name) {
 		if (name == null) {
 			throw new NullPointerException("name == null");
 

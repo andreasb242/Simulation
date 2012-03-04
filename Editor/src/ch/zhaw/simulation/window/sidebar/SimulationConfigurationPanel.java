@@ -22,25 +22,29 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbSimulationtype;
-	private SimulationConfiguration model;
+	private SimulationConfiguration config;
 
 	private JButton btStart = new JButton("Simulieren");
 
 	public SimulationConfigurationPanel(final AbstractEditorControl<?> control) {
 		setTitle("Simulation");
-		this.model = control.getSimulationConfiguration();
-		model.addPluginChangeListener(this);
+		this.config = control.getSimulationConfiguration();
+		config.addPluginChangeListener(this);
 
 		add(new JLabel("Simulation"));
 
 		SimulationManager manager = control.getApp().getManager();
-		cbSimulationtype = new JComboBox(manager.getPluginManager());
 
-		cbSimulationtype.setSelectedItem(model.getPlugin());
+		// Die Liste aller Plugin-Beschreibungen als Grundlage für die JComboBox verwenden
+		cbSimulationtype = new JComboBox(manager.getPluginDescriptions());
 
-		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPluginManager().size() > 0) {
+		cbSimulationtype.setSelectedItem(config.getSelectedPluginName());
+
+		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPluginDescriptions().size() > 0) {
 			cbSimulationtype.setSelectedIndex(0);
 		}
+
+		// Ein Synchroner aufruf
 		actionPerformed(null);
 
 		add(cbSimulationtype);
@@ -63,7 +67,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		if (cbSimulationtype.getSelectedItem() == null) {
 			return;
 		}
-		model.setPlugin(cbSimulationtype.getSelectedItem().toString());
+		config.setSelectedPluginName(cbSimulationtype.getSelectedItem().toString());
 	}
 
 	@Override
@@ -82,6 +86,6 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 	}
 
 	public void dispose() {
-		model.removePluginChangeListener(this);
+		config.removePluginChangeListener(this);
 	}
 }

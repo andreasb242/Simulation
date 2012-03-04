@@ -8,7 +8,7 @@ import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
-import ch.zhaw.simulation.inexport.ImportReader;
+import ch.zhaw.simulation.inexport.ImportPlugin;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.status.StatusHandler;
@@ -22,15 +22,15 @@ public class LoadSaveHandler extends StatusHandler {
 	private Settings settings;
 	private JFrame parent;
 	private Sysintegration sys;
-	private ImportPlugins importPlugins;
+	private ImportPluginLoader importPluginLoader;
 
 	private static final String LAST_SAVEPATH = "opensave.lastpath";
 
-	public LoadSaveHandler(JFrame parent, Settings settings, Sysintegration sys, ImportPlugins importPlugins) {
+	public LoadSaveHandler(JFrame parent, Settings settings, Sysintegration sys, ImportPluginLoader importPluginLoader) {
 		this.settings = settings;
 		this.parent = parent;
 		this.sys = sys;
-		this.importPlugins = importPlugins;
+		this.importPluginLoader = importPluginLoader;
 
 		if (settings == null) {
 			throw new NullPointerException("settings == null");
@@ -38,8 +38,8 @@ public class LoadSaveHandler extends StatusHandler {
 		if (sys == null) {
 			throw new NullPointerException("sys == null");
 		}
-		if (importPlugins == null) {
-			throw new NullPointerException("importPlugins == null");
+		if (importPluginLoader == null) {
+			throw new NullPointerException("importPluginLoader == null");
 		}
 	}
 
@@ -139,7 +139,7 @@ public class LoadSaveHandler extends StatusHandler {
 	}
 
 	public boolean open(SimulationDocument doc) {
-		File f = sys.showOpenDialog(parent, importPlugins.getSimulationFileOpen(), getLastSavePath());
+		File f = sys.showOpenDialog(parent, importPluginLoader.getSimulationFileOpen(), getLastSavePath());
 
 		if (f != null) {
 			if (!f.isFile()) {
@@ -167,8 +167,8 @@ public class LoadSaveHandler extends StatusHandler {
 		// import other files
 		// /////////////////////////
 
-		for (PluginDescription<ImportReader> plugin : importPlugins.getPlugins()) {
-			ImportReader handler = plugin.getPlugin();
+		for (PluginDescription<ImportPlugin> plugin : importPluginLoader.getPluginDescriptions()) {
+			ImportPlugin handler = plugin.getPlugin();
 
 			try {
 				if (handler.canHandle(file)) {
