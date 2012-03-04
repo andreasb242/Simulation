@@ -26,7 +26,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * 
 	 * This is only called if the plugin is loaded
 	 */
-	public JXTaskPane getConfigurationSettingsSidebar();
+	public JXTaskPane getConfigurationSidebar();
 
 	/**
 	 * Initialisiert das Plugin mit den Einstellungen
@@ -41,7 +41,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * @param doc
 	 *            Das zu simulierende Model
 	 */
-	public void checkModel(SimulationDocument doc) throws SimulationModelException;
+	public void checkDocument(SimulationDocument doc) throws SimulationModelException;
 
 	/**
 	 * Hier wird die Simulation vorbereitet, z.B. ein Simulationfile erzeugt
@@ -54,6 +54,6 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 *             Falls etwas schief geht, die Meldung wird dem Benutzer
 	 *             angezeigt
 	 */
-	public void prepareSimulation(SimulationDocument doc) throws Exception;
+	public void executeSimulation(SimulationDocument doc) throws Exception;
 
 }

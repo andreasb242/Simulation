@@ -30,10 +30,10 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 		}
 		setTitle("Simulation Einstellungen");
 		
-		initButtons();
+		initComponents();
 	}
 
-	protected void initButtons() {
+	protected void initComponents() {
 		add(new JLabel("Startzeit"));
 		add(ntStart);
 		ntStart.addFocusListener(this);

@@ -26,6 +26,7 @@
     <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="NetbeansDirchooser" />
+    <orderEntry type="module" module-name="SimulationSidebar" />
   </component>
 </module>
 

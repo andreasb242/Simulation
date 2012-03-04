@@ -38,11 +38,11 @@ public abstract class AbstractCodeGenerator {
 	/**
 	 * Create all simulation files to the working folder
 	 * 
-	 * @param model
+	 * @param doc
 	 *            The model to simulate
 	 * @throws IOException
 	 */
-	public abstract void crateSimulation(SimulationDocument doc) throws Exception;
+	public abstract void executeSimulation(SimulationDocument doc) throws Exception;
 
 	/**
 	 * Extracts the Basefile for the simulation model

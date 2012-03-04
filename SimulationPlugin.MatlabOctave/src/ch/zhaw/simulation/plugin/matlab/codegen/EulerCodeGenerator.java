@@ -47,7 +47,7 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 	}
 
 	@Override
-	public void crateSimulation(SimulationDocument doc) throws IOException {
+	public void executeSimulation(SimulationDocument doc) throws IOException {
 		extractBaseFile();
 
 		openFiles.clear();

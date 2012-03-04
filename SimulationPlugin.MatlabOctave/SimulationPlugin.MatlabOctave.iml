@@ -15,6 +15,7 @@
     <orderEntry type="module" module-name="ExternLibraries" />
     <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
     <orderEntry type="module" module-name="NetbeansDirchooser" />
+    <orderEntry type="module" module-name="SimulationSidebar" />
   </component>
 </module>
 

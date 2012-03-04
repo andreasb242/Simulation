@@ -18,6 +18,7 @@
     <orderEntry type="module" module-name="AppDefinition" />
     <orderEntry type="module" module-name="Plugin" />
     <orderEntry type="module" module-name="SimulationPlugin" />
+    <orderEntry type="module" module-name="SimulationSidebar" />
   </component>
 </module>
 
