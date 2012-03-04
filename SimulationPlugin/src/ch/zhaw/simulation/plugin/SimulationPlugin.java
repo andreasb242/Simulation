@@ -38,7 +38,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * 
 	 * Aufruf (1) bei Simulation
 	 * 
-	 * @param model
+	 * @param doc
 	 *            Das zu simulierende Model
 	 */
 	public void checkModel(SimulationDocument doc) throws SimulationModelException;
@@ -48,7 +48,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * 
 	 * Aufruf (2) bei Simulation
 	 * 
-	 * @param model
+	 * @param doc
 	 *            Das Model das simuliert werden soll
 	 * @throws Exception
 	 *             Falls etwas schief geht, die Meldung wird dem Benutzer
