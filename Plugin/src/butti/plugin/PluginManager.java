@@ -34,7 +34,7 @@ public class PluginManager<E extends AbstractPlugin> {
 	/**
 	 * Alle geladenen Plugins
 	 */
-	private Vector<PluginDescription<E>> plugins = new Vector<PluginDescription<E>>();
+	private Vector<PluginDescription<E>> pluginDescriptions = new Vector<PluginDescription<E>>();
 
 	/**
 	 * Lädt alle Plugins
@@ -137,7 +137,7 @@ public class PluginManager<E extends AbstractPlugin> {
 		}
 
 		plugin.setPlugin(obj);
-		plugins.add(plugin);
+		pluginDescriptions.add(plugin);
 
 		return true;
 	}
@@ -172,8 +172,8 @@ public class PluginManager<E extends AbstractPlugin> {
 	/**
 	 * Gibt alle geladenen Plugins zurück
 	 */
-	public Vector<PluginDescription<E>> getPlugins() {
-		return plugins;
+	public Vector<PluginDescription<E>> getPluginDescriptions() {
+		return pluginDescriptions;
 	}
 
 	/**
@@ -185,6 +185,6 @@ public class PluginManager<E extends AbstractPlugin> {
 	 */
 	public boolean unloadPlugin(E plugin) {
 		plugin.unload();
-		return plugins.remove(plugin);
+		return pluginDescriptions.remove(plugin);
 	}
 }

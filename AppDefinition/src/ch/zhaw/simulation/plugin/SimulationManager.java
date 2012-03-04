@@ -13,23 +13,23 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 
 public class SimulationManager {
 
-	private PluginManager<SimulationPlugin> plugins = new PluginManager<SimulationPlugin>();
+	private PluginManager<SimulationPlugin> pluginManager = new PluginManager<SimulationPlugin>();
 
 	private PluginDescription<SimulationPlugin> selectedPlugin;
 
 	public SimulationManager(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
 		String path = Config.get("simulationPluginFolder");
 		if (path != null) {
-			plugins.loadPlugins(path);
+			pluginManager.loadPlugins(path);
 
-			for (Exception e : plugins.getPluginLoadErrors()) {
+			for (Exception e : pluginManager.getPluginLoadErrors()) {
 				Errorhandler.showError(e, "Plugin laden fehlgeschlagen");
 			}
 
-			for (PluginDescription<SimulationPlugin> p : plugins.getPlugins()) {
-				SimulationPlugin handler = p.getPlugin();
-				SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + p.getName());
-				handler.init(sp, config, provider);
+			for (PluginDescription<SimulationPlugin> desc : pluginManager.getPluginDescriptions()) {
+				SimulationPlugin plugin = desc.getPlugin();
+				SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + desc.getName());
+				plugin.init(sp, config, provider);
 			}
 
 		} else {
@@ -49,7 +49,7 @@ public class SimulationManager {
 				}
 				selectedPlugin = null;
 
-				for (PluginDescription<SimulationPlugin> p : plugins.getPlugins()) {
+				for (PluginDescription<SimulationPlugin> p : pluginManager.getPluginDescriptions()) {
 					if (p.getName().equals(plugin)) {
 						SimulationPlugin handler = p.getPlugin();
 						try {
@@ -69,8 +69,8 @@ public class SimulationManager {
 		return selectedPlugin;
 	}
 	
-	public Vector<PluginDescription<SimulationPlugin>> getPlugins() {
-		return plugins.getPlugins();
+	public Vector<PluginDescription<SimulationPlugin>> getPluginManager() {
+		return pluginManager.getPluginDescriptions();
 	}
 
 	public PluginDescription<SimulationPlugin> getPluginByName(String name) {
@@ -78,7 +78,7 @@ public class SimulationManager {
 			throw new NullPointerException("name == null");
 
 		}
-		for (PluginDescription<SimulationPlugin> p : plugins.getPlugins()) {
+		for (PluginDescription<SimulationPlugin> p : pluginManager.getPluginDescriptions()) {
 			if (name.equals(p.getName())) {
 				return p;
 			}

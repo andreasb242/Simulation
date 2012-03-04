@@ -60,7 +60,7 @@ public class SettingsDlg extends BDialog {
 			}
 		}
 
-		for (PluginDescription<SimulationPlugin> p : app.getManager().getPlugins()) {
+		for (PluginDescription<SimulationPlugin> p : app.getManager().getPluginManager()) {
 			JPanel settingsPanel = p.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {

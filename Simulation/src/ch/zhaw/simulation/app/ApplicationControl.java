@@ -281,7 +281,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		PluginDescription<SimulationPlugin> selectedPlugin = null;
-		for (PluginDescription<SimulationPlugin> p : manager.getPlugins()) {
+		for (PluginDescription<SimulationPlugin> p : manager.getPluginManager()) {
 			if (plugin.equalsIgnoreCase(p.getName())) {
 				selectedPlugin = p;
 				break;

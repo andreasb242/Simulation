@@ -40,7 +40,7 @@ public class ImportPlugins {
 				Errorhandler.showError(e, "Plugin laden fehlgeschlagen");
 			}
 
-			for (PluginDescription<ImportReader> plugin : importPlugins.getPlugins()) {
+			for (PluginDescription<ImportReader> plugin : importPlugins.getPluginDescriptions()) {
 				ImportReader handler = plugin.getPlugin();
 				SettingsPrefix sp = new SettingsPrefix(settings, "importplugin." + plugin.getName());
 				handler.init(sp);
@@ -50,7 +50,7 @@ public class ImportPlugins {
 			System.err.println("No importPluginFolder defined in config/config.properties");
 		}
 
-		this.plugins = importPlugins.getPlugins();
+		this.plugins = importPlugins.getPluginDescriptions();
 
 		simulationFileOpen = new SimFileFilter() {
 			@Override

@@ -34,11 +34,11 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		add(new JLabel("Simulation"));
 
 		SimulationManager manager = control.getApp().getManager();
-		cbSimulationtype = new JComboBox(manager.getPlugins());
+		cbSimulationtype = new JComboBox(manager.getPluginManager());
 
 		cbSimulationtype.setSelectedItem(model.getPlugin());
 
-		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPlugins().size() > 0) {
+		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPluginManager().size() > 0) {
 			cbSimulationtype.setSelectedIndex(0);
 		}
 		actionPerformed(null);
