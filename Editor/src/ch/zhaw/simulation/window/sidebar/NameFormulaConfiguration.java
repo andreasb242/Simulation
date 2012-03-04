@@ -20,7 +20,7 @@ import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
@@ -172,7 +172,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 			SelectableElement s = selected[0];
 
 			if (s instanceof AbstractDataView) {
-				SimulationData data = ((AbstractDataView<?>) s).getData();
+				AbstractSimulationData data = ((AbstractDataView<?>) s).getData();
 				if (data instanceof AbstractNamedSimulationData && !(data instanceof TextData)) {
 					setSelected((AbstractNamedSimulationData) data);
 				}

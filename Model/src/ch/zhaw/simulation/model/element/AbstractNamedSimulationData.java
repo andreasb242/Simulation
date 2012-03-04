@@ -12,7 +12,7 @@ import ch.zhaw.simulation.model.SimulationAttachment;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractNamedSimulationData extends SimulationData implements Comparable<AbstractNamedSimulationData> {
+public abstract class AbstractNamedSimulationData extends AbstractSimulationData implements Comparable<AbstractNamedSimulationData> {
 	/**
 	 * The name of the simulation object
 	 */

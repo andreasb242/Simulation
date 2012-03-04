@@ -26,7 +26,7 @@ import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.selection.SelectableElement;
@@ -382,7 +382,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	 *            The Model element
 	 * @return The GuiElement or <code>null</code> if not found
 	 */
-	public AbstractDataView<?> findGuiComponent(SimulationData b) {
+	public AbstractDataView<?> findGuiComponent(AbstractSimulationData b) {
 		for (Component c : getComponents()) {
 			if (c instanceof AbstractDataView<?>) {
 				AbstractDataView<?> e = (AbstractDataView<?>) c;
@@ -424,13 +424,13 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		return null;
 	}
 
-	public void selectElement(SimulationData o) {
+	public void selectElement(AbstractSimulationData o) {
 		selectionModel.clearSelection();
 
 		for (Component c : getComponents()) {
 			if (c instanceof AbstractDataView<?>) {
 				AbstractDataView<?> e = ((AbstractDataView<?>) c);
-				SimulationData d = e.getData();
+				AbstractSimulationData d = e.getData();
 				if (d.equals(o)) {
 					selectionModel.setSelected(e);
 					break;
@@ -443,12 +443,12 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	/**
 	 * Overwrite this method to handle dataAdded events, @see dataAdded
 	 */
-	protected boolean dataAddedImpl(SimulationData o) {
+	protected boolean dataAddedImpl(AbstractSimulationData o) {
 		return false;
 	}
 
 	@Override
-	public final void dataAdded(SimulationData o) {
+	public final void dataAdded(AbstractSimulationData o) {
 		if (dataAddedImpl(o)) {
 			// nothing to do here
 		} else if (o instanceof SimulationGlobalData) {
@@ -465,7 +465,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	@Override
-	public void dataRemoved(SimulationData o) {
+	public void dataRemoved(AbstractSimulationData o) {
 		AbstractDataView<?> c = findGuiComponent(o);
 		if (c != null) {
 			remove(c);
@@ -475,7 +475,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	@Override
-	public void dataChanged(SimulationData o) {
+	public void dataChanged(AbstractSimulationData o) {
 		revalidate();
 
 		AbstractDataView<?> c = findGuiComponent(o);
@@ -484,7 +484,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 			return;
 		}
 
-		SimulationData d = c.getData();
+		AbstractSimulationData d = c.getData();
 		if (d instanceof AbstractNamedSimulationData && c instanceof GuiDataTextElement<?>) {
 			String text = ((AbstractNamedSimulationData) d).getStatusText();
 			((GuiDataTextElement<?>) c).setStatus(text);

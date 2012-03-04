@@ -15,7 +15,7 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
@@ -90,7 +90,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 	}
 
 	private void visitSimulationData(Element xmlModel, AbstractSimulationModel<?> model) {
-		for (SimulationData o : model.getData()) {
+		for (AbstractSimulationData o : model.getData()) {
 			if (o instanceof SimulationParameterData) {
 				visitSimulationParameter(xmlModel, (SimulationParameterData) o);
 			} else if (o instanceof SimulationDensityContainerData) {
@@ -166,7 +166,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		connector.setAttribute(XML_ELEMENT_ATTRIB_NAME, c.getValve().getName());
 		connector.setAttribute(XML_ELEMENT_ATTRIB_VALUE, c.getValve().getFormula());
 
-		SimulationData source = c.getSource();
+		AbstractSimulationData source = c.getSource();
 
 		Element xmlSource = document.createElement(XML_ELEMENT_SOURCE);
 		connector.appendChild(xmlSource);
@@ -185,7 +185,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 			throw new RuntimeException("Type of flow connector endpoint is unknown: " + source.getClass().getName());
 		}
 
-		SimulationData target = c.getTarget();
+		AbstractSimulationData target = c.getTarget();
 
 		Element xmlTarget = document.createElement(XML_ELEMENT_TARGET);
 		connector.appendChild(xmlTarget);

@@ -21,7 +21,7 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
@@ -139,17 +139,17 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		model.addListener(new FlowSimulationAdapter() {
 
 			@Override
-			public void dataRemoved(SimulationData o) {
+			public void dataRemoved(AbstractSimulationData o) {
 				clearStatus();
 			}
 
 			@Override
-			public void dataChanged(SimulationData o) {
+			public void dataChanged(AbstractSimulationData o) {
 				clearStatus();
 			}
 
 			@Override
-			public void dataAdded(SimulationData o) {
+			public void dataAdded(AbstractSimulationData o) {
 				clearStatus();
 			}
 
@@ -183,12 +183,12 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 					return;
 				}
 
-				Vector<SimulationData> shadowData = new Vector<SimulationData>();
+				Vector<AbstractSimulationData> shadowData = new Vector<AbstractSimulationData>();
 
 				if (elem instanceof GlobalView) {
 					SimulationGlobalData g = ((GlobalView) elem).getData();
 
-					for (SimulationData d : model.getData()) {
+					for (AbstractSimulationData d : model.getData()) {
 						Vector<SimulationGlobalData> usedGlobals = d.getUsedGlobals();
 						if (usedGlobals != null && usedGlobals.contains(g)) {
 							shadowData.add(d);
@@ -197,7 +197,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				}
 
 				if (elem instanceof AbstractDataView<?>) {
-					SimulationData d = ((AbstractDataView<?>) elem).getData();
+					AbstractSimulationData d = ((AbstractDataView<?>) elem).getData();
 
 					Vector<SimulationGlobalData> globals = d.getUsedGlobals();
 					if (globals != null) {

@@ -17,7 +17,7 @@ import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
 public class Parser {
 	private MatrixJep jep;
@@ -78,7 +78,7 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, SimulationData o, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
+	public ParserNodePair checkCode(String text, AbstractSimulationData o, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
 			throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (text.isEmpty()) {
 			throw new EmptyFormulaException(o);

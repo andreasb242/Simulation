@@ -6,7 +6,7 @@ import java.util.Vector;
  * 
  * @author Andreas Butti
  */
-public abstract class SimulationData {
+public abstract class AbstractSimulationData {
 	/**
 	 * The X coordinate on the document, on top left
 	 */
@@ -41,7 +41,7 @@ public abstract class SimulationData {
 	 * @param y
 	 *            The Y coordinate on the Document
 	 */
-	public SimulationData(int x, int y) {
+	public AbstractSimulationData(int x, int y) {
 		this.x = x;
 		this.y = y;
 		id = sid++;
@@ -138,7 +138,7 @@ public abstract class SimulationData {
 	 *            The other object
 	 * @return true if intersects
 	 */
-	public boolean intersects(SimulationData other) {
+	public boolean intersects(AbstractSimulationData other) {
 		int tw = getWidth();
 		int th = getHeight();
 		int rw = other.getWidth();

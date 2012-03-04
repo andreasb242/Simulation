@@ -16,7 +16,7 @@ import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.util.gui.InfoTooltip;
@@ -41,7 +41,7 @@ public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> 
 		tip = new InfoTooltip();
 		changeListener = control.getModel().addSimulationListener(new SimulationAdapter() {
 			@Override
-			public void dataChanged(SimulationData o) {
+			public void dataChanged(AbstractSimulationData o) {
 				recalcFontMetrics(null);
 			}
 		});

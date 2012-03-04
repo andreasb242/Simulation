@@ -7,7 +7,7 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData.Status;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
@@ -28,14 +28,14 @@ public class Autoparser {
 
 		control.getModel().addListener(new FlowSimulationAdapter() {
 			@Override
-			public void dataChanged(SimulationData o) {
+			public void dataChanged(AbstractSimulationData o) {
 				if (o instanceof AbstractNamedSimulationData) {
 					parse((AbstractNamedSimulationData) o);
 				}
 			}
 
 			@Override
-			public void dataAdded(SimulationData o) {
+			public void dataAdded(AbstractSimulationData o) {
 				dataChanged(o);
 			}
 
@@ -64,7 +64,7 @@ public class Autoparser {
 			}
 
 			@Override
-			public void dataRemoved(SimulationData o) {
+			public void dataRemoved(AbstractSimulationData o) {
 				dataChanged(o);
 			}
 
@@ -110,7 +110,7 @@ public class Autoparser {
 		running = true;
 
 		SimulationFlowModel model = control.getModel();
-		for (SimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				parse((AbstractNamedSimulationData) d);
 			}

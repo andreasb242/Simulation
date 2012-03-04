@@ -1,6 +1,6 @@
 package ch.zhaw.simulation.model.flow.connection;
 
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
 /**
  * This is a connector within the flow model
@@ -10,7 +10,7 @@ import ch.zhaw.simulation.model.element.SimulationData;
  * @param <T>
  *            WHAT is connected
  */
-public abstract class AbstractConnectorData<T extends SimulationData> {
+public abstract class AbstractConnectorData<T extends AbstractSimulationData> {
 	/**
 	 * The source of this connector "from"
 	 */

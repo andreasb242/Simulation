@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
@@ -126,7 +126,7 @@ public class OverviewWindow extends BDialog {
 		clipboardHandler.copy(txt.toString());
 	}
 
-	private String getName(SimulationData o) {
+	private String getName(AbstractSimulationData o) {
 		if (o instanceof AbstractNamedSimulationData) {
 			return ((AbstractNamedSimulationData) o).getName();
 		} else if (o instanceof InfiniteData) {

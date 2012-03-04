@@ -22,7 +22,7 @@ import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
@@ -284,7 +284,7 @@ public class AddConnectorUi {
 		}
 
 		if (addArcType == ArcType.FLOW) {
-			control.addConnector(new FlowConnectorData((SimulationData) start.getData(), (SimulationData) end.getData()));
+			control.addConnector(new FlowConnectorData((AbstractSimulationData) start.getData(), (AbstractSimulationData) end.getData()));
 		} else {
 			control.addConnector(new ParameterConnectorData((AbstractNamedSimulationData) start.getData(), (AbstractNamedSimulationData) end.getData()));
 		}
@@ -303,7 +303,7 @@ public class AddConnectorUi {
 		view.add(infinite);
 		view.revalidate();
 
-		control.addConnector(new FlowConnectorData((SimulationData) start.getData(), data));
+		control.addConnector(new FlowConnectorData((AbstractSimulationData) start.getData(), data));
 
 		control.clearStatus();
 		selectionModel.clearSelection();

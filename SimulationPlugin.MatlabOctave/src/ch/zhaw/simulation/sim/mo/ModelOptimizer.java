@@ -12,7 +12,7 @@ import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.math.exception.SimulationParserException;
 import ch.zhaw.simulation.math.exception.VarNotFoundException;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
@@ -31,7 +31,7 @@ public class ModelOptimizer {
 
 	public void optimize() throws SimulationModelException {
 		initModelForSimulation();
-		for (SimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				parseFormula((AbstractNamedSimulationData) d);
 			}
@@ -39,14 +39,14 @@ public class ModelOptimizer {
 
 		// Wenn möglich optimieren (Parameter die nur von konstanten Parametern
 		// abhängig sind auch konstant machen)
-		for (SimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				optimizeStatic((AbstractNamedSimulationData) d);
 			}
 		}
 
 		// Constwerte auslesen
-		for (SimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				calculateConstValues((AbstractNamedSimulationData) d);
 			}
@@ -54,7 +54,7 @@ public class ModelOptimizer {
 	}
 
 	private void initModelForSimulation() {
-		for (SimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
 				n.a = new MOAttachment();

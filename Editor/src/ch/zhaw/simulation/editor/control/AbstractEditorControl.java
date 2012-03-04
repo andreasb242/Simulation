@@ -23,7 +23,7 @@ import ch.zhaw.simulation.model.AutoparserListener;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
 import ch.zhaw.simulation.model.listener.SimulationListener;
@@ -131,7 +131,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 		simListener = model.addSimulationListener(new SimulationAdapter() {
 			@Override
-			public void dataChanged(SimulationData o) {
+			public void dataChanged(AbstractSimulationData o) {
 				AbstractEditorControl.this.app.updateTitle();
 			}
 

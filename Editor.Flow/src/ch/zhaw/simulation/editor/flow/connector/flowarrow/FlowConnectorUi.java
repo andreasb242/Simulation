@@ -10,7 +10,7 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.connector.bezier.FlowBezierConnector;
 import ch.zhaw.simulation.editor.flow.connector.ConnectorUi;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
@@ -39,17 +39,17 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	private FlowSimulationAdapter simulationListener = new FlowSimulationAdapter() {
 
 		@Override
-		public void dataAdded(SimulationData o) {
+		public void dataAdded(AbstractSimulationData o) {
 			checkData(o);
 		}
 
 		@Override
-		public void dataRemoved(SimulationData o) {
+		public void dataRemoved(AbstractSimulationData o) {
 			checkData(o);
 		}
 
 		@Override
-		public void dataChanged(SimulationData o) {
+		public void dataChanged(AbstractSimulationData o) {
 			checkData(o);
 		}
 
@@ -68,7 +68,7 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 			checkData(c);
 		}
 
-		private void checkData(SimulationData o) {
+		private void checkData(AbstractSimulationData o) {
 			if (o == connector.getSource() || o == connector.getTarget() || o == connector.getValve()) {
 				FlowConnectorUi.this.fireRepaint();
 			}

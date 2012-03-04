@@ -1,6 +1,6 @@
 package ch.zhaw.simulation.math.exception;
 
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
 public class CompilerError extends SimulationModelException {
 	private static final long serialVersionUID = 1L;
@@ -8,7 +8,7 @@ public class CompilerError extends SimulationModelException {
 	private int line;
 	private int width;
 
-	public CompilerError(SimulationData o, String message, int line, int width) {
+	public CompilerError(AbstractSimulationData o, String message, int line, int width) {
 		super(o);
 		this.message = message;
 		this.line = line;

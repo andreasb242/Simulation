@@ -2,7 +2,7 @@ package ch.zhaw.simulation.model.flow.connection;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 
 /**
@@ -10,7 +10,7 @@ import ch.zhaw.simulation.model.flow.BezierConnectorData;
  * 
  * @author Andreas Butti
  */
-public class FlowConnectorData extends AbstractConnectorData<SimulationData> {
+public class FlowConnectorData extends AbstractConnectorData<AbstractSimulationData> {
 	/**
 	 * The listeners for this Connector
 	 */
@@ -26,29 +26,29 @@ public class FlowConnectorData extends AbstractConnectorData<SimulationData> {
 	private BezierConnectorData bezier1 = new FlowConnectorBezierData() {
 
 		@Override
-		public SimulationData getTarget() {
+		public AbstractSimulationData getTarget() {
 			return valve;
 		}
 
 		@Override
-		public SimulationData getSource() {
+		public AbstractSimulationData getSource() {
 			return FlowConnectorData.this.getSource();
 		}
 	};
 
 	private BezierConnectorData bezier2 = new FlowConnectorBezierData() {
 
-		public SimulationData getTarget() {
+		public AbstractSimulationData getTarget() {
 			return FlowConnectorData.this.getTarget();
 		}
 
 		@Override
-		public SimulationData getSource() {
+		public AbstractSimulationData getSource() {
 			return valve;
 		}
 	};
 
-	public FlowConnectorData(SimulationData source, SimulationData target) {
+	public FlowConnectorData(AbstractSimulationData source, AbstractSimulationData target) {
 		super(source, target);
 	}
 

@@ -1,9 +1,12 @@
 package ch.zhaw.simulation.dialog.snapshot;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -16,6 +19,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
@@ -45,6 +49,8 @@ import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmark;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmarks;
 import ch.zhaw.simulation.sysintegration.bookmarks.ComboSeparatorsRenderer;
+import epsgraphics.ColorMode;
+import epsgraphics.EpsGraphics;
 
 public class SnapshotDialog extends BDialog implements ClipboardOwner {
 	private static final long serialVersionUID = 1L;
@@ -59,7 +65,7 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 	private JCheckBox cbSelection = new JCheckBox("Nur Selektion");
 
 	private JRadioButton rPng = new JRadioButton("PNG");
-	private JRadioButton rSvg = new JRadioButton("SVG");
+	private JRadioButton rEps = new JRadioButton("EPS");
 	private ButtonGroup format = new ButtonGroup();
 
 	private Settings settings;
@@ -133,9 +139,9 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 		JPanel pFormat = new JPanel();
 		pFormat.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 		pFormat.add(rPng);
-		pFormat.add(rSvg);
+		pFormat.add(rEps);
 		format.add(rPng);
-		format.add(rSvg);
+		format.add(rEps);
 
 		rPng.setSelected(true);
 
@@ -252,15 +258,45 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 	}
 
 	protected void saveSnapshot(String path, JComponent comp, Rectangle size, String name) {
-		BufferedImage img = createImage(comp, size);
+		boolean eps = rEps.isSelected();
 
-		for (int i = 0; i < 1000; i++) {
-			String file = path + File.separator + name + i + ".png";
-			File f = new File(file);
-			if (!f.exists()) {
+		if (eps) {
+			File file = createFile(path, name, ".eps");
+
+			if (file != null) {
 				try {
-					ImageIO.write(img, "PNG", f);
-					System.out.println("write image: " + f.getAbsolutePath());
+					FileOutputStream out = new FileOutputStream(file);
+					Graphics2D g = new EpsGraphics(file.getName(), out, size.x, size.y, size.width, size.height, ColorMode.COLOR_RGB);
+					
+					comp.paint(g);
+					
+					g.dispose();
+					
+					// Get the EPS output.
+//					String output = g.toString();
+
+					out.close();
+				} catch (Exception e) {
+					Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
+				}
+				// BufferedImage img = createImage(comp, size);
+				// try {
+				// ImageIO.write(img, "PNG", file);
+				// System.out.println("write image: " + file.getAbsolutePath());
+				// dispose();
+				// } catch (Exception e) {
+				// Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
+				// }
+				return;
+			}
+		} else {
+			File file = createFile(path, name, ".png");
+
+			if (file != null) {
+				BufferedImage img = createImage(comp, size);
+				try {
+					ImageIO.write(img, "PNG", file);
+					System.out.println("write image: " + file.getAbsolutePath());
 					dispose();
 				} catch (Exception e) {
 					Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
@@ -270,6 +306,17 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 		}
 
 		Messagebox.showError(this, "Speichern fehlgeschlagen", "Speichern des Bildes ist fehlgeschlagen, bitte wählen Si einen anderen Dateinamen");
+	}
+
+	private File createFile(String path, String name, String ext) {
+		for (int i = 0; i < 1000; i++) {
+			String file = path + File.separator + name + i + ext;
+			File f = new File(file);
+			if (!f.exists()) {
+				return f;
+			}
+		}
+		return null;
 	}
 
 	public static void main(String[] args) {

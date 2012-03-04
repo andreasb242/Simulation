@@ -1,6 +1,6 @@
 package ch.zhaw.simulation.model.flow.element;
 
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
 /**
  * This item is used if there is a flow from "noting" into a container, or from
@@ -8,7 +8,7 @@ import ch.zhaw.simulation.model.element.SimulationData;
  * 
  * @author Andreas Butti
  */
-public class InfiniteData extends SimulationData {
+public class InfiniteData extends AbstractSimulationData {
 
 	public InfiniteData(int x, int y) {
 		super(x, y);

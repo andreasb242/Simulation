@@ -1,6 +1,6 @@
 package ch.zhaw.simulation.model.listener;
 
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 
 /**
@@ -24,15 +24,15 @@ public abstract class FlowSimulationAdapter implements FlowSimulationListener {
 	}
 
 	@Override
-	public void dataAdded(SimulationData o) {
+	public void dataAdded(AbstractSimulationData o) {
 	}
 
 	@Override
-	public void dataChanged(SimulationData o) {
+	public void dataChanged(AbstractSimulationData o) {
 	}
 
 	@Override
-	public void dataRemoved(SimulationData o) {
+	public void dataRemoved(AbstractSimulationData o) {
 	}
 
 	@Override

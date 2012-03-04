@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.inexport.gui.settings.DynasysImportSettings;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
@@ -41,7 +41,7 @@ public class DynasisReader extends BinaryImport {
 	private Vector<TmpParameterArrow> tmpParameterArrow = new Vector<TmpParameterArrow>();
 	private Vector<Object> objects = new Vector<Object>();
 
-	private Vector<SimulationData> readData = new Vector<SimulationData>();
+	private Vector<AbstractSimulationData> readData = new Vector<AbstractSimulationData>();
 	private Vector<AbstractConnectorData<?>> readConnectors = new Vector<AbstractConnectorData<?>>();
 
 	private DynasysModel model;
@@ -187,7 +187,7 @@ public class DynasisReader extends BinaryImport {
 		int x = Integer.MAX_VALUE;
 		int y = Integer.MAX_VALUE;
 
-		for (SimulationData s : readData) {
+		for (AbstractSimulationData s : readData) {
 			x = Math.min(x, s.getX());
 			y = Math.min(y, s.getY());
 		}
@@ -211,7 +211,7 @@ public class DynasisReader extends BinaryImport {
 		int dX = -x + model.getPaddingLeft();
 		int dY = -y + model.getPaddingTop();
 
-		for (SimulationData s : readData) {
+		for (AbstractSimulationData s : readData) {
 			s.move(dX, dY);
 		}
 
@@ -239,12 +239,12 @@ public class DynasisReader extends BinaryImport {
 				Object oFrom = objects.get(flow.getSource());
 				Object oTo = objects.get(flow.getTarget());
 
-				if (!(oFrom instanceof SimulationData) || !(oTo instanceof SimulationData)) {
+				if (!(oFrom instanceof AbstractSimulationData) || !(oTo instanceof AbstractSimulationData)) {
 					throw new ImportException("Flow was from: " + oFrom.getClass() + " to " + oTo.getClass());
 				}
 
-				SimulationData from = (SimulationData) oFrom;
-				SimulationData to = (SimulationData) oTo;
+				AbstractSimulationData from = (AbstractSimulationData) oFrom;
+				AbstractSimulationData to = (AbstractSimulationData) oTo;
 
 				FlowConnectorData conn = new FlowConnectorData(from, to);
 				FlowValveData par = conn.getValve();
@@ -424,7 +424,7 @@ public class DynasisReader extends BinaryImport {
 	public boolean load(SimulationFlowModel model) {
 		model.clear();
 
-		for (SimulationData s : readData) {
+		for (AbstractSimulationData s : readData) {
 			model.addData(s);
 		}
 
@@ -444,7 +444,7 @@ public class DynasisReader extends BinaryImport {
 
 		if (!"".equals(description)) {
 			int maxY = 0;
-			for (SimulationData d : model.getData()) {
+			for (AbstractSimulationData d : model.getData()) {
 				if (width > d.getX() - padding) {
 					int y = d.getHeight() + d.getY();
 					if (maxY < y) {

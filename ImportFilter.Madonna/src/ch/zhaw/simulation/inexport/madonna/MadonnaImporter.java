@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
@@ -122,8 +122,8 @@ public class MadonnaImporter extends MadonnaReader {
 			throw new ImportException("Found no Connector from Flow id #" + id);
 		}
 
-		SimulationData source = getValueFor(fromArrow.getFromId(), model);
-		SimulationData target = getValueFor(toArrow.getToId(), model);
+		AbstractSimulationData source = getValueFor(fromArrow.getFromId(), model);
+		AbstractSimulationData target = getValueFor(toArrow.getToId(), model);
 
 		if (source == null) {
 			throw new ImportException("Source from flow #" + id + " is null!");
@@ -143,7 +143,7 @@ public class MadonnaImporter extends MadonnaReader {
 		data2.put(id, pp);
 	}
 
-	private SimulationData getValueFor(int id, SimulationFlowModel model) {
+	private AbstractSimulationData getValueFor(int id, SimulationFlowModel model) {
 		AbstractNamedSimulationData v = data2.get(id);
 
 		if (v == null && data.get(id) instanceof MCloud) {

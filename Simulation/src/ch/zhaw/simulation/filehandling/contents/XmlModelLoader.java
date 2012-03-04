@@ -11,7 +11,7 @@ import ch.zhaw.simulation.filehandling.XmlHelper;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -107,8 +107,8 @@ public class XmlModelLoader implements XmlContentsNames {
 	}
 
 	private void parseConnector(Node node, FlowConnectorData c, SimulationFlowModel model) {
-		SimulationData from = null;
-		SimulationData to = null;
+		AbstractSimulationData from = null;
+		AbstractSimulationData to = null;
 
 		NodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
@@ -143,7 +143,7 @@ public class XmlModelLoader implements XmlContentsNames {
 		c.setTarget(to);
 	}
 
-	private SimulationData parseFlowConnectorEnd(Node node, AbstractSimulationModel<?> model, String attribTarget) {
+	private AbstractSimulationData parseFlowConnectorEnd(Node node, AbstractSimulationModel<?> model, String attribTarget) {
 		String target = XmlHelper.getAttribute(node, attribTarget);
 
 		if (target != null) {

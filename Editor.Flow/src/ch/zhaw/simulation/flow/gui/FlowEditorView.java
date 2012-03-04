@@ -30,7 +30,7 @@ import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
@@ -93,7 +93,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	protected void loadDataFromModel() {
 		SimulationFlowModel model = control.getModel();
 
-		for (SimulationData p : model.getData()) {
+		for (AbstractSimulationData p : model.getData()) {
 			dataAdded(p);
 		}
 
@@ -210,7 +210,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	protected boolean dataAddedImpl(SimulationData o) {
+	protected boolean dataAddedImpl(AbstractSimulationData o) {
 		if (o instanceof SimulationParameterData) {
 			add(new ParameterView(o.getWidth(), control, (SimulationParameterData) o));
 			return true;
@@ -230,7 +230,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	public void dataChanged(SimulationData o) {
+	public void dataChanged(AbstractSimulationData o) {
 		revalidate();
 
 		AbstractDataView<?> c = findGuiComponent(o);
@@ -248,7 +248,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			c.repaint();
 		}
 
-		SimulationData d = c.getData();
+		AbstractSimulationData d = c.getData();
 		if (d instanceof AbstractNamedSimulationData && c instanceof GuiDataTextElement<?>) {
 			String text = ((AbstractNamedSimulationData) d).getStatusText();
 			((GuiDataTextElement<?>) c).setStatus(text);
@@ -256,7 +256,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	public void dataRemoved(SimulationData o) {
+	public void dataRemoved(AbstractSimulationData o) {
 		if (o instanceof InfiniteData) {
 			removeInfiniteData((InfiniteData) o);
 			return;
@@ -290,12 +290,12 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		return null;
 	}
 
-	public Vector<SelectableElement> convertToSelectable(Vector<SimulationData> shadowData) {
+	public Vector<SelectableElement> convertToSelectable(Vector<AbstractSimulationData> shadowData) {
 		Vector<SelectableElement> found = new Vector<SelectableElement>();
 
 		for (Component c : getComponents()) {
 			if (c instanceof AbstractDataView<?>) {
-				SimulationData d = ((AbstractDataView<?>) c).getData();
+				AbstractSimulationData d = ((AbstractDataView<?>) c).getData();
 				if (shadowData.contains(d)) {
 					shadowData.remove(d);
 					found.add((SelectableElement) c);

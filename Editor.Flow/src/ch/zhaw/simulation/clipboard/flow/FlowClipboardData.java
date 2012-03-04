@@ -11,7 +11,7 @@ import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
@@ -28,7 +28,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	private SimulationFlowModel model;
 	private FlowEditorView view;
 
-	private HashMap<Integer, SimulationData> data = new HashMap<Integer, SimulationData>();
+	private HashMap<Integer, AbstractSimulationData> data = new HashMap<Integer, AbstractSimulationData>();
 
 	private Vector<TransferData> flows = new Vector<TransferData>();
 	private Vector<TransferData> connectors = new Vector<TransferData>();
@@ -98,8 +98,8 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 			throw new InvalidParameterException();
 		}
 
-		SimulationData source = data.get(c.getSource());
-		SimulationData target = data.get(c.getTarget());
+		AbstractSimulationData source = data.get(c.getSource());
+		AbstractSimulationData target = data.get(c.getTarget());
 
 		// Verbindung nur möglich wenn alles kopiert wurde
 		if (source == null || target == null) {
@@ -119,8 +119,8 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 	}
 
 	private void handleFlow(TransferData f) {
-		SimulationData source = data.get(f.getSource());
-		SimulationData target = data.get(f.getTarget());
+		AbstractSimulationData source = data.get(f.getSource());
+		AbstractSimulationData target = data.get(f.getTarget());
 
 		// Verbindung alleine wird nicht verarbeitet
 		if (source == null && target == null) {
@@ -213,7 +213,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 		select(t);
 	}
 
-	private void select(SimulationData c) {
+	private void select(AbstractSimulationData c) {
 		selectionModel.addSelectedInt(view.findGuiComponent(c));
 	}
 

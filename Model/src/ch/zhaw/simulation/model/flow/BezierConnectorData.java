@@ -2,7 +2,7 @@ package ch.zhaw.simulation.model.flow;
 
 import java.awt.Point;
 
-import ch.zhaw.simulation.model.element.SimulationData;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
 /**
  * This is a part of an arrow, draw with a Bézier curve, so we need a start, an
@@ -27,12 +27,12 @@ public interface BezierConnectorData {
 	 * 
 	 * @return "from"
 	 */
-	public SimulationData getSource();
+	public AbstractSimulationData getSource();
 
 	/**
 	 * Returns the target of this connector
 	 * 
 	 * @return "to"
 	 */
-	public SimulationData getTarget();
+	public AbstractSimulationData getTarget();
 }
