@@ -12,7 +12,7 @@ import ch.zhaw.simulation.model.SimulationDocument;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractCodegen {
+public abstract class AbstractCodeGenerator {
 
 	/**
 	 * Working folder for generated Matlab / Octave Code
@@ -24,7 +24,7 @@ public abstract class AbstractCodegen {
 	 */
 	protected String[] predefinedFiles = new String[] {};
 
-	public AbstractCodegen() {
+	public AbstractCodeGenerator() {
 	}
 
 	public void setWorkingFolder(String workingFolder) {

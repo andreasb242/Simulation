@@ -37,13 +37,13 @@ import ch.zhaw.simulation.plugin.StandardParameter;
  * 
  * @author Andreas Butti
  */
-public class EulerCodegen extends AbstractCodegen {
+public class EulerCodeGenerator extends AbstractCodeGenerator {
 	private CodeOutput out;
 	private SimulationFlowModel model;
 	private MatlabVisitor visitor = new MatlabVisitor();
 	private Vector<String> openFiles = new Vector<String>();
 
-	public EulerCodegen() {
+	public EulerCodeGenerator() {
 	}
 
 	@Override
