@@ -14,7 +14,7 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.plugin.StandardParameter;
 
-public class DefaultSimulationSidebar extends JXTaskPane implements FocusListener, SidebarPosition {
+public class DefaultSimulationSidebar extends JXTaskPane implements FocusListener, SidebarPosition, SimulationParameterListener {
 	private static final long serialVersionUID = 1L;
 
 	private NumericTextField ntStart = new NumericTextField();
@@ -23,32 +23,17 @@ public class DefaultSimulationSidebar extends JXTaskPane implements FocusListene
 
 	private SimulationConfiguration config;
 
-	private SimulationParameterListener listener = new SimulationParameterListener() {
-		
-		@Override
-		public void propertyChanged(String property, double newValue) {
-			if(StandardParameter.DT.equals(property)) {
-				ntDt.setValue(newValue);
-			}
-			if(StandardParameter.END.equals(property)) {
-				ntEnd.setValue(newValue);
-			}
-			if(StandardParameter.START.equals(property)) {
-				ntStart.setValue(newValue);
-			}
-		}
-		
-		@Override
-		public void propertyChanged(String property, String newValue) {
-		}
-		
-	};
-
 	public DefaultSimulationSidebar(SimulationConfiguration config) {
-		setTitle("Simulation Einstellungen");
-
 		this.config = config;
+		if (config == null) {
+			throw new NullPointerException("config == null");
+		}
+		setTitle("Simulation Einstellungen");
+		
+		initButtons();
+	}
 
+	protected void initButtons() {
 		add(new JLabel("Startzeit"));
 		add(ntStart);
 		ntStart.addFocusListener(this);
@@ -61,19 +46,17 @@ public class DefaultSimulationSidebar extends JXTaskPane implements FocusListene
 		add(ntDt);
 		ntDt.addFocusListener(this);
 	}
-	
+
 	public void load() {
 		loadDataFromModel();
-		config.addSimulationParameterListener(listener);
-	}
-	
-	public void unload() {
-		config.removeSimulationParameterListener(listener);
-		
-		System.out.println("unloaded");
+		config.addSimulationParameterListener(this);
 	}
 
-	private void loadDataFromModel() {
+	public void unload() {
+		config.removeSimulationParameterListener(this);
+	}
+
+	protected void loadDataFromModel() {
 		ntDt.setValue(this.config.getParameter(StandardParameter.DT, 0));
 		ntEnd.setValue(this.config.getParameter(StandardParameter.END, 0));
 		ntStart.setValue(this.config.getParameter(StandardParameter.START, 0));
@@ -107,4 +90,20 @@ public class DefaultSimulationSidebar extends JXTaskPane implements FocusListene
 		return 1000;
 	}
 
+	@Override
+	public void propertyChanged(String property, double newValue) {
+		if (StandardParameter.DT.equals(property)) {
+			ntDt.setValue(newValue);
+		}
+		if (StandardParameter.END.equals(property)) {
+			ntEnd.setValue(newValue);
+		}
+		if (StandardParameter.START.equals(property)) {
+			ntStart.setValue(newValue);
+		}
+	}
+
+	@Override
+	public void propertyChanged(String property, String newValue) {
+	}
 }
