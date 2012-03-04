@@ -12,5 +12,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationSidebar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationSidebar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

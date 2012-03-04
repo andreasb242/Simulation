@@ -167,12 +167,6 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		initComponent();
 	}
 
-	@Override
-	public void repaint(long tm, int x, int y, int width, int height) {
-		// TODO Auto-generated method stub
-		super.repaint(tm, x, y, width, height);
-	}
-	
 	/**
 	 * Initialize keyhandlers for keyboard shortcuts
 	 */

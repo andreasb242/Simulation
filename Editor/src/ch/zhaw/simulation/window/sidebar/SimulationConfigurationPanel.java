@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
@@ -18,7 +19,7 @@ import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.SimulationManager;
 
-public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener {
+public class SimulationConfigurationPanel extends JXTaskPane implements ActionListener, PluginChangeListener, SidebarPosition {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbSimulationtype;
@@ -87,5 +88,10 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 
 	public void dispose() {
 		configuration.removePluginChangeListener(this);
+	}
+
+	@Override
+	public int getSidebarPosition() {
+		return 500;
 	}
 }

@@ -16,6 +16,7 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
+import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NameChecker;
@@ -26,7 +27,7 @@ import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 
-public abstract class NameFormulaConfiguration extends JXTaskPane implements SelectionListener {
+public abstract class NameFormulaConfiguration extends JXTaskPane implements SelectionListener, SidebarPosition {
 	private static final long serialVersionUID = 1L;
 
 	private JTextField txtName = new JTextField();
@@ -185,5 +186,10 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 
 	@Override
 	public void selectionMoved(int dX, int dY) {
+	}
+	
+	@Override
+	public int getSidebarPosition() {
+		return 0;
 	}
 }

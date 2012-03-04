@@ -9,11 +9,12 @@ import javax.swing.JLabel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.numerictextfield.NumericTextField;
+import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.plugin.StandardParameter;
 
-public class DefaultSimulationSidebar extends JXTaskPane implements FocusListener {
+public class DefaultSimulationSidebar extends JXTaskPane implements FocusListener, SidebarPosition {
 	private static final long serialVersionUID = 1L;
 
 	private NumericTextField ntStart = new NumericTextField();
@@ -99,6 +100,11 @@ public class DefaultSimulationSidebar extends JXTaskPane implements FocusListene
 		} catch (ParseException ex) {
 			ntStart.setValue(this.config.getParameter(StandardParameter.START, 0));
 		}
+	}
+
+	@Override
+	public int getSidebarPosition() {
+		return 1000;
 	}
 
 }
