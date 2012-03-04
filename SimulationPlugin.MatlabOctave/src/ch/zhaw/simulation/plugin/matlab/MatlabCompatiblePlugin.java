@@ -2,9 +2,9 @@ package ch.zhaw.simulation.plugin.matlab;
 
 import javax.swing.JPanel;
 
-import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodegen;
-import ch.zhaw.simulation.plugin.matlab.codegen.EulerCodegen;
+import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
+import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
@@ -14,22 +14,26 @@ import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
-import ch.zhaw.simulation.plugin.sidebar.DefaultSimulationSidebar;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
 	private PluginDataProvider provider;
-	private DefaultSimulationSidebar sidebar;
+	private MatlabConfigurationSidebar sidebar;
 	private ModelOptimizer optimizer;
 
 	public MatlabCompatiblePlugin() {
 	}
 
 	@Override
+	public JXTaskPane getConfigurationSidebar() {
+		return sidebar;
+	}
+
+	@Override
 	public void init(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
 		this.settings = settings;
 		this.provider = provider;
-		this.sidebar = new DefaultSimulationSidebar(config);
+		this.sidebar = new MatlabConfigurationSidebar(config);
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public void checkModel(SimulationDocument doc) throws SimulationModelException {
+	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
 		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
 			throw new IllegalArgumentException("only flow model supported currently");
 		}
@@ -60,15 +64,11 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public void prepareSimulation(SimulationDocument doc) throws Exception {
-		AbstractCodegen codegen = new EulerCodegen();
-		codegen.setWorkingFolder(settings.getSetting("workpath"));
+	public void executeSimulation(SimulationDocument doc) throws Exception {
+		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
 
-		codegen.crateSimulation(doc);
-	}
+		codeGenerator.setWorkingFolder(settings.getSetting("workpath"));
+		codeGenerator.executeSimulation(doc);
 
-	@Override
-	public JXTaskPane getConfigurationSettingsSidebar() {
-		return sidebar;
 	}
 }

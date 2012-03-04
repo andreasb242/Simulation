@@ -302,7 +302,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		SimulationPlugin plugin = selectedPluginDescription.getPlugin();
 
 		try {
-			plugin.checkModel(doc);
+			plugin.checkDocument(doc);
 		} catch (SimulationModelException ex) {
 			Messagebox.showError(getMainFrame(), "Simulation nicht möglich", ex.getMessage());
 
@@ -313,7 +313,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		try {
-			plugin.prepareSimulation(doc);
+			plugin.executeSimulation(doc);
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}

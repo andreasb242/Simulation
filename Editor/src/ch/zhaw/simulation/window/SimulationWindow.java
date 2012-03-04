@@ -250,7 +250,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		PluginDescription<SimulationPlugin> pluginDescription = view.getControl().getApp().getManager().getSelectedPluginDescription();
 
 		if (selectedPluginDescription != pluginDescription && selectedPluginDescription != null) {
-			JXTaskPane sb = selectedPluginDescription.getPlugin().getConfigurationSettingsSidebar();
+			JXTaskPane sb = selectedPluginDescription.getPlugin().getConfigurationSidebar();
 			if (sb != null) {
 				this.sidebar.remove(sb);
 			}
@@ -258,7 +258,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 		selectedPluginDescription = pluginDescription;
 
-		JXTaskPane sb = pluginDescription.getPlugin().getConfigurationSettingsSidebar();
+		JXTaskPane sb = pluginDescription.getPlugin().getConfigurationSidebar();
 		if (sb != null) {
 			this.sidebar.add(sb);
 		}

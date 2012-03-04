@@ -14,7 +14,7 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.plugin.StandardParameter;
 
-public class DefaultSimulationSidebar extends JXTaskPane implements FocusListener, SidebarPosition, SimulationParameterListener {
+public class DefaultConfigurationSidebar extends JXTaskPane implements FocusListener, SidebarPosition, SimulationParameterListener {
 	private static final long serialVersionUID = 1L;
 
 	private NumericTextField ntStart = new NumericTextField();
@@ -23,17 +23,17 @@ public class DefaultSimulationSidebar extends JXTaskPane implements FocusListene
 
 	protected SimulationConfiguration config;
 
-	public DefaultSimulationSidebar(SimulationConfiguration config) {
+	public DefaultConfigurationSidebar(SimulationConfiguration config) {
 		this.config = config;
 		if (config == null) {
 			throw new NullPointerException("config == null");
 		}
 		setTitle("Simulation Einstellungen");
 		
-		initButtons();
+		initComponents();
 	}
 
-	protected void initButtons() {
+	protected void initComponents() {
 		add(new JLabel("Startzeit"));
 		add(ntStart);
 		ntStart.addFocusListener(this);
