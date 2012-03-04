@@ -6,6 +6,7 @@ import org.jdesktop.swingx.JXTaskPane;
 
 
 import butti.javalibs.config.Settings;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
@@ -47,21 +48,21 @@ public class SimulationInternPlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public void checkModel(SimulationDocument doc)  {
+	public JXTaskPane getConfigurationSidebar() {
+		return this.sidebar;
+	}
+
+	@Override
+	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
 		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
 			throw new IllegalArgumentException("only flow model supported currently");
 		}
 	}
 
 	@Override
-	public void prepareSimulation(SimulationDocument doc) throws Exception {
+	public void executeSimulation(SimulationDocument doc) throws Exception {
 		Simulation sim = new Simulation(provider, this.settings, doc);
 		sim.checkData();
 		sim.startSimulation();
-	}
-	
-	@Override
-	public JXTaskPane getConfigurationSettingsSidebar() {
-		return this.sidebar;
 	}
 }

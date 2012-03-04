@@ -7,10 +7,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.sidebar.DefaultSimulationSidebar;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 import ch.zhaw.simulation.sim.intern.InternSimulationParameter;
 
-public class InternSimulationSidebar extends DefaultSimulationSidebar implements InternSimulationParameter {
+public class InternSimulationSidebar extends DefaultConfigurationSidebar implements InternSimulationParameter {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbType;
@@ -20,7 +20,7 @@ public class InternSimulationSidebar extends DefaultSimulationSidebar implements
 	}
 
 	@Override
-	protected void initButtons() {
+	protected void initComponents() {
 		cbType = new JComboBox(new String[] { "Euler", "Runge-Kutta" });
 
 		add(new JLabel("Type"));
@@ -33,7 +33,7 @@ public class InternSimulationSidebar extends DefaultSimulationSidebar implements
 			}
 		});
 
-		super.initButtons();
+		super.initComponents();
 	}
 
 	@Override
