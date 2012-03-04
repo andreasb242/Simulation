@@ -26,9 +26,9 @@ public class SimulationManager {
 				Errorhandler.showError(e, "Plugin laden fehlgeschlagen");
 			}
 
-			for (PluginDescription<SimulationPlugin> desc : pluginManager.getPluginDescriptions()) {
-				SimulationPlugin plugin = desc.getPlugin();
-				SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + desc.getName());
+			for (PluginDescription<SimulationPlugin> pluginDescription : pluginManager.getPluginDescriptions()) {
+				SimulationPlugin plugin = pluginDescription.getPlugin();
+				SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + pluginDescription.getName());
 				plugin.init(sp, config, provider);
 			}
 
@@ -49,15 +49,15 @@ public class SimulationManager {
 				}
 				selectedPluginDescription = null;
 
-				for (PluginDescription<SimulationPlugin> p : pluginManager.getPluginDescriptions()) {
-					if (p.getName().equals(pluginName)) {
-						SimulationPlugin plugin = p.getPlugin();
+				for (PluginDescription<SimulationPlugin> pluginDescription : pluginManager.getPluginDescriptions()) {
+					if (pluginDescription.getName().equals(pluginName)) {
+						SimulationPlugin plugin = pluginDescription.getPlugin();
 						try {
 							plugin.load();
 						} catch (Exception e) {
 							Errorhandler.showError(e, "Simulationsplugin konnte nicht aktiviert werden");
 						}
-						selectedPluginDescription = p;
+						selectedPluginDescription = pluginDescription;
 						break;
 					}
 				}

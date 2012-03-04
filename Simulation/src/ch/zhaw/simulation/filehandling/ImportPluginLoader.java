@@ -40,10 +40,10 @@ public class ImportPluginLoader {
 				Errorhandler.showError(e, "Plugin laden fehlgeschlagen");
 			}
 
-			for (PluginDescription<ImportPlugin> plugin : importPlugins.getPluginDescriptions()) {
-				ImportPlugin handler = plugin.getPlugin();
-				SettingsPrefix sp = new SettingsPrefix(settings, "importplugin." + plugin.getName());
-				handler.init(sp);
+			for (PluginDescription<ImportPlugin> pluginDescription : importPlugins.getPluginDescriptions()) {
+				ImportPlugin plugin = pluginDescription.getPlugin();
+				SettingsPrefix sp = new SettingsPrefix(settings, "importplugin." + pluginDescription.getName());
+				plugin.init(sp);
 			}
 
 		} else {
@@ -55,9 +55,9 @@ public class ImportPluginLoader {
 		simulationFileOpen = new SimFileFilter() {
 			@Override
 			public boolean accept(File f) {
-				for (PluginDescription<ImportPlugin> def : pluginDescriptions) {
-					ImportPlugin p = def.getPlugin();
-					String[] exts = p.getFileExtension();
+				for (PluginDescription<ImportPlugin> pluginDescription : pluginDescriptions) {
+					ImportPlugin plugin = pluginDescription.getPlugin();
+					String[] exts = plugin.getFileExtension();
 					if (exts != null) {
 						for (String ext : exts) {
 							if (f.getName().endsWith(ext)) {

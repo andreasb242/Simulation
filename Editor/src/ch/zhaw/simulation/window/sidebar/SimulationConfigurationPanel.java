@@ -22,14 +22,14 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox cbSimulationtype;
-	private SimulationConfiguration config;
+	private SimulationConfiguration configuration;
 
 	private JButton btStart = new JButton("Simulieren");
 
 	public SimulationConfigurationPanel(final AbstractEditorControl<?> control) {
 		setTitle("Simulation");
-		this.config = control.getSimulationConfiguration();
-		config.addPluginChangeListener(this);
+		this.configuration = control.getSimulationConfiguration();
+		configuration.addPluginChangeListener(this);
 
 		add(new JLabel("Simulation"));
 
@@ -38,7 +38,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		// Die Liste aller Plugin-Beschreibungen als Grundlage für die JComboBox verwenden
 		cbSimulationtype = new JComboBox(manager.getPluginDescriptions());
 
-		cbSimulationtype.setSelectedItem(config.getSelectedPluginName());
+		cbSimulationtype.setSelectedItem(configuration.getSelectedPluginName());
 
 		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPluginDescriptions().size() > 0) {
 			cbSimulationtype.setSelectedIndex(0);
@@ -67,18 +67,18 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		if (cbSimulationtype.getSelectedItem() == null) {
 			return;
 		}
-		config.setSelectedPluginName(cbSimulationtype.getSelectedItem().toString());
+		configuration.setSelectedPluginName(cbSimulationtype.getSelectedItem().toString());
 	}
 
 	@Override
-	public void pluginChanged(String plugin) {
-		if (plugin == null) {
+	public void pluginChanged(String pluginName) {
+		if (pluginName == null) {
 			return;
 		}
 
 		ComboBoxModel model = cbSimulationtype.getModel();
 		for (int i = 0; i < model.getSize(); i++) {
-			if (plugin.equalsIgnoreCase(model.getElementAt(i).toString())) {
+			if (pluginName.equalsIgnoreCase(model.getElementAt(i).toString())) {
 				cbSimulationtype.setSelectedIndex(i);
 				break;
 			}
@@ -86,6 +86,6 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 	}
 
 	public void dispose() {
-		config.removePluginChangeListener(this);
+		configuration.removePluginChangeListener(this);
 	}
 }

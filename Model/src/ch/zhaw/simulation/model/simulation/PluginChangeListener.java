@@ -8,10 +8,10 @@ package ch.zhaw.simulation.model.simulation;
 public interface PluginChangeListener {
 
 	/**
-	 * Another simulation plugin was selected
+	 * Another simulation pluginName was selected
 	 * 
-	 * @param plugin
+	 * @param pluginName
 	 *            The name of the Plugin (defined within the XML file)
 	 */
-	public void pluginChanged(String plugin);
+	public void pluginChanged(String pluginName);
 }

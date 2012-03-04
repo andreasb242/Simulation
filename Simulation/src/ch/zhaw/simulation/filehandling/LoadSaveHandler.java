@@ -167,17 +167,17 @@ public class LoadSaveHandler extends StatusHandler {
 		// import other files
 		// /////////////////////////
 
-		for (PluginDescription<ImportPlugin> plugin : importPluginLoader.getPluginDescriptions()) {
-			ImportPlugin handler = plugin.getPlugin();
+		for (PluginDescription<ImportPlugin> pluginDescription : importPluginLoader.getPluginDescriptions()) {
+			ImportPlugin plugin = pluginDescription.getPlugin();
 
 			try {
-				if (handler.canHandle(file)) {
-					handler.read(file);
+				if (plugin.canHandle(file)) {
+					plugin.read(file);
 					doc.stopAutoparser();
 
 					doc.setType(SimulationType.FLOW_SIMULATION);
 
-					if (handler.load(doc.getFlowModel())) {
+					if (plugin.load(doc.getFlowModel())) {
 						path = file;
 						setStatusText("Datei importiert");
 						doc.setSaved();

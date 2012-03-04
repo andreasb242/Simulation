@@ -10,24 +10,24 @@ import butti.javalibs.config.Settings;
 public class SimulationSettingsSaver implements SimulationParameterListener, PluginChangeListener {
 
 	private Settings settings;
-	private SimulationConfiguration model;
+	private SimulationConfiguration configuration;
 
-	public SimulationSettingsSaver(SimulationConfiguration model, Settings settings) {
+	public SimulationSettingsSaver(SimulationConfiguration configuration, Settings settings) {
 		this.settings = settings;
-		this.model = model;
+		this.configuration = configuration;
 
-		model.addSimulationParameterListener(this);
-		model.addPluginChangeListener(this);
+		configuration.addSimulationParameterListener(this);
+		configuration.addPluginChangeListener(this);
 	}
 
 	public void load() {
-		String plugin = settings.getSetting("simulation.plugin");
-		model.setSelectedPluginName(plugin);
+		String pluginName = settings.getSetting("simulation.plugin");
+		configuration.setSelectedPluginName(pluginName);
 	}
 
 	@Override
-	public void pluginChanged(String plugin) {
-		settings.setSetting("simulation.plugin", plugin);
+	public void pluginChanged(String pluginName) {
+		settings.setSetting("simulation.plugin", pluginName);
 	}
 
 	@Override
