@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractView;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
-import ch.zhaw.simulation.util.Range;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 
 public class BezierHelperPoint extends AbstractView {
 	private static final long serialVersionUID = 1L;
@@ -16,12 +17,14 @@ public class BezierHelperPoint extends AbstractView {
 	private int width;
 
 	private BezierConnectorData connector;
+	private AbstractConnectorData<?> connectorData;
 
 	private ConnectorPointImage image;
 
-	public BezierHelperPoint(BezierConnectorData connector, AbstractEditorControl<?> control) {
+	public BezierHelperPoint(BezierConnectorData connector, AbstractConnectorData<?> connectorData, AbstractEditorControl<?> control) {
 		super(control);
 		this.connector = connector;
+		this.connectorData = connectorData;
 
 		width = control.getSysintegration().getGuiConfig().getConnectorPointWidth();
 
@@ -72,21 +75,9 @@ public class BezierHelperPoint extends AbstractView {
 
 		setLocation(x, y);
 		connector.setHelperPoint(new Point(x + width / 2, y + width / 2));
-		getControl().getModel().setChanged();
 
-		Range rx = new Range(x);
-		rx.add(connector.getSource().getX());
-		rx.add(connector.getSource().getX2());
-		rx.add(connector.getTarget().getX());
-		rx.add(connector.getTarget().getX2());
-
-		Range ry = new Range(y);
-		ry.add(connector.getSource().getY());
-		ry.add(connector.getSource().getY2());
-		ry.add(connector.getTarget().getY());
-		ry.add(connector.getTarget().getY2());
-
-		getParent().repaint(rx.getMin(), ry.getMin(), rx.getMax() - rx.getMin(), ry.getMax() - ry.getMin());
+		SimulationFlowModel model = (SimulationFlowModel) getControl().getModel();
+		model.fireConnectorChanged(connectorData);
 	}
 
 	public void setPosition(int x, int y) {

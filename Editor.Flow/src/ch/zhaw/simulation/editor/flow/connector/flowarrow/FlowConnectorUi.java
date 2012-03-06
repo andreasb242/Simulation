@@ -95,8 +95,8 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 
 		control.getSelectionModel().addSelectionListener(this);
 
-		connector1 = new FlowBezierConnector(parent, connector.getBezierSource(), control, false);
-		connector2 = new FlowBezierConnector(parent, connector.getBezierTarget(), control, true);
+		connector1 = new FlowBezierConnector(parent, connector.getBezierSource(), connector, control, false);
+		connector2 = new FlowBezierConnector(parent, connector.getBezierTarget(), connector, control, true);
 
 		control.getModel().addListener(simulationListener);
 	}
@@ -138,16 +138,11 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	}
 
 	private void fireRepaint() {
-		// TODO wird nie aufgerufen!!
-		System.out.println("repaint");
-
 		Rectangle bounds = connector1.getBounds();
 
 		Rectangle r = bounds.union((Rectangle) lastBound);
 
-		// TODO repaint
-		// parent.repaint(r.x - 100, r.y - 100, r.width + 200, r.height + 200);
-		parent.repaint();
+		parent.repaint(r.x - 100, r.y - 100, r.width + 200, r.height + 200);
 
 		lastBound = bounds;
 	}

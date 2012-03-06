@@ -213,10 +213,18 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 		}
 	}
 
-	public void fireObjectChanged(AbstractSimulationData o, boolean state) {
-		if (!state) {
-			setChanged();
-		}
+	public void fireObjectChanged(AbstractSimulationData o) {
+		setChanged();
+		fireObjectChangedAutoparser(o);
+	}
+
+	/**
+	 * Autoparser don't change the element, so the model is safed after if it
+	 * was it before
+	 * 
+	 * @param o
+	 */
+	public void fireObjectChangedAutoparser(AbstractSimulationData o) {
 		if (o instanceof AbstractNamedSimulationData) {
 			checkIntegrity((AbstractNamedSimulationData) o);
 		}

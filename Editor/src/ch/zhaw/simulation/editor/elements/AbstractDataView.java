@@ -29,6 +29,6 @@ public abstract class AbstractDataView<T extends AbstractSimulationData> extends
 	@Override
 	public void moveElement(int dX, int dY) {
 		data.move(dX, dY);
-		getModel().fireObjectChanged(data, false);
+		getModel().fireObjectChanged(data);
 	}
 }

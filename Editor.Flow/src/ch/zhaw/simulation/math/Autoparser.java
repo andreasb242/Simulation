@@ -96,7 +96,7 @@ public class Autoparser {
 			Errorhandler.logError(e);
 		}
 
-		control.getModel().fireObjectChanged(o, true);
+		control.getModel().fireObjectChanged(o);
 	}
 
 	public void stop() {

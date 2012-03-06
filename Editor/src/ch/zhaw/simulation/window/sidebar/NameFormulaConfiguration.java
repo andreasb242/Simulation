@@ -131,7 +131,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 	}
 
 	protected void additionalDataChanged(AbstractNamedSimulationData data) {
-		model.fireObjectChanged(data, false);
+		model.fireObjectChanged(data);
 	}
 
 	private void dataChanged() {
@@ -142,7 +142,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 		if (nameChecker.checkName(txtName.getText())) {
 			data.setName(txtName.getText());
 			txtName.setForeground(Color.BLACK);
-			model.fireObjectChanged(data, false);
+			model.fireObjectChanged(data);
 		} else {
 			txtName.setForeground(Color.RED);
 		}

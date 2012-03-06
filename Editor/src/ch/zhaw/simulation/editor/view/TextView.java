@@ -98,7 +98,7 @@ public class TextView extends AbstractDataView<TextData> {
 		if (editor.isSaved()) {
 			getData().setText(editor.getContents());
 			setContents(getData().getText());
-			getControl().getModel().fireObjectChanged(getData(), false);
+			getControl().getModel().fireObjectChanged(getData());
 
 			repaint();
 		}

@@ -26,7 +26,7 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 
 		control.getSelectionModel().addSelectionListener(this);
 
-		this.curve = new ConnectorBezierParameterConnector(parent, connector, control);
+		this.curve = new ConnectorBezierParameterConnector(parent, connector, connector, control);
 	}
 
 	@Override

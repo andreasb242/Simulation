@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.editor.connector.bezier;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -11,6 +12,7 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 
 public abstract class BezierConnector {
 	protected CubicCurve2D.Double curve = new CubicCurve2D.Double();
@@ -26,10 +28,10 @@ public abstract class BezierConnector {
 	 */
 	protected boolean selected = false;
 
-	public BezierConnector(JComponent parent, BezierConnectorData connector, AbstractEditorControl<?> control) {
+	public BezierConnector(JComponent parent, BezierConnectorData connector, AbstractConnectorData<?> connectorData, AbstractEditorControl<?> control) {
 		this.parent = parent;
 
-		movePoint = new BezierHelperPoint(connector, control);
+		movePoint = new BezierHelperPoint(connector, connectorData, control);
 		start = new ConnectorPositionCalculator(connector.getSource(), movePoint);
 		end = new ConnectorPositionCalculator(connector.getTarget(), movePoint);
 

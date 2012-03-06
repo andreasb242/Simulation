@@ -242,7 +242,7 @@ public class FormulaEditor extends BDialog {
 			Errorhandler.logError(e);
 		}
 		data.setFormula(text.getText(), status, statusText);
-		control.getModel().fireObjectChanged(data, false);
+		control.getModel().fireObjectChangedAutoparser(data);
 	}
 
 	public void inserEditor(String text, int relCursor) {

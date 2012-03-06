@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class FlowBezierConnector extends BezierConnector {
@@ -20,8 +21,9 @@ public class FlowBezierConnector extends BezierConnector {
 	private FlowArrowImage img;
 	private int arrowSize;
 
-	public FlowBezierConnector(JComponent parent, BezierConnectorData connector, AbstractEditorControl<?> control, boolean showArrow) {
-		super(parent, connector, control);
+	public FlowBezierConnector(JComponent parent, BezierConnectorData connector, AbstractConnectorData<?> connectorconnectorData,
+			AbstractEditorControl<?> control, boolean showArrow) {
+		super(parent, connector, connectorconnectorData, control);
 
 		this.guicfg = control.getSysintegration().getGuiConfig();
 		this.showArrow = showArrow;
