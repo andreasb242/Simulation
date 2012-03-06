@@ -29,8 +29,6 @@ public class SimulationMain {
 			lookAndFeel = "nimbus";
 		}
 		
-		System.out.println(lookAndFeel);
-
 		try {
 			if ("metal".equals(lookAndFeel)) {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());

@@ -21,7 +21,7 @@ public class XYEditorControl extends AbstractEditorControl<XYModel> {
 
 	@Override
 	protected void delete(SelectableElement[] elements) {
-		// TODO Auto-generated method stub
+		// TODO Delete, XY dialog
 
 	}
 
@@ -36,13 +36,13 @@ public class XYEditorControl extends AbstractEditorControl<XYModel> {
 
 	@Override
 	public void stopAutoparser() {
-		// TODO Auto-generated method stub
+		// TODO Autoparser XY Dialog
 
 	}
 
 	@Override
 	public void startAutoparser() {
-		// TODO Auto-generated method stub
+		// TODO Autoparser XY Dialog
 
 	}
 

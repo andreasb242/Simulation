@@ -124,7 +124,7 @@ public class TableDialog extends BDialog {
 		tbCopy = toolbar.add(new ToolbarAction("Kopieren", IconSVG.getIconShadow("editcopy", 24)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO !!!!
+				// TODO Copy, table dialog
 				new Exception().printStackTrace();
 			}
 		});

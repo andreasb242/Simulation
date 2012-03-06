@@ -52,6 +52,7 @@ public class StepConfigurationPane extends DefaultConfigurationPane {
 
 	@Override
 	public void focusLost(FocusEvent e) {
+		super.focusLost(e);
 		try {
 			sidebar.config.setParameter(StandardParameter.DT, ntDt.getDoubleValue());
 		} catch (ParseException ex) {

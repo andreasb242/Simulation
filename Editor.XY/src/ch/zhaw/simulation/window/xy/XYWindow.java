@@ -25,7 +25,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 			@Override
 			public AbstractTransferable createTransferable(SelectableElement[] selected) {
-				// TODO Auto-generated method stub
+				// TODO Copy Paste XY
 				return null;
 			}
 		});

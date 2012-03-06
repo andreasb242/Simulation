@@ -84,17 +84,16 @@ public abstract class AbstractView extends JComponent implements SelectionListen
 	}
 
 	/**
-	 * TODO docu
-	 * 
-	 * @param p
+	 * Override this method if you need to handle mouseReleased
 	 */
 	protected void mouseReleased(Point p) {
 	}
 
 	/**
-	 * TODO docu
+	 * This method is called if the element is dragged
 	 * 
 	 * @param p
+	 *            The point
 	 */
 	protected void dragged(Point p) {
 		// Wenn noch nicht gewählt beim verschieben wählen

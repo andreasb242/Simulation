@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.control.flow;
+package ch.zhaw.simulation.app;
 
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
@@ -6,9 +6,7 @@ import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import butti.javalibs.config.Settings;
 
-// TODO: diese klasse wider einbauen
 public class SimulationSettingsSaver implements SimulationParameterListener, PluginChangeListener {
-
 	private Settings settings;
 	private SimulationConfiguration configuration;
 
@@ -38,5 +36,6 @@ public class SimulationSettingsSaver implements SimulationParameterListener, Plu
 	@Override
 	public void propertyChanged(String property, double newValue) {
 		settings.setSetting(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX + property, newValue);
+		System.out.println(StandardParameter.SIM_PROPERTY_STRING_PREFIX + property+"="+ newValue);
 	}
 }

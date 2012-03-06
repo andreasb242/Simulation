@@ -296,7 +296,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			return true;
 
 		case CLOSE:
-			// TODO DEBUG
+			// TODO CLOSE => EXIT !!! DEBUG !!!
 			System.err.println("CLOSE => EXIT !!! DEBUG !!!");
 			menuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.EXIT));
 			return true;

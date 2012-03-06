@@ -92,6 +92,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	private String documentName = null;
 
+	/**
+	 * This objects manages the simulation plugins
+	 */
 	private SimulationManager manager;
 
 	/**
@@ -99,7 +102,15 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	private WindowPositionProperties windowPosition = new WindowPositionProperties();
 
+	/**
+	 * The instance of the simulation integration
+	 */
 	private Sysintegration sysintegration;
+
+	/**
+	 * Automatically saves the default simulation settings
+	 */
+	private SimulationSettingsSaver simulationSettingsSaver;
 
 	/**
 	 * Ctor
@@ -142,7 +153,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			type = SimulationType.XY_MODEL;
 		} else if (res == 2) {
 			mainWindow = false;
-		} else if(res == 1) {
+		} else if (res == 1) {
 		} else {
 			return;
 		}
@@ -155,11 +166,13 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		} else {
 			showXYWindow();
 		}
-		
+
 		this.sysintegration = SysintegrationFactory.createSysintegration();
 
 		this.savehandler = new LoadSaveHandler(mainFrame, settings, sysintegration, this.importPluginLoader);
 		this.savehandler.addListener(this);
+
+		simulationSettingsSaver = new SimulationSettingsSaver(doc.getSimulationConfiguration(), settings);
 	}
 
 	public void showXYWindow() {
@@ -183,7 +196,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		win.init(control);
 		win.addListener(control);
 
-		
 		this.mainFrame = win;
 		mainFrame.setVisible(true);
 	}
@@ -333,6 +345,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 			setStatusText("Neues Dokument erstellt");
 			savehandler.clear();
+
+			simulationSettingsSaver.load();
 			doc.setSaved();
 
 			this.controller.getUndoManager().discardAllEdits();
@@ -347,7 +361,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		} else {
 			throw new RuntimeException("Simulation type " + doc.getType() + " unhandled");
 		}
-		
+
 		windowPosition.applay(this.mainFrame);
 	}
 
@@ -417,6 +431,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		if (askSave() == true) {
 			this.mainFrame.setVisible(false);
 			this.mainFrame.dispose();
+			doc.getSimulationConfiguration().removePluginChangeListener(simulationSettingsSaver);
+			doc.getSimulationConfiguration().removeSimulationParameterListener(simulationSettingsSaver);
 
 			SwingUtilities.invokeLater(new Runnable() {
 
@@ -545,7 +561,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		documentName = name;
 		updateTitle();
 	}
-	
+
 	public Sysintegration getSysintegration() {
 		return sysintegration;
 	}

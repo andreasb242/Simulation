@@ -22,7 +22,6 @@ public class FlowConnectorData extends AbstractConnectorData<AbstractSimulationD
 	private FlowValveData valve = new FlowValveData(-1, -1);
 
 	
-	// TODO !! LOAD !! SAVE !!
 	private BezierConnectorData bezier1 = new FlowConnectorBezierData() {
 
 		@Override
