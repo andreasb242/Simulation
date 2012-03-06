@@ -5,6 +5,8 @@ import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
@@ -14,40 +16,45 @@ import java.text.ParseException;
 /**
  * @author: bachi
  */
-public class DormandPrinceConfigurationPane extends JPanel implements FocusListener {
+public class DormandPrinceConfigurationPane extends DefaultConfigurationPane implements FocusListener {
 
 	private SimulationConfiguration config;
 
-	private NumericTextField ntStart = new NumericTextField();
-	private NumericTextField ntEnd = new NumericTextField();
-	private NumericTextField ntInitStep = new NumericTextField();
-	private NumericTextField ntMaxStep = new NumericTextField();
+	private JLabel           lblInitStep = new JLabel("Initial Schritt");
+	private NumericTextField ntInitStep  = new NumericTextField();
+	private JLabel           lblMaxStep  = new JLabel("Maximaler Schritt");
+	private NumericTextField ntMaxStep   = new NumericTextField();
 
-	public DormandPrinceConfigurationPane(SimulationConfiguration config) {
-		GridBagManager gbm = new GridBagManager(this);
-
-		this.config = config;
-
-		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Start"));
-		gbm.setX(1).setY(0).setWeightY(0).setComp(ntStart);
-
-		gbm.setX(0).setY(1).setWeightY(0).setWeightX(0).setComp(new JLabel("End"));
-		gbm.setX(1).setY(1).setWeightY(0).setComp(ntEnd);
-
-		gbm.setX(0).setY(2).setWeightY(0).setWeightX(0).setComp(new JLabel("Initial Schritt"));
-		gbm.setX(1).setY(2).setWeightY(0).setComp(ntInitStep);
-
-		gbm.setX(0).setY(3).setWeightY(0).setWeightX(0).setComp(new JLabel("Maximal Schritt"));
-		gbm.setX(1).setY(3).setWeightY(0).setComp(ntMaxStep);
-		
-		load();
+	public DormandPrinceConfigurationPane(DefaultConfigurationSidebar sidebar) {
+		super(sidebar);
 	}
 	
 	private void load() {
 		ntInitStep.setValue(this.config.getParameter(MatlabParameter.INIT_STEP, 0));
 		ntMaxStep.setValue(this.config.getParameter(MatlabParameter.MAX_STEP, 0));
-		ntEnd.setValue(this.config.getParameter(MatlabParameter.END, 0));
-		ntStart.setValue(this.config.getParameter(MatlabParameter.START, 0));
+	}
+
+	@Override
+	public void loadDataFromModel() {
+		super.loadDataFromModel();
+	}
+
+	@Override
+	public void add() {
+		super.add();
+		sidebar.add(lblInitStep);
+		sidebar.add(ntInitStep);
+		sidebar.add(lblMaxStep);
+		sidebar.add(ntMaxStep);
+	}
+
+	@Override
+	public void remove() {
+		sidebar.remove(lblInitStep);
+		sidebar.remove(ntInitStep);
+		sidebar.remove(lblMaxStep);
+		sidebar.remove(ntMaxStep);
+		super.remove();
 	}
 
 	@Override
@@ -66,15 +73,15 @@ public class DormandPrinceConfigurationPane extends JPanel implements FocusListe
 		} catch (ParseException ex) {
 			ntMaxStep.setValue(this.config.getParameter(MatlabParameter.MAX_STEP, 0));
 		}
-		try {
-			this.config.setParameter(MatlabParameter.END, ntEnd.getDoubleValue());
-		} catch (ParseException ex) {
-			ntEnd.setValue(this.config.getParameter(MatlabParameter.END, 0));
-		}
-		try {
-			this.config.setParameter(MatlabParameter.START, ntStart.getDoubleValue());
-		} catch (ParseException ex) {
-			ntStart.setValue(this.config.getParameter(MatlabParameter.START, 0));
-		}
+	}
+
+	@Override
+	public void propertyChanged(String property, String newValue) {
+		super.propertyChanged(property, newValue);    //To change body of overridden methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void propertyChanged(String property, double newValue) {
+		super.propertyChanged(property, newValue);    //To change body of overridden methods use File | Settings | File Templates.
 	}
 }

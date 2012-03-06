@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab;
 
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
 import org.jdesktop.swingx.JXTaskPane;
 
 import javax.swing.*;
@@ -11,10 +12,10 @@ import javax.swing.*;
 public class NumericMethod {
 	
 	private String name;
-	private JPanel pane;
+	private DefaultConfigurationPane pane;
 	private AbstractCodeGenerator codeGenerator;
 	
-	public NumericMethod(String name, JPanel pane, AbstractCodeGenerator codeGenerator) {
+	public NumericMethod(String name, DefaultConfigurationPane pane, AbstractCodeGenerator codeGenerator) {
 		this.name = name;
 		this.pane = pane;
 		this.codeGenerator = codeGenerator;
@@ -24,7 +25,7 @@ public class NumericMethod {
 		return name;
 	}
 
-	public JPanel getPane() {
+	public DefaultConfigurationPane getPane() {
 		return pane;
 	}
 

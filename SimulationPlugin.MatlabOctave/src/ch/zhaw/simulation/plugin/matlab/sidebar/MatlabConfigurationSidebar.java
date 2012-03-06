@@ -5,7 +5,9 @@ import ch.zhaw.simulation.plugin.matlab.NumericMethod;
 import ch.zhaw.simulation.plugin.matlab.codegen.DormandPrinceCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.codegen.EulerCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.codegen.RungeKuttaCodeGenerator;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
+import ch.zhaw.simulation.plugin.sidebar.StepConfigurationPane;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,8 +20,9 @@ import java.util.Vector;
 public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar implements ActionListener {
 
 	Vector<NumericMethod> numericMethods;
-	private JComboBox cbNnumericMethods;
 	private NumericMethod selectedNumericMethod;
+
+	private JComboBox cbNnumericMethods;
 
 	public MatlabConfigurationSidebar(SimulationConfiguration config) {
 		super(config);
@@ -27,20 +30,22 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar impl
 
 	@Override
 	protected void initComponents() {
-		StandartConfigurationPane standartConfigurationPane = new StandartConfigurationPane(getConfig());
-		DormandPrinceConfigurationPane dormandPrinceConfigurationPane = new DormandPrinceConfigurationPane(getConfig());
+		DefaultConfigurationPane stepConfigurationPane = new StepConfigurationPane(this);
+		DormandPrinceConfigurationPane dormandPrinceConfigurationPane = new DormandPrinceConfigurationPane(this);
 
 		numericMethods = new Vector<NumericMethod>();
-		numericMethods.add(new NumericMethod("Euler", standartConfigurationPane, new EulerCodeGenerator()));
-		numericMethods.add(new NumericMethod("Klassisch Runge-Kutta", standartConfigurationPane, new RungeKuttaCodeGenerator()));
+		numericMethods.add(new NumericMethod("Euler", stepConfigurationPane, new EulerCodeGenerator()));
+		numericMethods.add(new NumericMethod("Klassisch Runge-Kutta", stepConfigurationPane, new RungeKuttaCodeGenerator()));
 		numericMethods.add(new NumericMethod("Dormand–Prince", dormandPrinceConfigurationPane, new DormandPrinceCodeGenerator()));
 
 		add(new JLabel("Numerisches Verfahren"));
 		cbNnumericMethods = new JComboBox(numericMethods);
 		cbNnumericMethods.addActionListener(this);
 		add(cbNnumericMethods);
-		selectedNumericMethod = getSelectedNumericMethod(); 
-		add(selectedNumericMethod.getPane());
+		selectedNumericMethod = getSelectedNumericMethod();
+
+		pane = stepConfigurationPane;
+		pane.add();
 	}
 
 	public NumericMethod getSelectedNumericMethod() {
@@ -49,9 +54,10 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar impl
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		remove(selectedNumericMethod.getPane());
+		pane.remove();
 		selectedNumericMethod = getSelectedNumericMethod();
-		add(selectedNumericMethod.getPane());
+		pane = selectedNumericMethod.getPane();
+		pane.add();
 	}
 }
 
