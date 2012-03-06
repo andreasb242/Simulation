@@ -12,8 +12,8 @@ public class DensityRenderer extends AbstractListCellRenderer<DensityData> {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int MAX_NAME_LEN = 60;
-	private static final int MAX_DESCRIPTION_LEN = 250;
+	private static final int MAX_NAME_LEN = 40;
+	private static final int MAX_DESCRIPTION_LEN = 150;
 
 	@Override
 	protected void calculateMinWidth(DensityData data) {
@@ -22,7 +22,7 @@ public class DensityRenderer extends AbstractListCellRenderer<DensityData> {
 		if (desc == null) {
 			desc = "";
 		}
-		int w = setMinWidth(MAX_NAME_LEN + 5, desc, false);
+		int w = setMinWidth(MAX_NAME_LEN + 10, desc, false);
 		if (w > MAX_NAME_LEN + MAX_DESCRIPTION_LEN) {
 			setMinWidthAbsolut(MAX_NAME_LEN + MAX_DESCRIPTION_LEN);
 		}
@@ -39,8 +39,8 @@ public class DensityRenderer extends AbstractListCellRenderer<DensityData> {
 		if (desc == null) {
 			desc = "";
 		}
-		drawStringFilter(desc, MAX_NAME_LEN + 5, 18, MAX_DESCRIPTION_LEN, 0);
-		fadeOutString(MAX_NAME_LEN + MAX_DESCRIPTION_LEN, 18);
+		drawStringFilter(desc, MAX_NAME_LEN + 10, 18, MAX_DESCRIPTION_LEN, 0);
+		fadeOutString(MAX_NAME_LEN + MAX_DESCRIPTION_LEN + 10, 18);
 	}
 
 }

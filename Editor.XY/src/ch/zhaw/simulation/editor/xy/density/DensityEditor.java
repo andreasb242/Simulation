@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
@@ -19,7 +21,7 @@ public class DensityEditor extends BDialog {
 	private DensityListModel listModel;
 	private JList list;
 
-	private EditorPanel editor = new EditorPanel();
+	private EditorPanel editor;
 
 	private XYModel model;
 
@@ -29,12 +31,23 @@ public class DensityEditor extends BDialog {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.model = model;
+		editor = new EditorPanel(model);
 
 		gbm = new GridBagManager(this, true);
 
 		listModel = new DensityListModel(model);
 		list = new JList(listModel);
 		list.setCellRenderer(new DensityRenderer());
+
+		list.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (list.getSelectedValue() != null) {
+					editor.setSelected((DensityData) list.getSelectedValue());
+				}
+			}
+		});
 
 		gbm.setX(0).setY(0).setWidth(3).setWeightX(0).setScrollPanel().setComp(list);
 
@@ -54,7 +67,7 @@ public class DensityEditor extends BDialog {
 
 		gbm.setX(10).setY(0).setHeight(2).setComp(editor);
 
-		pack();
+		setSize(640, 480);
 		setLocationRelativeTo(parent);
 		setModal(true);
 	}
@@ -64,9 +77,9 @@ public class DensityEditor extends BDialog {
 	protected void addDensity() {
 		DensityData d = new DensityData();
 		d.setName("d" + tmpNextId++);
-		
+
 		d.setDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et ");
-		
+
 		model.addDensity(d);
 	}
 

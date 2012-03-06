@@ -84,6 +84,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 	private SimulationConfigurationPanel simConfig;
 
+	protected NameFormulaConfiguration formulaConfiguration;
+	
 	/**
 	 * @param mainWindow
 	 *            If this is the main application window
@@ -144,9 +146,19 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	 *            The sidebar
 	 */
 	protected void initSidebar(FrameSidebar sidebar) {
+		initElementConfigurationSiebar();
+
+		sidebar.add(formulaConfiguration);
+		view.getControl().getSelectionModel().addSelectionListener(formulaConfiguration);
+
+		this.simConfig = new SimulationConfigurationPanel(view.getControl());
+		sidebar.add(simConfig);
+	}
+
+	protected void initElementConfigurationSiebar() {
 		final AbstractEditorControl<?> control = view.getControl();
 
-		NameFormulaConfiguration formulaConfiguration = new NameFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
+		formulaConfiguration = new NameFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -154,12 +166,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 				control.showFormulaEditor(getData());
 			}
 
-		};
-		sidebar.add(formulaConfiguration);
-		view.getControl().getSelectionModel().addSelectionListener(formulaConfiguration);
-
-		this.simConfig = new SimulationConfigurationPanel(view.getControl());
-		sidebar.add(simConfig);
+		};		
 	}
 
 	@Override
@@ -239,6 +246,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		view.dispose();
 
 		doc.getSimulationConfiguration().removePluginChangeListener(this);
+
+		view.getControl().getSelectionModel().removeSelectionListener(formulaConfiguration);
 
 		this.simConfig.dispose();
 

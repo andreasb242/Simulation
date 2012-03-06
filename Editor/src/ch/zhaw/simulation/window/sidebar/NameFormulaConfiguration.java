@@ -1,12 +1,10 @@
 package ch.zhaw.simulation.window.sidebar;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -14,6 +12,7 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTaskPane;
 
+import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
@@ -51,11 +50,8 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 		setSpecial(true);
 		gbm = new GridBagManager(this);
 
-		JLabel lbName = new JLabel("Name");
-		lbName.setFont(lbName.getFont().deriveFont(Font.BOLD));
-
-		gbm.setX(0).setWidth(2).setY(10).setWeightX(0).setWeightY(0).setComp(lbName);
-		gbm.setX(0).setWidth(2).setY(11).setWidth(2).setWeightY(0).setComp(txtName);
+		gbm.setX(0).setY(10).setWeightX(0).setWeightY(0).setComp(new TitleLabel("Name"));
+		gbm.setX(1).setY(10).setWeightY(0).setComp(txtName);
 
 		txtName.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -75,13 +71,10 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 			}
 		});
 
-		JLabel lbStartvalue = new JLabel("Wert");
-		lbStartvalue.setFont(lbStartvalue.getFont().deriveFont(Font.BOLD));
+		gbm.setX(0).setY(1000).setWeightY(0).setComp(new TitleLabel("Wert"));
 
-		gbm.setX(0).setY(40).setWidth(3).setWeightY(0).setComp(lbStartvalue);
-
-		btEdit = new JButton("Formel bearbeiten", IconSVG.getIcon("text-editor", 24));
-		gbm.setX(0).setY(41).setWidth(3).setWeightY(0).setComp(btEdit);
+		btEdit = new JButton("bearbeiten", IconSVG.getIcon("text-editor", 24));
+		gbm.setX(1).setY(1000).setWeightY(0).setComp(btEdit);
 
 		btEdit.addMouseListener(new MouseAdapter() {
 

@@ -19,7 +19,8 @@ public class XYToolbar extends AbstractToolbar {
 
 	@Override
 	protected void initCustomToolitems() {
-		ImageIcon atomIcon = addShadow(new AtomImage(24, config).getImage(false));
+		AtomImage atomimg = new AtomImage(24, config);
+		ImageIcon atomIcon = addShadow(atomimg.getImage(false));
 
 		toolbar.add(new ToolbarAction("Atom (a)", atomIcon) {
 			@Override

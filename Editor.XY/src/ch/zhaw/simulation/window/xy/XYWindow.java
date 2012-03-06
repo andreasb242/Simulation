@@ -2,14 +2,18 @@ package ch.zhaw.simulation.window.xy;
 
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.menu.xy.XYMenubar;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
+import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
 import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;
+import ch.zhaw.simulation.window.xy.sidebar.XYFormulaConfiguration;
 
 public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorView> {
 	private static final long serialVersionUID = 1L;
@@ -48,6 +52,20 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		super.initSidebar(sidebar);
 
 		sidebar.add(densitySidebar);
+	}
+
+	protected void initElementConfigurationSiebar() {
+		final AbstractEditorControl<?> control = view.getControl();
+
+		formulaConfiguration = new XYFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void showFormulaEditor(AbstractNamedSimulationData data) {
+				control.showFormulaEditor(getData());
+			}
+
+		};
 	}
 
 	@Override
