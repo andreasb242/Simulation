@@ -36,6 +36,5 @@ public class SimulationSettingsSaver implements SimulationParameterListener, Plu
 	@Override
 	public void propertyChanged(String property, double newValue) {
 		settings.setSetting(StandardParameter.SIM_PROPERTY_DOUBLE_PREFIX + property, newValue);
-		System.out.println(StandardParameter.SIM_PROPERTY_STRING_PREFIX + property+"="+ newValue);
 	}
 }
