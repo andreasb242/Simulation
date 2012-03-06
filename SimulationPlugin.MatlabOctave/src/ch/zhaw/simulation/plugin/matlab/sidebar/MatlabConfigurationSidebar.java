@@ -27,12 +27,13 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar impl
 
 	@Override
 	protected void initComponents() {
-		StandartConfigurationPane standartConfigurationPane = new StandartConfigurationPane();
+		StandartConfigurationPane standartConfigurationPane = new StandartConfigurationPane(getConfig());
+		DormandPrinceConfigurationPane dormandPrinceConfigurationPane = new DormandPrinceConfigurationPane(getConfig());
 
 		numericMethods = new Vector<NumericMethod>();
 		numericMethods.add(new NumericMethod("Euler", standartConfigurationPane, new EulerCodeGenerator()));
 		numericMethods.add(new NumericMethod("Klassisch Runge-Kutta", standartConfigurationPane, new RungeKuttaCodeGenerator()));
-		numericMethods.add(new NumericMethod("Dormand–Prince", new DormandPrinceConfigurationPane(), new DormandPrinceCodeGenerator()));
+		numericMethods.add(new NumericMethod("Dormand–Prince", dormandPrinceConfigurationPane, new DormandPrinceCodeGenerator()));
 
 		add(new JLabel("Numerisches Verfahren"));
 		cbNnumericMethods = new JComboBox(numericMethods);

@@ -8,26 +8,15 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="JavaSE-1.6" jdkType="JavaSDK" />
-    <orderEntry type="module" module-name="Editor" />
-    <orderEntry type="module" module-name="Editor.Flow" />
-    <orderEntry type="module" module-name="Editor.XY" />
     <orderEntry type="module" module-name="BJavalibs" />
     <orderEntry type="module" module-name="ExternLibraries" />
+    <orderEntry type="module" module-name="Plugin" />
+    <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="Sysintegration" />
+    <orderEntry type="module" module-name="Model" />
     <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
     <orderEntry type="module" module-name="AppDefinition" />
-    <orderEntry type="module" module-name="HelpBrowser" />
-    <orderEntry type="module" module-name="HtmlEditor" />
-    <orderEntry type="module" module-name="ImportFilter" />
-    <orderEntry type="module" module-name="ImportFilter.Dynasis" />
-    <orderEntry type="module" module-name="ImportFilter.Madonna" />
-    <orderEntry type="module" module-name="Model" />
-    <orderEntry type="module" module-name="Plugin" />
-    <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
-    <orderEntry type="module" module-name="SimulationPlugin" />
-    <orderEntry type="module" module-name="NetbeansDirchooser" />
     <orderEntry type="module" module-name="SimulationSidebar" />
-    <orderEntry type="module" module-name="SimulationPlugin.Intern" />
   </component>
 </module>
 

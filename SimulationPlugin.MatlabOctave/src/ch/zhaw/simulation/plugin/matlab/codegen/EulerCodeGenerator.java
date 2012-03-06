@@ -18,6 +18,7 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
 import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
 import ch.zhaw.simulation.plugin.StandardParameter;
+import ch.zhaw.simulation.plugin.matlab.NumericMethod;
 
 /**
  * Code Generation for Runge-Kutta
@@ -42,9 +43,6 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 	private SimulationFlowModel model;
 	private MatlabVisitor visitor = new MatlabVisitor();
 	private Vector<String> openFiles = new Vector<String>();
-
-	public EulerCodeGenerator() {
-	}
 
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws IOException {

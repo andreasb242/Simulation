@@ -106,4 +106,8 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 	@Override
 	public void propertyChanged(String property, String newValue) {
 	}
+
+	protected SimulationConfiguration getConfig() {
+		return config;
+	}
 }
