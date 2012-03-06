@@ -18,7 +18,8 @@ import java.util.Vector;
  * @author: bachi
  */
 public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar implements ActionListener {
-
+	private static final long serialVersionUID = 1L;
+	
 	Vector<NumericMethod> numericMethods;
 	private NumericMethod selectedNumericMethod;
 

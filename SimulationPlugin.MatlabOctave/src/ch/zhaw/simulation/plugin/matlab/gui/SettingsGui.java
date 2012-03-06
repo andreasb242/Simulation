@@ -11,11 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import butti.filechooser.ExecDirChooser;
-import butti.filechooser.TxtDirChooser;
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.util.OpenFileBrowser;
+import ch.zhaw.simulation.filechooser.ExecDirChooser;
+import ch.zhaw.simulation.filechooser.TxtDirChooser;
 import ch.zhaw.simulation.plugin.matlab.MatlabTool;
 
 public class SettingsGui extends JPanel {

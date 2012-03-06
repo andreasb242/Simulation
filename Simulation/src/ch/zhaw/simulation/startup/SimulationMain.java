@@ -28,17 +28,19 @@ public class SimulationMain {
 		if (lookAndFeel == null && !OS.isMacOSX()) {
 			lookAndFeel = "nimbus";
 		}
+		
+		System.out.println(lookAndFeel);
 
 		try {
 			if ("metal".equals(lookAndFeel)) {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			} else if ("nimbus".equals(lookAndFeel)) {
 				
 				// 100ms faster than only setLookAndFeel
 				System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 			} else {
-				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
 		} catch (Exception e) {
 			Errorhandler.logError(e);

@@ -2,17 +2,12 @@ package ch.zhaw.simulation.plugin.sidebar;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.text.ParseException;
-
-import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
-import ch.zhaw.simulation.plugin.StandardParameter;
 
 public class DefaultConfigurationSidebar extends JXTaskPane implements FocusListener, SidebarPosition, SimulationParameterListener {
 	private static final long serialVersionUID = 1L;
@@ -26,7 +21,7 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 			throw new NullPointerException("config == null");
 		}
 		setTitle("Simulation Einstellungen");
-		
+
 		initComponents();
 	}
 

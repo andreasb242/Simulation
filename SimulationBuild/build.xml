@@ -12,155 +12,234 @@
 
 	<target name="init" depends="clean">
 		<mkdir dir="${build}" />
-		<mkdir dir="${build}/lib" />
+		<mkdir dir="${build}/distrib" />
+		<mkdir dir="${build}/distrib/lib" />
 
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="../ExternLibraries/lib/">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
-		<mkdir dir="${build}/plugin" />
-		<mkdir dir="${build}/plugin/simulation" />
-		<mkdir dir="${build}/plugin/import" />
-		<mkdir dir="${build}/config" />
+		<mkdir dir="${build}/distrib/plugin" />
+		<mkdir dir="${build}/distrib/plugin/simulation" />
+		<mkdir dir="${build}/distrib/plugin/import" />
+		<mkdir dir="${build}/distrib/config" />
 	</target>
 
 	<target name="complete" depends="init">
 
 		<ant antfile="../HelpBrowser/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
+
 			<property name="build" value="${build}/HelpBrowser" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/HelpBrowser">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../Model/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/Model" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/Model">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../Plugin/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/Plugin_" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/Plugin_">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../ImportFilter/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/ImportFilter" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/ImportFilter">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../ImportFilter.Dynasis/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/ImportFilter.Dynasis" />
 		</ant>
-		<copy todir="${build}/plugin/import">
+		<copy todir="${build}/distrib/plugin/import">
 			<fileset dir="${build}/ImportFilter.Dynasis">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../ImportFilter.Madonna/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/ImportFilter.Madonna" />
 		</ant>
-		<copy todir="${build}/plugin/import">
+		<copy todir="${build}/distrib/plugin/import">
 			<fileset dir="${build}/ImportFilter.Madonna">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../Sysintegration/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/Sysintegration" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/Sysintegration">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../HtmlEditor/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/HtmlEditor" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/HtmlEditor">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
 		<ant antfile="../SimulationJepLib-2.4.1/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/SimulationJepLib-2.4.1" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/SimulationJepLib-2.4.1">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
+		<ant antfile="../NetbeansDirchooser/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/NetbeansDirchooser/build.xml" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/NetbeansDirchooser/build.xml">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
+		<ant antfile="../SimulationSidebar/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/SimulationSidebar" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/SimulationSidebar">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
 		<ant antfile="../SimulationPlugin/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/SimulationPlugin" />
 		</ant>
-		<copy todir="${build}/lib">
+		<copy todir="${build}/distrib/lib">
 			<fileset dir="${build}/SimulationPlugin">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
+		<ant antfile="../AppDefinition/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/AppDefinition" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/AppDefinition">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
+		<ant antfile="../Editor/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/Editor" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/Editor">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
+		<ant antfile="../Editor.XY/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/Editor.XY" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/Editor.XY">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
+		<ant antfile="../Editor.Flow/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/Editor.Flow" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/Editor.Flow">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
 		<ant antfile="../SimulationPlugin.MatlabOctave/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/SimulationPlugin.MatlabOctave" />
 		</ant>
-		<copy todir="${build}/plugin/simulation">
+		<copy todir="${build}/distrib/plugin/simulation">
 			<fileset dir="${build}/SimulationPlugin.MatlabOctave">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
+
 		<ant antfile="../Simulation/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/lib" />
+			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/Simulation" />
 		</ant>
-		<copy todir="${build}">
+		<copy todir="${build}/distrib">
 			<fileset dir="${build}/Simulation">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build}/config">
+
+		<copy todir="${build}/distrib/config">
 			<fileset dir="../Simulation/config">
 				<include name="config.properties" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build}">
+		<copy todir="${build}/distrib">
 			<fileset dir="../Simulation/">
 				<include name="help/**/*" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build}">
+		<copy todir="${build}/distrib">
 			<fileset dir="windows/launch4j">
 				<include name="Simulation.exe" />
 			</fileset>

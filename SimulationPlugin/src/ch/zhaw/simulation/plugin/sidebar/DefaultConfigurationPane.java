@@ -1,7 +1,6 @@
 package ch.zhaw.simulation.plugin.sidebar;
 
 import butti.javalibs.numerictextfield.NumericTextField;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
 import ch.zhaw.simulation.plugin.StandardParameter;
 

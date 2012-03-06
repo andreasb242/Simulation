@@ -965,7 +965,7 @@ outer:  do {
             wait.await(timeout, unit);
         } finally {
             for (Future<T> f : result) {
-                RPFutureTask<?> ft = (RPFutureTask) f;
+                RPFutureTask<?> ft = (RPFutureTask<?>) f;
                 ft.cancel(true);
             }
         }
@@ -1262,10 +1262,6 @@ outer:  do {
             this.ref = ref;
         }
 
-        boolean failed() {
-            return failed;
-        }
-
         @Override
         public T call() throws Exception {
             try {
@@ -1311,11 +1307,6 @@ outer:  do {
 
         void setTask(Task task) {
             this.task = task;
-        }
-
-        RPFutureTask(Callable<T> c, T predefinedResult) {
-            this (c);
-            set(predefinedResult);
         }
 
         @Override
@@ -1715,7 +1706,9 @@ outer:  do {
 
     /* One item representing the task pending in the pending queue */
     private static class Item extends Exception {
-        private final RequestProcessor owner;
+		private static final long serialVersionUID = 1L;
+
+		private final RequestProcessor owner;
         Object action;
         boolean enqueued;
         String message;
@@ -1770,7 +1763,9 @@ outer:  do {
     }
     
     private static class CreatedItem extends Item {
-        public CreatedItem(Task task, RequestProcessor rp) {
+		private static final long serialVersionUID = 1L;
+
+		public CreatedItem(Task task, RequestProcessor rp) {
             super(task, rp);
         }
 
@@ -1791,7 +1786,9 @@ outer:  do {
     } // end of CreatedItem
 
     private static class FastItem extends Item {
-        FastItem(Task task, RequestProcessor rp) {
+		private static final long serialVersionUID = 1L;
+
+		FastItem(Task task, RequestProcessor rp) {
             super(task, rp);
         }
 
@@ -1801,8 +1798,9 @@ outer:  do {
         }
     }
     private static class SlowItem extends Item {
+		private static final long serialVersionUID = 1L;
 
-        SlowItem(Task task, RequestProcessor rp) {
+		SlowItem(Task task, RequestProcessor rp) {
             super(task, rp);
         }
 

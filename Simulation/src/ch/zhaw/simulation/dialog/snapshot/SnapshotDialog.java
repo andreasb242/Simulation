@@ -1,7 +1,5 @@
 package ch.zhaw.simulation.dialog.snapshot;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -35,7 +33,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import butti.filechooser.TxtDirChooser;
 import butti.javalibs.config.FileSettings;
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
@@ -43,6 +40,7 @@ import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
+import ch.zhaw.simulation.filechooser.TxtDirChooser;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;

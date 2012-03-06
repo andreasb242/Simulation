@@ -71,10 +71,6 @@ public class GuiConfig {
 		return new GradientPaint(0, 0, new Color(0xfffec3), 0, height, new Color(0xfffd57), false);
 	}
 
-	public Paint getConnectorBorderPaint(int width, int height, boolean selected) {
-		return Color.BLACK;
-	}
-
 	public Color getConnectorLineColor(boolean selected) {
 		if (selected) {
 			return new Color(0xffa857);
@@ -111,7 +107,11 @@ public class GuiConfig {
 		return new GradientPaint(0, 0, FLOW_ARROW_C2, 0, height, FLOW_ARROW_C1, false);
 	}
 
-	public int getFlowParameterSize() {
+	public int getValveSize() {
+		return 50;
+	}
+
+	public int getAtomSize() {
 		return 50;
 	}
 
@@ -120,14 +120,6 @@ public class GuiConfig {
 			return new GradientPaint(0, 0, new Color(0xffe0c3), 0, height, new Color(0xffa857), false);
 		}
 		return new GradientPaint(0, 0, new Color(0xfffec3), 0, height, new Color(0xfffd57), false);
-	}
-
-	public Paint getFlowParameterBorder(int width, int heigth, boolean selected) {
-		return Color.BLACK;
-	}
-
-	public Paint getDocumentBackground(int width, int height) {
-		return new GradientPaint(0, 0, new Color(0xf7f7f7), width, 0, new Color(0xcbcbcb), false);
 	}
 
 	public int getFlowArrowSize() {

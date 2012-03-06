@@ -1,9 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab.sidebar;
 
-import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;

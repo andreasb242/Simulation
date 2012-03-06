@@ -7,4 +7,9 @@ public class WindowsSysintegration extends Sysintegration {
 	public WindowsSysintegration() {
 	}
 
+	@Override
+	protected void initBookmarks() {
+		this.bookmarks = new WindowsBookmarks();
+	}
+
 }

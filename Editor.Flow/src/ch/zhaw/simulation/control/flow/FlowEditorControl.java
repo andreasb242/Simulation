@@ -20,11 +20,12 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
@@ -52,7 +53,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		autoparser = new Autoparser(this);
 
 		doc.addListener(this);
-		
+
 		startAutoparser();
 	}
 
@@ -83,11 +84,12 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(c.getValve()));
 			} else if (el instanceof BezierHelperPoint) {
+				AbstractConnectorData<?> condata = ((BezierHelperPoint) el).getConnectorData();
 
-				// TODO !!!!!!!!!!
-
-				// tmpRemovedConnectors.add(((BezierHelperPoint)
-				// el).getConnector());
+				if (condata instanceof ParameterConnectorData) {
+					ParameterConnectorData d = (ParameterConnectorData) condata;
+					tmpRemovedConnectors.add(d);
+				}
 			}
 		}
 
@@ -263,7 +265,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 	@Override
 	public boolean menuActionPerformedOverwrite(MenuToolbarAction action) {
-
 		switch (action.getType()) {
 		case FLOW_ADD_CONTAINER:
 			addContainer();

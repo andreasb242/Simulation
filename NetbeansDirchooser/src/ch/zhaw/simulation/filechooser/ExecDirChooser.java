@@ -1,21 +1,13 @@
-package butti.filechooser;
+package ch.zhaw.simulation.filechooser;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
-import java.awt.Window;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-public class TxtDirChooser extends JPanel {
+public class ExecDirChooser extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JTextField txtPath = new JTextField();
@@ -23,7 +15,7 @@ public class TxtDirChooser extends JPanel {
 
 	private Vector<ActionListener> changelistener = new Vector<ActionListener>();
 
-	public TxtDirChooser(final Window parent, final boolean showHidden) {
+	public ExecDirChooser(final Window parent, final boolean showHidden) {
 		setLayout(new LayoutManager() {
 
 			@Override
@@ -66,7 +58,7 @@ public class TxtDirChooser extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
-				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				if (!txtPath.getText().isEmpty()) {
 					fc.setSelectedFile(new File(txtPath.getText()));
 				}
