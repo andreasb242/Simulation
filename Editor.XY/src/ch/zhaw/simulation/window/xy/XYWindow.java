@@ -14,7 +14,7 @@ import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;
 public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorView> {
 	private static final long serialVersionUID = 1L;
 
-	private DensitySidebar densitySidebar ;
+	private DensitySidebar densitySidebar;
 
 	public XYWindow() {
 		super(true);
@@ -29,8 +29,8 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 				return null;
 			}
 		});
-		
-		densitySidebar = new DensitySidebar(view.getDensity(), view);
+
+		densitySidebar = new DensitySidebar(control.getParent(), view.getDensity(), control.getModel(), view);
 
 		control.setView(view);
 
@@ -50,4 +50,9 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		sidebar.add(densitySidebar);
 	}
 
+	@Override
+	public void dispose() {
+		densitySidebar.dispose();
+		super.dispose();
+	}
 }

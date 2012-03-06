@@ -495,6 +495,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	public void dispose() {
+		getControl().getModel().removeListener(this);
 		selectionModel.removeSelectionListener(this);
 	}
 }

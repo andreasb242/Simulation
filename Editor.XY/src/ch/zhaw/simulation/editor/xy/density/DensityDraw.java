@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.xy;
+package ch.zhaw.simulation.editor.xy.density;
 
 import java.awt.image.BufferedImage;
 
@@ -8,19 +8,19 @@ import butti.javalibs.errorhandler.Errorhandler;
 
 import ch.zhaw.simulation.math.Parser;
 
-
 public class DensityDraw {
 	private int width;
 	private int height;
+	private boolean visible = false;
 
 	private BufferedImage img;
-	
+
 	private Parser parser = new Parser();
 
 	public DensityDraw(int width, int height) {
 		this.width = width;
 		this.height = height;
-		
+
 		parser.addVar("x", 0);
 		parser.addVar("y", 0);
 		setFormula("x+y");
@@ -83,6 +83,14 @@ public class DensityDraw {
 
 	public BufferedImage getImage() {
 		return img;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public boolean isVisible() {
+		return visible;
 	}
 
 	public void setFormula(String formula) {

@@ -11,13 +11,16 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
+import ch.zhaw.simulation.editor.xy.density.DensityDraw;
 import ch.zhaw.simulation.editor.xy.element.AtomView;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.AtomData;
+import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.XYModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-public class XYEditorView extends AbstractEditorView<XYEditorControl> {
+public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener {
 	private static final long serialVersionUID = 1L;
 
 	private DensityDraw density;
@@ -26,7 +29,6 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 		super(control, factory);
 
 		density = new DensityDraw(800, 600);
-		density.updateImage();
 
 		loadDataFromModel();
 	}
@@ -52,7 +54,9 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 
 		DrawHelper.antialisingOn(g);
 
-		g.drawImage(density.getImage(), 0, 0, this);
+		if (density.isVisible()) {
+			g.drawImage(density.getImage(), 0, 0, this);
+		}
 
 		GuiConfig cfg = control.getSysintegration().getGuiConfig();
 		g.setColor(cfg.getRasterColor());
@@ -113,6 +117,24 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 
 	public DensityDraw getDensity() {
 		return density;
+	}
+	
+	@Override
+	public void densityAdded(DensityData d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void densityRemoved(DensityData d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void densityChanged(DensityData d) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
