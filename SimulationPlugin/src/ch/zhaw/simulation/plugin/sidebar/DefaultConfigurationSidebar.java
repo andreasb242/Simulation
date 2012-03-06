@@ -2,23 +2,18 @@ package ch.zhaw.simulation.plugin.sidebar;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.text.ParseException;
-
-import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.model.simulation.SimulationParameterListener;
-import ch.zhaw.simulation.plugin.StandardParameter;
 
 public class DefaultConfigurationSidebar extends JXTaskPane implements FocusListener, SidebarPosition, SimulationParameterListener {
 	private static final long serialVersionUID = 1L;
 
 	protected SimulationConfiguration config;
-	protected DefaultConfigurationPane pane;
+	protected DefaultConfigurationPane selectedPane;
 
 	public DefaultConfigurationSidebar(SimulationConfiguration config) {
 		this.config = config;
@@ -31,8 +26,8 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 	}
 
 	protected void initComponents() {
-		pane = new StepConfigurationPane(this);
-		pane.add();
+		selectedPane = new StepConfigurationPane(this);
+		selectedPane.add();
 	}
 
 	public SimulationConfiguration getConfig() {
@@ -40,16 +35,15 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 	}
 
 	public void load() {
-		loadDataFromModel();
-		config.addSimulationParameterListener(pane);
+		config.addSimulationParameterListener(selectedPane);
 	}
 
 	public void unload() {
-		config.removeSimulationParameterListener(pane);
+		config.removeSimulationParameterListener(selectedPane);
 	}
 
 	protected void loadDataFromModel() {
-		pane.loadDataFromModel();
+		selectedPane.loadDataFromModel();
 	}
 
 	@Override

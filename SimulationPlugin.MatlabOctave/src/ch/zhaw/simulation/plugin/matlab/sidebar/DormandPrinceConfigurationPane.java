@@ -16,9 +16,7 @@ import java.text.ParseException;
 /**
  * @author: bachi
  */
-public class DormandPrinceConfigurationPane extends DefaultConfigurationPane implements FocusListener {
-
-	private SimulationConfiguration config;
+public class DormandPrinceConfigurationPane extends DefaultConfigurationPane implements FocusListener, MatlabParameter {
 
 	private JLabel           lblInitStep = new JLabel("Initial Schritt");
 	private NumericTextField ntInitStep  = new NumericTextField();
@@ -28,15 +26,13 @@ public class DormandPrinceConfigurationPane extends DefaultConfigurationPane imp
 	public DormandPrinceConfigurationPane(DefaultConfigurationSidebar sidebar) {
 		super(sidebar);
 	}
-	
-	private void load() {
-		ntInitStep.setValue(this.config.getParameter(MatlabParameter.INIT_STEP, 0));
-		ntMaxStep.setValue(this.config.getParameter(MatlabParameter.MAX_STEP, 0));
-	}
 
 	@Override
 	public void loadDataFromModel() {
 		super.loadDataFromModel();
+		ntInitStep.setValue(sidebar.getConfig().getParameter(MatlabParameter.INIT_STEP, 0));
+		ntMaxStep.setValue(sidebar.getConfig().getParameter(MatlabParameter.MAX_STEP, 0));
+
 	}
 
 	@Override
@@ -44,16 +40,23 @@ public class DormandPrinceConfigurationPane extends DefaultConfigurationPane imp
 		super.add();
 		sidebar.add(lblInitStep);
 		sidebar.add(ntInitStep);
+		ntInitStep.addFocusListener(this);
+
 		sidebar.add(lblMaxStep);
 		sidebar.add(ntMaxStep);
+		ntMaxStep.addFocusListener(this);
 	}
 
 	@Override
 	public void remove() {
 		sidebar.remove(lblInitStep);
 		sidebar.remove(ntInitStep);
+		ntInitStep.removeFocusListener(this);
+
 		sidebar.remove(lblMaxStep);
 		sidebar.remove(ntMaxStep);
+		ntMaxStep.removeFocusListener(this);
+
 		super.remove();
 	}
 
@@ -63,25 +66,26 @@ public class DormandPrinceConfigurationPane extends DefaultConfigurationPane imp
 
 	@Override
 	public void focusLost(FocusEvent e) {
+		super.focusLost(e);
 		try {
-			this.config.setParameter(MatlabParameter.INIT_STEP, ntInitStep.getDoubleValue());
+			sidebar.getConfig().setParameter(MatlabParameter.INIT_STEP, ntInitStep.getDoubleValue());
 		} catch (ParseException ex) {
-			ntInitStep.setValue(this.config.getParameter(MatlabParameter.INIT_STEP, 0));
+			ntInitStep.setValue(sidebar.getConfig().getParameter(MatlabParameter.INIT_STEP, 0));
 		}
 		try {
-			this.config.setParameter(MatlabParameter.MAX_STEP, ntMaxStep.getDoubleValue());
+			sidebar.getConfig().setParameter(MatlabParameter.MAX_STEP, ntMaxStep.getDoubleValue());
 		} catch (ParseException ex) {
-			ntMaxStep.setValue(this.config.getParameter(MatlabParameter.MAX_STEP, 0));
+			ntMaxStep.setValue(sidebar.getConfig().getParameter(MatlabParameter.MAX_STEP, 0));
 		}
 	}
 
 	@Override
 	public void propertyChanged(String property, String newValue) {
-		super.propertyChanged(property, newValue);    //To change body of overridden methods use File | Settings | File Templates.
+		super.propertyChanged(property, newValue);
 	}
 
 	@Override
 	public void propertyChanged(String property, double newValue) {
-		super.propertyChanged(property, newValue);    //To change body of overridden methods use File | Settings | File Templates.
+		super.propertyChanged(property, newValue);
 	}
 }

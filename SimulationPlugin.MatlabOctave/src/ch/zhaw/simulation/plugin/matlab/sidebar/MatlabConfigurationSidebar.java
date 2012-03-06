@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab.sidebar;
 
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
 import ch.zhaw.simulation.plugin.matlab.NumericMethod;
 import ch.zhaw.simulation.plugin.matlab.codegen.DormandPrinceCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.codegen.EulerCodeGenerator;
@@ -17,12 +18,12 @@ import java.util.Vector;
 /**
  * @author: bachi
  */
-public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar implements ActionListener {
+public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar implements ActionListener, MatlabParameter {
 
 	Vector<NumericMethod> numericMethods;
 	private NumericMethod selectedNumericMethod;
 
-	private JComboBox cbNnumericMethods;
+	private JComboBox cbNumericMethods;
 
 	public MatlabConfigurationSidebar(SimulationConfiguration config) {
 		super(config);
@@ -39,25 +40,32 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar impl
 		numericMethods.add(new NumericMethod("Dormand–Prince", dormandPrinceConfigurationPane, new DormandPrinceCodeGenerator()));
 
 		add(new JLabel("Numerisches Verfahren"));
-		cbNnumericMethods = new JComboBox(numericMethods);
-		cbNnumericMethods.addActionListener(this);
-		add(cbNnumericMethods);
+		cbNumericMethods = new JComboBox(numericMethods);
+		cbNumericMethods.addActionListener(this);
+		add(cbNumericMethods);
 		selectedNumericMethod = getSelectedNumericMethod();
 
-		pane = stepConfigurationPane;
-		pane.add();
+		selectedPane = stepConfigurationPane;
+		selectedPane.add();
+	}
+
+	@Override
+	protected void loadDataFromModel() {
+		super.loadDataFromModel();
+
+		cbNumericMethods.setSelectedIndex((int) config.getParameter(NUMERIC_METHOD, 0));
 	}
 
 	public NumericMethod getSelectedNumericMethod() {
-		return (NumericMethod) cbNnumericMethods.getSelectedItem();
+		return (NumericMethod) cbNumericMethods.getSelectedItem();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		pane.remove();
+		selectedPane.remove();
 		selectedNumericMethod = getSelectedNumericMethod();
-		pane = selectedNumericMethod.getPane();
-		pane.add();
+		selectedPane = selectedNumericMethod.getPane();
+		selectedPane.add();
 	}
 }
 

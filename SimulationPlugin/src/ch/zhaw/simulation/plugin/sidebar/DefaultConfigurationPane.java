@@ -27,20 +27,14 @@ public class DefaultConfigurationPane implements FocusListener, SimulationParame
 		this.sidebar = sidebar;
 	}
 
-	/*
-	private void load() {
-		ntDt.setValue(this.config.getParameter(StandardParameter.DT, 0));
-		ntEnd.setValue(this.config.getParameter(StandardParameter.END, 0));
-		ntStart.setValue(this.config.getParameter(StandardParameter.START, 0));
-	}
-	*/
-
 	public void loadDataFromModel() {
 		ntStart.setValue(sidebar.config.getParameter(StandardParameter.START, 0));
 		ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, 0));
 	}
 
 	public void add() {
+		loadDataFromModel();
+
 		sidebar.add(lblStart);
 		sidebar.add(ntStart);
 		ntStart.addFocusListener(this);
