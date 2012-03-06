@@ -5,8 +5,10 @@ import javax.swing.JFrame;
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.xy.AtomData;
 import ch.zhaw.simulation.model.xy.XYModel;
 
 public class XYEditorControl extends AbstractEditorControl<XYModel> {
@@ -35,13 +37,28 @@ public class XYEditorControl extends AbstractEditorControl<XYModel> {
 	@Override
 	public void stopAutoparser() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void startAutoparser() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	public void addAtom() {
+		cancelAllActions();
+		addComponent(new AtomData(0, 0), "Atom");
+	}
+	
+	@Override
+	public boolean menuActionPerformedOverwrite(MenuToolbarAction action) {
+		switch (action.getType()) {
+		case XY_ADD_ATOM:
+			addAtom();
+			return true;
+		}
+
+		return false;
+	}
 }

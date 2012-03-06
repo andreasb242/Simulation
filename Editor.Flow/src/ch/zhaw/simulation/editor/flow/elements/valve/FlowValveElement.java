@@ -22,7 +22,7 @@ public class FlowValveElement extends GuiDataTextElement<FlowValveData> implemen
 		super(connector.getValve(), control);
 
 		config = control.getSysintegration().getGuiConfig();
-		size = config.getFlowParameterSize();
+		size = config.getValveSize();
 		image = new FlowValveImage(size, config);
 
 		textY = 30;

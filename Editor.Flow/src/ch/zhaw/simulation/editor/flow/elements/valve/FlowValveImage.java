@@ -19,7 +19,7 @@ public class FlowValveImage extends GuiImage {
 		g.setPaint(config.getFlowParameterBackground(size, size, selected));
 		g.fillRect(0, 0, size, size);
 
-		g.setPaint(config.getFlowParameterBorder(size, size, selected));
+		g.setPaint(config.getObjectBorder(selected));
 		g.drawRect(0, 0, size - 1, size - 1);
 
 		g.dispose();

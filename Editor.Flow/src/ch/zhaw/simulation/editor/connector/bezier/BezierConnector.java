@@ -87,12 +87,9 @@ public abstract class BezierConnector {
 	}
 
 	protected void updateBezier() {
-
 		Point startPoint = start.getPoint();
 		Point endPoint = end.getPoint();
 		Point middle = movePoint.getPoint();
-
-		// TODO repaint wenn schnell bewegt!!
 
 		this.curve.setCurve(startPoint.x, startPoint.y, middle.x, middle.y, middle.x, middle.y, endPoint.x, endPoint.y);
 	}

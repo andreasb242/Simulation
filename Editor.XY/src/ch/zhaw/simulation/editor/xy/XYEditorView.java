@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
+import ch.zhaw.simulation.editor.xy.element.AtomView;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.xy.AtomData;
 import ch.zhaw.simulation.model.xy.XYModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
@@ -23,8 +27,20 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 
 		density = new DensityDraw(800, 600);
 		density.updateImage();
-		
+
 		loadDataFromModel();
+	}
+
+	@Override
+	protected void initKeyhandler() {
+		super.initKeyhandler();
+
+		registerKeyShortcut('a', new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				control.addAtom();
+			}
+		});
 	}
 
 	@Override
@@ -73,6 +89,15 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 	}
 
 	@Override
+	protected boolean dataAddedImpl(AbstractSimulationData o) {
+		if (o instanceof AtomData) {
+			add(new AtomView(control, (AtomData) o));
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	protected void addModellistener() {
 		getControl().getModel().addListener(this);
 	}
@@ -89,5 +114,5 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> {
 	public DensityDraw getDensity() {
 		return density;
 	}
-	
+
 }
