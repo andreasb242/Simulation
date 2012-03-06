@@ -125,8 +125,6 @@ public class AddConnectorUi {
 
 			if (addArcType == ArcType.FLOW) {
 				if (start != null) {
-					// TODO debug
-					System.out.println("test1");
 					if (start instanceof InfiniteSymbol && selected.length == 1) {
 						if (!checkType(selected[0])) {
 							System.err.println("check type failed: 0");
@@ -150,8 +148,6 @@ public class AddConnectorUi {
 						control.setStatusTextInfo("Auf Container klicken, ∞, oder mit <ESC> abbrechen");
 					}
 				} else if (selected.length == 1) {
-					// TODO debug
-					System.out.println("test2");
 					if (!checkType(selected[0])) {
 						System.err.println("check type failed: 2");
 						return; // Sollte nicht auftreten, error Handling
@@ -159,8 +155,6 @@ public class AddConnectorUi {
 					setStartElement((AbstractDataView<?>) selected[0]);
 					selectionModel.acceptTmpSelection();
 				} else {
-					// TODO debug
-					System.out.println("test3");
 					InfiniteData data = new InfiniteData(e.getX(), e.getY());
 					data.calcCenter();
 					InfiniteSymbol infinite = new InfiniteSymbol(data, control);

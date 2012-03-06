@@ -42,6 +42,10 @@ public class BezierHelperPoint extends AbstractView {
 		return connector;
 	}
 
+	public AbstractConnectorData<?> getConnectorData() {
+		return connectorData;
+	}
+
 	@Override
 	public void dispose() {
 		connector = null;

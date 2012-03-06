@@ -13,6 +13,7 @@ import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
@@ -34,11 +35,11 @@ public class FlowTransferable extends AbstractTransferable {
 
 	public FlowTransferable(SelectableElement[] selected, SimulationFlowModel model) {
 		this.model = model;
-		
-		if(model == null) {
+
+		if (model == null) {
 			throw new NullPointerException("model == null");
 		}
-		
+
 		addCopy(selected);
 	}
 
@@ -72,12 +73,13 @@ public class FlowTransferable extends AbstractTransferable {
 
 			data.add(new TransferData(d.getId(), d.getX(), d.getY(), Type.Flow, d.getName(), d.getFormula(), source, target, null));
 		} else if (s instanceof BezierHelperPoint) {
-			
-			// TODO !!!!!
-			
-//			ParameterConnector d = ((BezierHelperPoint) s).getConnector();
-//			Point p = d.getHelperPoint();
-//			data.add(new TransferData(0, p.x, p.y, Type.Connector, null, null, d.getSource().getId(), d.getTarget().getId(), d.getHelperPoint()));
+			AbstractConnectorData<?> condata = ((BezierHelperPoint) s).getConnectorData();
+
+			if (condata instanceof ParameterConnectorData) {
+				ParameterConnectorData d = (ParameterConnectorData) condata;
+				Point p = d.getHelperPoint();
+				data.add(new TransferData(0, p.x, p.y, Type.Connector, null, null, d.getSource().getId(), d.getTarget().getId(), d.getHelperPoint()));
+			}
 		} else {
 			throw new RuntimeException("Class not handled in copy / paste: " + s.getClass().getName());
 		}
