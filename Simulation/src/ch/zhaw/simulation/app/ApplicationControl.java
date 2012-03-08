@@ -227,8 +227,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public void releaseOpenWindow() {
 		windowPosition.readWindowPos(this.mainFrame);
 
-		this.controller.dispose();
 		this.mainFrame.dispose();
+		this.controller.dispose();
 		this.removeListener(this.controller);
 		this.mainFrame.removeListener(this.controller);
 	}

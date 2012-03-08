@@ -397,10 +397,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		this.status.dispose();
 		this.status = null;
 
-		this.selectionModel.clearSelection();
-		this.selectionModel.clearTmpSelection();
-		this.selectionModel = null;
-
 		this.model.removeListener(simListener);
 		this.model = null;
 
@@ -423,6 +419,11 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		this.doc = null;
 
 		super.dispose();
+		
+
+		this.selectionModel.clearSelection();
+		this.selectionModel.clearTmpSelection();
+		this.selectionModel = null;
 	}
 
 }

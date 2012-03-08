@@ -35,7 +35,8 @@ import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JPanel implements SimulationListener, SelectionListener {
+public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
+		extends JPanel implements SimulationListener, SelectionListener {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -83,7 +84,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 				} else {
 					selectionModel.clearSelection();
 				}
-			} else if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			} else if (e.getKeyCode() == KeyEvent.VK_DELETE
+					|| e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 				control.deleteSelected();
 				e.consume();
 
@@ -286,7 +288,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		// Selektion zeichnen
 		GuiConfig cfg = control.getSysintegration().getGuiConfig();
 
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, cfg.getSelectionAlpha()));
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+				cfg.getSelectionAlpha()));
 
 		g.setColor(cfg.getSelectionForegroundColor());
 
@@ -411,7 +414,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 
 	public AbstractDataView<?> getElementAt(int x, int y) {
 		for (Component comp : getComponents()) {
-			if (comp instanceof AbstractDataView<?> && comp.getBounds().contains(x, y)) {
+			if (comp instanceof AbstractDataView<?>
+					&& comp.getBounds().contains(x, y)) {
 				return (AbstractDataView<?>) comp;
 			}
 		}
@@ -452,7 +456,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 			add(view);
 			view.paintText();
 		} else {
-			throw new RuntimeException("Unknown SimulationObject: " + o.getClass().getName());
+			throw new RuntimeException("Unknown SimulationObject: "
+					+ o.getClass().getName());
 		}
 
 		revalidate();
@@ -479,7 +484,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		}
 
 		AbstractSimulationData d = c.getData();
-		if (d instanceof AbstractNamedSimulationData && c instanceof GuiDataTextElement<?>) {
+		if (d instanceof AbstractNamedSimulationData
+				&& c instanceof GuiDataTextElement<?>) {
 			String text = ((AbstractNamedSimulationData) d).getStatusText();
 			((GuiDataTextElement<?>) c).setStatus(text);
 		}
@@ -495,7 +501,9 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	public void dispose() {
-		getControl().getModel().removeListener(this);
+		if (getControl() != null && getControl().getModel() != null) {
+			getControl().getModel().removeListener(this);
+		}
 		selectionModel.removeSelectionListener(this);
 	}
 }

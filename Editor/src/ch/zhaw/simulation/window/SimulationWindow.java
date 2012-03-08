@@ -85,7 +85,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	private SimulationConfigurationPanel simConfig;
 
 	protected NameFormulaConfiguration formulaConfiguration;
-	
+
 	/**
 	 * @param mainWindow
 	 *            If this is the main application window
@@ -166,7 +166,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 				control.showFormulaEditor(getData());
 			}
 
-		};		
+		};
 	}
 
 	@Override
@@ -243,11 +243,14 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	public void dispose() {
 		view.getUndoHandler().removeUndoListener(toolbar);
 		view.getClipboard().removeListener(toolbar);
-		view.dispose();
 
 		doc.getSimulationConfiguration().removePluginChangeListener(this);
 
-		view.getControl().getSelectionModel().removeSelectionListener(formulaConfiguration);
+		if (view.getControl().getSelectionModel() != null) {
+			view.getControl().getSelectionModel().removeSelectionListener(formulaConfiguration);
+		}
+
+		view.dispose();
 
 		this.simConfig.dispose();
 
