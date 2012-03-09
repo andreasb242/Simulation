@@ -2,6 +2,11 @@ package ch.zhaw.simulation.clipboard;
 
 import java.awt.Point;
 
+/**
+ * This is a single object copied to the clipboard
+ * 
+ * @author Andreas Butti
+ */
 public class TransferData {
 	private int x;
 	private int y;
@@ -14,7 +19,7 @@ public class TransferData {
 	private Point point;
 
 	public enum Type {
-		InfiniteSymbol, Container, Parameter, Text, Flow, Connector
+		InfiniteSymbol, Container, DensityContainer, Parameter, Global, Text, Flow, Connector
 	};
 
 	public TransferData(int id, int x, int y, Type type, String name, String formula, int source, int target, Point point) {

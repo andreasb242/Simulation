@@ -39,7 +39,7 @@ public interface ConnectorUi {
 	public boolean isConnector(Point point);
 
 	/**
-	 * Gets the selectable element
+	 * Gets the selectable elements
 	 */
-	public SelectableElement getSelectableElement();
+	public SelectableElement[] getSelectableElements();
 }

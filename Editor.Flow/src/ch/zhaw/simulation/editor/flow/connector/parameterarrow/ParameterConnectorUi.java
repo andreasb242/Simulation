@@ -65,7 +65,7 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 	}
 
 	@Override
-	public SelectableElement getSelectableElement() {
-		return curve.getMovePoint();
+	public SelectableElement[] getSelectableElements() {
+		return new SelectableElement[] { curve.getMovePoint() };
 	}
 }

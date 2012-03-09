@@ -40,9 +40,24 @@ public class SelectionModel {
 	 * @param e
 	 *            The selected element
 	 */
+	public void setSelected(SelectableElement[] elements) {
+		selected.clear();
+		addSelectedInt(elements);
+
+		tmpSelection.clear();
+
+		fireSelectionChanged();
+	}
+
+	/**
+	 * Sets this a current selected single element
+	 * 
+	 * @param e
+	 *            The selected element
+	 */
 	public void setSelected(SelectableElement e) {
 		selected.clear();
-		selected.add(e);
+		addSelectedInt(e);
 
 		tmpSelection.clear();
 
@@ -78,6 +93,18 @@ public class SelectionModel {
 	 * Fügt eine Selektion hinzu ohne einen Event abzusenden, für Loops etc.
 	 * 
 	 * @param e
+	 *            Die zu selektierende Element
+	 */
+	public void addSelectedInt(SelectableElement[] elements) {
+		for (SelectableElement e : elements) {
+			addSelectedInt(e);
+		}
+	}
+
+	/**
+	 * Fügt eine Selektion hinzu ohne einen Event abzusenden, für Loops etc.
+	 * 
+	 * @param e
 	 *            Das zu selektierende Element
 	 */
 	public void addSelectedInt(SelectableElement e) {
@@ -85,6 +112,14 @@ public class SelectionModel {
 			return;
 		}
 		selected.add(e);
+	}
+
+	/**
+	 * Adds a selected element
+	 */
+	public void addSelected(SelectableElement[] elements) {
+		addSelectedInt(elements);
+		fireSelectionChanged();
 	}
 
 	/**
@@ -140,6 +175,16 @@ public class SelectionModel {
 	 */
 	public void removeSelected(SelectableElement e) {
 		selected.remove(e);
+		fireSelectionChanged();
+	}
+
+	/**
+	 * Unselected an element
+	 */
+	public void removeSelected(SelectableElement[] elements) {
+		for (SelectableElement e : elements) {
+			selected.remove(e);
+		}
 		fireSelectionChanged();
 	}
 

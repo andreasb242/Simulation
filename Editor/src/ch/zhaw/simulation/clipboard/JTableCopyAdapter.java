@@ -17,8 +17,10 @@ import javax.swing.KeyStroke;
  * data format used by the adapter is compatible with the clipboard format used
  * by Excel. This provides for clipboard interoperability between enabled
  * JTables and Excel.
+ * 
+ * TODO currently unused
  */
-public class CopyAdapter implements ActionListener {
+public class JTableCopyAdapter implements ActionListener {
 	private Clipboard system;
 	private StringSelection stsel;
 	private JTable table;
@@ -27,7 +29,7 @@ public class CopyAdapter implements ActionListener {
 	 * The Excel Adapter is constructed with a JTable on which it enables
 	 * Copy-Paste and acts as a Clipboard listener.
 	 */
-	public CopyAdapter(JTable table) {
+	public JTableCopyAdapter(JTable table) {
 		this.table = table;
 		KeyStroke copy = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false);
 		// Identifying the copy KeyStroke user can modify this

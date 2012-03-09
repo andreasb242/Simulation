@@ -11,7 +11,6 @@ import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
-import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
 import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;
 import ch.zhaw.simulation.window.xy.sidebar.XYFormulaConfiguration;
 

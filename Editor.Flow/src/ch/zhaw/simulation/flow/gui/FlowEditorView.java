@@ -276,13 +276,13 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		}
 	}
 
-	public SelectableElement findGuiComponent(ParameterConnectorData con) {
+	public SelectableElement[] findGuiComponent(AbstractConnectorData<?> con) {
 		for (ConnectorUi c : connectors) {
-			if (c instanceof ParameterConnectorUi) {
-				ParameterConnectorUi pc = (ParameterConnectorUi) c;
+			if (c instanceof ConnectorUi) {
+				ConnectorUi pc = (ConnectorUi) c;
 
 				if (pc.getData() == con) {
-					return pc.getSelectableElement();
+					return pc.getSelectableElements();
 				}
 			}
 		}
@@ -381,12 +381,12 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	protected boolean checkSelection(MouseEvent e) {
 		for (ConnectorUi c : connectors) {
 			if (c.isConnector(e.getPoint())) {
-				SelectableElement selected = c.getSelectableElement();
+				SelectableElement[] selected = c.getSelectableElements();
 
 				if (e.isShiftDown()) {
 					selectionModel.addSelected(selected);
 				} else if (e.isControlDown()) {
-					if (selectionModel.isSelected(selected)) {
+					if (selectionModel.isSelected(selected[0])) {
 						selectionModel.removeSelected(selected);
 					} else {
 						selectionModel.addSelected(selected);
@@ -399,5 +399,4 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		}
 		return false;
 	}
-
 }

@@ -26,7 +26,10 @@ public abstract class AbstractTransferable implements Transferable {
 	public AbstractTransferable() {
 		initClipboardData();
 	}
-	
+
+	/**
+	 * Adds all data of the selected elements to the Transferable
+	 */
 	protected void addCopy(SelectableElement[] selected) {
 		for (SelectableElement s : selected) {
 			addCopy(s);

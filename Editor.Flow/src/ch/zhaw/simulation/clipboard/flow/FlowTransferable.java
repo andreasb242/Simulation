@@ -29,7 +29,7 @@ public class FlowTransferable extends AbstractTransferable {
 	protected SimulationFlowModel model;
 
 	/**
-	 * Alle daten die ins Clipboard kopiert werden
+	 * Alle Daten die ins Clipboard kopiert werden
 	 */
 	protected FlowClipboardData data;
 

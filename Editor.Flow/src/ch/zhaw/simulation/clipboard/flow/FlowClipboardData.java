@@ -1,103 +1,61 @@
 package ch.zhaw.simulation.clipboard.flow;
 
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Vector;
 
-import ch.zhaw.simulation.clipboard.ClipboardData;
+import ch.zhaw.simulation.clipboard.AbstractClipboardData;
 import ch.zhaw.simulation.clipboard.TransferData;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
-import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
-import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-import ch.zhaw.simulation.model.selection.SelectionModel;
 
-public class FlowClipboardData extends Vector<TransferData> implements ClipboardData {
+/**
+ * Handles clipboard Paste for Flow model
+ * 
+ * @author Andreas Butti
+ */
+public class FlowClipboardData extends AbstractClipboardData<SimulationFlowModel, FlowEditorView> {
 	private static final long serialVersionUID = 1L;
-
-	private SelectionModel selectionModel;
-	private SimulationFlowModel model;
-	private FlowEditorView view;
 
 	private HashMap<Integer, AbstractSimulationData> data = new HashMap<Integer, AbstractSimulationData>();
 
 	private Vector<TransferData> flows = new Vector<TransferData>();
 	private Vector<TransferData> connectors = new Vector<TransferData>();
-	private boolean flowModel;
 
 	public FlowClipboardData() {
 	}
 
-	public void addToModel(SelectionModel selectionModel, SimulationFlowModel model, FlowEditorView view) {
-		this.selectionModel = selectionModel;
-
-		this.model = model;
-		this.view = view;
-
-		this.flowModel = model.getModelType() == SimulationType.FLOW_SIMULATION;
-
-		selectionModel.clearSelection();
-
-		for (TransferData d : this) {
-			switch (d.getType()) {
-			case InfiniteSymbol:
-				if (flowModel) {
-					handleInfiniteData(d);
-				}
-				break;
-			case Container:
-				if (flowModel) {
-					handleContainer(d);
-				}
-				break;
-			case Parameter:
-				if (flowModel) {
-					handleParameter(d);
-				}
-				break;
-			case Text:
-				handleText(d);
-				break;
-			case Flow:
-				if (flowModel) {
-					flows.add(d);
-				}
-				break;
-			case Connector:
-				if (flowModel) {
-					connectors.add(d);
-				}
-				break;
-			default:
-				throw new RuntimeException("Unhandled Type: " + d.getType());
-			}
+	@Override
+	protected boolean handleData(TransferData d) {
+		switch (d.getType()) {
+		case InfiniteSymbol:
+			handleInfiniteData(d);
+			return true;
+		case Container:
+			handleContainer(d);
+			return true;
+		case Parameter:
+			handleParameter(d);
+			return true;
+		case Flow:
+			flows.add(d);
+			return true;
+		case Connector:
+			connectors.add(d);
+			return true;
 		}
-
-		for (TransferData f : flows) {
-			handleFlow(f);
-		}
-
-		for (TransferData c : connectors) {
-			handleConnector(c);
-		}
-
-		selectionModel.fireSelectionChanged();
+		return false;
 	}
 
 	private void handleConnector(TransferData c) {
-		if (!flowModel) {
-			throw new InvalidParameterException();
-		}
-
 		AbstractSimulationData source = data.get(c.getSource());
 		AbstractSimulationData target = data.get(c.getTarget());
 
@@ -181,7 +139,7 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 
 		model.addConnector(c);
 
-		select(c.getValve());
+		selectionModel.addSelectedInt(view.findGuiComponent(c));
 	}
 
 	private void handleInfiniteData(TransferData d) {
@@ -201,21 +159,6 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 		select(c);
 	}
 
-	private void handleText(TransferData d) {
-		TextData t = new TextData(d.getX(), d.getY());
-		t.setName(d.getName());
-		t.setText(d.getFormula());
-
-		data.put(d.getId(), t);
-
-		model.addData(t);
-
-		select(t);
-	}
-
-	private void select(AbstractSimulationData c) {
-		selectionModel.addSelectedInt(view.findGuiComponent(c));
-	}
 
 	private void handleContainer(TransferData d) {
 		SimulationContainerData c = new SimulationContainerData(d.getX(), d.getY());
@@ -239,4 +182,22 @@ public class FlowClipboardData extends Vector<TransferData> implements Clipboard
 
 		return false;
 	}
+
+	@Override
+	protected void finalizePaste() {
+		for (TransferData f : flows) {
+			handleFlow(f);
+		}
+
+		for (TransferData c : connectors) {
+			handleConnector(c);
+		}
+	}
+
+	@Override
+	protected void addElement(AbstractSimulationData data, TransferData transferdata) {
+		this.data.put(transferdata.getId(), data);
+		model.addData(data);
+	}
+
 }
