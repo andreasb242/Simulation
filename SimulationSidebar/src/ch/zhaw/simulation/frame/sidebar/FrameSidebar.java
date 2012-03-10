@@ -1,10 +1,14 @@
 package ch.zhaw.simulation.frame.sidebar;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
@@ -14,10 +18,15 @@ import org.jdesktop.swingx.JXTaskPaneContainer;
  * 
  * @author Andreas Butti
  */
-public class FrameSidebar extends JXTaskPaneContainer {
+public class FrameSidebar extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	private JXTaskPaneContainer bar = new JXTaskPaneContainer();
+
 	public FrameSidebar() {
+		super(new BorderLayout());
+		JScrollPane sp = new JScrollPane(bar);
+		add(sp);
 	}
 
 	@Override
@@ -47,18 +56,21 @@ public class FrameSidebar extends JXTaskPaneContainer {
 			Component c = comps.get(i);
 			setComponentZOrder(c, i);
 		}
-		
+
 		super.revalidate();
 	}
 
-	@Override
 	public void add(JXTaskPane group) {
 		if (!(group instanceof SidebarPosition)) {
 			System.err.println("FrameSidebar::add " + group.getClass() + " should implement SidebarPosition");
 		}
 
-		super.add(group);
+		bar.add(group);
 		reorderTaskPanes();
+	}
+	
+	public void remove(JXTaskPane group) {
+		bar.remove(group);
 	}
 
 }

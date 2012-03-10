@@ -26,12 +26,9 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 
 	private DensityEditor densityEditor;
 
-	private XYModel model;
-
 	public DensitySidebar(JFrame parent, DensityDraw draw, XYModel model, JComponent comp) {
 		setTitle("Dichte");
 
-		this.model = model;
 		listModel = new DensityListModel(model);
 		list = new JList(listModel);
 		list.setCellRenderer(new DensityRenderer());
