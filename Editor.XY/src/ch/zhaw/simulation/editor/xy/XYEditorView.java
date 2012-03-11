@@ -121,20 +121,14 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	
 	@Override
 	public void densityAdded(DensityData d) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void densityRemoved(DensityData d) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void densityChanged(DensityData d) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

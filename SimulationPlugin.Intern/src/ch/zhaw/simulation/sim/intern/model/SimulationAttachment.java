@@ -10,7 +10,6 @@ import org.nfunk.jep.function.Add;
 import org.nfunk.jep.function.Multiply;
 import org.nfunk.jep.function.Subtract;
 
-import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.Parser.ParserNodePair;
 import ch.zhaw.simulation.math.VarPlaceholder;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
