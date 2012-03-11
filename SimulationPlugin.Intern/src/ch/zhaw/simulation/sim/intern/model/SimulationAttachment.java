@@ -144,7 +144,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 			if (a instanceof TimeDtAssigmentPair) {
 				continue;
 			}
-			Object o = ((SimulationAttachment) a.getSimulationObject().a).calc(time, dt);
+			Object o = ((SimulationAttachment) a.getSimulationObject().attachment).calc(time, dt);
 			if (!a.getNode().getVar().setValue(o)) {
 				throw new RuntimeException("Could not set variable");
 			}
@@ -190,7 +190,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 				return;
 			}
 
-			SimulationAttachment x = (SimulationAttachment) a.getSimulationObject().a;
+			SimulationAttachment x = (SimulationAttachment) a.getSimulationObject().attachment;
 			x.optimize2();
 			if (x.getValue() == null) {
 				return;

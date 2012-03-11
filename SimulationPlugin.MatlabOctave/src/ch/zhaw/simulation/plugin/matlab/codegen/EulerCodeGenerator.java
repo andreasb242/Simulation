@@ -18,7 +18,6 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
 import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
 import ch.zhaw.simulation.plugin.StandardParameter;
-import ch.zhaw.simulation.plugin.matlab.NumericMethod;
 
 /**
  * Code Generation for Runge-Kutta
@@ -39,16 +38,21 @@ import ch.zhaw.simulation.plugin.matlab.NumericMethod;
  * @author Andreas Butti
  */
 public class EulerCodeGenerator extends AbstractCodeGenerator {
+
+	private static final String START = "sim_start";
+	private static final String END = "sim_end";
+	private static final String DT = "sim_dt";
+	private static final String TIME = "sim_time";
+	private static final String COUNT = "sim_count";
+	
 	private CodeOutput out;
 	private SimulationFlowModel model;
 	private MatlabVisitor visitor = new MatlabVisitor();
-	private Vector<String> openFiles = new Vector<String>();
+	private Vector <AbstractNamedSimulationData> datas = new Vector<AbstractNamedSimulationData>();
 
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws IOException {
 		extractBaseFile();
-
-		openFiles.clear();
 
 		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
 			throw new IllegalArgumentException("only flow model supported currently");
@@ -56,6 +60,11 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 
 		this.model = doc.getFlowModel();
 		SimulationConfiguration config = doc.getSimulationConfiguration();
+
+		// Add container and parameter to a newly created vector
+		// It will be used for file-handling
+		datas.addAll(model.getSimulationContainer());
+		datas.addAll(model.getSimulationParameter());
 
 		String outputFile = getWorkingFolder() + File.separator + "simulation.m";
 		this.out = new CodeOutput(new FileOutputStream(outputFile));
@@ -77,12 +86,12 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		double end = config.getParameter(StandardParameter.END, 5);
 		double dt = config.getParameter(StandardParameter.DT, 0.01);
 
-		out.setVar("_start", start);
-		out.setVar("_end", end);
-		out.setVar("_dt", dt);
+		out.setVar(START, start);
+		out.setVar(END, end);
+		out.setVar(DT, dt);
 		out.newline();
 		out.printComment("Time variable");
-		out.println("_time = _start;");
+		out.println(TIME + " = " + START + ";");
 
 		outputContainerInitialisation();
 		outputParameterInitialisation();
@@ -90,47 +99,57 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		out.newline();
 		out.printComment("Open output files");
 
-		outputOpenFiles(model.getSimulationContainer());
-		outputOpenFiles(model.getSimulationParameter());
+		outputOpenFiles(datas);
 
 		out.newline();
-		out.println("_count = ceil(_end / _dt)");
+		out.println(COUNT + " = ceil("+ END + " / " + DT + ");");
 		out.newline();
+
 		// TODO: DEBUG
-		out.println("x=[1:_count];");
+		out.println("% Debug only!");
+		out.println("x = zeros(1, " + COUNT + ");");
 
 		out.newline();
-		out.println("for _i = 1 : _count + 1");
+		out.println("for i = 1 : sim_count + 1");
 		out.indent();
 
-		out.println("_time += _dt;");
+		out.println(TIME + " = " + TIME + " + " + DT + ";");
 
 		outputFlowCalculations();
 		outputContainerCalculations();
 		outputParameterCalculations();
 
-		outputSaveCurrentValues();
+		outputSaveCurrentValues(datas);
 
 		out.detent();
 		out.println("end");
 
-		out.printComment("Print result !!! TODO !!!");
-		out.println("t=" + start + ":" + dt + ":" + end + ";");
+		out.printComment("Close output files");
+		outputCloseFiles(datas);
 
-		out.println("plot(t,x(2,:),'r','LineWidth',2);");
+		// TODO: DEBUG
+		out.println("% Debug only!");
+		out.println("t = " + START + ":" + DT + ":" + END + ";");
+		out.println("plot(t,x,'r','LineWidth',2);");
 		out.println("legend('dt=" + dt + "',2);");
 		out.println("title('Euler');");
 
 		out.close();
 
-		Runtime.getRuntime().exec(new String[] { "gedit", outputFile });
+		//Runtime.getRuntime().exec(new String[] { "gedit", outputFile });
 	}
 
-	private void outputSaveCurrentValues() {
+	private <T extends AbstractNamedSimulationData> void outputSaveCurrentValues(Vector<T> data) {
 		out.newline();
-		out.printComment("Save calculations !!! TODO !!!");
+		out.printComment("Save calculations");
 
-		out.println("x(_i)=v2.value;");
+		out.println("x(i)=Q.value;");
+
+		for (T n : data) {
+			String fp = n.getName() + ".fp";
+			String value = n.getName() + ".value";
+			this.out.println("fprintf(" + fp + ", '%e\\n', " + value + ");");
+		}
 
 	}
 
@@ -139,7 +158,7 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		out.printComment("Container calculations");
 
 		for (SimulationContainerData c : model.getSimulationContainer()) {
-			MatlabAttachment a = (MatlabAttachment) c.a;
+			MatlabAttachment a = (MatlabAttachment) c.attachment;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
@@ -158,7 +177,7 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 					}
 				}
 
-				out.println(c.getName() + ".value+=" + flows.toString() + "*_dt;");
+				out.println(c.getName() + ".value = " + c.getName() + ".value + " +flows.toString() + " * " + DT + ";");
 			}
 		}
 	}
@@ -168,7 +187,7 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		out.printComment("Flow calculations");
 
 		for (FlowConnectorData c : model.getFlowConnectors()) {
-			MatlabAttachment a = (MatlabAttachment) c.getValve().a;
+			MatlabAttachment a = (MatlabAttachment) c.getValve().attachment;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
@@ -185,7 +204,7 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		sortByRelevanz(parameters);
 
 		for (SimulationParameterData p : parameters) {
-			MatlabAttachment a = (MatlabAttachment) p.a;
+			MatlabAttachment a = (MatlabAttachment) p.attachment;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
@@ -202,13 +221,13 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		sortByRelevanz(parameters);
 
 		for (SimulationParameterData p : parameters) {
-			MatlabAttachment a = (MatlabAttachment) p.a;
+			MatlabAttachment a = (MatlabAttachment) p.attachment;
 
 			if (a.isConst()) {
-				out.println(p.getName() + ".value=" + a.getConstValue() + "; # constant");
+				out.println(p.getName() + ".value = " + a.getConstValue() + "; % constant");
 			} else {
 				try {
-					out.println(p.getName() + ".value=" + a.getPreparedFormula(visitor) + ";");
+					out.println(p.getName() + ".value = " + a.getPreparedFormula(visitor) + ";");
 				} catch (Exception e) {
 					System.out.println("outputParameterInitialisation::" + p.getName());
 					e.printStackTrace();
@@ -222,8 +241,8 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 
 			@Override
 			public int compare(AbstractNamedSimulationData o1, AbstractNamedSimulationData o2) {
-				MatlabAttachment a = (MatlabAttachment) o1.a;
-				MatlabAttachment b = (MatlabAttachment) o2.a;
+				MatlabAttachment a = (MatlabAttachment) o1.attachment;
+				MatlabAttachment b = (MatlabAttachment) o2.attachment;
 
 				return a.getDependencyOrder() - b.getDependencyOrder();
 			}
@@ -231,16 +250,18 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		});
 	}
 
-	private <T extends AbstractNamedSimulationData> void outputOpenFiles(Vector<T> data) {
-		for (T n : data) {
+	private <T extends AbstractNamedSimulationData> void outputOpenFiles(Vector<T> datas) {
+		for (T n : datas) {
 			String var = n.getName() + ".fp";
-			this.out.println(var + "=fopen('" + n.getName() + "_data.txt', 'w');");
-			openFiles.add(var);
+			this.out.println(var + " = fopen('" + n.getName() + "_data.txt', 'w');");
 		}
 	}
 
-	private void outputCloseFiles() {
-		// TODO: Files schliessen: openFiles
+	private <T extends AbstractNamedSimulationData> void outputCloseFiles(Vector<T> datas) {
+		for (T n : datas) {
+			String var = n.getName() + ".fp";
+			this.out.println("fclose(" + var + ");");
+		}
 	}
 
 	private void outputContainerInitialisation() {
@@ -251,12 +272,12 @@ public class EulerCodeGenerator extends AbstractCodeGenerator {
 		sortByRelevanz(containers);
 
 		for (SimulationContainerData c : containers) {
-			MatlabAttachment a = (MatlabAttachment) c.a;
+			MatlabAttachment a = (MatlabAttachment) c.attachment;
 
 			if (a.isConst()) {
-				out.println(c.getName() + ".value=" + a.getConstValue() + ";");
+				out.println(c.getName() + ".value = " + a.getConstValue() + ";");
 			} else {
-				out.println(c.getName() + ".value=" + a.getPreparedFormula(visitor) + "; # constant");
+				out.println(c.getName() + ".value = " + a.getPreparedFormula(visitor) + "; % constant");
 			}
 		}
 	}

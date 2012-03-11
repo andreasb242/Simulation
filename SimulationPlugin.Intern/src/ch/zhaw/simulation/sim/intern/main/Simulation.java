@@ -176,7 +176,7 @@ public class Simulation {
 			}
 
 			SimulationSerie serie = new SimulationSerie(c.getName() + " " + type);
-			((SimulationAttachment) c.a).serie = serie;
+			((SimulationAttachment) c.attachment).serie = serie;
 			series.addSeries(serie);
 		}
 
@@ -184,7 +184,7 @@ public class Simulation {
 	}
 
 	private void parseFormulas() throws CompilerError, ParseException, NotUsedException, EmptyFormulaException {
-		for (AbstractSimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getDatas()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				parseFormula((AbstractNamedSimulationData) d);
 			}
@@ -192,14 +192,14 @@ public class Simulation {
 
 		// Wenn möglich optimieren (Parameter die nur von konstanten Parametern
 		// abhängig sind auch konstant machen)
-		for (AbstractSimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getDatas()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				checkIfConst((AbstractNamedSimulationData) d);
 			}
 		}
 
 		// Constwerte auslesen
-		for (AbstractSimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getDatas()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				setConstValue((AbstractNamedSimulationData) d);
 			}
@@ -213,23 +213,23 @@ public class Simulation {
 			return;
 		}
 
-		Object value = ((SimulationAttachment) d.a).getValue();
+		Object value = ((SimulationAttachment) d.attachment).getValue();
 		if (value != null) {
 			if (value instanceof Double) {
-				((SimulationAttachment) d.a).serie.setConbstValue(((Double) value).doubleValue());
+				((SimulationAttachment) d.attachment).serie.setConbstValue(((Double) value).doubleValue());
 			} else {
 				// TODO: handle complex values, vectors etc.
-				((SimulationAttachment) d.a).serie.setConbstValue(0);
+				((SimulationAttachment) d.attachment).serie.setConbstValue(0);
 			}
 		}
 	}
 
 	private void checkIfConst(AbstractNamedSimulationData d) throws ParseException {
-		((SimulationAttachment) d.a).optimize2();
+		((SimulationAttachment) d.attachment).optimize2();
 	}
 
 	private void parseFormula(AbstractNamedSimulationData d) throws CompilerError, ParseException, NotUsedException, EmptyFormulaException {
-		SimulationAttachment a = (SimulationAttachment) d.a;
+		SimulationAttachment a = (SimulationAttachment) d.attachment;
 		Vector<AbstractNamedSimulationData> sources = new Vector<AbstractNamedSimulationData>();
 		sources.addAll(a.getSources());
 
@@ -239,15 +239,15 @@ public class Simulation {
 	}
 
 	private void initSimulationAttachment() {
-		for (AbstractSimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getDatas()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
-				n.a = new SimulationAttachment();
+				n.attachment = new SimulationAttachment();
 			}
 		}
 
 		for (FlowConnectorData c : model.getFlowConnectors()) {
-			c.getValve().a = new SimulationAttachment();
+			c.getValve().attachment = new SimulationAttachment();
 			flowConnectors.add(c);
 		}
 	}
@@ -262,7 +262,7 @@ public class Simulation {
 	 */
 	private void calcSources() throws SimulationModelException {
 		dataObjects.clear();
-		for (AbstractSimulationData d : model.getData()) {
+		for (AbstractSimulationData d : model.getDatas()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				calcSources((AbstractNamedSimulationData) d);
 				dataObjects.add((AbstractNamedSimulationData) d);
@@ -281,7 +281,7 @@ public class Simulation {
 
 	private void calcSources(AbstractNamedSimulationData s) {
 		Vector<AbstractNamedSimulationData> sources = model.getSource(s);
-		((SimulationAttachment) s.a).setSources(sources);
+		((SimulationAttachment) s.attachment).setSources(sources);
 	}
 
 	private void initSimulate() throws CompilerError, ParseException, InvalidAlgorithmParameterException, InterruptedException, ExecutionException {
@@ -312,7 +312,7 @@ public class Simulation {
 			int removed = 0;
 			for (int i = 0; i < dataObjects.size(); i++) {
 				AbstractNamedSimulationData s = dataObjects.get(i);
-				if (((SimulationAttachment) s.a).getSources().size() == 0) {
+				if (((SimulationAttachment) s.attachment).getSources().size() == 0) {
 					dataObjects.remove(s);
 					removed++;
 					continue;
@@ -320,7 +320,7 @@ public class Simulation {
 
 				boolean relations = false;
 
-				for (AbstractNamedSimulationData o : ((SimulationAttachment) s.a).getSources()) {
+				for (AbstractNamedSimulationData o : ((SimulationAttachment) s.attachment).getSources()) {
 					if (dataObjects.contains(o)) {
 						relations = true;
 						break;
@@ -364,7 +364,7 @@ public class Simulation {
 	}
 
 	private void calcInitData(SimulationContainerData d) throws CompilerError, ParseException {
-		((SimulationAttachment) d.a).setContainerValue(((SimulationAttachment) d.a).calc(0, dt));
+		((SimulationAttachment) d.attachment).setContainerValue(((SimulationAttachment) d.attachment).calc(0, dt));
 	}
 
 	/**

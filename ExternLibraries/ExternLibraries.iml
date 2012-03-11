@@ -35,6 +35,10 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <javadoc-paths>
+      <root url="jar://$MODULE_DIR$/doc/swingx-1.6-javadoc.zip!/" />
+      <root url="jar://$MODULE_DIR$/doc/jep-2.3.1-javadoc.zip!/javadoc" />
+    </javadoc-paths>
   </component>
 </module>
 

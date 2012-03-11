@@ -3,7 +3,16 @@ package ch.zhaw.simulation.model.element;
 import java.util.Vector;
 
 /**
- * 
+ * Superclass for subclasses like
+ * o Infinite (InfiniteData)
+ * o Container (SimulationContainerData)
+ * o Parameter (SimulationParameterData)
+ * o Atom (AtomData)
+ * o Text (TextData)
+ * o Density (SimulationDensityContainerData)
+ * o Global (SimulationGlobalData)
+ * o FlowValve (FlowValveData)
+ *
  * @author Andreas Butti
  */
 public abstract class AbstractSimulationData {

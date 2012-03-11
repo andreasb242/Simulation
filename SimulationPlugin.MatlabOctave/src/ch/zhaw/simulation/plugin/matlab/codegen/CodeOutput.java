@@ -89,7 +89,7 @@ public class CodeOutput {
 	 */
 	public void setVar(String var, double value) {
 		printIndentation();
-		out.println(var + "=" + value);
+		out.println(var + " = " + value + ";");
 	}
 
 	/**

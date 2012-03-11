@@ -44,8 +44,8 @@ public abstract class AbstractSimulation extends SwingWorker<SimulationCollectio
 	}
 
 	private void calcParameter(SimulationParameterData p) throws ParseException {
-		if (!((SimulationAttachment) p.a).serie.isConstValue()) {
-			((SimulationAttachment) p.a).serie.add(time, ((SimulationAttachment) p.a).calc(time, dt));
+		if (!((SimulationAttachment) p.attachment).serie.isConstValue()) {
+			((SimulationAttachment) p.attachment).serie.add(time, ((SimulationAttachment) p.attachment).calc(time, dt));
 		}
 	}
 

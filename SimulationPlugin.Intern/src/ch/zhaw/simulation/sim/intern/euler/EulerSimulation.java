@@ -31,8 +31,8 @@ public class EulerSimulation extends AbstractSimulation {
 			calcParameters();
 
 			for (SimulationContainerData c : model.getSimulationContainer()) {
-				Object v = ((SimulationAttachment) c.a).getContainerValue();
-				((SimulationAttachment) c.a).serie.add(time, v);
+				Object v = ((SimulationAttachment) c.attachment).getContainerValue();
+				((SimulationAttachment) c.attachment).serie.add(time, v);
 			}
 		}
 
@@ -50,7 +50,7 @@ public class EulerSimulation extends AbstractSimulation {
 
 		Object value;
 		try {
-			value = ((SimulationAttachment) d.a).calc(time, dt);
+			value = ((SimulationAttachment) d.attachment).calc(time, dt);
 		} catch (NullPointerException e) {
 			Errorhandler.logError(e, "Fehler beim parsen von Connector: " + c.toString());
 			throw e;
@@ -60,8 +60,8 @@ public class EulerSimulation extends AbstractSimulation {
 			throw new NullPointerException("value == null");
 		}
 
-		((SimulationAttachment) d.a).setNextFlowValue(value);
-		((SimulationAttachment) d.a).serie.add(time, value);
+		((SimulationAttachment) d.attachment).setNextFlowValue(value);
+		((SimulationAttachment) d.attachment).serie.add(time, value);
 	}
 
 	protected void calcContainers() throws ParseException {
@@ -71,14 +71,14 @@ public class EulerSimulation extends AbstractSimulation {
 	}
 
 	protected void doFlow(FlowConnectorData c) throws ParseException {
-		Object v = ((SimulationAttachment) c.getValve().a).getNextFlowValue();
+		Object v = ((SimulationAttachment) c.getValve().attachment).getNextFlowValue();
 		AbstractSimulationData source = c.getSource();
 		AbstractSimulationData target = c.getTarget();
 
 		if (source instanceof InfiniteData) {
 			// Nichts zu berechnen...
 		} else if (source instanceof SimulationContainerData) {
-			((SimulationAttachment) ((SimulationContainerData) source).a).minusContainerValue(v, dt);
+			((SimulationAttachment) ((SimulationContainerData) source).attachment).minusContainerValue(v, dt);
 		} else {
 			throw new RuntimeException("Source of flow is: " + source.getClass());
 		}
@@ -86,7 +86,7 @@ public class EulerSimulation extends AbstractSimulation {
 		if (target instanceof InfiniteData) {
 			// Nichts zu berechnen...
 		} else if (target instanceof SimulationContainerData) {
-			((SimulationAttachment) ((SimulationContainerData) target).a).addContainerValue(v, dt);
+			((SimulationAttachment) ((SimulationContainerData) target).attachment).addContainerValue(v, dt);
 		} else {
 			throw new RuntimeException("Target of flow is: " + target.getClass());
 		}

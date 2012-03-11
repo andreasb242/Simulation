@@ -37,7 +37,7 @@ public abstract class AbstractNamedSimulationData extends AbstractSimulationData
 	/**
 	 * The attachment, Temporary used for simulation / codegeneration
 	 */
-	public SimulationAttachment a;
+	public SimulationAttachment attachment;
 
 	public AbstractNamedSimulationData(int x, int y) {
 		super(x, y);
