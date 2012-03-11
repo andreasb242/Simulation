@@ -93,7 +93,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	protected void loadDataFromModel() {
 		SimulationFlowModel model = control.getModel();
 
-		for (AbstractSimulationData p : model.getData()) {
+		for (AbstractSimulationData p : model.getDatas()) {
 			dataAdded(p);
 		}
 

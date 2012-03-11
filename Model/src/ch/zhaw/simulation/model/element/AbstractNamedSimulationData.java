@@ -36,7 +36,7 @@ public abstract class AbstractNamedSimulationData extends AbstractSimulationData
 	/**
 	 * The attachment, Temporary used for simulation / codegeneration
 	 */
-	public SimulationAttachment a;
+	public SimulationAttachment attachment;
 
 	/**
 	 * The States of this component, if the formula is OK

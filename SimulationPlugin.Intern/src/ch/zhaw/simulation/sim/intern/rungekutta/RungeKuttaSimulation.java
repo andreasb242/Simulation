@@ -50,7 +50,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 
 		try {
 			for (SimulationContainerData c : model.getSimulationContainer()) {
-				((SimulationAttachment) c.a).tmp = new TmpContainerValues();
+				((SimulationAttachment) c.attachment).tmp = new TmpContainerValues();
 			}
 
 			for (time = 0; time < endTime && !isCancelled(); time += dt) {
@@ -63,11 +63,11 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 				calcParameters();
 
 				for (SimulationContainerData c : model.getSimulationContainer()) {
-					Object v = ((SimulationAttachment) c.a).getContainerValue();
+					Object v = ((SimulationAttachment) c.attachment).getContainerValue();
 					if (v instanceof Double) {
-						((SimulationAttachment) c.a).serie.add(time, (Double) v);
+						((SimulationAttachment) c.attachment).serie.add(time, (Double) v);
 					} else {
-						((SimulationAttachment) c.a).serie.setOtherType(v.getClass().getName());
+						((SimulationAttachment) c.attachment).serie.setOtherType(v.getClass().getName());
 					}
 				}
 			}
@@ -117,7 +117,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 	}
 
 	protected void doFlowTmp3(FlowConnectorData c, FlowType src, FlowType trg) throws ParseException {
-		Object newValue = ((SimulationAttachment) c.getValve().a).getNextFlowValue();
+		Object newValue = ((SimulationAttachment) c.getValve().attachment).getNextFlowValue();
 		AbstractSimulationData source = c.getSource();
 		AbstractSimulationData target = c.getTarget();
 
@@ -125,7 +125,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (source instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).a;
+			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -151,7 +151,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (target instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).a;
+			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -174,7 +174,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 	}
 
 	protected void doFlowTmp12(FlowConnectorData c, FlowType src, FlowType trg, double weight) throws ParseException {
-		Object newValue = ((SimulationAttachment) c.getValve().a).getNextFlowValue();
+		Object newValue = ((SimulationAttachment) c.getValve().attachment).getNextFlowValue();
 		AbstractSimulationData source = c.getSource();
 		AbstractSimulationData target = c.getTarget();
 
@@ -182,7 +182,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (source instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).a;
+			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -209,7 +209,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (target instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).a;
+			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -233,7 +233,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 	}
 
 	protected void doFlowTmp4(FlowConnectorData c, FlowType src, FlowType trg) throws ParseException {
-		Object newValue = ((SimulationAttachment) c.getValve().a).getNextFlowValue();
+		Object newValue = ((SimulationAttachment) c.getValve().attachment).getNextFlowValue();
 		AbstractSimulationData source = c.getSource();
 		AbstractSimulationData target = c.getTarget();
 
@@ -241,7 +241,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (source instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).a;
+			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -251,7 +251,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 
 			Object newValue2 = a.multiple(newValue, dt);
 
-			((SimulationAttachment) c.getValve().a).serie.add(time, newValue2);
+			((SimulationAttachment) c.getValve().attachment).serie.add(time, newValue2);
 
 			newValue = a.subtract(value, newValue2);
 
@@ -265,7 +265,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (target instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).a;
+			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -275,7 +275,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 
 			Object newValue2 = a.multiple(newValue, dt);
 
-			((SimulationAttachment) c.getValve().a).serie.add(time, newValue2);
+			((SimulationAttachment) c.getValve().attachment).serie.add(time, newValue2);
 
 			newValue = a.add(value, newValue2);
 
@@ -296,7 +296,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 
 		Object value;
 		try {
-			value = ((SimulationAttachment) d.a).calc(time, dt);
+			value = ((SimulationAttachment) d.attachment).calc(time, dt);
 		} catch (NullPointerException e) {
 			Errorhandler.logError(e, "Fehler beim parsen von Connector: " + c.toString());
 			throw e;
@@ -306,12 +306,12 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			throw new NullPointerException("value == null");
 		}
 
-		((SimulationAttachment) d.a).setNextFlowValue(value);
+		((SimulationAttachment) d.attachment).setNextFlowValue(value);
 	}
 
 	protected void cleanup() {
 		for (SimulationContainerData c : model.getSimulationContainer()) {
-			((SimulationAttachment) c.a).tmp = null;
+			((SimulationAttachment) c.attachment).tmp = null;
 		}
 	}
 
@@ -322,12 +322,12 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 	}
 
 	protected void calcContainer(SimulationContainerData c) throws ParseException {
-		TmpContainerValues tc = (TmpContainerValues) ((SimulationAttachment) c.a).tmp;
+		TmpContainerValues tc = (TmpContainerValues) ((SimulationAttachment) c.attachment).tmp;
 		if (tc.value2 == null) {
 			return;
 		}
 
-		SimulationAttachment a = (SimulationAttachment) c.a;
+		SimulationAttachment a = (SimulationAttachment) c.attachment;
 
 		// yn = yn + h / 6 * (K1 + 2 * K2 + 2 * K3 + K4);
 

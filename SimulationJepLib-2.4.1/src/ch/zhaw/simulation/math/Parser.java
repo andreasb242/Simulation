@@ -41,13 +41,14 @@ public class Parser {
 		jep.addComplex();
 		jep.getSymbolTable().remove("x");
 
+		// Add all functions from JEP to functionlist[]
 		Vector<Function> functionlist = new Vector<Function>();
-
 		for (Entry<String, PostfixMathCommandI> e : jep.getFunctionTable().entrySet()) {
 			functionlist.add(new Function(e.getKey(), e.getValue()));
 		}
 		this.functionlist = functionlist.toArray(new Function[] {});
 
+		// Add all constants from JEP to constlist[]
 		Vector<Constant> constlist = new Vector<Constant>();
 		SymbolTable st = jep.getSymbolTable();
 		for (Enumeration<?> loop = st.keys(); loop.hasMoreElements();) {
@@ -78,17 +79,25 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, AbstractSimulationData o, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
+	public ParserNodePair checkCode(String formula, AbstractSimulationData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
 			throws EmptyFormulaException, NotUsedException, CompilerError {
-		if (text.isEmpty()) {
-			throw new EmptyFormulaException(o);
+		// TODO: warum nicht nur AbstractNamedSimulationModel übergeben?
+		// TODO: daraus kann man formula und name entnehmen!
+		if (formula.isEmpty()) {
+			throw new EmptyFormulaException(data);
 		}
 
-		Line[] data = getFormulas(text);
+		// split formula from TextPane of FormulaEditor into lines separated by newlines
+		Line[] lines = getFormulas(formula);
+
+		// reset parser
 		newParser();
 
+		// duplicate sourcesConst
 		Vector<AbstractNamedSimulationData> sources = new Vector<AbstractNamedSimulationData>();
 		sources.addAll(sourcesConst);
+
+		// TODO: was machen diese zwei for() über sources und globals?
 
 		for (AbstractNamedSimulationData s : sources) {
 			if (jep.getVar(s.getName()) != null) {
@@ -99,7 +108,7 @@ public class Parser {
 			jep.addConstant(s.getName(), new VarPlaceholder());
 		}
 
-		Vector<SimulationGlobalData> globals = model.getGlobalsFor(o);
+		Vector<SimulationGlobalData> globals = model.getGlobalsFor(data);
 		for (SimulationGlobalData g : globals) {
 			if (jep.getVar(g.getName()) != null) {
 				jep.removeVariable(g.getName());
@@ -115,33 +124,38 @@ public class Parser {
 
 		Vector<Node> nodes = new Vector<Node>();
 
-		for (Line l : data) {
+		// Iterate over lines
+		// parse line by line, do simplification and add node to node-vector
+		for (Line line : lines) {
 			try {
-				Node node = jep.parse(l.text);
+				Node node = jep.parse(line.text);
 				processEquation(node);
 				nodes.add(node);
 			} catch (ParseException e) {
-				throw new CompilerError(o, e.getMessage(), l.line, l.text.length());
+				throw new CompilerError(data, e.getMessage(), line.line, line.text.length());
 			}
 		}
 
 		Vector<SimulationGlobalData> usedGlobals = new Vector<SimulationGlobalData>();
 
-		for (Node n : nodes) {
-			checkUsedParameter(n, sources, globals, usedGlobals);
+		for (Node node : nodes) {
+			checkUsedParameter(node, sources, globals, usedGlobals);
 		}
 
-		o.setUsedGlobals(usedGlobals);
+		data.setUsedGlobals(usedGlobals);
 
+		// If there are still namedDatas in the vector
+		// throw NotUsedException
 		if (sources.size() > 0) {
 			StringBuilder vars = new StringBuilder();
-			for (AbstractNamedSimulationData n : sources) {
+			for (AbstractNamedSimulationData namedData : sources) {
 				vars.append(", ");
-				vars.append(n.getName());
+				vars.append(namedData.getName());
 			}
 
-			throw new NotUsedException(o, vars.substring(2));
+			throw new NotUsedException(data, vars.substring(2));
 		}
+
 		return new ParserNodePair(nodes, jep);
 	}
 

@@ -19,107 +19,113 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.plugin.matlab.MatlabAttachment.VarNotFoundExceptionTmp;
 
 public class ModelOptimizer {
-	private SimulationFlowModel model;
+	private SimulationFlowModel flowModel;
 	private Parser parser = new Parser();
 
-	public ModelOptimizer(SimulationFlowModel model) {
-		this.model = model;
-		if (model == null) {
+	public ModelOptimizer(SimulationFlowModel flowModel) {
+		this.flowModel = flowModel;
+		if (flowModel == null) {
 			throw new NullPointerException("model == null");
 		}
 	}
 
 	public void optimize() throws SimulationModelException {
 		initModelForSimulation();
-		for (AbstractSimulationData d : model.getData()) {
-			if (d instanceof AbstractNamedSimulationData) {
-				parseFormula((AbstractNamedSimulationData) d);
+		for (AbstractSimulationData data : flowModel.getDatas()) {
+			if (data instanceof AbstractNamedSimulationData) {
+				parseFormula((AbstractNamedSimulationData) data);
 			}
 		}
 
 		// Wenn möglich optimieren (Parameter die nur von konstanten Parametern
 		// abhängig sind auch konstant machen)
-		for (AbstractSimulationData d : model.getData()) {
-			if (d instanceof AbstractNamedSimulationData) {
-				optimizeStatic((AbstractNamedSimulationData) d);
+		for (AbstractSimulationData data : flowModel.getDatas()) {
+			if (data instanceof AbstractNamedSimulationData) {
+				optimizeStatic((AbstractNamedSimulationData) data);
 			}
 		}
 
 		// Constwerte auslesen
-		for (AbstractSimulationData d : model.getData()) {
-			if (d instanceof AbstractNamedSimulationData) {
-				calculateConstValues((AbstractNamedSimulationData) d);
+		for (AbstractSimulationData data : flowModel.getDatas()) {
+			if (data instanceof AbstractNamedSimulationData) {
+				calculateConstValues((AbstractNamedSimulationData) data);
 			}
 		}
 	}
 
+	/**
+	 * For every AbstractSimulationData and FlowConnectorData,
+	 * assign a new MatlabAttachment
+	 */
 	private void initModelForSimulation() {
-		for (AbstractSimulationData d : model.getData()) {
-			if (d instanceof AbstractNamedSimulationData) {
-				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
-				n.a = new MatlabAttachment();
+		for (AbstractSimulationData data : flowModel.getDatas()) {
+			if (data instanceof AbstractNamedSimulationData) {
+				AbstractNamedSimulationData namedData = (AbstractNamedSimulationData) data;
+				namedData.attachment = new MatlabAttachment();
 			}
 		}
 
-		for (FlowConnectorData c : model.getFlowConnectors()) {
-			c.getValve().a = new MatlabAttachment();
+		for (FlowConnectorData connector : flowModel.getFlowConnectors()) {
+			connector.getValve().attachment = new MatlabAttachment();
 		}
 	}
 
-	private void parseFormula(AbstractNamedSimulationData d) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException,
-			VarNotFoundException {
-		MatlabAttachment a = (MatlabAttachment) d.a;
+	// TODO passender name für methode? methode optimiert auch!
+	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException {
+		MatlabAttachment attachment = (MatlabAttachment) namedData.attachment;
 
-		Vector<AbstractNamedSimulationData> sources = model.getSource(d);
-		a.setSources(sources);
+		// TODO: in die initModelForSimulation?
+		Vector<AbstractNamedSimulationData> sources = flowModel.getSource(namedData);
+		attachment.setSources(sources);
 
-		a.setParsed(parser.checkCode(d.getFormula(), d, model, sources, d.getName()));
+		// Check formula and set attachment to parsed
+		attachment.setParsed(parser.checkCode(namedData.getFormula(), namedData, flowModel, sources, namedData.getName()));
 		try {
-			a.assigneSourcesVars();
+			attachment.assigneSourcesVars();
 		} catch (VarNotFoundExceptionTmp e1) {
-			throw new VarNotFoundException(d, e1.getMessage(), e1);
+			throw new VarNotFoundException(namedData, e1.getMessage(), e1);
 		}
 		try {
-			a.optimize();
+			attachment.optimize();
 		} catch (ParseException e) {
-			throw new SimulationParserException(d, e);
+			throw new SimulationParserException(namedData, e);
 		}
 	}
 
 	/**
 	 * Optimize out calculations which are static
 	 */
-	private void optimizeStatic(AbstractNamedSimulationData d) throws SimulationParserException {
-		MatlabAttachment a = (MatlabAttachment) d.a;
+	private void optimizeStatic(AbstractNamedSimulationData namedData) throws SimulationParserException {
+		MatlabAttachment attachment = (MatlabAttachment) namedData.attachment;
 		try {
-			a.optimizeStatic(model);
+			attachment.optimizeStatic(flowModel);
 			
-			a.calcOrder();
+			attachment.calcOrder();
 		} catch (ParseException e) {
-			throw new SimulationParserException(d, e);
+			throw new SimulationParserException(namedData, e);
 		}
 	}
 
-	private void calculateConstValues(AbstractNamedSimulationData d) {
-		if (d instanceof SimulationContainerData) {
+	private void calculateConstValues(AbstractNamedSimulationData namedData) {
+		if (namedData instanceof SimulationContainerData) {
 			// Container sind nur Konstant wenn keine Ein- Und
 			// Ausflüsse vorhanden sind!
 
-			SimulationContainerData c = (SimulationContainerData) d;
-			if (model.hasFlowConnectors(c)) {
+			SimulationContainerData c = (SimulationContainerData) namedData;
+			if (flowModel.hasFlowConnectors(c)) {
 				// ein und / oder Ausflüsse vorhanden
 				return;
 			}
 		}
 
-		MatlabAttachment a = (MatlabAttachment) d.a;
+		MatlabAttachment attachment = (MatlabAttachment) namedData.attachment;
 
-		Object value = a.getValue();
+		Object value = attachment.getValue();
 		if (value != null) {
 			if (value instanceof Double) {
-				a.setConstValue(((Double) value).doubleValue());
+				attachment.setConstValue(((Double) value).doubleValue());
 			} else {
-				new SimulationModelException(d, "Cannot set const value typeof " + value.getClass().getName());
+				new SimulationModelException(namedData, "Cannot set const value typeof " + value.getClass().getName());
 			}
 		}
 	}

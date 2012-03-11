@@ -43,6 +43,10 @@ public class MatlabAttachment implements SimulationAttachment {
 	 */
 	private boolean isConst = false;
 
+	public MatlabAttachment() {
+		super();
+	}
+
 	public void setSources(Vector<AbstractNamedSimulationData> sources) {
 		if (sources == null) {
 			throw new NullPointerException("sources == null");
@@ -50,7 +54,13 @@ public class MatlabAttachment implements SimulationAttachment {
 		this.sources = sources;
 	}
 
+	/**
+	 * Set Attachment to "parsed" (wurde gerade geparst) with a ParserNodePair object
+	 *
+	 * @param parsed
+	 */
 	public void setParsed(ParserNodePair parsed) {
+		// TODO: stimmt kommentar? oder ist methoden-name semi-optimal gewählt?
 		if (parsed == null) {
 			throw new NullPointerException("parsed == null");
 		}
@@ -92,7 +102,7 @@ public class MatlabAttachment implements SimulationAttachment {
 				}
 			}
 
-			MatlabAttachment x = (MatlabAttachment) a.getSimulationObject().a;
+			MatlabAttachment x = (MatlabAttachment) a.getSimulationObject().attachment;
 			x.optimizeStatic(model);
 			if (x.getValue() == null) {
 				return;
@@ -102,6 +112,7 @@ public class MatlabAttachment implements SimulationAttachment {
 		value = j.evaluate(formula);
 	}
 
+	// TODO: nicht schon gemacht bei Parser.processEquation() ?
 	public void optimize() throws ParseException {
 		MatrixJep j = parsed.jep;
 		Node processed = j.preprocess(parsed.nodes.lastElement());
@@ -136,7 +147,7 @@ public class MatlabAttachment implements SimulationAttachment {
 				continue;
 			}
 
-			MatlabAttachment a = (MatlabAttachment) ap.getSimulationObject().a;
+			MatlabAttachment a = (MatlabAttachment) ap.getSimulationObject().attachment;
 			x = Math.max(x, a.calcOrder());
 		}
 
