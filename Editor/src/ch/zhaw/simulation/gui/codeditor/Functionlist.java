@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.configuration.codeditor;
+package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +18,10 @@ import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 
 public class Functionlist extends ToolbarAction {
 	private JPopupMenu menu = new JPopupMenu();
-	private FormulaEditor editor;
+	private FormulaEditorPanel editor;
 	private JComponent component;
 
-	public Functionlist(String name, String iconName, FormulaEditor editor) {
+	public Functionlist(String name, String iconName, FormulaEditorPanel editor) {
 		super(name, iconName);
 		this.editor = editor;
 	}
@@ -40,8 +40,7 @@ public class Functionlist extends ToolbarAction {
 	}
 
 	public void addElement(final Constant c) {
-		JMenuItem mi = new JMenuItem("<html><b>" + c.name + "</b> " + c.value
-				+ "</html>");
+		JMenuItem mi = new JMenuItem("<html><b>" + c.name + "</b> " + c.value + "</html>");
 		menu.add(mi);
 		mi.addActionListener(new ActionListener() {
 
@@ -62,8 +61,7 @@ public class Functionlist extends ToolbarAction {
 		} else {
 			type = "Parameter";
 		}
-		JMenuItem mi = new JMenuItem("<html><b>" + p.getName() + "</b> " + type
-				+ "</html>");
+		JMenuItem mi = new JMenuItem("<html><b>" + p.getName() + "</b> " + type + "</html>");
 		menu.add(mi);
 		mi.addActionListener(new ActionListener() {
 
@@ -87,9 +85,7 @@ public class Functionlist extends ToolbarAction {
 	}
 
 	private void addElement(JMenu menu, final FunctionInformation info) {
-		JMenuItem mi = new JMenuItem("<html><b>" + info.getName() + "</b>("
-				+ info.getParameter() + ")<br>" + info.getDescription()
-				+ "</html>");
+		JMenuItem mi = new JMenuItem("<html><b>" + info.getName() + "</b>(" + info.getParameter() + ")<br>" + info.getDescription() + "</html>");
 		menu.add(mi);
 		mi.addActionListener(new ActionListener() {
 

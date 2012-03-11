@@ -81,20 +81,20 @@ public class FunctionHelp {
 
 		info.setName(node.getAttributes().getNamedItem("name").getNodeValue());
 		info.setFunctionClass(node.getAttributes().getNamedItem("class").getNodeValue());
-		
+
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);
 
 			if ("description".equals(n.getNodeName())) {
 				info.setDescription(n.getChildNodes().item(0).getNodeValue());
-			} else if("param".equals(n.getNodeName())) {
+			} else if ("param".equals(n.getNodeName())) {
 				String def = null;
 				Node defN = n.getAttributes().getNamedItem("default");
-				if(defN != null) {
+				if (defN != null) {
 					def = defN.getNodeValue();
 				}
 				info.addParam(n.getChildNodes().item(0).getNodeValue(), def);
-			} else if("undefinedParam".equals(n.getNodeName())) {
+			} else if ("undefinedParam".equals(n.getNodeName())) {
 				info.addUndefinedParam();
 			}
 		}

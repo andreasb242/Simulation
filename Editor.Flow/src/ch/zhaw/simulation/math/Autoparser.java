@@ -3,19 +3,18 @@ package ch.zhaw.simulation.math;
 
 import java.util.Vector;
 
+import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
+import ch.zhaw.simulation.model.NamedFormulaData.Status;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData.Status;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
-
-import butti.javalibs.errorhandler.Errorhandler;
 
 public class Autoparser {
 	private Parser parser = new Parser();

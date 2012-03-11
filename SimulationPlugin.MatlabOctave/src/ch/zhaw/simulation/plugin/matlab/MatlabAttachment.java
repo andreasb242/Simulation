@@ -12,6 +12,7 @@ import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.Parser.ParserNodePair;
+import ch.zhaw.simulation.math.VarPlaceholder;
 import ch.zhaw.simulation.model.SimulationAttachment;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -153,7 +154,7 @@ public class MatlabAttachment implements SimulationAttachment {
 		if (node instanceof ASTVarNode) {
 			ASTVarNode a = (ASTVarNode) node;
 
-			if (!(a.getVar().getValue() instanceof Parser.VarPlaceholder)) {
+			if (!(a.getVar().getValue() instanceof VarPlaceholder)) {
 				return;
 			}
 

@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.configuration.codeditor;
+package ch.zhaw.simulation.gui.codeditor;
 
 import java.util.Vector;
 
@@ -10,25 +10,24 @@ import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
 
-
 public class FormulaEditorKit extends StyledEditorKit {
 
-    private static final long serialVersionUID = 2969169649596107757L;
-    private FormulaViewFactory xmlViewFactory;
+	private static final long serialVersionUID = 2969169649596107757L;
+	private FormulaViewFactory xmlViewFactory;
 
-    public FormulaEditorKit() {
-        xmlViewFactory = new FormulaViewFactory();
-    }
-    
-    @Override
-    public ViewFactory getViewFactory() {
-        return xmlViewFactory;
-    }
+	public FormulaEditorKit() {
+		xmlViewFactory = new FormulaViewFactory();
+	}
 
-    @Override
-    public String getContentType() {
-        return "text/xml";
-    }
+	@Override
+	public ViewFactory getViewFactory() {
+		return xmlViewFactory;
+	}
+
+	@Override
+	public String getContentType() {
+		return "text/xml";
+	}
 
 	public void setConsts(Constant[] constants, Function[] functions, Vector<AbstractNamedSimulationData> parameter, Vector<SimulationGlobalData> globals) {
 		xmlViewFactory.setConsts(constants, functions, parameter, globals);

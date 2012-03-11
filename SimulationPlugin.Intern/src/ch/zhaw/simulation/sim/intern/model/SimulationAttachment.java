@@ -12,6 +12,7 @@ import org.nfunk.jep.function.Subtract;
 
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.Parser.ParserNodePair;
+import ch.zhaw.simulation.math.VarPlaceholder;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.sim.intern.data.SimulationSerie;
@@ -204,7 +205,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 			ASTVarNode a = (ASTVarNode) node;
 
 			// TODO: optimieren
-			if (!(a.getVar().getValue() instanceof Parser.VarPlaceholder)) {
+			if (!(a.getVar().getValue() instanceof VarPlaceholder)) {
 				return;
 			}
 

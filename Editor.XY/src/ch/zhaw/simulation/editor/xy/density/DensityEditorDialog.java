@@ -6,18 +6,21 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
+import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
 
-public class DensityEditor extends BDialog {
+public class DensityEditorDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
 
-	private GridBagManager gbm;
 	private DensityListModel listModel;
 	private JList list;
 
@@ -25,16 +28,20 @@ public class DensityEditor extends BDialog {
 
 	private XYModel model;
 
-	public DensityEditor(JFrame parent, XYModel model) {
+	public DensityEditorDialog(JFrame parent, XYModel model, Sysintegration sys, FunctionHelp help) {
 		super(parent);
 		setTitle("Edit Density");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.model = model;
-		editor = new EditorPanel(model);
+		editor = new EditorPanel(model, sys, help);
 
-		gbm = new GridBagManager(this, true);
-
+		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		add(split);
+		
+		split.setRightComponent(editor);
+		
+		
 		listModel = new DensityListModel(model);
 		list = new JList(listModel);
 		list.setCellRenderer(new DensityRenderer());
@@ -48,6 +55,9 @@ public class DensityEditor extends BDialog {
 				}
 			}
 		});
+		
+		JPanel pLeft = new JPanel();
+		GridBagManager gbm = new GridBagManager(pLeft);
 
 		gbm.setX(0).setY(0).setWidth(3).setWeightX(0).setScrollPanel().setComp(list);
 
@@ -64,10 +74,10 @@ public class DensityEditor extends BDialog {
 
 			}
 		});
+		
+		split.setLeftComponent(pLeft);
 
-		gbm.setX(10).setY(0).setHeight(2).setComp(editor);
-
-		setSize(640, 480);
+		pack();
 		setLocationRelativeTo(parent);
 		setModal(true);
 	}

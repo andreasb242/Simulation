@@ -3,6 +3,7 @@ package ch.zhaw.simulation.model.flow;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
@@ -120,10 +121,10 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	}
 
 	@Override
-	public Vector<SimulationGlobalData> getGlobalsFor(AbstractSimulationData o) {
+	public Vector<SimulationGlobalData> getGlobalsFor(NamedFormulaData data) {
 		Vector<SimulationGlobalData> globals = new Vector<SimulationGlobalData>();
-		for (AbstractSimulationData d : data) {
-			if (d instanceof SimulationGlobalData && !checkDependency(d, o)) {
+		for (AbstractSimulationData d : this.data) {
+			if (d instanceof SimulationGlobalData && !checkDependency(d, (AbstractSimulationData) data)) {
 				globals.add((SimulationGlobalData) d);
 			}
 		}
@@ -176,7 +177,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	}
 
 	@Override
-	public Vector<AbstractNamedSimulationData> getSource(AbstractSimulationData data) {
+	public Vector<AbstractNamedSimulationData> getSource(NamedFormulaData data) {
 		Vector<AbstractNamedSimulationData> source = new Vector<AbstractNamedSimulationData>();
 		for (AbstractConnectorData<?> c : connectors) {
 			if (c instanceof ParameterConnectorData && c.getTarget() == data && c.getSource() instanceof AbstractNamedSimulationData) {

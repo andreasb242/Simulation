@@ -1,11 +1,16 @@
 package ch.zhaw.simulation.model.xy;
 
+import java.util.Vector;
+
+import ch.zhaw.simulation.model.NamedFormulaData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+
 /**
  * The Density startconfiguration
  * 
  * @author Andreas Butti
  */
-public class DensityData {
+public class DensityData implements NamedFormulaData {
 	private String formula = "";
 	private String name;
 	private String description;
@@ -38,6 +43,16 @@ public class DensityData {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public void setFormula(String formula, Status status, String statusText) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
 	}
 
 }

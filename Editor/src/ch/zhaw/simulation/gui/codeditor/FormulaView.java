@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.configuration.codeditor;
+package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -24,7 +24,6 @@ import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
 
-
 /**
  * Thanks: http://groups.google.com/group/de.comp.lang.java/msg/2bbeb016abad270
  * 
@@ -36,7 +35,7 @@ public class FormulaView extends PlainView {
 
 	private HashMap<Pattern, FormatEntry> patternColors;
 	private static final String TAG_COMMENT = "(//.*(\n|$))";
-	
+
 	private static final FormatEntry ENTRY_DEFAULT = new FormatEntry(Color.BLACK, new Font("Monospaced", Font.PLAIN, 12));
 	private static final FormatEntry ENTRY_COMMENT = new FormatEntry(new Color(0x3f7f5f), ENTRY_DEFAULT.font);
 	private static final FormatEntry ENTRY_CONST = new FormatEntry(Color.BLUE, ENTRY_DEFAULT.font.deriveFont(Font.BOLD));
@@ -55,8 +54,7 @@ public class FormulaView extends PlainView {
 	}
 
 	@Override
-	protected int drawUnselectedText(Graphics graphics, int x, int y, int p0,
-			int p1) throws BadLocationException {
+	protected int drawUnselectedText(Graphics graphics, int x, int y, int p0, int p1) throws BadLocationException {
 
 		Document doc = getDocument();
 		String text = doc.getText(p0, p1 - p0);
@@ -74,7 +72,7 @@ public class FormulaView extends PlainView {
 			while (matcher.find()) {
 				FormatEntry v = entry.getValue();
 				int start = matcher.start(1);
-				if(start != 0) {
+				if (start != 0) {
 					start += v.startPadding;
 				}
 				startMap.put(start, matcher.end() - v.endPadding);
@@ -137,8 +135,8 @@ public class FormulaView extends PlainView {
 			pattern = "(\\W|^)(" + p.getName() + ")$";
 			patternColors.put(Pattern.compile(pattern), ENTRY_PARAMETER.get(1, 0));
 		}
-		
-		for(SimulationGlobalData g : globals) {
+
+		for (SimulationGlobalData g : globals) {
 			String pattern = "(\\W|^)(" + g.getName() + ")\\W";
 			patternColors.put(Pattern.compile(pattern), ENTRY_GLOBAL.get(1, 1));
 			pattern = "(\\W|^)(" + g.getName() + ")$";
@@ -153,21 +151,21 @@ public class FormulaView extends PlainView {
 		public final Font font;
 		public final int startPadding;
 		public final int endPadding;
-		
+
 		public FormatEntry(Color color, Font font) {
 			this.color = color;
 			this.font = font;
 			this.startPadding = 0;
 			this.endPadding = 0;
 		}
-		
+
 		public FormatEntry(Color color, Font font, int sp, int ep) {
 			this.color = color;
 			this.font = font;
 			this.startPadding = sp;
 			this.endPadding = ep;
 		}
-		
+
 		public FormatEntry get(int sp, int ep) {
 			return new FormatEntry(color, font, sp, ep);
 		}

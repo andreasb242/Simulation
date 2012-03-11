@@ -3,7 +3,9 @@ package ch.zhaw.simulation.model.xy;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
@@ -147,6 +149,31 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 		for (XYSimulationListener l : this.listener) {
 			l.densityChanged(d);
 		}
+	}
+
+	/**
+	 * Autoparser don't change the element, so the model is safed after if it
+	 * was it before
+	 * 
+	 * @param o
+	 */
+	public void fireObjectChangedAutoparser(Object o) {
+		if (o instanceof AbstractNamedSimulationData) {
+			checkIntegrity((AbstractNamedSimulationData) o);
+		}
+
+		if (o instanceof AbstractSimulationData) {
+			for (int i = 0; i < listener.size(); i++) {
+				listener.get(i).dataChanged((AbstractSimulationData) o);
+			}
+		} else if (o instanceof DensityData) {
+			fireDensityChanged((DensityData) o);
+		}
+	}
+
+	@Override
+	public Vector<AbstractNamedSimulationData> getSource(NamedFormulaData data) {
+		return new Vector<AbstractNamedSimulationData>();
 	}
 
 }

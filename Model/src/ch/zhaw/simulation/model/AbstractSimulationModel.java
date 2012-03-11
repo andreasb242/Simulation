@@ -62,7 +62,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 * Checks if this object can be inserted into this model, if not it will be
 	 * reanamed
 	 */
-	private void checkIntegrity(AbstractNamedSimulationData newObject) {
+	protected void checkIntegrity(AbstractNamedSimulationData newObject) {
 		String searchName = newObject.getName();
 
 		for (AbstractSimulationData d : data) {
@@ -128,13 +128,13 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	}
 
 	/**
-	 * Returns all globals used by the object <code>o</code>
+	 * Returns all globals for <code>data</code> which not depend on it
 	 * 
 	 * @return The global objects
 	 */
-	public Vector<SimulationGlobalData> getGlobalsFor(AbstractSimulationData o) {
+	public Vector<SimulationGlobalData> getGlobalsFor(NamedFormulaData data) {
 		Vector<SimulationGlobalData> globals = new Vector<SimulationGlobalData>();
-		for (AbstractSimulationData d : data) {
+		for (AbstractSimulationData d : this.data) {
 			if (d instanceof SimulationGlobalData) {
 				globals.add((SimulationGlobalData) d);
 			}
@@ -143,9 +143,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 		return globals;
 	}
 
-	public Vector<AbstractNamedSimulationData> getSource(AbstractSimulationData data) {
-		return new Vector<AbstractNamedSimulationData>();
-	}
+	public abstract Vector<AbstractNamedSimulationData> getSource(NamedFormulaData data);
 
 	/**
 	 * Removes an object from the simulation model
@@ -224,12 +222,12 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 * 
 	 * @param o
 	 */
-	public void fireObjectChangedAutoparser(AbstractSimulationData o) {
+	public void fireObjectChangedAutoparser(Object o) {
 		if (o instanceof AbstractNamedSimulationData) {
 			checkIntegrity((AbstractNamedSimulationData) o);
 		}
 		for (int i = 0; i < listener.size(); i++) {
-			listener.get(i).dataChanged(o);
+			listener.get(i).dataChanged((AbstractSimulationData)o);
 		}
 	}
 

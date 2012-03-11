@@ -1,5 +1,4 @@
-package ch.zhaw.simulation.gui.configuration.codeditor;
-
+package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,8 +12,6 @@ import org.jdesktop.swingx.VerticalLayout;
 
 import ch.zhaw.simulation.util.gui.GradientPanel;
 import ch.zhaw.simulation.util.gui.HeaderPanel;
-
-
 
 public class CodeTooltip extends JToolTip {
 	private static final long serialVersionUID = 1L;
@@ -42,16 +39,16 @@ public class CodeTooltip extends JToolTip {
 	public void setTitle(String title) {
 		lbTitle.setText(title);
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize() {
 		return layout.preferredLayoutSize(this);
 	}
-	
+
 	@Override
 	public void setTipText(String tipText) {
 	}
-	
+
 	public void setContents(String contents) {
 		lbContents.setText(contents);
 	}

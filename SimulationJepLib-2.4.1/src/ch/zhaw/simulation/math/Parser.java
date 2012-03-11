@@ -15,9 +15,9 @@ import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.EmptyFormulaException;
 import ch.zhaw.simulation.math.exception.NotUsedException;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
-import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
 public class Parser {
 	private MatrixJep jep;
@@ -38,7 +38,7 @@ public class Parser {
 		jep.addStandardConstants();
 		jep.addStandardDiffRules();
 		jep.addStandardFunctions();
-		jep.addComplex();
+		//jep.addComplex();
 		jep.getSymbolTable().remove("x");
 
 		Vector<Function> functionlist = new Vector<Function>();
@@ -78,7 +78,7 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String text, AbstractSimulationData o, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
+	public ParserNodePair checkCode(String text, NamedFormulaData o, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
 			throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (text.isEmpty()) {
 			throw new EmptyFormulaException(o);
@@ -272,30 +272,6 @@ public class Parser {
 			}
 			this.nodes = nodes;
 			this.jep = jep;
-		}
-	}
-
-	public static class VarPlaceholder extends Number {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public double doubleValue() {
-			return 1;
-		}
-
-		@Override
-		public float floatValue() {
-			return 1;
-		}
-
-		@Override
-		public int intValue() {
-			return 1;
-		}
-
-		@Override
-		public long longValue() {
-			return 1;
 		}
 	}
 }

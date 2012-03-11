@@ -22,6 +22,7 @@ import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.filehandling.ImportPluginLoader;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.help.gui.HelpFrame;
+import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.math.console.MatrixConsole;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.MenuActionListener;
@@ -29,6 +30,7 @@ import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
@@ -111,6 +113,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 * Automatically saves the default simulation settings
 	 */
 	private SimulationSettingsSaver simulationSettingsSaver;
+
+	/**
+	 * The function helplist
+	 */
+	private FunctionHelp functionHelp = new FunctionHelp();
 
 	/**
 	 * Ctor
@@ -246,6 +253,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return controller;
 	}
 
+	@Override
+	public FunctionHelp getFunctionHelp() {
+		return functionHelp;
+	}
+
 	/**
 	 * Shows the about dialog
 	 */
@@ -318,7 +330,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		} catch (SimulationModelException ex) {
 			Messagebox.showError(getMainFrame(), "Simulation nicht möglich", ex.getMessage());
 
-			controller.getView().selectElement(ex.getSimObject());
+			Object obj = ex.getSimObject();
+			if (obj instanceof AbstractSimulationData) {
+				controller.getView().selectElement((AbstractSimulationData) obj);
+			}
 
 			ex.printStackTrace();
 			return;

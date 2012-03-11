@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.configuration.codeditor;
+package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -22,13 +22,11 @@ public class UnderlineHighlightPainter extends LayeredHighlighter.LayerPainter {
 		color = c;
 	}
 
-	public void paint(Graphics g, int offs0, int offs1, Shape bounds,
-			JTextComponent c) {
+	public void paint(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c) {
 		// Do nothing: this method will never be called
 	}
 
-	public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds,
-			JTextComponent c, View view) {
+	public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c, View view) {
 		g.setColor(color == null ? c.getSelectionColor() : color);
 
 		Rectangle alloc = null;
@@ -40,10 +38,8 @@ public class UnderlineHighlightPainter extends LayeredHighlighter.LayerPainter {
 			}
 		} else {
 			try {
-				Shape shape = view.modelToView(offs0, Position.Bias.Forward,
-						offs1, Position.Bias.Backward, bounds);
-				alloc = (shape instanceof Rectangle) ? (Rectangle) shape
-						: shape.getBounds();
+				Shape shape = view.modelToView(offs0, Position.Bias.Forward, offs1, Position.Bias.Backward, bounds);
+				alloc = (shape instanceof Rectangle) ? (Rectangle) shape : shape.getBounds();
 			} catch (BadLocationException e) {
 				Errorhandler.logError(e);
 				return null;

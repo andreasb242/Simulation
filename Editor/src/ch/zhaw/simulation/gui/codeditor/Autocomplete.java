@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.gui.configuration.codeditor;
+package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -97,10 +97,8 @@ public class Autocomplete implements DocumentListener {
 				String completion = match.getContents().substring(pos - w);
 				// We cannot modify Document from within notification,
 				// so we submit a task that does the change later
-				SwingUtilities.invokeLater(new CompletionTask(completion,
-						pos + 1));
-				
-				
+				SwingUtilities.invokeLater(new CompletionTask(completion, pos + 1));
+
 				cursorPos = match.getPos();
 			}
 		} else {

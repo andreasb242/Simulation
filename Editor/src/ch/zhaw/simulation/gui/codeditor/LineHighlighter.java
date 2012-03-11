@@ -1,19 +1,33 @@
-package ch.zhaw.simulation.gui.configuration.codeditor;
+package ch.zhaw.simulation.gui.codeditor;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.SwingUtilities;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Highlighter;
+import javax.swing.text.JTextComponent;
 
 import butti.javalibs.errorhandler.Errorhandler;
 
-/*
- *  Track the movement of the Caret by painting a background line at the
- *  current caret position.
+/**
+ * Track the movement of the Caret by painting a background line at the current
+ * caret position.
+ * 
+ * source:
+ * http://acide-0-8-release-2010-2011.googlecode.com/svn-history/r38/trunk/
+ * acide/src/gui/fileEditor/fileEditorPanel/fileEditorTextEditionArea/
+ * LinePainter.java
+ * 
+ * License GPL
  */
-public class LineHighlighter extends MouseAdapter implements
-		Highlighter.HighlightPainter, CaretListener {
+public class LineHighlighter extends MouseAdapter implements Highlighter.HighlightPainter, CaretListener {
 	private JTextComponent component;
 
 	private Color color;
@@ -79,7 +93,7 @@ public class LineHighlighter extends MouseAdapter implements
 	}
 
 	// Paint the background highlight
-
+	@Override
 	public void paint(Graphics g, int p0, int p1, Shape bounds, JTextComponent c) {
 		try {
 			Rectangle r = c.modelToView(c.getCaretPosition());
@@ -111,8 +125,7 @@ public class LineHighlighter extends MouseAdapter implements
 					// line
 
 					if (lastView.y != currentView.y) {
-						component.repaint(0, lastView.y, component.getWidth(),
-								lastView.height);
+						component.repaint(0, lastView.y, component.getWidth(), lastView.height);
 						lastView = currentView;
 					}
 				} catch (BadLocationException e) {
@@ -123,19 +136,19 @@ public class LineHighlighter extends MouseAdapter implements
 	}
 
 	// Implement CaretListener
-
+	@Override
 	public void caretUpdate(CaretEvent e) {
 		resetHighlight();
 	}
 
 	// Implement MouseListener
-
+	@Override
 	public void mousePressed(MouseEvent e) {
 		resetHighlight();
 	}
 
 	// Implement MouseMotionListener
-
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		resetHighlight();
 	}

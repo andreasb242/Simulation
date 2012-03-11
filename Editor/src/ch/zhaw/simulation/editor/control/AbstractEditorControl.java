@@ -14,16 +14,15 @@ import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.editor.status.StatusLabelHandler;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.TextView;
-import ch.zhaw.simulation.gui.configuration.codeditor.FormulaEditor;
-import ch.zhaw.simulation.help.model.FunctionHelp;
+import ch.zhaw.simulation.gui.codeditor.FormularEditorDialog;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.AutoparserListener;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.listener.SimulationAdapter;
 import ch.zhaw.simulation.model.listener.SimulationListener;
@@ -55,7 +54,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	/**
 	 * The formula editor with syntax hilighting etc.
 	 */
-	private FormulaEditor formulaEditor;
+	private FormularEditorDialog formulaEditor;
 
 	/**
 	 * The simulation application
@@ -231,16 +230,9 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		return parent;
 	}
 
-	// TODO move to application control
-	private FunctionHelp functionHelp = new FunctionHelp();
-
-	public FunctionHelp getFunctionHelp() {
-		return functionHelp;
-	}
-
 	public void showFormulaEditor(AbstractNamedSimulationData data) {
 		if (formulaEditor == null) {
-			formulaEditor = new FormulaEditor(parent, this);
+			formulaEditor = new FormularEditorDialog(parent, getSysintegration(), app.getFunctionHelp(), getModel());
 		}
 
 		formulaEditor.setData(data);

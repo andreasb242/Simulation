@@ -12,11 +12,13 @@ import javax.swing.JScrollPane;
 import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.editor.xy.density.DensityDraw;
-import ch.zhaw.simulation.editor.xy.density.DensityEditor;
+import ch.zhaw.simulation.editor.xy.density.DensityEditorDialog;
 import ch.zhaw.simulation.editor.xy.density.DensityListModel;
 import ch.zhaw.simulation.editor.xy.density.DensityRenderer;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
+import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	private static final long serialVersionUID = 1L;
@@ -24,16 +26,16 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	private DensityListModel listModel;
 	private JList list;
 
-	private DensityEditor densityEditor;
+	private DensityEditorDialog densityEditor;
 
-	public DensitySidebar(JFrame parent, DensityDraw draw, XYModel model, JComponent comp) {
+	public DensitySidebar(JFrame parent, DensityDraw draw, XYModel model, JComponent comp, Sysintegration sys, FunctionHelp help) {
 		setTitle("Dichte");
 
 		listModel = new DensityListModel(model);
 		list = new JList(listModel);
 		list.setCellRenderer(new DensityRenderer());
 
-		densityEditor = new DensityEditor(parent, model);
+		densityEditor = new DensityEditorDialog(parent, model, sys, help);
 
 		add(new JScrollPane(list));
 

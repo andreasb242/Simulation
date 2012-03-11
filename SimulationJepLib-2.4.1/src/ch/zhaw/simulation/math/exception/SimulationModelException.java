@@ -1,39 +1,38 @@
 package ch.zhaw.simulation.math.exception;
 
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.NamedFormulaData;
 
 public class SimulationModelException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	private AbstractSimulationData simObject;
+	private Object simObject;
 
-	public SimulationModelException(AbstractSimulationData simObject, String message) {
+	public SimulationModelException(Object simObject, String message) {
 		super(message);
 		this.simObject = simObject;
 	}
 
-	public SimulationModelException(AbstractSimulationData simObject) {
+	public SimulationModelException(Object simObject) {
 		this.simObject = simObject;
 	}
 
-	public SimulationModelException(AbstractSimulationData simObject, Throwable cause) {
+	public SimulationModelException(Object simObject, Throwable cause) {
 		super(cause);
 		this.simObject = simObject;
 	}
 
-	public SimulationModelException(AbstractSimulationData simObject, String message, Throwable cause) {
+	public SimulationModelException(Object simObject, String message, Throwable cause) {
 		super(message, cause);
 		this.simObject = simObject;
 	}
 
-	public AbstractSimulationData getSimObject() {
+	public Object getSimObject() {
 		return simObject;
 	}
 
-	public static String getNameFor(AbstractSimulationData o) {
-		if (o instanceof AbstractNamedSimulationData) {
-			return ((AbstractNamedSimulationData) o).getName();
+	public static String getNameFor(Object o) {
+		if (o instanceof NamedFormulaData) {
+			return ((NamedFormulaData) o).getName();
 		}
 		return o.getClass() + "/" + o.hashCode();
 	}
