@@ -1,6 +1,20 @@
 package ch.zhaw.simulation.math;
+
 public class VarPlaceholder extends Number {
 	private static final long serialVersionUID = 1L;
+
+	private String name;
+
+	public VarPlaceholder() {
+	}
+
+	public VarPlaceholder(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public double doubleValue() {

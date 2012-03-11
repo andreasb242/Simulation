@@ -81,6 +81,11 @@ public class Parser {
 
 	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
 			String name) throws EmptyFormulaException, NotUsedException, CompilerError {
+		return checkCode(formula, data, model, sourcesConst, name, null);
+	}
+
+	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
+			String name, Vector<VarPlaceholder> predefined) throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (formula.isEmpty()) {
 			throw new EmptyFormulaException(data);
 		}
@@ -127,6 +132,11 @@ public class Parser {
 		 */
 		jep.addConstant("time", new VarPlaceholder());
 		jep.addConstant("dt", new VarPlaceholder());
+		if (predefined != null) {
+			for (VarPlaceholder p : predefined) {
+				jep.addConstant(p.getName(), p);
+			}
+		}
 
 		Vector<Node> nodes = new Vector<Node>();
 
