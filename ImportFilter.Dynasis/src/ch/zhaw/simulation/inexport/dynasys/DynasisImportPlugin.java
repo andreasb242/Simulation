@@ -444,7 +444,7 @@ public class DynasisImportPlugin extends BinaryImportPlugin {
 
 		if (!"".equals(description)) {
 			int maxY = 0;
-			for (AbstractSimulationData d : model.getDatas()) {
+			for (AbstractSimulationData d : model.getData()) {
 				if (width > d.getX() - padding) {
 					int y = d.getHeight() + d.getY();
 					if (maxY < y) {

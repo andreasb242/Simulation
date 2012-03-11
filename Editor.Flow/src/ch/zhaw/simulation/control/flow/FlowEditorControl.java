@@ -190,7 +190,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				if (elem instanceof GlobalView) {
 					SimulationGlobalData g = ((GlobalView) elem).getData();
 
-					for (AbstractSimulationData d : model.getDatas()) {
+					for (AbstractSimulationData d : model.getData()) {
 						Vector<SimulationGlobalData> usedGlobals = d.getUsedGlobals();
 						if (usedGlobals != null && usedGlobals.contains(g)) {
 							shadowData.add(d);

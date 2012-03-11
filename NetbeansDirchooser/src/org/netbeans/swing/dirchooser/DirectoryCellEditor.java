@@ -73,6 +73,8 @@ class DirectoryCellEditor extends DefaultCellEditor {
 
 	public DirectoryCellEditor(JTree tree, JFileChooser fileChooser, final JTextField textField) {
 		super(textField);
+		
+		fileChooser = new JFileChooser();
 	}
 
 	public boolean isCellEditable(EventObject event) {

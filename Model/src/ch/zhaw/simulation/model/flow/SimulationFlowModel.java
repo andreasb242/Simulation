@@ -36,7 +36,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	}
 
 	private boolean existsFlowParameterId(String id) {
-		for (AbstractSimulationData d : datas) {
+		for (AbstractSimulationData d : data) {
 			if (d instanceof FlowValveData) {
 				FlowValveData p = (FlowValveData) d;
 				if (id.equals(p.getName())) {
@@ -81,7 +81,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 		if (c instanceof FlowConnectorData) {
 			FlowValveData pp = ((FlowConnectorData) c).getValve();
 			checkFlowParameterId(pp);
-			datas.add(pp);
+			data.add(pp);
 		}
 		fireConnectorAdded(c);
 	}
@@ -124,7 +124,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	@Override
 	public Vector<SimulationGlobalData> getGlobalsFor(NamedFormulaData data) {
 		Vector<SimulationGlobalData> globals = new Vector<SimulationGlobalData>();
-		for (AbstractSimulationData d : datas) {
+		for (AbstractSimulationData d : this.data) {
 			if (d instanceof SimulationGlobalData && !checkDependency(d, (AbstractSimulationData) data)) {
 				globals.add((SimulationGlobalData) d);
 			}
@@ -228,7 +228,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	public Vector<SimulationContainerData> getSimulationContainer() {
 		Vector<SimulationContainerData> containers = new Vector<SimulationContainerData>();
 
-		for (AbstractSimulationData d : datas) {
+		for (AbstractSimulationData d : data) {
 			if (d instanceof SimulationContainerData) {
 				containers.add((SimulationContainerData) d);
 			}
@@ -239,7 +239,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	public Vector<SimulationParameterData> getSimulationParameter() {
 		Vector<SimulationParameterData> parameteres = new Vector<SimulationParameterData>();
 
-		for (AbstractSimulationData d : datas) {
+		for (AbstractSimulationData d : data) {
 			if (d instanceof SimulationParameterData) {
 				parameteres.add((SimulationParameterData) d);
 			}
@@ -250,7 +250,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	public Vector<AbstractNamedSimulationData> getNamedSimulationObject() {
 		Vector<AbstractNamedSimulationData> containers = new Vector<AbstractNamedSimulationData>();
 
-		for (AbstractSimulationData d : datas) {
+		for (AbstractSimulationData d : data) {
 			if (d instanceof AbstractNamedSimulationData) {
 				containers.add((AbstractNamedSimulationData) d);
 			}
@@ -260,7 +260,7 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 	}
 
 	public boolean containsContainerOrParameter() {
-		for (AbstractSimulationData d : datas) {
+		for (AbstractSimulationData d : data) {
 			if (d instanceof SimulationContainerData) {
 				return true;
 			}

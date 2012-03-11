@@ -109,7 +109,7 @@ public class Autoparser {
 		running = true;
 
 		SimulationFlowModel model = control.getModel();
-		for (AbstractSimulationData d : model.getDatas()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				parse((AbstractNamedSimulationData) d);
 			}

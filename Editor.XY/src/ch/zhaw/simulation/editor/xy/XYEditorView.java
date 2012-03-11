@@ -110,7 +110,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	protected void loadDataFromModel() {
 		XYModel model = control.getModel();
 
-		for (AbstractSimulationData p : model.getDatas()) {
+		for (AbstractSimulationData p : model.getData()) {
 			dataAdded(p);
 		}
 	}

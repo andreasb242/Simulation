@@ -31,7 +31,7 @@ public class ModelOptimizer {
 
 	public void optimize() throws SimulationModelException {
 		initModelForSimulation();
-		for (AbstractSimulationData data : flowModel.getDatas()) {
+		for (AbstractSimulationData data : flowModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
 				parseFormula((AbstractNamedSimulationData) data);
 			}
@@ -39,14 +39,14 @@ public class ModelOptimizer {
 
 		// Wenn möglich optimieren (Parameter die nur von konstanten Parametern
 		// abhängig sind auch konstant machen)
-		for (AbstractSimulationData data : flowModel.getDatas()) {
+		for (AbstractSimulationData data : flowModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
 				optimizeStatic((AbstractNamedSimulationData) data);
 			}
 		}
 
 		// Constwerte auslesen
-		for (AbstractSimulationData data : flowModel.getDatas()) {
+		for (AbstractSimulationData data : flowModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
 				calculateConstValues((AbstractNamedSimulationData) data);
 			}
@@ -58,7 +58,7 @@ public class ModelOptimizer {
 	 * assign a new MatlabAttachment
 	 */
 	private void initModelForSimulation() {
-		for (AbstractSimulationData data : flowModel.getDatas()) {
+		for (AbstractSimulationData data : flowModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData namedData = (AbstractNamedSimulationData) data;
 				namedData.attachment = new MatlabAttachment();

@@ -38,7 +38,7 @@ public class Parser {
 		jep.addStandardConstants();
 		jep.addStandardDiffRules();
 		jep.addStandardFunctions();
-		//jep.addComplex();
+		// jep.addComplex();
 		jep.getSymbolTable().remove("x");
 
 		// Add all functions from JEP to functionlist[]
@@ -79,15 +79,16 @@ public class Parser {
 		return data.toArray(new Line[] {});
 	}
 
-	public ParserNodePair checkCode(String formula, AbstractSimulationData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst, String name)
-			throws EmptyFormulaException, NotUsedException, CompilerError {
+	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
+			String name) throws EmptyFormulaException, NotUsedException, CompilerError {
 		// TODO: warum nicht nur AbstractNamedSimulationModel übergeben?
 		// TODO: daraus kann man formula und name entnehmen!
 		if (formula.isEmpty()) {
 			throw new EmptyFormulaException(data);
 		}
 
-		// split formula from TextPane of FormulaEditor into lines separated by newlines
+		// split formula from TextPane of FormulaEditor into lines separated by
+		// newlines
 		Line[] lines = getFormulas(formula);
 
 		// reset parser
@@ -167,7 +168,8 @@ public class Parser {
 	 * @param globals
 	 * @param usedGlobals
 	 */
-	private void checkUsedParameter(Node node, Vector<AbstractNamedSimulationData> sourcesTmp, Vector<SimulationGlobalData> globals, Vector<SimulationGlobalData> usedGlobals) {
+	private void checkUsedParameter(Node node, Vector<AbstractNamedSimulationData> sourcesTmp, Vector<SimulationGlobalData> globals,
+			Vector<SimulationGlobalData> usedGlobals) {
 		int len = node.jjtGetNumChildren();
 		for (int i = 0; i < len; i++) {
 			Node c = node.jjtGetChild(i);
@@ -206,21 +208,20 @@ public class Parser {
 		}
 	}
 
-	
-	////////////////////////////////////////////////////////////
+	// //////////////////////////////////////////////////////////
 	// TODO DEBUG
-	////////////////////////////////////////////////////////////
-	
+	// //////////////////////////////////////////////////////////
+
 	public void addVar(String name, double value) {
 		jep.addVariable(name, value);
 	}
-	
+
 	public void setVar(String name, double value) {
 		jep.setVarValue(name, value);
 	}
-	
-	
+
 	private Node simp;
+
 	public void simplyfy(String formula) throws ParseException {
 		Node node = jep.parse(formula);
 		// System.err.println("Parsed:\t\t");
@@ -234,14 +235,14 @@ public class Parser {
 		// System.err.println(jep.toString(simp));
 
 	}
-	
+
 	public double evaluate() throws ParseException {
 		return (Double) jep.evaluate(simp);
 	}
-	
-	////////////////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////////////
 	// TODO DEBUG
-	////////////////////////////////////////////////////////////
+	// //////////////////////////////////////////////////////////
 
 	public Object processEquation(Node node) throws ParseException {
 		if (node == null) {

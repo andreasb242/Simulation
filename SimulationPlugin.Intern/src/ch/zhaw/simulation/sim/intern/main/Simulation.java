@@ -184,7 +184,7 @@ public class Simulation {
 	}
 
 	private void parseFormulas() throws CompilerError, ParseException, NotUsedException, EmptyFormulaException {
-		for (AbstractSimulationData d : model.getDatas()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				parseFormula((AbstractNamedSimulationData) d);
 			}
@@ -192,14 +192,14 @@ public class Simulation {
 
 		// Wenn möglich optimieren (Parameter die nur von konstanten Parametern
 		// abhängig sind auch konstant machen)
-		for (AbstractSimulationData d : model.getDatas()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				checkIfConst((AbstractNamedSimulationData) d);
 			}
 		}
 
 		// Constwerte auslesen
-		for (AbstractSimulationData d : model.getDatas()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				setConstValue((AbstractNamedSimulationData) d);
 			}
@@ -239,7 +239,7 @@ public class Simulation {
 	}
 
 	private void initSimulationAttachment() {
-		for (AbstractSimulationData d : model.getDatas()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
 				n.attachment = new SimulationAttachment();
@@ -262,7 +262,7 @@ public class Simulation {
 	 */
 	private void calcSources() throws SimulationModelException {
 		dataObjects.clear();
-		for (AbstractSimulationData d : model.getDatas()) {
+		for (AbstractSimulationData d : model.getData()) {
 			if (d instanceof AbstractNamedSimulationData) {
 				calcSources((AbstractNamedSimulationData) d);
 				dataObjects.add((AbstractNamedSimulationData) d);
