@@ -73,8 +73,8 @@ class DirectoryCellEditor extends DefaultCellEditor {
 
 	public DirectoryCellEditor(JTree tree, JFileChooser fileChooser, final JTextField textField) {
 		super(textField);
-		
-		fileChooser = new JFileChooser();
+		DirectoryCellEditor.fileChooser = fileChooser;
+		textField.setBorder(null);
 	}
 
 	public boolean isCellEditable(EventObject event) {
@@ -84,6 +84,9 @@ class DirectoryCellEditor extends DefaultCellEditor {
 	public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
 		Component c = super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
 		DirectoryNode node = (DirectoryNode) value;
+
+		System.out.println(node);
+
 		editorPanel.setOpaque(false);
 		editorPanel.add(new JLabel(fileChooser.getIcon(node.getFile())), BorderLayout.CENTER);
 		editorPanel.add(c, BorderLayout.EAST);
