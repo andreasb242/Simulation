@@ -6,10 +6,35 @@ import ch.zhaw.simulation.plugin.matlab.NumericMethod;
 /**
  * @author: bachi
  */
-public class DormandPrinceCodeGenerator extends AbstractCodeGenerator {
+public class DormandPrinceCodeGenerator extends DefaultCodeGenerator {
 
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws Exception {
 		System.out.println("DormandPrinceCodeGenerator");
+	}
+
+	@Override
+	protected void printOpenFiles(CodeOutput out) {
+
+	}
+
+	@Override
+	protected void printCloseFiles(CodeOutput out) {
+
+	}
+
+	@Override
+	protected void printPredefinedConstants(CodeOutput out) {
+
+	}
+
+	@Override
+	protected void printSaveCurrentValues(CodeOutput out) {
+
+	}
+
+	@Override
+	protected void printContainerCalculations(CodeOutput out) {
+
 	}
 }

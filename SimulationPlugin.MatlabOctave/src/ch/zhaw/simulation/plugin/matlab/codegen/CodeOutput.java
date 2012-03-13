@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
+import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
+
 import java.io.OutputStream;
 import java.io.PrintStream;
 
@@ -36,17 +38,36 @@ public class CodeOutput {
 	}
 
 	/**
+	 * Prints a section to the file, automatically linebreak
+	 *
+	 * @param section
+	 *            The section to write
+	 */
+	public void printSection(String section) {
+
+		printIndentation();
+		out.print("%% ");
+		printWrapAround(section);
+		out.println();
+	}
+
+	/**
 	 * Prints a comment to the file, automatically linebreak
-	 * 
+	 *
 	 * @param comment
 	 *            The Comment to write
 	 */
 	public void printComment(String comment) {
-		int len = 2;
-		String[] words = comment.split(" ");
 
 		printIndentation();
 		out.print("% ");
+		printWrapAround(comment);
+		out.println();
+	}
+	
+	private void printWrapAround(String comment) {
+		int len = 2;
+		String[] words = comment.split(" ");
 
 		for (int i = 0; i < words.length; i++) {
 			String s = words[i];
@@ -68,8 +89,7 @@ public class CodeOutput {
 				}
 			}
 		}
-		
-		out.println();
+
 	}
 
 	/**
@@ -81,13 +101,26 @@ public class CodeOutput {
 
 	/**
 	 * Writes a var=value; out
-	 * 
+	 *
 	 * @param var
 	 *            The name of the variable
 	 * @param value
 	 *            The value of the variable
 	 */
-	public void setVar(String var, double value) {
+	public void printVariable(String var, double value) {
+		printIndentation();
+		out.println(var + " = " + value + ";");
+	}
+
+	/**
+	 * Writes a var=value; out
+	 *
+	 * @param var
+	 *            The name of the variable
+	 * @param value
+	 *            The value of the variable
+	 */
+	public void printVariable(String var, String value) {
 		printIndentation();
 		out.println(var + " = " + value + ";");
 	}
