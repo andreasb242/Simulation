@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="Plugin" />
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="BJavalibs" />
+    <orderEntry type="module" module-name="HelpBrowser" />
   </component>
 </module>
 
