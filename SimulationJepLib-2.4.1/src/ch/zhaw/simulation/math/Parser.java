@@ -81,8 +81,11 @@ public class Parser {
 
 	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
 			String name) throws EmptyFormulaException, NotUsedException, CompilerError {
-		// TODO: warum nicht nur AbstractNamedSimulationModel übergeben?
-		// TODO: daraus kann man formula und name entnehmen!
+		return checkCode(formula, data, model, sourcesConst, name, null);
+	}
+
+	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
+			String name, Vector<VarPlaceholder> predefined) throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (formula.isEmpty()) {
 			throw new EmptyFormulaException(data);
 		}
@@ -98,30 +101,42 @@ public class Parser {
 		Vector<AbstractNamedSimulationData> sources = new Vector<AbstractNamedSimulationData>();
 		sources.addAll(sourcesConst);
 
-		// TODO: was machen diese zwei for() über sources und globals?
-
+		/**
+		 * For all sources add variables so the parser can parse the formula
+		 * 
+		 * make them constant, so the parser throws an exception if the users
+		 * tries to change some of them
+		 */
 		for (AbstractNamedSimulationData s : sources) {
 			if (jep.getVar(s.getName()) != null) {
 				jep.removeVariable(s.getName());
 			}
 
-			// Dummy Konstanten festlgegen
 			jep.addConstant(s.getName(), new VarPlaceholder());
 		}
 
+		/**
+		 * And also do this for all global objects
+		 */
 		Vector<SimulationGlobalData> globals = model.getGlobalsFor(data);
 		for (SimulationGlobalData g : globals) {
 			if (jep.getVar(g.getName()) != null) {
 				jep.removeVariable(g.getName());
 			}
 
-			// Dummy Konstanten festlgegen
 			jep.addConstant(g.getName(), new VarPlaceholder());
 		}
 
-		// Dummy Konstanten festlgegen
+		/**
+		 * And for the predefined variables
+		 */
 		jep.addConstant("time", new VarPlaceholder());
 		jep.addConstant("dt", new VarPlaceholder());
+		if (predefined != null) {
+			for (VarPlaceholder p : predefined) {
+				jep.addConstant(p.getName(), p);
+			}
+		}
 
 		Vector<Node> nodes = new Vector<Node>();
 
