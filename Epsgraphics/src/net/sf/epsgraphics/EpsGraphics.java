@@ -132,17 +132,17 @@ public class EpsGraphics extends java.awt.Graphics2D {
 
 	private BasicStroke stroke;
 
-	private Font _font;
+	private Font font;
 
-	private Shape _clip;
+	private Shape clip;
 
-	private AffineTransform _transform = new AffineTransform();
+	private AffineTransform transform = new AffineTransform();
 
-	private boolean _accurateTextMode;
+	private boolean accurateTextMode;
 
-	private EpsDocument _document;
+	private EpsDocument document;
 
-	private static FontRenderContext _fontRenderContext = new FontRenderContext(null, false, true);
+	private static FontRenderContext fontRenderContext = new FontRenderContext(null, false, true);
 
 	private ColorMode colorMode = ColorMode.COLOR_RGB;
 
@@ -155,13 +155,13 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * close() method is called.
 	 */
 	public EpsGraphics(String title, OutputStream outputStream, int minX, int minY, int maxX, int maxY, ColorMode colorMode) throws IOException {
-		_document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
+		document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
 		this.colorMode = colorMode;
 		backgroundColor = Color.white;
-		_clip = null;
-		_transform = new AffineTransform();
+		this.clip = null;
+		this.transform = new AffineTransform();
 		clipTransform = new AffineTransform();
-		_accurateTextMode = true;
+		accurateTextMode = true;
 		setColor(Color.BLACK);
 		setPaint(Color.BLACK);
 		setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
@@ -174,15 +174,15 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Copy constructor. Creates a copy of this EPSGraphics object.
 	 */
 	public EpsGraphics(EpsGraphics g) throws IOException {
-		System.err.println("G: " + g._document);
-		EpsDocument doc = g._document;
-		this._document = doc;
+		System.err.println("G: " + g.document);
+		EpsDocument doc = g.document;
+		this.document = doc;
 		this.colorMode = g.colorMode;
 		backgroundColor = g.backgroundColor;
-		_clip = g.getClip();
-		_transform = g.getTransform();
+		this.clip = g.getClip();
+		this.transform = g.getTransform();
 		clipTransform = g.clipTransform;
-		_accurateTextMode = true;
+		accurateTextMode = true;
 		setColor(g.getColor());
 		setPaint(g.getPaint());
 		setComposite(g.getComposite());
@@ -214,7 +214,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * simpler text mode - all text will be horizontal.
 	 */
 	public void setAccurateTextMode(boolean b) {
-		_accurateTextMode = b;
+		accurateTextMode = b;
 		if (!getAccurateTextMode()) {
 			setFont(getFont());
 		}
@@ -224,7 +224,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns whether accurate text mode is being used.
 	 */
 	public boolean getAccurateTextMode() {
-		return _accurateTextMode;
+		return accurateTextMode;
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * OutputStream it is being written to.
 	 */
 	public void flush() throws IOException {
-		_document.flush();
+		document.flush();
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	public void close() throws IOException {
 		flush();
-		_document.close();
+		document.close();
 		System.err.println("Document is closed");
 	}
 
@@ -250,7 +250,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Appends a line to the EpsDocument.
 	 */
 	private void append(String line) {
-		_document.append(this, line);
+		document.append(this, line);
 
 	}
 
@@ -259,7 +259,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	private Point2D transform(double x, double y) {
 		Point2D result = new Point2D.Double(x, y);
-		result = _transform.transform(result, result);
+		result = this.transform.transform(result, result);
 		result.setLocation(result.getX(), -result.getY());
 		return result;
 	}
@@ -269,8 +269,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	private void draw(Shape s, String action) {
 		if (s != null) {
-			if (!_transform.isIdentity()) {
-				s = _transform.createTransformedShape(s);
+			if (!this.transform.isIdentity()) {
+				s = this.transform.createTransformedShape(s);
 			}
 			append("newpath");
 			int type = 0;
@@ -668,7 +668,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void transform(AffineTransform Tx) {
-		_transform.concatenate(Tx);
+		this.transform.concatenate(Tx);
 		setTransform(getTransform());
 	}
 
@@ -678,9 +678,9 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	@Override
 	public void setTransform(AffineTransform Tx) {
 		if (Tx == null) {
-			_transform = new AffineTransform();
+			this.transform = new AffineTransform();
 		} else {
-			_transform = new AffineTransform(Tx);
+			this.transform = new AffineTransform(Tx);
 		}
 		// Need to update the stroke and font so they know the scale changed
 		setStroke(getStroke());
@@ -691,7 +691,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Gets the AffineTransform used by this EpsGraphics2D.
 	 */
 	public AffineTransform getTransform() {
-		return new AffineTransform(_transform);
+		return new AffineTransform(this.transform);
 	}
 
 	/**
@@ -740,10 +740,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * sets the clip to the resulting intersection.
 	 */
 	public void clip(Shape s) {
-		if (_clip == null) {
+		if (this.clip == null) {
 			setClip(s);
 		} else {
-			Area area = new Area(_clip);
+			Area area = new Area(this.clip);
 			area.intersect(new Area(s));
 			setClip(area);
 		}
@@ -753,7 +753,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns the FontRenderContext.
 	 */
 	public FontRenderContext getFontRenderContext() {
-		return _fontRenderContext;
+		return fontRenderContext;
 	}
 
 	// ///////////// Graphics methods ///////////////////////
@@ -839,7 +839,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns the Font currently being used.
 	 */
 	public Font getFont() {
-		return _font;
+		return this.font;
 	}
 
 	/**
@@ -849,9 +849,9 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		if (font == null) {
 			font = Font.decode(null);
 		}
-		_font = font;
+		this.font = font;
 		if (!getAccurateTextMode()) {
-			append("/" + _font.getPSName() + " findfont " + ((int) _font.getSize()) + " scalefont setfont");
+			append("/" + this.font.getPSName() + " findfont " + ((int) this.font.getSize()) + " scalefont setfont");
 		}
 	}
 
@@ -876,7 +876,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns the bounding rectangle of the current clipping area.
 	 */
 	public Rectangle getClipBounds() {
-		if (_clip == null) {
+		if (this.clip == null) {
 			return null;
 		}
 		Rectangle rect = getClip().getBounds();
@@ -902,15 +902,15 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Gets the current clipping area.
 	 */
 	public Shape getClip() {
-		if (_clip == null) {
+		if (this.clip == null) {
 			return null;
 		} else {
 			try {
-				AffineTransform t = _transform.createInverse();
+				AffineTransform t = this.transform.createInverse();
 				t.concatenate(clipTransform);
-				return t.createTransformedShape(_clip);
+				return t.createTransformedShape(this.clip);
 			} catch (Exception e) {
-				throw new RuntimeException("Unable to get inverse of matrix: " + _transform);
+				throw new RuntimeException("Unable to get inverse of matrix: " + this.transform);
 			}
 		}
 	}
@@ -920,22 +920,22 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	public void setClip(Shape clip) {
 		if (clip != null) {
-			if (_document.isClipSet()) {
+			if (document.isClipSet()) {
 				append("grestore");
 				append("gsave");
 			} else {
-				_document.setClipSet(true);
+				document.setClipSet(true);
 				append("gsave");
 			}
 			draw(clip, "clip");
-			_clip = clip;
-			clipTransform = (AffineTransform) _transform.clone();
+			this.clip = clip;
+			clipTransform = (AffineTransform) this.transform.clone();
 		} else {
-			if (_document.isClipSet()) {
+			if (document.isClipSet()) {
 				append("grestore");
-				_document.setClipSet(false);
+				document.setClipSet(false);
 			}
-			_clip = null;
+			this.clip = null;
 		}
 	}
 
@@ -1156,7 +1156,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		} catch (InterruptedException e) {
 			return false;
 		}
-		AffineTransform matrix = new AffineTransform(_transform);
+		AffineTransform matrix = new AffineTransform(this.transform);
 		matrix.translate(dx1, dy1);
 		matrix.scale(destWidth / (double) width, destHeight / (double) height);
 		double[] m = new double[6];
@@ -1237,13 +1237,13 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * directly to disk as an EPS file.
 	 */
 	public String toString() {
-		if (_document == null)
+		if (document == null)
 			return null;
 		StringWriter writer = new StringWriter();
 		try {
-			_document.write(writer);
-			_document.flush();
-			_document.close();
+			document.write(writer);
+			document.flush();
+			document.close();
 		} catch (IOException e) {
 			throw new RuntimeException(e.toString());
 		}
@@ -1255,18 +1255,18 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * current clipping area.
 	 */
 	public boolean hitClip(int x, int y, int width, int height) {
-		if (_clip == null) {
+		if (this.clip == null) {
 			return true;
 		}
 		Rectangle rect = new Rectangle(x, y, width, height);
-		return hit(rect, _clip, true);
+		return hit(rect, this.clip, true);
 	}
 
 	/**
 	 * Returns the bounding rectangle of the current clipping area.
 	 */
 	public Rectangle getClipBounds(Rectangle r) {
-		if (_clip == null) {
+		if (this.clip == null) {
 			return r;
 		}
 		Rectangle rect = getClipBounds();
