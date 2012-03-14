@@ -3,6 +3,7 @@ package ch.zhaw.simulation.editor.view;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -18,15 +19,17 @@ import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
+import ch.zhaw.simulation.gui.VectorPaintable;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.selection.SelectableElement;
@@ -35,8 +38,7 @@ import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
-		extends JPanel implements SimulationListener, SelectionListener {
+public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JPanel implements SimulationListener, SelectionListener, VectorPaintable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -84,8 +86,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
 				} else {
 					selectionModel.clearSelection();
 				}
-			} else if (e.getKeyCode() == KeyEvent.VK_DELETE
-					|| e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			} else if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 				control.deleteSelected();
 				e.consume();
 
@@ -253,10 +254,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
 		return control;
 	}
 
-	/**
-	 * @return The current selected rectangle
-	 */
-	private Rectangle getSelectionRange() {
+	@Override
+	public Rectangle getSelectionRange() {
 		int x = sX;
 		int y = sY;
 		int w = sWidth;
@@ -288,8 +287,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
 		// Selektion zeichnen
 		GuiConfig cfg = control.getSysintegration().getGuiConfig();
 
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-				cfg.getSelectionAlpha()));
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, cfg.getSelectionAlpha()));
 
 		g.setColor(cfg.getSelectionForegroundColor());
 
@@ -304,6 +302,25 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
 
 		g.setColor(cfg.getSelectionColor());
 		g.drawRect(x, y, w, h);
+	}
+
+	@Override
+	public final void paint(Graphics g1) {
+		Graphics2D g = (Graphics2D) g1;
+
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, getWidth(), getHeight());
+
+		DrawHelper.antialisingOn(g);
+
+		paintEditor(g, false, false);
+	}
+
+	protected abstract void paintEditor(Graphics2D g, boolean vector, boolean onlySelection);
+
+	@Override
+	public void paintVector(Graphics2D g, boolean onlySelection) {
+		paintEditor(g, true, onlySelection);
 	}
 
 	private void updateTempSelection() {
@@ -414,8 +431,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
 
 	public AbstractDataView<?> getElementAt(int x, int y) {
 		for (Component comp : getComponents()) {
-			if (comp instanceof AbstractDataView<?>
-					&& comp.getBounds().contains(x, y)) {
+			if (comp instanceof AbstractDataView<?> && comp.getBounds().contains(x, y)) {
 				return (AbstractDataView<?>) comp;
 			}
 		}
@@ -456,8 +472,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
 			add(view);
 			view.paintText();
 		} else {
-			throw new RuntimeException("Unknown SimulationObject: "
-					+ o.getClass().getName());
+			throw new RuntimeException("Unknown SimulationObject: " + o.getClass().getName());
 		}
 
 		revalidate();
@@ -484,8 +499,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>>
 		}
 
 		AbstractSimulationData d = c.getData();
-		if (d instanceof AbstractNamedSimulationData
-				&& c instanceof GuiDataTextElement<?>) {
+		if (d instanceof AbstractNamedSimulationData && c instanceof GuiDataTextElement<?>) {
 			String text = ((AbstractNamedSimulationData) d).getStatusText();
 			((GuiDataTextElement<?>) c).setStatus(text);
 		}

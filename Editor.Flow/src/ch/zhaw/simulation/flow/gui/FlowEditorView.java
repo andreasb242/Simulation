@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.flow.gui;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Vector;
 
-import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.clipboard.flow.FlowTransferable;
@@ -147,13 +145,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	public void paint(Graphics g1) {
-		Graphics2D g = (Graphics2D) g1;
-
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
-
-		DrawHelper.antialisingOn(g);
+	protected void paintEditor(Graphics2D g, boolean vector, boolean onlySelection) {
+		// TODO: EPS & onlySelection
 
 		// First draw the floconnectors, because they are bigger and may hide
 		// the parameterconnectors
@@ -177,6 +170,9 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 	@Override
 	protected void paintElements(Graphics2D g) {
+		// TODO: EPS & onlySelection
+
+		
 		tmpPoints.clear();
 		super.paintElements(g);
 

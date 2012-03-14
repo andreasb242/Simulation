@@ -25,7 +25,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -33,6 +32,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import net.sf.epsgraphics.ColorMode;
+import net.sf.epsgraphics.EpsGraphics;
 import butti.javalibs.config.FileSettings;
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
@@ -41,14 +42,13 @@ import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.filechooser.TxtDirChooser;
+import ch.zhaw.simulation.gui.VectorPaintable;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmark;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmarks;
 import ch.zhaw.simulation.sysintegration.bookmarks.ComboSeparatorsRenderer;
-import epsgraphics.ColorMode;
-import epsgraphics.EpsGraphics;
 
 public class SnapshotDialog extends BDialog implements ClipboardOwner {
 	private static final long serialVersionUID = 1L;
@@ -68,7 +68,7 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 
 	private Settings settings;
 
-	public SnapshotDialog(JFrame parent, Settings settings, Sysintegration sys, final JComponent c, final Rectangle size, String name) {
+	public SnapshotDialog(JFrame parent, Settings settings, Sysintegration sys, final VectorPaintable c, final Rectangle size, String name) {
 		super(parent);
 		setTitle("Als Bild speichern...");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -240,14 +240,14 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 		setLocationRelativeTo(parent);
 	}
 
-	protected void copyImageToClipboard(JComponent comp, Rectangle size) {
+	protected void copyImageToClipboard(VectorPaintable comp, Rectangle size) {
 		BufferedImage img = createImage(comp, size);
 		TransferableImage trans = new TransferableImage(img);
 		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
 		c.setContents(trans, this);
 	}
 
-	private BufferedImage createImage(JComponent comp, Rectangle size) {
+	private BufferedImage createImage(VectorPaintable comp, Rectangle size) {
 		BufferedImage img = new BufferedImage((int) size.getWidth(), (int) size.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
 		comp.paint(g);
@@ -255,7 +255,7 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 		return img;
 	}
 
-	protected void saveSnapshot(String path, JComponent comp, Rectangle size, String name) {
+	protected void saveSnapshot(String path, VectorPaintable comp, Rectangle size, String name) {
 		boolean eps = rEps.isSelected();
 
 		if (eps) {
@@ -266,7 +266,7 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 					FileOutputStream out = new FileOutputStream(file);
 					Graphics2D g = new EpsGraphics(file.getName(), out, size.x, size.y, size.width, size.height, ColorMode.COLOR_RGB);
 					
-					comp.paint(g);
+					comp.paintVector(g, false);
 					
 					g.dispose();
 					

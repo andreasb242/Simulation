@@ -21,7 +21,7 @@
  *  
  * Project: http://sourceforge.net/projects/epsgraphics/
  */
-package epsgraphics;
+package net.sf.epsgraphics;
 
 /**
  * Constants for color modes. Currently supported are: rgb, cmyk, grayscale and
@@ -31,5 +31,7 @@ package epsgraphics;
  * 
  */
 public enum ColorMode {
+
 	COLOR_CMYK, COLOR_RGB, GRAYSCALE, BLACK_AND_WHITE;
+
 }

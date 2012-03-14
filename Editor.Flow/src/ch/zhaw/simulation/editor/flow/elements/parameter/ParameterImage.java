@@ -16,7 +16,7 @@ public class ParameterImage extends GuiImage {
 	}
 
 	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
+	public void drawBackground(Graphics2D g, boolean selected) {
 		int w = image.getWidth();
 
 		DrawHelper.antialisingOn(g);

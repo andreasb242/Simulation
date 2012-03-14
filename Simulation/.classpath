@@ -22,5 +22,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/InternSimulation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.Intern"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Epsgraphics"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
