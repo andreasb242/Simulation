@@ -25,7 +25,7 @@
  * 
  * based on original code by Paul Mutton, http://www.jibble.org/
  */
-package epsgraphics;
+package net.sf.epsgraphics;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -120,6 +120,32 @@ import java.util.Map;
 public class EpsGraphics extends java.awt.Graphics2D {
 	public static final String VERSION = "1.0.0";
 
+	private Color color;
+
+	private AffineTransform clipTransform;
+
+	private Color backgroundColor;
+
+	private Paint paint;
+
+	private Composite composite;
+
+	private BasicStroke stroke;
+
+	private Font _font;
+
+	private Shape _clip;
+
+	private AffineTransform _transform = new AffineTransform();
+
+	private boolean _accurateTextMode;
+
+	private EpsDocument _document;
+
+	private static FontRenderContext _fontRenderContext = new FontRenderContext(null, false, true);
+
+	private ColorMode colorMode = ColorMode.COLOR_RGB;
+
 	/**
 	 * Constructs a new EPS document that is initially empty and can be drawn on
 	 * like a Graphics2D object. The EPS document is written to the output
@@ -131,13 +157,13 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	public EpsGraphics(String title, OutputStream outputStream, int minX, int minY, int maxX, int maxY, ColorMode colorMode) throws IOException {
 		_document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
 		this.colorMode = colorMode;
-		_backgroundColor = Color.white;
+		backgroundColor = Color.white;
 		_clip = null;
 		_transform = new AffineTransform();
-		_clipTransform = new AffineTransform();
+		clipTransform = new AffineTransform();
 		_accurateTextMode = true;
-		setColor(Color.black);
-		setPaint(Color.black);
+		setColor(Color.BLACK);
+		setPaint(Color.BLACK);
 		setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		setFont(Font.decode(null));
 		setStroke(new BasicStroke());
@@ -152,10 +178,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		EpsDocument doc = g._document;
 		this._document = doc;
 		this.colorMode = g.colorMode;
-		_backgroundColor = g._backgroundColor;
+		backgroundColor = g.backgroundColor;
 		_clip = g.getClip();
 		_transform = g.getTransform();
-		_clipTransform = g._clipTransform;
+		clipTransform = g.clipTransform;
 		_accurateTextMode = true;
 		setColor(g.getColor());
 		setPaint(g.getPaint());
@@ -499,7 +525,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * not make use of these.
 	 */
 	public void setComposite(Composite comp) {
-		_composite = comp;
+		composite = comp;
 	}
 
 	/**
@@ -507,7 +533,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * of type Color are respected by EpsGraphics2D.
 	 */
 	public void setPaint(Paint paint) {
-		_paint = paint;
+		this.paint = paint;
 		if (paint instanceof Color) {
 			setColor((Color) paint);
 		}
@@ -519,18 +545,18 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	public void setStroke(Stroke s) {
 		if (s instanceof BasicStroke) {
-			_stroke = (BasicStroke) s;
-			append(_stroke.getLineWidth() + " setlinewidth");
-			double miterLimit = _stroke.getMiterLimit();
+			stroke = (BasicStroke) s;
+			append(stroke.getLineWidth() + " setlinewidth");
+			double miterLimit = stroke.getMiterLimit();
 			if (miterLimit < 1.0f) {
 				miterLimit = 1;
 			}
 			append(miterLimit + " setmiterlimit");
-			append(_stroke.getLineJoin() + " setlinejoin");
-			append(_stroke.getEndCap() + " setlinecap");
+			append(stroke.getLineJoin() + " setlinejoin");
+			append(stroke.getEndCap() + " setlinecap");
 			StringBuffer dashes = new StringBuffer();
 			dashes.append("[ ");
-			float[] dashArray = _stroke.getDashArray();
+			float[] dashArray = stroke.getDashArray();
 			if (dashArray != null) {
 				for (int i = 0; i < dashArray.length; i++) {
 					dashes.append((dashArray[i]) + " ");
@@ -562,7 +588,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Sets the rendering hints. These are ignored by EpsGraphics2D.
 	 */
 	@Override
-	public void setRenderingHints(Map<?,?> hints) {
+	public void setRenderingHints(@SuppressWarnings("rawtypes") Map hints) {
 		// Do nothing.
 	}
 
@@ -570,7 +596,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Adds rendering hints. These are ignored by EpsGraphics2D.
 	 */
 	@Override
-	public void addRenderingHints(Map<?,?> hints) {
+	public void addRenderingHints(@SuppressWarnings("rawtypes") Map hints) {
 		// Do nothing.
 	}
 
@@ -672,16 +698,16 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns the current Paint of the EpsGraphics2D object.
 	 */
 	public Paint getPaint() {
-		if (_paint == null)
+		if (this.paint == null)
 			return Color.black;
-		return _paint;
+		return this.paint;
 	}
 
 	/**
 	 * returns the current Composite of the EpsGraphics2D object.
 	 */
 	public Composite getComposite() {
-		return _composite;
+		return composite;
 	}
 
 	/**
@@ -691,14 +717,14 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		if (color == null) {
 			color = Color.black;
 		}
-		_backgroundColor = color;
+		backgroundColor = color;
 	}
 
 	/**
 	 * Gets the background color that is used by the clearRect method.
 	 */
 	public Color getBackground() {
-		return _backgroundColor;
+		return backgroundColor;
 	}
 
 	/**
@@ -706,7 +732,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * BasicStroke.
 	 */
 	public Stroke getStroke() {
-		return _stroke;
+		return stroke;
 	}
 
 	/**
@@ -881,7 +907,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		} else {
 			try {
 				AffineTransform t = _transform.createInverse();
-				t.concatenate(_clipTransform);
+				t.concatenate(clipTransform);
 				return t.createTransformedShape(_clip);
 			} catch (Exception e) {
 				throw new RuntimeException("Unable to get inverse of matrix: " + _transform);
@@ -903,7 +929,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 			}
 			draw(clip, "clip");
 			_clip = clip;
-			_clipTransform = (AffineTransform) _transform.clone();
+			clipTransform = (AffineTransform) _transform.clone();
 		} else {
 			if (_document.isClipSet()) {
 				append("grestore");
@@ -1142,6 +1168,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		matrix.scale(1, -1);
 		matrix.getMatrix(m);
 		String bitsPerSample = "8";
+		// TODO Not using proper imagemask function yet
+		// if (getColorDepth() == BLACK_AND_WHITE) {
+		// bitsPerSample = "true";
+		// }
 		append(width + " " + height + " " + bitsPerSample + " [" + m[0] + " " + m[1] + " " + m[2] + " " + m[3] + " " + m[4] + " " + m[5] + "]");
 		// Fill the background to update the bounding box.
 		Color oldColor = getColor();
@@ -1149,9 +1179,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		fillRect(dx1, dy1, destWidth, destHeight);
 		setColor(oldColor);
 		if (this.colorMode.equals(ColorMode.BLACK_AND_WHITE) || this.colorMode.equals(ColorMode.GRAYSCALE)) {
+			// TODO Should really use imagemask.
 			append("{currentfile " + width + " string readhexstring pop} bind");
 			append("image");
-		} else {
+		} else {// TODO: no difference between RGB and CMYK
 			append("{currentfile 3 " + width + " mul string readhexstring pop} bind");
 			append("false 3 colorimage");
 		}
@@ -1167,7 +1198,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 					}
 				} else if (this.colorMode.equals(ColorMode.GRAYSCALE)) {
 					line.append(toHexString((color.getRed() + color.getGreen() + color.getBlue()) / 3));
-				} else {
+				} else {// TODO: no difference between RGB and CMYK
 					line.append(toHexString(color.getRed()) + toHexString(color.getGreen()) + toHexString(color.getBlue()));
 				}
 				if (line.length() > 64) {
@@ -1243,32 +1274,6 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		r.setSize((int) rect.getWidth(), (int) rect.getHeight());
 		return r;
 	}
-
-	private Color color;
-
-	private AffineTransform _clipTransform;
-
-	private Color _backgroundColor;
-
-	private Paint _paint;
-
-	private Composite _composite;
-
-	private BasicStroke _stroke;
-
-	private Font _font;
-
-	private Shape _clip;
-
-	private AffineTransform _transform = new AffineTransform();
-
-	private boolean _accurateTextMode;
-
-	private EpsDocument _document;
-
-	private static FontRenderContext _fontRenderContext = new FontRenderContext(null, false, true);
-
-	private ColorMode colorMode = ColorMode.COLOR_RGB;
 
 	@Override
 	public Graphics create() {

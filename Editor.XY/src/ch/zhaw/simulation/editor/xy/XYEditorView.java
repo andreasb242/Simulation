@@ -1,13 +1,11 @@
 package ch.zhaw.simulation.editor.xy;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
@@ -46,13 +44,8 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	}
 
 	@Override
-	public void paint(Graphics g1) {
-		Graphics2D g = (Graphics2D) g1;
-
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
-
-		DrawHelper.antialisingOn(g);
+	protected void paintEditor(Graphics2D g, boolean vector, boolean onlySelection) {
+		// TODO: EPS & onlySelection
 
 		if (density.isVisible()) {
 			g.drawImage(density.getImage(), 0, 0, this);
@@ -118,7 +111,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	public DensityDraw getDensity() {
 		return density;
 	}
-	
+
 	@Override
 	public void densityAdded(DensityData d) {
 	}

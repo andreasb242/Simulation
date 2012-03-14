@@ -27,8 +27,10 @@ public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> 
 	protected int textY = 10;
 	protected int questionmarkY = 15;
 
-	private String name = null;
-	private int textX = 0;
+	// TODO !!! private
+	protected String name = null;
+	// TODO PRIVATE
+	protected int textX = 0;
 
 	private int paddingX = 4;
 
@@ -56,7 +58,8 @@ public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> 
 		return tip;
 	}
 
-	private void recalcFontMetrics(Graphics g) {
+	// TODO PRIVATE
+	protected void recalcFontMetrics(Graphics g) {
 		if (getData() != null) {
 			tip.setTitle(getData().getName());
 			tip.setFormula(getData().getFormula());
