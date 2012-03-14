@@ -698,8 +698,9 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns the current Paint of the EpsGraphics2D object.
 	 */
 	public Paint getPaint() {
-		if (this.paint == null)
+		if (this.paint == null) {
 			return Color.black;
+		}
 		return this.paint;
 	}
 

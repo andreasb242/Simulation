@@ -27,8 +27,12 @@
  */
 package net.sf.epsgraphics;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.Date;
 
 /**
  * This represents an EPS document. Several EpsGraphics2D objects may point to
@@ -36,170 +40,170 @@ import java.io.*;
  */
 final class EpsDocument {
 
-    private OutputStream stream;
+	private int minX;
 
-    /**
-     * Constructs an empty EpsDevice that writes directly to a file. Bounds must
-     * be set before use.
-     */
-    EpsDocument(String title, OutputStream outputStream, int minX, int minY, int maxX, int maxY) throws IOException {
-        this.title = title;
-        this.minX = minX;
-        this.minY = minY;
-        this.maxX = maxX;
-        this.maxY = maxY;
-        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
-        this.stream = outputStream;
-        write(bufferedWriter);
-    }
+	private int minY;
 
-    /**
-     * Returns the title of the EPS document.
-     */
-    public synchronized String getTitle() {
-        return title;
-    }
+	private int maxX;
 
-    /**
-     * Appends a line to the EpsDocument. A new line character is added to the
-     * end of the line when it is added.
-     */
-    public synchronized void append(EpsGraphics g, String line) {
-        if (_lastG == null) {
-            _lastG = g;
-        } else if (g != _lastG) {
-            EpsGraphics lastG = _lastG;
-            _lastG = g;
-            // We are being drawn on with a different EpsGraphics2D context.
-            // We may need to update the clip, etc from this new context.
-            if (g.getClip() != lastG.getClip()) {
-                g.setClip(g.getClip());
-            }
-            if (!g.getColor().equals(lastG.getColor())) {
-                g.setColor(g.getColor());
-            }
-            if (!g.getBackground().equals(lastG.getBackground())) {
-                g.setBackground(g.getBackground());
-            }
+	private int maxY;
 
-            System.err.println("append g: "+g.hashCode());
-            System.err.println("append lastg: "+lastG.hashCode());
-            // FIXME this is weird code
-            if (!g.getPaint().equals(lastG.getPaint())) {
-                g.setPaint(g.getPaint());
-            }
-            if (g.getComposite()!=null && !g.getComposite().equals(lastG.getComposite())) {
-                g.setComposite(g.getComposite());
-            }
-            if (g.getFont()!=null && !g.getFont().equals(lastG.getFont())) {
-                g.setFont(g.getFont());
-            }
-            if (g.getStroke()!=null && !g.getStroke().equals(lastG.getStroke())) {
-                g.setStroke(g.getStroke());
-            }
-        }
-        _lastG = g;
-        try {
-            bufferedWriter.write(line + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException("Could not write to the output file: " + e);
-        }
-    }
+	private boolean isClipSet = false;
 
-    /**
-     * Outputs the contents of the EPS document to the specified Writer,
-     * complete with headers and bounding box.
-     */
-    public synchronized void write(Writer writer) throws IOException {
-        float offsetX = -minX;
-        float offsetY = -minY;
-        writer.write("%!PS-Adobe-3.0 EPSF-3.0\n");
-        writer.write("%%Creator: EpsGraphics " + EpsGraphics.VERSION
-                + " by Thomas Abeel, http://www.sourceforge.net/epsgraphics/\n");
-        writer.write("%%Title: " + title + "\n");
-        writer.write("%%CreationDate: " + new Date() + "\n");
-        writer.write("%%BoundingBox: 0 0 " + ((int) Math.ceil(maxX + offsetX)) + " "
-                + ((int) Math.ceil(maxY + offsetY)) + "\n");
-        writer.write("%%DocumentData: Clean7Bit\n");
-        writer.write("%%LanguageLevel: 2\n");
-        writer.write("%%DocumentProcessColors: Black\n");
-        writer.write("%%ColorUsage: Color\n");
-        writer.write("%%Origin: 0 0\n");
-        writer.write("%%Pages: 1\n");
-        writer.write("%%Page: 1 1\n");
-        writer.write("%%EndComments\n\n");
-        writer.write("gsave\n");
-        writer.write(offsetX + " " + (maxY + offsetY) + " translate\n");
+	private String title;
 
-        writer.flush();
-    }
+	private BufferedWriter bufferedWriter = null;
 
-    private void writeFooter(Writer writer) throws IOException {
-        writer.write("grestore\n");
-        if (isClipSet()) {
-            writer.write("grestore\n");
-        }
-        writer.write("showpage\n");
-        writer.write("\n");
-        writer.write("%%EOF");
-        writer.flush();
-    }
+	private OutputStream stream;
 
-    public synchronized void flush() throws IOException {
-        bufferedWriter.flush();
-    }
+	/**
+	 * We need to remember which was the last EpsGraphics2D object to use
+	 * us, as we need to replace the clipping region if another EpsGraphics2D
+	 * object tries to use us.
+	 */
+	private EpsGraphics lastG = null;
+	
+	/**
+	 * Constructs an empty EpsDevice that writes directly to a file. Bounds must
+	 * be set before use.
+	 */
+	EpsDocument(String title, OutputStream outputStream, int minX, int minY, int maxX, int maxY) throws IOException {
+		this.title = title;
+		this.minX = minX;
+		this.minY = minY;
+		this.maxX = maxX;
+		this.maxY = maxY;
+		this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+		this.stream = outputStream;
+		write(bufferedWriter);
+	}
 
-    public synchronized void close() throws IOException {
-        writeFooter(bufferedWriter);
-        bufferedWriter.flush();
-        bufferedWriter.close();
+	/**
+	 * Returns the title of the EPS document.
+	 */
+	public synchronized String getTitle() {
+		return title;
+	}
 
-    }
+	/**
+	 * Appends a line to the EpsDocument. A new line character is added to the
+	 * end of the line when it is added.
+	 */
+	public synchronized void append(EpsGraphics g, String line) {
+		if (this.lastG == null) {
+			this.lastG = g;
+		} else if (g != this.lastG) {
+			EpsGraphics lastG = this.lastG;
+			this.lastG = g;
+			// We are being drawn on with a different EpsGraphics2D context.
+			// We may need to update the clip, etc from this new context.
+			if (g.getClip() != lastG.getClip()) {
+				g.setClip(g.getClip());
+			}
+			if (!g.getColor().equals(lastG.getColor())) {
+				g.setColor(g.getColor());
+			}
+			if (!g.getBackground().equals(lastG.getBackground())) {
+				g.setBackground(g.getBackground());
+			}
 
-    public boolean isClipSet() {
-        return _isClipSet;
-    }
+			System.err.println("append g: " + g.hashCode());
+			System.err.println("append lastg: " + lastG.hashCode());
+			// FIXME this is weird code
+			if (!g.getPaint().equals(lastG.getPaint())) {
+				g.setPaint(g.getPaint());
+			}
+			if (g.getComposite() != null && !g.getComposite().equals(lastG.getComposite())) {
+				g.setComposite(g.getComposite());
+			}
+			if (g.getFont() != null && !g.getFont().equals(lastG.getFont())) {
+				g.setFont(g.getFont());
+			}
+			if (g.getStroke() != null && !g.getStroke().equals(lastG.getStroke())) {
+				g.setStroke(g.getStroke());
+			}
+		}
+		this.lastG = g;
+		try {
+			bufferedWriter.write(line + "\n");
+		} catch (IOException e) {
+			throw new RuntimeException("Could not write to the output file: " + e);
+		}
+	}
 
-    public void setClipSet(boolean isClipSet) {
-        _isClipSet = isClipSet;
-    }
+	/**
+	 * Outputs the contents of the EPS document to the specified Writer,
+	 * complete with headers and bounding box.
+	 */
+	public synchronized void write(Writer writer) throws IOException {
+		float offsetX = -minX;
+		float offsetY = -minY;
+		writer.write("%!PS-Adobe-3.0 EPSF-3.0\n");
+		writer.write("%%Creator: EpsGraphics " + EpsGraphics.VERSION + " by Thomas Abeel, http://www.sourceforge.net/epsgraphics/\n");
+		writer.write("%%Title: " + title + "\n");
+		writer.write("%%CreationDate: " + new Date() + "\n");
+		writer.write("%%BoundingBox: 0 0 " + ((int) Math.ceil(maxX + offsetX)) + " " + ((int) Math.ceil(maxY + offsetY)) + "\n");
+		writer.write("%%DocumentData: Clean7Bit\n");
+		writer.write("%%LanguageLevel: 2\n");
+		writer.write("%%DocumentProcessColors: Black\n");
+		writer.write("%%ColorUsage: Color\n");
+		writer.write("%%Origin: 0 0\n");
+		writer.write("%%Pages: 1\n");
+		writer.write("%%Page: 1 1\n");
+		writer.write("%%EndComments\n\n");
+		writer.write("gsave\n");
+		writer.write(offsetX + " " + (maxY + offsetY) + " translate\n");
 
-    private int minX;
+		writer.flush();
+	}
 
-    private int minY;
+	private void writeFooter(Writer writer) throws IOException {
+		writer.write("grestore\n");
+		if (isClipSet()) {
+			writer.write("grestore\n");
+		}
+		writer.write("showpage\n");
+		writer.write("\n");
+		writer.write("%%EOF");
+		writer.flush();
+	}
 
-    private int maxX;
+	public synchronized void flush() throws IOException {
+		bufferedWriter.flush();
+	}
 
-    private int maxY;
+	public synchronized void close() throws IOException {
+		writeFooter(bufferedWriter);
+		bufferedWriter.flush();
+		bufferedWriter.close();
 
-    private boolean _isClipSet = false;
+	}
 
-    private String title;
+	public boolean isClipSet() {
+		return this.isClipSet;
+	}
 
-    private BufferedWriter bufferedWriter = null;
+	public void setClipSet(boolean isClipSet) {
+		this.isClipSet = isClipSet;
+	}
 
-    // We need to remember which was the last EpsGraphics2D object to use
-    // us, as we need to replace the clipping region if another EpsGraphics2D
-    // object tries to use us.
-    private EpsGraphics _lastG = null;
+	public final int getMaxX() {
+		return maxX;
+	}
 
-    public final int getMaxX() {
-        return maxX;
-    }
+	public final int getMaxY() {
+		return maxY;
+	}
 
-    public final int getMaxY() {
-        return maxY;
-    }
+	public final int getMinX() {
+		return minX;
+	}
 
-    public final int getMinX() {
-        return minX;
-    }
+	public final int getMinY() {
+		return minY;
+	}
 
-    public final int getMinY() {
-        return minY;
-    }
-
-    public OutputStream getStream() {
-        return stream;
-    }
+	public OutputStream getStream() {
+		return stream;
+	}
 }
