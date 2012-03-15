@@ -208,6 +208,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void takeSnapshot() {
+//        ExportDialog export = new ExportDialog();
+//        export.showExportDialog(this.mainFrame, "Export view as ...", getController().getView(), "export");
+		
 		// TODO !! name, selection, svg
 		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController().getView(), getController()
 				.getView().getBounds(), "Simulation");

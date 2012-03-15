@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.ClipboardListener;
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.icon.IconSVG;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
@@ -221,10 +222,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 	 * Creates the global toolbar item
 	 */
 	public void addGlobalIcon() {
-		BufferedImage image = new GlobalImage(24, config).getImage(false);
-		int height = image.getHeight();
-		int width = image.getWidth();
-		image = image.getSubimage(0, 0, width, height);
+		BufferedImage image = GuiImage.drawToImage(new GlobalImage(24, config));
 
 		Graphics g = image.getGraphics();
 

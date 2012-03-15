@@ -14,9 +14,9 @@ public class ContainerImage extends GuiImage {
 	}
 
 	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
-		int w = image.getWidth();
-		int h = image.getHeight();
+	public void drawImage(Graphics2D g, boolean selected) {
+		int w = getWidth();
+		int h = getHeight();
 
 		int circleHeight = w / 2;
 
@@ -51,7 +51,5 @@ public class ContainerImage extends GuiImage {
 		g.fill(circleBottom);
 		g.setPaint(config.getObjectBorder(selected));
 		g.draw(circleBottom);
-
-		g.dispose();
 	}
 }

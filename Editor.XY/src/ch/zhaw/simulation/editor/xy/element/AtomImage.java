@@ -15,10 +15,10 @@ public class AtomImage extends GuiImage {
 	}
 
 	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
+	public void drawImage(Graphics2D g, boolean selected) {
 		DrawHelper.antialisingOn(g);
 		
-		int size = image.getHeight();
+		int size = getHeight();
 
 		RoundRectangle2D.Double rect = new RoundRectangle2D.Double(0, 0, size - 1, size - 1, EDGE_RADIUS, EDGE_RADIUS);
 
@@ -28,8 +28,6 @@ public class AtomImage extends GuiImage {
 
 		g.setPaint(config.getObjectBorder(selected));
 		g.draw(rect);
-
-		g.dispose();
 	}
 
 }

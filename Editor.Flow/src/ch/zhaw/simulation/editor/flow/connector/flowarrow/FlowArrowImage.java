@@ -1,10 +1,12 @@
 package ch.zhaw.simulation.editor.flow.connector.flowarrow;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Polygon;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.connector.bezier.Direction;
@@ -33,46 +35,77 @@ public class FlowArrowImage extends GuiImage {
 
 	private int arrowDiameter;
 
+	private Direction direction = Direction.LEFT;
+
+	private ImageObserver dummyObserver = new ImageObserver() {
+
+		@Override
+		public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+			return true;
+		}
+	};
+
 	public FlowArrowImage(int size, GuiConfig config) {
 		super(size, size, config, false, false);
+
+		initImage();
 	}
 
-	@Override
 	protected void initImage() {
-		super.initImage();
-		imageR = ImageMirrow.horizontalMirror(image);
-		imageSelectedR = ImageMirrow.horizontalMirror(imageSelected);
-		putImg("imageR", imageR);
-		putImg("imageSelectedR", imageSelectedR);
+		// TODO alles zeichnen, nicht bilder verwenden !
+		BufferedImage imageL = GuiImage.drawToImage(this);
+		BufferedImage imageSelectedL = GuiImage.drawToImage(this, true);
 
-		imageB = ImageMirrow.rotateImage(image, 270);
-		imageSelectedB = ImageMirrow.rotateImage(imageSelected, 270);
-		putImg("imageB", imageB);
-		putImg("imageSelectedB", imageSelectedB);
+		imageR = ImageMirrow.horizontalMirror(imageL);
+		imageSelectedR = ImageMirrow.horizontalMirror(imageSelectedL);
+
+		imageB = ImageMirrow.rotateImage(imageL, 270);
+		imageSelectedB = ImageMirrow.rotateImage(imageSelectedL, 270);
 
 		imageT = ImageMirrow.verticalMirror(imageB);
-		imageSelectedT = ImageMirrow.verticalMirror(imageSelected);
-		putImg("imageT", imageT);
-		putImg("imageSelectedT", imageSelectedT);
+		imageSelectedT = ImageMirrow.verticalMirror(imageSelectedL);
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 	@Override
-	protected void loadImages() {
-		super.loadImages();
+	public void drawImage(Graphics2D g, boolean selected) {
+		switch (direction) {
+		case BOTTOM:
+			if (selected) {
+				g.drawImage(imageSelectedB, 0, 0, dummyObserver);
+				return;
+			}
+			g.drawImage(imageB, 0, 0, dummyObserver);
+			return;
 
-		imageR = getImg("imageR");
-		imageSelectedR = getImg("imageSelectedR");
+		case LEFT:
+			drawArrowLeft(g, selected);
+			return;
 
-		imageB = getImg("imageB");
-		imageSelectedB = getImg("imageSelectedB");
+		case RIGHT:
+			if (selected) {
+				g.drawImage(imageSelectedR, 0, 0, dummyObserver);
+				return;
+			}
+			g.drawImage(imageR, 0, 0, dummyObserver);
+			return;
 
-		imageT = getImg("imageT");
-		imageSelectedT = getImg("imageSelectedT");
+		case TOP:
+			if (selected) {
+				g.drawImage(imageSelectedT, 0, 0, dummyObserver);
+				return;
+			}
+			g.drawImage(imageT, 0, 0, dummyObserver);
+			return;
+		}
+		throw new RuntimeException("Unknown Direction: " + direction);
 	}
 
-	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
-		int w = image.getWidth();
+	protected void drawArrowLeft(Graphics2D g, boolean selected) {
+		int w = getWidth();
 		arrowDiameter = w / 3;
 		int circleWidth = w / 3;
 		int circleStart = w / 10;
@@ -121,34 +154,5 @@ public class FlowArrowImage extends GuiImage {
 
 	public int getArrowWidth() {
 		return arrowDiameter;
-	}
-
-	public BufferedImage getImage(boolean selected, Direction direction) {
-		switch (direction) {
-		case BOTTOM:
-			if (selected) {
-				return imageSelectedB;
-			}
-			return imageB;
-
-		case LEFT:
-			if (selected) {
-				return imageSelected;
-			}
-			return image;
-
-		case RIGHT:
-			if (selected) {
-				return imageSelectedR;
-			}
-			return imageR;
-
-		case TOP:
-			if (selected) {
-				return imageSelectedT;
-			}
-			return imageT;
-		}
-		throw new RuntimeException("Unknown Direction: " + direction);
 	}
 }

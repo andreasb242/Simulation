@@ -34,7 +34,7 @@ public class ParameterView extends GuiDataTextElement<SimulationParameterData> {
 			recalcFontMetrics(g);
 		}
 
-		image.drawBackground(g, isSelected());
+		image.drawImage(g, isSelected());
 
 		g.setColor(Color.BLACK);
 

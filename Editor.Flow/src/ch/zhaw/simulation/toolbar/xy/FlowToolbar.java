@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.connector.bezier.BezierConnector;
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerImage;
@@ -51,7 +52,7 @@ public class FlowToolbar extends AbstractToolbar {
 
 	@Override
 	protected void initCustomToolitems() {
-		ImageIcon parameterIcon = addShadow(new ParameterImage(24, config).getImage(false));
+		ImageIcon parameterIcon = addShadow(GuiImage.drawToImage(new ParameterImage(24, config)));
 
 		toolbar.add(new ToolbarAction("Parameter (p)", parameterIcon) {
 			@Override
@@ -60,7 +61,7 @@ public class FlowToolbar extends AbstractToolbar {
 			}
 		});
 
-		ImageIcon containerIcon = addShadow(new ContainerImage(18, 24, config).getImage(false));
+		ImageIcon containerIcon = addShadow(GuiImage.drawToImage(new ContainerImage(18, 24, config)));
 
 		toolbar.add(new ToolbarAction("Container (c)", containerIcon) {
 			@Override
@@ -70,7 +71,7 @@ public class FlowToolbar extends AbstractToolbar {
 		});
 
 		if (!this.mainToolbar) {
-			ImageIcon densityIcon = addShadow(new DensityContainerImage(18, 24, config).getImage(false));
+			ImageIcon densityIcon = addShadow(GuiImage.drawToImage(new DensityContainerImage(18, 24, config)));
 
 			toolbar.add(new ToolbarAction("Dichte (d)", densityIcon) {
 				@Override
@@ -89,7 +90,7 @@ public class FlowToolbar extends AbstractToolbar {
 			}
 		});
 
-		ImageIcon flowArrowIcon = addShadow(new FlowArrowImage(24, config).getImage(false));
+		ImageIcon flowArrowIcon = addShadow(GuiImage.drawToImage(new FlowArrowImage(24, config)));
 
 		toolbar.add(new ToolbarAction("Fluss", flowArrowIcon) {
 			@Override

@@ -14,9 +14,9 @@ public class DensityContainerImage extends GuiImage {
 	}
 
 	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
-		int w = image.getWidth();
-		int h = image.getHeight();
+	public void drawImage(Graphics2D g, boolean selected) {
+		int w = getWidth();
+		int h = getHeight();
 
 		DrawHelper.antialisingOn(g);
 
@@ -28,10 +28,10 @@ public class DensityContainerImage extends GuiImage {
 
 		// topmost center
 		int bX = w / 2;
-		int bY = h-1;
+		int bY = h - 1;
 
 		// most right
-		int cX = w-1;
+		int cX = w - 1;
 		int cY = aY;
 
 		// most left
@@ -76,7 +76,5 @@ public class DensityContainerImage extends GuiImage {
 		g.draw(pA);
 		g.draw(pB);
 		g.draw(pC);
-
-		g.dispose();
 	}
 }

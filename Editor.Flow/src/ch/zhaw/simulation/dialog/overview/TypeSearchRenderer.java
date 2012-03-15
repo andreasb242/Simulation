@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
@@ -26,10 +27,11 @@ public class TypeSearchRenderer implements ListCellRenderer {
 
 	public TypeSearchRenderer(GuiConfig config, ListCellRenderer delegate) {
 		this.delegate = delegate;
-		globalImage = new ImageIcon(new GlobalImage(16, config).getImage(false));
-		containerImage = new ImageIcon(new ContainerImage(16, 16, config).getImage(false));
-		parameterImage = new ImageIcon(new ParameterImage(16, config).getImage(false));
-		flowParameterImage = new ImageIcon(new FlowArrowImage(16, config).getImage(false));
+
+		globalImage = new ImageIcon(GuiImage.drawToImage(new GlobalImage(16, config)));
+		containerImage = new ImageIcon(GuiImage.drawToImage(new ContainerImage(16, 16, config)));
+		parameterImage = new ImageIcon(GuiImage.drawToImage(new ParameterImage(16, config)));
+		flowParameterImage = new ImageIcon(GuiImage.drawToImage(new FlowArrowImage(16, config)));
 	}
 
 	@Override

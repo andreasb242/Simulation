@@ -33,6 +33,7 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -536,6 +537,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		this.paint = paint;
 		if (paint instanceof Color) {
 			setColor((Color) paint);
+		} else if(paint instanceof GradientPaint) {
+			setColor(((GradientPaint)paint).getColor1());
 		}
 	}
 

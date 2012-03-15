@@ -15,19 +15,17 @@ public class GlobalImage extends GuiImage {
 	}
 
 	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
-		int w = image.getWidth();
+	public void drawImage(Graphics2D g, boolean selected) {
+		int w = getWidth();
 
 		DrawHelper.antialisingOn(g);
 
 		Arc2D.Float circle = new Arc2D.Float(1, 1, w - 2, w - 2, 0, 360, Arc2D.OPEN);
 
-		g.setPaint(config.getGlobalPaint(image.getWidth(), image.getHeight(), selected));
+		g.setPaint(config.getGlobalPaint(w, getHeight(), selected));
 		g.fill(circle);
 
 		g.setPaint(config.getObjectBorder(selected));
 		g.draw(circle);
-
-		g.dispose();
 	}
 }

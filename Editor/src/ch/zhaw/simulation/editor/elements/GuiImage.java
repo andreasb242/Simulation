@@ -1,18 +1,15 @@
 package ch.zhaw.simulation.editor.elements;
 
-
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import ch.zhaw.simulation.sysintegration.GuiConfig;
-
 import butti.javalibs.errorhandler.Errorhandler;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 /**
  * A painted image
@@ -20,25 +17,11 @@ import butti.javalibs.errorhandler.Errorhandler;
  * @author Andreas Butti
  */
 public abstract class GuiImage {
-	/**
-	 * The Image cache
-	 */
-	private static HashMap<Class<?>, HashMap<String, BufferedImage>> cache = new HashMap<Class<?>, HashMap<String, BufferedImage>>();
-
-	/**
-	 * The not selected image
-	 */
-	protected BufferedImage image;
 
 	/**
 	 * The Shadow Image
 	 */
 	private BufferedImage shadow = null;
-
-	/**
-	 * The image if the component is selected
-	 */
-	protected BufferedImage imageSelected;
 
 	/**
 	 * The configuration
@@ -84,64 +67,19 @@ public abstract class GuiImage {
 		this.width = width;
 		this.height = height;
 
-		if (cache) {
-			image = getImg("image");
-
-			if (image == null) {
-				image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-				imageSelected = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-				if (hasShadow) {
-					shadow = loadShadowImage();
-				}
-
-				putImg("image", image);
-				putImg("selected", imageSelected);
-				putImg("shadow", shadow);
-
-				initImage();
-			} else {
-				loadImages();
-			}
-		} else {
-			image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			imageSelected = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			if (hasShadow) {
-				shadow = loadShadowImage();
-			}
-			initImage();
+		if (hasShadow) {
+			shadow = loadShadowImage();
 		}
 	}
 
-	protected void initImage() {
-		drawBackground((Graphics2D) image.getGraphics(), false);
-		drawBackground((Graphics2D) imageSelected.getGraphics(), true);
-	}
-
-	protected void loadImages() {
-		imageSelected = getImg("selected");
-		shadow = getImg("shadow");
-	}
-
-	protected abstract void drawBackground(Graphics2D g, boolean selected);
-
-	/**
-	 * Gets the image
-	 * 
-	 * @param selected
-	 *            If the component is selected or not
-	 */
-	public BufferedImage getImage(boolean selected) {
-		if (selected) {
-			return imageSelected;
-		}
-		return image;
-	}
+	public abstract void drawImage(Graphics2D g, boolean selected);
 
 	private BufferedImage loadShadowImage() {
 		try {
 			String filename = getClass().getSimpleName();
-			
-			// because of inheritance call Classloader instead of getClass().getRessourceAsStream()
+
+			// because of inheritance call Classloader instead of
+			// getClass().getRessourceAsStream()
 			InputStream in = getClass().getClassLoader().getResourceAsStream("ch/zhaw/simulation/editor/elements/shadowimage/" + filename + ".png");
 
 			if (in == null) {
@@ -163,24 +101,23 @@ public abstract class GuiImage {
 		return new Point(15, 15);
 	}
 
-	public BufferedImage getImg(String name) {
-		HashMap<String, BufferedImage> list = cache.get(getClass());
-		if (list == null) {
-			return null;
-		}
-
-		String key = name + width + "x" + height;
-		return list.get(key);
+	public int getWidth() {
+		return width;
 	}
 
-	public void putImg(String name, BufferedImage img) {
-		HashMap<String, BufferedImage> list = cache.get(getClass());
-		if (list == null) {
-			list = new HashMap<String, BufferedImage>();
-			cache.put(getClass(), list);
-		}
+	public int getHeight() {
+		return height;
+	}
 
-		String key = name + width + "x" + height;
-		list.put(key, img);
+	public static BufferedImage drawToImage(GuiImage img, boolean selected) {
+		BufferedImage image = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = (Graphics2D) image.getGraphics();
+		img.drawImage(g, selected);
+		g.dispose();
+		return image;
+	}
+
+	public static BufferedImage drawToImage(GuiImage img) {
+		return drawToImage(img, false);
 	}
 }

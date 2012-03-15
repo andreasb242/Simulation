@@ -91,13 +91,13 @@ public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> 
 	protected abstract GuiImage getImage();
 
 	@Override
-	public void paint(Graphics g) {
-		DrawHelper.antialisingOn(g);
+	public void paint(Graphics g1) {
+		Graphics2D g = DrawHelper.antialisingOn(g1);
 		if (name == null) {
 			recalcFontMetrics(g);
 		}
 
-		g.drawImage(getImage().getImage(isSelected()), 0, 0, this);
+		getImage().drawImage(g, isSelected());
 
 		g.setColor(Color.BLACK);
 

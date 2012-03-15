@@ -3,7 +3,6 @@ package ch.zhaw.simulation.editor.flow.connector.parameterarrow;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractView;
@@ -61,8 +60,8 @@ public class BezierHelperPoint extends AbstractView {
 	@Override
 	public void paint(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
-		BufferedImage img = image.getImage(isSelected());
-		g.drawImage(img, 0, 0, this);
+		
+		image.drawImage(g, isSelected());
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
 
 public class ImageMirrow {
+	// TODO !!! UNUSED!! 
+	
 	public static BufferedImage horizontalMirror(BufferedImage img) {
 		BufferedImage res = new BufferedImage(img.getWidth(), img.getHeight(),
 				img.getType());

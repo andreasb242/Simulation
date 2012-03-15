@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.xy.element.AtomImage;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
@@ -20,7 +21,7 @@ public class XYToolbar extends AbstractToolbar {
 	@Override
 	protected void initCustomToolitems() {
 		AtomImage atomimg = new AtomImage(24, config);
-		ImageIcon atomIcon = addShadow(atomimg.getImage(false));
+		ImageIcon atomIcon = addShadow(GuiImage.drawToImage(atomimg));
 
 		toolbar.add(new ToolbarAction("Atom (a)", atomIcon) {
 			@Override

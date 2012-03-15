@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -71,8 +70,10 @@ public class FlowBezierConnector extends BezierConnector {
 			y -= arrowSize;
 		}
 
-		BufferedImage img = this.img.getImage(selected, anchor);
-		g.drawImage(img, x, y, parent);
+		Graphics2D gsub = (Graphics2D) g.create(x, y, this.img.getWidth(), this.img.getHeight());
+		
+		this.img.setDirection(anchor);
+		this.img.drawImage(gsub, selected);
 	}
 
 	@Override

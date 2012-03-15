@@ -12,16 +12,14 @@ public class FlowValveImage extends GuiImage {
 	}
 
 	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
+	public void drawImage(Graphics2D g, boolean selected) {
 		DrawHelper.antialisingOff(g);
-		int size = image.getHeight();
+		int size = getHeight();
 
 		g.setPaint(config.getFlowParameterBackground(size, size, selected));
 		g.fillRect(0, 0, size, size);
 
 		g.setPaint(config.getObjectBorder(selected));
 		g.drawRect(0, 0, size - 1, size - 1);
-
-		g.dispose();
 	}
 }

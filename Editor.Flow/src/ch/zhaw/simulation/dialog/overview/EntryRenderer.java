@@ -1,9 +1,9 @@
 package ch.zhaw.simulation.dialog.overview;
 
-
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.elements.global.GlobalImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
@@ -17,7 +17,6 @@ import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 import butti.javalibs.controls.AbstractListCellRenderer;
 
-
 public class EntryRenderer extends AbstractListCellRenderer<AbstractNamedSimulationData> {
 
 	private BufferedImage containerImage;
@@ -27,10 +26,11 @@ public class EntryRenderer extends AbstractListCellRenderer<AbstractNamedSimulat
 
 	public EntryRenderer(GuiConfig config) {
 		super(35);
-		globalImage = new GlobalImage(32, config).getImage(false);
-		containerImage = new ContainerImage(32, 40, config).getImage(false);
-		parameterImage = new ParameterImage(32, config).getImage(false);
-		flowParameterImage = new FlowArrowImage(32, config).getImage(false);
+
+		globalImage = GuiImage.drawToImage(new GlobalImage(32, config));
+		containerImage = GuiImage.drawToImage(new ContainerImage(32, 40, config));
+		parameterImage = GuiImage.drawToImage(new ParameterImage(32, config));
+		flowParameterImage = GuiImage.drawToImage(new FlowArrowImage(32, config));
 	}
 
 	private static final long serialVersionUID = 1L;

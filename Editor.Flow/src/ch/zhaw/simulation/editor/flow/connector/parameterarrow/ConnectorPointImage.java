@@ -13,8 +13,8 @@ public class ConnectorPointImage extends GuiImage {
 	}
 
 	@Override
-	protected void drawBackground(Graphics2D g, boolean selected) {
-		int w = image.getWidth();
+	public void drawImage(Graphics2D g, boolean selected) {
+		int w = getWidth();
 
 		DrawHelper.antialisingOff(g);
 
@@ -23,7 +23,5 @@ public class ConnectorPointImage extends GuiImage {
 
 		g.setPaint(config.getObjectBorder(selected));
 		g.drawRect(0, 0, w - 1, w - 1);
-
-		g.dispose();
 	}
 }
