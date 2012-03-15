@@ -1,14 +1,8 @@
 package ch.zhaw.simulation.editor.flow.elements.parameter;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
-import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 
 public class ParameterView extends GuiDataTextElement<SimulationParameterData> {
@@ -24,30 +18,6 @@ public class ParameterView extends GuiDataTextElement<SimulationParameterData> {
 		questionmarkY = 45;
 	}
 	
-
-	@Override
-	public void paint(Graphics g1) {
-		// TODO DEBUG: DELETE METHOD
-		
-		Graphics2D g = DrawHelper.antialisingOn(g1);
-		if (name == null) {
-			recalcFontMetrics(g);
-		}
-
-		image.drawImage(g, isSelected());
-
-		g.setColor(Color.BLACK);
-
-		g.drawString(name, textX, textY);
-
-		if (!getData().getStaus().equals(AbstractNamedSimulationData.Status.SYNTAX_OK)) {
-			g.setColor(Color.RED);
-
-			int x = (getWidth() - g.getFontMetrics().stringWidth("?")) / 2;
-			g.drawString("?", x, questionmarkY);
-		}
-	}
-
 	@Override
 	protected GuiImage getImage() {
 		return image;

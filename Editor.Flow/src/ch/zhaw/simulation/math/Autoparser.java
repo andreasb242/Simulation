@@ -20,7 +20,7 @@ public class Autoparser {
 	private Parser parser = new Parser();
 	private FlowEditorControl control;
 
-	private boolean running = true;
+	private boolean running = false;
 
 	public Autoparser(FlowEditorControl control) {
 		this.control = control;
