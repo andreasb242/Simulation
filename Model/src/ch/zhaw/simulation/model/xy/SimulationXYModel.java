@@ -39,6 +39,21 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	private int grid = 5;
 
 	/**
+	 * If the grid is displayed or not
+	 */
+	private boolean isShowGrid = true;
+
+	/**
+	 * Visualize the density by color
+	 */
+	private boolean isShowDensityColor = true;
+
+	/**
+	 * Visualize the density by arrows
+	 */
+	private boolean isShowDensityArrow = false;
+
+	/**
 	 * The Density
 	 */
 	private Vector<DensityData> density = new Vector<DensityData>();
@@ -57,8 +72,6 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 
 	public void setWidth(int width) {
 		this.width = width;
-
-		fireSizeRasterChanged();
 	}
 
 	public int getHeight() {
@@ -67,8 +80,6 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 
 	public void setHeight(int height) {
 		this.height = height;
-		
-		fireSizeRasterChanged();
 	}
 
 	public int getGrid() {
@@ -77,8 +88,30 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 
 	public void setGrid(int grid) {
 		this.grid = grid;
-		
-		fireSizeRasterChanged();
+	}
+
+	public boolean isShowGrid() {
+		return isShowGrid;
+	}
+
+	public void setShowGrid(boolean isShowGrid) {
+		this.isShowGrid = isShowGrid;
+	}
+
+	public boolean isShowDensityArrow() {
+		return isShowDensityArrow;
+	}
+
+	public void setShowDensityArrow(boolean isShowDensityArrow) {
+		this.isShowDensityArrow = isShowDensityArrow;
+	}
+
+	public boolean isShowDensityColor() {
+		return isShowDensityColor;
+	}
+
+	public void setShowDensityColor(boolean isShowDensityColor) {
+		this.isShowDensityColor = isShowDensityColor;
 	}
 
 	@Override
@@ -175,7 +208,7 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 		}
 	}
 
-	private void fireSizeRasterChanged() {
+	public void fireSizeRasterChanged() {
 		for (XYSimulationListener l : this.listener) {
 			l.modelSizeRasterChanged();
 		}
@@ -212,15 +245,13 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	public Point getZero() {
 		return zero;
 	}
-	
+
 	public void setZero(Point zero) {
-		if(zero == null) {
+		if (zero == null) {
 			throw new NullPointerException("zero == null");
 		}
 
 		this.zero = zero;
-		
-		fireSizeRasterChanged();
 	}
 
 	public SubModelList getSubmodels() {

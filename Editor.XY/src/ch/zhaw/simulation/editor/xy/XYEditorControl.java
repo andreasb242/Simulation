@@ -68,7 +68,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 	}
 
 	private void editModelSize() {
-		XYSizeDialog dlg = new XYSizeDialog(getParent());
+		XYSizeDialog dlg = new XYSizeDialog(getParent(), getModel());
 		dlg.setModal(true);
 		dlg.setVisible(true);
 		

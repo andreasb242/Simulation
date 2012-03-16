@@ -1,55 +1,169 @@
 package ch.zhaw.simulation.editor.xy.dialog;
 
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
-import org.jdesktop.swingx.JXLabel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
+import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.numerictextfield.NumericTextField;
 
 public class XYSizeDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
 
 	private GridBagManager gbm;
-	
+
 	private NumericTextField txtWidth = new NumericTextField();
 	private NumericTextField txtHeight = new NumericTextField();
-	
 
-	public XYSizeDialog(JFrame parent) {
+	private NumericTextField txtX = new NumericTextField();
+	private NumericTextField txtY = new NumericTextField();
+
+	private JCheckBox cbShowGrid = new JCheckBox("Raster anzeigen");
+	private SpinnerModel spModel = new SpinnerNumberModel(10, 5, 200, 1);
+	private JSpinner spGrid = new JSpinner(spModel);
+
+	private JRadioButton rColor = new JRadioButton("Farben");
+	private JRadioButton rArrows = new JRadioButton("Pfeile");
+	private JRadioButton rBoth = new JRadioButton("Farben und Pfeilen");
+
+	private SimulationXYModel model;
+
+	public XYSizeDialog(final JFrame parent, SimulationXYModel model) {
 		super(parent);
+		this.model = model;
+
+		setTitle("Modell Konfiguration");
 
 		gbm = new GridBagManager(this, true);
 
-		gbm.setX(0).setY(0).setWidth(4).setWeightY(0).setComp(new TitleLabel("Simulationsfläche"));
-		JXLabel lb = new JXLabel("Die Grösse der Simulation, Innerhalb dieser Fläche werden die Meso Kompartmente platziert. "
-				+ "Diese können sich auch wärend der Simulation nicht ausserhalb dieser definierten Fläche bewegen");
-		lb.setLineWrap(true);
-		gbm.setX(0).setY(1).setWidth(4).setWeightY(0).setComp(lb);
+		gbm.setX(0).setY(0).setWidth(5).setWeightY(0).setComp(new TitleLabel("Simulationsfläche"));
+		JLabel lb = new JLabel("<html>Die Grösse der Simulation, Innerhalb dieser<br>Fläche werden die Meso Kompartmente platziert.<br>"
+				+ "Diese können sich auch wärend der Simulation nicht<br>ausserhalb dieser definierten Fläche bewegen</html>");
+		gbm.setX(0).setY(1).setWidth(5).setWeightY(0).setComp(lb);
 
 		gbm.setX(0).setY(10).setComp(new JLabel("Breite"));
 		gbm.setX(0).setY(11).setComp(new JLabel("Höhe"));
 
-		gbm.setX(1).setWidth(3).setY(10).setComp(txtWidth);
-		gbm.setX(1).setWidth(3).setY(11).setComp(txtHeight);
-		
-		
+		gbm.setX(1).setWidth(4).setY(10).setComp(txtWidth);
+		gbm.setX(1).setWidth(4).setY(11).setComp(txtHeight);
+
+		gbm.setX(0).setY(21).setComp(new JLabel("Nullpunkt"));
+		gbm.setX(1).setY(21).setComp(txtX);
+		gbm.setX(2).setY(21).setComp(new JLabel("/"));
+		gbm.setX(3).setY(21).setWidth(2).setComp(txtY);
+
+		JButton btCenter = new JButton("Nullpunkt zentrieren");
+		gbm.setX(0).setY(23).setWidth(5).setWeightY(0).setComp(btCenter);
+
+		btCenter.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Long tmp = txtWidth.getLongValue();
+					if (tmp == null) {
+						return;
+					}
+
+					long width = tmp;
+					tmp = txtHeight.getLongValue();
+					if (tmp == null) {
+						return;
+					}
+
+					long height = tmp;
+
+					txtX.setValue(width / 2);
+					txtY.setValue(height / 2);
+
+				} catch (ParseException e1) {
+					Messagebox.showWarning(parent, "Ungültige Eingabe", "Bitte zuerst gültige Zahlen für Breite und Höhe eingeben");
+				}
+			}
+		});
+
+		gbm.setX(0).setY(50).setWidth(5).setWeightY(0).setComp(new TitleLabel("Raster"));
+		gbm.setX(0).setY(51).setWidth(5).setComp(cbShowGrid);
+
+		gbm.setX(0).setY(52).setComp(new JLabel("Abstand in px."));
+		gbm.setX(1).setY(52).setWidth(4).setComp(spGrid);
+
+		gbm.setX(0).setY(80).setWidth(5).setWeightY(0).setComp(new TitleLabel("Dichte darstellen mit"));
+
+		ButtonGroup group = new ButtonGroup();
+		group.add(rColor);
+		group.add(rArrows);
+		group.add(rBoth);
+
+		gbm.setX(0).setY(81).setWidth(5).setComp(rColor);
+		gbm.setX(0).setY(82).setWidth(5).setComp(rArrows);
+		gbm.setX(0).setY(83).setWidth(5).setComp(rBoth);
+
 		JButton btCancel = ButtonFactory.createButton("Abbrechen", false);
 		JButton btOk = ButtonFactory.createButton("OK", true);
-		
-		gbm.setX(3).setY(100).setWeightX(0).setWeightY(0).setAnchor(GridBagConstraints.LINE_END).setComp(btCancel);
+
+		gbm.setX(0).setY(100).setWeightX(0).setWeightY(0).setWidth(4).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.LINE_END).setComp(btCancel);
 		gbm.setX(4).setY(100).setWeightX(0).setWeightY(0).setComp(btOk);
 
-		
+		btCancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
+
+		btOk.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveData();
+				setVisible(false);
+			}
+		});
+
+		loadData();
+
 		pack();
 		setLocationRelativeTo(parent);
 	}
 
+	private void loadData() {
+		// sets the size
+		txtWidth.setValue(model.getWidth());
+		txtHeight.setValue(model.getHeight());
+
+		// grid
+		cbShowGrid.setSelected(model.isShowGrid());
+		spGrid.setValue(model.getGrid());
+
+		if (model.isShowDensityArrow() && model.isShowDensityColor()) {
+			rBoth.setSelected(true);
+		} else if (model.isShowDensityArrow()) {
+			rArrows.setSelected(true);
+		} else {
+			rColor.setSelected(true);
+		}
+	}
+
+	private void saveData() {
+
+	}
 }
