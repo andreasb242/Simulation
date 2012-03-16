@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXStatusBar;
 
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.status.StatusListener;
 
 /**
@@ -42,7 +42,7 @@ public class StatusLabelHandler implements StatusListener {
 	@Override
 	public void setStatusTextInfo(String text) {
 		setStatusText(text);
-		lbStatus.setIcon(IconSVG.getIcon("info", 22));
+		lbStatus.setIcon(IconLoader.getIcon("info", 22));
 		emptyStatus = false;
 	}
 

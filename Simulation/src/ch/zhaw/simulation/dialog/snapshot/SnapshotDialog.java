@@ -43,7 +43,7 @@ import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.filechooser.TxtDirChooser;
 import ch.zhaw.simulation.gui.VectorPaintable;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmark;
@@ -84,7 +84,7 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 
 		txtName.setText(name);
 
-		ImageIcon img = IconSVG.getIcon("photos", 64);
+		ImageIcon img = IconLoader.getIcon("photos", 64);
 		gbm.setX(0).setY(0).setHeight(5).setWeightX(0).setWeightY(0).setComp(new JLabel(img));
 
 		gbm.setX(1).setY(0).setWeightY(0).setComp(new JLabel("Name"));

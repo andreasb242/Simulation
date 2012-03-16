@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 
 public class InfiniteSymbol extends AbstractDataView<InfiniteData> {
@@ -21,7 +21,7 @@ public class InfiniteSymbol extends AbstractDataView<InfiniteData> {
 		setSize(50, 50);
 
 		pi = new ParameterImage(50, control.getSysintegration().getGuiConfig());
-		icon = IconSVG.getIcon("Infinite", 50);
+		icon = IconLoader.getIcon("Infinite", 50);
 	}
 
 	@Override

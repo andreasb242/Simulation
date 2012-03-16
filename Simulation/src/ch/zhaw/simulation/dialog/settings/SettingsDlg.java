@@ -19,7 +19,7 @@ import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.ApplicationControl;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.inexport.ImportPlugin;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.util.gui.GradientPanel;
@@ -95,7 +95,7 @@ public class SettingsDlg extends BDialog {
 	private void initHeader() {
 		header.setLayout(new BorderLayout());
 
-		ImageIcon icon = IconSVG.getIcon("preferences", 64);
+		ImageIcon icon = IconLoader.getIcon("preferences", 64);
 
 		JPanel titel = new JPanel(new GridLayout(0, 1));
 		titel.setOpaque(false);

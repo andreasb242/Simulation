@@ -31,7 +31,7 @@ public class EditorPanel extends JPanel {
 	private XYModel model;
 
 	public EditorPanel(XYModel model, Sysintegration sys, FunctionHelp help) {
-		gbm = new GridBagManager(this, true);
+		gbm = new GridBagManager(this);
 		this.model = model;
 		
 		editor = new FormulaEditorPanel(sys, help, model);

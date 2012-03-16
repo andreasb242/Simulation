@@ -8,7 +8,7 @@ import java.util.Vector;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
@@ -59,9 +59,9 @@ public class RecentMenu extends MenuToolbarActionHandler {
 		this.settings = settings;
 
 		menu = new JMenu("Zuletzt geöffnete");
-		menu.setIcon(IconSVG.getIcon("open-recent"));
+		menu.setIcon(IconLoader.getIcon("open-recent"));
 
-		itClear.setIcon(IconSVG.getIcon("editclear"));
+		itClear.setIcon(IconLoader.getIcon("editclear"));
 
 		itClear.addActionListener(new ActionListener() {
 
@@ -154,7 +154,7 @@ public class RecentMenu extends MenuToolbarActionHandler {
 
 			item = new JMenuItem(f.getName());
 			if (!f.exists()) {
-				item.setIcon(IconSVG.getIcon("close"));
+				item.setIcon(IconLoader.getIcon("close"));
 				item.setEnabled(false);
 			}
 

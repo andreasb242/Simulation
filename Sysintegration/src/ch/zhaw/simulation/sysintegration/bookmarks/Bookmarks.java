@@ -2,7 +2,7 @@ package ch.zhaw.simulation.sysintegration.bookmarks;
 
 import javax.swing.DefaultComboBoxModel;
 
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 
 public class Bookmarks extends DefaultComboBoxModel {
 	private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class Bookmarks extends DefaultComboBoxModel {
 			bm.setSeparator(true);
 		}
 
-		Bookmark bm = new Bookmark("Anderer", "<custom>", IconSVG.getIcon("custom-folder"));
+		Bookmark bm = new Bookmark("Anderer", "<custom>", IconLoader.getIcon("custom-folder", 22));
 		addElement(bm);
 	}
 

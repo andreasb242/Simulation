@@ -9,7 +9,7 @@ import javax.swing.Icon;
 
 import butti.javalibs.util.StringUtil;
 
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmark;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmarks;
 
@@ -24,15 +24,15 @@ public class GtkBookmarks extends Bookmarks {
 	protected void initBookmarkIcons() {
 		icons = new HashMap<String, Icon>();
 
-		icons.put("XDG_DESKTOP_DIR", IconSVG.getIcon("sys.gtk/desktop", 22));
-		icons.put("XDG_DOWNLOAD_DIR", IconSVG.getIcon("sys.gtk/download", 22));
-		icons.put("XDG_DOCUMENTS_DIR", IconSVG.getIcon("sys.gtk/documents", 22));
-		icons.put("XDG_TEMPLATES_DIR", IconSVG.getIcon("sys.gtk/templates", 22));
-		icons.put("XDG_PUBLICSHARE_DIR", IconSVG.getIcon("sys.gtk/share", 22));
-		icons.put("XDG_MUSIC_DIR", IconSVG.getIcon("sys.gtk/music", 22));
-		icons.put("XDG_PICTURES_DIR", IconSVG.getIcon("sys.gtk/pictures", 22));
-		icons.put("XDG_VIDEOS_DIR", IconSVG.getIcon("sys.gtk/video", 22));
-		icons.put("default", IconSVG.getIcon("sys.gtk/folder", 22));
+		icons.put("XDG_DESKTOP_DIR", IconLoader.getIcon("sys.gtk/desktop", 22));
+		icons.put("XDG_DOWNLOAD_DIR", IconLoader.getIcon("sys.gtk/download", 22));
+		icons.put("XDG_DOCUMENTS_DIR", IconLoader.getIcon("sys.gtk/documents", 22));
+		icons.put("XDG_TEMPLATES_DIR", IconLoader.getIcon("sys.gtk/templates", 22));
+		icons.put("XDG_PUBLICSHARE_DIR", IconLoader.getIcon("sys.gtk/share", 22));
+		icons.put("XDG_MUSIC_DIR", IconLoader.getIcon("sys.gtk/music", 22));
+		icons.put("XDG_PICTURES_DIR", IconLoader.getIcon("sys.gtk/pictures", 22));
+		icons.put("XDG_VIDEOS_DIR", IconLoader.getIcon("sys.gtk/video", 22));
+		icons.put("default", IconLoader.getIcon("sys.gtk/folder", 22));
 	}
 
 	@Override

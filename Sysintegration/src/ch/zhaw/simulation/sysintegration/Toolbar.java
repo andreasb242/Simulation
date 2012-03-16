@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 
 import org.jdesktop.swingx.action.TargetableAction;
 
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 
 import butti.javalibs.errorhandler.Errorhandler;
 
@@ -39,7 +39,7 @@ public interface Toolbar {
 
 		public Icon getToolbarIcon() {
 			if (toolbarIcon == null) {
-				toolbarIcon = IconSVG.getIcon(iconName, 24);
+				toolbarIcon = IconLoader.getIcon(iconName, 24);
 			}
 			return toolbarIcon;
 		}
@@ -61,7 +61,7 @@ public interface Toolbar {
 		public JMenuItem getMenuItem() {
 			if (menuitem == null) {
 				menuitem = new JMenuItem(name);
-				menuitem.setIcon(IconSVG.getIcon(iconName));
+				menuitem.setIcon(IconLoader.getIcon(iconName));
 			}
 			return menuitem;
 		}

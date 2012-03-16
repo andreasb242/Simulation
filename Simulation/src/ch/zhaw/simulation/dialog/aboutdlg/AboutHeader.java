@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.util.gui.HeaderPanel;
 
 import butti.javalibs.controls.TitleLabel;
@@ -24,7 +24,7 @@ public class AboutHeader extends HeaderPanel {
     public AboutHeader() {
         setLayout(new BorderLayout());
 
-        this.icon = IconSVG.getIcon("simulation", 128);
+        this.icon = IconLoader.getIcon("simulation", 128);
 
         JPanel titel = new JPanel(new GridLayout(0, 1));
         titel.setOpaque(false);

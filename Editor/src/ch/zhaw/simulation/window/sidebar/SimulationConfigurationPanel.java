@@ -12,7 +12,7 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
@@ -58,7 +58,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 			}
 		});
 		add(btStart);
-		btStart.setIcon(IconSVG.getIcon("start-simulation"));
+		btStart.setIcon(IconLoader.getIcon("start-simulation"));
 
 		cbSimulationtype.addActionListener(this);
 	}

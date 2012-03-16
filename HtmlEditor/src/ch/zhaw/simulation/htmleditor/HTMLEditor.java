@@ -30,7 +30,7 @@ import org.jdesktop.swingx.action.TargetableAction;
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.BDialog;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 import ch.zhaw.simulation.sysintegration.SysMenuShortcuts;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -189,7 +189,7 @@ public class HTMLEditor extends BDialog {
 
 		JMenuItem itSaveAs = new JMenuItem("Speichern unter");
 		itSaveAs.setAccelerator(integration.getMenu().getFileSaveAs());
-		itSaveAs.setIcon(IconSVG.getIcon("save"));
+		itSaveAs.setIcon(IconLoader.getIcon("save"));
 
 		itSaveAs.addActionListener(new ActionListener() {
 
@@ -204,7 +204,7 @@ public class HTMLEditor extends BDialog {
 		mDocument.addSeparator();
 
 		JMenuItem itClose = new JMenuItem("Schliessen");
-		itClose.setIcon(IconSVG.getIcon("close"));
+		itClose.setIcon(IconLoader.getIcon("close"));
 		itClose.setAccelerator(integration.getMenu().getFileClose());
 		mDocument.add(itClose);
 		itClose.addActionListener(new ActionListener() {
@@ -217,7 +217,7 @@ public class HTMLEditor extends BDialog {
 		});
 
 		JMenuItem itCloseWithoutSave = new JMenuItem("Änderungen verwerfen");
-		itCloseWithoutSave.setIcon(IconSVG.getIcon("edit-delete"));
+		itCloseWithoutSave.setIcon(IconLoader.getIcon("edit-delete"));
 		mDocument.add(itCloseWithoutSave);
 
 		itCloseWithoutSave.addActionListener(new ActionListener() {
@@ -294,7 +294,7 @@ public class HTMLEditor extends BDialog {
 		if (iconName.endsWith(".png")) {
 			icon = loadIcon(iconName);
 		} else {
-			icon = IconSVG.getIcon(iconName, 24);
+			icon = IconLoader.getIcon(iconName, 24);
 		}
 
 		ActionManager manager = ActionManager.getInstance();
@@ -329,7 +329,7 @@ public class HTMLEditor extends BDialog {
 		if (iconName.endsWith(".png")) {
 			icon = loadIcon(iconName);
 		} else {
-			icon = IconSVG.getIcon(iconName, 24);
+			icon = IconLoader.getIcon(iconName, 24);
 		}
 
 		ActionManager manager = ActionManager.getInstance();
@@ -364,7 +364,7 @@ public class HTMLEditor extends BDialog {
 		if (iconName.endsWith(".png")) {
 			icon = loadIcon(iconName);
 		} else {
-			icon = IconSVG.getIcon(iconName, 24);
+			icon = IconLoader.getIcon(iconName, 24);
 		}
 
 		final TargetableAction action = new TargetableAction(name, actionName, icon);

@@ -16,7 +16,7 @@ import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -73,7 +73,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 
 		gbm.setX(0).setY(1000).setWeightY(0).setComp(new TitleLabel("Wert"));
 
-		btEdit = new JButton("bearbeiten", IconSVG.getIcon("text-editor", 24));
+		btEdit = new JButton("bearbeiten", IconLoader.getIcon("text-editor", 24));
 		gbm.setX(1).setY(1000).setWeightY(0).setComp(btEdit);
 
 		btEdit.addMouseListener(new MouseAdapter() {

@@ -24,7 +24,7 @@ import javax.swing.table.TableColumn;
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.BDialog;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.sim.intern.data.SimulationCollection;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
@@ -121,7 +121,7 @@ public class TableDialog extends BDialog {
 
 	private void initToolbar() {
 		toolbar = SysintegrationFactory.createSysintegration().createToolbar();
-		tbCopy = toolbar.add(new ToolbarAction("Kopieren", IconSVG.getIconShadow("editcopy", 24)) {
+		tbCopy = toolbar.add(new ToolbarAction("Kopieren", IconLoader.getIconShadow("editcopy", 24)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Copy, table dialog

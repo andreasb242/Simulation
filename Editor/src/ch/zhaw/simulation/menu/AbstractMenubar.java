@@ -11,7 +11,7 @@ import javax.swing.KeyStroke;
 
 import ch.zhaw.simulation.clipboard.ClipboardInterface;
 import ch.zhaw.simulation.clipboard.ClipboardListener;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
@@ -162,7 +162,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		if (mainMenu) {
 
 			JMenu laf = new JMenu("Look & Feel");
-			laf.setIcon(IconSVG.getIcon("style"));
+			laf.setIcon(IconLoader.getIcon("style"));
 
 			addMenuItem(laf, "System LAF", "system", new ActionListener() {
 
@@ -246,7 +246,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		mEdit = new JMenu("Bearbeiten");
 		mEdit.setMnemonic('B');
 
-		mUndo = new JMenuItem("Rückgängig", IconSVG.getIcon("edit-redo"));
+		mUndo = new JMenuItem("Rückgängig", IconLoader.getIcon("edit-redo"));
 		mUndo.setAccelerator(sysmenu.getEditUndo());
 		mUndo.addActionListener(new ActionListener() {
 
@@ -257,7 +257,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		});
 		mEdit.add(mUndo);
 
-		mRedo = new JMenuItem("Widerherstellen", IconSVG.getIcon("edit-undo"));
+		mRedo = new JMenuItem("Widerherstellen", IconLoader.getIcon("edit-undo"));
 		mRedo.setAccelerator(sysmenu.getEditRedo());
 		mRedo.addActionListener(new ActionListener() {
 
@@ -297,7 +297,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		addMenuItem(mEdit, "Alles markieren", "edit-select-all", MenuToolbarActionType.SELECT_ALL, sysmenu.getEditSelectAll());
 		addMenuItem(mEdit, "Löschen", "edit-delete", MenuToolbarActionType.DELETE_SELECTION, sysmenu.getEditDelete());
 
-		mLayout.setIcon(IconSVG.getIcon("alignCenterVertical"));
+		mLayout.setIcon(IconLoader.getIcon("alignCenterVertical"));
 		mEdit.add(mLayout);
 
 		initLayoutMenu();
@@ -310,9 +310,9 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 	protected void initLayoutMenu() {
 		addMenuItem(mLayout, "Unten ausrichten", "alignBottom", MenuToolbarActionType.LAYOUT_BOTTOM, sysmenu.getLayoutBottom());
-		addMenuItem(mLayout, "Oben ausrichten", "alingTop", MenuToolbarActionType.LAYOUT_TOP, sysmenu.getLayoutTop());
-		addMenuItem(mLayout, "Links ausrichten", "alingLeft", MenuToolbarActionType.LAYOUT_LEFT, sysmenu.getLayoutLeft());
-		addMenuItem(mLayout, "Rechts ausrichten", "alingRight", MenuToolbarActionType.LAYOUT_RIGHT, sysmenu.getLayoutRight());
+		addMenuItem(mLayout, "Oben ausrichten", "alignTop", MenuToolbarActionType.LAYOUT_TOP, sysmenu.getLayoutTop());
+		addMenuItem(mLayout, "Links ausrichten", "alignLeft", MenuToolbarActionType.LAYOUT_LEFT, sysmenu.getLayoutLeft());
+		addMenuItem(mLayout, "Rechts ausrichten", "alignRight", MenuToolbarActionType.LAYOUT_RIGHT, sysmenu.getLayoutRight());
 		addMenuItem(mLayout, "Horizontal zentrieren", "alignCenterHorizontal", MenuToolbarActionType.LAYOUT_CENTER_HORIZONTAL,
 				sysmenu.getLayoutCenterHorizontal());
 		addMenuItem(mLayout, "Vertikal zentrieren", "alignCenterVertical", MenuToolbarActionType.LAYOUT_CENTER_VERTICAL, sysmenu.getLayoutCenterVertical());
@@ -359,7 +359,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 	protected JMenuItem addMenuItem(JMenu menu, String name, String icon, final ActionListener listener, KeyStroke keyStroke) {
 
-		JMenuItem it = new JMenuItem(name, IconSVG.getIcon(icon));
+		JMenuItem it = new JMenuItem(name, IconLoader.getIcon(icon));
 		it.addActionListener(listener);
 
 		if (keyStroke != null) {

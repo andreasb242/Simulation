@@ -14,7 +14,7 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.clipboard.ClipboardListener;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.elements.global.GlobalImage;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
@@ -58,7 +58,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 
 	public static ImageIcon addShadow(BufferedImage icon) {
 		BufferedImage img = new BufferedImage(icon.getWidth(), icon.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Image shadowImage = IconSVG.getIcon("iconShadow", icon.getWidth()).getImage();
+		Image shadowImage = IconLoader.getIcon("iconShadow", icon.getWidth()).getImage();
 
 		img.getGraphics().drawImage(shadowImage, 0, icon.getHeight() - shadowImage.getHeight(null), null);
 		img.getGraphics().drawImage(icon, 0, 0, null);
@@ -102,14 +102,14 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 			}
 		});
 
-		toolbar.add(new ToolbarAction("Oben ausrichten", "alingTop") {
+		toolbar.add(new ToolbarAction("Oben ausrichten", "alignTop") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_TOP));
 			}
 		});
 
-		toolbar.add(new ToolbarAction("Links ausrichten", "alingLeft") {
+		toolbar.add(new ToolbarAction("Links ausrichten", "alignLeft") {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -117,7 +117,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 			}
 		});
 
-		toolbar.add(new ToolbarAction("Rechts ausrichten", "alingRight") {
+		toolbar.add(new ToolbarAction("Rechts ausrichten", "alignRight") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.LAYOUT_RIGHT));
@@ -141,21 +141,21 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 
 	private void addCopyPasteButtons() {
 
-		this.clipboardCut = toolbar.add(new ToolbarAction("Ausschneiden", IconSVG.getIconShadow("edit-cut", 24)) {
+		this.clipboardCut = toolbar.add(new ToolbarAction("Ausschneiden", IconLoader.getIconShadow("edit-cut", 24)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.CUT));
 			}
 		});
 
-		this.clipboarCopy = toolbar.add(new ToolbarAction("Kopieren", IconSVG.getIconShadow("editcopy", 24)) {
+		this.clipboarCopy = toolbar.add(new ToolbarAction("Kopieren", IconLoader.getIconShadow("editcopy", 24)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.COPY));
 			}
 		});
 
-		this.clipboarPaste = toolbar.add(new ToolbarAction("Einfügen", IconSVG.getIcon("editpaste", 24)) {
+		this.clipboarPaste = toolbar.add(new ToolbarAction("Einfügen", IconLoader.getIcon("editpaste", 24)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.PASTE));

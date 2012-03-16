@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.model.xy;
 
+import java.awt.Point;
+import java.util.HashMap;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
@@ -7,6 +9,7 @@ import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
 
@@ -28,11 +31,24 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 	private int height;
 
 	/**
+	 * The 0 Point
+	 */
+	private Point zero = new Point(0, 0);
+
+	/**
 	 * The grid size in pixel
 	 */
 	private int grid = 5;
 
+	/**
+	 * The Density
+	 */
 	private Vector<DensityData> density = new Vector<DensityData>();
+
+	/**
+	 * The flow models
+	 */
+	private HashMap<String, SimulationFlowModel> flowModel = new HashMap<String, SimulationFlowModel>();
 
 	public XYModel() {
 	}
@@ -176,4 +192,18 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 		return new Vector<AbstractNamedSimulationData>();
 	}
 
+	
+	/**
+	 * @return The zero Point relative to the intern coordinate system
+	 */
+	public Point getZero() {
+		return zero;
+	}
+	
+	public void setZero(Point zero) {
+		this.zero = zero;
+		
+		// TODO fire zero point changed
+	}
+	
 }

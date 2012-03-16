@@ -24,7 +24,7 @@ import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.help.model.FunctionInformation;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.math.Parser;
@@ -145,7 +145,7 @@ public class FormulaEditorPanel extends JPanel {
 		component = tb.add(functions).getComponent();
 		functions.setComponent(component);
 
-		JButton btCompile = new JButton("Prüfen", IconSVG.getIcon("refresh", 24));
+		JButton btCompile = new JButton("Prüfen", IconLoader.getIcon("refresh", 24));
 		tb.add(btCompile);
 		btCompile.addActionListener(new ActionListener() {
 
@@ -175,19 +175,19 @@ public class FormulaEditorPanel extends JPanel {
 
 			text.setError(0, 0);
 			statusLabel.setText(sdf.format(cal.getTime()) + ": Formel OK");
-			statusLabel.setIcon(IconSVG.getIcon("ok"));
+			statusLabel.setIcon(IconLoader.getIcon("ok"));
 		} catch (CompilerError error) {
 			text.setError(error.getLine(), error.getWidth());
 			statusLabel.setText(sdf.format(cal.getTime()) + ": " + error.getMessage());
-			statusLabel.setIcon(IconSVG.getIcon("warning"));
+			statusLabel.setIcon(IconLoader.getIcon("warning"));
 			statusText = error.getMessage();
 		} catch (SimulationModelException error) {
 			statusLabel.setText(sdf.format(cal.getTime()) + ": " + error.getMessage());
-			statusLabel.setIcon(IconSVG.getIcon("warning"));
+			statusLabel.setIcon(IconLoader.getIcon("warning"));
 			statusText = error.getMessage();
 		} catch (Exception e) {
 			statusLabel.setText(sdf.format(cal.getTime()) + ": " + e.getMessage());
-			statusLabel.setIcon(IconSVG.getIcon("warning"));
+			statusLabel.setIcon(IconLoader.getIcon("warning"));
 			statusText = e.getMessage();
 			Errorhandler.logError(e);
 		}

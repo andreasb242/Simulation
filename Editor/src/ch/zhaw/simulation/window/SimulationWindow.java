@@ -16,7 +16,7 @@ import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.layouting.Layouting;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menu.AbstractMenubar;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
@@ -94,7 +94,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		this.mainWindow = mainWindow;
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		setIconImage(IconSVG.getIcon("simulation", 128).getImage());
+		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
 
 		add(BorderLayout.EAST, sidebar);
 
