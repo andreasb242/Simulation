@@ -22,7 +22,7 @@ import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 public class XmlModelLoader implements XmlContentsNames {
 	private Vector<Node> parameterConnectors = new Vector<Node>();
@@ -316,7 +316,7 @@ public class XmlModelLoader implements XmlContentsNames {
 	 * @throws Exception
 	 *             If something went wrong, the file cannot be read
 	 */
-	public boolean load(XYModel xyModel, Node root) {
+	public boolean load(SimulationXYModel xyModel, Node root) {
 		if (root == null) {
 			throw new NullPointerException("root == null");
 		}

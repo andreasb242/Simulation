@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 /**
  * This is the main Simulation document
@@ -26,7 +26,7 @@ public class SimulationDocument {
 	/**
 	 * The XY model if this.type == XY
 	 */
-	private XYModel xyModel;
+	private SimulationXYModel xyModel;
 
 	/**
 	 * The configuration for the simulation
@@ -47,7 +47,7 @@ public class SimulationDocument {
 			this.xyModel = null;
 		} else {
 			this.flowModel = null;
-			this.xyModel = new XYModel();
+			this.xyModel = new SimulationXYModel();
 		}
 
 		this.type = type;
@@ -57,7 +57,7 @@ public class SimulationDocument {
 		return type;
 	}
 
-	public XYModel getXyModel() {
+	public SimulationXYModel getXyModel() {
 		return xyModel;
 	}
 

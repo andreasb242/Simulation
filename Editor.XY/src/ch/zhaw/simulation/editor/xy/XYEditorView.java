@@ -15,7 +15,7 @@ import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.AtomData;
 import ch.zhaw.simulation.model.xy.DensityData;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener {
@@ -44,9 +44,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	}
 
 	@Override
-	protected void paintEditor(Graphics2D g, boolean vector, boolean onlySelection) {
-		// TODO: EPS & onlySelection
-
+	protected void paintEditor(Graphics2D g) {
 		if (density.isVisible()) {
 			g.drawImage(density.getImage(), 0, 0, this);
 		}
@@ -101,7 +99,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 	@Override
 	protected void loadDataFromModel() {
-		XYModel model = control.getModel();
+		SimulationXYModel model = control.getModel();
 
 		for (AbstractSimulationData p : model.getData()) {
 			dataAdded(p);
@@ -122,6 +120,18 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 	@Override
 	public void densityChanged(DensityData d) {
+	}
+
+	@Override
+	public void modelSizeRasterChanged() {
+		SimulationXYModel m = getControl().getModel();
+		
+		this.density.setSize(m.getWidth(), m.getHeight());
+		
+		// TODO: in thread auslagern!?
+		this.density.updateImage();
+		
+		this.repaint();
 	}
 
 }

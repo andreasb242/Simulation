@@ -9,13 +9,13 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.xy.AtomData;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
-public class XYEditorControl extends AbstractEditorControl<XYModel> {
+public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	private XYEditorView view;
 
-	public XYEditorControl(SimulationApplication app, SimulationDocument doc, XYModel model, JFrame parent, Settings settings) {
+	public XYEditorControl(SimulationApplication app, SimulationDocument doc, SimulationXYModel model, JFrame parent, Settings settings) {
 		super(parent, settings, app, doc, model);
 	}
 

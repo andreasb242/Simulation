@@ -27,7 +27,7 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.DensityData;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 /**
  * Saves an SimulationDocument to an XML file
@@ -50,7 +50,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		saveOutDocument(out);
 	}
 
-	private void visitXyModel(Element root, XYModel xyModel) {
+	private void visitXyModel(Element root, SimulationXYModel xyModel) {
 		Element xmlModel = createModelElement(root, XML_MODEL_TYPE_XY);
 
 		xmlModel.setAttribute(XML_MODEL_XY_GRID, "" + xyModel.getGrid());

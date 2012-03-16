@@ -15,7 +15,7 @@ import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.xy.DensityData;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class DensityEditorDialog extends BDialog {
@@ -26,9 +26,9 @@ public class DensityEditorDialog extends BDialog {
 
 	private EditorPanel editor;
 
-	private XYModel model;
+	private SimulationXYModel model;
 
-	public DensityEditorDialog(JFrame parent, XYModel model, Sysintegration sys, FunctionHelp help) {
+	public DensityEditorDialog(JFrame parent, SimulationXYModel model, Sysintegration sys, FunctionHelp help) {
 		super(parent);
 		setTitle("Edit Density");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);

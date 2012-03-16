@@ -26,6 +26,11 @@ public class DensityDraw {
 		setFormula("x+y");
 	}
 
+	public void setSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
+
 	public void updateImage() {
 		double[][] values = new double[height][width];
 

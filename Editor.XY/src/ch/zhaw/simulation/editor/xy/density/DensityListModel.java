@@ -5,13 +5,13 @@ import javax.swing.AbstractListModel;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.DensityData;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 public class DensityListModel extends AbstractListModel implements XYSimulationListener {
 	private static final long serialVersionUID = 1L;
-	private XYModel model;
+	private SimulationXYModel model;
 
-	public DensityListModel(XYModel model) {
+	public DensityListModel(SimulationXYModel model) {
 		this.model = model;
 		model.addListener(this);
 	}
@@ -66,6 +66,10 @@ public class DensityListModel extends AbstractListModel implements XYSimulationL
 	public void densityChanged(DensityData d) {
 		int index = model.getDensity().indexOf(d);
 		fireContentsChanged(this, index, index);
+	}
+
+	@Override
+	public void modelSizeRasterChanged() {
 	}
 
 }

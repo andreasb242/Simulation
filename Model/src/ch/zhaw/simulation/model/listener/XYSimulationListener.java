@@ -6,4 +6,6 @@ public interface XYSimulationListener extends SimulationListener {
 	public void densityAdded(DensityData d);
 	public void densityRemoved(DensityData d);
 	public void densityChanged(DensityData d);
+	
+	public void modelSizeRasterChanged();
 }

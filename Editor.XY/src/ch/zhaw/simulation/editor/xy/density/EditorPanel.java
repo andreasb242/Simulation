@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import ch.zhaw.simulation.gui.codeditor.FormulaEditorPanel;
 import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.xy.DensityData;
-import ch.zhaw.simulation.model.xy.XYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 import butti.javalibs.gui.GridBagManager;
@@ -28,9 +28,9 @@ public class EditorPanel extends JPanel {
 
 	private DensityData selected;
 
-	private XYModel model;
+	private SimulationXYModel model;
 
-	public EditorPanel(XYModel model, Sysintegration sys, FunctionHelp help) {
+	public EditorPanel(SimulationXYModel model, Sysintegration sys, FunctionHelp help) {
 		gbm = new GridBagManager(this);
 		this.model = model;
 		

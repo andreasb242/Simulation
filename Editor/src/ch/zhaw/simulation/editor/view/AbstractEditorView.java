@@ -26,7 +26,6 @@ import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
-import ch.zhaw.simulation.gui.VectorPaintable;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
@@ -38,7 +37,7 @@ import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.UndoHandler;
 
-public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JPanel implements SimulationListener, SelectionListener, VectorPaintable {
+public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> extends JPanel implements SimulationListener, SelectionListener {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -254,7 +253,6 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		return control;
 	}
 
-	@Override
 	public Rectangle getSelectionRange() {
 		int x = sX;
 		int y = sY;
@@ -313,15 +311,10 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 
 		DrawHelper.antialisingOn(g);
 
-		paintEditor(g, false, false);
+		paintEditor(g);
 	}
 
-	protected abstract void paintEditor(Graphics2D g, boolean vector, boolean onlySelection);
-
-	@Override
-	public void paintVector(Graphics2D g, boolean onlySelection) {
-		paintEditor(g, true, onlySelection);
-	}
+	protected abstract void paintEditor(Graphics2D g);
 
 	private void updateTempSelection() {
 		Vector<SelectableElement> tmp = new Vector<SelectableElement>();

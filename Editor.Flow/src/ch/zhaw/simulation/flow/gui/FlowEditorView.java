@@ -145,9 +145,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	}
 
 	@Override
-	protected void paintEditor(Graphics2D g, boolean vector, boolean onlySelection) {
-		// TODO: EPS & onlySelection
-
+	protected void paintEditor(Graphics2D g) {
 		// First draw the floconnectors, because they are bigger and may hide
 		// the parameterconnectors
 		for (ConnectorUi c : connectors) {
@@ -170,9 +168,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 	@Override
 	protected void paintElements(Graphics2D g) {
-		// TODO: EPS & onlySelection
-
-		
 		tmpPoints.clear();
 		super.paintElements(g);
 

@@ -1,7 +1,6 @@
 package ch.zhaw.simulation.model.xy;
 
 import java.awt.Point;
-import java.util.HashMap;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
@@ -9,7 +8,6 @@ import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
 
@@ -18,7 +16,7 @@ import ch.zhaw.simulation.model.listener.XYSimulationListener;
  * 
  * @author Andreas Butti
  */
-public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
+public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListener> {
 
 	/**
 	 * The width of the model, cannot be extended during simulation!
@@ -48,9 +46,9 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 	/**
 	 * The flow models
 	 */
-	private HashMap<String, SimulationFlowModel> flowModel = new HashMap<String, SimulationFlowModel>();
+	private SubModelList submodels = new SubModelList();
 
-	public XYModel() {
+	public SimulationXYModel() {
 	}
 
 	public int getWidth() {
@@ -59,6 +57,8 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 
 	public void setWidth(int width) {
 		this.width = width;
+
+		fireSizeRasterChanged();
 	}
 
 	public int getHeight() {
@@ -67,6 +67,8 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 
 	public void setHeight(int height) {
 		this.height = height;
+		
+		fireSizeRasterChanged();
 	}
 
 	public int getGrid() {
@@ -75,6 +77,8 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 
 	public void setGrid(int grid) {
 		this.grid = grid;
+		
+		fireSizeRasterChanged();
 	}
 
 	@Override
@@ -122,6 +126,10 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 			@Override
 			public void densityAdded(DensityData d) {
 			}
+
+			@Override
+			public void modelSizeRasterChanged() {
+			}
 		};
 		addListener(listener);
 
@@ -167,6 +175,12 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 		}
 	}
 
+	private void fireSizeRasterChanged() {
+		for (XYSimulationListener l : this.listener) {
+			l.modelSizeRasterChanged();
+		}
+	}
+
 	/**
 	 * Autoparser don't change the element, so the model is safed after if it
 	 * was it before
@@ -192,7 +206,6 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 		return new Vector<AbstractNamedSimulationData>();
 	}
 
-	
 	/**
 	 * @return The zero Point relative to the intern coordinate system
 	 */
@@ -201,9 +214,16 @@ public class XYModel extends AbstractSimulationModel<XYSimulationListener> {
 	}
 	
 	public void setZero(Point zero) {
+		if(zero == null) {
+			throw new NullPointerException("zero == null");
+		}
+
 		this.zero = zero;
 		
-		// TODO fire zero point changed
+		fireSizeRasterChanged();
 	}
-	
+
+	public SubModelList getSubmodels() {
+		return submodels;
+	}
 }
