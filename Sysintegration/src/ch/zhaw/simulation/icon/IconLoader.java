@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -16,6 +17,8 @@ public class IconLoader {
 	 * Icons zwischenspeichern
 	 */
 	private static HashMap<String, ImageIcon> icons = new HashMap<String, ImageIcon>();
+
+	private static final boolean autoconvertSvgToPng = false;
 
 	public static ImageIcon getIcon(String file) {
 		return getIcon(file, 16);
@@ -34,6 +37,12 @@ public class IconLoader {
 		} catch (Exception e) {
 			System.err.println("icon «" + path + "» not found!");
 
+			if (autoconvertSvgToPng) {
+				convertSvgToPng(file, size);
+			}
+
+			// convert -size 320x85 xc:transparent -font Bookman-DemiItalic
+
 			BufferedImage bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
 			Graphics g = bi.getGraphics();
 
@@ -46,6 +55,30 @@ public class IconLoader {
 
 		icons.put(path, img);
 		return img;
+	}
+
+	/**
+	 * This is a method to convert SVG images with Inkscape. Only used while
+	 * developing
+	 * 
+	 * @param file
+	 *            The file
+	 * @param size
+	 *            The size in px
+	 */
+	private static void convertSvgToPng(String file, int size) {
+		String svgFolder = "/home/andreas/git/SimulationBA/Sysintegration/src/ch/zhaw/simulation/icon/svg/";
+		String pngFolder = "/home/andreas/git/SimulationBA/Sysintegration/src/ch/zhaw/simulation/icon/png/";
+
+		System.err.println("converting image...");
+
+		String[] cmdarray = new String[] { "inkscape", "--export-width", "" + size, "--export-height", "" + size, "--export-png",
+				pngFolder + size + "/" + file + ".png", svgFolder + file + ".svg" };
+		try {
+			Runtime.getRuntime().exec(cmdarray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static ImageIcon getIconShadow(String file, int size) {
