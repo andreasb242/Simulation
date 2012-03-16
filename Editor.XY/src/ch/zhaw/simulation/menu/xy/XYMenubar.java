@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import ch.zhaw.simulation.clipboard.ClipboardInterface;
 import ch.zhaw.simulation.menu.AbstractMenubar;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.undo.UndoHandler;
 
@@ -16,16 +18,15 @@ public class XYMenubar extends AbstractMenubar {
 	
 	@Override
 	protected void initSimulationMenu() {
+		super.initSimulationMenu();
+
 		addMenuItem(mSimulation, "Simulationsgrösse", "size", new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.XY_MODEL_SIZE));
 			}
 		}, null);
-		
-		super.initSimulationMenu();
 	}
 
 }

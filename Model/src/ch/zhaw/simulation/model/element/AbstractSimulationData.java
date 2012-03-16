@@ -7,7 +7,7 @@ import java.util.Vector;
  * o Infinite (InfiniteData)
  * o Container (SimulationContainerData)
  * o Parameter (SimulationParameterData)
- * o Atom (AtomData)
+ * o Meso (MesoData)
  * o Text (TextData)
  * o Density (SimulationDensityContainerData)
  * o Global (SimulationGlobalData)

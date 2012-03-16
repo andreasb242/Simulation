@@ -12,12 +12,14 @@ import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;
+import ch.zhaw.simulation.window.xy.sidebar.SubmodelSidebar;
 import ch.zhaw.simulation.window.xy.sidebar.XYFormulaConfiguration;
 
 public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorView> {
 	private static final long serialVersionUID = 1L;
 
 	private DensitySidebar densitySidebar;
+	private SubmodelSidebar submodelSidebar;
 
 	public XYWindow() {
 		super(true);
@@ -36,6 +38,8 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		densitySidebar = new DensitySidebar(control.getParent(), view.getDensity(), control.getModel(), view, control.getSysintegration(), control.getApp()
 				.getFunctionHelp());
 
+		submodelSidebar = new SubmodelSidebar(control.getModel().getSubmodels());
+
 		control.setView(view);
 
 		XYMenubar menubar = new XYMenubar(control.getSysintegration(), um, control.getClipboard());
@@ -52,6 +56,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		super.initSidebar(sidebar);
 
 		sidebar.add(densitySidebar);
+		sidebar.add(submodelSidebar);
 	}
 
 	protected void initElementConfigurationSiebar() {
@@ -71,6 +76,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	@Override
 	public void dispose() {
 		densitySidebar.dispose();
+		submodelSidebar.dispose();
 		super.dispose();
 	}
 }

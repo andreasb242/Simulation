@@ -7,10 +7,10 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-public class AtomImage extends GuiImage {
+public class MesoImage extends GuiImage {
 	private static final int EDGE_RADIUS = 5;
 
-	public AtomImage(int size, GuiConfig config) {
+	public MesoImage(int size, GuiConfig config) {
 		super(size, size, config, false);
 	}
 

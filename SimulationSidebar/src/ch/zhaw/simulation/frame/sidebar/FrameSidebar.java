@@ -18,26 +18,32 @@ import org.jdesktop.swingx.JXTaskPaneContainer;
  * 
  * @author Andreas Butti
  */
-public class FrameSidebar extends JPanel {
-	private static final long serialVersionUID = 1L;
+public class FrameSidebar {
 
 	private JXTaskPaneContainer bar = new JXTaskPaneContainer();
+	private JPanel panel;
 
 	public FrameSidebar() {
-		super(new BorderLayout());
+		panel = new JPanel(new BorderLayout()) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getMinimumSize() {
+				int h = super.getMinimumSize().height;
+				return new Dimension(0, h);
+			}
+		};
 		JScrollPane sp = new JScrollPane(bar);
-		add(sp);
+		panel.add(sp);
 	}
 
-	@Override
-	public Dimension getMinimumSize() {
-		int h = super.getMinimumSize().height;
-		return new Dimension(0, h);
+	public JPanel getPanel() {
+		return panel;
 	}
 
 	public void reorderTaskPanes() {
 		Vector<Component> comps = new Vector<Component>();
-		for (Component c : getComponents()) {
+		for (Component c : bar.getComponents()) {
 			comps.add(c);
 		}
 
@@ -54,10 +60,10 @@ public class FrameSidebar extends JPanel {
 
 		for (int i = 0; i < comps.size(); i++) {
 			Component c = comps.get(i);
-			setComponentZOrder(c, i);
+			bar.setComponentZOrder(c, i);
 		}
 
-		super.revalidate();
+		bar.revalidate();
 	}
 
 	public void add(JXTaskPane group) {
@@ -68,7 +74,7 @@ public class FrameSidebar extends JPanel {
 		bar.add(group);
 		reorderTaskPanes();
 	}
-	
+
 	public void remove(JXTaskPane group) {
 		bar.remove(group);
 	}

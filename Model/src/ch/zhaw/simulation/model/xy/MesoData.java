@@ -2,9 +2,9 @@ package ch.zhaw.simulation.model.xy;
 
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
-public class AtomData extends AbstractNamedSimulationData {
+public class MesoData extends AbstractNamedSimulationData {
 
-	public AtomData(int x, int y) {
+	public MesoData(int x, int y) {
 		super(x, y);
 	}
 

@@ -193,7 +193,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 		this.sidebar = new JCheckBoxMenuItem("Seitenleiste");
 		this.sidebar.setSelected(true);
-		
+
 		sidebar.addActionListener(new ActionListener() {
 
 			@Override

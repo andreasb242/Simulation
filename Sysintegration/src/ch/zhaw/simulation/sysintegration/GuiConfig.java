@@ -111,7 +111,7 @@ public class GuiConfig {
 		return 50;
 	}
 
-	public int getAtomSize() {
+	public int getMesoSize() {
 		return 50;
 	}
 

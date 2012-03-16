@@ -96,7 +96,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
 
-		add(BorderLayout.EAST, sidebar);
+		add(BorderLayout.EAST, sidebar.getPanel());
 
 		addWindowListener(new WindowAdapter() {
 
@@ -218,7 +218,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 			return;
 
 		case SHOW_SIDEBAR:
-			this.sidebar.setVisible((Boolean) action.getData());
+			this.sidebar.getPanel().setVisible((Boolean) action.getData());
 			return;
 		}
 

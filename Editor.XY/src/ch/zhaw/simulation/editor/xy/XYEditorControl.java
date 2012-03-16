@@ -5,10 +5,11 @@ import javax.swing.JFrame;
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.xy.dialog.XYSizeDialog;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.selection.SelectableElement;
-import ch.zhaw.simulation.model.xy.AtomData;
+import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
@@ -46,19 +47,31 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	}
 
-	public void addAtom() {
+	public void addMeso() {
 		cancelAllActions();
-		addComponent(new AtomData(0, 0), "Atom");
+		addComponent(new MesoData(0, 0), "Meso");
 	}
 	
 	@Override
 	public boolean menuActionPerformedOverwrite(MenuToolbarAction action) {
 		switch (action.getType()) {
-		case XY_ADD_ATOM:
-			addAtom();
+		case XY_ADD_MESO:
+			addMeso();
+			return true;
+			
+		case XY_MODEL_SIZE:
+			editModelSize();
 			return true;
 		}
 
 		return false;
+	}
+
+	private void editModelSize() {
+		XYSizeDialog dlg = new XYSizeDialog(getParent());
+		dlg.setModal(true);
+		dlg.setVisible(true);
+		
+		dlg.dispose();
 	}
 }

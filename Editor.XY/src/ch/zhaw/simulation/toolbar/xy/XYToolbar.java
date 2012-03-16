@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
 import ch.zhaw.simulation.editor.elements.GuiImage;
-import ch.zhaw.simulation.editor.xy.element.AtomImage;
+import ch.zhaw.simulation.editor.xy.element.MesoImage;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -20,13 +20,13 @@ public class XYToolbar extends AbstractToolbar {
 
 	@Override
 	protected void initCustomToolitems() {
-		AtomImage atomimg = new AtomImage(24, config);
-		ImageIcon atomIcon = addShadow(GuiImage.drawToImage(atomimg));
+		MesoImage mesoimg = new MesoImage(24, config);
+		ImageIcon mesoIcon = addShadow(GuiImage.drawToImage(mesoimg));
 
-		toolbar.add(new ToolbarAction("Atom (a)", atomIcon) {
+		toolbar.add(new ToolbarAction("Meso Kompartment (m)", mesoIcon) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.XY_ADD_ATOM));
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.XY_ADD_MESO));
 			}
 		});
 

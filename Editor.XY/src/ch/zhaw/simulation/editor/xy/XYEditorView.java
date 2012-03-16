@@ -10,10 +10,10 @@ import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.xy.density.DensityDraw;
-import ch.zhaw.simulation.editor.xy.element.AtomView;
+import ch.zhaw.simulation.editor.xy.element.MesoView;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
-import ch.zhaw.simulation.model.xy.AtomData;
+import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
@@ -35,10 +35,10 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	protected void initKeyhandler() {
 		super.initKeyhandler();
 
-		registerKeyShortcut('a', new ActionListener() {
+		registerKeyShortcut('m', new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				control.addAtom();
+				control.addMeso();
 			}
 		});
 	}
@@ -85,8 +85,8 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 	@Override
 	protected boolean dataAddedImpl(AbstractSimulationData o) {
-		if (o instanceof AtomData) {
-			add(new AtomView(control, (AtomData) o));
+		if (o instanceof MesoData) {
+			add(new MesoView(control, (MesoData) o));
 			return true;
 		}
 		return false;
