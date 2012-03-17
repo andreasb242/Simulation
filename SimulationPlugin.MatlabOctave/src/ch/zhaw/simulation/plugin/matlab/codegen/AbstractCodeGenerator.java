@@ -6,7 +6,6 @@ import java.io.InputStream;
 
 import butti.javalibs.util.FileUtil;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.plugin.matlab.codegen.addon.TimeStepCodeAddon;
 
 /**
  * Class for Matlab / Octave Codegenration
@@ -24,9 +23,6 @@ public abstract class AbstractCodeGenerator {
 	 * Predefined files, needed by simulation
 	 */
 	protected String[] predefinedFiles = new String[] {};
-
-
-	protected TimeStepCodeAddon codeAddon;
 
 	public AbstractCodeGenerator() {
 		//
@@ -52,11 +48,6 @@ public abstract class AbstractCodeGenerator {
 
 			FileUtil.copyFile(in, new File(this.workingFolder + File.separator + file));
 		}
-	}
-
-
-	public void setTimeStepCodeAddon(TimeStepCodeAddon codeAddon) {
-		this.codeAddon = codeAddon;
 	}
 
 	/**

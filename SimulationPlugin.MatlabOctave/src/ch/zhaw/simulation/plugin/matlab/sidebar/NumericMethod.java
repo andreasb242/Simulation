@@ -12,10 +12,12 @@ import javax.swing.*;
 public class NumericMethod {
 	
 	private String name;
+	private DefaultConfigurationPane pane;
 	private AbstractCodeGenerator codeGenerator;
 	
-	public NumericMethod(String name, AbstractCodeGenerator codeGenerator) {
+	public NumericMethod(String name, DefaultConfigurationPane pane, AbstractCodeGenerator codeGenerator) {
 		this.name = name;
+		this.pane = pane;
 		this.codeGenerator = codeGenerator;
 	}
 	
@@ -25,6 +27,10 @@ public class NumericMethod {
 
 	public AbstractCodeGenerator getCodeGenerator() {
 		return codeGenerator;
+	}
+
+	public DefaultConfigurationPane getPane() {
+		return pane;
 	}
 
 	@Override
