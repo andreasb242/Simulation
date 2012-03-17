@@ -161,7 +161,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		Messagebox msg = new Messagebox(null, "Typ wählen", "Simulationstyp wählen", Messagebox.QUESTION);
 		msg.addButton("XY", 0);
-		msg.addButton("Flow", 1);
+		msg.addButton("Flow", 1, true);
 		int res = msg.display();
 		if (res == 0) {
 			type = SimulationType.XY_MODEL;
