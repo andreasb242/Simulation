@@ -2,6 +2,8 @@ package ch.zhaw.simulation.plugin.sidebar;
 
 import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.plugin.StandardParameter;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
@@ -10,12 +12,12 @@ import java.text.ParseException;
 /**
  * @author: bachi
  */
-public class StepConfigurationPane extends DefaultConfigurationPane {
+public class FixedStepConfigurationPane extends DefaultConfigurationPane {
 
 	private JLabel           lblDt = new JLabel("dt");
 	private NumericTextField ntDt  = new NumericTextField();
 
-	public StepConfigurationPane(DefaultConfigurationSidebar sidebar) {
+	public FixedStepConfigurationPane(DefaultConfigurationSidebar sidebar) {
 		super(sidebar);
 	}
 

@@ -26,7 +26,7 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 	}
 
 	protected void initComponents() {
-		pane = new StepConfigurationPane(this);
+		pane = new FixedStepConfigurationPane(this);
 		pane.add();
 	}
 

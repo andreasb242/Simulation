@@ -1,10 +1,8 @@
-package ch.zhaw.simulation.plugin.matlab.sidebar;
+package ch.zhaw.simulation.plugin.sidebar;
 
 import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
-import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
-import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
+import ch.zhaw.simulation.plugin.StandardParameter;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
@@ -14,22 +12,22 @@ import java.text.ParseException;
 /**
  * @author: bachi
  */
-public class DormandPrinceConfigurationPane extends DefaultConfigurationPane implements FocusListener {
+public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane implements FocusListener {
 
 	private SimulationConfiguration config;
 
-	private JLabel           lblInitStep = new JLabel("Initial Schritt");
+	private JLabel lblInitStep = new JLabel("Initial Schritt");
 	private NumericTextField ntInitStep  = new NumericTextField();
 	private JLabel           lblMaxStep  = new JLabel("Maximaler Schritt");
 	private NumericTextField ntMaxStep   = new NumericTextField();
 
-	public DormandPrinceConfigurationPane(DefaultConfigurationSidebar sidebar) {
+	public AdaptiveStepConfigurationPane(DefaultConfigurationSidebar sidebar) {
 		super(sidebar);
 	}
-	
+
 	private void load() {
-		ntInitStep.setValue(this.config.getParameter(MatlabParameter.INIT_STEP, 0));
-		ntMaxStep.setValue(this.config.getParameter(MatlabParameter.MAX_STEP, 0));
+		ntInitStep.setValue(this.config.getParameter(StandardParameter.INIT_STEP, 0));
+		ntMaxStep.setValue(this.config.getParameter(StandardParameter.MAX_STEP, 0));
 	}
 
 	@Override
@@ -62,14 +60,14 @@ public class DormandPrinceConfigurationPane extends DefaultConfigurationPane imp
 	@Override
 	public void focusLost(FocusEvent e) {
 		try {
-			this.config.setParameter(MatlabParameter.INIT_STEP, ntInitStep.getDoubleValue());
+			this.config.setParameter(StandardParameter.INIT_STEP, ntInitStep.getDoubleValue());
 		} catch (ParseException ex) {
-			ntInitStep.setValue(this.config.getParameter(MatlabParameter.INIT_STEP, 0));
+			ntInitStep.setValue(this.config.getParameter(StandardParameter.INIT_STEP, 0));
 		}
 		try {
-			this.config.setParameter(MatlabParameter.MAX_STEP, ntMaxStep.getDoubleValue());
+			this.config.setParameter(StandardParameter.MAX_STEP, ntMaxStep.getDoubleValue());
 		} catch (ParseException ex) {
-			ntMaxStep.setValue(this.config.getParameter(MatlabParameter.MAX_STEP, 0));
+			ntMaxStep.setValue(this.config.getParameter(StandardParameter.MAX_STEP, 0));
 		}
 	}
 

@@ -1,13 +1,14 @@
 package ch.zhaw.simulation.plugin.matlab.sidebar;
 
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.matlab.NumericMethod;
 import ch.zhaw.simulation.plugin.matlab.codegen.DormandPrinceCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.codegen.EulerCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.codegen.RungeKuttaCodeGenerator;
-import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
+import ch.zhaw.simulation.plugin.matlab.codegen.addon.AdaptiveStepCodeAddon;
+import ch.zhaw.simulation.plugin.matlab.codegen.addon.FixedStepCodeAddon;
+import ch.zhaw.simulation.plugin.sidebar.AdaptiveStepConfigurationPane;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
-import ch.zhaw.simulation.plugin.sidebar.StepConfigurationPane;
+import ch.zhaw.simulation.plugin.sidebar.FixedStepConfigurationPane;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,13 +18,11 @@ import java.util.Vector;
 /**
  * @author: bachi
  */
-public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar implements ActionListener {
+public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 	private static final long serialVersionUID = 1L;
-	
-	Vector<NumericMethod> numericMethods;
-	private NumericMethod selectedNumericMethod;
 
-	private JComboBox cbNnumericMethods;
+	private JComboBox cbNumericMethods;
+	private JComboBox cbTimeType;
 
 	public MatlabConfigurationSidebar(SimulationConfiguration config) {
 		super(config);
@@ -31,34 +30,52 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar impl
 
 	@Override
 	protected void initComponents() {
-		DefaultConfigurationPane stepConfigurationPane = new StepConfigurationPane(this);
-		DormandPrinceConfigurationPane dormandPrinceConfigurationPane = new DormandPrinceConfigurationPane(this);
+		Vector<NumericMethod> numericMethods;
+		Vector<TimeStep> timeSteps;
+		
+		FixedStepConfigurationPane fixedStepConfigurationPane = new FixedStepConfigurationPane(this);
+		AdaptiveStepConfigurationPane adaptiveStepConfigurationPane = new AdaptiveStepConfigurationPane(this);
 
 		numericMethods = new Vector<NumericMethod>();
-		numericMethods.add(new NumericMethod("Euler", stepConfigurationPane, new EulerCodeGenerator()));
-		numericMethods.add(new NumericMethod("Klassisch Runge-Kutta", stepConfigurationPane, new RungeKuttaCodeGenerator()));
-		numericMethods.add(new NumericMethod("Dormand–Prince", dormandPrinceConfigurationPane, new DormandPrinceCodeGenerator()));
+		numericMethods.add(new NumericMethod("Euler", new EulerCodeGenerator()));
+		numericMethods.add(new NumericMethod("Runge-Kutta 4", new RungeKuttaCodeGenerator()));
+		numericMethods.add(new NumericMethod("Cash–Karp", new DormandPrinceCodeGenerator()));
+		numericMethods.add(new NumericMethod("Fehlberg", new DormandPrinceCodeGenerator()));
+		numericMethods.add(new NumericMethod("Dormand–Prince", new DormandPrinceCodeGenerator()));
 
 		add(new JLabel("Numerisches Verfahren"));
-		cbNnumericMethods = new JComboBox(numericMethods);
-		cbNnumericMethods.addActionListener(this);
-		add(cbNnumericMethods);
-		selectedNumericMethod = getSelectedNumericMethod();
+		cbNumericMethods = new JComboBox(numericMethods);
+		add(cbNumericMethods);
 
-		pane = stepConfigurationPane;
+		timeSteps = new Vector<TimeStep>();
+		timeSteps.add(new TimeStep("fix", fixedStepConfigurationPane, new FixedStepCodeAddon()));
+		timeSteps.add(new TimeStep("adaptiv", adaptiveStepConfigurationPane, new AdaptiveStepCodeAddon()));
+
+		add(new JLabel("Zeitschritt"));
+		cbTimeType = new JComboBox(timeSteps);
+		cbTimeType.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TimeStep timeStep = getSelectedTimeStep();
+				pane.remove();
+				pane = timeStep.getPane();
+				getSelectedNumericMethod().getCodeGenerator().setTimeStepCodeAddon(timeStep.getCodeAddon());
+				pane.add();
+			}
+		});
+		add(cbTimeType);
+
+		// Default is 'fixed Step'
+		pane = fixedStepConfigurationPane;
 		pane.add();
 	}
 
 	public NumericMethod getSelectedNumericMethod() {
-		return (NumericMethod) cbNnumericMethods.getSelectedItem();
+		return (NumericMethod) cbNumericMethods.getSelectedItem();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		pane.remove();
-		selectedNumericMethod = getSelectedNumericMethod();
-		pane = selectedNumericMethod.getPane();
-		pane.add();
+	public TimeStep getSelectedTimeStep() {
+		return (TimeStep) cbTimeType.getSelectedItem();
 	}
 }
 

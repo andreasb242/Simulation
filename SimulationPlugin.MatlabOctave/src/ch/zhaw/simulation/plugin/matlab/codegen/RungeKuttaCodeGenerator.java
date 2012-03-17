@@ -1,7 +1,6 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.plugin.matlab.NumericMethod;
 
 import java.io.File;
 import java.io.FileOutputStream;
