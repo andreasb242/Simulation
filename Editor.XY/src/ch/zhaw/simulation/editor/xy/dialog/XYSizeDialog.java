@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.editor.xy.dialog;
 
 import java.awt.GridBagConstraints;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -15,14 +16,13 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import ch.zhaw.simulation.model.xy.SimulationXYModel;
-
 import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.numerictextfield.NumericTextField;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 public class XYSizeDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -51,7 +51,7 @@ public class XYSizeDialog extends BDialog {
 
 		setTitle("Modell Konfiguration");
 
-		gbm = new GridBagManager(this, true);
+		gbm = new GridBagManager(this);
 
 		gbm.setX(0).setY(0).setWidth(5).setWeightY(0).setComp(new TitleLabel("Simulationsfläche"));
 		JLabel lb = new JLabel("<html>Die Grösse der Simulation, Innerhalb dieser<br>Fläche werden die Meso Kompartmente platziert.<br>"
@@ -66,7 +66,7 @@ public class XYSizeDialog extends BDialog {
 
 		gbm.setX(0).setY(21).setComp(new JLabel("Nullpunkt"));
 		gbm.setX(1).setY(21).setComp(txtX);
-		gbm.setX(2).setY(21).setComp(new JLabel("/"));
+		gbm.setX(2).setY(21).setWeightX(0).setComp(new JLabel("/"));
 		gbm.setX(3).setY(21).setWidth(2).setComp(txtY);
 
 		JButton btCenter = new JButton("Nullpunkt zentrieren");
@@ -102,6 +102,15 @@ public class XYSizeDialog extends BDialog {
 		gbm.setX(0).setY(50).setWidth(5).setWeightY(0).setComp(new TitleLabel("Raster"));
 		gbm.setX(0).setY(51).setWidth(5).setComp(cbShowGrid);
 
+		cbShowGrid.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				enableDisableGrid();
+
+			}
+		});
+
 		gbm.setX(0).setY(52).setComp(new JLabel("Abstand in px."));
 		gbm.setX(1).setY(52).setWidth(4).setComp(spGrid);
 
@@ -119,8 +128,8 @@ public class XYSizeDialog extends BDialog {
 		JButton btCancel = ButtonFactory.createButton("Abbrechen", false);
 		JButton btOk = ButtonFactory.createButton("OK", true);
 
-		gbm.setX(0).setY(100).setWeightX(0).setWeightY(0).setWidth(4).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.LINE_END).setComp(btCancel);
-		gbm.setX(4).setY(100).setWeightX(0).setWeightY(0).setComp(btOk);
+		gbm.setX(0).setY(100).setWeightX(0).setWeightY(0).setWidth(3).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.LINE_END).setComp(btCancel);
+		gbm.setX(3).setWidth(2).setY(100).setWeightX(0).setWeightY(0).setComp(btOk);
 
 		btCancel.addActionListener(new ActionListener() {
 
@@ -134,8 +143,9 @@ public class XYSizeDialog extends BDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveData();
-				setVisible(false);
+				if (saveData()) {
+					setVisible(false);
+				}
 			}
 		});
 
@@ -145,10 +155,19 @@ public class XYSizeDialog extends BDialog {
 		setLocationRelativeTo(parent);
 	}
 
+	protected void enableDisableGrid() {
+		spGrid.setEnabled(cbShowGrid.isSelected());
+	}
+
 	private void loadData() {
 		// sets the size
 		txtWidth.setValue(model.getWidth());
 		txtHeight.setValue(model.getHeight());
+
+		// 0 point
+		Point p = model.getZero();
+		txtX.setValue(p.x);
+		txtY.setValue(p.y);
 
 		// grid
 		cbShowGrid.setSelected(model.isShowGrid());
@@ -161,9 +180,41 @@ public class XYSizeDialog extends BDialog {
 		} else {
 			rColor.setSelected(true);
 		}
+
+		enableDisableGrid();
 	}
 
-	private void saveData() {
+	private boolean saveData() {
+		try {
+			model.setWidth((int) (long) txtWidth.getLongValue());
+			model.setHeight((int) (long) txtHeight.getLongValue());
 
+			Point p = new Point((int) (long) txtX.getLongValue(), (int) (long) txtY.getLongValue());
+			model.setZero(p);
+
+			model.setShowGrid(cbShowGrid.isSelected());
+
+			model.setGrid((int) (Integer) spGrid.getValue());
+
+			if (rBoth.isSelected()) {
+				model.setShowDensityArrow(true);
+				model.setShowDensityColor(true);
+			} else if (rArrows.isSelected()) {
+				model.setShowDensityArrow(true);
+				model.setShowDensityColor(false);
+			} else if (rColor.isSelected()) {
+				model.setShowDensityArrow(false);
+				model.setShowDensityColor(true);
+			}
+
+			model.fireSizeRasterChanged();
+			
+			return true;
+		} catch (ParseException e) {
+			Messagebox.showError((JFrame) getParent(), "Ungültige Eingabe", "Bitte korrigieren Sie Ihre Eingaben");
+
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
