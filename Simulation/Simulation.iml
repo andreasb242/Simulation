@@ -28,6 +28,8 @@
     <orderEntry type="module" module-name="NetbeansDirchooser" />
     <orderEntry type="module" module-name="SimulationSidebar" />
     <orderEntry type="module" module-name="SimulationPlugin.Intern" />
+    <orderEntry type="module" module-name="ColorTester" />
+    <orderEntry type="module" module-name="Epsgraphics" />
   </component>
 </module>
 
