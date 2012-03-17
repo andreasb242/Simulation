@@ -2,6 +2,7 @@ package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 
@@ -20,7 +21,7 @@ public class FormularEditorDialog extends BDialog {
 	public FormularEditorDialog(JFrame parent, Sysintegration sys, FunctionHelp help, AbstractSimulationModel<?> model) {
 		super(parent);
 
-		editor = new FormulaEditorPanel(sys, help, model);
+		editor = new FormulaEditorPanel(sys, help, model, new Vector<String>());
 		add(editor);
 
 		pack();

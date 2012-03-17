@@ -3,6 +3,7 @@ package ch.zhaw.simulation.editor.xy.density;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,9 +35,11 @@ public class EditorPanel extends JPanel {
 		gbm = new GridBagManager(this);
 		this.model = model;
 		
-		editor = new FormulaEditorPanel(sys, help, model);
-		editor.getParser().addVar("x", 0);
-		editor.getParser().addVar("y", 0);
+		Vector<String> vars = new Vector<String>();
+		vars.add("x");
+		vars.add("y");
+		
+		editor = new FormulaEditorPanel(sys, help, model, vars);
 
 		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name"));
 		gbm.setX(0).setY(1).setWeightY(0).setWeightX(0).setComp(new JLabel("Beschreibung"));
@@ -75,8 +78,6 @@ public class EditorPanel extends JPanel {
 		txtDescription.setText(selected.getDescription());
 		
 		editor.setData(selected);
-		editor.addVar("x");
-		editor.addVar("y");
 	}
 
 }

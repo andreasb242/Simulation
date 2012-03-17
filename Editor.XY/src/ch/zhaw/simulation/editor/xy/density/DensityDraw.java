@@ -1,6 +1,9 @@
 package ch.zhaw.simulation.editor.xy.density;
 
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+
+import javax.swing.SwingUtilities;
 
 import org.nfunk.jep.ParseException;
 
@@ -14,8 +17,12 @@ public class DensityDraw {
 	private boolean visible = false;
 
 	private BufferedImage img;
+	private BufferedImage imgOther;
 
 	private Parser parser = new Parser();
+
+	private Thread updateThread;
+	private boolean cancelUpdate = false;
 
 	public DensityDraw(int width, int height) {
 		this.width = width;
@@ -23,7 +30,11 @@ public class DensityDraw {
 
 		parser.addVar("x", 0);
 		parser.addVar("y", 0);
-		setFormula("x+y");
+		try {
+			parser.simplyfy("sin(x/10)");
+		} catch (ParseException e) {
+			Errorhandler.showError(e, "Formel fehler");
+		}
 	}
 
 	public void setSize(int width, int height) {
@@ -31,14 +42,60 @@ public class DensityDraw {
 		this.height = height;
 	}
 
-	public void updateImage() {
+	public void updateImageAsynchron(final ActionListener finishListener) {
+		synchronized (this) {
+			if (updateThread != null) {
+				cancelUpdate = true;
+
+				// wait for the last thread finished
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			updateThread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					BufferedImage img = updateImage();
+					if (img != null) {
+						synchronized (DensityDraw.this) {
+							DensityDraw.this.imgOther = DensityDraw.this.img;
+							DensityDraw.this.img = img;
+						}
+
+						SwingUtilities.invokeLater(new Runnable() {
+
+							@Override
+							public void run() {
+								finishListener.actionPerformed(null);
+							}
+						});
+					}
+
+					updateThread = null;
+					synchronized (DensityDraw.this) {
+						// notify the waiting thread
+						DensityDraw.this.notifyAll();
+					}
+				}
+			});
+			updateThread.start();
+		}
+	}
+
+	private BufferedImage updateImage() {
+		BufferedImage img;
+
 		double[][] values = new double[height][width];
 
 		double min = Double.MAX_VALUE;
 		double max = Double.MIN_VALUE;
 
 		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
+			for (int x = 0; x < width && !cancelUpdate; x++) {
 				double v = valueFor(x, y);
 				min = Math.min(min, v);
 				max = Math.max(max, v);
@@ -46,17 +103,21 @@ public class DensityDraw {
 			}
 		}
 
-		if (img == null) {
+		if (cancelUpdate == true) {
+			return null;
+		}
+
+		if (imgOther != null && imgOther.getWidth() == width && imgOther.getHeight() == height) {
+			img = imgOther;
+		} else {
 			img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		}
 
 		double maxFactor = 255.0 / max;
 		double minFactor = 255.0 / min;
 
-		System.out.println("maxFactor = " + maxFactor);
-
 		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
+			for (int x = 0; x < width && !cancelUpdate; x++) {
 				double v = values[y][x];
 				int rgb = 0xffffff;
 
@@ -73,6 +134,12 @@ public class DensityDraw {
 		}
 
 		values = null;
+
+		if (cancelUpdate == true) {
+			return null;
+		}
+
+		return img;
 	}
 
 	private double valueFor(int x, int y) {
@@ -87,7 +154,9 @@ public class DensityDraw {
 	}
 
 	public BufferedImage getImage() {
-		return img;
+		synchronized (this) {
+			return img;
+		}
 	}
 
 	public void setVisible(boolean visible) {
@@ -99,7 +168,12 @@ public class DensityDraw {
 	}
 
 	public void setFormula(String formula) {
+		if (formula == null) {
+			// TODO disable parser etc!
+			return;
+		}
 		try {
+			System.out.println("-->" + formula);
 			parser.simplyfy(formula);
 		} catch (ParseException e) {
 			Errorhandler.showError(e, "Formel fehler");

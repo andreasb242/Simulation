@@ -129,4 +129,8 @@ public class GuiConfig {
 	public Color getRasterColor() {
 		return Color.LIGHT_GRAY;
 	}
+
+	public Color getRasterColorZero() {
+		return Color.BLACK;
+	}
 }

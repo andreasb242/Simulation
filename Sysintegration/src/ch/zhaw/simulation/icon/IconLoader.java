@@ -18,7 +18,8 @@ public class IconLoader {
 	 */
 	private static HashMap<String, ImageIcon> icons = new HashMap<String, ImageIcon>();
 
-	private static final boolean autoconvertSvgToPng = false;
+	// TODO DEBUG
+	private static final boolean autoconvertSvgToPng = true;
 
 	public static ImageIcon getIcon(String file) {
 		return getIcon(file, 16);

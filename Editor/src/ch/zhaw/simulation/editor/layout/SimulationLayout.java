@@ -11,6 +11,9 @@ import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
 public class SimulationLayout implements LayoutManager {
 
+	private int minWidth = 0;
+	private int minHeight = 0;
+
 	@Override
 	public void addLayoutComponent(String name, Component comp) {
 		layoutComponent(comp.getParent(), null);
@@ -21,6 +24,14 @@ public class SimulationLayout implements LayoutManager {
 		for (Component c : parent.getComponents()) {
 			layoutComponent(c, parent);
 		}
+	}
+
+	public void setMinHeight(int minHeight) {
+		this.minHeight = minHeight;
+	}
+
+	public void setMinWidth(int minWidth) {
+		this.minWidth = minWidth;
 	}
 
 	private void layoutComponent(Component c, Container parent) {
@@ -56,7 +67,7 @@ public class SimulationLayout implements LayoutManager {
 			}
 		}
 
-		return new Dimension(w, h);
+		return new Dimension(Math.max(w, minWidth), Math.max(h, minHeight));
 	}
 
 	@Override

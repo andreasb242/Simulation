@@ -256,6 +256,10 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 		super.dispose();
 	}
+	
+	public V getView() {
+		return view;
+	}
 
 	@Override
 	public void pluginChanged(String pluginName) {

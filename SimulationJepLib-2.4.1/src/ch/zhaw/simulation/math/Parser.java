@@ -85,6 +85,17 @@ public class Parser {
 	}
 
 	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
+			 Vector<String> predefined, String name) throws EmptyFormulaException, NotUsedException, CompilerError {
+		Vector<VarPlaceholder> placeholder = new Vector<VarPlaceholder>();
+		
+		for(String v : predefined) {
+			placeholder.add(new VarPlaceholder(v));
+		}
+		
+		return checkCode(formula, data, model, sourcesConst, name, placeholder);
+	}
+
+	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
 			String name, Vector<VarPlaceholder> predefined) throws EmptyFormulaException, NotUsedException, CompilerError {
 		if (formula.isEmpty()) {
 			throw new EmptyFormulaException(data);

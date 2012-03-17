@@ -1,5 +1,8 @@
 package ch.zhaw.simulation.window.xy;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
@@ -21,6 +24,15 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	private DensitySidebar densitySidebar;
 	private SubmodelSidebar submodelSidebar;
 
+	private ActionListener densityListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			getView().updateDensity(densitySidebar.getSelected().getFormula());
+		}
+		
+	};
+	
 	public XYWindow() {
 		super(true);
 	}
@@ -35,9 +47,11 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 			}
 		});
 
-		densitySidebar = new DensitySidebar(control.getParent(), view.getDensity(), control.getModel(), view, control.getSysintegration(), control.getApp()
+		densitySidebar = new DensitySidebar(control.getParent(),  control.getModel(), view, control.getSysintegration(), control.getApp()
 				.getFunctionHelp());
 
+		densitySidebar.addActionListener(densityListener);
+		
 		submodelSidebar = new SubmodelSidebar(control.getModel().getSubmodels());
 
 		control.setView(view);
@@ -76,6 +90,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	@Override
 	public void dispose() {
 		densitySidebar.dispose();
+		densitySidebar.removeActionListener(densityListener);
 		submodelSidebar.dispose();
 		super.dispose();
 	}

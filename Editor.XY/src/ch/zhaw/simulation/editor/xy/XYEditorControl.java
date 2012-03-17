@@ -15,9 +15,22 @@ import ch.zhaw.simulation.model.xy.SimulationXYModel;
 public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	private XYEditorView view;
+	private XYDefaultSettingsHandler defaultSettings;
 
 	public XYEditorControl(SimulationApplication app, SimulationDocument doc, SimulationXYModel model, JFrame parent, Settings settings) {
 		super(parent, settings, app, doc, model);
+		
+		// not initialized yet
+		if(model.getWidth() == 0) {
+			getDefaultSettings().load(model);
+		}
+	}
+
+	private XYDefaultSettingsHandler getDefaultSettings() {
+		if (defaultSettings == null) {
+			defaultSettings = new XYDefaultSettingsHandler(getSettings());
+		}
+		return defaultSettings;
 	}
 
 	@Override
@@ -51,14 +64,14 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 		cancelAllActions();
 		addComponent(new MesoData(0, 0), "Meso");
 	}
-	
+
 	@Override
 	public boolean menuActionPerformedOverwrite(MenuToolbarAction action) {
 		switch (action.getType()) {
 		case XY_ADD_MESO:
 			addMeso();
 			return true;
-			
+
 		case XY_MODEL_SIZE:
 			editModelSize();
 			return true;
@@ -68,10 +81,10 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 	}
 
 	private void editModelSize() {
-		XYSizeDialog dlg = new XYSizeDialog(getParent(), getModel());
+		XYSizeDialog dlg = new XYSizeDialog(getParent(), getModel(), getDefaultSettings());
 		dlg.setModal(true);
 		dlg.setVisible(true);
-		
+
 		dlg.dispose();
 	}
 }

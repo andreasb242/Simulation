@@ -30,7 +30,7 @@ public class DensityEditorDialog extends BDialog {
 
 	public DensityEditorDialog(JFrame parent, SimulationXYModel model, Sysintegration sys, FunctionHelp help) {
 		super(parent);
-		setTitle("Edit Density");
+		setTitle("Dichte bearbeiten");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.model = model;
@@ -82,6 +82,7 @@ public class DensityEditorDialog extends BDialog {
 		setModal(true);
 	}
 
+	// TODO DEBUG
 	static int tmpNextId = 0;
 
 	protected void addDensity() {

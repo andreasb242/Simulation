@@ -21,12 +21,12 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	/**
 	 * The width of the model, cannot be extended during simulation!
 	 */
-	private int width;
+	private int width = 0;
 
 	/**
 	 * The height of the model, cannot be extended during simulation!
 	 */
-	private int height;
+	private int height = 0;
 
 	/**
 	 * The 0 Point
@@ -36,7 +36,7 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	/**
 	 * The grid size in pixel
 	 */
-	private int grid = 5;
+	private int grid = 20;
 
 	/**
 	 * If the grid is displayed or not

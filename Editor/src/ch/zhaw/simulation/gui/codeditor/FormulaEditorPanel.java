@@ -71,9 +71,12 @@ public class FormulaEditorPanel extends JPanel {
 
 	private static final int CHECK_DELAY = 1000;
 
-	public FormulaEditorPanel(Sysintegration sys, FunctionHelp help, AbstractSimulationModel<?> model) {
+	private Vector<String> additionalVars = new Vector<String>();
+
+	public FormulaEditorPanel(Sysintegration sys, FunctionHelp help, AbstractSimulationModel<?> model, Vector<String> addiditonalVars) {
 		this.help = help;
 		this.model = model;
+		this.additionalVars = addiditonalVars;
 		tb = sys.createToolbar();
 
 		text = new FormulaTextPane(help);
@@ -91,7 +94,6 @@ public class FormulaEditorPanel extends JPanel {
 
 		gbm.setInsets(new Insets(0, 0, 0, 0));
 		gbm.setX(0).setY(0).setWidth(2).setWeightY(0).setComp(tb.getComponent());
-
 
 		keyboard = new FormularKeyboard(text);
 		gbm.setInsets(new Insets(0, 0, 0, 0));
@@ -170,7 +172,7 @@ public class FormulaEditorPanel extends JPanel {
 		try {
 			Vector<AbstractNamedSimulationData> sources = model.getSource(data);
 
-			parser.checkCode(text.getText(), data, model, sources, data.getName());
+			parser.checkCode(text.getText(), data, model, sources, this.additionalVars, data.getName());
 			status = AbstractNamedSimulationData.Status.SYNTAX_OK;
 
 			text.setError(0, 0);
@@ -200,11 +202,11 @@ public class FormulaEditorPanel extends JPanel {
 		this.text.requestFocus();
 	}
 
-	public void addVar(String var) {
+	private void addVarParser(String var) {
 		variables.addElement(new Constant(var, 0.1));
 		text.addAutocomplete(new Autocomplete.AutocompleteWord(var, 0));
 	}
-	
+
 	public void setData(NamedFormulaData data) {
 		if (this.data != null) {
 			// Save Data
@@ -232,9 +234,12 @@ public class FormulaEditorPanel extends JPanel {
 			variables.addElement(p);
 			text.addAutocomplete(new Autocomplete.AutocompleteWord(p.getName(), 0));
 		}
-		
-		addVar("time");
-		addVar("dt");
+
+		addVarParser("time");
+		addVarParser("dt");
+		for (String v : additionalVars) {
+			addVarParser(v);
+		}
 
 		functions.clear();
 
@@ -267,7 +272,7 @@ public class FormulaEditorPanel extends JPanel {
 	private Constant[] getConst() {
 		return parser.getConst();
 	}
-	
+
 	public Parser getParser() {
 		return parser;
 	}

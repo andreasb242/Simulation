@@ -47,8 +47,9 @@ public class DensityData implements NamedFormulaData {
 
 	@Override
 	public void setFormula(String formula, Status status, String statusText) {
-		// TODO Auto-generated method stub
+		// TODO status etc. speichern
 		
+		this.formula = formula;
 	}
 
 	@Override

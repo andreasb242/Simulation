@@ -22,6 +22,7 @@ import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.numerictextfield.NumericTextField;
+import ch.zhaw.simulation.editor.xy.XYDefaultSettingsHandler;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 public class XYSizeDialog extends BDialog {
@@ -36,7 +37,7 @@ public class XYSizeDialog extends BDialog {
 	private NumericTextField txtY = new NumericTextField();
 
 	private JCheckBox cbShowGrid = new JCheckBox("Raster anzeigen");
-	private SpinnerModel spModel = new SpinnerNumberModel(10, 5, 200, 1);
+	private SpinnerModel spModel = new SpinnerNumberModel(20, 10, 200, 1);
 	private JSpinner spGrid = new JSpinner(spModel);
 
 	private JRadioButton rColor = new JRadioButton("Farben");
@@ -45,9 +46,12 @@ public class XYSizeDialog extends BDialog {
 
 	private SimulationXYModel model;
 
-	public XYSizeDialog(final JFrame parent, SimulationXYModel model) {
+	private XYDefaultSettingsHandler xyDefaultSettingsHandler;
+
+	public XYSizeDialog(final JFrame parent, SimulationXYModel model, XYDefaultSettingsHandler xyDefaultSettingsHandler) {
 		super(parent);
 		this.model = model;
+		this.xyDefaultSettingsHandler = xyDefaultSettingsHandler;
 
 		setTitle("Modell Konfiguration");
 
@@ -208,6 +212,8 @@ public class XYSizeDialog extends BDialog {
 			}
 
 			model.fireSizeRasterChanged();
+			
+			xyDefaultSettingsHandler.save(model);
 			
 			return true;
 		} catch (ParseException e) {
