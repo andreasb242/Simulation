@@ -1,16 +1,21 @@
 package ch.zhaw.simulation.editor.xy;
 
+import java.util.Vector;
+
 import javax.swing.JFrame;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.editor.xy.dialog.XYSizeDialog;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.undo.action.xy.DeleteUndoAction;
 
 public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
@@ -35,7 +40,18 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	@Override
 	protected void delete(SelectableElement[] elements) {
-		// TODO Delete, XY dialog
+		Vector<AbstractNamedSimulationData> removedObjects = new Vector<AbstractNamedSimulationData>();
+
+		for (SelectableElement el : elements) {
+			if (el instanceof GuiDataTextElement<?>) {
+				GuiDataTextElement<?> control = (GuiDataTextElement<?>) el;
+				AbstractNamedSimulationData data = (AbstractNamedSimulationData) control.getData();
+
+				removedObjects.add(data);
+			}
+		}
+
+		getUndoManager().addEdit(new DeleteUndoAction(removedObjects, this));
 
 	}
 

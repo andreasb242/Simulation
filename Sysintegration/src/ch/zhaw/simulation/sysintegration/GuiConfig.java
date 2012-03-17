@@ -10,7 +10,7 @@ public class GuiConfig {
 
 	public GuiConfig() {
 		objectBorder = Color.GRAY;
-		objectBorderFocus = Color.GRAY;
+		objectBorderFocus = Color.ORANGE;
 	}
 
 	public Paint getObjectBorder(boolean selected) {
