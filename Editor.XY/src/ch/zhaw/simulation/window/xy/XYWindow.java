@@ -63,6 +63,8 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		tb.initToolbar(view.getUndoHandler());
 
 		init(menubar, tb, view);
+
+		submodelSidebar.addSubModelSelectionListener(getView());
 	}
 
 	@Override
@@ -91,7 +93,9 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	public void dispose() {
 		densitySidebar.dispose();
 		densitySidebar.removeActionListener(densityListener);
+		submodelSidebar.removeSubModelSelectionListener(getView());
 		submodelSidebar.dispose();
+
 		super.dispose();
 	}
 }

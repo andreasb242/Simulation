@@ -19,9 +19,9 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	public XYEditorControl(SimulationApplication app, SimulationDocument doc, SimulationXYModel model, JFrame parent, Settings settings) {
 		super(parent, settings, app, doc, model);
-		
+
 		// not initialized yet
-		if(model.getWidth() == 0) {
+		if (model.getWidth() == 0) {
 			getDefaultSettings().load(model);
 		}
 	}
@@ -62,7 +62,9 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	public void addMeso() {
 		cancelAllActions();
-		addComponent(new MesoData(0, 0), "Meso");
+		MesoData meso = new MesoData(0, 0);
+		meso.setSubmodel(getView().getCurrentSelectedSubmodel());
+		addComponent(meso, "Meso");
 	}
 
 	@Override

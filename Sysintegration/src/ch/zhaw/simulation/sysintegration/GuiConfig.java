@@ -112,7 +112,7 @@ public class GuiConfig {
 	}
 
 	public int getMesoSize() {
-		return 50;
+		return 30;
 	}
 
 	public Paint getFlowParameterBackground(int width, int height, boolean selected) {

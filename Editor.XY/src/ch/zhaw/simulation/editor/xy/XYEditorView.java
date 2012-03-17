@@ -18,12 +18,15 @@ import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
+import ch.zhaw.simulation.window.xy.sidebar.SubModelSelectionListener;
 
-public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener {
+public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener, SubModelSelectionListener {
 	private static final long serialVersionUID = 1L;
 
 	private DensityDraw density;
+	private SubModel currentSelectedSubmodel = null;
 
 	public XYEditorView(XYEditorControl control, TransferableFactory factory) {
 		super(control, factory);
@@ -48,7 +51,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 	@Override
 	protected void paintEditor(Graphics2D g) {
-		if (density.isVisible() || true) {
+		if (density.isVisible()) {
 			System.out.println("draw density");
 			g.drawImage(density.getImage(), 0, 0, this);
 		}
@@ -87,6 +90,10 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		if (showSelection) {
 			paintSelection(g);
 		}
+	}
+
+	public SubModel getCurrentSelectedSubmodel() {
+		return currentSelectedSubmodel;
 	}
 
 	@Override
@@ -159,7 +166,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	public void updateDensity(String formula) {
 		// TODO für was null verwenden!?
 		this.density.setFormula(formula);
-		
+
 		// TODO: wenn keine Formel gesetzt oder Farbe nicht angezeigt NICHT
 		// rechnen
 		this.density.updateImageAsynchron(new ActionListener() {
@@ -171,6 +178,11 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 			}
 		});
 		getControl().getStatus().setStatusTextInfo("Dichten werden berechnet...");
+	}
+
+	@Override
+	public void subModelSelected(SubModel submodel) {
+		currentSelectedSubmodel = submodel;
 	}
 
 }

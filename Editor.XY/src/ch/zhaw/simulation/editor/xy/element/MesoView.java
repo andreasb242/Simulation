@@ -15,6 +15,11 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 		GuiConfig guiconf = control.getSysintegration().getGuiConfig();
 		this.image = new MesoImage(guiconf.getMesoSize(), guiconf);
 
+		// TODO listener anhängen
+		if (data.getSubmodel() != null) {
+			this.image.setColor(data.getSubmodel().getColor());
+		}
+
 		this.textY = 20;
 		this.questionmarkY = 35;
 	}
