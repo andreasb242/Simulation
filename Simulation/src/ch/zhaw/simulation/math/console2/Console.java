@@ -16,7 +16,7 @@
 
  *****************************************************************************/
 
-package ch.zhaw.simulation.math.console;
+package ch.zhaw.simulation.math.console2;
 
 
 import java.awt.BorderLayout;
@@ -37,7 +37,7 @@ import org.nfunk.jep.OperatorSet;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.SymbolTable;
 
-import ch.zhaw.simulation.icon.IconSVG;
+import ch.zhaw.simulation.icon.IconLoader;
 
 /**
  * This class implements a simple command line utility for evaluating
@@ -91,7 +91,7 @@ public class Console extends JFrame implements KeyListener {
 	public Console() {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("Mathekonsole");
-		setIconImage(IconSVG.getIcon("math", 128).getImage());
+		setIconImage(IconLoader.getIcon("math", 128).getImage());
 		
 		
 		initialise();

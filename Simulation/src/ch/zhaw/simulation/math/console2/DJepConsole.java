@@ -3,7 +3,7 @@
  *
  * See LICENSE.txt for license information.
  */
-package ch.zhaw.simulation.math.console;
+package ch.zhaw.simulation.math.console2;
 
 import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
