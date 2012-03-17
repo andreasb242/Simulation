@@ -2,6 +2,7 @@ package ch.zhaw.simulation.sysintegration;
 
 import java.awt.Window;
 import java.io.File;
+import java.util.Vector;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -9,6 +10,7 @@ import javax.swing.filechooser.FileFilter;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
+import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener.EventType;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmarks;
 import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 
@@ -16,6 +18,8 @@ public class Sysintegration {
 
 	protected Bookmarks bookmarks;
 	protected SysMenuShortcuts sysMenuShortcuts;
+	
+	private Vector<SysintegrationEventlistener> eventlistener = new Vector<SysintegrationEventlistener>();
 
 	/**
 	 * The color and size configuration of gui components
@@ -51,7 +55,7 @@ public class Sysintegration {
 	public Bookmarks getBookmarks() {
 		return bookmarks;
 	}
-	
+
 	/**
 	 * @return The color and size configuration of gui components
 	 */
@@ -86,7 +90,7 @@ public class Sysintegration {
 		return checkCanSave(f, parent, filefilter, lastSavePath);
 	}
 
-	private File checkCanSave(File file, Window parent, SimFileFilter filefilter, String lastSavePath) {
+	protected File checkCanSave(File file, Window parent, SimFileFilter filefilter, String lastSavePath) {
 		boolean canWrite = true;
 
 		if (!file.exists()) {
@@ -134,6 +138,20 @@ public class Sysintegration {
 			return chooser.getSelectedFile();
 		}
 		return null;
+	}
+	
+	public void addListener(SysintegrationEventlistener l) {
+		eventlistener.add(l);
+	}
+	
+	public void removeListener(SysintegrationEventlistener l) {
+		eventlistener.remove(l);
+	}
+	
+	protected void fireEvent(EventType type, String param) {
+		for(SysintegrationEventlistener l : this.eventlistener) {
+			l.sysEvent(type, param);
+		}
 	}
 
 }

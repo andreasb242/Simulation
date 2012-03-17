@@ -3,6 +3,7 @@ package ch.zhaw.simulation.sysintegration;
 import org.jdesktop.swingx.util.OS;
 
 import ch.zhaw.simulation.sysintegration.linux.LinuxSysintegration;
+import ch.zhaw.simulation.sysintegration.mac.MacSysintegration;
 import ch.zhaw.simulation.sysintegration.windows.WindowsSysintegration;
 
 public class SysintegrationFactory {
@@ -20,7 +21,7 @@ public class SysintegrationFactory {
 		}
 
 		if (OS.isMacOSX()) {
-			cached = new WindowsSysintegration();
+			cached = new MacSysintegration();
 		}
 		if (OS.isLinux()) {
 			cached = new LinuxSysintegration();

@@ -37,12 +37,13 @@ import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
+import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
 
-public class ApplicationControl extends StatusHandler implements SimulationApplication, MenuActionListener {
+public class ApplicationControl extends StatusHandler implements SimulationApplication, MenuActionListener, SysintegrationEventlistener {
 
 	/**
 	 * The settings
@@ -175,6 +176,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		this.sysintegration = SysintegrationFactory.createSysintegration();
+		this.sysintegration.addListener(this);
 
 		this.savehandler = new LoadSaveHandler(mainFrame, settings, sysintegration, this.importPluginLoader);
 		this.savehandler.addListener(this);
@@ -599,5 +601,26 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	public String getDocumentName() {
 		return documentName;
+	}
+
+	@Override
+	public void sysEvent(EventType type, String param) {
+		switch(type) {
+		case EXIT:
+			exit();
+			break;
+			
+		case OPEN:
+			open(param);
+			break;
+			
+		case PREFERENCES:
+			showSettingsDialog();
+			break;
+
+		case ABOUT:
+			showAboutDialog();
+			break;
+		}
 	}
 }

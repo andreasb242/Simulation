@@ -29,6 +29,11 @@ public class SimulationMain {
 			lookAndFeel = "nimbus";
 		}
 		
+		if(OS.isMacOSX()) {
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Simulation");
+		}
+		
 		try {
 			if ("metal".equals(lookAndFeel)) {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
