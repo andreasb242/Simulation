@@ -43,12 +43,16 @@ public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> 
 			@Override
 			public void dataChanged(AbstractSimulationData o) {
 				recalcFontMetrics(null);
+				GuiDataTextElement.this.dataChanged();
 			}
 		});
 
 		setToolTipText(" ");
 
 		tip.setTitle(data.getName());
+	}
+
+	protected void dataChanged() {
 	}
 
 	@Override

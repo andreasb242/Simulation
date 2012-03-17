@@ -12,6 +12,7 @@ import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.menu.xy.XYMenubar;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;
@@ -78,7 +79,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	protected void initElementConfigurationSiebar() {
 		final AbstractEditorControl<?> control = view.getControl();
 
-		formulaConfiguration = new XYFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
+		formulaConfiguration = new XYFormulaConfiguration((SimulationXYModel) control.getModel(), control.getSelectionModel()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

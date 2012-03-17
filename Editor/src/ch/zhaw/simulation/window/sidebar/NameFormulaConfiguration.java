@@ -31,13 +31,14 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 
 	private JTextField txtName = new JTextField();
 
-	private JButton btEdit;
+	protected TitleLabel lbValue;
+	protected JButton btEdit;
 
 	private NameChecker nameChecker = new NameChecker();
 
-	private AbstractNamedSimulationData data;
+	protected AbstractNamedSimulationData data;
 
-	private AbstractSimulationModel<?> model;
+	protected AbstractSimulationModel<?> model;
 
 	protected GridBagManager gbm;
 
@@ -71,7 +72,8 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 			}
 		});
 
-		gbm.setX(0).setY(1000).setWeightY(0).setComp(new TitleLabel("Wert"));
+		this.lbValue = new TitleLabel("Wert");
+		gbm.setX(0).setY(1000).setWeightY(0).setComp(lbValue);
 
 		btEdit = new JButton("bearbeiten", IconLoader.getIcon("text-editor", 24));
 		gbm.setX(1).setY(1000).setWeightY(0).setComp(btEdit);

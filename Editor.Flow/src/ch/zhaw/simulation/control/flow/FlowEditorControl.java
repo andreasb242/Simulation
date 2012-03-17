@@ -17,7 +17,6 @@ import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.math.Autoparser;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
-import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
@@ -296,9 +295,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			return true;
 
 		case CLOSE:
-			// TODO CLOSE => EXIT !!! DEBUG !!!
-			System.err.println("CLOSE => EXIT !!! DEBUG !!!");
-			menuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.EXIT));
+			getParent().setVisible(false);
 			return true;
 		}
 

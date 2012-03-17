@@ -1,9 +1,14 @@
 package ch.zhaw.simulation.editor.xy.element;
 
+import java.awt.event.MouseEvent;
+
+import butti.javalibs.gui.messagebox.Messagebox;
+
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.model.xy.MesoData;
+import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
 public class MesoView extends GuiDataTextElement<MesoData> {
@@ -15,13 +20,29 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 		GuiConfig guiconf = control.getSysintegration().getGuiConfig();
 		this.image = new MesoImage(guiconf.getMesoSize(), guiconf);
 
-		// TODO listener anhängen
-		if (data.getSubmodel() != null) {
-			this.image.setColor(data.getSubmodel().getColor());
-		}
+		dataChanged();
 
 		this.textY = 20;
 		this.questionmarkY = 35;
+	}
+
+	@Override
+	protected void doubleClicked(MouseEvent e) {
+		SubModel submodel = getData().getSubmodel();
+		if (submodel == null) {
+			Messagebox.showInfo(getControl().getParent(), "Kein Modell",
+					"Bitte wählen ordnen Sie in der Sidebar dem Kompartment ein Modell zu, damit Sie dieses bearbeiten können");
+		} else {
+			getControl().getApp().openFlowEditor(submodel.getModel());
+		}
+	}
+
+	@Override
+	protected void dataChanged() {
+		if (getData().getSubmodel() != null) {
+			this.image.setColor(getData().getSubmodel().getColor());
+			repaint();
+		}
 	}
 
 	@Override

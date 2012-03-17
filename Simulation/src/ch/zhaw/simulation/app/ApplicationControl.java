@@ -2,6 +2,7 @@ package ch.zhaw.simulation.app;
 
 import java.awt.Window;
 import java.io.File;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -31,6 +32,7 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
@@ -121,6 +123,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	private FunctionHelp functionHelp = new FunctionHelp();
 
 	/**
+	 * The submodels of the current model
+	 */
+	private HashMap<SimulationFlowModel, FlowSubmodelRef> submodels = new HashMap<SimulationFlowModel, FlowSubmodelRef>();
+
+	/**
 	 * Ctor
 	 */
 	public ApplicationControl() {
@@ -155,12 +162,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		Messagebox msg = new Messagebox(null, "Typ wählen", "Simulationstyp wählen", Messagebox.QUESTION);
 		msg.addButton("XY", 0);
 		msg.addButton("Flow", 1);
-		msg.addButton("Flow [Child]", 2);
 		int res = msg.display();
 		if (res == 0) {
 			type = SimulationType.XY_MODEL;
-		} else if (res == 2) {
-			mainWindow = false;
 		} else if (res == 1) {
 		} else {
 			return;
@@ -210,9 +214,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void takeSnapshot() {
-//        ExportDialog export = new ExportDialog();
-//        export.showExportDialog(this.mainFrame, "Export view as ...", getController().getView(), "export");
-		
+		// ExportDialog export = new ExportDialog();
+		// export.showExportDialog(this.mainFrame, "Export view as ...",
+		// getController().getView(), "export");
+
 		// TODO !! name, selection, svg
 		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController().getView(), getController()
 				.getView().getBounds(), "Simulation");
@@ -605,15 +610,15 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	@Override
 	public void sysEvent(EventType type, String param) {
-		switch(type) {
+		switch (type) {
 		case EXIT:
 			exit();
 			break;
-			
+
 		case OPEN:
 			open(param);
 			break;
-			
+
 		case PREFERENCES:
 			showSettingsDialog();
 			break;
@@ -622,5 +627,16 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			showAboutDialog();
 			break;
 		}
+	}
+
+	@Override
+	public void openFlowEditor(SimulationFlowModel model) {
+		FlowSubmodelRef ref = submodels.get(model);
+		if(ref == null) {
+			ref = new FlowSubmodelRef(this, this.doc, settings, model);
+			submodels.put(model, ref);
+		}
+
+		ref.getWin().setVisible(true);
 	}
 }
