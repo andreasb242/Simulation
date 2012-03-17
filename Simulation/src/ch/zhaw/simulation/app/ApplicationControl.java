@@ -23,7 +23,7 @@ import ch.zhaw.simulation.filehandling.ImportPluginLoader;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.help.gui.HelpFrame;
 import ch.zhaw.simulation.help.model.FunctionHelp;
-import ch.zhaw.simulation.math.console2.MatrixConsole;
+import ch.zhaw.simulation.math.console.MatrixConsole;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;

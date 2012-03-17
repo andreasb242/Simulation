@@ -16,7 +16,7 @@
 
  *****************************************************************************/
 
-package ch.zhaw.simulation.math.console2;
+package ch.zhaw.simulation.math.console;
 
 
 import java.awt.BorderLayout;

@@ -3,7 +3,7 @@
  *
  * See LICENSE.txt for license information.
  */
-package ch.zhaw.simulation.math.console2;
+package ch.zhaw.simulation.math.console;
 
 import org.lsmp.djep.djep.DPrintVisitor;
 import org.lsmp.djep.xjep.*;
