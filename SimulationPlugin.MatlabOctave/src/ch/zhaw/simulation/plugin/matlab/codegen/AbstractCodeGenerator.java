@@ -3,21 +3,9 @@ package ch.zhaw.simulation.plugin.matlab.codegen;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Vector;
 
 import butti.javalibs.util.FileUtil;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
-import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
 
 /**
  * Class for Matlab / Octave Codegenration
@@ -35,7 +23,6 @@ public abstract class AbstractCodeGenerator {
 	 * Predefined files, needed by simulation
 	 */
 	protected String[] predefinedFiles = new String[] {};
-
 
 	public AbstractCodeGenerator() {
 		//

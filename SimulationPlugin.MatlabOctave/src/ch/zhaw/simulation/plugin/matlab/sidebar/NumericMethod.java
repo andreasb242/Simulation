@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.plugin.matlab;
+package ch.zhaw.simulation.plugin.matlab.sidebar;
 
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
@@ -25,12 +25,12 @@ public class NumericMethod {
 		return name;
 	}
 
-	public DefaultConfigurationPane getPane() {
-		return pane;
-	}
-
 	public AbstractCodeGenerator getCodeGenerator() {
 		return codeGenerator;
+	}
+
+	public DefaultConfigurationPane getPane() {
+		return pane;
 	}
 
 	@Override

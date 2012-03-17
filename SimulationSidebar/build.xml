@@ -1,4 +1,4 @@
-<project name="Sysintegration" basedir="." default="error">
+<project name="Sidebar" basedir="." default="error">
 	<target name="error">
 		<echo message="Build should be started with SimulationBuild/build.xml else build order is not correct" />
 	</target>
