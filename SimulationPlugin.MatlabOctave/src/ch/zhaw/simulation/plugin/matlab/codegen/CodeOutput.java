@@ -127,7 +127,7 @@ public class CodeOutput {
 
 	/**
 	 * Prints a line
-	 * 
+	 *
 	 * @param line
 	 *            The line
 	 */
