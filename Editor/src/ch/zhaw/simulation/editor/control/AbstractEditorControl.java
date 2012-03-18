@@ -411,7 +411,6 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		this.doc = null;
 
 		super.dispose();
-		
 
 		this.selectionModel.clearSelection();
 		this.selectionModel.clearTmpSelection();

@@ -12,13 +12,8 @@ public abstract class AbstractTransferable implements Transferable {
 	public static DataFlavor SIMULATION_FLOWER = new DataFlavor("application/x-simulation", "Simulation");
 	private DataFlavor flavors[] = { SIMULATION_FLOWER, DataFlavor.imageFlavor };
 
-	private static BufferedImage dummyImage;
-
-	static {
-		dummyImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-		dummyImage.getGraphics().drawString("Dummy Image", 0, 50);
-	}
-
+	protected BufferedImage exportedImage = null;
+	
 	/**
 	 * Creates a transferable object capable of transferring the specified
 	 * string in plain text format.
@@ -80,7 +75,7 @@ public abstract class AbstractTransferable implements Transferable {
 		if (flavor.equals(flavors[0])) {
 			return getClipboardData();
 		} else if (flavor.equals(flavors[1])) {
-			return dummyImage;
+			return exportedImage;
 		} else {
 			throw new UnsupportedFlavorException(flavor);
 		}

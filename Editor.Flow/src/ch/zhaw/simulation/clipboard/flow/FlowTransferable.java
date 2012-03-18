@@ -5,11 +5,13 @@ import java.awt.Point;
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferData;
 import ch.zhaw.simulation.clipboard.TransferData.Type;
+import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
+import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -33,7 +35,7 @@ public class FlowTransferable extends AbstractTransferable {
 	 */
 	protected FlowClipboardData data;
 
-	public FlowTransferable(SelectableElement[] selected, SimulationFlowModel model) {
+	public FlowTransferable(FlowEditorControl control, SelectableElement[] selected, SimulationFlowModel model) {
 		this.model = model;
 
 		if (model == null) {
@@ -41,6 +43,9 @@ public class FlowTransferable extends AbstractTransferable {
 		}
 
 		addCopy(selected);
+
+		ImageExport export = new ImageExport(control);
+		this.exportedImage = export.exportToImage(true);
 	}
 
 	@Override

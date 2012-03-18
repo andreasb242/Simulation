@@ -25,6 +25,7 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
+import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -63,7 +64,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 			@Override
 			public AbstractTransferable createTransferable(SelectableElement[] selected) {
-				return new FlowTransferable(selected, (SimulationFlowModel) control.getModel());
+				return new FlowTransferable(control, selected, (SimulationFlowModel) control.getModel());
 			}
 
 		});
@@ -220,6 +221,23 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		return false;
 	}
 
+
+	public void visitElements(ImageExport export, boolean onlySelection, boolean exportHelperPoints) {
+		for (ConnectorUi c : connectors) {
+			if (c instanceof FlowConnectorUi) {
+				export.draw(c);
+			}
+		}
+
+		for (ConnectorUi c : connectors) {
+			if (c instanceof ParameterConnectorUi) {
+				export.draw(c);
+			}
+		}
+		
+		super.visitElements(export, onlySelection, exportHelperPoints);
+	}
+	
 	@Override
 	public void dataChanged(AbstractSimulationData o) {
 		revalidate();

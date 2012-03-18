@@ -25,6 +25,7 @@ import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
+import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
@@ -512,5 +513,20 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 			getControl().getModel().removeListener(this);
 		}
 		selectionModel.removeSelectionListener(this);
+	}
+
+	public void visitElements(ImageExport export, boolean onlySelection, boolean exportHelperPoints) {
+		for (int i = 0; i < getComponentCount(); i++) {
+			Component c = getComponent(i);
+			if (!exportHelperPoints && "BezierHelperPoint".equals(c.getClass().getSimpleName())) {
+				continue;
+			}
+
+			if ("ArrowDragView".equals(c.getClass().getSimpleName())) {
+				continue;
+			}
+			
+			export.draw(c);
+		}		
 	}
 }

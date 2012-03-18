@@ -3,29 +3,18 @@ package ch.zhaw.simulation.dialog.snapshot;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -33,24 +22,22 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import net.sf.epsgraphics.ColorMode;
-import net.sf.epsgraphics.EpsGraphics;
-import butti.javalibs.config.FileSettings;
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.filechooser.TxtDirChooser;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
-import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmark;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmarks;
 import ch.zhaw.simulation.sysintegration.bookmarks.ComboSeparatorsRenderer;
 
-public class SnapshotDialog extends BDialog implements ClipboardOwner {
+public class SnapshotDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
 
 	private GridBagManager gbm;
@@ -63,17 +50,21 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 	private JCheckBox cbSelection = new JCheckBox("Nur Selektion");
 
 	private JRadioButton rPng = new JRadioButton("PNG");
-	private JRadioButton rEps = new JRadioButton("EPS");
+	private JRadioButton rSVG = new JRadioButton("SVG");
+	private JRadioButton rPS = new JRadioButton("PS");
+	private JRadioButton rEMF = new JRadioButton("EMF");
 	private ButtonGroup format = new ButtonGroup();
 
 	private Settings settings;
+	private AbstractEditorControl<?> control;
 
-	public SnapshotDialog(JFrame parent, Settings settings, Sysintegration sys, final JComponent c, final Rectangle size, String name) {
+	public SnapshotDialog(JFrame parent, Settings settings, Sysintegration sys, final AbstractEditorControl<?> control, String name) {
 		super(parent);
 		setTitle("Als Bild speichern...");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.settings = settings;
+		this.control = control;
 
 		dirChooser = new TxtDirChooser(this, false);
 
@@ -137,11 +128,24 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 		JPanel pFormat = new JPanel();
 		pFormat.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 		pFormat.add(rPng);
-		pFormat.add(rEps);
+		pFormat.add(rSVG);
+		pFormat.add(rPS);
+		pFormat.add(rEMF);
 		format.add(rPng);
-		format.add(rEps);
+		format.add(rSVG);
+		format.add(rPS);
+		format.add(rEMF);
 
-		rPng.setSelected(true);
+		String format = settings.getSetting("snapshot.format", "PNG");
+		if ("SVG".equals(format)) {
+			rSVG.setSelected(true);
+		} else if ("PS".equals(format)) {
+			rPS.setSelected(true);
+		} else if ("EMF".equals(format)) {
+			rEMF.setSelected(true);
+		} else {
+			rPng.setSelected(true);
+		}
 
 		gbm.setX(1).setY(5).setWeightY(0).setComp(new JLabel("Format"));
 		gbm.setX(2).setY(5).setWeightY(0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.LINE_START).setComp(pFormat);
@@ -202,12 +206,12 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 				SnapshotDialog.this.settings.setSetting("snapshot.custompath", dirChooser.getPath());
 
 				if ("<custom>".equals(b.getPath())) {
-					saveSnapshot(dirChooser.getPath(), c, size, txtName.getText());
+					saveSnapshot(dirChooser.getPath(), control, txtName.getText());
 				} else {
 					if ("".equals(txtName.getText())) {
 						Messagebox.showWarning(SnapshotDialog.this, "Ungültige Eingabe", "Bitte geben Sie einen Dateiname ein");
 					} else {
-						saveSnapshot(b.getPath(), c, size, txtName.getText());
+						saveSnapshot(b.getPath(), control, txtName.getText());
 					}
 				}
 			}
@@ -217,7 +221,7 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				copyImageToClipboard(c, size);
+				// TODO !! copyImageToClipboard(c, size);
 			}
 		});
 
@@ -240,70 +244,47 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 		setLocationRelativeTo(parent);
 	}
 
-	protected void copyImageToClipboard(JComponent comp, Rectangle size) {
-		BufferedImage img = createImage(comp, size);
-		TransferableImage trans = new TransferableImage(img);
-		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-		c.setContents(trans, this);
+	protected void copyImageToClipboard() {
+		boolean onlySelection = cbSelection.isSelected();
+
+		ImageExport export = new ImageExport(control);
+		export.exportToClipboard(onlySelection);
 	}
 
-	private BufferedImage createImage(JComponent comp, Rectangle size) {
-		BufferedImage img = new BufferedImage((int) size.getWidth(), (int) size.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
-		comp.paint(g);
-		g.dispose();
-		return img;
-	}
-
-	protected void saveSnapshot(String path, JComponent comp, Rectangle size, String name) {
-		boolean eps = rEps.isSelected();
-
-		if (eps) {
-			File file = createFile(path, name, ".eps");
-
-			if (file != null) {
-				try {
-					FileOutputStream out = new FileOutputStream(file);
-					Graphics2D g = new EpsGraphics(file.getName(), out, size.x, size.y, size.width, size.height, ColorMode.COLOR_RGB);
-					
-					comp.paint(g);
-					
-					g.dispose();
-					
-					// Get the EPS output.
-//					String output = g.toString();
-
-					out.close();
-				} catch (Exception e) {
-					Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
-				}
-				// BufferedImage img = createImage(comp, size);
-				// try {
-				// ImageIO.write(img, "PNG", file);
-				// System.out.println("write image: " + file.getAbsolutePath());
-				// dispose();
-				// } catch (Exception e) {
-				// Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
-				// }
-				return;
-			}
-		} else {
-			File file = createFile(path, name, ".png");
-
-			if (file != null) {
-				BufferedImage img = createImage(comp, size);
-				try {
-					ImageIO.write(img, "PNG", file);
-					System.out.println("write image: " + file.getAbsolutePath());
-					dispose();
-				} catch (Exception e) {
-					Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
-				}
-				return;
-			}
+	private String getFormat() {
+		if (rPng.isSelected()) {
+			return "PNG";
+		} else if (rSVG.isSelected()) {
+			return "SVG";
+		} else if (rPS.isSelected()) {
+			return "PS";
+		} else if (rEMF.isSelected()) {
+			return "EMF";
 		}
 
-		Messagebox.showError(this, "Speichern fehlgeschlagen", "Speichern des Bildes ist fehlgeschlagen, bitte wählen Si einen anderen Dateinamen");
+		return "PNG";
+	}
+
+	protected void saveSnapshot(String path, AbstractEditorControl<?> control, String name) {
+		String format = getFormat();
+		settings.setSetting("snapshot.format", format);
+
+		File file = createFile(path, name, "." + format.toLowerCase());
+
+		if (file != null) {
+			try {
+				boolean onlySelection = cbSelection.isSelected();
+
+				ImageExport export = new ImageExport(control);
+				export.export(onlySelection, format, file);
+
+			} catch (Exception e) {
+				Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
+			}
+			return;
+		} else {
+			Messagebox.showError(this, "Speichern fehlgeschlagen", "Speichern des Bildes ist fehlgeschlagen, bitte wählen Sie einen anderen Dateinamen");
+		}
 	}
 
 	private File createFile(String path, String name, String ext) {
@@ -315,16 +296,5 @@ public class SnapshotDialog extends BDialog implements ClipboardOwner {
 			}
 		}
 		return null;
-	}
-
-	public static void main(String[] args) {
-		SnapshotDialog dlg = new SnapshotDialog(null, new FileSettings("test.ini"), SysintegrationFactory.createSysintegration(), null, null, "test");
-		dlg.setVisible(true);
-
-		System.exit(0);
-	}
-
-	@Override
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {
 	}
 }

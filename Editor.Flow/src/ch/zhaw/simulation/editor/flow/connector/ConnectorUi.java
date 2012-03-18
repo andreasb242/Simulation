@@ -3,6 +3,7 @@ package ch.zhaw.simulation.editor.flow.connector;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import ch.zhaw.simulation.editor.imgexport.Paintable;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
@@ -11,7 +12,7 @@ import ch.zhaw.simulation.model.selection.SelectableElement;
  * 
  * @author Andreas Butti
  */
-public interface ConnectorUi {
+public interface ConnectorUi extends Paintable {
 	/**
 	 * Releases all ressources and removes listener
 	 */

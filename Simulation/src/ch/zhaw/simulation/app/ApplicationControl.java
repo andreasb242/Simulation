@@ -214,13 +214,18 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void takeSnapshot() {
-		// ExportDialog export = new ExportDialog();
-		// export.showExportDialog(this.mainFrame, "Export view as ...",
-		// getController().getView(), "export");
+		String name = "Unbennant";
+		if (savehandler.getPath() != null) {
+			name = savehandler.getPath().getName();
+			
+			int pos = name.lastIndexOf('.');
+			if(pos > 0) {
+				// remove .xxx
+				name = name.substring(0, pos);
+			}
+		}
 
-		// TODO !! name, selection, svg
-		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController().getView(), getController()
-				.getView().getBounds(), "Simulation");
+		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController(), name);
 		dlg.setVisible(true);
 	}
 
@@ -632,7 +637,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	@Override
 	public void openFlowEditor(SimulationFlowModel model) {
 		FlowSubmodelRef ref = submodels.get(model);
-		if(ref == null) {
+		if (ref == null) {
 			ref = new FlowSubmodelRef(this, this.doc, settings, model);
 			submodels.put(model, ref);
 		}
