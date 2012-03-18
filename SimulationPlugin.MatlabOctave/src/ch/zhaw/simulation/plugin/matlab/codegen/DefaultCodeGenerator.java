@@ -104,10 +104,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
 			MatlabAttachment a = (MatlabAttachment) c.getValve().attachment;
 
-			// Konstanten nicht neu berechnen
-			if (!a.isConst()) {
-				out.println(c.getValve().getName() + ".value = " + a.getPreparedFormula(visitor) + ";");
-			}
+			out.println(c.getValve().getName() + ".value = " + a.getPreparedFormula(visitor) + ";");
 		}
 		out.newline();
 	}

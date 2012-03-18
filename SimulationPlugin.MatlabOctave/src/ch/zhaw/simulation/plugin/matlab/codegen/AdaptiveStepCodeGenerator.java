@@ -224,8 +224,8 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 
 	protected void printAdaptiveStepMethodVariables(CodeOutput out) {
 		out.printComment("Variables for the adaptive step method");
-		out.printVariable("sim_err_tolerance", 0.001);
-		out.printVariable("sim_err_threshold", 0.001);
+		out.printVariable("sim_err_tolerance", "0.001");
+		out.printVariable("sim_err_threshold", "0.001");
 		out.printVariable("sim_pow", "1/5");
 		out.newline();
 	}
