@@ -16,8 +16,8 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 
 	private SimulationConfiguration config;
 
-	private JLabel lblInitStep = new JLabel("Initial Schritt");
-	private NumericTextField ntInitStep  = new NumericTextField();
+	private JLabel lblInitStep = new JLabel("Schritt-Erhöhungsfaktor");
+	private NumericTextField ntHFactor   = new NumericTextField();
 	private JLabel           lblMaxStep  = new JLabel("Maximaler Schritt");
 	private NumericTextField ntMaxStep   = new NumericTextField();
 
@@ -26,7 +26,7 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 	}
 
 	private void load() {
-		ntInitStep.setValue(this.config.getParameter(StandardParameter.INIT_STEP, 0));
+		ntHFactor.setValue(this.config.getParameter(StandardParameter.H_FACTOR, 0));
 		ntMaxStep.setValue(this.config.getParameter(StandardParameter.MAX_STEP, 0));
 	}
 
@@ -39,7 +39,7 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 	public void add() {
 		super.add();
 		sidebar.add(lblInitStep);
-		sidebar.add(ntInitStep);
+		sidebar.add(ntHFactor);
 		sidebar.add(lblMaxStep);
 		sidebar.add(ntMaxStep);
 	}
@@ -47,7 +47,7 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 	@Override
 	public void remove() {
 		sidebar.remove(lblInitStep);
-		sidebar.remove(ntInitStep);
+		sidebar.remove(ntHFactor);
 		sidebar.remove(lblMaxStep);
 		sidebar.remove(ntMaxStep);
 		super.remove();
@@ -60,14 +60,14 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 	@Override
 	public void focusLost(FocusEvent e) {
 		try {
-			this.config.setParameter(StandardParameter.INIT_STEP, ntInitStep.getDoubleValue());
+			this.config.setParameter(StandardParameter.H_FACTOR, ntHFactor.getDoubleValue());
 		} catch (ParseException ex) {
-			ntInitStep.setValue(this.config.getParameter(StandardParameter.INIT_STEP, 0));
+			ntHFactor.setValue(this.config.getParameter(StandardParameter.H_FACTOR, 2));
 		}
 		try {
 			this.config.setParameter(StandardParameter.MAX_STEP, ntMaxStep.getDoubleValue());
 		} catch (ParseException ex) {
-			ntMaxStep.setValue(this.config.getParameter(StandardParameter.MAX_STEP, 0));
+			ntMaxStep.setValue(this.config.getParameter(StandardParameter.MAX_STEP, 0.5));
 		}
 	}
 

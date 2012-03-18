@@ -8,6 +8,6 @@ public interface StandardParameter {
 	public static String START = "simulation.start";
 	public static String END = "simulation.end";
 
-	public static String INIT_STEP = "simulation.matlab.initstep";
+	public static String H_FACTOR = "simulation.matlab.initstep";
 	public static String MAX_STEP = "simulation.matlab.maxstep";
 }

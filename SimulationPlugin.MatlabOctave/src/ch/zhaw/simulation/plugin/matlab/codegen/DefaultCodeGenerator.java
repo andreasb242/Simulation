@@ -65,6 +65,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			MatlabAttachment attachment = (MatlabAttachment) container.attachment;
 
 			if (attachment.isConst()) {
+				// TODO: kann ein container konstant sein?
 				out.println(container.getName() + ".value = " + attachment.getConstValue() + "; % constant");
 			} else {
 				out.println(container.getName() + ".value = " + attachment.getPreparedFormula(visitor) + ";");
@@ -103,10 +104,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
 			MatlabAttachment a = (MatlabAttachment) c.getValve().attachment;
 
-			// Konstanten nicht neu berechnen
-			if (!a.isConst()) {
-				out.println(c.getValve().getName() + ".value = " + a.getPreparedFormula(visitor) + ";");
-			}
+			out.println(c.getValve().getName() + ".value = " + a.getPreparedFormula(visitor) + ";");
 		}
 		out.newline();
 	}

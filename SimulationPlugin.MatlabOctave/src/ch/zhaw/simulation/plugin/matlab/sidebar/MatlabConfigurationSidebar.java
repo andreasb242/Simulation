@@ -1,9 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab.sidebar;
 
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.matlab.codegen.DormandPrinceCodeGenerator;
-import ch.zhaw.simulation.plugin.matlab.codegen.EulerCodeGenerator;
-import ch.zhaw.simulation.plugin.matlab.codegen.RungeKuttaCodeGenerator;
+import ch.zhaw.simulation.plugin.matlab.codegen.*;
 import ch.zhaw.simulation.plugin.sidebar.AdaptiveStepConfigurationPane;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 import ch.zhaw.simulation.plugin.sidebar.FixedStepConfigurationPane;
@@ -35,8 +33,8 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 		numericMethods = new Vector<NumericMethod>();
 		numericMethods.add(new NumericMethod("Euler", fixedStepConfigurationPane, new EulerCodeGenerator()));
 		numericMethods.add(new NumericMethod("Runge-Kutta 4", fixedStepConfigurationPane, new RungeKuttaCodeGenerator()));
-		numericMethods.add(new NumericMethod("Cash–Karp", adaptiveStepConfigurationPane, new DormandPrinceCodeGenerator()));
-		numericMethods.add(new NumericMethod("Fehlberg", adaptiveStepConfigurationPane, new DormandPrinceCodeGenerator()));
+		numericMethods.add(new NumericMethod("Cash–Karp", adaptiveStepConfigurationPane, new CashKarpCodeGenerator()));
+		numericMethods.add(new NumericMethod("Fehlberg", adaptiveStepConfigurationPane, new FehlbergCodeGenerator()));
 		numericMethods.add(new NumericMethod("Dormand–Prince", adaptiveStepConfigurationPane, new DormandPrinceCodeGenerator()));
 
 		add(new JLabel("Numerisches Verfahren"));
