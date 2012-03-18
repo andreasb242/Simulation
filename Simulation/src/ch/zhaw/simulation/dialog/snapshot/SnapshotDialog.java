@@ -221,7 +221,7 @@ public class SnapshotDialog extends BDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO !! copyImageToClipboard(c, size);
+				copyImageToClipboard();
 			}
 		});
 
