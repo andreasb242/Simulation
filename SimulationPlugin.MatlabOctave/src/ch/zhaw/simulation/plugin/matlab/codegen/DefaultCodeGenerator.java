@@ -24,9 +24,15 @@ import java.util.Vector;
  */
 public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 
+	protected static final String START = "sim_start";
+	protected static final String END = "sim_end";
+	protected static final String TIME = "sim_time";
+
 	protected SimulationFlowModel flowModel;
 	protected SimulationConfiguration config;
 	protected MatlabVisitor visitor = new MatlabVisitor();
+
+	protected Vector<AbstractNamedSimulationData> dataVector = new Vector<AbstractNamedSimulationData>();
 
 	public DefaultCodeGenerator() {
 
@@ -39,6 +45,12 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 
 		flowModel = doc.getFlowModel();
 		config = doc.getSimulationConfiguration();
+
+		// Add container and parameter to a newly created vector
+		// It will be used for file-handling
+		dataVector.clear();
+		dataVector.addAll(flowModel.getSimulationContainer());
+		dataVector.addAll(flowModel.getSimulationParameter());
 	}
 
 	protected void printHeader(CodeOutput out) {
@@ -65,7 +77,6 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			MatlabAttachment attachment = (MatlabAttachment) container.attachment;
 
 			if (attachment.isConst()) {
-				// TODO: kann ein container konstant sein?
 				out.println(container.getName() + ".value = " + attachment.getConstValue() + "; % constant");
 			} else {
 				out.println(container.getName() + ".value = " + attachment.getPreparedFormula(visitor) + ";");
@@ -144,5 +155,43 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			}
 
 		});
+	}
+
+	/**
+	 * @see ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator
+	 */
+	protected void printOpenFiles(CodeOutput out) {
+		out.printComment("Open output files");
+		for (AbstractNamedSimulationData namedData : dataVector) {
+			String var = namedData.getName() + ".fp";
+			out.println(var + " = fopen('" + namedData.getName() + "_data.txt', 'w');");
+		}
+		out.newline();
+	}
+
+	/**
+	 * @see ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator
+	 */
+	protected void printCloseFiles(CodeOutput out) {
+		out.printComment("Close output files");
+		for (AbstractNamedSimulationData namedData : dataVector) {
+			String var = namedData.getName() + ".fp";
+			out.println("fclose(" + var + ");");
+		}
+		out.newline();
+	}
+
+	/**
+	 * @see ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator
+	 */
+	protected void printSaveCurrentValues(CodeOutput out) {
+		out.printComment("Save calculations");
+
+		for (AbstractNamedSimulationData namedData : dataVector) {
+			String fp = namedData.getName() + ".fp";
+			String value = namedData.getName() + ".value";
+			out.println("fprintf(" + fp + ", '%f\\t%e\\n', " + TIME + ", " + value + ");");
+		}
+		out.newline();
 	}
 }

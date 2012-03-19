@@ -25,7 +25,7 @@ public class FixedStepConfigurationPane extends DefaultConfigurationPane {
 	public void loadDataFromModel() {
 		super.loadDataFromModel();
 
-		ntDt.setValue(sidebar.config.getParameter(StandardParameter.DT, 0));
+		ntDt.setValue(sidebar.config.getParameter(StandardParameter.DT, StandardParameter.DEFAULT_DT));
 	}
 
 	@Override
@@ -55,10 +55,12 @@ public class FixedStepConfigurationPane extends DefaultConfigurationPane {
 	@Override
 	public void focusLost(FocusEvent e) {
 		super.focusLost(e);
-		try {
-			sidebar.config.setParameter(StandardParameter.DT, ntDt.getDoubleValue());
-		} catch (ParseException ex) {
-			ntDt.setValue(sidebar.config.getParameter(StandardParameter.DT, 0));
+		if (e.getSource() == ntDt) {
+			try {
+				sidebar.config.setParameter(StandardParameter.DT, ntDt.getDoubleValue());
+			} catch (ParseException ex) {
+				ntDt.setValue(sidebar.config.getParameter(StandardParameter.DT, StandardParameter.DEFAULT_DT));
+			}
 		}
 	}
 

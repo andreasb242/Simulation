@@ -27,8 +27,8 @@ public class DefaultConfigurationPane implements FocusListener, SimulationParame
 	}
 
 	public void loadDataFromModel() {
-		ntStart.setValue(sidebar.config.getParameter(StandardParameter.START, 0));
-		ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, 0));
+		ntStart.setValue(sidebar.config.getParameter(StandardParameter.START, StandardParameter.DEFAULT_START));
+		ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, StandardParameter.DEFAULT_END));
 	}
 
 	public void add() {
@@ -63,13 +63,13 @@ public class DefaultConfigurationPane implements FocusListener, SimulationParame
 			try {
 				sidebar.config.setParameter(StandardParameter.START, ntStart.getDoubleValue());
 			} catch (ParseException ex) {
-				ntStart.setValue(sidebar.config.getParameter(StandardParameter.START, 0));
+				ntStart.setValue(sidebar.config.getParameter(StandardParameter.START, StandardParameter.DEFAULT_START));
 			}
 		} else if (e.getSource() == ntEnd) {
 			try {
 				sidebar.config.setParameter(StandardParameter.END, ntEnd.getDoubleValue());
 			} catch (ParseException ex) {
-				ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, 0));
+				ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, StandardParameter.DEFAULT_END));
 			}
 		}
 	}
