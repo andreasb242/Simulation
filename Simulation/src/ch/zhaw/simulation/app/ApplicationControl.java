@@ -246,6 +246,12 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		this.controller.dispose();
 		this.removeListener(this.controller);
 		this.mainFrame.removeListener(this.controller);
+
+		for (FlowSubmodelRef flow : this.submodels.values()) {
+			flow.dispose();
+		}
+
+		this.submodels.clear();
 	}
 
 	@Override
@@ -525,7 +531,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		switch (action.getType()) {
 		case NEW_FILE:
 			if (action.getData() != null) {
-				this.newFile((SimulationType)action.getData());
+				this.newFile((SimulationType) action.getData());
 			} else {
 				this.newFile(getLastUsedSimulationType());
 			}

@@ -25,8 +25,9 @@ public class FlowSubmodelRef {
 		return win;
 	}
 	
-	// TODO !! DISPOSE
 	public void dispose() {
 		this.app.removeListener(control);
+		this.win.dispose();
+		this.control.dispose();
 	}
 }
