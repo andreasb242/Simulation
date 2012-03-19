@@ -18,8 +18,8 @@ import java.util.Vector;
  */
 public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 
-	private static final String FILENAME_MAIN = "simulation_adaptive";
-	private static final String FILENAME_ODE = "simulation_adaptive_ode";
+	protected static final String FILENAME_MAIN = "simulation_adaptive";
+	protected static final String FILENAME_ODE = "simulation_adaptive_ode";
 
 	protected static final String START = "sim_start";
 	protected static final String END = "sim_end";
@@ -39,11 +39,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 
 		out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + FILENAME_MAIN + ".m"));
 
-		out.printComment("Generated file by Simulation");
-		out.newline();
-
-		out.printComment("Cleanup");
-		out.println("clc; clear all; close all;");
+		printHeader(out);
 
 		printGlobal(out);
 
@@ -62,15 +58,12 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		out.printComment("Differential vector at the beginning");
 		out.println("sim_dy = " + FILENAME_ODE + "(sim_time, sim_y);");
 		out.newline();
-		
-		out.printComment("Initialize delta matrix");
-		out.println("sim_k = zeros(length(sim_y), 7);");
-		out.println("sim_k(:,1) = sim_dy;");
-		out.newline();
+
+		printInitDeltaVector(out);
 
 		out.printComment("Initial-Schritt berechnen aus allen Anfangswerten");
-		out.println("sim_hmax = " + config.getParameter(StandardParameter.MAX_STEP, 0.5) + ";");
-		out.println("sim_hfactor = " + config.getParameter(StandardParameter.H_FACTOR, 2) + ";");
+		out.println("sim_hmax = " + config.getParameter(StandardParameter.MAX_STEP, StandardParameter.DEFAULT_MAX_STEP) + ";");
+		out.println("sim_hfactor = " + config.getParameter(StandardParameter.H_FACTOR, StandardParameter.DEFAULT_H_FACTOR) + ";");
 		out.println("sim_h = 1 / (norm(sim_dy ./ max(abs(sim_y), sim_err_threshold), inf) / (0.8 * sim_err_tolerance^sim_pow));");
 		out.println("sim_finish = false;");
 		out.println("while ~sim_finish");
@@ -105,18 +98,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		out.println("sim_hc = sim_h * sim_c;");
 		out.newline();
 
-		out.println("sim_k(:,2) = " + FILENAME_ODE + "(sim_time + sim_hc(1), sim_y + sim_k * sim_ha(:,1));");
-		out.println("sim_k(:,3) = " + FILENAME_ODE + "(sim_time + sim_hc(2), sim_y + sim_k * sim_ha(:,2));");
-		out.println("sim_k(:,4) = " + FILENAME_ODE + "(sim_time + sim_hc(3), sim_y + sim_k * sim_ha(:,3));");
-		out.println("sim_k(:,5) = " + FILENAME_ODE + "(sim_time + sim_hc(4), sim_y + sim_k * sim_ha(:,4));");
-		out.println("sim_k(:,6) = " + FILENAME_ODE + "(sim_time + sim_hc(5), sim_y + sim_k * sim_ha(:,5));");
-		out.newline();
-		out.println("sim_timenew = sim_time + sim_hc(6);");
-		out.newline();
-
 		printContainerCalculations(out);
-
-		out.println("sim_k(:,7) = " + FILENAME_ODE + "(sim_timenew, sim_ynew);");
 
 		printCalculateError(out);
 
@@ -125,11 +107,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 
 		printIncrementStepSize(out);
 
-		out.printComment("Die neuen Werte sim_timenew, sim_ynew und sim_k entgültig speichern");
-		out.println("sim_time = sim_timenew;");
-		out.println("sim_y = sim_ynew;");
-		out.println("sim_k(:,1) = sim_k(:,7);");
-		out.newline();
+		printSaveNewValues(out);
 
 		printDebug(out);
 		
@@ -190,6 +168,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		}
 	}
 
+	protected abstract void printInitDeltaVector(CodeOutput out);
 
 	/**
 	 * Print initial value vector. It prints only containers.
@@ -224,7 +203,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 
 	protected void printAdaptiveStepMethodVariables(CodeOutput out) {
 		out.printComment("Variables for the adaptive step method");
-		out.printVariable("sim_err_tolerance", "0.001");
+		out.printVariable("sim_err_tolerance", config.getParameter(StandardParameter.TOLERANCE, StandardParameter.DEFAULT_TOLERANCE));
 		out.printVariable("sim_err_threshold", "0.001");
 		out.printVariable("sim_pow", "1/5");
 		out.newline();
@@ -311,7 +290,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		int size = flowModel.getSimulationContainer().size();
 
 		out.printComment("DEBUG");
-		out.println("tmp_res = tmp_y(:, 1:tmp_idx);");
+		out.println("tmp_res = tmp_y(:, 1:tmp_idx-1);");
 		for (int i = 1; i <= size; i++) {
 			out.println("figure(" + i + ");");
 			out.println("stem(tmp_res(1,:), tmp_res(" + (i + 1) + ",:));");
@@ -358,42 +337,17 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		}
 	}
 
+	protected abstract void printSaveNewValues(CodeOutput out);
+
 	@Override
 	protected void printPredefinedConstants(CodeOutput out) {
 		out.printComment("Predefined constants");
-		out.printVariable("sim_start", config.getParameter(StandardParameter.START, 0));
-		out.printVariable("sim_end", config.getParameter(StandardParameter.END, 0));
+		out.printVariable("sim_start", config.getParameter(StandardParameter.START, StandardParameter.DEFAULT_START));
+		out.printVariable("sim_end", config.getParameter(StandardParameter.END, StandardParameter.DEFAULT_END));
 		out.newline();
 
 		out.printComment("Time variable");
 		out.printVariable("sim_time", "sim_start");
-		out.newline();
-	}
-
-	@Override
-	protected void printOpenFiles(CodeOutput out) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	protected void printSaveCurrentValues(CodeOutput out) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	protected void printCloseFiles(CodeOutput out) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	protected void printContainerCalculations(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
-
-		out.printComment("y = y + dy * t");
-		for (int i = 1; i <= size; i++) {
-			out.println("sim_ynew(" + i + ",:) = sim_y(" + i + ",:) + sim_k(" + i + ",:) * sim_ha(:,6);");
-		}
-
 		out.newline();
 	}
 }
