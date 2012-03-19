@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.editor.flow.elements.density;
 
+import java.awt.event.MouseEvent;
+
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
@@ -18,6 +20,12 @@ public class DensityContainerView extends GuiDataTextElement<SimulationDensityCo
 		questionmarkY = 60;
 	}
 
+
+	@Override
+	protected void doubleClicked(MouseEvent e) {
+		// nothing to edit, so nothing to do here
+	}
+	
 	@Override
 	protected GuiImage getImage() {
 		return image;

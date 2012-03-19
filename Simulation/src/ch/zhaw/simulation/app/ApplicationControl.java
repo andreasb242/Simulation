@@ -163,6 +163,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		boolean mainWindow = true;
 
 		SimulationType type = getLastUsedSimulationType();
+
 		doc.setType(type);
 		loadSimulationParameterFromSettings();
 
@@ -386,9 +387,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	public SimulationType getLastUsedSimulationType() {
 		String type = this.settings.getSetting(LAST_USED_SIMTYPE, SimulationType.FLOW_SIMULATION.toString());
-		SimulationType t = SimulationType.valueOf(type);
-		t = SimulationType.FLOW_SIMULATION;
 
+		SimulationType t = SimulationType.valueOf(type);
+		if (t == null) {
+			t = SimulationType.FLOW_SIMULATION;
+		}
 		return t;
 	}
 
@@ -414,23 +417,35 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return true;
 	}
 
-	@Override
-	public void open(String path) {
+	private boolean open(File file) {
+		if (!file.canRead()) {
+			Messagebox msg = new Messagebox(getMainFrame(), "Fehler beim Öffnen", "Die Datei \"" + file.getAbsolutePath()
+					+ "\" kann nicht gelesen werden, keine Rechte!", Messagebox.ERROR);
+			msg.addButton("andere Datei öffnen", 0);
+			msg.addButton("Abbrechen", 1, true);
+			if (msg.display() == 0) {
+				return open();
+			}
+			return false;
+		}
+
 		if (askSave() == true) {
 			releaseOpenWindow();
 			doc.clear();
-			if (savehandler.open(new File(path), doc)) {
+			if (savehandler.open(file, doc)) {
 				updatePaths();
 
 				createMainWindow();
+				return true;
 			} else {
 				newFile(getLastUsedSimulationType());
 			}
 		}
+
+		return false;
 	}
 
-	@Override
-	public boolean saveAs() {
+	private boolean saveAs() {
 		if (!savehandler.saveAs(doc)) {
 			return false;
 		}
@@ -440,8 +455,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	}
 
-	@Override
-	public void setLookAndFeel(String lookAndFeel) {
+	private void setLookAndFeel(String lookAndFeel) {
 		settings.setSetting("ui.look-and-feel", lookAndFeel);
 
 		if (this.exit()) {
@@ -455,14 +469,21 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	}
 
-	@Override
-	public void open() {
+	private boolean open() {
 		if (askSave() == true) {
-			if (savehandler.open(doc)) {
-				this.controller.getSelectionModel().clearSelection();
-				updatePaths();
+			File f = sysintegration.showOpenDialog(getMainFrame(), importPluginLoader.getSimulationFileOpen(), savehandler.getLastSavePath());
+
+			if (f != null) {
+				if (!f.isFile()) {
+					Messagebox.showError(getMainFrame(), "Öffnen fehlgeschlagen", "Dies ist keine Datei!");
+					return false;
+				} else {
+					return open(f);
+				}
 			}
 		}
+
+		return false;
 	}
 
 	public boolean exit() {
@@ -519,7 +540,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			if (path != null) {
 				File f = new File(path);
 				if (f.exists() && f.canRead()) {
-					open(path);
+					open(new File(path));
 				}
 			}
 		}
@@ -543,7 +564,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		case OPEN_FILE:
 			if (action.getData() != null) {
-				this.open(action.getData().toString());
+				this.open(new File(action.getData().toString()));
 			} else {
 				this.open();
 			}
@@ -633,7 +654,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			break;
 
 		case OPEN:
-			open(param);
+			open(new File(param));
 			break;
 
 		case PREFERENCES:

@@ -11,8 +11,6 @@ import javax.swing.JScrollPane;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.plugin.PluginDescription;
-
-import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.layouting.Layouting;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
@@ -22,7 +20,6 @@ import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
@@ -155,19 +152,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		sidebar.add(simConfig);
 	}
 
-	protected void initElementConfigurationSiebar() {
-		final AbstractEditorControl<?> control = view.getControl();
-
-		formulaConfiguration = new NameFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showFormulaEditor(AbstractNamedSimulationData data) {
-				control.showFormulaEditor(getData());
-			}
-
-		};
-	}
+	protected abstract void initElementConfigurationSiebar();
 
 	@Override
 	public void menuActionPerformed(MenuToolbarAction action) {

@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.xy.element;
+package ch.zhaw.simulation.editor.xy.element.meso;
 
 import java.awt.event.MouseEvent;
 
@@ -31,7 +31,7 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 		SubModel submodel = getData().getSubmodel();
 		if (submodel == null) {
 			Messagebox.showInfo(getControl().getParent(), "Kein Modell",
-					"Bitte wählen ordnen Sie in der Sidebar dem Kompartment ein Modell zu, damit Sie dieses bearbeiten können");
+					"Bitte ordnen Sie in der Sidebar dem Kompartment ein Modell zu, damit Sie dieses bearbeiten können");
 		} else {
 			getControl().getApp().openFlowEditor(submodel.getModel());
 		}

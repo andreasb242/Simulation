@@ -39,7 +39,7 @@ public class SimulationMain {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			} else if ("nimbus".equals(lookAndFeel)) {
 				
-				// 100ms faster than only setLookAndFeel
+				// ca. 100ms faster than only setLookAndFeel
 				System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 			} else {

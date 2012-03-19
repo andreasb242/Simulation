@@ -43,7 +43,7 @@ public class LoadSaveHandler extends StatusHandler {
 		}
 	}
 
-	private String getLastSavePath() {
+	public String getLastSavePath() {
 		return settings.getSetting(LAST_SAVEPATH, System.getProperty("user.home"));
 	}
 
@@ -138,31 +138,7 @@ public class LoadSaveHandler extends StatusHandler {
 		return false;
 	}
 
-	public boolean open(SimulationDocument doc) {
-		File f = sys.showOpenDialog(parent, importPluginLoader.getSimulationFileOpen(), getLastSavePath());
-
-		if (f != null) {
-			if (!f.isFile()) {
-				Messagebox.showError(parent, "Öffnen fehlgeschlagen", "Dies ist keine Datei!");
-				return false;
-			}
-			return open(f, doc);
-		}
-		return true;
-	}
-
 	public boolean open(File file, SimulationDocument doc) {
-		if (!file.canRead()) {
-			Messagebox msg = new Messagebox(parent, "Fehler beim Öffnen", "Die Datei \"" + file.getAbsolutePath()
-					+ "\" kann nicht gelesen werden, keine Rechte!", Messagebox.ERROR);
-			msg.addButton("andere Datei öffnen", 0);
-			msg.addButton("Abbrechen", 1, true);
-			if (msg.display() == 0) {
-				return open(doc);
-			}
-			return false;
-		}
-
 		// /////////////////////////
 		// import other files
 		// /////////////////////////

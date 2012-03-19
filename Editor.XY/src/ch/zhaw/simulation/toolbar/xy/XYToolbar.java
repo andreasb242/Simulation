@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
 import ch.zhaw.simulation.editor.elements.GuiImage;
-import ch.zhaw.simulation.editor.xy.element.MesoImage;
+import ch.zhaw.simulation.editor.xy.element.meso.MesoImage;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.sysintegration.Sysintegration;

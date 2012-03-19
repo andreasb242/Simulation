@@ -12,7 +12,7 @@ import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.xy.density.DensityDraw;
-import ch.zhaw.simulation.editor.xy.element.MesoView;
+import ch.zhaw.simulation.editor.xy.element.meso.MesoView;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.DensityData;

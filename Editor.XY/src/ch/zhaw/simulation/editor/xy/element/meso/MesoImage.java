@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.xy.element;
+package ch.zhaw.simulation.editor.xy.element.meso;
 
 import java.awt.Color;
 import java.awt.GradientPaint;

@@ -31,15 +31,7 @@ public interface SimulationApplication extends MenuActionListener {
 	 */
 	public boolean save();
 
-	public void open(String path);
-
-	public boolean saveAs();
-
-	public void open();
-
 	public JMenu getRecentMenu();
-
-	public void setLookAndFeel(String lookAndFeel);
 
 	public void updateTitle();
 
