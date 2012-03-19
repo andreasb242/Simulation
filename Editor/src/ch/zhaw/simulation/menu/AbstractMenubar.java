@@ -15,6 +15,7 @@ import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.sysintegration.SysMenuShortcuts;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -95,10 +96,16 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 	protected ClipboardInterface clipboard;
 	protected JCheckBoxMenuItem sidebar;
 
-	public AbstractMenubar(Sysintegration sysintegration, UndoHandler um, ClipboardInterface clipboard) {
+	private String otherTypeName;
+
+	private SimulationType otherType;
+
+	public AbstractMenubar(Sysintegration sysintegration, UndoHandler um, ClipboardInterface clipboard, String otherTypeName, SimulationType otherType) {
 		this.sysmenu = sysintegration.getMenu();
 		this.um = um;
 		this.clipboard = clipboard;
+		this.otherTypeName = otherTypeName;
+		this.otherType = otherType;
 
 		if (um == null) {
 			throw new NullPointerException("um == null");
@@ -324,6 +331,14 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 		if (mainMenu) {
 			addMenuItem(mFile, "Neu", "file-new", MenuToolbarActionType.NEW_FILE, sysmenu.getFileNew());
+
+			addMenuItem(mFile, "Neu - " + otherTypeName, "file-new", new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.NEW_FILE, otherType));
+				}
+			}, null);
+
 			mFile.addSeparator();
 
 			addMenuItem(mFile, "Öffnen", "open", MenuToolbarActionType.OPEN_FILE, sysmenu.getFileOpen());

@@ -128,6 +128,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	private HashMap<SimulationFlowModel, FlowSubmodelRef> submodels = new HashMap<SimulationFlowModel, FlowSubmodelRef>();
 
 	/**
+	 * The settings key for last used type
+	 */
+	private static final String LAST_USED_SIMTYPE = "simulation.last.type";
+
+	/**
 	 * Ctor
 	 */
 	public ApplicationControl() {
@@ -157,19 +162,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		boolean mainWindow = true;
 
-		SimulationType type = SimulationType.FLOW_SIMULATION;
-
-		Messagebox msg = new Messagebox(null, "Typ wählen", "Simulationstyp wählen", Messagebox.QUESTION);
-		msg.addButton("XY", 0);
-		msg.addButton("Flow", 1, true);
-		int res = msg.display();
-		if (res == 0) {
-			type = SimulationType.XY_MODEL;
-		} else if (res == 1) {
-		} else {
-			return;
-		}
-
+		SimulationType type = getLastUsedSimulationType();
 		doc.setType(type);
 		loadSimulationParameterFromSettings();
 
@@ -217,9 +210,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		String name = "Unbennant";
 		if (savehandler.getPath() != null) {
 			name = savehandler.getPath().getName();
-			
+
 			int pos = name.lastIndexOf('.');
-			if(pos > 0) {
+			if (pos > 0) {
 				// remove .xxx
 				name = name.substring(0, pos);
 			}
@@ -364,6 +357,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	@Override
 	public void newFile(SimulationType type) {
 		if (askSave() == true) {
+			this.settings.setSetting(LAST_USED_SIMTYPE, type.toString());
+
 			releaseOpenWindow();
 			doc.clear();
 			doc.setType(type);
@@ -381,6 +376,14 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 			this.controller.getUndoManager().discardAllEdits();
 		}
+	}
+
+	public SimulationType getLastUsedSimulationType() {
+		String type = this.settings.getSetting(LAST_USED_SIMTYPE, SimulationType.FLOW_SIMULATION.toString());
+		SimulationType t = SimulationType.valueOf(type);
+		t = SimulationType.FLOW_SIMULATION;
+
+		return t;
 	}
 
 	private void createMainWindow() {
@@ -415,8 +418,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 				createMainWindow();
 			} else {
-				// TODO: use last used type
-				newFile(SimulationType.FLOW_SIMULATION);
+				newFile(getLastUsedSimulationType());
 			}
 		}
 	}
@@ -522,7 +524,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		switch (action.getType()) {
 		case NEW_FILE:
-			this.newFile(SimulationType.FLOW_SIMULATION);
+			if (action.getData() != null) {
+				this.newFile((SimulationType)action.getData());
+			} else {
+				this.newFile(getLastUsedSimulationType());
+			}
 			break;
 
 		case SAVE_AS:

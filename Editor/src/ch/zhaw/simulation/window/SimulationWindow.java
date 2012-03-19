@@ -234,7 +234,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	}
 
 	public void fireMenuActionPerformed(MenuToolbarAction a) {
-		for (MenuActionListener l : listeners) {
+		for (int i = 0; i < listeners.size(); i++) {
+			MenuActionListener l = listeners.get(i);
 			l.menuActionPerformed(a);
 		}
 	}
@@ -256,7 +257,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 		super.dispose();
 	}
-	
+
 	public V getView() {
 		return view;
 	}
