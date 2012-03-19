@@ -59,15 +59,18 @@ public class DefaultConfigurationPane implements FocusListener, SimulationParame
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		try {
-			sidebar.config.setParameter(StandardParameter.START, ntStart.getDoubleValue());
-		} catch (ParseException ex) {
-			ntStart.setValue(sidebar.config.getParameter(StandardParameter.START, 0));
-		}
-		try {
-			sidebar.config.setParameter(StandardParameter.END, ntEnd.getDoubleValue());
-		} catch (ParseException ex) {
-			ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, 0));
+		if (e.getSource() == ntStart) {
+			try {
+				sidebar.config.setParameter(StandardParameter.START, ntStart.getDoubleValue());
+			} catch (ParseException ex) {
+				ntStart.setValue(sidebar.config.getParameter(StandardParameter.START, 0));
+			}
+		} else if (e.getSource() == ntEnd) {
+			try {
+				sidebar.config.setParameter(StandardParameter.END, ntEnd.getDoubleValue());
+			} catch (ParseException ex) {
+				ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, 0));
+			}
 		}
 	}
 
