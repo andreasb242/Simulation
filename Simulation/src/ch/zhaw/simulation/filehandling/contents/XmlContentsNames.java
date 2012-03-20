@@ -10,6 +10,8 @@ public interface XmlContentsNames {
 	public static String XML_MODEL_TYPE_XY = "xy";
 
 	public static String XML_MODEL_XY_GRID = "grid";
+	public static String XML_MODEL_XY_ZERO_X = "zerox";
+	public static String XML_MODEL_XY_ZERO_Y = "zeroy";
 	public static String XML_MODEL_XY_WIDTH = "width";
 	public static String XML_MODEL_XY_HEIGHT = "height";
 
@@ -19,6 +21,8 @@ public interface XmlContentsNames {
 	public static String XML_ELEMENT_DENSITY_CONTAINER = "density";
 	public static String XML_ELEMENT_CONTAINER = "container";
 	public static String XML_ELEMENT_GLOBAL = "global";
+
+	public static String XML_ELEMENT_MESO = "meso";
 	
 	public static String XML_ELEMENT_CONNECTOR = "connector";
 	public static String XML_ELEMENT_VALVE = "valve";
@@ -30,6 +34,8 @@ public interface XmlContentsNames {
 	public static String XML_ELEMENT_TEXT = "text";
 	public static String XML_ELEMENT_FLOW_CONNECTOR = "flowConnector";
 
+	public static String XML_ELEMENT_SUBMODEL = "submodel";
+	
 	public static String XML_ELEMENT_ATTRIB_X = "x";
 	public static String XML_ELEMENT_ATTRIB_Y = "y";
 	public static String XML_ELEMENT_ATTRIB_NAME = "name";

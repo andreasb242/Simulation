@@ -72,10 +72,10 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 			int w = Math.min(getWidth(), m.getWidth());
 			int h = Math.min(getHeight(), m.getHeight());
 
-			for (int x = top; x < w; x += raster) {
+			for (int x = left; x < w; x += raster) {
 				g.drawLine(x, 0, x, h);
 			}
-			for (int y = left; y < h; y += raster) {
+			for (int y = top; y < h; y += raster) {
 				g.drawLine(0, y, w, y);
 			}
 
@@ -129,6 +129,8 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		for (AbstractSimulationData p : model.getData()) {
 			dataAdded(p);
 		}
+		
+		modelSizeRasterChanged();
 	}
 
 	public DensityDraw getDensity() {

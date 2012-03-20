@@ -27,7 +27,9 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.DensityData;
+import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SubModel;
 
 /**
  * Saves an SimulationDocument to an XML file
@@ -54,6 +56,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		Element xmlModel = createModelElement(root, XML_MODEL_TYPE_XY);
 
 		xmlModel.setAttribute(XML_MODEL_XY_GRID, "" + xyModel.getGrid());
+		xmlModel.setAttribute(XML_MODEL_XY_ZERO_X, "" + xyModel.getZero().x);
+		xmlModel.setAttribute(XML_MODEL_XY_ZERO_Y, "" + xyModel.getZero().y);
 		xmlModel.setAttribute(XML_MODEL_XY_WIDTH, "" + xyModel.getWidth());
 		xmlModel.setAttribute(XML_MODEL_XY_HEIGHT, "" + xyModel.getHeight());
 
@@ -62,6 +66,17 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		for (DensityData d : xyModel.getDensity()) {
 			visitDensity(xmlModel, d);
 		}
+
+		for (SubModel s : xyModel.getSubmodels()) {
+			visitSubModel(xmlModel, s);
+		}
+	}
+
+	private void visitSubModel(Element xmlModel, SubModel s) {
+		Element submodel = createModelElement(xmlModel, XML_ELEMENT_SUBMODEL);
+		submodel.setAttribute(XML_ELEMENT_ATTRIB_NAME, s.getName());
+
+		visitFlowModel(submodel, s.getModel());
 	}
 
 	private void visitDensity(Element xmlModel, DensityData d) {
@@ -101,6 +116,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 				visitSimulationGlobal(xmlModel, (SimulationGlobalData) o);
 			} else if (o instanceof TextData) {
 				visitTextdata(xmlModel, (TextData) o);
+			} else if (o instanceof MesoData) {
+				visitMesoData(xmlModel, (MesoData) o);
 			} else if (o instanceof InfiniteData) {
 			} else if (o instanceof FlowValveData) {
 			} else {
@@ -237,6 +254,18 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 
 	private void visitSimulationGlobal(Element root, SimulationGlobalData p) {
 		Element xml = createXmlElement(p, XML_ELEMENT_GLOBAL);
+
+		root.appendChild(xml);
+	}
+
+	private void visitMesoData(Element root, MesoData m) {
+		if (m.getSubmodel() != null) {
+			m.setFormula(m.getSubmodel().getName());
+		} else {
+			m.setFormula("");
+		}
+
+		Element xml = createXmlElement(m, XML_ELEMENT_MESO);
 
 		root.appendChild(xml);
 	}

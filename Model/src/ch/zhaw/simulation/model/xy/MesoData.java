@@ -32,5 +32,4 @@ public class MesoData extends AbstractNamedSimulationData {
 	public SubModel getSubmodel() {
 		return submodel;
 	}
-
 }

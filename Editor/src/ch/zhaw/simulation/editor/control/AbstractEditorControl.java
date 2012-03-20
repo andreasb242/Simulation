@@ -386,11 +386,15 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	public void dispose() {
 		this.removeListener(this.status);
 
-		this.status.dispose();
-		this.status = null;
+		if (this.status != null) {
+			this.status.dispose();
+			this.status = null;
+		}
 
-		this.model.removeListener(simListener);
-		this.model = null;
+		if (this.model != null) {
+			this.model.removeListener(simListener);
+			this.model = null;
+		}
 
 		if (this.formulaEditor != null) {
 			this.formulaEditor.dispose();
@@ -412,8 +416,10 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 		super.dispose();
 
-		this.selectionModel.clearSelection();
-		this.selectionModel.clearTmpSelection();
+		if (this.selectionModel != null) {
+			this.selectionModel.clearSelection();
+			this.selectionModel.clearTmpSelection();
+		}
 		this.selectionModel = null;
 	}
 

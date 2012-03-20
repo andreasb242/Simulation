@@ -5,7 +5,7 @@ import java.awt.Color;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 public class SubModel {
-	private String name;
+	private String name = "";
 	private Color color;
 	private SimulationFlowModel model;
 
@@ -18,6 +18,10 @@ public class SubModel {
 	}
 
 	public void setName(String name) {
+		if (name == null) {
+			throw new NullPointerException("name = null");
+		}
+
 		this.name = name;
 	}
 

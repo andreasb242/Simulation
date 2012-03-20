@@ -21,7 +21,7 @@ public class XYMenubar extends AbstractMenubar {
 	protected void initSimulationMenu() {
 		super.initSimulationMenu();
 
-		addMenuItem(mSimulation, "Simulationsgrösse", "size", new ActionListener() {
+		addMenuItem(mSimulation, "Modell Konfiguration", "size", new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {

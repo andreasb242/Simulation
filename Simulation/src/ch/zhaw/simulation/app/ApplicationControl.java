@@ -2,12 +2,15 @@ package ch.zhaw.simulation.app;
 
 import java.awt.Window;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 
+import butti.javalibs.config.ConfigPath;
 import butti.javalibs.config.Settings;
 import butti.javalibs.config.WindowPositionProperties;
 import butti.javalibs.errorhandler.Errorhandler;
@@ -160,7 +163,15 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		});
 
-		boolean mainWindow = true;
+		try {
+			File f = new File(ConfigPath.getSettingsPath() + "mainWindow.windowPos");
+			if (f.exists()) {
+				windowPosition.load(new FileInputStream(f));
+			}
+		} catch (Exception e) {
+			System.err.println("Laden der Windowposition des Hauptfensters fehlgeschlagen");
+			e.printStackTrace();
+		}
 
 		SimulationType type = getLastUsedSimulationType();
 
@@ -168,7 +179,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		loadSimulationParameterFromSettings();
 
 		if (type == SimulationType.FLOW_SIMULATION) {
-			showFlowWindow(mainWindow);
+			showFlowWindow(true);
 		} else {
 			showXYWindow();
 		}
@@ -242,11 +253,22 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	public void releaseOpenWindow() {
 		windowPosition.readWindowPos(this.mainFrame);
+		File f = new File(ConfigPath.getSettingsPath() + "mainWindow.windowPos");
+		try {
+			windowPosition.store(new FileOutputStream(f), "Fensterposition des Fenstertypes \"Hauptfensters\"");
+		} catch (Exception e) {
+			System.err.println("Speichern der Windowposition des Hauptfensters fehlgeschlagen");
+			e.printStackTrace();
+		}
 
-		this.mainFrame.dispose();
-		this.controller.dispose();
-		this.removeListener(this.controller);
-		this.mainFrame.removeListener(this.controller);
+		if (this.mainFrame != null) {
+			this.mainFrame.dispose();
+			this.mainFrame.removeListener(this.controller);
+		}
+		if (this.controller != null) {
+			this.controller.dispose();
+			this.removeListener(this.controller);
+		}
 
 		for (FlowSubmodelRef flow : this.submodels.values()) {
 			flow.dispose();

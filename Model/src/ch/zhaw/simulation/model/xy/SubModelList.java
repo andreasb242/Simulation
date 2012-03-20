@@ -1,9 +1,10 @@
 package ch.zhaw.simulation.model.xy;
 
 import java.awt.Color;
+import java.util.Iterator;
 import java.util.Vector;
 
-public class SubModelList {
+public class SubModelList implements Iterable<SubModel> {
 	private Vector<SubModel> data = new Vector<SubModel>();
 	private Vector<SubModelListener> listener = new Vector<SubModelListener>();
 
@@ -68,4 +69,8 @@ public class SubModelList {
 		this.listener.remove(l);
 	}
 
+	@Override
+	public Iterator<SubModel> iterator() {
+		return data.iterator();
+	}
 }

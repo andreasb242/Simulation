@@ -35,7 +35,7 @@ public class SimzSaver implements SimzFileVersion {
 		try {
 			out.setComment("Simulation file");
 			out.putNextEntry(new ZipEntry("mimetype"));
-			out.write("application/butti.simulation.project".getBytes());
+			out.write("application/zhaw.simulation.project".getBytes());
 			out.putNextEntry(new ZipEntry("version"));
 			out.write(("version=" + SIMZ_VERSION + "\ncompatible=" + SIMZ_VERSION_COMPATIBLE).getBytes());
 

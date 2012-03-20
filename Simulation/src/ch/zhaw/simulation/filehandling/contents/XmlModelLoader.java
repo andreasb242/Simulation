@@ -10,8 +10,8 @@ import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.filehandling.XmlHelper;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -22,7 +22,9 @@ import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
+import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SubModel;
 
 public class XmlModelLoader implements XmlContentsNames {
 	private Vector<Node> parameterConnectors = new Vector<Node>();
@@ -282,7 +284,7 @@ public class XmlModelLoader implements XmlContentsNames {
 	 * @throws Exception
 	 *             If something went wrong, the file cannot be read
 	 */
-	public boolean load(SimulationFlowModel flowModel, Node root) throws Exception {
+	public boolean load(SimulationFlowModel flowModel, Node root) {
 		flowConnectors.clear();
 		parameterConnectors.clear();
 
@@ -321,18 +323,60 @@ public class XmlModelLoader implements XmlContentsNames {
 			throw new NullPointerException("root == null");
 		}
 
-		// TODO: parse densisty
+		xyModel.setGrid(XmlHelper.getAttributeInt(root, XML_MODEL_XY_GRID));
+
+		Point zero = new Point(XmlHelper.getAttributeInt(root, XML_MODEL_XY_ZERO_X), XmlHelper.getAttributeInt(root, XML_MODEL_XY_ZERO_Y));
+
+		xyModel.setZero(zero);
+		xyModel.setWidth(XmlHelper.getAttributeInt(root, XML_MODEL_XY_WIDTH));
+		xyModel.setHeight(XmlHelper.getAttributeInt(root, XML_MODEL_XY_HEIGHT));
 
 		NodeList nodes = root.getChildNodes();
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);
 
 			if (n.getNodeType() == Node.ELEMENT_NODE) {
-				parseNode(n, xyModel);
+				if (XML_MODEL_XY_ELEMENT_DENSITY.equals(n.getNodeName())) {
+					parseDensity(n, xyModel);
+				} else if (XML_ELEMENT_SUBMODEL.equals(n.getNodeName())) {
+					parseSubmodel(n, xyModel);
+				} else {
+					parseNode(n, xyModel);
+				}
 			}
 		}
 
 		return true;
+	}
+
+	private void parseSubmodel(Node root, SimulationXYModel xyModel) {
+		NodeList nodes = root.getChildNodes();
+
+		String name = XmlHelper.getAttribute(root, XML_ELEMENT_ATTRIB_NAME);
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node n = nodes.item(i);
+
+			if (n.getNodeType() == Node.ELEMENT_NODE) {
+				if (XML_MODEL_TYPE_FLOW.equals(n.getNodeName())) {
+					SubModel submodel = new SubModel();
+					if (!load(submodel.getModel(), n)) {
+						throw new RuntimeException("Coult not load submodel: «" + name + "»");
+					}
+					submodel.setName(name);
+					xyModel.getSubmodels().addModel(submodel);
+				} else {
+					System.err.println("unexcpected element within submodel: «" + n.getNodeName() + "»");
+				}
+			}
+		}
+	}
+
+	private void parseDensity(Node n, SimulationXYModel xyModel) {
+		DensityData data = new DensityData();
+		data.setName(XmlHelper.getAttribute(n, XML_ELEMENT_ATTRIB_NAME));
+		data.setFormula(XmlHelper.getAttribute(n, XML_ELEMENT_ATTRIB_VALUE));
+		data.setDescription(XmlHelper.getAttribute(n, XML_ELEMENT_ATTRIB_TEXT));
 	}
 
 }
