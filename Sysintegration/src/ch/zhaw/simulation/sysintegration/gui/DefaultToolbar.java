@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -41,23 +42,8 @@ public class DefaultToolbar implements Toolbar {
 			}
 		});
 		toolbar.add(b);
-		return new ToolbarButton() {
 
-			@Override
-			public void setText(String text) {
-				b.setToolTipText(text);
-			}
-
-			@Override
-			public void setEnabled(boolean enabled) {
-				b.setEnabled(enabled);
-			}
-
-			@Override
-			public JComponent getComponent() {
-				return b;
-			}
-		};
+		return new ToolbarButtonImpl(b);
 	}
 
 	@Override
@@ -90,23 +76,7 @@ public class DefaultToolbar implements Toolbar {
 
 		b.addActionListener(action);
 
-		return new ToolbarButton() {
-
-			@Override
-			public void setText(String text) {
-				b.setToolTipText(text);
-			}
-
-			@Override
-			public void setEnabled(boolean enabled) {
-				b.setEnabled(enabled);
-			}
-
-			@Override
-			public JComponent getComponent() {
-				return b;
-			}
-		};
+		return new ToolbarButtonImpl(b);
 	}
 
 	@Override
@@ -129,22 +99,35 @@ public class DefaultToolbar implements Toolbar {
 
 		b.addItemListener(action);
 
-		return new ToolbarButton() {
+		return new ToolbarButtonImpl(b);
+	}
 
-			@Override
-			public void setText(String text) {
-				b.setToolTipText(text);
-			}
+	public static class ToolbarButtonImpl implements ToolbarButton {
+		private AbstractButton button;
 
-			@Override
-			public void setEnabled(boolean enabled) {
-				b.setEnabled(enabled);
-			}
+		public ToolbarButtonImpl(AbstractButton button) {
+			this.button = button;
+		}
 
-			@Override
-			public JComponent getComponent() {
-				return b;
-			}
-		};
+		@Override
+		public void setText(String text) {
+			button.setToolTipText(text);
+		}
+
+		@Override
+		public void setEnabled(boolean enabled) {
+			button.setEnabled(enabled);
+		}
+
+		@Override
+		public void setIcon(Icon icon) {
+			button.setIcon(icon);
+		}
+
+		@Override
+		public JComponent getComponent() {
+			return button;
+		}
+
 	}
 }

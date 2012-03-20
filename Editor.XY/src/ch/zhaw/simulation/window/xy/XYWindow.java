@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.xy.SubmodelHandler;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
@@ -16,14 +17,12 @@ import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.xy.sidebar.DensitySidebar;
-import ch.zhaw.simulation.window.xy.sidebar.SubmodelSidebar;
 import ch.zhaw.simulation.window.xy.sidebar.XYFormulaConfiguration;
 
 public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorView> {
 	private static final long serialVersionUID = 1L;
 
 	private DensitySidebar densitySidebar;
-	private SubmodelSidebar submodelSidebar;
 
 	private ActionListener densityListener = new ActionListener() {
 
@@ -31,9 +30,9 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		public void actionPerformed(ActionEvent e) {
 			getView().updateDensity(densitySidebar.getSelected().getFormula());
 		}
-		
+
 	};
-	
+
 	public XYWindow() {
 		super(true);
 	}
@@ -48,12 +47,9 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 			}
 		});
 
-		densitySidebar = new DensitySidebar(control.getParent(),  control.getModel(), view, control.getSysintegration(), control.getApp()
-				.getFunctionHelp());
+		densitySidebar = new DensitySidebar(control.getParent(), control.getModel(), view, control.getSysintegration(), control.getApp().getFunctionHelp());
 
 		densitySidebar.addActionListener(densityListener);
-		
-		submodelSidebar = new SubmodelSidebar(control.getModel().getSubmodels());
 
 		control.setView(view);
 
@@ -65,7 +61,9 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 		init(menubar, tb, view);
 
-		submodelSidebar.addSubModelSelectionListener(getView());
+		SubmodelHandler submodelhandler = control.getSubmodelHandler();
+		submodelhandler.addSubModelSelectionListener(tb);
+		submodelhandler.addSubModelSelectionListener(getView());
 	}
 
 	@Override
@@ -73,7 +71,6 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		super.initSidebar(sidebar);
 
 		sidebar.add(densitySidebar);
-		sidebar.add(submodelSidebar);
 	}
 
 	protected void initElementConfigurationSiebar() {
@@ -94,8 +91,10 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	public void dispose() {
 		densitySidebar.dispose();
 		densitySidebar.removeActionListener(densityListener);
-		submodelSidebar.removeSubModelSelectionListener(getView());
-		submodelSidebar.dispose();
+
+		SubmodelHandler submodelhandler = getView().getControl().getSubmodelHandler();
+		submodelhandler.removeSubModelSelectionListener(getView());
+		submodelhandler.removeSubModelSelectionListener(getToolbar());
 
 		super.dispose();
 	}

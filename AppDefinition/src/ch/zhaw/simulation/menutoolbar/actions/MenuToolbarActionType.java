@@ -140,6 +140,7 @@ public enum MenuToolbarActionType {
 	// XY specific enums
 	
 	XY_ADD_MESO,
+	XY_MESO_POPUP,
 	XY_MODEL_SIZE,
 
 	///////////////////////////////////////////////////////////////////

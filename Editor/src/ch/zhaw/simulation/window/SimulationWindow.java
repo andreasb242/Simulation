@@ -246,6 +246,10 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	public V getView() {
 		return view;
 	}
+	
+	public T getToolbar() {
+		return toolbar;
+	}
 
 	@Override
 	public void pluginChanged(String pluginName) {

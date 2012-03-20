@@ -21,11 +21,14 @@ public class ImageButton extends JComponent implements ToolbarButton {
 
 	private JLabel lbIcon;
 
+	private Icon iconDown;
+	private Icon icon;
+
 	public ImageButton(final ToolbarAction action) {
 		setLayout(null);
 
-		final Icon icon = (Icon) action.getToolbarIcon();
-		final Icon iconDown = darkerIcon(icon);
+		this.icon = (Icon) action.getToolbarIcon();
+		this.iconDown = darkerIcon(icon);
 		lbIcon = new JLabel(icon);
 		add(lbIcon);
 
@@ -69,13 +72,18 @@ public class ImageButton extends JComponent implements ToolbarButton {
 		super.setEnabled(enabled);
 	}
 
+	@Override
+	public void setIcon(Icon icon) {
+		this.icon = icon;
+		this.lbIcon.setIcon(icon);
+		this.iconDown = darkerIcon(icon);
+	}
+
 	private Icon darkerIcon(Icon icon) {
-		BufferedImage img = new BufferedImage(icon.getIconWidth(),
-				icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
 		icon.paintIcon(lbIcon, img.getGraphics(), 0, 0);
 
-		BufferedImage buff = new BufferedImage(icon.getIconWidth(),
-				icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage buff = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
 
 		Kernel kernel = new Kernel(1, 1, new float[] { 0.7f });
 
@@ -94,4 +102,5 @@ public class ImageButton extends JComponent implements ToolbarButton {
 	public JComponent getComponent() {
 		return this;
 	}
+
 }

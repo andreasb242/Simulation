@@ -13,8 +13,8 @@ import javax.swing.JToggleButton;
 import org.jdesktop.swingx.action.TargetableAction;
 
 import ch.zhaw.simulation.sysintegration.Toolbar;
+import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 import ch.zhaw.simulation.sysintegration.gui.ImageButton;
-
 
 public class MacOSXToolbar implements Toolbar {
 	protected JPanel toolbar;
@@ -65,23 +65,7 @@ public class MacOSXToolbar implements Toolbar {
 
 		b.addActionListener(action);
 
-		return new ToolbarButton() {
-
-			@Override
-			public void setText(String text) {
-				b.setToolTipText(text);
-			}
-
-			@Override
-			public void setEnabled(boolean enabled) {
-				b.setEnabled(enabled);
-			}
-
-			@Override
-			public JComponent getComponent() {
-				return b;
-			}
-		};
+		return new DefaultToolbar.ToolbarButtonImpl(b);
 	}
 
 	@Override
@@ -105,22 +89,6 @@ public class MacOSXToolbar implements Toolbar {
 
 		b.addItemListener(action);
 
-		return new ToolbarButton() {
-
-			@Override
-			public void setText(String text) {
-				b.setToolTipText(text);
-			}
-
-			@Override
-			public void setEnabled(boolean enabled) {
-				b.setEnabled(enabled);
-			}
-
-			@Override
-			public JComponent getComponent() {
-				return b;
-			}
-		};
+		return new DefaultToolbar.ToolbarButtonImpl(b);
 	}
 }

@@ -72,6 +72,8 @@ public interface Toolbar {
 
 		public void setText(String text);
 		
+		public void setIcon(Icon icon);
+		
 		public JComponent getComponent();
 	}
 

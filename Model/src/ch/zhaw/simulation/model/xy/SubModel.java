@@ -5,12 +5,15 @@ import java.awt.Color;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 
 public class SubModel {
-	private String name = "";
+	private String name;
 	private Color color;
 	private SimulationFlowModel model;
 
+	private static int nextNr = 1;
+
 	public SubModel() {
 		model = new SimulationFlowModel();
+		setName("Model " + (nextNr++));
 	}
 
 	public String getName() {

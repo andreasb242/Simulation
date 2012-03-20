@@ -1,8 +1,13 @@
 package ch.zhaw.simulation.editor.xy;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.app.SimulationApplication;
@@ -15,12 +20,16 @@ import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SubModel;
+import ch.zhaw.simulation.model.xy.SubModelList;
 import ch.zhaw.simulation.undo.action.xy.DeleteUndoAction;
+import ch.zhaw.simulation.xy.util.ColorIcon;
 
 public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	private XYEditorView view;
 	private XYDefaultSettingsHandler defaultSettings;
+	private SubmodelHandler submodelHandler = new SubmodelHandler();
 
 	public XYEditorControl(SimulationApplication app, SimulationDocument doc, SimulationXYModel model, JFrame parent, Settings settings) {
 		super(parent, settings, app, doc, model);
@@ -64,6 +73,10 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 		this.view = view;
 	}
 
+	public SubmodelHandler getSubmodelHandler() {
+		return submodelHandler;
+	}
+	
 	@Override
 	public void stopAutoparser() {
 		// TODO Autoparser XY Dialog
@@ -90,12 +103,52 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			addMeso();
 			return true;
 
+		case XY_MESO_POPUP:
+			showMesoPopup((JComponent) action.getData());
+			return true;
+
 		case XY_MODEL_SIZE:
 			editModelSize();
 			return true;
 		}
 
 		return false;
+	}
+
+	private void showMesoPopup(JComponent button) {
+		final SubModelList m = model.getSubmodels();
+
+		JPopupMenu popup = new JPopupMenu();
+
+		for (final SubModel sub : m) {
+			JMenuItem mi = new JMenuItem(sub.getName());
+			mi.setIcon(new ColorIcon(sub.getColor()));
+			popup.add(mi);
+			
+			mi.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					submodelHandler.fireItemSelected(sub);					
+				}
+			});
+		}
+
+		if (m.getSize() > 0) {
+			popup.addSeparator();
+		}
+
+		JMenuItem madd = new JMenuItem("Neus Submodell erstellen");
+		popup.add(madd);
+		madd.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m.addModel(new SubModel());
+			}
+		});
+
+		popup.show(button, 0, 24);
 	}
 
 	private void editModelSize() {

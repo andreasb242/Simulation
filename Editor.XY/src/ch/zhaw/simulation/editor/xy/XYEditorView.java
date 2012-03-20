@@ -20,7 +20,6 @@ import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
-import ch.zhaw.simulation.window.xy.sidebar.SubModelSelectionListener;
 
 public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener, SubModelSelectionListener {
 	private static final long serialVersionUID = 1L;

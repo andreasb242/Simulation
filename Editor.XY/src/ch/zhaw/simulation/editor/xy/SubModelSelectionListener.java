@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.window.xy.sidebar;
+package ch.zhaw.simulation.editor.xy;
 
 import ch.zhaw.simulation.model.xy.SubModel;
 
