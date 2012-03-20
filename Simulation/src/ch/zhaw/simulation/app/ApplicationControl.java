@@ -183,6 +183,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		} else {
 			showXYWindow();
 		}
+		
+		windowPosition.applay(this.mainFrame);
 
 		this.sysintegration = SysintegrationFactory.createSysintegration();
 		this.sysintegration.addListener(this);
@@ -510,8 +512,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	public boolean exit() {
 		if (askSave() == true) {
-			this.mainFrame.setVisible(false);
-			this.mainFrame.dispose();
+			releaseOpenWindow();
+			
 			doc.getSimulationConfiguration().removePluginChangeListener(simulationSettingsSaver);
 			doc.getSimulationConfiguration().removeSimulationParameterListener(simulationSettingsSaver);
 
