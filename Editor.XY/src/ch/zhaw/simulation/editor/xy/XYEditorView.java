@@ -128,7 +128,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		for (AbstractSimulationData p : model.getData()) {
 			dataAdded(p);
 		}
-		
+
 		modelSizeRasterChanged();
 	}
 
@@ -174,7 +174,9 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getControl().getStatus().clearStatus();
+				if (getControl() != null && getControl().getStatus() != null) {
+					getControl().getStatus().clearStatus();
+				}
 				repaint();
 			}
 		});

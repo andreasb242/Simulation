@@ -173,6 +173,17 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 		return density;
 	}
 
+	public Vector<MesoData> getMeso() {
+		Vector<MesoData> mesos = new Vector<MesoData>();
+
+		for (AbstractSimulationData d : data) {
+			if (d instanceof MesoData) {
+				mesos.add((MesoData) d);
+			}
+		}
+		return mesos;
+	}
+
 	public void addDensity(DensityData d) {
 		setChanged();
 		density.add(d);

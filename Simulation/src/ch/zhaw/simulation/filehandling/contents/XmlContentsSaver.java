@@ -73,10 +73,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 	}
 
 	private void visitSubModel(Element xmlModel, SubModel s) {
-		Element submodel = createModelElement(xmlModel, XML_ELEMENT_SUBMODEL);
-		submodel.setAttribute(XML_ELEMENT_ATTRIB_NAME, s.getName());
-
-		visitFlowModel(submodel, s.getModel());
+		Element elem = visitFlowModel(xmlModel, s.getModel());
+		elem.setAttribute(XML_ELEMENT_ATTRIB_NAME, s.getName());
 	}
 
 	private void visitDensity(Element xmlModel, DensityData d) {
@@ -88,7 +86,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		xmlModel.appendChild(density);
 	}
 
-	private void visitFlowModel(Element root, SimulationFlowModel model) {
+	private Element visitFlowModel(Element root, SimulationFlowModel model) {
 		Element xmlModel = createModelElement(root, XML_MODEL_TYPE_FLOW);
 
 		visitSimulationData(xmlModel, model);
@@ -102,6 +100,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 				throw new RuntimeException("type " + c.getClass().getName() + " not available in visitor!");
 			}
 		}
+		
+		return xmlModel;
 	}
 
 	private void visitSimulationData(Element xmlModel, AbstractSimulationModel<?> model) {

@@ -73,4 +73,14 @@ public class SubModelList implements Iterable<SubModel> {
 	public Iterator<SubModel> iterator() {
 		return data.iterator();
 	}
+
+	public SubModel getByName(String name) {
+		for(SubModel s : data) {
+			if(s.getName().equals(name)) {
+				return s;
+			}
+			System.out.println("DEBUG: "+s.getName());
+		}
+		return null;
+	}
 }
