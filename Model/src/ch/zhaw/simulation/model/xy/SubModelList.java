@@ -29,19 +29,24 @@ public class SubModelList implements Iterable<SubModel> {
 
 	private void fireModelRemoved(SubModel model) {
 		for (SubModelListener l : this.listener) {
-			l.modelRemoved(model);
+			l.submodelRemoved(model);
 		}
 	}
 
 	private void fireModelAdded(SubModel model) {
 		for (SubModelListener l : this.listener) {
-			l.modelAdded(model);
+			l.submodelAdded(model);
 		}
 	}
 
+	/**
+	 * A submodel has been changed
+	 * 
+	 * @param model The changed submodel
+	 */
 	public void fireModelChanged(SubModel model) {
 		for (SubModelListener l : this.listener) {
-			l.modelChanged(model);
+			l.submodelChanged(model);
 		}
 	}
 
@@ -75,11 +80,11 @@ public class SubModelList implements Iterable<SubModel> {
 	}
 
 	public SubModel getByName(String name) {
-		for(SubModel s : data) {
-			if(s.getName().equals(name)) {
+		for (SubModel s : data) {
+			if (s.getName().equals(name)) {
 				return s;
 			}
-			System.out.println("DEBUG: "+s.getName());
+			System.out.println("DEBUG: " + s.getName());
 		}
 		return null;
 	}

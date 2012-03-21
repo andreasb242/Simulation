@@ -19,9 +19,10 @@ import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
+import ch.zhaw.simulation.model.xy.SubModelListener;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener, SubModelSelectionListener {
+public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener, SubModelSelectionListener, SubModelListener {
 	private static final long serialVersionUID = 1L;
 
 	private DensityDraw density;
@@ -29,6 +30,8 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 	public XYEditorView(XYEditorControl control, TransferableFactory factory) {
 		super(control, factory);
+
+		control.getModel().getSubmodels().addListener(this);
 
 		// TODO SIZE
 		density = new DensityDraw(800, 600);
@@ -188,4 +191,32 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		currentSelectedSubmodel = submodel;
 	}
 
+	@Override
+	public void dispose() {
+		control.getModel().getSubmodels().removeListener(this);
+		super.dispose();
+	}
+
+	@Override
+	public void submodelRemoved(SubModel model) {
+		repaintMesoViews();
+	}
+
+	private void repaintMesoViews() {
+		for (int i = 0; i < getComponentCount(); i++) {
+			Component c = getComponent(i);
+			if (c instanceof MesoView) {
+				((MesoView) c).dataChanged();
+			}
+		}
+	}
+
+	@Override
+	public void submodelAdded(SubModel model) {
+		repaintMesoViews();
+	}
+
+	@Override
+	public void submodelChanged(SubModel model) {
+	}
 }

@@ -45,19 +45,19 @@ public class SubmodelComboboxModel extends AbstractListModel implements ComboBox
 	}
 
 	@Override
-	public void modelRemoved(SubModel model) {
+	public void submodelRemoved(SubModel model) {
 		// Always everything changed, because the colors change
 		fireContentsChanged(this, 0, getSize());
 	}
 
 	@Override
-	public void modelAdded(SubModel model) {
+	public void submodelAdded(SubModel model) {
 		// Always everything changed, because the colors change
 		fireContentsChanged(this, 0, getSize());
 	}
 
 	@Override
-	public void modelChanged(SubModel model) {
+	public void submodelChanged(SubModel model) {
 		// Always everything changed, because the colors change
 		fireContentsChanged(this, 0, getSize());
 	}

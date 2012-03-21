@@ -23,7 +23,7 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 		dataChanged();
 
 		this.textY = 20;
-		this.questionmarkY = 35;
+		this.questionmarkY = 30;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 	}
 
 	@Override
-	protected void dataChanged() {
+	public void dataChanged() {
 		if (getData().getSubmodel() != null) {
 			this.image.setColor(getData().getSubmodel().getColor());
 			repaint();
