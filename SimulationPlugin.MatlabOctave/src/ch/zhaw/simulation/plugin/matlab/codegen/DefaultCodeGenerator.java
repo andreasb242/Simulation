@@ -194,4 +194,36 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		}
 		out.newline();
 	}
+
+	protected void printInitDebug(CodeOutput out) {
+		int size = flowModel.getSimulationContainer().size();
+
+		out.printComment("DEBUG");
+		out.println("tmp_idx = 1;");
+		out.println("tmp_y = zeros(" + (size + 1) + ",1000);");
+	}
+
+	protected void printDebug(CodeOutput out) {
+		int size = flowModel.getSimulationContainer().size();
+
+		out.printComment("DEBUG");
+		out.println("tmp_y(1, tmp_idx) = sim_timenew;");
+		for (int i = 1; i <= size; i++) {
+			out.println("tmp_y(" + (i + 1) + ", tmp_idx) = sim_ynew(" + i + ",1);");
+		}
+		out.println("tmp_idx = tmp_idx + 1;");
+		out.newline();
+	}
+
+	protected void printDebugGraph(CodeOutput out) {
+		int size = flowModel.getSimulationContainer().size();
+
+		out.printComment("DEBUG");
+		out.println("tmp_res = tmp_y(:, 1:tmp_idx-1);");
+		for (int i = 1; i <= size; i++) {
+			out.println("figure(" + i + ");");
+			out.println("stem(tmp_res(1,:), tmp_res(" + (i + 1) + ",:));");
+		}
+		out.newline();
+	}
 }

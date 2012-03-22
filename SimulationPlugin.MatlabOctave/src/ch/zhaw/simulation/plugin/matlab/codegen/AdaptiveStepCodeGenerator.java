@@ -21,12 +21,6 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 	protected static final String FILENAME_MAIN = "simulation_adaptive";
 	protected static final String FILENAME_ODE = "simulation_adaptive_ode";
 
-	protected static final String START = "sim_start";
-	protected static final String END = "sim_end";
-	protected static final String DT = "sim_dt";
-	protected static final String TIME = "sim_time";
-	protected static final String COUNT = "sim_count";
-
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws Exception {
 		initSimulation(doc);
@@ -263,38 +257,6 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		out.println("end;");
 		out.detent();
 		out.println("end;");
-		out.newline();
-	}
-
-	protected void printInitDebug(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
-
-		out.printComment("DEBUG");
-		out.println("tmp_idx = 1;");
-		out.println("tmp_y = zeros(" + (size + 1) + ",1000);");
-	}
-
-	protected void printDebug(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
-
-		out.printComment("DEBUG");
-		out.println("tmp_y(1, tmp_idx) = sim_timenew;");
-		for (int i = 1; i <= size; i++) {
-			out.println("tmp_y(" + (i + 1) + ", tmp_idx) = sim_ynew(" + i + ",1);");
-		}
-		out.println("tmp_idx = tmp_idx + 1;");
-		out.newline();
-	}
-
-	protected void printDebugGraph(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
-
-		out.printComment("DEBUG");
-		out.println("tmp_res = tmp_y(:, 1:tmp_idx-1);");
-		for (int i = 1; i <= size; i++) {
-			out.println("figure(" + i + ");");
-			out.println("stem(tmp_res(1,:), tmp_res(" + (i + 1) + ",:));");
-		}
 		out.newline();
 	}
 
