@@ -82,7 +82,7 @@ public abstract class AbstractCodeGenerator {
 	protected abstract void printParameterInitialisation(CodeOutput out);
 
 	protected abstract void printOpenFiles(CodeOutput out);
-	protected abstract void printSaveCurrentValues(CodeOutput out);
+	protected abstract void printValuesToFile(CodeOutput out);
 	protected abstract void printCloseFiles(CodeOutput out);
 
 	protected abstract void printFlowCalculations(CodeOutput out);

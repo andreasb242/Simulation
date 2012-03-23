@@ -10,7 +10,6 @@ import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Vector;
 
 /**
@@ -25,7 +24,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 	public void executeSimulation(SimulationDocument doc) throws Exception {
 		initSimulation(doc);
 		saveSimulationMain();
-		saveSimulationDifferential();;
+		saveSimulationDifferential();
 	}
 
 	protected void saveSimulationMain() throws FileNotFoundException {
@@ -36,6 +35,8 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		printHeader(out);
 
 		printGlobal(out);
+
+		printOpenFiles(out);
 
 		printInitDebug(out);
 
@@ -102,11 +103,14 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		printIncrementStepSize(out);
 
 		printSaveNewValues(out);
+		printValuesToFile(out);
 
 		printDebug(out);
 		
 		out.detent();
 		out.println("end;");
+
+		printCloseFiles(out);
 
 		printDebugGraph(out);
 		out.close();

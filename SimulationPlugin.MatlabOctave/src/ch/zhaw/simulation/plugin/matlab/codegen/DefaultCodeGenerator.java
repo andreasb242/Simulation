@@ -178,13 +178,14 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			String var = namedData.getName() + ".fp";
 			out.println("fclose(" + var + ");");
 		}
+		out.println("fclose(fopen('matlab_finish', 'w'));");
 		out.newline();
 	}
 
 	/**
 	 * @see ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator
 	 */
-	protected void printSaveCurrentValues(CodeOutput out) {
+	protected void printValuesToFile(CodeOutput out) {
 		out.printComment("Save calculations");
 
 		for (AbstractNamedSimulationData namedData : dataVector) {
