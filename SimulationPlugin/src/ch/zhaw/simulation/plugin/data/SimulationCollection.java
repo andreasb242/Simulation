@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.intern.data;
+package ch.zhaw.simulation.plugin.data;
 
 import java.util.Vector;
 

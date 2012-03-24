@@ -4,6 +4,7 @@ import java.awt.Window;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -36,10 +37,7 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.plugin.PluginDataProvider;
-import ch.zhaw.simulation.plugin.SimulationManager;
-import ch.zhaw.simulation.plugin.SimulationPlugin;
-import ch.zhaw.simulation.plugin.StandardParameter;
+import ch.zhaw.simulation.plugin.*;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
@@ -130,6 +128,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	private HashMap<SimulationFlowModel, FlowSubmodelRef> submodels = new HashMap<SimulationFlowModel, FlowSubmodelRef>();
 
+	private ExecutionListener executionListener;
+
 	/**
 	 * The settings key for last used type
 	 */
@@ -154,6 +154,23 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		this.recentMenu = new RecentMenu(settings);
 		this.recentMenu.addListener(this);
 
+		this.executionListener = new ExecutionListener() {
+			@Override
+			public void executionStarted() {
+				//
+			}
+
+			@Override
+			public void executionFinished() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						System.out.println("Hurra!");
+					}
+				});
+			}
+		};
+
 		this.manager = new SimulationManager(settings, doc.getSimulationConfiguration(), new PluginDataProvider() {
 
 			@Override
@@ -161,6 +178,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				return ApplicationControl.this.mainFrame;
 			}
 
+			@Override
+			public ExecutionListener getExecutionListener() {
+				return ApplicationControl.this.executionListener;
+			}
 		});
 
 		try {

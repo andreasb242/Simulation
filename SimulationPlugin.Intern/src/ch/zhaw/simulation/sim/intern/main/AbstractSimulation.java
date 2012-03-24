@@ -4,6 +4,7 @@ import java.security.InvalidAlgorithmParameterException;
 
 import javax.swing.SwingWorker;
 
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.math.exception.CompilerError;
@@ -12,7 +13,6 @@ import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.StandardParameter;
-import ch.zhaw.simulation.sim.intern.data.SimulationCollection;
 import ch.zhaw.simulation.sim.intern.model.SimulationAttachment;
 
 public abstract class AbstractSimulation extends SwingWorker<SimulationCollection, Object> {

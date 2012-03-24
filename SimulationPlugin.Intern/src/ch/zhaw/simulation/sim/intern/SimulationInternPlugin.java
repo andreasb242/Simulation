@@ -2,6 +2,7 @@ package ch.zhaw.simulation.sim.intern;
 
 import javax.swing.JPanel;
 
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import org.jdesktop.swingx.JXTaskPane;
 
 
@@ -64,5 +65,10 @@ public class SimulationInternPlugin implements SimulationPlugin {
 		Simulation sim = new Simulation(provider, this.settings, doc);
 		sim.checkData();
 		sim.startSimulation();
+	}
+
+	@Override
+	public SimulationCollection getSimulationResults() {
+		return null;
 	}
 }
