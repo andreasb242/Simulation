@@ -44,7 +44,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		this.settings = settings;
 		this.provider = provider;
 		this.sidebar = new MatlabConfigurationSidebar(config);
-		this.watcher = new DirectoryWatcher(settings.getSetting("workpath", StandardParameter.WORKPATH), 1000);
+		this.watcher = new DirectoryWatcher(1000);
 		this.busyDialog = new BusyDialog(provider.getParent());
 		this.finishListener = new MatlabFinishListener(provider, watcher, busyDialog);
 		this.watcher.addResourceListener(this.finishListener);
@@ -83,8 +83,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
 		finishListener.updateWorkpath(workpath);
-		watcher.setDirectory(workpath);
-		watcher.start();
+		watcher.start(workpath);
 		busyDialog.setVisible(true);
 
 		codeGenerator.setWorkingFolder(workpath);
