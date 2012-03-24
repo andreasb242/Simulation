@@ -23,8 +23,6 @@ public class BusyDialog extends JDialog{
 		busyLabel.setBusy(true);
 		add(busyLabel, BorderLayout.CENTER);
 		pack();
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation((int)screenSize.getWidth()/2 - getWidth(), (int)screenSize.getHeight()/2 - getHeight());
-
+		setLocationRelativeTo(null);
 	}
 }
