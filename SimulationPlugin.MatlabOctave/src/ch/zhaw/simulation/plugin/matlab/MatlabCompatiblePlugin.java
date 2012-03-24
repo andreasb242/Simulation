@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import butti.javalibs.dirwatcher.DirectoryWatcher;
 import butti.javalibs.dirwatcher.FileListener;
+import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.BusyDialog;
@@ -43,7 +44,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		this.settings = settings;
 		this.provider = provider;
 		this.sidebar = new MatlabConfigurationSidebar(config);
-		this.watcher = new DirectoryWatcher(settings.getSetting("workpath"), 1000);
+		this.watcher = new DirectoryWatcher(settings.getSetting("workpath", StandardParameter.WORKPATH), 1000);
 		this.busyDialog = new BusyDialog(provider.getParent());
 		this.finishListener = new MatlabFinishListener(provider, watcher, busyDialog);
 		this.watcher.addResourceListener(this.finishListener);
@@ -78,10 +79,11 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws Exception {
-		String workpath = settings.getSetting("workpath");
+		String workpath = settings.getSetting("workpath", StandardParameter.WORKPATH);
 
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
 		finishListener.updateWorkpath(workpath);
+		watcher.setDirectory(workpath);
 		watcher.start();
 		busyDialog.setVisible(true);
 
@@ -92,6 +94,6 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public SimulationCollection getSimulationResults() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return null;
 	}
 }
