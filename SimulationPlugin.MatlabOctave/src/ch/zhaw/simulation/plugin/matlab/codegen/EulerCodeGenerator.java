@@ -80,6 +80,11 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 		//Runtime.getRuntime().exec(new String[] { "gedit", outputFile });
 	}
 
+	@Override
+	public String getGeneratedFile() {
+		return FILENAME;
+	}
+
 	/**
 	 * @see AbstractCodeGenerator
 	 */
