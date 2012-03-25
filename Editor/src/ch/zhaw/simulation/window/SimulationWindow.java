@@ -5,7 +5,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTaskPane;
@@ -39,7 +38,7 @@ import ch.zhaw.simulation.window.sidebar.SimulationConfigurationPanel;
  * @param <V>
  *            The view type
  */
-public abstract class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolbar, V extends AbstractEditorView<?>> extends JFrame implements
+public abstract class SimulationWindow<M extends AbstractMenubar, T extends AbstractToolbar, V extends AbstractEditorView<?>> extends LockFrame implements
 		MenuActionListener, PluginChangeListener {
 	private static final long serialVersionUID = 1L;
 
@@ -93,7 +92,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
 
-		add(BorderLayout.EAST, sidebar.getPanel());
+		getPanel().setLayout(new BorderLayout());
+		getPanel().add(BorderLayout.EAST, sidebar.getPanel());
 
 		addWindowListener(new WindowAdapter() {
 
@@ -129,9 +129,9 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		view.getUndoHandler().addUndoListener(toolbar);
 		view.getClipboard().addListener(toolbar);
 
-		add(BorderLayout.NORTH, toolbar.getToolbar());
-		add(BorderLayout.CENTER, new JScrollPane(view));
-		add(BorderLayout.SOUTH, view.getControl().getStatus().getStatusBar());
+		getPanel().add(BorderLayout.NORTH, toolbar.getToolbar());
+		getPanel().add(BorderLayout.CENTER, new JScrollPane(view));
+		getPanel().add(BorderLayout.SOUTH, view.getControl().getStatus().getStatusBar());
 
 		initSidebar(sidebar);
 	}

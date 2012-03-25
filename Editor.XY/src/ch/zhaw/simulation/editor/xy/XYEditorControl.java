@@ -148,7 +148,22 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			}
 		});
 
+		JMenuItem medit = new JMenuItem("Submodelle bearbeiten");
+		popup.add(medit);
+		medit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				editSubmodel();
+			}
+		});
+
 		popup.show(button, 0, 24);
+	}
+	
+	private void editSubmodel() {
+		SubmodelDialog dlg = new SubmodelDialog(getParent());
+		dlg.setVisible(true);
 	}
 
 	private void editModelSize() {

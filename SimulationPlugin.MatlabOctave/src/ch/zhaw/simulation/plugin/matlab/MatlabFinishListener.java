@@ -3,7 +3,6 @@ package ch.zhaw.simulation.plugin.matlab;
 import butti.javalibs.dirwatcher.DirectoryWatcher;
 import butti.javalibs.dirwatcher.FileListener;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
-import ch.zhaw.simulation.plugin.matlab.gui.BusyDialog;
 
 import java.io.File;
 
@@ -14,14 +13,12 @@ public class MatlabFinishListener extends FileListener {
 
 	private PluginDataProvider dataProvider;
 	private DirectoryWatcher watcher;
-	private BusyDialog busyDialog;
 
 	private String workpath;
 
-	public MatlabFinishListener(PluginDataProvider dataProvider, DirectoryWatcher watcher, BusyDialog busyDialog) {
+	public MatlabFinishListener(PluginDataProvider dataProvider, DirectoryWatcher watcher) {
 		this.dataProvider = dataProvider;
 		this.watcher = watcher;
-		this.busyDialog = busyDialog;
 	}
 	
 	@Override
@@ -47,7 +44,6 @@ public class MatlabFinishListener extends FileListener {
 		}
 
 		if (event.equals(file)) {
-			busyDialog.setVisible(false);
 			watcher.stop();
 			dataProvider.getExecutionListener().executionFinished();
 		}

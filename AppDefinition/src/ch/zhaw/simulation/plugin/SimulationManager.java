@@ -38,9 +38,9 @@ public class SimulationManager {
 					SimulationPlugin plugin = pluginDescription.getPlugin();
 					SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + pluginDescription.getName());
 					plugin.init(sp, config, provider);
-					
-					errorPlugins.add(pluginDescription);
 				} catch (Exception e) {
+					errorPlugins.add(pluginDescription);
+
 					Errorhandler.logError(e);
 					error = true;
 				}

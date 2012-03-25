@@ -4,7 +4,6 @@ import java.awt.Window;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -37,7 +36,11 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
-import ch.zhaw.simulation.plugin.*;
+import ch.zhaw.simulation.plugin.ExecutionListener;
+import ch.zhaw.simulation.plugin.PluginDataProvider;
+import ch.zhaw.simulation.plugin.SimulationManager;
+import ch.zhaw.simulation.plugin.SimulationPlugin;
+import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
@@ -155,20 +158,41 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		this.recentMenu.addListener(this);
 
 		this.executionListener = new ExecutionListener() {
+
 			@Override
-			public void executionStarted() {
-				//
+			public void executionStarted(final String message) {
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						mainFrame.lock(message);
+					}
+				});
 			}
 
+			@Override
+			public void setExecutionMessage(final String message) {
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						mainFrame.setLockText(message);
+					}
+				});
+			}
+			
 			@Override
 			public void executionFinished() {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						System.out.println("Hurra!");
+						mainFrame.unlock();
 					}
 				});
+				
+				System.out.println("hurra");
 			}
+
 		};
 
 		this.manager = new SimulationManager(settings, doc.getSimulationConfiguration(), new PluginDataProvider() {

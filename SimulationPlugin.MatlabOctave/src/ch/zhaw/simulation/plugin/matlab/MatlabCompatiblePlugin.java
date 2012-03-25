@@ -3,11 +3,9 @@ package ch.zhaw.simulation.plugin.matlab;
 import javax.swing.*;
 
 import butti.javalibs.dirwatcher.DirectoryWatcher;
-import butti.javalibs.dirwatcher.FileListener;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
-import ch.zhaw.simulation.plugin.matlab.gui.BusyDialog;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
 import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
 import org.jdesktop.swingx.JXTaskPane;
@@ -20,8 +18,6 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 
-import java.io.File;
-
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
 	private PluginDataProvider provider;
@@ -29,7 +25,6 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private ModelOptimizer optimizer;
 	private DirectoryWatcher watcher;
 	private MatlabFinishListener finishListener;
-	private BusyDialog busyDialog;
 
 	public MatlabCompatiblePlugin() {
 	}
@@ -45,8 +40,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		this.provider = provider;
 		this.sidebar = new MatlabConfigurationSidebar(config);
 		this.watcher = new DirectoryWatcher(1000);
-		this.busyDialog = new BusyDialog(provider.getParent());
-		this.finishListener = new MatlabFinishListener(provider, watcher, busyDialog);
+		this.finishListener = new MatlabFinishListener(provider, watcher);
 		this.watcher.addResourceListener(this.finishListener);
 	}
 
@@ -84,7 +78,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
 		finishListener.updateWorkpath(workpath);
 		watcher.start(workpath);
-		busyDialog.setVisible(true);
+		provider.getExecutionListener().executionStarted("Simulation läuft..");
 
 		codeGenerator.setWorkingFolder(workpath);
 		codeGenerator.executeSimulation(doc);
