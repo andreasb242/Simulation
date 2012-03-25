@@ -35,6 +35,15 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jxlayer-3.0.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <javadoc-paths>
       <root url="jar://$MODULE_DIR$/doc/swingx-1.6-javadoc.zip!/" />
       <root url="jar://$MODULE_DIR$/doc/jep-2.3.1-javadoc.zip!/javadoc" />
