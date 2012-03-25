@@ -35,6 +35,8 @@ public abstract class AbstractCodeGenerator {
 	public String getWorkingFolder() {
 		return workingFolder;
 	}
+	
+	public abstract String getGeneratedFile();
 
 	/**
 	 * Extracts the Basefile for the simulation model

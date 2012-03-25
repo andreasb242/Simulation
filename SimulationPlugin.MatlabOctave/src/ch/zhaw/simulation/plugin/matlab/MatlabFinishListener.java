@@ -11,14 +11,12 @@ import java.io.File;
  */
 public class MatlabFinishListener extends FileListener {
 
-	private PluginDataProvider dataProvider;
-	private DirectoryWatcher watcher;
+	private MatlabCompatiblePlugin parent;
 
 	private String workpath;
 
-	public MatlabFinishListener(PluginDataProvider dataProvider, DirectoryWatcher watcher) {
-		this.dataProvider = dataProvider;
-		this.watcher = watcher;
+	public MatlabFinishListener(MatlabCompatiblePlugin parent) {
+		this.parent = parent;
 	}
 	
 	@Override
@@ -40,12 +38,12 @@ public class MatlabFinishListener extends FileListener {
 		File file;
 
 		synchronized (workpath) {
-			file = new File(workpath + File.separator + "matlab_finish");
+			file = new File(workpath + File.separator + "matlab_finish.txt");
 		}
 
 		if (event.equals(file)) {
-			watcher.stop();
-			dataProvider.getExecutionListener().executionFinished();
+			parent.watcher.stop();
+			parent.provider.getExecutionListener().executionFinished();
 		}
 	}
 

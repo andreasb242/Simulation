@@ -68,7 +68,7 @@ public class SimulationInternPlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public SimulationCollection getSimulationResults() {
+	public SimulationCollection getSimulationResults(SimulationDocument doc) {
 		return null;
 	}
 }

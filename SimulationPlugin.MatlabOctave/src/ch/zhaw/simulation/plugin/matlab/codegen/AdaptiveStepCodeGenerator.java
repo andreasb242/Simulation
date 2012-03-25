@@ -27,6 +27,11 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		saveSimulationDifferential();
 	}
 
+	@Override
+	public String getGeneratedFile() {
+		return FILENAME_MAIN;
+	}
+
 	protected void saveSimulationMain() throws FileNotFoundException {
 		CodeOutput out;
 

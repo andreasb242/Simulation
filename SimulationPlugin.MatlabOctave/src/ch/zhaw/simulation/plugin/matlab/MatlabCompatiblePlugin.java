@@ -20,11 +20,13 @@ import ch.zhaw.simulation.plugin.SimulationPlugin;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
-	private PluginDataProvider provider;
 	private MatlabConfigurationSidebar sidebar;
 	private ModelOptimizer optimizer;
-	private DirectoryWatcher watcher;
-	private MatlabFinishListener finishListener;
+	private SimulationConfiguration config;
+
+	protected PluginDataProvider provider;
+	protected DirectoryWatcher watcher;
+	protected MatlabFinishListener finishListener;
 
 	public MatlabCompatiblePlugin() {
 	}
@@ -37,10 +39,11 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	@Override
 	public void init(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
 		this.settings = settings;
+		this.config = config;
 		this.provider = provider;
 		this.sidebar = new MatlabConfigurationSidebar(config);
 		this.watcher = new DirectoryWatcher(1000);
-		this.finishListener = new MatlabFinishListener(provider, watcher);
+		this.finishListener = new MatlabFinishListener(this);
 		this.watcher.addResourceListener(this.finishListener);
 	}
 
@@ -86,7 +89,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public SimulationCollection getSimulationResults() {
-		return null;
+	public SimulationCollection getSimulationResults(SimulationDocument doc) {
+		return new SimulationResultParser(doc, config).parse();
 	}
 }

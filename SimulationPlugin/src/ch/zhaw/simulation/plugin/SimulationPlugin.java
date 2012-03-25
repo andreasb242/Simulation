@@ -57,6 +57,6 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 */
 	public void executeSimulation(SimulationDocument doc) throws Exception;
 
-	public SimulationCollection getSimulationResults();
+	public SimulationCollection getSimulationResults(SimulationDocument doc);
 
 }
