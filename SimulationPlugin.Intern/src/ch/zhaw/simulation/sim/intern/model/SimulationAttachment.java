@@ -2,6 +2,7 @@ package ch.zhaw.simulation.sim.intern.model;
 
 import java.util.Vector;
 
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import org.lsmp.djep.matrixJep.MatrixJep;
 import org.nfunk.jep.ASTVarNode;
 import org.nfunk.jep.Node;
@@ -14,7 +15,6 @@ import ch.zhaw.simulation.math.Parser.ParserNodePair;
 import ch.zhaw.simulation.math.VarPlaceholder;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.sim.intern.data.SimulationSerie;
 import ch.zhaw.simulation.sim.intern.rungekutta.TmpValue;
 
 public class SimulationAttachment implements ch.zhaw.simulation.model.SimulationAttachment {

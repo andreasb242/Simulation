@@ -2,6 +2,7 @@ package ch.zhaw.simulation.sim.intern.rungekutta;
 
 import java.security.InvalidAlgorithmParameterException;
 
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import org.nfunk.jep.ParseException;
 
 import butti.javalibs.errorhandler.Errorhandler;
@@ -11,7 +12,6 @@ import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.sim.intern.data.SimulationCollection;
 import ch.zhaw.simulation.sim.intern.main.AbstractSimulation;
 import ch.zhaw.simulation.sim.intern.main.Simulation;
 import ch.zhaw.simulation.sim.intern.model.SimulationAttachment;

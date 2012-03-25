@@ -26,7 +26,7 @@ import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.BDialog;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
-import ch.zhaw.simulation.sim.intern.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.sysintegration.Toolbar;

@@ -4,9 +4,9 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import ch.zhaw.simulation.sim.intern.data.SimulationCollection;
-import ch.zhaw.simulation.sim.intern.data.SimulationEntry;
-import ch.zhaw.simulation.sim.intern.data.SimulationSerie;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationEntry;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 
 public class SimulationTableModel extends AbstractTableModel {

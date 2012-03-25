@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import butti.javalibs.dirwatcher.DirectoryWatcher;
 import butti.javalibs.dirwatcher.FileListener;
+import ch.zhaw.simulation.plugin.StandardParameter;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.BusyDialog;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
@@ -26,6 +28,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private MatlabConfigurationSidebar sidebar;
 	private ModelOptimizer optimizer;
 	private DirectoryWatcher watcher;
+	private MatlabFinishListener finishListener;
 	private BusyDialog busyDialog;
 
 	public MatlabCompatiblePlugin() {
@@ -41,8 +44,10 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		this.settings = settings;
 		this.provider = provider;
 		this.sidebar = new MatlabConfigurationSidebar(config);
-		this.watcher = new DirectoryWatcher(settings.getSetting("workpath"), 1000);
+		this.watcher = new DirectoryWatcher(1000);
 		this.busyDialog = new BusyDialog(provider.getParent());
+		this.finishListener = new MatlabFinishListener(provider, watcher, busyDialog);
+		this.watcher.addResourceListener(this.finishListener);
 	}
 
 	@Override
@@ -74,40 +79,20 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws Exception {
-		String workpath = settings.getSetting("workpath");
+		String workpath = settings.getSetting("workpath", StandardParameter.WORKPATH);
 
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
-		watcher.removeAllResourceListeners();
-		watcher.addResourceListener(new FileListener() {
-
-			private File finish = new File(settings.getSetting("workpath") + File.separator + "matlab_finish");
-
-			@Override
-			public void resourceAdded(File event) {
-				if (event.equals(finish)) {
-					busyDialog.setVisible(false);
-					watcher.stop();
-				}
-			}
-
-			@Override
-			public void resourceChanged(File event) {
-				if (event.equals(finish)) {
-					busyDialog.setVisible(false);
-					watcher.stop();
-				}
-			}
-
-			@Override
-			public void resourceDeleted(File event) {
-				//
-			}
-		});
-		watcher.start();
+		finishListener.updateWorkpath(workpath);
+		watcher.start(workpath);
 		busyDialog.setVisible(true);
 
 		codeGenerator.setWorkingFolder(workpath);
 		codeGenerator.executeSimulation(doc);
 
+	}
+
+	@Override
+	public SimulationCollection getSimulationResults() {
+		return null;
 	}
 }

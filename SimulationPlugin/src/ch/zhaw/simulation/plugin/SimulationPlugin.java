@@ -2,6 +2,7 @@ package ch.zhaw.simulation.plugin;
 
 import javax.swing.JPanel;
 
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
@@ -55,5 +56,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 *             angezeigt
 	 */
 	public void executeSimulation(SimulationDocument doc) throws Exception;
+
+	public SimulationCollection getSimulationResults();
 
 }
