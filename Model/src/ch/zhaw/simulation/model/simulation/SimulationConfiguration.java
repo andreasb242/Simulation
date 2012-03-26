@@ -31,6 +31,10 @@ public class SimulationConfiguration {
 		if (StringUtil.equals(this.selectedPluginName, selectedPluginName)) {
 			return;
 		}
+		setSelectedPluginNameForce(selectedPluginName);
+	}
+
+	public void setSelectedPluginNameForce(String selectedPluginName) {
 		this.selectedPluginName = selectedPluginName;
 		fireTypeChanged();
 	}

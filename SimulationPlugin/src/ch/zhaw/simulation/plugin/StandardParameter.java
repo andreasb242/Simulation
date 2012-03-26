@@ -1,6 +1,9 @@
 package ch.zhaw.simulation.plugin;
 
 public interface StandardParameter {
+	
+	public static String WORKPATH = System.getProperty("user.home");
+	
 	public static String SIM_PROPERTY_DOUBLE_PREFIX = "simulation.dproperty.";
 	public static String SIM_PROPERTY_STRING_PREFIX = "simulation.sproperty.";
 

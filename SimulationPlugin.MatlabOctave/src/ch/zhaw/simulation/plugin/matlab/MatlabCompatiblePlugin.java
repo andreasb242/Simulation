@@ -1,7 +1,10 @@
 package ch.zhaw.simulation.plugin.matlab;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import butti.javalibs.dirwatcher.DirectoryWatcher;
+import ch.zhaw.simulation.plugin.StandardParameter;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
 import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
@@ -17,9 +20,13 @@ import ch.zhaw.simulation.plugin.SimulationPlugin;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
-	private PluginDataProvider provider;
 	private MatlabConfigurationSidebar sidebar;
 	private ModelOptimizer optimizer;
+	private SimulationConfiguration config;
+
+	protected PluginDataProvider provider;
+	protected DirectoryWatcher watcher;
+	protected MatlabFinishListener finishListener;
 
 	public MatlabCompatiblePlugin() {
 	}
@@ -32,8 +39,12 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	@Override
 	public void init(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
 		this.settings = settings;
+		this.config = config;
 		this.provider = provider;
 		this.sidebar = new MatlabConfigurationSidebar(config);
+		this.watcher = new DirectoryWatcher(1000);
+		this.finishListener = new MatlabFinishListener(this);
+		this.watcher.addResourceListener(this.finishListener);
 	}
 
 	@Override
@@ -65,10 +76,20 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws Exception {
-		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
+		String workpath = settings.getSetting("workpath", StandardParameter.WORKPATH);
 
-		codeGenerator.setWorkingFolder(settings.getSetting("workpath"));
+		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
+		finishListener.updateWorkpath(workpath);
+		watcher.start(workpath);
+		provider.getExecutionListener().executionStarted("Simulation läuft..");
+
+		codeGenerator.setWorkingFolder(workpath);
 		codeGenerator.executeSimulation(doc);
 
+	}
+
+	@Override
+	public SimulationCollection getSimulationResults(SimulationDocument doc) {
+		return new SimulationResultParser(doc, config).parse();
 	}
 }

@@ -178,19 +178,52 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			String var = namedData.getName() + ".fp";
 			out.println("fclose(" + var + ");");
 		}
+		out.println("fclose(fopen('matlab_finish', 'w'));");
 		out.newline();
 	}
 
 	/**
 	 * @see ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator
 	 */
-	protected void printSaveCurrentValues(CodeOutput out) {
+	protected void printValuesToFile(CodeOutput out) {
 		out.printComment("Save calculations");
 
 		for (AbstractNamedSimulationData namedData : dataVector) {
 			String fp = namedData.getName() + ".fp";
 			String value = namedData.getName() + ".value";
 			out.println("fprintf(" + fp + ", '%f\\t%e\\n', " + TIME + ", " + value + ");");
+		}
+		out.newline();
+	}
+
+	protected void printInitDebug(CodeOutput out) {
+		int size = flowModel.getSimulationContainer().size();
+
+		out.printComment("DEBUG");
+		out.println("tmp_idx = 1;");
+		out.println("tmp_y = zeros(" + (size + 1) + ",1000);");
+	}
+
+	protected void printDebug(CodeOutput out) {
+		int size = flowModel.getSimulationContainer().size();
+
+		out.printComment("DEBUG");
+		out.println("tmp_y(1, tmp_idx) = sim_timenew;");
+		for (int i = 1; i <= size; i++) {
+			out.println("tmp_y(" + (i + 1) + ", tmp_idx) = sim_ynew(" + i + ",1);");
+		}
+		out.println("tmp_idx = tmp_idx + 1;");
+		out.newline();
+	}
+
+	protected void printDebugGraph(CodeOutput out) {
+		int size = flowModel.getSimulationContainer().size();
+
+		out.printComment("DEBUG");
+		out.println("tmp_res = tmp_y(:, 1:tmp_idx-1);");
+		for (int i = 1; i <= size; i++) {
+			out.println("figure(" + i + ");");
+			out.println("stem(tmp_res(1,:), tmp_res(" + (i + 1) + ",:));");
 		}
 		out.newline();
 	}

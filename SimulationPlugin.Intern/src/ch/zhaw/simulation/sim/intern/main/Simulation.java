@@ -13,6 +13,8 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import org.nfunk.jep.ParseException;
 import org.omg.CORBA.UserException;
 
@@ -35,8 +37,6 @@ import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.sim.intern.InternSimulationParameter;
-import ch.zhaw.simulation.sim.intern.data.SimulationCollection;
-import ch.zhaw.simulation.sim.intern.data.SimulationSerie;
 import ch.zhaw.simulation.sim.intern.euler.EulerSimulation;
 import ch.zhaw.simulation.sim.intern.gui.SimulationProgress;
 import ch.zhaw.simulation.sim.intern.gui.TableDialog;

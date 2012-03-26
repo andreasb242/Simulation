@@ -6,6 +6,7 @@ import butti.javalibs.config.Config;
 import butti.javalibs.config.Settings;
 import butti.javalibs.config.SettingsPrefix;
 import butti.javalibs.errorhandler.Errorhandler;
+import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
 import butti.plugin.PluginManager;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
@@ -19,17 +20,44 @@ public class SimulationManager {
 
 	public SimulationManager(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
 		String path = Config.get("simulationPluginFolder");
+
+		boolean error = false;
+
 		if (path != null) {
 			pluginManager.loadPlugins(path);
 
 			for (Exception e : pluginManager.getPluginLoadErrors()) {
-				Errorhandler.showError(e, "Plugin laden fehlgeschlagen");
+				Errorhandler.logError(e);
+				error = true;
+			}
+			
+			Vector<PluginDescription<SimulationPlugin>> errorPlugins = new Vector<PluginDescription<SimulationPlugin>>();
+			
+			for (PluginDescription<SimulationPlugin> pluginDescription : pluginManager.getPluginDescriptions()) {
+				try {
+					SimulationPlugin plugin = pluginDescription.getPlugin();
+					SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + pluginDescription.getName());
+					plugin.init(sp, config, provider);
+				} catch (Exception e) {
+					errorPlugins.add(pluginDescription);
+
+					Errorhandler.logError(e);
+					error = true;
+				}
+			}
+			
+			for(PluginDescription<SimulationPlugin> p : errorPlugins) {
+				if(pluginManager.unloadPlugin(p)) {
+					System.err.println("Unload plugin because of problem: " + p.getClass());
+				} else {
+					System.err.println("Unload plugin failed: " + p.getClass());
+				}
 			}
 
-			for (PluginDescription<SimulationPlugin> pluginDescription : pluginManager.getPluginDescriptions()) {
-				SimulationPlugin plugin = pluginDescription.getPlugin();
-				SettingsPrefix sp = new SettingsPrefix(settings, "simplugin." + pluginDescription.getName());
-				plugin.init(sp, config, provider);
+			if (error) {
+				Messagebox.showError(null, "Plugin", "<html><b>Nicht alle Plugins konnte geladen werden.</b> " +
+						"Details entnehmen Sie dem Errorlog.<br>" +
+						"Höchstwarscheinlich handelt es sich bei diesem Fehler um einen Programmierfehler, konntaktieren Sie den Entwickler.</html>");
 			}
 
 		} else {
@@ -68,7 +96,7 @@ public class SimulationManager {
 	public PluginDescription<SimulationPlugin> getSelectedPluginDescription() {
 		return selectedPluginDescription;
 	}
-	
+
 	public Vector<PluginDescription<SimulationPlugin>> getPluginDescriptions() {
 		return pluginManager.getPluginDescriptions();
 	}

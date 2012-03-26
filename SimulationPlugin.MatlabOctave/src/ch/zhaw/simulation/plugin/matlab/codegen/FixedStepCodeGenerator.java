@@ -38,11 +38,11 @@ public abstract class FixedStepCodeGenerator extends DefaultCodeGenerator {
 		out.printComment("Predefined constants");
 		out.printVariable(START, start);
 		out.printVariable(END, end);
-		out.printVariable(DT, dt);
 		out.newline();
 
 		out.printComment("Time variable");
 		out.printVariable(TIME, START);
+		out.printVariable(DT, dt);
 		out.newline();
 	}
 

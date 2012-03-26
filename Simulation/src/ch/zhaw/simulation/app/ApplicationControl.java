@@ -36,10 +36,14 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.plugin.ExecutionListener;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.StandardParameter;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationEntry;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
@@ -130,6 +134,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	private HashMap<SimulationFlowModel, FlowSubmodelRef> submodels = new HashMap<SimulationFlowModel, FlowSubmodelRef>();
 
+	private ExecutionListener executionListener;
+
 	/**
 	 * The settings key for last used type
 	 */
@@ -154,6 +160,47 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		this.recentMenu = new RecentMenu(settings);
 		this.recentMenu.addListener(this);
 
+		this.executionListener = new ExecutionListener() {
+
+			@Override
+			public void executionStarted(final String message) {
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						mainFrame.lock(message);
+					}
+				});
+			}
+
+			@Override
+			public void setExecutionMessage(final String message) {
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						mainFrame.setLockText(message);
+					}
+				});
+			}
+			
+			@Override
+			public void executionFinished() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						mainFrame.unlock();
+						SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+						SimulationSerie series[] = collection.getSeries();
+						for (int i = 0; i < series.length; i++) {
+							System.out.println(series[i].getName());
+						}
+					}
+				});
+			}
+
+		};
+
 		this.manager = new SimulationManager(settings, doc.getSimulationConfiguration(), new PluginDataProvider() {
 
 			@Override
@@ -161,6 +208,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				return ApplicationControl.this.mainFrame;
 			}
 
+			@Override
+			public ExecutionListener getExecutionListener() {
+				return ApplicationControl.this.executionListener;
+			}
 		});
 
 		try {
@@ -192,7 +243,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		this.savehandler = new LoadSaveHandler(mainFrame, settings, sysintegration, this.importPluginLoader);
 		this.savehandler.addListener(this);
 
+		// Speicherfähigkeit erstellen
 		simulationSettingsSaver = new SimulationSettingsSaver(doc.getSimulationConfiguration(), settings);
+		// Alle relevanten Settings in die Konfiguration übernehmen
+		simulationSettingsSaver.load();
+
 	}
 
 	public void showXYWindow() {
@@ -340,14 +395,15 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public JFrame getMainFrame() {
 		return mainFrame;
 	}
-
-	public void startSimulation() {
+	
+	public PluginDescription<SimulationPlugin> getSelectedPluginDescriptor() {
 		String pluginName = doc.getSimulationConfiguration().getSelectedPluginName();
 
 		if (pluginName == null) {
 			Messagebox.showError(getMainFrame(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
-			return;
+			return null;
 		}
+
 
 		PluginDescription<SimulationPlugin> selectedPluginDescription = null;
 		for (PluginDescription<SimulationPlugin> pluginDescription : manager.getPluginDescriptions()) {
@@ -357,6 +413,12 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			}
 		}
 
+		return selectedPluginDescription;
+	}
+
+	public void startSimulation() {
+		PluginDescription<SimulationPlugin> selectedPluginDescription = getSelectedPluginDescriptor();
+		
 		if (selectedPluginDescription == null) {
 			Messagebox.showError(getMainFrame(), "Plugin nicht gefunden", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
 			return;

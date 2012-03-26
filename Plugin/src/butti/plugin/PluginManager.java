@@ -16,7 +16,6 @@ import org.w3c.dom.NodeList;
 
 import butti.plugin.definition.AbstractPlugin;
 
-
 /**
  * Plugin Manager
  * 
@@ -179,12 +178,15 @@ public class PluginManager<E extends AbstractPlugin> {
 	/**
 	 * Entfernt ein Plugin aus der Liste, nachdem es entladen wurde
 	 * 
-	 * @param plugin
+	 * @param p
 	 *            Das Plugin das entladen werden soll
 	 * @return true wenn erfolgreich
 	 */
-	public boolean unloadPlugin(E plugin) {
-		plugin.unload();
-		return pluginDescriptions.remove(plugin);
+	public boolean unloadPlugin(PluginDescription<E> p) {
+		if (p.getPlugin() != null) {
+			p.getPlugin().unload();
+		}
+
+		return pluginDescriptions.remove(p);
 	}
 }

@@ -2,18 +2,22 @@ package ch.zhaw.simulation.editor.xy;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.gui.splitmenuitem.SplitMenuitem;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.editor.xy.dialog.XYSizeDialog;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -119,17 +123,27 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 		final SubModelList m = model.getSubmodels();
 
 		JPopupMenu popup = new JPopupMenu();
-
+		
 		for (final SubModel sub : m) {
-			JMenuItem mi = new JMenuItem(sub.getName());
+			SplitMenuitem mi = new SplitMenuitem(sub.getName());
 			mi.setIcon(new ColorIcon(sub.getColor()));
+			mi.addAction(new AbstractAction("", IconLoader.getIcon("edit")) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
 			popup.add(mi);
 			
 			mi.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					submodelHandler.fireItemSelected(sub);					
+					submodelHandler.fireItemSelected(sub);
 				}
 			});
 		}
@@ -138,7 +152,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			popup.addSeparator();
 		}
 
-		JMenuItem madd = new JMenuItem("Neus Submodell erstellen");
+		SplitMenuitem madd = new SplitMenuitem("Neus Submodell erstellen");
 		popup.add(madd);
 		madd.addActionListener(new ActionListener() {
 

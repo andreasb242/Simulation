@@ -2,12 +2,15 @@ package ch.zhaw.simulation.window.sidebar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import butti.plugin.PluginDescription;
+import ch.zhaw.simulation.plugin.SimulationPlugin;
 import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
@@ -37,16 +40,21 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		SimulationManager manager = control.getApp().getManager();
 
 		// Die Liste aller Plugin-Beschreibungen als Grundlage für die JComboBox verwenden
-		cbSimulationtype = new JComboBox(manager.getPluginDescriptions());
+		Vector<PluginDescription<SimulationPlugin>> pluginDescriptions = manager.getPluginDescriptions();
+		cbSimulationtype = new JComboBox(pluginDescriptions);
 
-		cbSimulationtype.setSelectedItem(configuration.getSelectedPluginName());
+		// Falls über die Settings und den SettingsSaver in der Konfiguration ein Eintrag steht, selektiere in
+		// Bei Programmstart ist die Konfiguration leer
+		for (PluginDescription<SimulationPlugin> pluginDescription : pluginDescriptions) {
+			if (pluginDescription.getName().equals(configuration.getSelectedPluginName())) {
+				cbSimulationtype.setSelectedItem(pluginDescription);
+				configuration.setSelectedPluginNameForce(configuration.getSelectedPluginName());
+			}
+		}
 
 		if (cbSimulationtype.getSelectedIndex() < 0 && manager.getPluginDescriptions().size() > 0) {
 			cbSimulationtype.setSelectedIndex(0);
 		}
-
-		// Ein Synchroner aufruf
-		actionPerformed(null);
 
 		add(cbSimulationtype);
 

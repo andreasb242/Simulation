@@ -3,14 +3,11 @@ package ch.zhaw.simulation.plugin.matlab.codegen;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Vector;
 
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
-import ch.zhaw.simulation.plugin.StandardParameter;
 
 /**
  * Euler Code-Generator
@@ -54,7 +51,7 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 		printContainerCalculations(out);
 		printParameterCalculations(out);
 
-		printSaveCurrentValues(out);
+		printValuesToFile(out);
 
 		// TODO: DEBUG
 		out.println("% Debug only!");
@@ -81,6 +78,11 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 		out.close();
 
 		//Runtime.getRuntime().exec(new String[] { "gedit", outputFile });
+	}
+
+	@Override
+	public String getGeneratedFile() {
+		return FILENAME;
 	}
 
 	/**

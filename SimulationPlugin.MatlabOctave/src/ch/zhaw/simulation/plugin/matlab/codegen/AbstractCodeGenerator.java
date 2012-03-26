@@ -35,6 +35,8 @@ public abstract class AbstractCodeGenerator {
 	public String getWorkingFolder() {
 		return workingFolder;
 	}
+	
+	public abstract String getGeneratedFile();
 
 	/**
 	 * Extracts the Basefile for the simulation model
@@ -82,7 +84,7 @@ public abstract class AbstractCodeGenerator {
 	protected abstract void printParameterInitialisation(CodeOutput out);
 
 	protected abstract void printOpenFiles(CodeOutput out);
-	protected abstract void printSaveCurrentValues(CodeOutput out);
+	protected abstract void printValuesToFile(CodeOutput out);
 	protected abstract void printCloseFiles(CodeOutput out);
 
 	protected abstract void printFlowCalculations(CodeOutput out);
