@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.gui.splitmenuitem.SplitMenuitem;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
@@ -80,7 +81,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 	public SubmodelHandler getSubmodelHandler() {
 		return submodelHandler;
 	}
-	
+
 	@Override
 	public void stopAutoparser() {
 		// TODO Autoparser XY Dialog
@@ -123,22 +124,33 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 		final SubModelList m = model.getSubmodels();
 
 		JPopupMenu popup = new JPopupMenu();
-		
+
 		for (final SubModel sub : m) {
 			SplitMenuitem mi = new SplitMenuitem(sub.getName());
 			mi.setIcon(new ColorIcon(sub.getColor()));
+
+			mi.addAction(new AbstractAction("", IconLoader.getIcon("edit-delete")) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (Messagebox.showDeleteConfirm(getParent(), "Möchten Sie «" + sub.getName() + "» wirklich löschen?")) {
+						m.removeModel(sub);
+					}
+				}
+			});
 			mi.addAction(new AbstractAction("", IconLoader.getIcon("edit")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					
+					System.out.println("edit");
 				}
 			});
-			
+
 			popup.add(mi);
-			
+
 			mi.addActionListener(new ActionListener() {
 
 				@Override
