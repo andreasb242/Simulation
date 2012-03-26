@@ -2,16 +2,15 @@ package ch.zhaw.simulation.editor.xy;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.gui.TextEditDialog;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.gui.splitmenuitem.SplitMenuitem;
 import ch.zhaw.simulation.app.SimulationApplication;
@@ -144,8 +143,35 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					System.out.println("edit");
+					final Vector<String> usedNames = new Vector<String>();
+
+					for (SubModel s : m) {
+						if (s != sub) {
+							usedNames.add(s.getName());
+						}
+					}
+
+					TextEditDialog dlg = new TextEditDialog(getParent(), "Namen für Submodell eingeben", new TextEditDialog.TextChecker() {
+
+						@Override
+						public boolean isValidText(String text) {
+							return !usedNames.contains(text);
+						}
+
+						@Override
+						public String getErrorDescription() {
+							return "Der Name ist bereits vergeben";
+						}
+					});
+					dlg.setTitle("Simulation");
+					dlg.setText(sub.getName());
+					dlg.setVisible(true);
+
+					String text = dlg.getText();
+					if (text != null) {
+						sub.setName(text);
+						m.fireModelChanged(sub);
+					}
 				}
 			});
 
