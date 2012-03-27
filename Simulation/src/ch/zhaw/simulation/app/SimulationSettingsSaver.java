@@ -20,7 +20,9 @@ public class SimulationSettingsSaver implements SimulationParameterListener, Plu
 
 	public void load() {
 		String pluginName = settings.getSetting("simulation.plugin");
-		configuration.setSelectedPluginName(pluginName);
+		if (pluginName != null) {
+			configuration.setSelectedPluginName(pluginName);
+		}
 	}
 
 	@Override
