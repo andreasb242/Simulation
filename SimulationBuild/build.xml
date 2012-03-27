@@ -172,6 +172,17 @@
 		</copy>
 
 
+		<ant antfile="../VectorExport/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/AppDefinition" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/AppDefinition">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
 		<ant antfile="../Editor/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/Editor" />
