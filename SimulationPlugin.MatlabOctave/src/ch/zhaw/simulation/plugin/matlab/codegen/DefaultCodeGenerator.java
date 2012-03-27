@@ -166,6 +166,11 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			String var = namedData.getName() + ".fp";
 			out.println(var + " = fopen('" + namedData.getName() + "_data.txt', 'w');");
 		}
+
+		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
+			String var = c.getValve().getName() + ".fp";
+			out.println(var + " = fopen('" + c.getValve().getName() + "_data.txt', 'w');");
+		}
 		out.newline();
 	}
 
@@ -175,10 +180,15 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 	protected void printCloseFiles(CodeOutput out) {
 		out.printComment("Close output files");
 		for (AbstractNamedSimulationData namedData : dataVector) {
-			String var = namedData.getName() + ".fp";
-			out.println("fclose(" + var + ");");
+			String fp = namedData.getName() + ".fp";
+			out.println("fclose(" + fp + ");");
 		}
-		out.println("fclose(fopen('matlab_finish', 'w'));");
+
+		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
+			String fp = c.getValve().getName() + ".fp";
+			out.println("fclose(" + fp + ");");
+		}
+		out.println("fclose(fopen('matlab_finish.txt', 'w'));");
 		out.newline();
 	}
 
@@ -193,38 +203,128 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			String value = namedData.getName() + ".value";
 			out.println("fprintf(" + fp + ", '%f\\t%e\\n', " + TIME + ", " + value + ");");
 		}
+
+		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
+			String fp = c.getValve().getName() + ".fp";
+			String value = c.getValve().getName() + ".value";
+			out.println("fprintf(" + fp + ", '%f\\t%e\\n', " + TIME + ", " + value + ");");
+		}
 		out.newline();
 	}
 
 	protected void printInitDebug(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
+		Vector<AbstractNamedSimulationData> namedDatas = new Vector<AbstractNamedSimulationData>();
+
+		namedDatas.addAll(dataVector);
+
+		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
+			namedDatas.add(c.getValve());
+		}
 
 		out.printComment("DEBUG");
 		out.println("tmp_idx = 1;");
-		out.println("tmp_y = zeros(" + (size + 1) + ",1000);");
+		out.println("tmp_y = zeros(" + (namedDatas.size() + 1) + ",1000);");
+		out.newline();
 	}
 
 	protected void printDebug(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
+		Vector<AbstractNamedSimulationData> namedDatas = new Vector<AbstractNamedSimulationData>();
+
+		namedDatas.addAll(dataVector);
+
+		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
+			namedDatas.add(c.getValve());
+		}
 
 		out.printComment("DEBUG");
-		out.println("tmp_y(1, tmp_idx) = sim_timenew;");
-		for (int i = 1; i <= size; i++) {
-			out.println("tmp_y(" + (i + 1) + ", tmp_idx) = sim_ynew(" + i + ",1);");
+		out.println("tmp_y(1, tmp_idx) = sim_time;");
+		for (int i = 1; i <= namedDatas.size(); i++) {
+			//out.printComment(namedDatas.get(i-1).getName());
+			out.println("tmp_y(" + (i + 1) + ", tmp_idx) = " + namedDatas.get(i-1).getName() + ".value;");
 		}
 		out.println("tmp_idx = tmp_idx + 1;");
 		out.newline();
 	}
 
 	protected void printDebugGraph(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
+		Vector<AbstractNamedSimulationData> namedDatas = new Vector<AbstractNamedSimulationData>();
+
+		namedDatas.addAll(dataVector);
+
+		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
+			namedDatas.add(c.getValve());
+		}
 
 		out.printComment("DEBUG");
 		out.println("tmp_res = tmp_y(:, 1:tmp_idx-1);");
-		for (int i = 1; i <= size; i++) {
+		for (int i = 1; i <= namedDatas.size(); i++) {
 			out.println("figure(" + i + ");");
 			out.println("stem(tmp_res(1,:), tmp_res(" + (i + 1) + ",:));");
+			out.println("title('" + namedDatas.get(i-1).getName() + "');");
 		}
 		out.newline();
+	}
+
+	/**
+	 * Print initial value vector. It prints only containers.
+	 *
+	 * @param out
+	 */
+	protected void printInitialValueVector(CodeOutput out) {
+		StringBuilder builder = new StringBuilder();
+		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
+		boolean isEmpty = true;
+
+		builder.append("% Initial value vector\n");
+		builder.append("sim_y = [");
+		for (SimulationContainerData container : containers) {
+			// to separate between vector elements
+			// first element has no prefix
+			if (!isEmpty) {
+				builder.append(";");
+			}
+
+			isEmpty = false;
+			builder.append(" ");
+			builder.append(container.getName() + ".value");
+		}
+		builder.append(" ];");
+
+		if (!isEmpty) {
+			out.println(builder.toString());
+			out.newline();
+		}
+	}
+
+	/**
+	 * Print global variables. It prints only constant parameters.
+	 *
+	 * @param out
+	 */
+	protected void printGlobal(CodeOutput out) {
+		StringBuilder builder = new StringBuilder();
+		boolean isEmpty = true;
+
+		builder.append("% Global constant parameters\n");
+		builder.append("global");
+		for (AbstractNamedSimulationData namedData : dataVector) {
+			isEmpty = false;
+			builder.append(" ");
+			builder.append(namedData.getName());
+
+		}
+
+		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
+			isEmpty = false;
+			builder.append(" ");
+			builder.append(c.getValve().getName());
+		}
+
+		builder.append(";");
+
+		if (!isEmpty) {
+			out.println(builder.toString());
+			out.newline();
+		}
 	}
 }

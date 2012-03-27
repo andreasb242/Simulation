@@ -31,17 +31,18 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 
 		initSimulation(doc);
 		printHeader(out);
+
+		printInitDebug(out);
+
 		printPredefinedConstants(out);
 		printContainerInitialisation(out);
 		printParameterInitialisation(out);
+		printFlowCalculations(out);
+
 		printOpenFiles(out);
+		printValuesToFile(out);
 
 		out.println(COUNT + " = ceil("+ END + " / " + DT + ") - ceil("+ START + " / " + DT + ");");
-		out.newline();
-
-		// TODO: DEBUG
-		out.println("% Debug only!");
-		out.println("x = zeros(1, " + COUNT + ");");
 		out.newline();
 
 		out.println("for i = 1 : sim_count + 1");
@@ -53,10 +54,7 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 
 		printValuesToFile(out);
 
-		// TODO: DEBUG
-		out.println("% Debug only!");
-		out.println("x(i)=UC.value;");
-		out.newline();
+		printDebug(out);
 
 		out.println(TIME + " = " + TIME + " + " + DT + ";");
 		out.newline();
@@ -67,13 +65,7 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 
 		printCloseFiles(out);
 
-		// TODO: DEBUG
-		out.println("% Debug only!");
-		out.println("t = " + START + ":" + DT + ":" + END + ";");
-		out.println("plot(t,x,'r','LineWidth',2);");
-		out.println("legend('dt=" + dt + "',2);");
-		out.println("title('Euler');");
-		out.newline();
+		printDebugGraph(out);
 
 		out.close();
 

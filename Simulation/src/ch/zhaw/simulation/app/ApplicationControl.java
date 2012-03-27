@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -190,11 +191,17 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 					@Override
 					public void run() {
 						mainFrame.unlock();
+						/*
 						SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 						SimulationSerie series[] = collection.getSeries();
 						for (int i = 0; i < series.length; i++) {
 							System.out.println(series[i].getName());
+							Vector<SimulationEntry> entries = series[i].getData();
+							for (SimulationEntry entry : entries) {
+								System.out.println(entry.time + ": " + entry.value);
+							}
 						}
+						*/
 					}
 				});
 			}

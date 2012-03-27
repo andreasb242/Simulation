@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
@@ -41,14 +42,15 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 
 		printGlobal(out);
 
-		printOpenFiles(out);
-
 		printInitDebug(out);
 
 		printPredefinedConstants(out);
 		printContainerInitialisation(out);
 		printParameterInitialisation(out);
 		printFlowCalculations(out);
+
+		printOpenFiles(out);
+		printValuesToFile(out);
 
 		printAdaptiveStepMethodVariables(out);
 		printButcherTableau(out);
@@ -108,6 +110,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		printIncrementStepSize(out);
 
 		printSaveNewValues(out);
+		//printNewYToContainer(out);
 		printValuesToFile(out);
 
 		printDebug(out);
@@ -142,67 +145,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		out.close();
 	}
 
-	/**
-	 * Print global variables. It prints only constant parameters.
-	 *
-	 * @param out
-	 */
-	protected void printGlobal(CodeOutput out) {
-		StringBuilder builder = new StringBuilder();
-		Vector<SimulationParameterData> parameters = flowModel.getSimulationParameter();
-		boolean isEmpty = true;
-
-
-		builder.append("% Global constant parameters\n");
-		builder.append("global");
-		for (SimulationParameterData parameter : parameters) {
-			MatlabAttachment attachment = (MatlabAttachment) parameter.attachment;
-
-			if (attachment.isConst()) {
-				isEmpty = false;
-				builder.append(" ");
-				builder.append(parameter.getName());
-			}
-		}
-
-		if (!isEmpty) {
-			out.println(builder.toString());
-			out.newline();
-		}
-	}
-
 	protected abstract void printInitDeltaVector(CodeOutput out);
-
-	/**
-	 * Print initial value vector. It prints only containers.
-	 *
-	 * @param out
-	 */
-	protected void printInitialValueVector(CodeOutput out) {
-		StringBuilder builder = new StringBuilder();
-		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
-		boolean isEmpty = true;
-
-		builder.append("% Initial value vector\n");
-		builder.append("sim_y = [");
-		for (SimulationContainerData container : containers) {
-			// to separate between vector elements
-			// first element has no prefix
-			if (!isEmpty) {
-				builder.append(";");
-			}
-
-			isEmpty = false;
-			builder.append(" ");
-			builder.append(container.getName() + ".value");
-		}
-		builder.append(" ];");
-
-		if (!isEmpty) {
-			out.println(builder.toString());
-			out.newline();
-		}
-	}
 
 	protected void printAdaptiveStepMethodVariables(CodeOutput out) {
 		out.printComment("Variables for the adaptive step method");
@@ -277,6 +220,18 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		for (int i = 1; i <= size; i++) {
 			SimulationContainerData container = containers.get(i - 1);
 			out.println(container.getName() + ".value = y(" + i + ");");
+		}
+		out.newline();
+	}
+
+	protected void printNewYToContainer(CodeOutput out) {
+		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
+		int size = containers.size();
+
+		out.printComment("Calculate / Interpolate");
+		for (int i = 1; i <= size; i++) {
+			SimulationContainerData container = containers.get(i - 1);
+			out.println(container.getName() + ".value = sim_y(" + i + ");");
 		}
 		out.newline();
 	}
