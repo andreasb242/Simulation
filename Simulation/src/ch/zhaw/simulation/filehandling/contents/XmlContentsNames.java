@@ -34,8 +34,6 @@ public interface XmlContentsNames {
 	public static String XML_ELEMENT_TEXT = "text";
 	public static String XML_ELEMENT_FLOW_CONNECTOR = "flowConnector";
 
-	public static String XML_ELEMENT_SUBMODEL = "submodel";
-	
 	public static String XML_ELEMENT_ATTRIB_X = "x";
 	public static String XML_ELEMENT_ATTRIB_Y = "y";
 	public static String XML_ELEMENT_ATTRIB_NAME = "name";

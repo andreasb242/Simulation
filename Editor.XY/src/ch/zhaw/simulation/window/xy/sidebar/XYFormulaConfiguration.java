@@ -18,20 +18,20 @@ public abstract class XYFormulaConfiguration extends NameFormulaConfiguration {
 
 	private JLabel lbxDot = new JLabel("ẋ");
 	private JLabel lbyDot = new JLabel("ẏ");
-	
+
 	private JComboBox cbSubmodel;
-	
+
 	private Object lastSelectedObject;
-	
+
 	public XYFormulaConfiguration(SimulationXYModel model, SelectionModel selectionModel) {
 		super(model, selectionModel);
-		
+
 		gbm.setX(0).setY(50).setWidth(3).setWeightY(0).setComp(lbxDot);
 		gbm.setX(0).setY(51).setWidth(3).setWeightY(0).setComp(lbyDot);
-		
+
 		gbm.remove(this.lbValue);
 		gbm.remove(this.btEdit);
-		
+
 		SubmodelComboboxModel cbModel = new SubmodelComboboxModel(model.getSubmodels());
 		cbSubmodel = new JComboBox(cbModel);
 		cbSubmodel.setRenderer(new SubModelRenderer());
@@ -43,22 +43,22 @@ public abstract class XYFormulaConfiguration extends NameFormulaConfiguration {
 				if (ItemEvent.SELECTED == e.getStateChange()) {
 					if (cbSubmodel.getSelectedItem() != lastSelectedObject) {
 						lastSelectedObject = cbSubmodel.getSelectedItem();
-						
-						setSubmodel((SubModel)lastSelectedObject);
+
+						setSubmodel((SubModel) lastSelectedObject);
 					}
 				}
 			}
 		});
-		
+
 		gbm.setX(0).setY(1000).setWidth(2).setComp(cbSubmodel);
 	}
-	
+
 	protected void setSubmodel(SubModel selected) {
-		if(this.data == null) {
+		if (this.data == null) {
 			return;
 		}
-		
-		((MesoData)this.data).setSubmodel(selected);
+
+		((MesoData) this.data).setSubmodel(selected);
 		model.fireObjectChanged(this.data);
 	}
 
@@ -66,7 +66,12 @@ public abstract class XYFormulaConfiguration extends NameFormulaConfiguration {
 	public void setSelected(AbstractNamedSimulationData data) {
 		super.setSelected(data);
 
-		MesoData m = (MesoData)data;
-		cbSubmodel.setSelectedItem(m.getSubmodel());
+		if (data instanceof MesoData) {
+			MesoData m = (MesoData) data;
+			cbSubmodel.setSelectedItem(m.getSubmodel());
+			cbSubmodel.setVisible(true);
+		} else {
+			cbSubmodel.setVisible(false);
+		}
 	}
 }

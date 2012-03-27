@@ -27,6 +27,11 @@ public class MesoData extends AbstractNamedSimulationData {
 
 	public void setSubmodel(SubModel submodel) {
 		this.submodel = submodel;
+		if (submodel == null) {
+			setStaus(Status.SYNTAX_ERROR, "Kein Submodell");
+		} else {
+			setStaus(Status.SYNTAX_OK, null);
+		}
 	}
 
 	public SubModel getSubmodel() {

@@ -224,6 +224,7 @@ public class LoadSaveHandler extends StatusHandler {
 			setStatusText("Datei geladen");
 			doc.setSaved();
 		} catch (Exception e) {
+			e.printStackTrace();
 			Messagebox msg = new Messagebox(parent, "Fehler beim Öffnen",
 					"Die Datei konnte nicht gelesen werden. Ggf. ist die Datei beschädigt oder vom falschen Format.\n" + e.getMessage(), Messagebox.ERROR);
 			msg.addButton("OK", 0, true);

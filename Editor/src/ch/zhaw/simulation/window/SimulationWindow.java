@@ -227,16 +227,23 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 	@Override
 	public void dispose() {
-		view.getUndoHandler().removeUndoListener(toolbar);
-		view.getClipboard().removeListener(toolbar);
-
-		doc.getSimulationConfiguration().removePluginChangeListener(this);
-
-		if (view.getControl().getSelectionModel() != null) {
-			view.getControl().getSelectionModel().removeSelectionListener(formulaConfiguration);
+		if (view != null) {
+			view.getUndoHandler().removeUndoListener(toolbar);
+			view.getClipboard().removeListener(toolbar);
 		}
 
-		view.dispose();
+		if (doc != null) {
+			doc.getSimulationConfiguration().removePluginChangeListener(this);
+		}
+
+		if (view != null) {
+			if (view.getControl().getSelectionModel() != null) {
+				view.getControl().getSelectionModel().removeSelectionListener(formulaConfiguration);
+			}
+
+			view.dispose();
+			view = null;
+		}
 
 		this.simConfig.dispose();
 
@@ -246,7 +253,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	public V getView() {
 		return view;
 	}
-	
+
 	public T getToolbar() {
 		return toolbar;
 	}

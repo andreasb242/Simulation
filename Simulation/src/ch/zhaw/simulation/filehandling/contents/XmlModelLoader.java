@@ -23,8 +23,10 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.DensityData;
+import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
+import ch.zhaw.simulation.model.xy.SubModelList;
 
 public class XmlModelLoader implements XmlContentsNames {
 	private Vector<Node> parameterConnectors = new Vector<Node>();
@@ -71,7 +73,10 @@ public class XmlModelLoader implements XmlContentsNames {
 			SimulationDensityContainerData o = new SimulationDensityContainerData(0, 0);
 			parseSimulationObject(node, o);
 			model.addData(o);
-
+		} else if (XML_ELEMENT_MESO.equals(name)) {
+			MesoData o = new MesoData(0, 0);
+			parseSimulationObject(node, o);
+			model.addData(o);
 		} else {
 			throw new RuntimeException("Node name \"" + name + "\" unknown!");
 		}
@@ -338,7 +343,7 @@ public class XmlModelLoader implements XmlContentsNames {
 			if (n.getNodeType() == Node.ELEMENT_NODE) {
 				if (XML_MODEL_XY_ELEMENT_DENSITY.equals(n.getNodeName())) {
 					parseDensity(n, xyModel);
-				} else if (XML_ELEMENT_SUBMODEL.equals(n.getNodeName())) {
+				} else if (XML_MODEL.equals(n.getNodeName())) {
 					parseSubmodel(n, xyModel);
 				} else {
 					parseNode(n, xyModel);
@@ -346,30 +351,41 @@ public class XmlModelLoader implements XmlContentsNames {
 			}
 		}
 
+		// assign submodel to meso elements
+		SubModelList submodel = xyModel.getSubmodels();
+		for (MesoData m : xyModel.getMeso()) {
+			if ("".equals(m.getFormula())) {
+				continue;
+			}
+
+			SubModel sub = submodel.getByName(m.getFormula());
+
+			if (sub == null) {
+				System.err.println("Submodel «" + m.getFormula() + "» for «" + m.getName() + "» could not be assigned");
+			} else {
+				m.setSubmodel(sub);
+			}
+		}
+
 		return true;
 	}
 
 	private void parseSubmodel(Node root, SimulationXYModel xyModel) {
-		NodeList nodes = root.getChildNodes();
-
 		String name = XmlHelper.getAttribute(root, XML_ELEMENT_ATTRIB_NAME);
-
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node n = nodes.item(i);
-
-			if (n.getNodeType() == Node.ELEMENT_NODE) {
-				if (XML_MODEL_TYPE_FLOW.equals(n.getNodeName())) {
-					SubModel submodel = new SubModel();
-					if (!load(submodel.getModel(), n)) {
-						throw new RuntimeException("Coult not load submodel: «" + name + "»");
-					}
-					submodel.setName(name);
-					xyModel.getSubmodels().addModel(submodel);
-				} else {
-					System.err.println("unexcpected element within submodel: «" + n.getNodeName() + "»");
-				}
-			}
+		String type = XmlHelper.getAttribute(root, XML_MODEL_TYPE);
+		
+		if(!XML_MODEL_TYPE_FLOW.equals(type)) {
+			System.err.println("unexcpected submodel: «" + type + "»");
+			return;
 		}
+		
+		
+		SubModel submodel = new SubModel();
+		if (!load(submodel.getModel(), root)) {
+			throw new RuntimeException("Coult not load submodel: «" + name + "»");
+		}
+		submodel.setName(name);
+		xyModel.getSubmodels().addModel(submodel);
 	}
 
 	private void parseDensity(Node n, SimulationXYModel xyModel) {

@@ -4,16 +4,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.gui.TextEditDialog;
+import butti.javalibs.gui.messagebox.Messagebox;
+import butti.javalibs.gui.splitmenuitem.SplitMenuitem;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.editor.xy.dialog.XYSizeDialog;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -76,7 +80,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 	public SubmodelHandler getSubmodelHandler() {
 		return submodelHandler;
 	}
-	
+
 	@Override
 	public void stopAutoparser() {
 		// TODO Autoparser XY Dialog
@@ -121,15 +125,63 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 		JPopupMenu popup = new JPopupMenu();
 
 		for (final SubModel sub : m) {
-			JMenuItem mi = new JMenuItem(sub.getName());
+			SplitMenuitem mi = new SplitMenuitem(sub.getName());
 			mi.setIcon(new ColorIcon(sub.getColor()));
-			popup.add(mi);
-			
-			mi.addActionListener(new ActionListener() {
-				
+
+			mi.addAction(new AbstractAction("", IconLoader.getIcon("edit-delete")) {
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					submodelHandler.fireItemSelected(sub);					
+					if (Messagebox.showDeleteConfirm(getParent(), "Möchten Sie «" + sub.getName() + "» wirklich löschen?")) {
+						m.removeModel(sub);
+					}
+				}
+			});
+			mi.addAction(new AbstractAction("", IconLoader.getIcon("edit")) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					final Vector<String> usedNames = new Vector<String>();
+
+					for (SubModel s : m) {
+						if (s != sub) {
+							usedNames.add(s.getName());
+						}
+					}
+
+					TextEditDialog dlg = new TextEditDialog(getParent(), "Namen für Submodell eingeben", new TextEditDialog.TextChecker() {
+
+						@Override
+						public boolean isValidText(String text) {
+							return !usedNames.contains(text);
+						}
+
+						@Override
+						public String getErrorDescription() {
+							return "Der Name ist bereits vergeben";
+						}
+					});
+					dlg.setTitle("Simulation");
+					dlg.setText(sub.getName());
+					dlg.setVisible(true);
+
+					String text = dlg.getText();
+					if (text != null) {
+						sub.setName(text);
+						m.fireModelChanged(sub);
+					}
+				}
+			});
+
+			popup.add(mi);
+
+			mi.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					submodelHandler.fireItemSelected(sub);
 				}
 			});
 		}
@@ -138,7 +190,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			popup.addSeparator();
 		}
 
-		JMenuItem madd = new JMenuItem("Neus Submodell erstellen");
+		SplitMenuitem madd = new SplitMenuitem("Neus Submodell erstellen");
 		popup.add(madd);
 		madd.addActionListener(new ActionListener() {
 
@@ -148,22 +200,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			}
 		});
 
-		JMenuItem medit = new JMenuItem("Submodelle bearbeiten");
-		popup.add(medit);
-		medit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				editSubmodel();
-			}
-		});
-
 		popup.show(button, 0, 24);
-	}
-	
-	private void editSubmodel() {
-		SubmodelDialog dlg = new SubmodelDialog(getParent());
-		dlg.setVisible(true);
 	}
 
 	private void editModelSize() {
