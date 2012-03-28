@@ -28,7 +28,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			getView().updateDensity(densitySidebar.getSelected().getFormula());
+			getView().updateDensity(densitySidebar.getSelected().getFormula(), false);
 		}
 
 	};

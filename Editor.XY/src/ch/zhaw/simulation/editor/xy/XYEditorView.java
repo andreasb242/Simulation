@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
@@ -31,10 +32,10 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	public XYEditorView(XYEditorControl control, TransferableFactory factory) {
 		super(control, factory);
 
-		control.getModel().getSubmodels().addListener(this);
+		SimulationXYModel m = control.getModel();
+		m.getSubmodels().addListener(this);
 
-		// TODO SIZE
-		density = new DensityDraw(800, 600);
+		density = new DensityDraw(m.getWidth(), m.getHeight());
 
 		loadDataFromModel();
 	}
@@ -53,9 +54,11 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 	@Override
 	protected void paintEditor(Graphics2D g) {
-		if (density.isVisible()) {
-			System.out.println("draw density");
-			g.drawImage(density.getImage(), 0, 0, this);
+		SimulationXYModel model = getControl().getModel();
+
+		if (model.isShowDensityColor()) {
+			BufferedImage img = density.getImage();
+			g.drawImage(img, 0, 0, this);
 		}
 
 		GuiConfig cfg = control.getSysintegration().getGuiConfig();
@@ -157,7 +160,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 		this.density.setSize(m.getWidth(), m.getHeight());
 
-		updateDensity(null);
+		updateDensity(null, true);
 
 		SimulationLayout l = (SimulationLayout) getLayout();
 		l.setMinWidth(m.getWidth());
@@ -167,12 +170,15 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		this.repaint();
 	}
 
-	public void updateDensity(String formula) {
-		// TODO für was null verwenden!?
-		this.density.setFormula(formula);
+	/**
+	 * If the formula is <code>null</code> or empty nothing is draw
+	 */
+	public void updateDensity(String formula, boolean onlyUpdate) {
+		if (!onlyUpdate) {
+			this.density.setFormula(formula);
+		}
 
-		// TODO: wenn keine Formel gesetzt oder Farbe nicht angezeigt NICHT
-		// rechnen
+		getControl().getStatus().setStatusTextInfo("Dichte wird berechnet...");
 		this.density.updateImageAsynchron(new ActionListener() {
 
 			@Override
@@ -180,10 +186,12 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 				if (getControl() != null && getControl().getStatus() != null) {
 					getControl().getStatus().clearStatus();
 				}
-				repaint();
+
+				if (e.getID() == 0) {
+					repaint();
+				}
 			}
 		});
-		getControl().getStatus().setStatusTextInfo("Dichten werden berechnet...");
 	}
 
 	@Override
