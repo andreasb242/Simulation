@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
-import butti.javalibs.util.FileUtil;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -12,9 +11,7 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
 import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;

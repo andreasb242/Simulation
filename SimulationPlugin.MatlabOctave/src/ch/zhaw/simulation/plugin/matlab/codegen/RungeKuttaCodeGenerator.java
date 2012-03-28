@@ -1,12 +1,8 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-import ch.zhaw.simulation.plugin.StandardParameter;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -76,7 +72,8 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 
 		printCloseFiles(out);
 
-		printDebugGraph(out);
+		//printDebugGraph(out);
+		out.println("exit");
 		out.close();
 	}
 

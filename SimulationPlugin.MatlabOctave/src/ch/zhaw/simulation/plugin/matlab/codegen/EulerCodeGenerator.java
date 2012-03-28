@@ -65,11 +65,9 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 
 		printCloseFiles(out);
 
-		printDebugGraph(out);
-
+		//printDebugGraph(out);
+		out.println("exit");
 		out.close();
-
-		//Runtime.getRuntime().exec(new String[] { "gedit", outputFile });
 	}
 
 	@Override

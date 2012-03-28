@@ -3,7 +3,6 @@ package ch.zhaw.simulation.plugin.matlab;
 import javax.swing.*;
 
 import butti.javalibs.dirwatcher.DirectoryWatcher;
-import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
@@ -17,6 +16,8 @@ import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
+
+import java.io.IOException;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
@@ -76,20 +77,54 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void executeSimulation(SimulationDocument doc) throws Exception {
-		String workpath = settings.getSetting("workpath", StandardParameter.WORKPATH);
+		String workpath = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
 
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
-		finishListener.updateWorkpath(workpath);
-		watcher.start(workpath);
-		provider.getExecutionListener().executionStarted("Simulation läuft..");
-
-		codeGenerator.setWorkingFolder(workpath);
-		codeGenerator.executeSimulation(doc);
+		
+		try {
+			finishListener.updateWorkpath(workpath);
+			watcher.start(workpath);
+			provider.getExecutionListener().executionStarted("Simulation läuft..");
+	
+			codeGenerator.setWorkingFolder(workpath);
+			codeGenerator.executeSimulation(doc);
+			startApplication(workpath, codeGenerator.getGeneratedFile());
+		} catch (IOException e) {
+			watcher.stop();
+			provider.getExecutionListener().executionFinished();
+			throw e;
+		} catch (IllegalArgumentException e) {
+			watcher.stop();
+			provider.getExecutionListener().executionFinished();
+			throw e;
+		}
 
 	}
 
 	@Override
 	public SimulationCollection getSimulationResults(SimulationDocument doc) {
 		return new SimulationResultParser(doc, config).parse();
+	}
+
+	protected void startApplication(String dir, String filename) throws IllegalArgumentException, IOException {
+		String tool = settings.getSetting(MatlabParameter.TOOL, MatlabParameter.DEFAULT_TOOL);
+		MatlabTool t = MatlabTool.fromString(tool);
+		String executable = null;
+		String arguments = null;
+
+		if (t == MatlabTool.MATLAB) {
+			executable = settings.getSetting(MatlabParameter.EXEC_MATLAB_PATH, MatlabParameter.DEFAULT_EXEC_MATLAB_PATH);
+			arguments = "-nosplash -nodesktop -minimize -sd " + dir + " -r " + filename;
+		} else if (t == MatlabTool.OCTAVE) {
+			executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
+			arguments = "";
+		} else if (t == MatlabTool.SCILAB) {
+			executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
+			arguments = "";
+		} else {
+			throw new IllegalArgumentException();
+		}
+
+		Runtime.getRuntime().exec(executable + " " + arguments);
 	}
 }
