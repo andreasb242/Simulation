@@ -46,4 +46,10 @@ public class FormularEditorDialog extends BDialog {
 	public void setTitle(String title) {
 		super.setTitle(title + " - Formeleditor");
 	}
+	
+	@Override
+	public void dispose() {
+		editor.dispose();
+		super.dispose();
+	}
 }
