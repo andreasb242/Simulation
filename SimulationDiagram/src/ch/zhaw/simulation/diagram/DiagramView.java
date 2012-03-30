@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.geom.Path2D;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -32,9 +33,11 @@ public class DiagramView extends JComponent {
 		SimulationEntry entry;
 		Graphics2D g;
 		Color colors[];
-		Polygon polygon;
-		int i, k, x, y;
+		Path2D path;
+		int i, k;
+		double x, y;
 		double ratioX, ratioY;
+		boolean first;
 
 		g = DrawHelper.antialisingOn(g1);
 
@@ -52,22 +55,28 @@ public class DiagramView extends JComponent {
 			System.out.println("Size: " + collection.size());
 			for (i = 0; i < collection.size(); i++) {
 				g.setColor(colors[i]);
-				polygon = new Polygon();
+				path = new Path2D.Double();
 				
 				serie = collection.getSerie(i);
 				ratioY = (serie.getMax() - serie.getMin()) / (double) h;
 				entries = serie.getData();
 				System.out.println("=== " + serie.getName() + " =========================");
 				System.out.println("Min/Max: " + serie.getMin() + "/" + serie.getMax() + " === Ratio: " + ratioX + " x " + ratioY + " === Dimension: " + w + " x " + h);
+				first = true;
 				for (k = 0; k < entries.size(); k++) {
 					entry = entries.get(k);
-					x = (int) Math.round(entry.time / ratioX);
-					y = (int) Math.round((serie.getMax() - entry.value) / ratioY);
+					x = entry.time / ratioX;
+					y = (serie.getMax() - entry.value) / ratioY;
 					System.out.println(" (" + entry.time + "/" + entry.value + ") => (" + x + "/" + y + ")");
-					polygon.addPoint(x, y);
+					if (first) {
+						first = false;
+						path.moveTo(x, y);
+					} else {
+						path.lineTo(x, y);
+					}
 				}
 
-				g.draw(polygon);
+				g.draw(path);
 			}
 		}
 
