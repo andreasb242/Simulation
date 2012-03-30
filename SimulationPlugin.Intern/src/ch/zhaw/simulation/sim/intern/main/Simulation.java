@@ -216,10 +216,10 @@ public class Simulation {
 		Object value = ((SimulationAttachment) d.attachment).getValue();
 		if (value != null) {
 			if (value instanceof Double) {
-				((SimulationAttachment) d.attachment).serie.setConbstValue(((Double) value).doubleValue());
+				((SimulationAttachment) d.attachment).serie.setConstValue(((Double) value).doubleValue());
 			} else {
 				// TODO: handle complex values, vectors etc.
-				((SimulationAttachment) d.attachment).serie.setConbstValue(0);
+				((SimulationAttachment) d.attachment).serie.setConstValue(0);
 			}
 		}
 	}

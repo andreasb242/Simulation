@@ -10,8 +10,8 @@ public class SimulationSerie {
 	private Color color;
 	private boolean visibel = true;
 
-	private double min;
-	private double max;
+	private double min = Double.MAX_VALUE;
+	private double max = Double.MIN_VALUE;
 	private double constValue;
 	private boolean isConstValue = false;
 
@@ -20,6 +20,13 @@ public class SimulationSerie {
 	}
 
 	public void add(double time, double value) {
+		if (value > max) {
+			max = value;
+		}
+
+		if (value < min) {
+			min = value;
+		}
 		data.add(new SimulationEntry(time, value));
 	}
 
@@ -88,7 +95,7 @@ public class SimulationSerie {
 		}
 	}
 
-	public void setConbstValue(double value) {
+	public void setConstValue(double value) {
 		this.constValue = value;
 		isConstValue = true;
 	}

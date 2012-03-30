@@ -24,6 +24,10 @@ public class SimulationCollection {
 		return series.toArray(new SimulationSerie[] {});
 	}
 
+	public SimulationSerie getSerie(int index) {
+		return series.get(index);
+	}
+
 	public int size() {
 		return series.size();
 	}

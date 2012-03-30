@@ -103,7 +103,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public SimulationCollection getSimulationResults(SimulationDocument doc) {
-		return new SimulationResultParser(doc, config).parse();
+		return new SimulationResultParser(doc, config).parse(settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH));
 	}
 
 	protected void startApplication(String dir, String filename) throws IllegalArgumentException, IOException {

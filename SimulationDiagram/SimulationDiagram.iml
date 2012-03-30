@@ -10,6 +10,8 @@
     <orderEntry type="jdk" jdkName="JavaSE-1.6" jdkType="JavaSDK" />
     <orderEntry type="module" module-name="BJavalibs" />
     <orderEntry type="module" module-name="ExternLibraries" />
+    <orderEntry type="module" module-name="SimulationPlugin" />
+    <orderEntry type="module" module-name="Model" />
   </component>
 </module>
 
