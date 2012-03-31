@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.diagram;
 
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -21,6 +23,10 @@ public class DiagramFrame extends JFrame {
 
 		setSize(640, 480);
 		setLocationRelativeTo(null);// center
+	}
+
+	public void updateSimulationCollection(SimulationCollection collection) {
+		view.updateSimulationCollection(collection);
 	}
 
 }

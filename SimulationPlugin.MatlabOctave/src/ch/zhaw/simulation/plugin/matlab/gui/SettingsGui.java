@@ -3,7 +3,6 @@ package ch.zhaw.simulation.plugin.matlab.gui;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -16,6 +15,7 @@ import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.util.OpenFileBrowser;
 import ch.zhaw.simulation.filechooser.ExecDirChooser;
 import ch.zhaw.simulation.filechooser.TxtDirChooser;
+import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
 import ch.zhaw.simulation.plugin.matlab.MatlabTool;
 
 public class SettingsGui extends JPanel {
@@ -49,7 +49,7 @@ public class SettingsGui extends JPanel {
 		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Tool"));
 		gbm.setX(1).setY(0).setWeightY(0).setComp(cbTool);
 
-		matlabTool = MatlabTool.fromString(settings.getSetting("tool", "Octave"));
+		matlabTool = MatlabTool.fromString(settings.getSetting(MatlabParameter.TOOL, MatlabParameter.DEFAULT_TOOL));
 		if (matlabTool != null) {
 			cbTool.setSelectedItem(matlabTool);
 		}
@@ -58,7 +58,7 @@ public class SettingsGui extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("tool", cbTool.getSelectedItem().toString());
+				settings.setSetting(MatlabParameter.TOOL, cbTool.getSelectedItem().toString());
 			}
 		});
 
@@ -68,8 +68,7 @@ public class SettingsGui extends JPanel {
 		gbm.setX(0).setY(2).setWeightY(0).setWeightX(0).setComp(new JLabel("Workpath"));
 		gbm.setX(1).setY(2).setWeightY(0).setComp(txtWorkpath);
 
-		defaultPath = new File(".").getAbsolutePath() + File.separator + "workpath";
-		path = settings.getSetting("workpath", defaultPath);
+		path = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
 
 		txtWorkpath.setPath(path);
 
@@ -77,7 +76,7 @@ public class SettingsGui extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("workpath", txtWorkpath.getPath());
+				settings.setSetting(MatlabParameter.WORKPATH, txtWorkpath.getPath());
 			}
 		});
 
@@ -88,12 +87,12 @@ public class SettingsGui extends JPanel {
 		gbm.setX(1).setY(4).setWeightY(0).setComp(execMatlabPath);
 
 		if (OpenFileBrowser.getOs().equals(OpenFileBrowser.OS.WINDOWS)) {
-			defaultPath = "matlab.exe";
+			defaultPath = MatlabParameter.DEFAULT_EXEC_MATLAB_PATH + ".exe";
 		} else {
-			defaultPath = "matlab";
+			defaultPath = MatlabParameter.DEFAULT_EXEC_MATLAB_PATH;
 		}
 
-		path = settings.getSetting("execMatlabPath", "matlab.exe");
+		path = settings.getSetting(MatlabParameter.EXEC_MATLAB_PATH, defaultPath);
 
 		execMatlabPath.setPath(path);
 
@@ -101,7 +100,7 @@ public class SettingsGui extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("execMatlabPath", execMatlabPath.getPath());
+				settings.setSetting(MatlabParameter.EXEC_MATLAB_PATH, execMatlabPath.getPath());
 			}
 		});
 
@@ -113,12 +112,12 @@ public class SettingsGui extends JPanel {
 
 
 		if (OpenFileBrowser.getOs().equals(OpenFileBrowser.OS.WINDOWS)) {
-			defaultPath = "octave.exe";
+			defaultPath = MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH + ".exe";
 		} else {
-			defaultPath = "octave";
+			defaultPath = MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH;
 		}
 
-		path = settings.getSetting("execOctavePath", defaultPath);
+		path = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, defaultPath);
 
 		execOctavePath.setPath(path);
 
@@ -126,7 +125,7 @@ public class SettingsGui extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("execOctavePath", execOctavePath.getPath());
+				settings.setSetting(MatlabParameter.EXEC_OCTAVE_PATH, execOctavePath.getPath());
 			}
 		});
 
@@ -138,12 +137,12 @@ public class SettingsGui extends JPanel {
 
 
 		if (OpenFileBrowser.getOs().equals(OpenFileBrowser.OS.WINDOWS)) {
-			defaultPath = "scilab.exe";
+			defaultPath = MatlabParameter.DEFAULT_EXEC_SCILAB_PATH + ".exe";
 		} else {
-			defaultPath = "scilab";
+			defaultPath = MatlabParameter.DEFAULT_EXEC_SCILAB_PATH;
 		}
 
-		path = settings.getSetting("execScilabPath", defaultPath);
+		path = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, defaultPath);
 
 		execScilabPath.setPath(path);
 
@@ -151,7 +150,7 @@ public class SettingsGui extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("execScilabPath", execScilabPath.getPath());
+				settings.setSetting(MatlabParameter.EXEC_SCILAB_PATH, execScilabPath.getPath());
 			}
 		});
 

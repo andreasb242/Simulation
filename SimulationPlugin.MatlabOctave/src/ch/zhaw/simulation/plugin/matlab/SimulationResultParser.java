@@ -24,7 +24,7 @@ public class SimulationResultParser {
 		this.config = config;
 	}
 
-	public SimulationCollection parse() {
+	public SimulationCollection parse(String workpath) {
 		SimulationCollection collection;
 		SimulationSerie serie;
 		String line;
@@ -44,7 +44,7 @@ public class SimulationResultParser {
 		for (AbstractNamedSimulationData data : dataVector) {
 			try {
 				serie = new SimulationSerie(data.getName());
-				reader = new BufferedReader(new FileReader(new File(data.getName() + "_data.txt")));
+				reader = new BufferedReader(new FileReader(new File(workpath + File.separator + data.getName() + "_data.txt")));
 				while ((line = reader.readLine()) != null) {
 					cell = line.split("\\t");
 					if (cell.length >= 2) {
