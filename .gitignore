@@ -5,3 +5,7 @@
 *.swp
 *.out
 *.class
+*.windowPos
+
+## user specific files
+Simulation/config/settings.ini
