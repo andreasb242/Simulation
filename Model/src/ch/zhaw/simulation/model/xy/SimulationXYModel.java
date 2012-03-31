@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.model.xy;
 
 import java.awt.Point;
+import java.util.Iterator;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
@@ -169,8 +170,8 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 		return listener;
 	}
 
-	public Vector<DensityData> getDensity() {
-		return density;
+	public Iterator<DensityData> getDensity() {
+		return density.iterator();
 	}
 
 	public Vector<MesoData> getMeso() {
@@ -182,6 +183,34 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 			}
 		}
 		return mesos;
+	}
+
+	/**
+	 * Checks if a Desinty name is valid, and not already used
+	 * 
+	 * @param name
+	 *            The name to check
+	 * @param ignorObject
+	 *            The object to ignor (currntly ediging) or <code>null</code> if
+	 *            none
+	 * @return
+	 */
+	public boolean isValidDensityName(String name, DensityData ignorObject) {
+		if (name == null) {
+			return false;
+		}
+
+		for (DensityData d : density) {
+			if (d == ignorObject) {
+				continue;
+			}
+
+			if (name.equals(d.getName())) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public void addDensity(DensityData d) {
@@ -268,4 +297,5 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	public SubModelList getSubmodels() {
 		return submodels;
 	}
+
 }

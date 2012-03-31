@@ -69,6 +69,10 @@ public class EditorPanel extends JPanel {
 			model.densityChanged(selected);
 		}
 	}
+	
+	public void unselecet() {
+		this.selected = null;
+	}
 
 	public void setSelected(DensityData selected) {
 		saveContents();

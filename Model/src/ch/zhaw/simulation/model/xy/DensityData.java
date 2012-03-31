@@ -48,12 +48,16 @@ public class DensityData implements NamedFormulaData {
 	@Override
 	public void setFormula(String formula, Status status, String statusText) {
 		// TODO status etc. speichern
-		
+
 		this.formula = formula;
 	}
 
 	@Override
 	public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
 	}
-
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

@@ -2,6 +2,7 @@ package ch.zhaw.simulation.filehandling.contents;
 
 import java.awt.Point;
 import java.io.OutputStream;
+import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -63,7 +64,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 
 		visitSimulationData(xmlModel, xyModel);
 
-		for (DensityData d : xyModel.getDensity()) {
+		for (Iterator<DensityData> i = xyModel.getDensity(); i.hasNext();) {
+			DensityData d = i.next();
 			visitDensity(xmlModel, d);
 		}
 
@@ -100,7 +102,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 				throw new RuntimeException("type " + c.getClass().getName() + " not available in visitor!");
 			}
 		}
-		
+
 		return xmlModel;
 	}
 
