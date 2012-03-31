@@ -3,7 +3,6 @@ package ch.zhaw.simulation.app;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -38,8 +37,6 @@ public interface SimulationApplication extends MenuActionListener {
 	public SimulationManager getManager();
 
 	public JFrame getMainFrame();
-
-	FunctionHelp getFunctionHelp();
 
 	public void openFlowEditor(SimulationFlowModel model);
 }

@@ -6,6 +6,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BJavalibs"/>
-	<classpathentry kind="src" path="/HelpBrowser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -47,7 +47,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 			}
 		});
 
-		densitySidebar = new DensitySidebar(control.getParent(), control.getModel(), view, control.getSysintegration(), control.getApp().getFunctionHelp());
+		densitySidebar = new DensitySidebar(control.getParent(), control.getModel(), view, control.getSysintegration());
 
 		densitySidebar.addActionListener(densityListener);
 

@@ -232,7 +232,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 	public void showFormulaEditor(AbstractNamedSimulationData data) {
 		if (formulaEditor == null) {
-			formulaEditor = new FormularEditorDialog(parent, getSysintegration(), app.getFunctionHelp(), getModel());
+			formulaEditor = new FormularEditorDialog(parent, getSysintegration(), getModel());
 		}
 
 		formulaEditor.setData(data);

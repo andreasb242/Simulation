@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -18,10 +17,10 @@ public class FormularEditorDialog extends BDialog {
 
 	private FormulaEditorPanel editor;
 
-	public FormularEditorDialog(JFrame parent, Sysintegration sys, FunctionHelp help, AbstractSimulationModel<?> model) {
+	public FormularEditorDialog(JFrame parent, Sysintegration sys, AbstractSimulationModel<?> model) {
 		super(parent);
 
-		editor = new FormulaEditorPanel(sys, help, model, new Vector<String>());
+		editor = new FormulaEditorPanel(sys, model, new Vector<String>());
 		add(editor);
 
 		pack();

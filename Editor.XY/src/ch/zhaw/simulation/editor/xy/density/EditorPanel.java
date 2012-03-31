@@ -9,13 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.gui.codeditor.FormulaEditorPanel;
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
-
-import butti.javalibs.gui.GridBagManager;
 
 public class EditorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +29,7 @@ public class EditorPanel extends JPanel {
 
 	private SimulationXYModel model;
 
-	public EditorPanel(SimulationXYModel model, Sysintegration sys, FunctionHelp help) {
+	public EditorPanel(SimulationXYModel model, Sysintegration sys) {
 		gbm = new GridBagManager(this);
 		this.model = model;
 
@@ -39,7 +37,7 @@ public class EditorPanel extends JPanel {
 		vars.add("x");
 		vars.add("y");
 
-		editor = new FormulaEditorPanel(sys, help, model, vars);
+		editor = new FormulaEditorPanel(sys, model, vars);
 
 		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name"));
 		gbm.setX(0).setY(1).setWeightY(0).setWeightX(0).setComp(new JLabel("Beschreibung"));
@@ -69,7 +67,7 @@ public class EditorPanel extends JPanel {
 			model.densityChanged(selected);
 		}
 	}
-	
+
 	public void unselecet() {
 		this.selected = null;
 	}

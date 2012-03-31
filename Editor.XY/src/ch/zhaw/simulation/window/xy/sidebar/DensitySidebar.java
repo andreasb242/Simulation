@@ -20,7 +20,6 @@ import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.editor.xy.density.DensityEditorDialog;
 import ch.zhaw.simulation.editor.xy.density.DensityListModel;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
@@ -37,14 +36,14 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	private Object lastSelected = null;
 	protected Vector<ActionListener> listenerList = new Vector<ActionListener>();
 
-	public DensitySidebar(final JFrame parent, final SimulationXYModel model, JComponent comp, Sysintegration sys, FunctionHelp help) {
+	public DensitySidebar(final JFrame parent, final SimulationXYModel model, JComponent comp, Sysintegration sys) {
 		setTitle("Dichte");
 
 		listModel = new DensityListModel(model);
 		cbDensity = new JComboBox(listModel);
 		cbDensity.setRenderer(new DensityListCellRenderer());
 
-		densityEditor = new DensityEditorDialog(parent, model, sys, help);
+		densityEditor = new DensityEditorDialog(parent, model, sys);
 
 		add(cbDensity);
 

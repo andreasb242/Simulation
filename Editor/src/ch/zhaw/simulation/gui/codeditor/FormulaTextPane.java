@@ -11,7 +11,6 @@ import javax.swing.text.BadLocationException;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.gui.codeditor.Autocomplete.AutocompleteWord;
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -27,15 +26,10 @@ public class FormulaTextPane extends JTextPane {
 
 	private Autocomplete autocomplete;
 
-	private FunctionHelp help;
-
-	public FormulaTextPane(FunctionHelp help) {
+	public FormulaTextPane() {
 		setEditorKitForContentType("text/formula", editor);
 		setContentType("text/formula");
 		setFont(new Font("Monospaced", Font.PLAIN, 12));
-		this.help = help;
-
-		System.out.println(this.help);
 
 		new LineHighlighter(this, new Color(0xfffbbd));
 

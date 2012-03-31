@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.app;
 
+import java.awt.Desktop;
 import java.awt.Window;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,8 +27,6 @@ import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.filehandling.ImportPluginLoader;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
-import ch.zhaw.simulation.help.gui.HelpFrame;
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.math.console.MatrixConsole;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.MenuActionListener;
@@ -79,11 +78,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	private LoadSaveHandler savehandler;
 
 	/**
-	 * The help window
-	 */
-	private HelpFrame helpFrame;
-
-	/**
 	 * The simulation document with the data
 	 */
 	private SimulationDocument doc = new SimulationDocument();
@@ -122,11 +116,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 * Automatically saves the default simulation settings
 	 */
 	private SimulationSettingsSaver simulationSettingsSaver;
-
-	/**
-	 * The function helplist
-	 */
-	private FunctionHelp functionHelp = new FunctionHelp();
 
 	/**
 	 * The submodels of the current model
@@ -355,11 +344,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return controller;
 	}
 
-	@Override
-	public FunctionHelp getFunctionHelp() {
-		return functionHelp;
-	}
-
 	/**
 	 * Shows the about dialog
 	 */
@@ -382,10 +366,13 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 * Shows the help dialog
 	 */
 	public void showHelpDialog() {
-		if (helpFrame == null) {
-			helpFrame = new HelpFrame(this.mainFrame);
+		try {
+			File f = new File("help/index.html");
+			Desktop.getDesktop().browse(f.toURI());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Messagebox.showInfo(getMainFrame(), "Hilfe öffnen fehlgeschlagen", "Bitte öffnen Sie help/index.html manuell im Browser");
 		}
-		helpFrame.setVisible(true);
 	}
 
 	/**

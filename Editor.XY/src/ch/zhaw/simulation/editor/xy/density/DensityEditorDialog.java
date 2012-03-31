@@ -6,7 +6,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import butti.javalibs.gui.BDialog;
-import ch.zhaw.simulation.help.model.FunctionHelp;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -16,12 +15,12 @@ public class DensityEditorDialog extends BDialog {
 
 	private EditorPanel editor;
 
-	public DensityEditorDialog(JFrame parent, SimulationXYModel model, Sysintegration sys, FunctionHelp help) {
+	public DensityEditorDialog(JFrame parent, SimulationXYModel model, Sysintegration sys) {
 		super(parent);
 		setTitle("Dichte bearbeiten");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		editor = new EditorPanel(model, sys, help);
+		editor = new EditorPanel(model, sys);
 
 		add(editor);
 

@@ -2,16 +2,12 @@ package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,8 +18,6 @@ import org.jdesktop.swingx.JXStatusBar;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.GridBagManager;
-import ch.zhaw.simulation.help.model.FunctionHelp;
-import ch.zhaw.simulation.help.model.FunctionInformation;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
@@ -41,13 +35,12 @@ import ch.zhaw.simulation.sysintegration.Toolbar;
 public class FormulaEditorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private FormulaTextPane text;
+	private FormulaTextPane text = new FormulaTextPane();
 	private Toolbar tb;
 
-	private Functionlist constants = new Functionlist("Konstanten", "constants", this);
-	private Functionlist variables = new Functionlist("Variablen", "variables", this);
-	private Functionlist globals = new Functionlist("Globale", "globals", this);
-	private Functionlist functions = new Functionlist("Funktionen", "functions", this);
+	private VariableMenu constants = new VariableMenu("Konstanten", "constants", this);
+	private VariableMenu variables = new VariableMenu("Variablen", "variables", this);
+	private VariableMenu globals = new VariableMenu("Globale", "globals", this);
 
 	private JXStatusBar sBar = new JXStatusBar();
 	private JLabel statusLabel = new JLabel("");
@@ -61,8 +54,6 @@ public class FormulaEditorPanel extends JPanel {
 
 	private FormularKeyboard keyboard;
 
-	private FunctionHelp help;
-
 	private GridBagManager gbm;
 
 	private Timer checkTimer = null;
@@ -73,13 +64,10 @@ public class FormulaEditorPanel extends JPanel {
 
 	private Vector<String> additionalVars = new Vector<String>();
 
-	public FormulaEditorPanel(Sysintegration sys, FunctionHelp help, AbstractSimulationModel<?> model, Vector<String> addiditonalVars) {
-		this.help = help;
+	public FormulaEditorPanel(Sysintegration sys, AbstractSimulationModel<?> model, Vector<String> addiditonalVars) {
 		this.model = model;
 		this.additionalVars = addiditonalVars;
 		tb = sys.createToolbar();
-
-		text = new FormulaTextPane(help);
 
 		gbm = new GridBagManager(this);
 
@@ -143,20 +131,6 @@ public class FormulaEditorPanel extends JPanel {
 
 		component = tb.add(globals).getComponent();
 		globals.setComponent(component);
-
-		component = tb.add(functions).getComponent();
-		functions.setComponent(component);
-
-		JButton btCompile = new JButton("Prüfen", IconLoader.getIcon("refresh", 24));
-		tb.add(btCompile);
-		btCompile.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				checkFormula();
-			}
-		});
-
 	}
 
 	protected void checkFormula() {
@@ -203,7 +177,7 @@ public class FormulaEditorPanel extends JPanel {
 	}
 
 	private void addVarParser(String var) {
-		variables.addElement(new Constant(var, 0.1));
+		variables.addElement(new Constant(var, ""));
 		text.addAutocomplete(new Autocomplete.AutocompleteWord(var, 0));
 	}
 
@@ -241,11 +215,6 @@ public class FormulaEditorPanel extends JPanel {
 			addVarParser(v);
 		}
 
-		functions.clear();
-
-		for (Entry<String, Vector<FunctionInformation>> e : help.getData().entrySet()) {
-			functions.addElement(e.getKey(), e.getValue());
-		}
 		for (Function f : getFunctions()) {
 			text.addAutocomplete(new Autocomplete.AutocompleteWord(f.getDescription(), -1));
 		}

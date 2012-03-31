@@ -7,7 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/HelpBrowser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Dynasis"/>
