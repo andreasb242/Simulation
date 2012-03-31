@@ -69,6 +69,7 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 		btStart.setIcon(IconLoader.getIcon("start-simulation"));
 
 		cbSimulationtype.addActionListener(this);
+		actionPerformed(null);
 	}
 
 	@Override

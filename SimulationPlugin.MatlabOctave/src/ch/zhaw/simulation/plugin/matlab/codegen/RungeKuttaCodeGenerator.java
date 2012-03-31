@@ -3,9 +3,6 @@ package ch.zhaw.simulation.plugin.matlab.codegen;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-import ch.zhaw.simulation.plugin.StandardParameter;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,11 +45,12 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		printParameterInitialisation(out);
 		printFlowCalculations(out);
 
+		printOpenFiles(out);
+		printValuesToFile(out);
+
 		printButcherTableau(out);
 
-		out.printComment("Initial value vector");
-		out.println("sim_y = [ v.value; s.value ];");
-		out.newline();
+		printInitialValueVector(out);
 
 		out.printComment("Differential vector at the beginning");
 		out.println("sim_dy = " + FILENAME_ODE + "(sim_time, sim_y);");
@@ -67,11 +65,15 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		out.println("for i = 1:sim_count");
 		out.indent();
 		printContainerCalculations(out);
+		printValuesToFile(out);
 		printDebug(out);
 		out.detent();
 		out.println("end;");
 
-		printDebugGraph(out);
+		printCloseFiles(out);
+
+		//printDebugGraph(out);
+		out.println("exit");
 		out.close();
 	}
 
@@ -95,35 +97,6 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		out.println("end");
 
 		out.close();
-	}
-
-	/**
-	 * Print global variables. It prints only constant parameters.
-	 *
-	 * @param out
-	 */
-	protected void printGlobal(CodeOutput out) {
-		StringBuilder builder = new StringBuilder();
-		Vector<SimulationParameterData> parameters = flowModel.getSimulationParameter();
-		boolean isEmpty = true;
-
-
-		builder.append("% Global constant parameters\n");
-		builder.append("global");
-		for (SimulationParameterData parameter : parameters) {
-			MatlabAttachment attachment = (MatlabAttachment) parameter.attachment;
-
-			if (attachment.isConst()) {
-				isEmpty = false;
-				builder.append(" ");
-				builder.append(parameter.getName());
-			}
-		}
-
-		if (!isEmpty) {
-			out.println(builder.toString());
-			out.newline();
-		}
 	}
 
 
@@ -204,6 +177,7 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		out.newline();
 	}
 
+	/*
 	@Override
 	protected void printDebug(CodeOutput out) {
 		int size = flowModel.getSimulationContainer().size();
@@ -216,4 +190,5 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		out.println("tmp_idx = tmp_idx + 1;");
 		out.newline();
 	}
+	*/
 }

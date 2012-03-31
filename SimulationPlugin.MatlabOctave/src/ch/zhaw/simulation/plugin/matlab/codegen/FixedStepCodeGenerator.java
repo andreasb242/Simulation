@@ -1,16 +1,6 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.plugin.StandardParameter;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Vector;
 
 /**
  * Euler Code-Generator

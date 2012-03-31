@@ -10,7 +10,6 @@ import org.nfunk.jep.ASTVarNode;
 import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 
-import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.Parser.ParserNodePair;
 import ch.zhaw.simulation.math.VarPlaceholder;
 import ch.zhaw.simulation.model.SimulationAttachment;
@@ -236,7 +235,6 @@ public class MatlabAttachment implements SimulationAttachment {
 	}
 
 	private static class AssigmentPair {
-		private ASTVarNode node;
 		private AbstractNamedSimulationData so;
 
 		protected AssigmentPair() {
@@ -247,7 +245,6 @@ public class MatlabAttachment implements SimulationAttachment {
 		}
 
 		public AssigmentPair(ASTVarNode node, AbstractNamedSimulationData so) {
-			this.node = node;
 			this.so = so;
 
 			if (so == null) {

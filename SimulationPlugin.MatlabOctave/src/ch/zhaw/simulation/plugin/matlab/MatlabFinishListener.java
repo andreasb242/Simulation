@@ -1,10 +1,8 @@
 package ch.zhaw.simulation.plugin.matlab;
 
-import butti.javalibs.dirwatcher.DirectoryWatcher;
-import butti.javalibs.dirwatcher.FileListener;
-import ch.zhaw.simulation.plugin.PluginDataProvider;
-
 import java.io.File;
+
+import butti.javalibs.dirwatcher.FileListener;
 
 /**
  * @author: bachi

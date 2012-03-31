@@ -4,14 +4,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
+import java.awt.geom.Path2D;
+import java.util.Vector;
 
 import javax.swing.JComponent;
 
 import butti.javalibs.util.DrawHelper;
+import ch.zhaw.simulation.model.xy.ColorCalculator;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationEntry;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 public class DiagramView extends JComponent {
 	private static final long serialVersionUID = 1L;
+
+	private SimulationCollection collection;
 
 	public DiagramView() {
 		// Grösse für Scrollbar
@@ -20,7 +27,18 @@ public class DiagramView extends JComponent {
 
 	@Override
 	public void paint(Graphics g1) {
-		Graphics2D g = DrawHelper.antialisingOn(g1);
+		SimulationSerie serie;
+		Vector<SimulationEntry> entries;
+		SimulationEntry entry;
+		Graphics2D g;
+		Color colors[];
+		Path2D path;
+		int i, k;
+		double x, y;
+		double ratioX, ratioY;
+		boolean first;
+
+		g = DrawHelper.antialisingOn(g1);
 
 		int w = getWidth();
 		int h = getHeight();
@@ -29,23 +47,43 @@ public class DiagramView extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, w, h);
 
-		// Variante 1 (warscheinlich einfacher für uns)
-		g.setColor(Color.BLACK);
-		g.drawLine(0, 0, 100, 30);
-		g.drawLine(100, 30, 150, 40);
-		g.drawLine(150, 40, 200, 60);
+		if (collection != null) {
+			colors = ColorCalculator.calcColors(collection.size());
+			ratioX = (collection.getEndTime() - collection.getStartTime()) / (double) w;
+			System.out.println("Time: " + collection.getStartTime() + " =>" + collection.getEndTime());
+			System.out.println("Size: " + collection.size());
+			for (i = 0; i < collection.size(); i++) {
+				g.setColor(colors[i]);
+				path = new Path2D.Double();
+				
+				serie = collection.getSerie(i);
+				ratioY = (serie.getMax() - serie.getMin()) / (double) h;
+				entries = serie.getData();
+				System.out.println("=== " + serie.getName() + " =========================");
+				System.out.println("Min/Max: " + serie.getMin() + "/" + serie.getMax() + " === Ratio: " + ratioX + " x " + ratioY + " === Dimension: " + w + " x " + h);
+				first = true;
+				for (k = 0; k < entries.size(); k++) {
+					entry = entries.get(k);
+					x = entry.time / ratioX;
+					y = (serie.getMax() - entry.value) / ratioY;
+					System.out.println(" (" + entry.time + "/" + entry.value + ") => (" + x + "/" + y + ")");
+					if (first) {
+						first = false;
+						path.moveTo(x, y);
+					} else {
+						path.lineTo(x, y);
+					}
+				}
 
-		// Variante 2
-		g.setColor(Color.GREEN);
-		Polygon p = new Polygon();
-		p.addPoint(5, 5);
-		p.addPoint(10, 10);
-		p.addPoint(20, 15);
-		p.addPoint(30, 10);
-		p.addPoint(40, 30);
+				g.draw(path);
+			}
+		}
 
-		g.draw(p);
+	}
 
+	public void updateSimulationCollection(SimulationCollection collection) {
+		this.collection = collection;
+		repaint();
 	}
 
 }

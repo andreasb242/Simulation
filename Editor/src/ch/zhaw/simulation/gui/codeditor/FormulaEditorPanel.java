@@ -276,4 +276,11 @@ public class FormulaEditorPanel extends JPanel {
 	public Parser getParser() {
 		return parser;
 	}
+
+	public void dispose() {
+		if (checkTimer != null) {
+			checkTimer.cancel();
+			checkTimer = null;
+		}
+	}
 }

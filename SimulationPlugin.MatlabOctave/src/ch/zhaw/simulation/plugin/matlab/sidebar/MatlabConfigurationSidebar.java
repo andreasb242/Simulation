@@ -33,8 +33,8 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 		numericMethods = new Vector<NumericMethod>();
 		numericMethods.add(new NumericMethod("Euler", fixedStepConfigurationPane, new EulerCodeGenerator()));
 		numericMethods.add(new NumericMethod("Runge-Kutta 4", fixedStepConfigurationPane, new RungeKuttaCodeGenerator()));
-		numericMethods.add(new NumericMethod("Cash–Karp", adaptiveStepConfigurationPane, new CashKarpCodeGenerator()));
 		numericMethods.add(new NumericMethod("Fehlberg", adaptiveStepConfigurationPane, new FehlbergCodeGenerator()));
+		numericMethods.add(new NumericMethod("Cash–Karp", adaptiveStepConfigurationPane, new CashKarpCodeGenerator()));
 		numericMethods.add(new NumericMethod("Dormand–Prince", adaptiveStepConfigurationPane, new DormandPrinceCodeGenerator()));
 
 		add(new JLabel("Numerisches Verfahren"));

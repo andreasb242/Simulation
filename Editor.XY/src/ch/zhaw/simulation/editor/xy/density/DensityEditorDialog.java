@@ -38,10 +38,9 @@ public class DensityEditorDialog extends BDialog {
 
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		add(split);
-		
+
 		split.setRightComponent(editor);
-		
-		
+
 		listModel = new DensityListModel(model);
 		list = new JList(listModel);
 		list.setCellRenderer(new DensityRenderer());
@@ -55,7 +54,7 @@ public class DensityEditorDialog extends BDialog {
 				}
 			}
 		});
-		
+
 		JPanel pLeft = new JPanel();
 		GridBagManager gbm = new GridBagManager(pLeft);
 
@@ -74,7 +73,7 @@ public class DensityEditorDialog extends BDialog {
 
 			}
 		});
-		
+
 		split.setLeftComponent(pLeft);
 
 		pack();
@@ -97,6 +96,7 @@ public class DensityEditorDialog extends BDialog {
 	@Override
 	public void dispose() {
 		listModel.dispose();
+		editor.dispose();
 
 		super.dispose();
 	}

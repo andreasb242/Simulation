@@ -1,48 +1,47 @@
 package ch.zhaw.simulation.editor.xy.density;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 import javax.swing.SwingUtilities;
 
 import org.nfunk.jep.ParseException;
 
 import butti.javalibs.errorhandler.Errorhandler;
-
 import ch.zhaw.simulation.math.Parser;
 
 public class DensityDraw {
 	private int width;
 	private int height;
-	private boolean visible = false;
 
 	private BufferedImage img;
 	private BufferedImage imgOther;
 
+	private boolean noFormula = true;
 	private Parser parser = new Parser();
 
 	private Thread updateThread;
 	private boolean cancelUpdate = false;
 
 	public DensityDraw(int width, int height) {
-		this.width = width;
-		this.height = height;
-
-		parser.addVar("x", 0);
-		parser.addVar("y", 0);
-		try {
-			parser.simplyfy("sin(x/10)");
-		} catch (ParseException e) {
-			Errorhandler.showError(e, "Formel fehler");
-		}
+		setSize(width, height);
 	}
 
 	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
+		parser.addVar("x", 0);
+		parser.addVar("y", 0);
 	}
 
 	public void updateImageAsynchron(final ActionListener finishListener) {
+		if (noFormula) {
+			finishListener.actionPerformed(new ActionEvent(this, 1, "nothing"));
+			return;
+		}
+
 		synchronized (this) {
 			if (updateThread != null) {
 				cancelUpdate = true;
@@ -70,7 +69,7 @@ public class DensityDraw {
 
 							@Override
 							public void run() {
-								finishListener.actionPerformed(null);
+								finishListener.actionPerformed(new ActionEvent(this, 0, "repaint"));
 							}
 						});
 					}
@@ -87,6 +86,8 @@ public class DensityDraw {
 	}
 
 	private BufferedImage updateImage() {
+		long startTime = System.currentTimeMillis();
+
 		BufferedImage img;
 
 		double[][] values = new double[height][width];
@@ -113,6 +114,8 @@ public class DensityDraw {
 			img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		}
 
+		int[] pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
+
 		double maxFactor = 255.0 / max;
 		double minFactor = 255.0 / min;
 
@@ -129,7 +132,8 @@ public class DensityDraw {
 					rgb = (tmp << 8) | tmp | 0xff0000;
 				}
 
-				img.setRGB(x, y, rgb);
+				pixels[x + y * width] = rgb;
+				// slower img.setRGB(x, y, rgb);
 			}
 		}
 
@@ -138,6 +142,9 @@ public class DensityDraw {
 		if (cancelUpdate == true) {
 			return null;
 		}
+
+		long estimatedTime = System.currentTimeMillis() - startTime;
+		System.out.println("->DensityDraw duration: " + estimatedTime + "ms");
 
 		return img;
 	}
@@ -154,27 +161,24 @@ public class DensityDraw {
 	}
 
 	public BufferedImage getImage() {
+		if (noFormula) {
+			return null;
+		}
+
 		synchronized (this) {
 			return img;
 		}
 	}
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public boolean isVisible() {
-		return visible;
-	}
-
 	public void setFormula(String formula) {
-		if (formula == null) {
-			// TODO disable parser etc!
+		if (formula == null || "".equals(formula)) {
+			noFormula = true;
 			return;
 		}
+
 		try {
-			System.out.println("-->" + formula);
 			parser.simplyfy(formula);
+			noFormula = false;
 		} catch (ParseException e) {
 			Errorhandler.showError(e, "Formel fehler");
 		}

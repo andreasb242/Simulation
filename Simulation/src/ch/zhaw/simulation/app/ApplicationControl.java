@@ -18,6 +18,7 @@ import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.util.RestartUtil;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.diagram.DiagramFrame;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
@@ -42,8 +43,6 @@ import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.data.SimulationEntry;
-import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
@@ -189,12 +188,21 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						mainFrame.unlock();
 						SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+						mainFrame.unlock();
+						DiagramFrame frame = new DiagramFrame();
+						frame.updateSimulationCollection(collection);
+						frame.setVisible(true);
+						/*
 						SimulationSerie series[] = collection.getSeries();
 						for (int i = 0; i < series.length; i++) {
 							System.out.println(series[i].getName());
+							Vector<SimulationEntry> entries = series[i].getData();
+							for (SimulationEntry entry : entries) {
+								System.out.println(entry.time + ": " + entry.value);
+							}
 						}
+						*/
 					}
 				});
 			}

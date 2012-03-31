@@ -21,7 +21,7 @@ public class EditorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private FormulaEditorPanel editor;
-	
+
 	private GridBagManager gbm;
 
 	private JTextField txtName = new JTextField();
@@ -34,11 +34,11 @@ public class EditorPanel extends JPanel {
 	public EditorPanel(SimulationXYModel model, Sysintegration sys, FunctionHelp help) {
 		gbm = new GridBagManager(this);
 		this.model = model;
-		
+
 		Vector<String> vars = new Vector<String>();
 		vars.add("x");
 		vars.add("y");
-		
+
 		editor = new FormulaEditorPanel(sys, help, model, vars);
 
 		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name"));
@@ -48,7 +48,7 @@ public class EditorPanel extends JPanel {
 		gbm.setX(1).setY(1).setWeightY(0).setComp(txtDescription);
 
 		gbm.setX(0).setWidth(2).setY(2).setComp(editor);
-		
+
 		FocusListener listener = new FocusAdapter() {
 
 			@Override
@@ -76,8 +76,11 @@ public class EditorPanel extends JPanel {
 
 		txtName.setText(selected.getName());
 		txtDescription.setText(selected.getDescription());
-		
+
 		editor.setData(selected);
 	}
 
+	public void dispose() {
+		this.editor.dispose();
+	}
 }

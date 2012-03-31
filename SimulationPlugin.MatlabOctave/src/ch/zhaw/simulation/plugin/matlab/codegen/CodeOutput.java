@@ -1,7 +1,5 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
 

@@ -2,9 +2,6 @@ package ch.zhaw.simulation.plugin.matlab.sidebar;
 
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
-import org.jdesktop.swingx.JXTaskPane;
-
-import javax.swing.*;
 
 /**
  * @author: bachi

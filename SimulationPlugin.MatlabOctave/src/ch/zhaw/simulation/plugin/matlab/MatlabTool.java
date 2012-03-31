@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab;
 
 public enum MatlabTool {
-	OCTAVE("Octave"), MATLAB("Matlab");
+	OCTAVE("Octave"), MATLAB("Matlab"), SCILAB("Scilab");
 
 	public final String name;
 

@@ -1,16 +1,19 @@
 package ch.zhaw.simulation.plugin.matlab;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Vector;
+
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.data.SimulationEntry;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
-
-import java.io.*;
-import java.util.Vector;
 
 /**
  * @author: bachi
@@ -24,7 +27,7 @@ public class SimulationResultParser {
 		this.config = config;
 	}
 
-	public SimulationCollection parse() {
+	public SimulationCollection parse(String workpath) {
 		SimulationCollection collection;
 		SimulationSerie serie;
 		String line;
@@ -44,7 +47,7 @@ public class SimulationResultParser {
 		for (AbstractNamedSimulationData data : dataVector) {
 			try {
 				serie = new SimulationSerie(data.getName());
-				reader = new BufferedReader(new FileReader(new File(data.getName() + "_data.txt")));
+				reader = new BufferedReader(new FileReader(new File(workpath + File.separator + data.getName() + "_data.txt")));
 				while ((line = reader.readLine()) != null) {
 					cell = line.split("\\t");
 					if (cell.length >= 2) {
