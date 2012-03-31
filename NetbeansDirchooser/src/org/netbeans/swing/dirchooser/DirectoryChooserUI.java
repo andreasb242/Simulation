@@ -1177,20 +1177,20 @@ public class DirectoryChooserUI extends BasicFileChooserUI {
 
 	private static String normalizeFile(String text) {
 		// See #21690 for background.
-		// XXX what are legal chars for var names? bash manual says only:
+		// XX X what are legal chars for var names? bash manual says only:
 		// "The braces are required when PARAMETER [...] is followed by a
 		// character that is not to be interpreted as part of its name."
 		Pattern p = Pattern.compile("(^|[^\\\\])\\$([a-zA-Z_0-9.]+)");
 		Matcher m;
 		while ((m = p.matcher(text)).find()) {
 			// Have an env var to subst...
-			// XXX handle ${PATH} too? or don't bother
+			// XX X handle ${PATH} too? or don't bother
 			String var = System.getenv(m.group(2));
 			if (var == null) {
 				// Try Java system props too, and fall back to "".
 				var = System.getProperty(m.group(2), "");
 			}
-			// XXX full readline compat would mean vars were also completed with
+			// XX X full readline compat would mean vars were also completed with
 			// TAB...
 			text = text.substring(0, m.end(1)) + var + text.substring(m.end(2));
 		}

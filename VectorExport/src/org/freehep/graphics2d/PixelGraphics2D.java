@@ -76,7 +76,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	// tag handler
 	protected GenericTagHandler tagHandler;
 
-	// fast symbol handling, FIXME: does not work for fillAndDraw
+	// fast symbol handling, FIX ME: does not work for fillAndDraw
 	private static final int MAX_BLIT_SIZE = 32;
 
 	private static Map /* <color, Image[fill][symbol][size]> */symbols;
@@ -294,7 +294,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		blitSymbol(x, y, intSize, symbol, true);
 	}
 
-	// FIXME: overridden to avoid blitting
+	// FIX ME: overridden to avoid blitting
 	public void fillAndDrawSymbol(double x, double y, double size, int symbol, Color fillColor) {
 		Color color = getColor();
 		setColor(fillColor);

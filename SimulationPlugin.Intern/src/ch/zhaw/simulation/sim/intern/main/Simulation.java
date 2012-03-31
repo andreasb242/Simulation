@@ -218,7 +218,6 @@ public class Simulation {
 			if (value instanceof Double) {
 				((SimulationAttachment) d.attachment).serie.setConstValue(((Double) value).doubleValue());
 			} else {
-				// TODO: handle complex values, vectors etc.
 				((SimulationAttachment) d.attachment).serie.setConstValue(0);
 			}
 		}

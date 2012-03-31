@@ -140,7 +140,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 			}
 		});
 
-		integration = SysintegrationFactory.createSysintegration();
+		integration = SysintegrationFactory.getSysintegration();
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
+import ch.zhaw.simulation.clipboard.xy.XYTransferable;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.xy.SubmodelHandler;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
@@ -37,13 +38,12 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		super(true);
 	}
 
-	public void init(XYEditorControl control) {
+	public void init(final XYEditorControl control) {
 		XYEditorView view = new XYEditorView(control, new TransferableFactory() {
 
 			@Override
 			public AbstractTransferable createTransferable(SelectableElement[] selected) {
-				// TODO Copy Paste XY
-				return null;
+				return new XYTransferable(control, selected, (SimulationXYModel) control.getModel());
 			}
 		});
 

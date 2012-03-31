@@ -669,7 +669,7 @@ public class InternImageView extends View {
 			if(id.startsWith("$")) {
 				System.out.println("id: " + id);
 			}
-			// TODO: implementieren
+			//  implement
 		}
 		
 		

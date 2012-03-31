@@ -159,7 +159,6 @@ public class FlowClipboardData extends AbstractClipboardData<SimulationFlowModel
 		select(c);
 	}
 
-
 	private void handleContainer(TransferData d) {
 		SimulationContainerData c = new SimulationContainerData(d.getX(), d.getY());
 		c.setName(d.getName());

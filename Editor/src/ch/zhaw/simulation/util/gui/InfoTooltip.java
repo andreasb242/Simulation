@@ -56,7 +56,6 @@ public class InfoTooltip extends JToolTip {
 	}
 
 	public void setFormula(String formula) {
-		// TODO: low prio: Code formatieren und highlieghten
 		lbFormula.setText(formula);
 	}
 }

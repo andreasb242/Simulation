@@ -234,7 +234,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		
 		windowPosition.applay(this.mainFrame);
 
-		this.sysintegration = SysintegrationFactory.createSysintegration();
+		this.sysintegration = SysintegrationFactory.getSysintegration();
 		this.sysintegration.addListener(this);
 
 		this.savehandler = new LoadSaveHandler(mainFrame, settings, sysintegration, this.importPluginLoader);

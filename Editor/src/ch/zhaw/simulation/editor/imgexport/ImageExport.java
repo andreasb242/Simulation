@@ -46,7 +46,6 @@ public class ImageExport implements ClipboardOwner {
 		AbstractEditorView<?> v = control.getView();
 		calcSize(v, onlySelection);
 
-		// TODO: also export SVG, EPS etc. to clipboard!
 		BufferedImage img = drawToImg(v, onlySelection);
 		TransferableImage trans = new TransferableImage(img);
 		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
