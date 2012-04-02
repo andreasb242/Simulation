@@ -17,7 +17,10 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
@@ -84,7 +87,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		try {
 			finishListener.updateWorkpath(workpath);
 			watcher.start(workpath);
-			provider.getExecutionListener().executionStarted("Simulation läuft..");
+			provider.getExecutionListener().executionStarted("Simulation läuft...");
 	
 			codeGenerator.setWorkingFolder(workpath);
 			codeGenerator.executeSimulation(doc);
@@ -114,10 +117,10 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 		if (t == MatlabTool.MATLAB) {
 			executable = settings.getSetting(MatlabParameter.EXEC_MATLAB_PATH, MatlabParameter.DEFAULT_EXEC_MATLAB_PATH);
-			arguments = "-nosplash -nodesktop -minimize -sd " + dir + " -r " + filename;
+			arguments = "-nosplash -nodesktop -minimize -wait -sd " + dir + " -r " + filename;
 		} else if (t == MatlabTool.OCTAVE) {
 			executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
-			arguments = "--exec-path " + dir + " " + filename;
+			arguments = "--exec-path " + dir + " " + filename + ".m";
 		} else if (t == MatlabTool.SCILAB) {
 			executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
 			arguments = "";
@@ -125,6 +128,15 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			throw new IllegalArgumentException();
 		}
 
-		Runtime.getRuntime().exec(executable + " " + arguments);
+		Process p = Runtime.getRuntime().exec(executable + " " + arguments);
+		//BufferedReader stdout = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		//BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+		//String line;
+		//while ((line = stdout.readLine ()) != null) {
+		//	System.out.println ("stdout: " + line);
+		//}
+		//while ((line = stderr.readLine ()) != null) {
+		//	System.out.println ("stderr: " + line);
+		//}
 	}
 }
