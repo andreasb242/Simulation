@@ -117,7 +117,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			arguments = "-nosplash -nodesktop -minimize -sd " + dir + " -r " + filename;
 		} else if (t == MatlabTool.OCTAVE) {
 			executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
-			arguments = "";
+			arguments = "--exec-path " + dir + " " + filename;
 		} else if (t == MatlabTool.SCILAB) {
 			executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
 			arguments = "";
