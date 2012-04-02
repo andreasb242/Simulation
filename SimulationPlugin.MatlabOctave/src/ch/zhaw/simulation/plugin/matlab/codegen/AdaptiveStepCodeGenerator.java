@@ -1,14 +1,11 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
-import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.plugin.StandardParameter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.Vector;
 
 /**
  * @author: bachi
@@ -39,7 +36,7 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 
 		printGlobal(out);
 
-		printInitDebug(out);
+		//printInitDebug(out);
 
 		printPredefinedConstants(out);
 		printContainerInitialisation(out);
@@ -107,10 +104,10 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		printIncrementStepSize(out);
 
 		printSaveNewValues(out);
-		//printNewYToContainer(out);
+		printVectorToContainerFlow(out);
 		printValuesToFile(out);
 
-		printDebug(out);
+		//printDebug(out);
 		
 		out.detent();
 		out.println("end;");
@@ -128,11 +125,11 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + FILENAME_ODE + ".m"));
 
 		out.printComment("Flow calculation");
-		out.println("function [ dy ] = " + FILENAME_ODE + "(t, y)");
+		out.println("function [ sim_dy ] = " + FILENAME_ODE + "(sim_time, sim_y)");
 		out.indent();
 
 		printGlobal(out);
-		printDependentToContainer(out);
+		printVectorToContainer(out);
 		printParameterCalculations(out);
 		printFlowCalculations(out);
 		printFlowToDifferential(out);
@@ -208,57 +205,6 @@ public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
 		out.detent();
 		out.println("end;");
 		out.newline();
-	}
-
-	protected void printDependentToContainer(CodeOutput out) {
-		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
-		int size = containers.size();
-
-		out.printComment("Calculate / Interpolate");
-		for (int i = 1; i <= size; i++) {
-			SimulationContainerData container = containers.get(i - 1);
-			out.println(container.getName() + ".value = y(" + i + ");");
-		}
-		out.newline();
-	}
-
-	protected void printNewYToContainer(CodeOutput out) {
-		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
-		int size = containers.size();
-
-		out.printComment("Calculate / Interpolate");
-		for (int i = 1; i <= size; i++) {
-			SimulationContainerData container = containers.get(i - 1);
-			out.println(container.getName() + ".value = sim_y(" + i + ");");
-		}
-		out.newline();
-	}
-
-	protected void printFlowToDifferential(CodeOutput out) {
-		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
-		int size = containers.size();
-
-		out.println("dy      = zeros(" + size + ", 1);");
-		for (int i = 1; i <= size; i++) {
-			SimulationContainerData container = containers.get(i - 1);
-
-			StringBuffer flows = new StringBuffer();
-			for (FlowConnectorData f : flowModel.getFlowConnectors()) {
-				if (f.getSource() == container) {
-					flows.append("-");
-					flows.append(f.getValve().getName() + ".value");
-				}
-				if (f.getTarget() == container) {
-					if (flows.toString().length() != 0) {
-						flows.append("+");
-					}
-
-					flows.append(f.getValve().getName() + ".value");
-				}
-			}
-
-			out.println("dy(" + i + ",1) = " + flows.toString() + ";");
-		}
 	}
 
 	protected abstract void printSaveNewValues(CodeOutput out);
