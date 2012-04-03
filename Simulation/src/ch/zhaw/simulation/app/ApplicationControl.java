@@ -179,8 +179,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 					public void run() {
 						SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 						mainFrame.unlock();
-						DiagramFrame frame = new DiagramFrame();
-						frame.updateSimulationCollection(collection);
+						DiagramFrame frame = new DiagramFrame(collection);
+						//frame.updateSimulationCollection();
 						frame.setVisible(true);
 						/*
 						SimulationSerie series[] = collection.getSeries();
