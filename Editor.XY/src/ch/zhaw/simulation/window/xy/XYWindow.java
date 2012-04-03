@@ -76,7 +76,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	protected void initElementConfigurationSiebar() {
 		final AbstractEditorControl<?> control = view.getControl();
 
-		configurationSidebar = new XYFormulaConfiguration(control.getModel(), control.getSelectionModel()) {
+		configurationSidebar = new XYFormulaConfiguration((SimulationXYModel)control.getModel(), control.getSelectionModel()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

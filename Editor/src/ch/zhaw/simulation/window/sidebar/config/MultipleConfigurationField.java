@@ -46,6 +46,7 @@ public abstract class MultipleConfigurationField extends ConfigurationField {
 				this.data.add(d);
 			}
 			loadData();
+			showComponents();
 			return true;
 		} else {
 			noneSelected();
@@ -53,4 +54,7 @@ public abstract class MultipleConfigurationField extends ConfigurationField {
 		}
 	}
 
+	public Vector<AbstractNamedSimulationData> getData() {
+		return data;
+	}
 }

@@ -18,7 +18,7 @@ import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 
-public abstract class ConfigurationSidebarPanel extends JXTaskPane implements SelectionListener, SidebarPosition {
+public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationModel<?>> extends JXTaskPane implements SelectionListener, SidebarPosition {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -39,7 +39,7 @@ public abstract class ConfigurationSidebarPanel extends JXTaskPane implements Se
 	/**
 	 * The model to fire changes
 	 */
-	private AbstractSimulationModel<?> model;
+	private M model;
 
 	/**
 	 * The listener to handle the events
@@ -64,7 +64,7 @@ public abstract class ConfigurationSidebarPanel extends JXTaskPane implements Se
 
 	};
 
-	public ConfigurationSidebarPanel(AbstractSimulationModel<?> model, SelectionModel selectionModel) {
+	public ConfigurationSidebarPanel(M model, SelectionModel selectionModel) {
 		this.selectionModel = selectionModel;
 		this.model = model;
 
@@ -90,6 +90,10 @@ public abstract class ConfigurationSidebarPanel extends JXTaskPane implements Se
 		layout.setAutoCreateContainerGaps(true);
 
 		initConfigurationFiels();
+	}
+	
+	public M getModel() {
+		return model;
 	}
 
 	private void initConfigurationFiels() {

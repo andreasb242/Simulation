@@ -61,7 +61,7 @@ public class NameConfigurationField extends SingleConfigurationField {
 		if(nameChecker.checkName(name)) {
 			txtName.setBackground(defaultBackground);
 			getData().setName(name);
-			fireActionPerformed(SidebarAction.FIRE_SIMULATION_OBJECT_CHANGED, getData());
+			fireDataChanged(getData());
 		} else {
 			txtName.setBackground(ColorConstants.ERROR_COLOR);
 		}

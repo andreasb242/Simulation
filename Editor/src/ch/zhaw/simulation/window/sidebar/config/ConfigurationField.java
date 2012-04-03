@@ -80,6 +80,10 @@ public abstract class ConfigurationField implements Comparable<ConfigurationFiel
 			l.sidebarActionPerformed(action, data);
 		}
 	}
+	
+	protected void fireDataChanged(AbstractNamedSimulationData data) {
+		fireActionPerformed(SidebarAction.FIRE_SIMULATION_OBJECT_CHANGED, data);
+	}
 
 	/**
 	 * Adds a component to the list of the components to show / hide

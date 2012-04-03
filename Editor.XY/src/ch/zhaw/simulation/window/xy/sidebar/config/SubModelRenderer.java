@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.window.xy.sidebar;
+package ch.zhaw.simulation.window.xy.sidebar.config;
 
 import java.awt.Component;
 
@@ -20,11 +20,13 @@ public class SubModelRenderer extends DefaultListCellRenderer {
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-		SubModel m = (SubModel) value;
-		if (m != null) {
-			setText(m.getName());
-			colorIcon.setColor(m.getColor());
-			setIcon(colorIcon);
+		if (value instanceof SubModel) {
+			SubModel m = (SubModel) value;
+			if (m != null) {
+				setText(m.getName());
+				colorIcon.setColor(m.getColor());
+				setIcon(colorIcon);
+			}
 		}
 
 		return this;

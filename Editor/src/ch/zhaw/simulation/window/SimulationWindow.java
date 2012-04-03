@@ -80,7 +80,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 	private SimulationConfigurationPanel simConfig;
 
-	protected ConfigurationSidebarPanel configurationSidebar;
+	protected ConfigurationSidebarPanel<?> configurationSidebar;
 
 	/**
 	 * @param mainWindow
