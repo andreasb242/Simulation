@@ -42,7 +42,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		XYEditorView view = new XYEditorView(control, new TransferableFactory() {
 
 			@Override
-			public AbstractTransferable createTransferable(SelectableElement[] selected) {
+			public AbstractTransferable<?> createTransferable(SelectableElement<?>[] selected) {
 				return new XYTransferable(control, selected, (SimulationXYModel) control.getModel());
 			}
 		});

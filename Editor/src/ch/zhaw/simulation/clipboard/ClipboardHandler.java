@@ -68,7 +68,7 @@ public class ClipboardHandler<C extends AbstractEditorControl<?>> implements Fla
 	}
 
 	public void copy() {
-		SelectableElement[] selected = control.getSelectionModel().getSelected();
+		SelectableElement<?>[] selected = control.getSelectionModel().getSelected();
 		if (selected.length > 0) {
 			cp.setContents(factory.createTransferable(selected), this);
 		}

@@ -162,10 +162,10 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 
 	@Override
 	public void selectionChanged() {
-		SelectableElement[] selected = selectionModel.getSelected();
+		SelectableElement<?>[] selected = selectionModel.getSelected();
 
 		if (selected.length == 1) {
-			SelectableElement s = selected[0];
+			SelectableElement<?> s = selected[0];
 
 			if (s instanceof AbstractDataView) {
 				AbstractSimulationData data = ((AbstractDataView<?>) s).getData();

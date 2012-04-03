@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 
-public abstract class AbstractDataView<T extends AbstractSimulationData> extends AbstractView {
+public abstract class AbstractDataView<T extends AbstractSimulationData> extends AbstractView<T> {
 	private static final long serialVersionUID = 1L;
 	private T data;
 

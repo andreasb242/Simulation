@@ -5,7 +5,7 @@ package ch.zhaw.simulation.model.selection;
  * 
  * @author Andreas Butti
  */
-public interface SelectableElement {
+public interface SelectableElement<T> {
 	/**
 	 * The X pos (left)
 	 */
@@ -35,4 +35,9 @@ public interface SelectableElement {
 	 *            Delta Y
 	 */
 	public void moveElement(int dX, int dY);
+	
+	/**
+	 * @return The data of this view, or <code>null</code> if no data is available
+	 */
+	public T getData();
 }

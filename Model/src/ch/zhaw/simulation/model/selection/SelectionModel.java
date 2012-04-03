@@ -12,13 +12,13 @@ public class SelectionModel {
 	/**
 	 * The selected elements
 	 */
-	private Vector<SelectableElement> selected = new Vector<SelectableElement>();
+	private Vector<SelectableElement<?>> selected = new Vector<SelectableElement<?>>();
 
 	/**
 	 * While selecting with the mouse these are the current marked elements, but
 	 * they are not yet selected
 	 */
-	private Vector<SelectableElement> tmpSelection = new Vector<SelectableElement>();
+	private Vector<SelectableElement<?>> tmpSelection = new Vector<SelectableElement<?>>();
 
 	/**
 	 * The listeners...
@@ -29,7 +29,7 @@ public class SelectionModel {
 	 * This is used for globals to mark the used, or where use them (the shadow
 	 * if you select a SimulationObject wich uses a global)
 	 */
-	private Vector<SelectableElement> dependentElement = new Vector<SelectableElement>();
+	private Vector<SelectableElement<?>> dependentElement = new Vector<SelectableElement<?>>();
 
 	public SelectionModel() {
 	}
@@ -40,7 +40,7 @@ public class SelectionModel {
 	 * @param e
 	 *            The selected element
 	 */
-	public void setSelected(SelectableElement[] elements) {
+	public void setSelected(SelectableElement<?>[] elements) {
 		selected.clear();
 		addSelectedInt(elements);
 
@@ -55,7 +55,7 @@ public class SelectionModel {
 	 * @param e
 	 *            The selected element
 	 */
-	public void setSelected(SelectableElement e) {
+	public void setSelected(SelectableElement<?> e) {
 		selected.clear();
 		addSelectedInt(e);
 
@@ -70,14 +70,14 @@ public class SelectionModel {
 	 * @param e
 	 * @return true wenn ja
 	 */
-	public boolean isDependentElement(SelectableElement e) {
+	public boolean isDependentElement(SelectableElement<?> e) {
 		return dependentElement.contains(e);
 	}
 
 	/**
 	 * Sets wich are the dependent objecs of this e.g. global
 	 */
-	public void setDependentElement(Vector<SelectableElement> elements) {
+	public void setDependentElement(Vector<SelectableElement<?>> elements) {
 		dependentElement.clear();
 		dependentElement.addAll(elements);
 	}
@@ -95,8 +95,8 @@ public class SelectionModel {
 	 * @param e
 	 *            Die zu selektierende Element
 	 */
-	public void addSelectedInt(SelectableElement[] elements) {
-		for (SelectableElement e : elements) {
+	public void addSelectedInt(SelectableElement<?>[] elements) {
+		for (SelectableElement<?> e : elements) {
 			addSelectedInt(e);
 		}
 	}
@@ -107,7 +107,7 @@ public class SelectionModel {
 	 * @param e
 	 *            Das zu selektierende Element
 	 */
-	public void addSelectedInt(SelectableElement e) {
+	public void addSelectedInt(SelectableElement<?> e) {
 		if (selected.contains(e)) {
 			return;
 		}
@@ -117,7 +117,7 @@ public class SelectionModel {
 	/**
 	 * Adds a selected element
 	 */
-	public void addSelected(SelectableElement[] elements) {
+	public void addSelected(SelectableElement<?>[] elements) {
 		addSelectedInt(elements);
 		fireSelectionChanged();
 	}
@@ -125,7 +125,7 @@ public class SelectionModel {
 	/**
 	 * Adds a selected element
 	 */
-	public void addSelected(SelectableElement e) {
+	public void addSelected(SelectableElement<?> e) {
 		addSelectedInt(e);
 		fireSelectionChanged();
 	}
@@ -133,9 +133,9 @@ public class SelectionModel {
 	/**
 	 * Sets the current marked elements, but they are not yet selected
 	 */
-	public void setTmpSelection(Vector<SelectableElement> tmp) {
+	public void setTmpSelection(Vector<SelectableElement<?>> tmp) {
 		tmpSelection.clear();
-		for (SelectableElement e : tmp) {
+		for (SelectableElement<?> e : tmp) {
 			addTmpSelection(e);
 		}
 		fireSelectionChanged();
@@ -144,7 +144,7 @@ public class SelectionModel {
 	/**
 	 * Sets the current marked single element
 	 */
-	public void setTmpSelection(SelectableElement elem) {
+	public void setTmpSelection(SelectableElement<?> elem) {
 		tmpSelection.clear();
 		addTmpSelection(elem);
 		fireSelectionChanged();
@@ -153,7 +153,7 @@ public class SelectionModel {
 	/**
 	 * Adds a new element to the marked elements
 	 */
-	public void addTmpSelection(SelectableElement elem) {
+	public void addTmpSelection(SelectableElement<?> elem) {
 		if (!selected.contains(elem)) {
 			tmpSelection.add(elem);
 		}
@@ -163,7 +163,7 @@ public class SelectionModel {
 	 * The current marked elements are now really selected
 	 */
 	public void acceptTmpSelection() {
-		for (SelectableElement e : tmpSelection) {
+		for (SelectableElement<?> e : tmpSelection) {
 			addSelectedInt(e);
 		}
 		tmpSelection.clear();
@@ -173,7 +173,7 @@ public class SelectionModel {
 	/**
 	 * Unselected an element
 	 */
-	public void removeSelected(SelectableElement e) {
+	public void removeSelected(SelectableElement<?> e) {
 		selected.remove(e);
 		fireSelectionChanged();
 	}
@@ -181,8 +181,8 @@ public class SelectionModel {
 	/**
 	 * Unselected an element
 	 */
-	public void removeSelected(SelectableElement[] elements) {
-		for (SelectableElement e : elements) {
+	public void removeSelected(SelectableElement<?>[] elements) {
+		for (SelectableElement<?> e : elements) {
 			selected.remove(e);
 		}
 		fireSelectionChanged();
@@ -193,7 +193,7 @@ public class SelectionModel {
 	 * 
 	 * @return The Single element or null if multiple or nothing is selected
 	 */
-	public SelectableElement getSingleSelectedElement() {
+	public SelectableElement<?> getSingleSelectedElement() {
 		if (selected.size() == 1) {
 			return selected.get(0);
 		}
@@ -205,8 +205,8 @@ public class SelectionModel {
 	 * 
 	 * @return A new allocated array
 	 */
-	public SelectableElement[] getSelected() {
-		Vector<SelectableElement> all = new Vector<SelectableElement>();
+	public SelectableElement<?>[] getSelected() {
+		Vector<SelectableElement<?>> all = new Vector<SelectableElement<?>>();
 		all.addAll(selected);
 		all.addAll(tmpSelection);
 
@@ -220,7 +220,7 @@ public class SelectionModel {
 	 *            The element
 	 * @return true if selected
 	 */
-	public boolean isSelected(SelectableElement e) {
+	public boolean isSelected(SelectableElement<?> e) {
 		return selected.contains(e) || tmpSelection.contains(e);
 	}
 
@@ -273,12 +273,12 @@ public class SelectionModel {
 		int moveLeft = -dX;
 		int moveTop = -dY;
 
-		for (SelectableElement el : getSelected()) {
+		for (SelectableElement<?> el : getSelected()) {
 			moveLeft = Math.min(moveLeft, el.getX());
 			moveTop = Math.min(moveTop, el.getY());
 		}
 
-		for (SelectableElement el : getSelected()) {
+		for (SelectableElement<?> el : getSelected()) {
 			el.moveElement(-moveLeft, -moveTop);
 		}
 

@@ -14,7 +14,7 @@ import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 
-public abstract class AbstractView extends JComponent implements SelectionListener, SelectableElement, ViewComponent {
+public abstract class AbstractView<T> extends JComponent implements SelectionListener, SelectableElement<T>, ViewComponent {
 	private static final long serialVersionUID = 1L;
 
 	private boolean selected = false;

@@ -63,7 +63,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		super(control, new TransferableFactory() {
 
 			@Override
-			public AbstractTransferable createTransferable(SelectableElement[] selected) {
+			public AbstractTransferable<?> createTransferable(SelectableElement<?>[] selected) {
 				return new FlowTransferable(control, selected, (SimulationFlowModel) control.getModel());
 			}
 
@@ -132,9 +132,9 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 	@Override
 	protected void showArrowDrag() {
-		SelectableElement[] selected = selectionModel.getSelected();
+		SelectableElement<?>[] selected = selectionModel.getSelected();
 		if (selected.length == 1 && !drawModus) {
-			SelectableElement s = selected[0];
+			SelectableElement<?> s = selected[0];
 			if (s instanceof ContainerView || s instanceof FlowValveElement || s instanceof ParameterView) {
 				arrowDrag.setLocation(s.getX() + s.getWidth(), s.getY());
 				arrowDrag.setVisible(true);
@@ -285,7 +285,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		}
 	}
 
-	public SelectableElement[] findGuiComponent(AbstractConnectorData<?> con) {
+	public SelectableElement<?>[] findGuiComponent(AbstractConnectorData<?> con) {
 		for (ConnectorUi c : connectors) {
 			if (c instanceof ConnectorUi) {
 				ConnectorUi pc = (ConnectorUi) c;
@@ -299,15 +299,15 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		return null;
 	}
 
-	public Vector<SelectableElement> convertToSelectable(Vector<AbstractSimulationData> shadowData) {
-		Vector<SelectableElement> found = new Vector<SelectableElement>();
+	public Vector<SelectableElement<?>> convertToSelectable(Vector<AbstractSimulationData> shadowData) {
+		Vector<SelectableElement<?>> found = new Vector<SelectableElement<?>>();
 
 		for (Component c : getComponents()) {
 			if (c instanceof AbstractDataView<?>) {
 				AbstractSimulationData d = ((AbstractDataView<?>) c).getData();
 				if (shadowData.contains(d)) {
 					shadowData.remove(d);
-					found.add((SelectableElement) c);
+					found.add((SelectableElement<?>) c);
 				}
 			}
 		}
@@ -390,7 +390,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 	protected boolean checkSelection(MouseEvent e) {
 		for (ConnectorUi c : connectors) {
 			if (c.isConnector(e.getPoint())) {
-				SelectableElement[] selected = c.getSelectableElements();
+				SelectableElement<?>[] selected = c.getSelectableElements();
 
 				if (e.isShiftDown()) {
 					selectionModel.addSelected(selected);

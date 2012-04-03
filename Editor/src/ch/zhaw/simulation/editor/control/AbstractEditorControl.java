@@ -147,7 +147,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	 * Deletes the current selected elements
 	 */
 	public void deleteSelected() {
-		SelectableElement[] selected = selectionModel.getSelected();
+		SelectableElement<?>[] selected = selectionModel.getSelected();
 		selectionModel.clearSelection();
 
 		delete(selected);
@@ -156,7 +156,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	/**
 	 * Deletes the elements from the model and may also other depending objects
 	 */
-	protected abstract void delete(SelectableElement[] elements);
+	protected abstract void delete(SelectableElement<?>[] elements);
 
 	/**
 	 * @return The selecion model
@@ -252,7 +252,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	public void selectAll() {
 		for (Component c : getView().getComponents()) {
 			if (c instanceof SelectableElement) {
-				selectionModel.addSelectedInt((SelectableElement) c);
+				selectionModel.addSelectedInt((SelectableElement<?>) c);
 			}
 		}
 

@@ -128,7 +128,7 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	}
 
 	@Override
-	public SelectableElement[] getSelectableElements() {
+	public SelectableElement<?>[] getSelectableElements() {
 		return new SelectableElement[] { valve, connector1.getMovePoint(), connector2.getMovePoint() };
 	}
 
