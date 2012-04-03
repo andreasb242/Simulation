@@ -36,6 +36,6 @@ public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowE
 	@Override
 	protected void initElementConfigurationSiebar() {
 		FlowEditorControl c = getView().getControl();
-		this.formulaConfiguration = new FlowFormulaConfiguration(c, c.getModel(), c.getSelectionModel());
+		this.configurationSidebar = new FlowFormulaConfiguration(c.getModel(), c, c.getSelectionModel());
 	}
 }
