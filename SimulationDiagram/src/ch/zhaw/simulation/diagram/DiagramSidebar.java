@@ -1,31 +1,43 @@
 package ch.zhaw.simulation.diagram;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import org.jdesktop.swingx.VerticalLayout;
 
 import ch.zhaw.simulation.diagram.colorcheckbox.ColorCheckbox;
 
-public class DiagramSidebar extends JScrollPane {
+public class DiagramSidebar extends JScrollPane implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
-	private JPanel pConents;
+	private JPanel component;
+	private DiagramPlot plot;
+	private SimulationCollection collection;
+	//private Vector<ColorCheckbox> colorCheckboxes = new Vector<ColorCheckbox>();
 
-	public DiagramSidebar() {
+	public DiagramSidebar(SimulationCollection collection, DiagramPlot plot) {
 		super(new JPanel(), VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
-		this.pConents = (JPanel) getViewport().getView();
+		this.collection = collection;
+		this.plot = plot;
+		this.component = (JPanel) getViewport().getView();
 
-		this.pConents.setLayout(new VerticalLayout());
+		this.component.setLayout(new VerticalLayout());
 
-		String[] names = new String[] { "a", "b", "c", "d", "Auto", "Velo", "Melone", "Lorem Ipsum" };
-		Color[] colors = calcColors(names.length);
-
-		for (int i = 0; i < names.length; i++) {
-			addEntry(names[i], colors[i]);
+		int size = collection.size();
+		Color[] colors = calcColors(size);
+		
+		for (int i = 0; i < size; i++) {
+			SimulationSerie serie = collection.getSerie(i);
+			serie.setColor(colors[i]);
+			addEntry(serie.getName(), colors[i]);
 		}
+
 	}
 
 	public Color[] calcColors(int count) {
@@ -45,6 +57,26 @@ public class DiagramSidebar extends JScrollPane {
 	public void addEntry(String name, Color c) {
 		ColorCheckbox cc = new ColorCheckbox(name);
 		cc.setColor(c);
-		this.pConents.add(cc);
+		cc.addActionListener(this);
+		this.component.add(cc);
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JCheckBox) {
+			SimulationCollection newCollection = new SimulationCollection(collection.getStartTime(), collection.getEndTime());
+			int size = component.getComponentCount();
+			for (int i = 0; i < size; i++) {
+				Component c = component.getComponent(i);
+				if (c instanceof ColorCheckbox) {
+					ColorCheckbox cc = (ColorCheckbox) c;
+					if (cc.isSelected()) {
+						newCollection.addSeries(collection.getSerie(i));
+					}
+				}
+			}
+			plot.updateSimulationCollection(newCollection);
+		}
 	}
 }
