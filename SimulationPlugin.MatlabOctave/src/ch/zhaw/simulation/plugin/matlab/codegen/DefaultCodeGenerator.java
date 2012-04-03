@@ -324,4 +324,65 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 			out.newline();
 		}
 	}
+
+	protected void printFlowToDifferential(CodeOutput out) {
+		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
+		int size = containers.size();
+
+		out.println("sim_dy = zeros(" + size + ", 1);");
+		for (int i = 1; i <= size; i++) {
+			SimulationContainerData container = containers.get(i - 1);
+
+			StringBuffer flows = new StringBuffer();
+			for (FlowConnectorData f : flowModel.getFlowConnectors()) {
+				if (f.getSource() == container) {
+					flows.append("-");
+					flows.append(f.getValve().getName() + ".value");
+				}
+				if (f.getTarget() == container) {
+					if (flows.toString().length() != 0) {
+						flows.append("+");
+					}
+
+					flows.append(f.getValve().getName() + ".value");
+				}
+			}
+
+			out.println("sim_dy(" + i + ",1) = " + flows.toString() + ";");
+		}
+	}
+
+	protected void printVectorToContainer(CodeOutput out) {
+		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
+		int size = containers.size();
+
+		out.printComment("Convert vector to container");
+		for (int i = 1; i <= size; i++) {
+			SimulationContainerData container = containers.get(i - 1);
+			out.println(container.getName() + ".value = sim_y(" + i + ");");
+		}
+		out.newline();
+	}
+
+	protected void printVectorToContainerFlow(CodeOutput out) {
+		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
+		Vector<FlowConnectorData> connectors = flowModel.getFlowConnectors();
+		SimulationContainerData container;
+		FlowConnectorData connector;
+		int i;
+
+		int containerSize = containers.size();
+		int connectorSize = connectors.size();
+
+		out.printComment("Convert vector to container/flow");
+		for (i = 1; i <= containerSize; i++) {
+			container = containers.get(i - 1);
+			out.println(container.getName() + ".value = sim_y(" + i + ");");
+		}
+		for (i = 1; i <= connectorSize; i++) {
+			connector = connectors.get(i - 1);
+			out.println(connector.getValve().getName() + ".value = sim_dy(" + i + ");");
+		}
+		out.newline();
+	}
 }

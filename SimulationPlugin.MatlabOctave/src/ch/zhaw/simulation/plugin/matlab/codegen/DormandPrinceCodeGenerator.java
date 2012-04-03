@@ -44,10 +44,13 @@ public class DormandPrinceCodeGenerator extends AdaptiveStepCodeGenerator {
 		out.println("sim_timenew = sim_time + sim_hc(6);");
 		out.newline();
 
-		out.printComment("y = y + dy * t");
-		for (int i = 1; i <= size; i++) {
-			out.println("sim_ynew(" + i + ",:) = sim_y(" + i + ",:) + sim_k(" + i + ",:) * sim_ha(:,6);");
-		}
+
+		out.printComment("dy");
+		out.println("sim_dynew = sim_k * sim_ha(:,6);");
+		out.newline();
+
+		out.printComment("y = y + dy");
+		out.println("sim_ynew = sim_y + sim_dynew;");
 		out.newline();
 
 		out.println("sim_k(:,7) = " + FILENAME_ODE + "(sim_timenew, sim_ynew);");
@@ -58,6 +61,7 @@ public class DormandPrinceCodeGenerator extends AdaptiveStepCodeGenerator {
 		out.printComment("Die neuen Werte sim_timenew, sim_ynew und sim_k entgültig speichern");
 		out.println("sim_time = sim_timenew;");
 		out.println("sim_y = sim_ynew;");
+		out.println("sim_dy = sim_dynew;");
 		out.println("sim_k(:,1) = sim_k(:,7);");
 		out.newline();
 	}
