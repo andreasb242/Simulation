@@ -95,6 +95,8 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 	protected abstract void addElement(AbstractSimulationData data, TransferData transferdata);
 
 	public void select(AbstractSimulationData c) {
-		selectionModel.addSelectedInt(view.findGuiComponent(c));
+		if (view != null) {
+			selectionModel.addSelectedInt(view.findGuiComponent(c));
+		}
 	}
 }
