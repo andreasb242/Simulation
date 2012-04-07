@@ -16,8 +16,8 @@ public abstract class XYFormulaConfiguration extends ConfigurationSidebarPanel<S
 	}
 	
 	@Override
-	protected void istanceConfigurationFields() {
-		super.istanceConfigurationFields();
+	protected void instanceConfigurationFields() {
+		super.instanceConfigurationFields();
 		
 		addConfigurationField(new SubmodelConfigurationField(getModel()));
 	}
