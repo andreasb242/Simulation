@@ -23,8 +23,8 @@ import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
-import ch.zhaw.simulation.window.sidebar.NameFormulaConfiguration;
 import ch.zhaw.simulation.window.sidebar.SimulationConfigurationPanel;
+import ch.zhaw.simulation.window.sidebar.config.ConfigurationSidebarPanel;
 
 /**
  * A simulation window
@@ -80,7 +80,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 	private SimulationConfigurationPanel simConfig;
 
-	protected NameFormulaConfiguration formulaConfiguration;
+	protected ConfigurationSidebarPanel<?> configurationSidebar;
 
 	/**
 	 * @param mainWindow
@@ -145,8 +145,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	protected void initSidebar(FrameSidebar sidebar) {
 		initElementConfigurationSiebar();
 
-		sidebar.add(formulaConfiguration);
-		view.getControl().getSelectionModel().addSelectionListener(formulaConfiguration);
+		sidebar.add(configurationSidebar);
+		view.getControl().getSelectionModel().addSelectionListener(configurationSidebar);
 
 		this.simConfig = new SimulationConfigurationPanel(view.getControl());
 		sidebar.add(simConfig);
@@ -238,7 +238,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 		if (view != null) {
 			if (view.getControl().getSelectionModel() != null) {
-				view.getControl().getSelectionModel().removeSelectionListener(formulaConfiguration);
+				view.getControl().getSelectionModel().removeSelectionListener(configurationSidebar);
 			}
 
 			view.dispose();
@@ -246,6 +246,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		}
 
 		this.simConfig.dispose();
+
+		configurationSidebar.dispose();
 
 		super.dispose();
 	}
