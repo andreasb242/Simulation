@@ -81,7 +81,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 
 		setVisible(false);
 
-		istanceConfigurationFields();
+		instanceConfigurationFields();
 
 		this.layout = new GroupLayout(getContentPane());
 		this.setLayout(layout);
@@ -117,7 +117,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	 * may override this method, but call
 	 * <code>super.istanceConfigurationFields();</code>
 	 */
-	protected void istanceConfigurationFields() {
+	protected void instanceConfigurationFields() {
 		addConfigurationField(new NameConfigurationField());
 		addConfigurationField(new FormulaConfigurationField());
 	}

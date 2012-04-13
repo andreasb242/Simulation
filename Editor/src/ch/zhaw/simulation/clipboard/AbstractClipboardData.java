@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.clipboard;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
 
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
@@ -14,25 +16,29 @@ import ch.zhaw.simulation.model.selection.SelectionModel;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>, V extends AbstractEditorView<?>> extends Vector<TransferData> implements
+public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>, V extends AbstractEditorView<?>> extends InputStream implements
 		ClipboardData {
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The selection model to selected the inserted elements
 	 */
-	protected SelectionModel selectionModel;
+	protected transient SelectionModel selectionModel;
 
 	/**
 	 * The model
 	 */
-	protected M model;
+	protected transient  M model;
 
 	/**
 	 * The view
 	 */
-	protected V view;
+	protected  transient V view;
 
+	/**
+	 * The contens of this transferable
+	 */
+	private Vector<TransferData> contents = new Vector<TransferData>();
+	
 	public AbstractClipboardData() {
 	}
 
@@ -44,7 +50,7 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 
 		selectionModel.clearSelection();
 
-		for (TransferData d : this) {
+		for (TransferData d : this.contents) {
 			switch (d.getType()) {
 			case Text:
 				handleText(d);
@@ -67,6 +73,10 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 	protected void finalizePaste() {
 	}
 
+	public void add(TransferData d) {
+		this.contents.add(d);
+	}
+	
 	protected abstract boolean handleData(TransferData d);
 
 	protected void handleText(TransferData d) {
@@ -98,5 +108,14 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 		if (view != null) {
 			selectionModel.addSelectedInt(view.findGuiComponent(c));
 		}
+	}
+	
+	
+	@Override
+	public int read() throws IOException {
+		
+		
+		// TODO Auto-generated method stub
+		return -1;
 	}
 }

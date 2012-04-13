@@ -11,7 +11,6 @@ import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
 
 public class XYClipboardData extends AbstractClipboardData<SimulationXYModel, XYEditorView> {
-	private static final long serialVersionUID = 1L;
 
 	public static final String MESO_SUBMODEL = "meso.submodel";
 

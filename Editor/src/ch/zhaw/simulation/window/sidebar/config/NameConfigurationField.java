@@ -14,7 +14,6 @@ import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.util.ColorConstants;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.window.sidebar.config.SidebarActionListener.SidebarAction;
 
 public class NameConfigurationField extends SingleConfigurationField {
 	private JTextField txtName = new JTextField();

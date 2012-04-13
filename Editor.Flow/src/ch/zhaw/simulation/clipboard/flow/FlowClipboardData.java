@@ -23,8 +23,6 @@ import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
  * @author Andreas Butti
  */
 public class FlowClipboardData extends AbstractClipboardData<SimulationFlowModel, FlowEditorView> {
-	private static final long serialVersionUID = 1L;
-
 	private HashMap<Integer, AbstractSimulationData> data = new HashMap<Integer, AbstractSimulationData>();
 
 	private Vector<TransferData> flows = new Vector<TransferData>();

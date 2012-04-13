@@ -30,9 +30,9 @@ public class SimulationManager {
 				Errorhandler.logError(e);
 				error = true;
 			}
-			
+
 			Vector<PluginDescription<SimulationPlugin>> errorPlugins = new Vector<PluginDescription<SimulationPlugin>>();
-			
+
 			for (PluginDescription<SimulationPlugin> pluginDescription : pluginManager.getPluginDescriptions()) {
 				try {
 					SimulationPlugin plugin = pluginDescription.getPlugin();
@@ -45,9 +45,9 @@ public class SimulationManager {
 					error = true;
 				}
 			}
-			
-			for(PluginDescription<SimulationPlugin> p : errorPlugins) {
-				if(pluginManager.unloadPlugin(p)) {
+
+			for (PluginDescription<SimulationPlugin> p : errorPlugins) {
+				if (pluginManager.unloadPlugin(p)) {
 					System.err.println("Unload plugin because of problem: " + p.getClass());
 				} else {
 					System.err.println("Unload plugin failed: " + p.getClass());
@@ -55,13 +55,12 @@ public class SimulationManager {
 			}
 
 			if (error) {
-				Messagebox.showError(null, "Plugin", "<html><b>Nicht alle Plugins konnte geladen werden.</b> " +
-						"Details entnehmen Sie dem Errorlog.<br>" +
-						"Höchstwarscheinlich handelt es sich bei diesem Fehler um einen Programmierfehler, konntaktieren Sie den Entwickler.</html>");
+				Messagebox.showError(null, "Plugin", "<html><b>Nicht alle Plugins konnte geladen werden.</b> " + "Details entnehmen Sie dem Errorlog.<br>"
+						+ "Höchstwarscheinlich handelt es sich bei diesem Fehler um einen Programmierfehler, konntaktieren Sie den Entwickler.</html>");
 			}
 
 		} else {
-			System.err.println("No simulationPluginFolder defined in config/config.properties");
+			System.err.println("No simulationPluginFolder defined in " + Config.getConfigFile());
 		}
 
 		config.addPluginChangeListener(new PluginChangeListener() {

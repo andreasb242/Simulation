@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
-import butti.javalibs.util.OpenFileBrowser;
+import butti.javalibs.util.OS;
 import ch.zhaw.simulation.filechooser.ExecDirChooser;
 import ch.zhaw.simulation.filechooser.TxtDirChooser;
 import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
@@ -86,7 +86,7 @@ public class SettingsGui extends JPanel {
 		gbm.setX(0).setY(4).setWeightY(0).setWeightX(0).setComp(new JLabel("Matlab Path"));
 		gbm.setX(1).setY(4).setWeightY(0).setComp(execMatlabPath);
 
-		if (OpenFileBrowser.getOs().equals(OpenFileBrowser.OS.WINDOWS)) {
+		if (OS.getOs() == OS.WINDOWS) {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_MATLAB_PATH + ".exe";
 		} else {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_MATLAB_PATH;
@@ -111,7 +111,7 @@ public class SettingsGui extends JPanel {
 		gbm.setX(1).setY(6).setWeightY(0).setComp(execOctavePath);
 
 
-		if (OpenFileBrowser.getOs().equals(OpenFileBrowser.OS.WINDOWS)) {
+		if (OS.getOs() == OS.WINDOWS) {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH + ".exe";
 		} else {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH;
@@ -136,7 +136,7 @@ public class SettingsGui extends JPanel {
 		gbm.setX(1).setY(8).setWeightY(0).setComp(execScilabPath);
 
 
-		if (OpenFileBrowser.getOs().equals(OpenFileBrowser.OS.WINDOWS)) {
+		if (OS.getOs() == OS.WINDOWS) {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_SCILAB_PATH + ".exe";
 		} else {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_SCILAB_PATH;
