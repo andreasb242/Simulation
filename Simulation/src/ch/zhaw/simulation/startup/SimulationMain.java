@@ -10,6 +10,7 @@ import org.netbeans.swing.dirchooser.FolderChooserUi;
 
 import butti.javalibs.config.Config;
 import butti.javalibs.config.FileSettings;
+import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.app.ApplicationControl;
@@ -23,8 +24,7 @@ public class SimulationMain {
 	private static String openfile;
 
 	public static void main() {
-		FileSettings settings = new FileSettings("settings.ini");
-		System.out.println("settings->"+settings.getSettingsFileName());
+		Settings settings = new FileSettings("settings.ini");
 
 		String lookAndFeel = settings.getSetting("ui.look-and-feel", null);
 
