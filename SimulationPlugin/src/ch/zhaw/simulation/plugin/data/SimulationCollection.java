@@ -3,8 +3,8 @@ package ch.zhaw.simulation.plugin.data;
 import java.util.Vector;
 
 public class SimulationCollection {
-	private double ymin;
-	private double ymax;
+	private double ymin = Double.MAX_VALUE;
+	private double ymax = Double.MIN_VALUE;
 
 	private double startTime = 0;
 	private double endTime;
@@ -17,6 +17,14 @@ public class SimulationCollection {
 	}
 
 	public void addSeries(SimulationSerie serie) {
+		if (serie.getMin() < ymin) {
+			ymin = serie.getMin();
+		}
+
+		if (serie.getMax() > ymax) {
+			ymax = serie.getMax();
+		}
+
 		series.add(serie);
 	}
 

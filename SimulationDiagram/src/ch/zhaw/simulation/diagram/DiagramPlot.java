@@ -91,14 +91,27 @@ public class DiagramPlot extends JComponent {
 		g.drawLine(w-1, 0, w-1, h);
 		g.drawLine(w-1, 0, 0, 0);
 
-		//
-
-
 		if (collection != null) {
+
 
 			// Set the time ratio
 			ratioX = (collection.getEndTime() - collection.getStartTime()) / (double) w;
 
+			// Set Y ratio
+			ratioY = round(collection.getYMax() - collection.getYMin()) / (double) h;
+
+			System.out.println("--- ratio " + ratioX + "/" + ratioY + " ---");
+			System.out.println("--- ymax " + round(collection.getYMax() - collection.getYMin()) + " ---");
+
+			double step = step(collection.getEndTime() - collection.getStartTime(), yNumLines);
+			double stepCount = step;
+			g.setColor(Color.GRAY);
+			for (i = 0; i < yNumLines; i++) {
+				y = (round(collection.getYMax() - collection.getYMin()) - stepCount) / ratioY;
+				stepCount += step;
+				g.drawLine(0, (int)y, w, (int)y);
+			}
+			
 			// iterate over all series
 			for (i = 0; i < collection.size(); i++) {
 
@@ -108,19 +121,19 @@ public class DiagramPlot extends JComponent {
 				g.setColor(serie.getColor());
 				path = new Path2D.Double();
 
-				// Set Y ratio
-				ratioY = (serie.getMax() - serie.getMin()) / (double) h;
 
 				entries = serie.getData();
 				first = true;
 
+				System.out.println("=== " + serie.getName() + " =========================");
 				// iterate over entries
 				for (k = 0; k < entries.size(); k++) {
 					entry = entries.get(k);
 
 					// scale to fit
 					x = entry.time / ratioX;
-					y = (serie.getMax() - entry.value) / ratioY;
+					y = (round(collection.getYMax() - collection.getYMin()) - entry.value) / ratioY;
+					System.out.println(" (" + entry.time + "/" + entry.value + ") => (" + x + "/" + y + ")");
 
 					// draw point
 					if (first) {
@@ -134,6 +147,21 @@ public class DiagramPlot extends JComponent {
 				g.draw(path);
 			}
 		}
+	}
+	
+	private double round(double d) {
+		int exp = (int) Math.log10(d);
+		double pow = Math.pow(10, exp - 1);
+		double res = Math.ceil(d / pow) * pow;
+		System.out.println("round: " + d + " => " + res);
+		return res;
+	}
+
+	private double step(double d, double numLines) {
+		double tmp = d / numLines;
+		int exp = (int) Math.log10(tmp);
+		double pow = Math.pow(10, exp - 1);
+		return Math.floor(tmp / pow) * pow;
 	}
 
 	public void setXRange(double min, double max) {
