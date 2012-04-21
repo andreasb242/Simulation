@@ -33,6 +33,8 @@ public class DiagramPlot extends JComponent {
 	private double yStep;
 	private int yNumLines;
 
+	private int markerLength;
+
 	private SimulationCollection collection;
 
 	public DiagramPlot() {
@@ -43,6 +45,7 @@ public class DiagramPlot extends JComponent {
 		yRangeType = RangeType.AUTO;
 		xNumLines = 10;
 		yNumLines = 10;
+		markerLength = 4;
 	}
 
 	@Override
@@ -59,15 +62,10 @@ public class DiagramPlot extends JComponent {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, w, h);
 
-
-		Image image = createImage(getWidth() - 75, getHeight() - 75);
-		paintPlot(image);
-		g.drawImage(image, 50, 25, null);
-		/*
-		*/
+		paintPlot(g);
 	}
 
-	private void paintPlot(Image image) {
+	private void paintPlot(Graphics2D g) {
 		SimulationSerie serie;
 		Vector<SimulationEntry> entries;
 		SimulationEntry entry;
@@ -75,42 +73,63 @@ public class DiagramPlot extends JComponent {
 		Path2D path;
 		int i, k;
 		double x, y;
-		double ratioX, ratioY;
+		double ratioX, ratioY, ratioYAbs;
 		boolean first;
 
-		Graphics2D g = DrawHelper.antialisingOn(image.getGraphics());
-		int w = image.getWidth(null);
-		int h = image.getHeight(null);
+		int w = getWidth() - 75;
+		int h = getHeight() - 75;
+		int xOrigin = 50;
+		int yOrigin = 25;
 
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, w, h);
-
-		g.setColor(Color.BLACK);
-		g.drawLine(0, 0, 0, h-1);
-		g.drawLine(0, h-1, w-1, h-1);
-		g.drawLine(w-1, 0, w-1, h);
-		g.drawLine(w-1, 0, 0, 0);
+		g.fillRect(xOrigin, yOrigin, w, h);
 
 		if (collection != null) {
-
-
 			// Set the time ratio
 			ratioX = (collection.getEndTime() - collection.getStartTime()) / (double) w;
 
 			// Set Y ratio
-			ratioY = round(collection.getYMax() - collection.getYMin()) / (double) h;
+			ratioY    = round(collection.getYMax() - collection.getYMin()) / (double) h;
+			ratioYAbs = roundAbs(collection.getYMax() - collection.getYMin()) / (double) h;
 
-			System.out.println("--- ratio " + ratioX + "/" + ratioY + " ---");
+			System.out.println("--- ratio " + ratioX + "/" + ratioYAbs + " ---");
 			System.out.println("--- ymax " + round(collection.getYMax() - collection.getYMin()) + " ---");
 
 			double step = step(collection.getEndTime() - collection.getStartTime(), yNumLines);
 			double stepCount = step;
-			g.setColor(Color.GRAY);
-			for (i = 0; i < yNumLines; i++) {
-				y = (round(collection.getYMax() - collection.getYMin()) - stepCount) / ratioY;
+
+
+			// X
+			for (i = 0; i < xNumLines; i++) {
+				x = (roundAbs(collection.getEndTime() - collection.getStartTime()) - stepCount) / ratioX;
 				stepCount += step;
-				g.drawLine(0, (int)y, w, (int)y);
+
+				g.setColor(Color.LIGHT_GRAY);
+				//         X1                 Y1                                X2                 Y2
+				g.drawLine(xOrigin + (int) x, yOrigin,                          xOrigin + (int) x, yOrigin + (int) h);
+
+				g.setColor(Color.BLACK);
+				//         X1                 Y1                                X2                 Y2
+				g.drawLine(xOrigin + (int) x, yOrigin, xOrigin + (int) x, yOrigin + markerLength);
+				g.drawLine(xOrigin + (int) x, yOrigin + (int) h - markerLength, xOrigin + (int) x, yOrigin + (int) h);
 			}
+
+			// Y
+			stepCount = step;
+			for (i = 0; i < yNumLines; i++) {
+				y = (roundAbs(collection.getYMax() - collection.getYMin()) - stepCount) / ratioYAbs;
+				stepCount += step;
+
+				g.setColor(Color.LIGHT_GRAY);
+				//         X1                 Y1                                X2                 Y2
+				g.drawLine(xOrigin, yOrigin + (int) y, xOrigin + w, yOrigin + (int) y);
+
+				g.setColor(Color.BLACK);
+				//         X1                 Y1                                X2                 Y2
+				g.drawLine(xOrigin, yOrigin + (int) y, xOrigin + markerLength, yOrigin + (int) y);
+				g.drawLine(xOrigin + w - markerLength, yOrigin + (int) y, xOrigin + w, yOrigin + (int) y);
+			}
+
 			
 			// iterate over all series
 			for (i = 0; i < collection.size(); i++) {
@@ -133,27 +152,41 @@ public class DiagramPlot extends JComponent {
 					// scale to fit
 					x = entry.time / ratioX;
 					y = (round(collection.getYMax() - collection.getYMin()) - entry.value) / ratioY;
-					System.out.println(" (" + entry.time + "/" + entry.value + ") => (" + x + "/" + y + ")");
+					//System.out.println(" (" + entry.time + "/" + entry.value + ") => (" + x + "/" + y + ")");
 
 					// draw point
 					if (first) {
 						first = false;
-						path.moveTo(x, y);
+						path.moveTo(xOrigin + x, yOrigin + y);
 					} else {
-						path.lineTo(x, y);
+						path.lineTo(xOrigin + x, yOrigin + y);
 					}
 				}
 
 				g.draw(path);
 			}
 		}
+
+		g.setColor(Color.BLACK);
+		g.drawLine(xOrigin,     yOrigin,     xOrigin,     yOrigin + h);
+		g.drawLine(xOrigin,     yOrigin + h, xOrigin + w, yOrigin + h);
+		g.drawLine(xOrigin + w, yOrigin,     xOrigin + w, yOrigin + h);
+		g.drawLine(xOrigin + w, yOrigin,     xOrigin,     yOrigin);
 	}
-	
+
 	private double round(double d) {
 		int exp = (int) Math.log10(d);
 		double pow = Math.pow(10, exp - 1);
 		double res = Math.ceil(d / pow) * pow;
-		System.out.println("round: " + d + " => " + res);
+		//System.out.println("round: " + d + " => " + res);
+		return res;
+	}
+
+	private double roundAbs(double d) {
+		int exp = (int) Math.abs(Math.log10(d));
+		double pow = Math.pow(10, exp - 1);
+		double res = Math.ceil(d / pow) * pow;
+		//System.out.println("round: " + d + " => " + res);
 		return res;
 	}
 
