@@ -2,13 +2,13 @@ package ch.zhaw.simulation.diagram;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
-import java.awt.image.BufferedImage;
 import java.util.Vector;
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
 
 import javax.swing.JComponent;
 
 import butti.javalibs.util.DrawHelper;
-import ch.zhaw.simulation.model.xy.ColorCalculator;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationEntry;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
@@ -71,38 +71,54 @@ public class DiagramPlot extends JComponent {
 		SimulationEntry entry;
 		Color colors[];
 		Path2D path;
+		FontMetrics fm = g.getFontMetrics();
 		int i, k;
+		double diffX, diffY;
 		double x, y;
 		double ratioX, ratioY, ratioYAbs;
 		boolean first;
+		double step;
+		double stepCount;
+		NumberFormat nf = new DecimalFormat("0.0");
+		String label;
+
+		// DEBUG
+		NumberFormat f = new DecimalFormat("0.000");
 
 		int w = getWidth() - 75;
 		int h = getHeight() - 75;
 		int xOrigin = 50;
 		int yOrigin = 25;
 
+		//g.setColor(Color.BLACK);
+		//g.drawLine(0, 0, xOrigin, yOrigin);
+
+		// Fill backgrund with white
 		g.setColor(Color.WHITE);
 		g.fillRect(xOrigin, yOrigin, w, h);
 
+		//
 		if (collection != null) {
-			// Set the time ratio
-			ratioX = (collection.getEndTime() - collection.getStartTime()) / (double) w;
 
-			// Set Y ratio
-			ratioY    = round(collection.getYMax() - collection.getYMin()) / (double) h;
-			ratioYAbs = roundAbs(collection.getYMax() - collection.getYMin()) / (double) h;
+			// Set time-ratio (x-axis)
+			diffX  = collection.getEndTime() - collection.getStartTime();
+			ratioX = diffX / (double) w;
 
-			System.out.println("--- ratio " + ratioX + "/" + ratioYAbs + " ---");
-			System.out.println("--- ymax " + round(collection.getYMax() - collection.getYMin()) + " ---");
+			// Set y-ratio (y-axis)
+			diffY     = collection.getYMax() - collection.getYMin();
+			ratioY    = round(diffY) / (double) h;
+			ratioYAbs = roundAbs(diffY) / (double) h;
 
-			double step = step(collection.getEndTime() - collection.getStartTime(), yNumLines);
-			double stepCount = step;
-
+			System.out.println("--- ratio " + f.format(ratioX) + "/" + f.format(ratioY) + " (" + f.format(ratioYAbs) + ") ---");
+			System.out.println("--- max " + f.format((collection.getEndTime() - collection.getStartTime())) + "/" + f.format(round(collection.getYMax() - collection.getYMin())) + " ---");
 
 			// X
-			for (i = 0; i < xNumLines; i++) {
-				x = (roundAbs(collection.getEndTime() - collection.getStartTime()) - stepCount) / ratioX;
-				stepCount += step;
+			// From zero point off
+			step = step(diffX, xNumLines);
+			stepCount = collection.getStartTime();
+			for (i = 0; i <= xNumLines; i++) {
+				// number from file to display-number
+				x = stepCount / ratioX;
 
 				g.setColor(Color.LIGHT_GRAY);
 				//         X1                 Y1                                X2                 Y2
@@ -112,13 +128,18 @@ public class DiagramPlot extends JComponent {
 				//         X1                 Y1                                X2                 Y2
 				g.drawLine(xOrigin + (int) x, yOrigin, xOrigin + (int) x, yOrigin + markerLength);
 				g.drawLine(xOrigin + (int) x, yOrigin + (int) h - markerLength, xOrigin + (int) x, yOrigin + (int) h);
+
+				g.drawString(nf.format(stepCount), xOrigin + (int) x - 7, yOrigin + (int) h + 15);
+				stepCount += step;
 			}
 
 			// Y
-			stepCount = step;
-			for (i = 0; i < yNumLines; i++) {
+			// From zero point off
+			step = step(diffY, yNumLines);
+			stepCount = collection.getYMin();
+			for (i = 0; i <= yNumLines + 1; i++) {
+				// number from file to display-number
 				y = (roundAbs(collection.getYMax() - collection.getYMin()) - stepCount) / ratioYAbs;
-				stepCount += step;
 
 				g.setColor(Color.LIGHT_GRAY);
 				//         X1                 Y1                                X2                 Y2
@@ -128,6 +149,10 @@ public class DiagramPlot extends JComponent {
 				//         X1                 Y1                                X2                 Y2
 				g.drawLine(xOrigin, yOrigin + (int) y, xOrigin + markerLength, yOrigin + (int) y);
 				g.drawLine(xOrigin + w - markerLength, yOrigin + (int) y, xOrigin + w, yOrigin + (int) y);
+
+				label = nf.format(stepCount);
+				g.drawString(label, xOrigin - fm.stringWidth(label) - 4, yOrigin + (int) y + 5);
+				stepCount += step;
 			}
 
 			
@@ -190,11 +215,17 @@ public class DiagramPlot extends JComponent {
 		return res;
 	}
 
+	/**
+	 *
+	 * @param d number from file
+	 * @param numLines
+	 * @return number rounded
+	 */
 	private double step(double d, double numLines) {
 		double tmp = d / numLines;
 		int exp = (int) Math.log10(tmp);
 		double pow = Math.pow(10, exp - 1);
-		return Math.floor(tmp / pow) * pow;
+		return Math.ceil(tmp / pow) * pow;
 	}
 
 	public void setXRange(double min, double max) {
