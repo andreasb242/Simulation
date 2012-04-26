@@ -102,10 +102,10 @@ public class DiagramPlot extends JComponent {
 
 		// Fill backgrund with white
 		g.setColor(Color.WHITE);
-		g.fillRect(xOrigin, yOrigin, w, h);
+		g.fillRect(xOrigin, yOrigin - 1, w, h + 1);
 
 		//
-		if (collection != null) {
+		if (collection != null && collection.size() > 0) {
 
 			// Set time-ratio (x-axis)
 			diffX  = xRangeMax - xRangeMin;
@@ -199,10 +199,10 @@ public class DiagramPlot extends JComponent {
 		}
 
 		g.setColor(Color.BLACK);
-		g.drawLine(xOrigin,     yOrigin,     xOrigin,     yOrigin + h);
+		g.drawLine(xOrigin,     yOrigin - 1,     xOrigin,     yOrigin + h);
 		g.drawLine(xOrigin,     yOrigin + h, xOrigin + w, yOrigin + h);
-		g.drawLine(xOrigin + w, yOrigin,     xOrigin + w, yOrigin + h);
-		g.drawLine(xOrigin + w, yOrigin,     xOrigin,     yOrigin);
+		g.drawLine(xOrigin + w, yOrigin - 1 ,     xOrigin + w, yOrigin + h);
+		g.drawLine(xOrigin + w, yOrigin - 1,     xOrigin,     yOrigin - 1);
 	}
 
 	private double round(double d) {
@@ -244,6 +244,9 @@ public class DiagramPlot extends JComponent {
 		xRangeMax = collection.getEndTime();
 		yRangeMin = collection.getYMin();
 		yRangeMax = collection.getYMax();
+		if (yRangeMin < 1.0 || (yRangeMax - yRangeMin) < 1.0) {
+			yRangeMin = 0.0;
+		}
 		repaint();
 	}
 
