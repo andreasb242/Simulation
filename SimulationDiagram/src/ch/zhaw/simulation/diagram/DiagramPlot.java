@@ -21,6 +21,11 @@ public class DiagramPlot extends JComponent {
 		AUTO
 	};
 
+	public enum Strategy {
+		NORMAL,
+		EXPONENTIAL
+	};
+
 	private RangeType xRangeType;
 	private double xRangeMin;
 	private double xRangeMax;
@@ -75,12 +80,14 @@ public class DiagramPlot extends JComponent {
 		int i, k;
 		double diffX, diffY;
 		double x, y;
-		double ratioX, ratioY, ratioYAbs;
+		double ratioX, ratioY;
 		boolean first;
 		double step;
 		double stepCount;
 		NumberFormat nf = new DecimalFormat("0.0");
+		NumberFormat nfExp = new DecimalFormat("###E0");
 		String label;
+		Strategy strategy;
 
 		// DEBUG
 		NumberFormat f = new DecimalFormat("0.000");
@@ -101,21 +108,20 @@ public class DiagramPlot extends JComponent {
 		if (collection != null) {
 
 			// Set time-ratio (x-axis)
-			diffX  = collection.getEndTime() - collection.getStartTime();
+			diffX  = xRangeMax - xRangeMin;
 			ratioX = diffX / (double) w;
 
 			// Set y-ratio (y-axis)
-			diffY     = collection.getYMax() - collection.getYMin();
+			diffY     = yRangeMax - yRangeMin;
 			ratioY    = round(diffY) / (double) h;
-			ratioYAbs = roundAbs(diffY) / (double) h;
 
-			System.out.println("--- ratio " + f.format(ratioX) + "/" + f.format(ratioY) + " (" + f.format(ratioYAbs) + ") ---");
+			System.out.println("--- ratio " + f.format(ratioX) + "/" + f.format(ratioY) + ") ---");
 			System.out.println("--- max " + f.format((collection.getEndTime() - collection.getStartTime())) + "/" + f.format(round(collection.getYMax() - collection.getYMin())) + " ---");
 
 			// X
 			// From zero point off
 			step = step(diffX, xNumLines);
-			stepCount = collection.getStartTime();
+			stepCount = xRangeMin;
 			for (i = 0; i <= xNumLines; i++) {
 				// number from file to display-number
 				x = stepCount / ratioX;
@@ -136,10 +142,10 @@ public class DiagramPlot extends JComponent {
 			// Y
 			// From zero point off
 			step = step(diffY, yNumLines);
-			stepCount = collection.getYMin();
-			for (i = 0; i <= yNumLines + 1; i++) {
+			stepCount = yRangeMin;
+			for (i = 0; i <= yNumLines; i++) {
 				// number from file to display-number
-				y = (roundAbs(collection.getYMax() - collection.getYMin()) - stepCount) / ratioYAbs;
+				y = (round(diffY) - stepCount) / ratioY;
 
 				g.setColor(Color.LIGHT_GRAY);
 				//         X1                 Y1                                X2                 Y2
@@ -150,7 +156,7 @@ public class DiagramPlot extends JComponent {
 				g.drawLine(xOrigin, yOrigin + (int) y, xOrigin + markerLength, yOrigin + (int) y);
 				g.drawLine(xOrigin + w - markerLength, yOrigin + (int) y, xOrigin + w, yOrigin + (int) y);
 
-				label = nf.format(stepCount);
+				label = nfExp.format(stepCount);
 				g.drawString(label, xOrigin - fm.stringWidth(label) - 4, yOrigin + (int) y + 5);
 				stepCount += step;
 			}
@@ -176,7 +182,7 @@ public class DiagramPlot extends JComponent {
 
 					// scale to fit
 					x = entry.time / ratioX;
-					y = (round(collection.getYMax() - collection.getYMin()) - entry.value) / ratioY;
+					y = (round(diffY) - entry.value) / ratioY;
 					//System.out.println(" (" + entry.time + "/" + entry.value + ") => (" + x + "/" + y + ")");
 
 					// draw point
@@ -207,14 +213,6 @@ public class DiagramPlot extends JComponent {
 		return res;
 	}
 
-	private double roundAbs(double d) {
-		int exp = (int) Math.abs(Math.log10(d));
-		double pow = Math.pow(10, exp - 1);
-		double res = Math.ceil(d / pow) * pow;
-		//System.out.println("round: " + d + " => " + res);
-		return res;
-	}
-
 	/**
 	 *
 	 * @param d number from file
@@ -222,7 +220,7 @@ public class DiagramPlot extends JComponent {
 	 * @return number rounded
 	 */
 	private double step(double d, double numLines) {
-		double tmp = d / numLines;
+		double tmp = d / (numLines);
 		int exp = (int) Math.log10(tmp);
 		double pow = Math.pow(10, exp - 1);
 		return Math.ceil(tmp / pow) * pow;
@@ -242,6 +240,10 @@ public class DiagramPlot extends JComponent {
 
 	public void updateSimulationCollection(SimulationCollection collection) {
 		this.collection = collection;
+		xRangeMin = collection.getStartTime();
+		xRangeMax = collection.getEndTime();
+		yRangeMin = collection.getYMin();
+		yRangeMax = collection.getYMax();
 		repaint();
 	}
 
