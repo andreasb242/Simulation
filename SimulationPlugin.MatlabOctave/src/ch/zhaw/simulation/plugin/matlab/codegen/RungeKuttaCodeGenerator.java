@@ -15,10 +15,15 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 	private static final String FILENAME_ODE = "simulation_rk_ode";
 
 	@Override
-	public void executeSimulation(SimulationDocument doc) throws Exception {
+	public void generateFlowSimulation(SimulationDocument doc) throws Exception {
 		initSimulation(doc);
 		saveSimulationMain();
 		saveSimulationDifferential();
+	}
+
+	@Override
+	public void generateXYSimulation(SimulationDocument doc) throws Exception {
+		// TODO: implement method
 	}
 
 	@Override

@@ -55,7 +55,9 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 *             Falls etwas schief geht, die Meldung wird dem Benutzer
 	 *             angezeigt
 	 */
-	public void executeSimulation(SimulationDocument doc) throws Exception;
+	public void executeFlowSimulation(SimulationDocument doc) throws Exception;
+
+	public void executeXYSimulation(SimulationDocument doc) throws Exception;
 
 	public SimulationCollection getSimulationResults(SimulationDocument doc);
 
