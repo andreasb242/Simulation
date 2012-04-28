@@ -16,14 +16,18 @@ import ch.zhaw.simulation.plugin.data.SimulationSerie;
 public class DiagramPlot extends JComponent {
 	private static final long serialVersionUID = 1L;
 
+	// Because path could reach upper bound and bound covers path => bound displacement
+	private static final int BOUND_DISPLACEMENT = 1;
+
+	// Label format
+	private static final NumberFormat X_FORMAT = new DecimalFormat("0.0");
+	private static final NumberFormat Y_FORMAT = new DecimalFormat("###E0");
+
+	// Range is set static (over GUI or zoom) or auto (default)
+	// TODO: not implemented
 	public enum RangeType {
 		STATIC,
 		AUTO
-	};
-
-	public enum Strategy {
-		NORMAL,
-		EXPONENTIAL
 	};
 
 	private RangeType xRangeType;
@@ -38,12 +42,14 @@ public class DiagramPlot extends JComponent {
 	private double yStep;
 	private int yNumLines;
 
+	// Black markers at the beginning and end of a grid-line
 	private int markerLength;
 
+	// Selected path
 	private SimulationCollection collection;
 
 	public DiagramPlot() {
-		// Grösse für Scrollbar
+		// Size of Scrollbar
 		setPreferredSize(new Dimension(200, 200));
 
 		xRangeType = RangeType.AUTO;
@@ -62,7 +68,6 @@ public class DiagramPlot extends JComponent {
 		int w = getWidth();
 		int h = getHeight();
 
-		
 		// Background white
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, w, h);
@@ -74,23 +79,20 @@ public class DiagramPlot extends JComponent {
 		SimulationSerie serie;
 		Vector<SimulationEntry> entries;
 		SimulationEntry entry;
-		Color colors[];
 		Path2D path;
 		FontMetrics fm = g.getFontMetrics();
 		int i, k;
 		double diffX, diffY;
+		double diffYRound;
 		double x, y;
 		double ratioX, ratioY;
 		boolean first;
 		double step;
 		double stepCount;
-		NumberFormat nf = new DecimalFormat("0.0");
-		NumberFormat nfExp = new DecimalFormat("###E0");
 		String label;
-		Strategy strategy;
 
 		// DEBUG
-		NumberFormat f = new DecimalFormat("0.000");
+		//NumberFormat f = new DecimalFormat("0.000");
 
 		int w = getWidth() - 75;
 		int h = getHeight() - 75;
@@ -102,21 +104,24 @@ public class DiagramPlot extends JComponent {
 
 		// Fill backgrund with white
 		g.setColor(Color.WHITE);
-		g.fillRect(xOrigin, yOrigin - 1, w, h + 1);
+		g.fillRect(xOrigin, yOrigin - BOUND_DISPLACEMENT, w, h + BOUND_DISPLACEMENT);
 
 		//
 		if (collection != null && collection.size() > 0) {
 
 			// Set time-ratio (x-axis)
 			diffX  = xRangeMax - xRangeMin;
+
 			ratioX = diffX / (double) w;
 
 			// Set y-ratio (y-axis)
-			diffY     = yRangeMax - yRangeMin;
-			ratioY    = round(diffY) / (double) h;
+			diffY      = yRangeMax - yRangeMin;
+			diffYRound = round(diffY);
+			ratioY     = diffYRound / (double) h;
 
-			System.out.println("--- ratio " + f.format(ratioX) + "/" + f.format(ratioY) + ") ---");
-			System.out.println("--- max " + f.format((collection.getEndTime() - collection.getStartTime())) + "/" + f.format(round(collection.getYMax() - collection.getYMin())) + " ---");
+			// DEBUG
+			// System.out.println("--- ratio " + f.format(ratioX) + "/" + f.format(ratioY) + ") ---");
+			// System.out.println("--- max " + f.format((collection.getEndTime() - collection.getStartTime())) + "/" + f.format(round(collection.getYMax() - collection.getYMin())) + " ---");
 
 			// X
 			// From zero point off
@@ -135,7 +140,7 @@ public class DiagramPlot extends JComponent {
 				g.drawLine(xOrigin + (int) x, yOrigin, xOrigin + (int) x, yOrigin + markerLength);
 				g.drawLine(xOrigin + (int) x, yOrigin + (int) h - markerLength, xOrigin + (int) x, yOrigin + (int) h);
 
-				g.drawString(nf.format(stepCount), xOrigin + (int) x - 7, yOrigin + (int) h + 15);
+				g.drawString(X_FORMAT.format(stepCount), xOrigin + (int) x - 7, yOrigin + (int) h + 15);
 				stepCount += step;
 			}
 
@@ -145,7 +150,7 @@ public class DiagramPlot extends JComponent {
 			stepCount = yRangeMin;
 			for (i = 0; i <= yNumLines; i++) {
 				// number from file to display-number
-				y = (round(diffY) - stepCount) / ratioY;
+				y = (diffYRound - stepCount) / ratioY;
 
 				g.setColor(Color.LIGHT_GRAY);
 				//         X1                 Y1                                X2                 Y2
@@ -156,7 +161,7 @@ public class DiagramPlot extends JComponent {
 				g.drawLine(xOrigin, yOrigin + (int) y, xOrigin + markerLength, yOrigin + (int) y);
 				g.drawLine(xOrigin + w - markerLength, yOrigin + (int) y, xOrigin + w, yOrigin + (int) y);
 
-				label = nfExp.format(stepCount);
+				label = Y_FORMAT.format(stepCount);
 				g.drawString(label, xOrigin - fm.stringWidth(label) - 4, yOrigin + (int) y + 5);
 				stepCount += step;
 			}
@@ -175,15 +180,13 @@ public class DiagramPlot extends JComponent {
 				entries = serie.getData();
 				first = true;
 
-				System.out.println("=== " + serie.getName() + " =========================");
 				// iterate over entries
 				for (k = 0; k < entries.size(); k++) {
 					entry = entries.get(k);
 
 					// scale to fit
 					x = entry.time / ratioX;
-					y = (round(diffY) - entry.value) / ratioY;
-					//System.out.println(" (" + entry.time + "/" + entry.value + ") => (" + x + "/" + y + ")");
+					y = (diffYRound - entry.value) / ratioY;
 
 					// draw point
 					if (first) {
@@ -199,17 +202,37 @@ public class DiagramPlot extends JComponent {
 		}
 
 		g.setColor(Color.BLACK);
-		g.drawLine(xOrigin,     yOrigin - 1,     xOrigin,     yOrigin + h);
-		g.drawLine(xOrigin,     yOrigin + h, xOrigin + w, yOrigin + h);
-		g.drawLine(xOrigin + w, yOrigin - 1 ,     xOrigin + w, yOrigin + h);
-		g.drawLine(xOrigin + w, yOrigin - 1,     xOrigin,     yOrigin - 1);
+
+		// Black bounds
+		// 14-----43
+		// |       |
+		// 12-----23
+
+		// 1
+		g.drawLine(xOrigin,     yOrigin - BOUND_DISPLACEMENT,     xOrigin,     yOrigin + h);
+		// 2
+		g.drawLine(xOrigin,     yOrigin + h,                xOrigin + w, yOrigin + h);
+		// 3
+		g.drawLine(xOrigin + w, yOrigin - BOUND_DISPLACEMENT,    xOrigin + w, yOrigin + h);
+		// 4
+		g.drawLine(xOrigin + w, yOrigin - BOUND_DISPLACEMENT,     xOrigin,     yOrigin - BOUND_DISPLACEMENT);
 	}
 
+	/**
+	 * Round number to nearest value
+	 *
+	 * ex. d = 8.9    => res = 9
+	 *     d = 0.0072 => res = 0.0080
+	 *     d = 0.0046 => res = 0.0050
+	 *
+	 * @param d original value
+	 * @return rounded value
+	 */
 	private double round(double d) {
 		int exp = (int) Math.log10(d);
 		double pow = Math.pow(10, exp - 1);
 		double res = Math.ceil(d / pow) * pow;
-		//System.out.println("round: " + d + " => " + res);
+
 		return res;
 	}
 
@@ -223,6 +246,7 @@ public class DiagramPlot extends JComponent {
 		double tmp = d / (numLines);
 		int exp = (int) Math.log10(tmp);
 		double pow = Math.pow(10, exp - 1);
+
 		return Math.ceil(tmp / pow) * pow;
 	}
 
@@ -244,6 +268,8 @@ public class DiagramPlot extends JComponent {
 		xRangeMax = collection.getEndTime();
 		yRangeMin = collection.getYMin();
 		yRangeMax = collection.getYMax();
+
+		// if y-min is almost zero or difference (ex. constant value) is small
 		if (yRangeMin < 1.0 || (yRangeMax - yRangeMin) < 1.0) {
 			yRangeMin = 0.0;
 		}
