@@ -14,10 +14,12 @@ import ch.zhaw.simulation.model.selection.SelectionModel;
 /**
  * Contains clipboard data
  * 
+ * Needs to implmenent input stream, else you get an Exception on Windows
+ * Systems
+ * 
  * @author Andreas Butti
  */
-public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>, V extends AbstractEditorView<?>> extends InputStream implements
-		ClipboardData {
+public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>, V extends AbstractEditorView<?>> extends InputStream implements ClipboardData {
 
 	/**
 	 * The selection model to selected the inserted elements
@@ -27,18 +29,18 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 	/**
 	 * The model
 	 */
-	protected transient  M model;
+	protected transient M model;
 
 	/**
 	 * The view
 	 */
-	protected  transient V view;
+	protected transient V view;
 
 	/**
 	 * The contens of this transferable
 	 */
 	private Vector<TransferData> contents = new Vector<TransferData>();
-	
+
 	public AbstractClipboardData() {
 	}
 
@@ -76,7 +78,7 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 	public void add(TransferData d) {
 		this.contents.add(d);
 	}
-	
+
 	protected abstract boolean handleData(TransferData d);
 
 	protected void handleText(TransferData d) {
@@ -109,13 +111,9 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 			selectionModel.addSelectedInt(view.findGuiComponent(c));
 		}
 	}
-	
-	
+
 	@Override
 	public int read() throws IOException {
-		
-		
-		// TODO Auto-generated method stub
 		return -1;
 	}
 }

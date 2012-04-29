@@ -184,8 +184,6 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 		// Testen ob alle abhängigen Objekte const sind
 		for (AssigmentPair a : assigment) {
 			if (a.isNeverStatic()) {
-				// TODO: Container sind nur const wenn keine ein / ausflüse
-				// vorhanden sind
 				return;
 			}
 
@@ -203,7 +201,6 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 		if (node instanceof ASTVarNode) {
 			ASTVarNode a = (ASTVarNode) node;
 
-			// TODO: optimieren
 			if (!(a.getVar().getValue() instanceof VarPlaceholder)) {
 				return;
 			}
@@ -255,16 +252,26 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 		}
 
 		public AssigmentPair(ASTVarNode node, AbstractNamedSimulationData so) {
-			this.node = node;
-			this.so = so;
-			this.neverStatic = so instanceof SimulationContainerData;
-
 			if (so == null) {
 				throw new NullPointerException("so == null");
 			}
 			if (node == null) {
 				throw new NullPointerException("node == null");
 			}
+
+			
+			this.node = node;
+			this.so = so;
+			
+			
+			if(so instanceof SimulationContainerData) {
+				// TODO Optimize: it's static if there are no in-/out flows
+				
+				this.neverStatic = true;
+			} else{
+				this.neverStatic = false;
+			}
+
 		}
 
 		public ASTVarNode getNode() {

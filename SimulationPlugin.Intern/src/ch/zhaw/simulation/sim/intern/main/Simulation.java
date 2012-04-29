@@ -208,7 +208,7 @@ public class Simulation {
 
 	private void setConstValue(AbstractNamedSimulationData d) {
 		if (d instanceof SimulationContainerData) {
-			// TODO: Container dürfen nur Konstant sein wenn keine Ein- Und
+			// TODO Optimize: Container dürfen nur Konstant sein wenn keine Ein- Und
 			// Ausflüsse vorhanden sind!
 			return;
 		}

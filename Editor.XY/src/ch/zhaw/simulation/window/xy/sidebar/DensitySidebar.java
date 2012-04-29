@@ -16,11 +16,11 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.gui.messagebox.Messagebox;
-
 import ch.zhaw.simulation.editor.xy.density.DensityEditorDialog;
 import ch.zhaw.simulation.editor.xy.density.DensityListModel;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.icon.IconLoader;
+import ch.zhaw.simulation.model.listener.XYSimulationAdapter;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -107,8 +107,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 
 		p.add(btDelete);
 
-		JButton btEdit = new JButton("Bearbeiten");
-		btEdit.setIcon(IconLoader.getIcon("edit"));
+		JButton btEdit = new JButton(IconLoader.getIcon("edit"));
 		btEdit.addActionListener(new ActionListener() {
 
 			@Override
@@ -124,6 +123,18 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		});
 
 		p.add(btEdit);
+
+		model.addListener(new XYSimulationAdapter() {
+
+			@Override
+			public void densityChanged(DensityData d) {
+				if (d == lastSelected) {
+					for (ActionListener l : listenerList) {
+						l.actionPerformed(null);
+					}
+				}
+			}
+		});
 	}
 
 	protected void selectionChanged() {
