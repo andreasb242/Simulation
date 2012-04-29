@@ -1,7 +1,8 @@
-package ch.zhaw.simulation.plugin.matlab;
+package ch.zhaw.simulation.plugin.matlab.optimizer;
 
 import java.util.Vector;
 
+import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
 import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.math.Parser;
@@ -18,11 +19,11 @@ import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.plugin.matlab.MatlabAttachment.VarNotFoundExceptionTmp;
 
-public class ModelOptimizer {
+public class FlowModelOptimizer implements ModelOptimizer {
 	private SimulationFlowModel flowModel;
 	private Parser parser = new Parser();
 
-	public ModelOptimizer(SimulationFlowModel flowModel) {
+	public FlowModelOptimizer(SimulationFlowModel flowModel) {
 		this.flowModel = flowModel;
 		if (flowModel == null) {
 			throw new NullPointerException("model == null");
