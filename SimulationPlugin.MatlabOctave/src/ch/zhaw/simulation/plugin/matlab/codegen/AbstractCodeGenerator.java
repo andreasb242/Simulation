@@ -37,7 +37,9 @@ public abstract class AbstractCodeGenerator {
 	 *            The model to simulate
 	 * @throws IOException
 	 */
-	public abstract void executeSimulation(SimulationDocument doc) throws Exception;
+	public abstract void generateFlowSimulation(SimulationDocument doc) throws Exception;
+
+	public abstract void generateXYSimulation(SimulationDocument doc) throws Exception;
 
 
 	protected abstract void initSimulation(SimulationDocument doc) throws IOException;

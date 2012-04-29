@@ -436,7 +436,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		try {
-			plugin.executeSimulation(doc);
+			if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+				plugin.executeFlowSimulation(doc);
+			} else {
+				plugin.executeXYSimulation(doc);
+			}
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}

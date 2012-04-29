@@ -17,10 +17,7 @@ import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
@@ -69,17 +66,14 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
-		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
-			throw new IllegalArgumentException("only flow model supported currently");
+		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+			optimizer = new ModelOptimizer(doc.getFlowModel());
+			optimizer.optimize();
 		}
-
-		optimizer = new ModelOptimizer(doc.getFlowModel());
-
-		optimizer.optimize();
 	}
 
 	@Override
-	public void executeSimulation(SimulationDocument doc) throws Exception {
+	public void executeFlowSimulation(SimulationDocument doc) throws Exception {
 		String workpath = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
 
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
@@ -90,7 +84,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			provider.getExecutionListener().executionStarted("Simulation läuft...");
 	
 			codeGenerator.setWorkingFolder(workpath);
-			codeGenerator.executeSimulation(doc);
+			codeGenerator.generateFlowSimulation(doc);
 			startApplication(workpath, codeGenerator.getGeneratedFile());
 		} catch (IOException e) {
 			watcher.stop();
@@ -102,6 +96,11 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public void executeXYSimulation(SimulationDocument doc) throws Exception {
+		throw new Exception("not implemented");
 	}
 
 	@Override

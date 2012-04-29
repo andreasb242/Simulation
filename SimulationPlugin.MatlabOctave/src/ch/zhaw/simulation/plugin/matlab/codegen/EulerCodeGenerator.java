@@ -22,7 +22,7 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 	 * @see AbstractCodeGenerator
 	 */
 	@Override
-	public void executeSimulation(SimulationDocument doc) throws IOException {
+	public void generateFlowSimulation(SimulationDocument doc) throws IOException {
 		String outputFile;
 		CodeOutput out;
 
@@ -68,6 +68,11 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 		//printDebugGraph(out);
 		out.println("exit");
 		out.close();
+	}
+
+	@Override
+	public void generateXYSimulation(SimulationDocument doc) throws Exception {
+		// TODO: implement method
 	}
 
 	@Override
