@@ -6,6 +6,9 @@ import butti.javalibs.dirwatcher.DirectoryWatcher;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
+import ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
+import ch.zhaw.simulation.plugin.matlab.optimizer.ModelOptimizer;
+import ch.zhaw.simulation.plugin.matlab.optimizer.XYModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
 import org.jdesktop.swingx.JXTaskPane;
 
@@ -67,9 +70,11 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	@Override
 	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
 		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
-			optimizer = new ModelOptimizer(doc.getFlowModel());
-			optimizer.optimize();
+			optimizer = new FlowModelOptimizer(doc.getFlowModel());
+		} else if (doc.getType() == SimulationType.XY_MODEL) {
+			optimizer = new XYModelOptimizer(doc.getXyModel());
 		}
+		optimizer.optimize();
 	}
 
 	@Override
