@@ -4,6 +4,14 @@ import java.util.Vector;
 
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
+/**
+ * A configuration field (or multiple fields) which supports editing of multiple
+ * selected element at one time
+ * 
+ * @see SingleConfigurationField for single editing
+ * 
+ * @author Andreas Butti
+ */
 public abstract class MultipleConfigurationField extends ConfigurationField {
 	/**
 	 * The currently selected data

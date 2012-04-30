@@ -6,11 +6,11 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.util.ColorConstants;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -25,7 +25,7 @@ public class NameConfigurationField extends SingleConfigurationField {
 
 	@Override
 	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup leftGroup, ParallelGroup rightGroup) {
-		TitleLabel title = new TitleLabel("Name");
+		JLabel title = new JLabel("Name");
 		addComponent(title);
 		addComponent(txtName);
 		this.defaultBackground = txtName.getBackground();
@@ -57,7 +57,7 @@ public class NameConfigurationField extends SingleConfigurationField {
 
 	protected void nameChanged() {
 		String name = txtName.getText();
-		if(nameChecker.checkName(name)) {
+		if (nameChecker.checkName(name)) {
 			txtName.setBackground(defaultBackground);
 			getData().setName(name);
 			fireDataChanged(getData());

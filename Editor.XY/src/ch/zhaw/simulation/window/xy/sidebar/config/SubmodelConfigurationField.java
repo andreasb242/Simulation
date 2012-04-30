@@ -8,8 +8,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
-import butti.javalibs.controls.TitleLabel;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
@@ -18,8 +18,6 @@ import ch.zhaw.simulation.window.sidebar.config.MultipleConfigurationField;
 import ch.zhaw.simulation.window.xy.sidebar.SubmodelComboboxModel;
 
 public class SubmodelConfigurationField extends MultipleConfigurationField {
-	private TitleLabel title = new TitleLabel("Submodel");
-
 	private JComboBox cbSubmodel;
 
 	private Object lastSelectedObject;
@@ -55,6 +53,7 @@ public class SubmodelConfigurationField extends MultipleConfigurationField {
 			}
 		});
 
+		JLabel title = new JLabel("Submodel");
 		leftGroup.addComponent(title);
 		addComponent(title);
 

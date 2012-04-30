@@ -24,6 +24,7 @@ import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
+import ch.zhaw.simulation.model.xy.MesoData.Derivative;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.model.xy.SubModelList;
@@ -76,6 +77,25 @@ public class XmlModelLoader implements XmlContentsNames {
 		} else if (XML_ELEMENT_MESO.equals(name)) {
 			MesoData o = new MesoData(0, 0);
 			parseSimulationObject(node, o);
+
+			String formulax = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_MESO_X);
+			if (formulax == null) {
+				formulax = "";
+			}
+			String formulay = XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_MESO_Y);
+			if (formulay == null) {
+				formulay = "";
+			}
+
+			o.getDataX().setFormula(formulax);
+			o.getDataY().setFormula(formulay);
+
+			Derivative derivative = Derivative.valueOf(XmlHelper.getAttribute(node, XML_ELEMENT_ATTRIB_MESO_DERIVATIVE));
+			if (derivative == null) {
+				derivative = Derivative.FIRST_DERIVATIVE;
+			}
+			o.setDerivative(derivative);
+
 			model.addData(o);
 		} else {
 			throw new RuntimeException("Node name \"" + name + "\" unknown!");
@@ -373,13 +393,12 @@ public class XmlModelLoader implements XmlContentsNames {
 	private void parseSubmodel(Node root, SimulationXYModel xyModel) {
 		String name = XmlHelper.getAttribute(root, XML_ELEMENT_ATTRIB_NAME);
 		String type = XmlHelper.getAttribute(root, XML_MODEL_TYPE);
-		
-		if(!XML_MODEL_TYPE_FLOW.equals(type)) {
+
+		if (!XML_MODEL_TYPE_FLOW.equals(type)) {
 			System.err.println("unexcpected submodel: «" + type + "»");
 			return;
 		}
-		
-		
+
 		SubModel submodel = new SubModel();
 		if (!load(submodel.getModel(), root)) {
 			throw new RuntimeException("Coult not load submodel: «" + name + "»");

@@ -1,25 +1,16 @@
 package ch.zhaw.simulation.dialog.aboutdlg;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.jdesktop.swingx.action.OpenBrowserAction;
-
-import ch.zhaw.simulation.util.gui.GradientPanel;
-
+import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
-
-import butti.javalibs.controls.TitleLabel;
-import butti.javalibs.errorhandler.Errorhandler;
+import ch.zhaw.simulation.util.gui.GradientPanel;
 
 /**
  * Der Aboutdialog
@@ -34,7 +25,7 @@ public class AboutDialog extends BDialog {
 
 	public AboutDialog(JFrame parent) {
 		super(parent);
-		setTitle("Info über Simulation");
+		setTitle("Info über (AB)² Simulation");
 
 		JPanel headerPanel = new JPanel(new BorderLayout());
 		AboutHeader header = new AboutHeader();
@@ -70,10 +61,10 @@ public class AboutDialog extends BDialog {
 
 		gbm.setX(1).setY(11).setWeightY(0).setInsets(new Insets(30, 5, 5, 5)).setWidth(2).setComp(lbLib);
 
-		addLib("SwingX (Sun)", "http://swinglabs.org/");
-		addLib("SvgSalamander", "https://svgsalamander.dev.java.net/");
+		addLib("SwingX", "http://swinglabs.org/");
+		addLib("JXLayer", "http://http://java.net/projects/jxlayer");
 		addLib("Jep Java - Math Expression Parser", "http://sourceforge.net/projects/jep/");
-		addLib("JOpenChart", "http://jopenchart.sourceforge.net/");
+		addLib("Dirchooser from Netbeans Project", "http://netbeans.org/");
 
 		pack();
 		setLocationRelativeTo(parent);
@@ -82,26 +73,7 @@ public class AboutDialog extends BDialog {
 	private void addLib(String name, String url) {
 		gbm.setX(1).setInsets(new Insets(5, 24, 5, 5)).setY(yCoord).setWeightY(0).setComp(new JLabel(name));
 
-		final OpenBrowserAction helpAction = new OpenBrowserAction();
-		try {
-			helpAction.setURI(new URI(url));
-		} catch (Exception e) {
-			Errorhandler.showError(e, "Konnte URL nicht öffnen");
-		}
-
-		JLabel lbUrl = new JLabel(url);
-		lbUrl.setForeground(Color.BLUE);
-
-		lbUrl.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				helpAction.actionPerformed(null);
-			}
-
-		});
-
-		gbm.setX(2).setY(yCoord++).setWeightY(0).setComp(lbUrl);
+		gbm.setX(2).setY(yCoord++).setWeightY(0).setComp(new UrlLabel(url));
 	}
 
 	/**

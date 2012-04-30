@@ -268,6 +268,9 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		}
 
 		Element xml = createXmlElement(m, XML_ELEMENT_MESO);
+		xml.setAttribute(XML_ELEMENT_ATTRIB_MESO_X, m.getFormulaX());
+		xml.setAttribute(XML_ELEMENT_ATTRIB_MESO_Y, m.getFormulaY());
+		xml.setAttribute(XML_ELEMENT_ATTRIB_MESO_DERIVATIVE, m.getDerivative().toString());
 
 		root.appendChild(xml);
 	}

@@ -2,6 +2,14 @@ package ch.zhaw.simulation.window.sidebar.config;
 
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 
+/**
+ * A configuration field (or multiple fields) which supports editing of one
+ * selected element
+ * 
+ * @see MultipleConfigurationField for multiple editing
+ * 
+ * @author Andreas Butti
+ */
 public abstract class SingleConfigurationField extends ConfigurationField {
 	/**
 	 * The currently selected data
@@ -35,7 +43,7 @@ public abstract class SingleConfigurationField extends ConfigurationField {
 			return false;
 		}
 	}
-	
+
 	public AbstractNamedSimulationData getData() {
 		return data;
 	}

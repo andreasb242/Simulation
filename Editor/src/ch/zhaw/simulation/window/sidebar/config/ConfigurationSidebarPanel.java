@@ -52,7 +52,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 			case SHOW_FORMULA_EDITOR:
 				showFormulaEditor((AbstractNamedSimulationData) data);
 				break;
-				
+
 			case FIRE_SIMULATION_OBJECT_CHANGED:
 				model.fireObjectChanged((AbstractSimulationData) data);
 				break;
@@ -71,7 +71,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 		if (selectionModel == null) {
 			throw new NullPointerException("selectionModel == null");
 		}
-		
+
 		if (model == null) {
 			throw new NullPointerException("model == null");
 		}
@@ -91,7 +91,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 
 		initConfigurationFiels();
 	}
-	
+
 	public M getModel() {
 		return model;
 	}

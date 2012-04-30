@@ -8,8 +8,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
-import butti.javalibs.controls.TitleLabel;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
@@ -19,18 +19,16 @@ import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.window.sidebar.config.SidebarActionListener.SidebarAction;
 
 public class FormulaConfigurationField extends SingleConfigurationField {
-	protected TitleLabel lbValue = new TitleLabel("Wert");
-	protected JButton btEdit;
-
 	public FormulaConfigurationField() {
 	}
 
 	@Override
 	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup leftGroup, ParallelGroup rightGroup) {
+		JLabel lbValue = new JLabel("Wert");
 		leftGroup.addComponent(lbValue);
 		addComponent(lbValue);
 
-		btEdit = new JButton("bearbeiten", IconLoader.getIcon("text-editor", 24));
+		JButton btEdit = new JButton("bearbeiten", IconLoader.getIcon("text-editor", 24));
 		g.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(lbValue).addComponent(btEdit));
 		addComponent(btEdit);
 
@@ -50,11 +48,6 @@ public class FormulaConfigurationField extends SingleConfigurationField {
 	@Override
 	public int getOrder() {
 		return 200;
-	}
-
-	@Override
-	public boolean supportsMultibleEditing() {
-		return false;
 	}
 
 	@Override
