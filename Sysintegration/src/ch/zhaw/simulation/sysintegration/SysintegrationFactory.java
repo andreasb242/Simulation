@@ -15,7 +15,7 @@ public class SysintegrationFactory {
 	 * 
 	 * @return A new instance of Sysintegration
 	 */
-	public static synchronized Sysintegration createSysintegration() {
+	public static synchronized Sysintegration getSysintegration() {
 		if (cached != null) {
 			return cached;
 		}

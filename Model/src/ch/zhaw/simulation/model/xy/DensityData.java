@@ -47,8 +47,6 @@ public class DensityData implements NamedFormulaData {
 
 	@Override
 	public void setFormula(String formula, Status status, String statusText) {
-		// TODO status etc. speichern
-
 		this.formula = formula;
 	}
 
@@ -59,5 +57,10 @@ public class DensityData implements NamedFormulaData {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public NamedFormulaData getRealNamedFormulaData() {
+		return this;
 	}
 }

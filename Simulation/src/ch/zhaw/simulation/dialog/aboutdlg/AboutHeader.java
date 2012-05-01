@@ -1,58 +1,57 @@
 package ch.zhaw.simulation.dialog.aboutdlg;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import ch.zhaw.simulation.icon.IconLoader;
-import ch.zhaw.simulation.util.gui.HeaderPanel;
+import org.jdesktop.swingx.JXLabel;
 
 import butti.javalibs.controls.TitleLabel;
-
+import butti.javalibs.gui.GridBagManager;
+import ch.zhaw.simulation.icon.IconLoader;
+import ch.zhaw.simulation.util.gui.HeaderPanel;
 
 public class AboutHeader extends HeaderPanel {
 	private static final long serialVersionUID = 1L;
 
 	private ImageIcon icon;
 
-    public AboutHeader() {
-        setLayout(new BorderLayout());
+	public AboutHeader() {
+		GridBagManager gbm = new GridBagManager(this, true);
 
-        this.icon = IconLoader.getIcon("simulation", 128);
+		this.icon = IconLoader.getIcon("simulation", 128);
 
-        JPanel titel = new JPanel(new GridLayout(0, 1));
-        titel.setOpaque(false);
-        titel.setBorder(new EmptyBorder(12, 0, 12, 0));
+		gbm.setX(0).setY(0).setInsets(new Insets(10, 5, 5, 20)).setComp(new TitleLabel("<html>Information über <font face=\"Serif\">(AB)²</font> Simulation</html>"));
+		gbm.setX(0).setY(1).setInsets(new Insets(0, 24, 20, 20)).setComp(new UrlLabel("http://sourceforge.net/projects/!!TODO!!/"));
+		
+		gbm.setX(0).setY(10).setWeightY(0).setInsets(new Insets(10, 5, 5, 20)).setComp(new TitleLabel("Autoren"));
 
-		TitleLabel titleLabel = new TitleLabel("Information über Simulation");
-        Font police = titleLabel.getFont().deriveFont(Font.BOLD);
-        titleLabel.setFont(police);
-        titleLabel.setBorder(new EmptyBorder(0, 12, 0, 0));
-        titel.add(titleLabel);
+		gbm.setX(0).setY(11).setWeightY(0).setInsets(new Insets(5, 24, 5, 0)).setComp(new JXLabel(
+				"<html>Andreas Bachmann © 2012 - ZHAW<br>" + 
+				"	• Codegeneration<br>" +
+				"	• Diagrammdarstellung</html>"
+				));
 
-        JLabel lbTitle;
-        titel.add(lbTitle = new JLabel("Programmiert von Andreas Bachmann, Andreas Butti"));
-        police = lbTitle.getFont().deriveFont(Font.PLAIN);
-        lbTitle.setFont(police);
-        lbTitle.setBorder(new EmptyBorder(0, 24, 0, 0));
+		gbm.setX(0).setY(12).setWeightY(0).setInsets(new Insets(5, 24, 5, 0)).setComp(new JXLabel(
+				"<html>Andreas Butti  © 2012 - ZHAW<br>" +
+				"	• Simulationseditor<br>" +
+				"	• Dateihandling</html>"
+				));
 
-        titel.add(lbTitle = new JLabel("ZHAW"));
-        police = lbTitle.getFont().deriveFont(Font.PLAIN);
-        lbTitle.setFont(police);
-        lbTitle.setBorder(new EmptyBorder(0, 24, 0, 0));
-        
-        lbTitle = new JLabel(this.icon);
-        lbTitle.setBorder(new EmptyBorder(0, 0, 0, 12));
+		gbm.setX(0).setY(100).setInsets(new Insets(20, 24, 20, 0)).setComp(new JXLabel(
+				"<html>BA - Betreuung<br>" +
+				"	• Dr. Stephan Scheidegger<br>" +
+				"	• Dr. Rudolf Marcel Füchslin</html>"
+				));
 
-        add(BorderLayout.WEST, titel);
-        add(BorderLayout.EAST, lbTitle);
+		gbm.setX(0).setY(110).setWeightY(0).setInsets(new Insets(10, 5, 5, 10)).setComp(new TitleLabel("Lizenz"));
 
-        setPreferredSize(new Dimension(500, this.icon.getIconHeight() + 24));
-    }
-}
+		gbm.setX(0).setY(111).setWeightY(0).setInsets(new Insets(5, 24, 5, 0)).setComp(new JXLabel(
+				"GPL: GNU General Public License"
+				));
+
+		
+		gbm.setX(10).setY(0).setHeight(200).setInsets(new Insets(0, 0, 0, 12)).setComp(new JXLabel(this.icon));
+		
+	}
+}

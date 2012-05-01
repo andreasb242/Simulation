@@ -8,4 +8,4 @@
 *.windowPos
 
 ## user specific files
-Simulation/config/settings.ini
+settings.ini

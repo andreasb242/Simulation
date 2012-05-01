@@ -90,7 +90,6 @@ public class SimulationSerie {
 		if (v instanceof Double) {
 			add(time, ((Double) v).doubleValue());
 		} else {
-			// TODO: Unbekannte Typen handeln
 			setOtherType(v.getClass().getName());
 		}
 	}

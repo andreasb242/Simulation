@@ -42,5 +42,5 @@ public interface ConnectorUi extends Paintable {
 	/**
 	 * Gets the selectable elements
 	 */
-	public SelectableElement[] getSelectableElements();
+	public SelectableElement<?>[] getSelectableElements();
 }

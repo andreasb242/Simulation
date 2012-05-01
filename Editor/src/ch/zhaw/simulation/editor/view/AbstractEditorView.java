@@ -208,7 +208,7 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	}
 
 	protected void bringSelectedObjectsToFront() {
-		for (SelectableElement se : selectionModel.getSelected()) {
+		for (SelectableElement<?> se : selectionModel.getSelected()) {
 			JComponent comp = (JComponent) se;
 			setComponentZOrder(comp, 0);
 		}
@@ -318,12 +318,12 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	protected abstract void paintEditor(Graphics2D g);
 
 	private void updateTempSelection() {
-		Vector<SelectableElement> tmp = new Vector<SelectableElement>();
+		Vector<SelectableElement<?>> tmp = new Vector<SelectableElement<?>>();
 
 		for (Component c : getComponents()) {
 			if (c instanceof SelectableElement) {
 				if (isInSelection(c)) {
-					tmp.add((SelectableElement) c);
+					tmp.add((SelectableElement<?>) c);
 				}
 			}
 		}

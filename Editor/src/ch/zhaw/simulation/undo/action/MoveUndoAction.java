@@ -9,11 +9,11 @@ import javax.swing.undo.UndoableEdit;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
 public class MoveUndoAction extends AbstractUndoableEdit {
-	private SelectableElement[] elements;
+	private SelectableElement<?>[] elements;
 	private int dX;
 	private int dY;
 
-	public MoveUndoAction(SelectableElement[] elements, int dX, int dY) {
+	public MoveUndoAction(SelectableElement<?>[] elements, int dX, int dY) {
 		this.elements = elements;
 		this.dX = dX;
 		this.dY = dY;
@@ -35,7 +35,7 @@ public class MoveUndoAction extends AbstractUndoableEdit {
 		int dX = this.dX * factor;
 		int dY = this.dY * factor;
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			e.moveElement(dX, dY);
 		}
 	}
@@ -55,13 +55,13 @@ public class MoveUndoAction extends AbstractUndoableEdit {
 		return false;
 	}
 
-	private boolean equalsElements(SelectableElement[] elem) {
-		Vector<SelectableElement> list = new Vector<SelectableElement>();
-		for (SelectableElement e : elem) {
+	private boolean equalsElements(SelectableElement<?>[] elem) {
+		Vector<SelectableElement<?>> list = new Vector<SelectableElement<?>>();
+		for (SelectableElement<?> e : elem) {
 			list.add(e);
 		}
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			if (!list.remove(e)) {
 				return false;
 			}

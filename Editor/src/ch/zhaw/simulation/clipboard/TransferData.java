@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.clipboard;
 
 import java.awt.Point;
+import java.util.HashMap;
 
 /**
  * This is a single object copied to the clipboard
@@ -17,9 +18,11 @@ public class TransferData {
 	private int source;
 	private int target;
 	private Point point;
+	
+	private HashMap<String, Object> additionalData = new HashMap<String, Object>();
 
 	public enum Type {
-		InfiniteSymbol, Container, DensityContainer, Parameter, Global, Text, Flow, Connector
+		InfiniteSymbol, Container, MesoCompartment, Parameter, Global, Text, Flow, Connector
 	};
 
 	public TransferData(int id, int x, int y, Type type, String name, String formula, int source, int target, Point point) {
@@ -34,6 +37,10 @@ public class TransferData {
 		this.target = target;
 
 		this.point = point;
+	}
+	
+	public HashMap<String, Object> getAdditionalData() {
+		return additionalData;
 	}
 
 	public int getX() {

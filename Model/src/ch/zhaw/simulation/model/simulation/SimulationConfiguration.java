@@ -16,11 +16,15 @@ public class SimulationConfiguration {
 	 */
 	private String selectedPluginName = null;
 
-	// TODO !! docu
-	
 	private Vector<SimulationParameterListener> listener = new Vector<SimulationParameterListener>();
 	private Vector<PluginChangeListener> pluginChangeListener = new Vector<PluginChangeListener>();
 
+	/**
+	 * Vectors with simulation parameter, generic simulation parameter are
+	 * defined in @see ch.zhaw.simulation.plugin.StandardParameter
+	 * 
+	 * The rest of the keys depends on the pluings
+	 */
 	private HashMap<String, String> stringParameter = new HashMap<String, String>();
 	private HashMap<String, Double> doubleParameter = new HashMap<String, Double>();
 

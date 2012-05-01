@@ -701,7 +701,7 @@ public final class RequestProcessor implements ScheduledExecutorService {
             throw new IllegalStateException ("Cannot shut down the default " + //NOI18N
                     "request processor"); //NOI18N
         }
-        //XXX more aggressive shutdown?
+        //XX X more aggressive shutdown?
         stop();
         synchronized (processorLock) {
             List<Runnable> result = new ArrayList<Runnable>(getQueue().size());

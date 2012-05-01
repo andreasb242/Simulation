@@ -177,7 +177,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		if (!onlyUpdate) {
 			this.density.setFormula(formula);
 		}
-		
+
 		getControl().getStatus().setStatusTextInfo("Dichte wird berechnet...");
 		this.density.updateImageAsynchron(new ActionListener() {
 
@@ -187,9 +187,8 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 					getControl().getStatus().clearStatus();
 				}
 
-				if (e.getID() == 0) {
-					repaint();
-				}
+				// repaint, even if we have twice no formula
+				repaint();
 			}
 		});
 	}

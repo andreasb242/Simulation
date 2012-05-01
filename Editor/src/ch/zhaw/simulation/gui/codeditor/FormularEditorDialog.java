@@ -6,11 +6,11 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 
-import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.sysintegration.Sysintegration;
 import butti.javalibs.config.WindowPositionSaver;
 import butti.javalibs.gui.BDialog;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.NamedFormulaData;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class FormularEditorDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class FormularEditorDialog extends BDialog {
 		setLocationRelativeTo(parent);
 	}
 
-	public void setData(AbstractNamedSimulationData data) {
+	public void setData(NamedFormulaData data) {
 		setTitle(data.getName());
 		editor.setData(data);
 	}

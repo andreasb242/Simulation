@@ -28,6 +28,7 @@ public abstract class AbstractSimulationData {
 
 	/**
 	 * A unique Id of this item
+	 * (used for copy & paste)
 	 */
 	private int id;
 

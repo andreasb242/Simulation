@@ -121,7 +121,7 @@ public class AddConnectorUi {
 		public void mouseReleased(MouseEvent e) {
 			view.requestFocus();
 
-			SelectableElement[] selected = selectionModel.getSelected();
+			SelectableElement<?>[] selected = selectionModel.getSelected();
 
 			if (addArcType == ArcType.FLOW) {
 				if (start != null) {
@@ -200,7 +200,7 @@ public class AddConnectorUi {
 		selectionModel.addSelected(data);
 	}
 
-	private boolean checkType(SelectableElement selected) {
+	private boolean checkType(SelectableElement<?> selected) {
 		if (!(selected instanceof AbstractDataView<?>)) {
 			Messagebox.showError(null, "Das gewählte Element ist vom falschen Typ.", "Type: " + selected.getClass().getName());
 			return false;

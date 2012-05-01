@@ -47,7 +47,7 @@ public class ImportPluginLoader {
 			}
 
 		} else {
-			System.err.println("No importPluginFolder defined in config/config.properties");
+			System.err.println("No importPluginFolder defined in " + Config.getConfigFile());
 		}
 
 		this.pluginDescriptions = importPlugins.getPluginDescriptions();

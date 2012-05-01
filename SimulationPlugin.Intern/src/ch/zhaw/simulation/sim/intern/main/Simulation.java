@@ -208,7 +208,7 @@ public class Simulation {
 
 	private void setConstValue(AbstractNamedSimulationData d) {
 		if (d instanceof SimulationContainerData) {
-			// TODO: Container dürfen nur Konstant sein wenn keine Ein- Und
+			// TODO Optimize: Container dürfen nur Konstant sein wenn keine Ein- Und
 			// Ausflüsse vorhanden sind!
 			return;
 		}
@@ -218,7 +218,6 @@ public class Simulation {
 			if (value instanceof Double) {
 				((SimulationAttachment) d.attachment).serie.setConstValue(((Double) value).doubleValue());
 			} else {
-				// TODO: handle complex values, vectors etc.
 				((SimulationAttachment) d.attachment).serie.setConstValue(0);
 			}
 		}

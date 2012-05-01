@@ -1,10 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
-import butti.javalibs.util.FileUtil;
 import ch.zhaw.simulation.model.SimulationDocument;
 
 /**
@@ -18,11 +15,6 @@ public abstract class AbstractCodeGenerator {
 	 * Working folder for generated Matlab / Octave Code
 	 */
 	private String workingFolder;
-
-	/**
-	 * Predefined files, needed by simulation
-	 */
-	protected String[] predefinedFiles = new String[] {};
 
 	public AbstractCodeGenerator() {
 		//
@@ -39,27 +31,15 @@ public abstract class AbstractCodeGenerator {
 	public abstract String getGeneratedFile();
 
 	/**
-	 * Extracts the Basefile for the simulation model
-	 *
-	 * @throws IOException
-	 */
-	protected void extractBaseFile() throws IOException {
-		// TODO: wofür braucht man das? predefinedFiles ist ja leer!
-		for (String file : predefinedFiles) {
-			InputStream in = getClass().getResourceAsStream("files/" + file);
-
-			FileUtil.copyFile(in, new File(this.workingFolder + File.separator + file));
-		}
-	}
-
-	/**
 	 * Create all simulation files to the working folder
 	 *
 	 * @param doc
 	 *            The model to simulate
 	 * @throws IOException
 	 */
-	public abstract void executeSimulation(SimulationDocument doc) throws Exception;
+	public abstract void generateFlowSimulation(SimulationDocument doc) throws Exception;
+
+	public abstract void generateXYSimulation(SimulationDocument doc) throws Exception;
 
 
 	protected abstract void initSimulation(SimulationDocument doc) throws IOException;

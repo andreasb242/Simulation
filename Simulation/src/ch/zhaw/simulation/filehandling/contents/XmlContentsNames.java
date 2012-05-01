@@ -47,4 +47,9 @@ public interface XmlContentsNames {
 
 	public static String XML_ELEMENT_ATTRIB_TO = "to";
 	public static String XML_ELEMENT_ATTRIB_FROM = "from";
+	
+	public static String XML_ELEMENT_ATTRIB_MESO_X = "directionx";
+	public static String XML_ELEMENT_ATTRIB_MESO_Y = "directiony";
+	public static String XML_ELEMENT_ATTRIB_MESO_DERIVATIVE = "derivative";
+	
 }

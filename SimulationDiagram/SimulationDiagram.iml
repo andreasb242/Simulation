@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="ExternLibraries" />
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="Model" />
+    <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
   </component>
 </module>
 

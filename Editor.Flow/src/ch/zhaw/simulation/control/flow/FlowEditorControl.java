@@ -69,13 +69,13 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 	}
 
 	@Override
-	protected void delete(SelectableElement[] elements) {
+	protected void delete(SelectableElement<?>[] elements) {
 		Vector<AbstractNamedSimulationData> removedObjects = new Vector<AbstractNamedSimulationData>();
 		Vector<AbstractConnectorData<?>> removedConnectors = new Vector<AbstractConnectorData<?>>();
 		Vector<InfiniteData> removedInfinite = new Vector<InfiniteData>();
 
 		Vector<AbstractConnectorData<?>> tmpRemovedConnectors = new Vector<AbstractConnectorData<?>>();
-		for (SelectableElement el : elements) {
+		for (SelectableElement<?> el : elements) {
 			if (el instanceof FlowValveElement) {
 				FlowConnectorData c = ((FlowValveElement) el).getConnector();
 
@@ -83,7 +83,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(c.getValve()));
 			} else if (el instanceof BezierHelperPoint) {
-				AbstractConnectorData<?> condata = ((BezierHelperPoint) el).getConnectorData();
+				AbstractConnectorData<?> condata = ((BezierHelperPoint) el).getData();
 
 				if (condata instanceof ParameterConnectorData) {
 					ParameterConnectorData d = (ParameterConnectorData) condata;
@@ -94,7 +94,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 		addConnectors(removedConnectors, removedInfinite, tmpRemovedConnectors);
 
-		for (SelectableElement el : elements) {
+		for (SelectableElement<?> el : elements) {
 			if (el instanceof ParameterView || el instanceof ContainerView) {
 				GuiDataTextElement<?> control = (GuiDataTextElement<?>) el;
 				AbstractNamedSimulationData data = (AbstractNamedSimulationData) control.getData();
@@ -103,7 +103,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(data));
 			}
 		}
-		for (SelectableElement el : elements) {
+		for (SelectableElement<?> el : elements) {
 			if (el instanceof InfiniteSymbol) {
 				addInfiniteData(removedInfinite, ((InfiniteSymbol) el).getData());
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(((InfiniteSymbol) el).getData()));
@@ -178,7 +178,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 
 			@Override
 			public void selectionChanged() {
-				SelectableElement elem = selectionModel.getSingleSelectedElement();
+				SelectableElement<?> elem = selectionModel.getSingleSelectedElement();
 				if (elem == null) {
 					selectionModel.clearDependentElement();
 					return;
@@ -206,7 +206,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 					}
 				}
 
-				Vector<SelectableElement> elements = view.convertToSelectable(shadowData);
+				Vector<SelectableElement<?>> elements = view.convertToSelectable(shadowData);
 
 				selectionModel.setDependentElement(elements);
 			}

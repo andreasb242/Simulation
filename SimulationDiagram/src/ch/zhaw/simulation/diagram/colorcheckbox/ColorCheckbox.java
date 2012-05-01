@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
@@ -15,6 +17,7 @@ public class ColorCheckbox extends JPanel {
 
 	private Color color = Color.BLACK;
 
+	private JLabel label;
 	private JCheckBox cb;
 
 	private Icon icon = new Icon() {
@@ -37,8 +40,6 @@ public class ColorCheckbox extends JPanel {
 		}
 	};
 
-	private JLabel label;
-
 	public ColorCheckbox(String name) {
 		setLayout(new BorderLayout());
 		cb = new JCheckBox(name);
@@ -51,5 +52,21 @@ public class ColorCheckbox extends JPanel {
 	public void setColor(Color c) {
 		this.color = c;
 		label.repaint();
+	}
+
+	public void addActionListener(ActionListener listener) {
+		cb.addActionListener(listener);
+	}
+
+	public void addItemListener(ItemListener listener) {
+		cb.addItemListener(listener);
+	}
+
+	public boolean isEnabled() {
+		return cb.isEnabled();
+	}
+
+	public boolean isSelected() {
+		return cb.isSelected();
 	}
 }

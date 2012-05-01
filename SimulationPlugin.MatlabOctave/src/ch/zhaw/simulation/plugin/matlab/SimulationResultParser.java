@@ -10,6 +10,7 @@ import java.util.Vector;
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
@@ -19,12 +20,40 @@ import ch.zhaw.simulation.plugin.data.SimulationSerie;
  * @author: bachi
  */
 public class SimulationResultParser {
-	private SimulationDocument document;
-	private SimulationConfiguration config;
 
+	String[] names;
+	private double start;
+	private double end;
+	
 	public SimulationResultParser(SimulationDocument document, SimulationConfiguration config) {
-		this.document = document;
-		this.config = config;
+		Vector<AbstractNamedSimulationData> dataVector = new Vector<AbstractNamedSimulationData>();
+		
+		start = config.getParameter(StandardParameter.START, StandardParameter.DEFAULT_START);
+		end = config.getParameter(StandardParameter.END, StandardParameter.DEFAULT_END);
+
+		// Add containers to parser-list
+		dataVector.addAll(document.getFlowModel().getSimulationContainer());
+
+		// Add parameters to parser-list
+		dataVector.addAll(document.getFlowModel().getSimulationParameter());
+
+		// Add valves (part of connectors) to parser-list
+		for (FlowConnectorData c : document.getFlowModel().getFlowConnectors()) {
+			dataVector.add(c.getValve());
+		}
+
+		names = new String[dataVector.size()];
+
+		AbstractNamedSimulationData data;
+		for (int i = 0; i < dataVector.size(); i++) {
+			data = dataVector.get(i);
+			names[i] = data.getName();
+		}
+	}
+	public SimulationResultParser(String[] names, double start, double end) {
+		this.names = names;
+		this.start = start;
+		this.end = end;
 	}
 
 	public SimulationCollection parse(String workpath) {
@@ -32,25 +61,20 @@ public class SimulationResultParser {
 		SimulationSerie serie;
 		String line;
 		String cell[];
-		Vector<AbstractNamedSimulationData> dataVector = new Vector<AbstractNamedSimulationData>();
 		BufferedReader reader;
 
-		double start;
-		double end;
-
-		start = config.getParameter(StandardParameter.START, StandardParameter.DEFAULT_START);
-		end = config.getParameter(StandardParameter.END, StandardParameter.DEFAULT_END);
 		collection = new SimulationCollection(start, end);
-
-		dataVector.addAll(document.getFlowModel().getSimulationContainer());
-		dataVector.addAll(document.getFlowModel().getSimulationParameter());
-		for (AbstractNamedSimulationData data : dataVector) {
+		
+		for (String name : names) {
 			try {
-				serie = new SimulationSerie(data.getName());
-				reader = new BufferedReader(new FileReader(new File(workpath + File.separator + data.getName() + "_data.txt")));
+				serie = new SimulationSerie(name);
+				reader = new BufferedReader(new FileReader(new File(workpath + File.separator + name + "_data.txt")));
+				// go through every line in a file
 				while ((line = reader.readLine()) != null) {
+					// Tab-split line in two parts
 					cell = line.split("\\t");
 					if (cell.length >= 2) {
+						// Add new entry (time/value) to serie
 						serie.add(Double.valueOf(cell[0]).doubleValue(), Double.valueOf(cell[1]).doubleValue());
 					}
 				}

@@ -3,7 +3,7 @@ package ch.zhaw.simulation.model.listener;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.xy.DensityData;
 
-public abstract class XYSimulationAdapter implements XYSimulationListener{
+public abstract class XYSimulationAdapter implements XYSimulationListener {
 
 	@Override
 	public void dataAdded(AbstractSimulationData o) {
@@ -37,4 +37,7 @@ public abstract class XYSimulationAdapter implements XYSimulationListener{
 	public void densityChanged(DensityData d) {
 	}
 
+	@Override
+	public void modelSizeRasterChanged() {
+	}
 }

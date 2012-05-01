@@ -55,16 +55,19 @@ public class SimulationInternPlugin implements SimulationPlugin {
 
 	@Override
 	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
-		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
-			throw new IllegalArgumentException("only flow model supported currently");
-		}
+
 	}
 
 	@Override
-	public void executeSimulation(SimulationDocument doc) throws Exception {
+	public void executeFlowSimulation(SimulationDocument doc) throws Exception {
 		Simulation sim = new Simulation(provider, this.settings, doc);
 		sim.checkData();
 		sim.startSimulation();
+	}
+
+	@Override
+	public void executeXYSimulation(SimulationDocument doc) throws Exception {
+		throw new Exception("not implemented");
 	}
 
 	@Override

@@ -58,4 +58,11 @@ public interface NamedFormulaData {
 	 *            The vector to save
 	 */
 	public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals);
+
+	/**
+	 * Because MesoData has two formulas we need two additional instances of
+	 * NamedFormulaData, but the real Model object is the MesoData, wich is
+	 * returend here, every other implemenation should return <code>this</code>
+	 */
+	public NamedFormulaData getRealNamedFormulaData();
 }

@@ -179,8 +179,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 					public void run() {
 						SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 						mainFrame.unlock();
-						DiagramFrame frame = new DiagramFrame();
-						frame.updateSimulationCollection(collection);
+						DiagramFrame frame = new DiagramFrame(collection);
+						//frame.updateSimulationCollection();
 						frame.setVisible(true);
 						/*
 						SimulationSerie series[] = collection.getSeries();
@@ -234,7 +234,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		
 		windowPosition.applay(this.mainFrame);
 
-		this.sysintegration = SysintegrationFactory.createSysintegration();
+		this.sysintegration = SysintegrationFactory.getSysintegration();
 		this.sysintegration.addListener(this);
 
 		this.savehandler = new LoadSaveHandler(mainFrame, settings, sysintegration, this.importPluginLoader);
@@ -436,7 +436,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		try {
-			plugin.executeSimulation(doc);
+			if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+				plugin.executeFlowSimulation(doc);
+			} else {
+				plugin.executeXYSimulation(doc);
+			}
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}

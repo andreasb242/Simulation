@@ -5,13 +5,14 @@ import java.awt.event.ActionListener;
 
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
+import ch.zhaw.simulation.clipboard.xy.XYTransferable;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.xy.SubmodelHandler;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.menu.xy.XYMenubar;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
@@ -37,13 +38,12 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		super(true);
 	}
 
-	public void init(XYEditorControl control) {
+	public void init(final XYEditorControl control) {
 		XYEditorView view = new XYEditorView(control, new TransferableFactory() {
 
 			@Override
-			public AbstractTransferable createTransferable(SelectableElement[] selected) {
-				// TODO Copy Paste XY
-				return null;
+			public AbstractTransferable<?> createTransferable(SelectableElement<?>[] selected) {
+				return new XYTransferable(control, selected, (SimulationXYModel) control.getModel());
 			}
 		});
 
@@ -76,12 +76,12 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 	protected void initElementConfigurationSiebar() {
 		final AbstractEditorControl<?> control = view.getControl();
 
-		formulaConfiguration = new XYFormulaConfiguration((SimulationXYModel) control.getModel(), control.getSelectionModel()) {
+		configurationSidebar = new XYFormulaConfiguration((SimulationXYModel)control.getModel(), control.getSelectionModel()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void showFormulaEditor(AbstractNamedSimulationData data) {
-				control.showFormulaEditor(getData());
+			public void showFormulaEditor(NamedFormulaData data) {
+				control.showFormulaEditor(data);
 			}
 
 		};

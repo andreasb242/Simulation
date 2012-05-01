@@ -52,10 +52,10 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 	}
 
 	@Override
-	protected void delete(SelectableElement[] elements) {
+	protected void delete(SelectableElement<?>[] elements) {
 		Vector<AbstractNamedSimulationData> removedObjects = new Vector<AbstractNamedSimulationData>();
 
-		for (SelectableElement el : elements) {
+		for (SelectableElement<?> el : elements) {
 			if (el instanceof GuiDataTextElement<?>) {
 				GuiDataTextElement<?> control = (GuiDataTextElement<?>) el;
 				AbstractNamedSimulationData data = (AbstractNamedSimulationData) control.getData();

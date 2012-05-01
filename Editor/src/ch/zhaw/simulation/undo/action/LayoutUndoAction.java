@@ -46,21 +46,21 @@ public class LayoutUndoAction extends AbstractUndoableEdit {
 	public void addPos() {
 	}
 
-	public void newPosition(SelectableElement e, int dX, int dY) {
+	public void newPosition(SelectableElement<?> e, int dX, int dY) {
 		e.moveElement(dX, dY);
 		moves.add(new ElemPoint(e, dX, dY));
 	}
 }
 
 class ElemPoint {
-	protected SelectableElement e;
+	protected SelectableElement<?> e;
 	private int dX;
 	private int dY;
 
 	protected ElemPoint() {
 	}
 
-	public ElemPoint(SelectableElement e, int dX, int dY) {
+	public ElemPoint(SelectableElement<?> e, int dX, int dY) {
 		this.e = e;
 		this.dX = dX;
 		this.dY = dY;

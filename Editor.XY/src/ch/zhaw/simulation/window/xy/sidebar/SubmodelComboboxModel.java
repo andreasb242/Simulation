@@ -10,7 +10,7 @@ import ch.zhaw.simulation.model.xy.SubModelListener;
 public class SubmodelComboboxModel extends AbstractListModel implements ComboBoxModel, SubModelListener {
 	private static final long serialVersionUID = 1L;
 
-	private Object selectedObject;
+	private SubModel selectedObject;
 	private SubModelList model;
 
 	public SubmodelComboboxModel(SubModelList model) {
@@ -20,13 +20,13 @@ public class SubmodelComboboxModel extends AbstractListModel implements ComboBox
 
 	public void setSelectedItem(Object anObject) {
 		if ((selectedObject != null && !selectedObject.equals(anObject)) || selectedObject == null && anObject != null) {
-			selectedObject = anObject;
+			selectedObject = (SubModel)anObject;
 			fireContentsChanged(this, -1, -1);
 		}
 	}
 
-	// implements javax.swing.ComboBoxModel
-	public Object getSelectedItem() {
+	@Override
+	public SubModel getSelectedItem() {
 		return selectedObject;
 	}
 
@@ -36,7 +36,7 @@ public class SubmodelComboboxModel extends AbstractListModel implements ComboBox
 	}
 
 	@Override
-	public Object getElementAt(int index) {
+	public SubModel getElementAt(int index) {
 		return this.model.getModel(index);
 	}
 

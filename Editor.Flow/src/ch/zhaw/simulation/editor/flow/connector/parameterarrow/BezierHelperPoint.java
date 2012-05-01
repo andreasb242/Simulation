@@ -10,7 +10,7 @@ import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 
-public class BezierHelperPoint extends AbstractView {
+public class BezierHelperPoint extends AbstractView<AbstractConnectorData<?>> {
 	private static final long serialVersionUID = 1L;
 
 	private int width;
@@ -41,7 +41,8 @@ public class BezierHelperPoint extends AbstractView {
 		return connector;
 	}
 
-	public AbstractConnectorData<?> getConnectorData() {
+	@Override
+	public AbstractConnectorData<?> getData() {
 		return connectorData;
 	}
 

@@ -22,7 +22,7 @@ public class Layouting {
 	}
 
 	public void layoutTop() {
-		SelectableElement[] elements = selectionModel.getSelected();
+		SelectableElement<?>[] elements = selectionModel.getSelected();
 		if (elements.length < 2) {
 			return;
 		}
@@ -31,13 +31,13 @@ public class Layouting {
 
 		int y = elements[0].getY();
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			if (y > e.getY()) {
 				y = e.getY();
 			}
 		}
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			a.newPosition(e, 0, y - e.getY());
 		}
 
@@ -45,7 +45,7 @@ public class Layouting {
 	}
 
 	public void layoutRight() {
-		SelectableElement[] elements = selectionModel.getSelected();
+		SelectableElement<?>[] elements = selectionModel.getSelected();
 		if (elements.length < 2) {
 			return;
 		}
@@ -54,13 +54,13 @@ public class Layouting {
 
 		int x = 0;
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			if (x < e.getX()) {
 				x = e.getX() + e.getWidth();
 			}
 		}
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			a.newPosition(e, x - e.getX() - e.getWidth(), 0);
 		}
 
@@ -68,7 +68,7 @@ public class Layouting {
 	}
 
 	public void layoutLeft() {
-		SelectableElement[] elements = selectionModel.getSelected();
+		SelectableElement<?>[] elements = selectionModel.getSelected();
 		if (elements.length < 2) {
 			return;
 		}
@@ -77,13 +77,13 @@ public class Layouting {
 
 		int x = elements[0].getX();
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			if (x > e.getX()) {
 				x = e.getX();
 			}
 		}
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			a.newPosition(e, x - e.getX(), 0);
 		}
 
@@ -91,7 +91,7 @@ public class Layouting {
 	}
 
 	public void layoutBottom() {
-		SelectableElement[] elements = selectionModel.getSelected();
+		SelectableElement<?>[] elements = selectionModel.getSelected();
 		if (elements.length < 2) {
 			return;
 		}
@@ -100,13 +100,13 @@ public class Layouting {
 
 		int y = 0;
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			if (y < e.getY()) {
 				y = e.getY() + e.getHeight();
 			}
 		}
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			a.newPosition(e, 0, y - e.getY() - e.getHeight());
 		}
 
@@ -114,7 +114,7 @@ public class Layouting {
 	}
 
 	public void layoutCenterHorizontal() {
-		SelectableElement[] elements = selectionModel.getSelected();
+		SelectableElement<?>[] elements = selectionModel.getSelected();
 		if (elements.length < 2) {
 			return;
 		}
@@ -123,13 +123,13 @@ public class Layouting {
 
 		int x = 0;
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			x += e.getX() + e.getWidth() / 2;
 		}
 
 		x /= elements.length;
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			a.newPosition(e, x - e.getX() - e.getWidth() / 2, 0);
 		}
 
@@ -137,7 +137,7 @@ public class Layouting {
 	}
 
 	public void layoutCenterVertical() {
-		SelectableElement[] elements = selectionModel.getSelected();
+		SelectableElement<?>[] elements = selectionModel.getSelected();
 		if (elements.length < 2) {
 			return;
 		}
@@ -146,13 +146,13 @@ public class Layouting {
 
 		int y = 0;
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			y += e.getY() + e.getHeight() / 2;
 		}
 
 		y /= elements.length;
 
-		for (SelectableElement e : elements) {
+		for (SelectableElement<?> e : elements) {
 			a.newPosition(e, 0, y - e.getY() - e.getHeight() / 2);
 		}
 

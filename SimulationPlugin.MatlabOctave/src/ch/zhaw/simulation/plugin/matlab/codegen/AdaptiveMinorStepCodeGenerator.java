@@ -25,10 +25,12 @@ public abstract class AdaptiveMinorStepCodeGenerator extends AdaptiveStepCodeGen
 		out.println("sim_timenew = sim_time + sim_hc(5);");
 		out.newline();
 
-		out.printComment("y = y + dy * t");
-		for (int i = 1; i <= size; i++) {
-			out.println("sim_ynew(" + i + ",:) = sim_y(" + i + ",:) + sim_k(" + i + ",:) * sim_ha(:,5);");
-		}
+		out.printComment("dy");
+		out.println("sim_dynew = sim_k * sim_ha(:,5);");
+		out.newline();
+
+		out.printComment("y = y + dy");
+		out.println("sim_ynew = sim_y + sim_dynew;");
 		out.newline();
 
 		out.println("sim_k(:,6) = " + FILENAME_ODE + "(sim_timenew, sim_ynew);");

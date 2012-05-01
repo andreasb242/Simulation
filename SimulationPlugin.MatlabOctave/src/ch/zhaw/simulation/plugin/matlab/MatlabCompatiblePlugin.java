@@ -6,6 +6,9 @@ import butti.javalibs.dirwatcher.DirectoryWatcher;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
+import ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
+import ch.zhaw.simulation.plugin.matlab.optimizer.ModelOptimizer;
+import ch.zhaw.simulation.plugin.matlab.optimizer.XYModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
 import org.jdesktop.swingx.JXTaskPane;
 
@@ -66,17 +69,16 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
-		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
-			throw new IllegalArgumentException("only flow model supported currently");
+		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+			optimizer = new FlowModelOptimizer(doc.getFlowModel());
+		} else if (doc.getType() == SimulationType.XY_MODEL) {
+			optimizer = new XYModelOptimizer(doc.getXyModel());
 		}
-
-		optimizer = new ModelOptimizer(doc.getFlowModel());
-
 		optimizer.optimize();
 	}
 
 	@Override
-	public void executeSimulation(SimulationDocument doc) throws Exception {
+	public void executeFlowSimulation(SimulationDocument doc) throws Exception {
 		String workpath = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
 
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
@@ -84,10 +86,10 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		try {
 			finishListener.updateWorkpath(workpath);
 			watcher.start(workpath);
-			provider.getExecutionListener().executionStarted("Simulation läuft..");
+			provider.getExecutionListener().executionStarted("Simulation läuft...");
 	
 			codeGenerator.setWorkingFolder(workpath);
-			codeGenerator.executeSimulation(doc);
+			codeGenerator.generateFlowSimulation(doc);
 			startApplication(workpath, codeGenerator.getGeneratedFile());
 		} catch (IOException e) {
 			watcher.stop();
@@ -99,6 +101,11 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public void executeXYSimulation(SimulationDocument doc) throws Exception {
+		throw new Exception("not implemented");
 	}
 
 	@Override
@@ -114,10 +121,10 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 		if (t == MatlabTool.MATLAB) {
 			executable = settings.getSetting(MatlabParameter.EXEC_MATLAB_PATH, MatlabParameter.DEFAULT_EXEC_MATLAB_PATH);
-			arguments = "-nosplash -nodesktop -minimize -sd " + dir + " -r " + filename;
+			arguments = "-nosplash -nodesktop -minimize -wait -sd " + dir + " -r " + filename;
 		} else if (t == MatlabTool.OCTAVE) {
 			executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
-			arguments = "";
+			arguments = "--exec-path " + dir + " " + filename + ".m";
 		} else if (t == MatlabTool.SCILAB) {
 			executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
 			arguments = "";
@@ -125,6 +132,15 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			throw new IllegalArgumentException();
 		}
 
-		Runtime.getRuntime().exec(executable + " " + arguments);
+		Process p = Runtime.getRuntime().exec(executable + " " + arguments);
+		//BufferedReader stdout = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		//BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+		//String line;
+		//while ((line = stdout.readLine ()) != null) {
+		//	System.out.println ("stdout: " + line);
+		//}
+		//while ((line = stderr.readLine ()) != null) {
+		//	System.out.println ("stderr: " + line);
+		//}
 	}
 }

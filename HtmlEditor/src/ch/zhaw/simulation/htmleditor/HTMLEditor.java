@@ -425,11 +425,8 @@ public class HTMLEditor extends BDialog {
 	}
 
 	private void handleTag(Element elem) {
-		if ("img".equals(elem.getName())) {
-			System.out.println("handle img");
-			// TODO: image element editor
-		}
-
+		// img tag is not yet handled...
+		
 		for (int i = 0; i < elem.getElementCount(); i++) {
 			Element e = elem.getElement(i);
 			handleTag(e);

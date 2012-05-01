@@ -24,6 +24,7 @@ import javax.swing.table.TableColumn;
 import butti.javalibs.config.Settings;
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.BDialog;
+import butti.javalibs.util.JTableCopyAdapter;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
@@ -44,6 +45,8 @@ public class TableDialog extends BDialog {
 
 	private Toolbar toolbar;
 
+	JTableCopyAdapter copyAdapter;
+	
 	private JSpinner precision = new JSpinner(new SpinnerNumberModel(2, 0, 10, 1));
 
 	private SimFileFilter CSVSave = new SimFileFilter() {
@@ -102,6 +105,8 @@ public class TableDialog extends BDialog {
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
 
+		copyAdapter = new JTableCopyAdapter(table);
+		
 		initToolbar();
 
 		precision.setValue((int) settings.getSetting("table.precision", 2.0));
@@ -120,12 +125,11 @@ public class TableDialog extends BDialog {
 	}
 
 	private void initToolbar() {
-		toolbar = SysintegrationFactory.createSysintegration().createToolbar();
+		toolbar = SysintegrationFactory.getSysintegration().createToolbar();
 		tbCopy = toolbar.add(new ToolbarAction("Kopieren", IconLoader.getIconShadow("editcopy", 24)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Copy, table dialog
-				new Exception().printStackTrace();
+				copyAdapter.copy();
 			}
 		});
 
@@ -160,8 +164,7 @@ public class TableDialog extends BDialog {
 
 	protected void save() {
 		String lastSavePath = settings.getSetting("table.lastSavePath");
-		// TODO !!! SysintegrationFactory.createSysintegration()
-		File file = SysintegrationFactory.createSysintegration().showSaveDialog(this, CSVSave, lastSavePath);
+		File file = SysintegrationFactory.getSysintegration().showSaveDialog(this, CSVSave, lastSavePath);
 
 		if (file == null) {
 			return;
