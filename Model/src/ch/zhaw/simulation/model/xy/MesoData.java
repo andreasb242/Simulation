@@ -85,7 +85,6 @@ public class MesoData extends AbstractNamedSimulationData {
 		public NamedFormulaData getRealNamedFormulaData() {
 			return MesoData.this;
 		}
-
 	};
 
 	private NamedFormulaData dataY = new NamedFormulaData() {

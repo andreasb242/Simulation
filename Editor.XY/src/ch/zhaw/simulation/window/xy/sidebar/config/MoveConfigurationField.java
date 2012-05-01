@@ -209,6 +209,8 @@ public class MoveConfigurationField extends SingleConfigurationField {
 
 	@Override
 	protected boolean canHandleData(AbstractNamedSimulationData data) {
+		System.out.println("->" + data.getClass().getName());
+
 		return data instanceof MesoData;
 	}
 }
