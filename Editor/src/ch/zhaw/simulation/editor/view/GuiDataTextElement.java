@@ -100,6 +100,7 @@ public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> 
 
 		getImage().drawImage(g, isSelected());
 
+		DrawHelper.antialisingOn(g);
 		g.setColor(Color.BLACK);
 
 		g.drawString(name, textX, textY);

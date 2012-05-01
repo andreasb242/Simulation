@@ -74,6 +74,8 @@ public class FlowBezierConnector extends BezierConnector {
 		
 		this.img.setDirection(anchor);
 		this.img.drawImage(gsub, selected);
+		
+		gsub.dispose();
 	}
 
 	@Override
