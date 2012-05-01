@@ -168,6 +168,7 @@ public class FormulaEditorPanel extends JPanel {
 			Errorhandler.logError(e);
 		}
 		data.setFormula(text.getText(), status, statusText);
+		
 		model.fireObjectChangedAutoparser(data);
 	}
 

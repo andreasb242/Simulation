@@ -1,10 +1,11 @@
-package ch.zhaw.simulation.math;
+package ch.zhaw.simulation.editor.flow.autoparser;
 
 
 import java.util.Vector;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.NamedFormulaData.Status;
@@ -67,6 +68,7 @@ public class Autoparser {
 				dataChanged(o);
 			}
 
+			@Override
 			public void connectorRemoved(AbstractConnectorData<?> c) {
 				connectorChanged(c);
 			};

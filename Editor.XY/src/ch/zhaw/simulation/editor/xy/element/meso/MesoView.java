@@ -41,8 +41,8 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 	public void dataChanged() {
 		if (getData().getSubmodel() != null) {
 			this.image.setColor(getData().getSubmodel().getColor());
-			repaint();
 		}
+		repaint();
 	}
 
 	@Override

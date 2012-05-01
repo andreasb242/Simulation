@@ -261,10 +261,14 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	 * @param o
 	 */
 	public void fireObjectChangedAutoparser(Object o) {
+		if(o instanceof NamedFormulaData) {
+			o = ((NamedFormulaData)o).getRealNamedFormulaData();
+		}
+		
 		if (o instanceof AbstractNamedSimulationData) {
 			checkIntegrity((AbstractNamedSimulationData) o);
 		}
-
+		
 		if (o instanceof AbstractSimulationData) {
 			for (int i = 0; i < listener.size(); i++) {
 				listener.get(i).dataChanged((AbstractSimulationData) o);

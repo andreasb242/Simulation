@@ -131,6 +131,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	protected void removeConfigurationField(ConfigurationField field) {
 		field.removeListener(listener);
 		this.fields.remove(field);
+		field.dispose();
 	}
 
 	public ConfigurationField[] getFields() {
@@ -213,6 +214,10 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	public void dispose() {
 		for (ConfigurationField f : this.fields) {
 			f.removeListener(listener);
+		}
+
+		for (ConfigurationField f : this.fields) {
+			f.dispose();
 		}
 
 		this.fields.clear();
