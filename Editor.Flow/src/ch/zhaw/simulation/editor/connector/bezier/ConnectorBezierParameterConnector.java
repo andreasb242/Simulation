@@ -11,6 +11,8 @@ import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
+// TODO !!!! REPAINT getAndClearRepaintBounds
+
 public class ConnectorBezierParameterConnector extends BezierConnector {
 
 	private GuiConfig guicfg;

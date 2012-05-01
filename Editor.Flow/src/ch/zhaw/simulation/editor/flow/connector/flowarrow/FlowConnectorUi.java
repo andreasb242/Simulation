@@ -34,8 +34,6 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	private FlowBezierConnector connector1;
 	private FlowBezierConnector connector2;
 
-	private Rectangle lastBound = new Rectangle();
-
 	private FlowSimulationAdapter simulationListener = new FlowSimulationAdapter() {
 
 		@Override
@@ -138,13 +136,13 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	}
 
 	private void fireRepaint() {
-		Rectangle bounds = connector1.getBounds();
+		Rectangle bounds1 = connector1.getAndClearRepaintBounds();
+		Rectangle bounds2 = connector2.getAndClearRepaintBounds();
 
-		Rectangle r = bounds.union((Rectangle) lastBound);
+		Rectangle r = bounds1.union(bounds2);
 
-		parent.repaint(r.x - 100, r.y - 100, r.width + 200, r.height + 200);
-
-		lastBound = bounds;
+		// extend the range so our arrows are also correct repainted
+		parent.repaint(r.x - 50, r.y - 50, r.width + 100, r.height + 100);
 	}
 
 	@Override
