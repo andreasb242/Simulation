@@ -15,6 +15,7 @@ import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 
 public class Autoparser {
@@ -112,7 +113,7 @@ public class Autoparser {
 
 		SimulationFlowModel model = control.getModel();
 		for (AbstractSimulationData d : model.getData()) {
-			if (d instanceof AbstractNamedSimulationData) {
+			if (d instanceof AbstractNamedSimulationData && !(d instanceof SimulationDensityContainerData)) {
 				parse((AbstractNamedSimulationData) d);
 			}
 		}

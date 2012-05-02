@@ -193,13 +193,15 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			popup.addSeparator();
 		}
 
-		SplitMenuitem madd = new SplitMenuitem("Neus Submodell erstellen");
+		SplitMenuitem madd = new SplitMenuitem("Neues Submodell erstellen");
 		popup.add(madd);
 		madd.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				m.addModel(new SubModel());
+				SubModel sub = new SubModel();
+				m.addModel(sub);
+				submodelHandler.fireItemSelected(sub);
 			}
 		});
 

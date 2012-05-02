@@ -721,13 +721,13 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	@Override
 	public void updateTitle() {
 		if (documentName == null) {
-			this.mainFrame.setTitle("Simulation");
+			this.mainFrame.setTitle("(AB)² Simulation");
 		} else {
 			String saved = "";
 			if (doc.isChanged()) {
 				saved = " *";
 			}
-			this.mainFrame.setTitle(documentName + saved + " - Simulation");
+			this.mainFrame.setTitle(documentName + saved + " - (AB)² Simulation");
 		}
 	}
 

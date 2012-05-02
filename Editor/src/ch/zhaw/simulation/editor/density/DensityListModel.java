@@ -1,8 +1,8 @@
-package ch.zhaw.simulation.editor.xy.density;
+package ch.zhaw.simulation.editor.density;
 
 import javax.swing.DefaultComboBoxModel;
 
-import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.listener.XYSimulationAdapter;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
@@ -11,31 +11,11 @@ public class DensityListModel extends DefaultComboBoxModel {
 	private static final long serialVersionUID = 1L;
 	private SimulationXYModel model;
 
-	private XYSimulationListener simulationListener = new XYSimulationListener() {
-		
-		@Override
-		public void dataSaved(boolean saved) {
-		}
-		
-		@Override
-		public void dataRemoved(AbstractSimulationData o) {
-		}
-		
-		@Override
-		public void dataChanged(AbstractSimulationData o) {
-		}
-		
-		@Override
-		public void dataAdded(AbstractSimulationData o) {
-		}
-		
+	private XYSimulationListener simulationListener = new XYSimulationAdapter() {
+
 		@Override
 		public void clearData() {
 			removeAllElements();
-		}
-		
-		@Override
-		public void modelSizeRasterChanged() {
 		}
 		
 		@Override

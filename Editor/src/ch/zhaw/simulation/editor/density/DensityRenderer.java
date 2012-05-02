@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.editor.xy.density;
+package ch.zhaw.simulation.editor.density;
 
 import java.awt.Graphics2D;
 

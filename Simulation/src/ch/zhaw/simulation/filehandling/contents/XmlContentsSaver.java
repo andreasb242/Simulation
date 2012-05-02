@@ -2,7 +2,6 @@ package ch.zhaw.simulation.filehandling.contents;
 
 import java.awt.Point;
 import java.io.OutputStream;
-import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -15,8 +14,8 @@ import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
@@ -64,8 +63,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 
 		visitSimulationData(xmlModel, xyModel);
 
-		for (Iterator<DensityData> i = xyModel.getDensity(); i.hasNext();) {
-			DensityData d = i.next();
+		for (DensityData d : xyModel.getDensity()) {
 			visitDensity(xmlModel, d);
 		}
 
@@ -237,7 +235,15 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 	}
 
 	private void visitSimulationDensityContainer(Element root, SimulationDensityContainerData c) {
+		DensityData density = c.getDensity();
+		if (density != null) {
+			c.setFormula(density.getName());
+		} else {
+			c.setFormula("");
+		}
+
 		Element xml = createXmlElement(c, XML_ELEMENT_DENSITY_CONTAINER);
+		c.setFormula("");
 
 		root.appendChild(xml);
 	}
@@ -271,6 +277,8 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		xml.setAttribute(XML_ELEMENT_ATTRIB_MESO_X, m.getDataX().getFormula());
 		xml.setAttribute(XML_ELEMENT_ATTRIB_MESO_Y, m.getDataY().getFormula());
 		xml.setAttribute(XML_ELEMENT_ATTRIB_MESO_DERIVATIVE, m.getDerivative().toString());
+
+		m.setFormula("");
 
 		root.appendChild(xml);
 	}

@@ -34,7 +34,7 @@ import ch.zhaw.simulation.window.sidebar.config.SingleConfigurationField;
 import ch.zhaw.simulation.window.xy.sidebar.config.font.FontLoader;
 
 /**
- * The configruation files for X and Y Formula for movements of the Meso
+ * The configruation fields for X and Y Formula for movements of the Meso
  * Component
  * 
  * @author Andreas Butti

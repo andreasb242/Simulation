@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.gui.messagebox.Messagebox;
+import ch.zhaw.simulation.editor.density.DensityListModel;
 import ch.zhaw.simulation.editor.xy.density.DensityEditorDialog;
-import ch.zhaw.simulation.editor.xy.density.DensityListModel;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.listener.XYSimulationAdapter;
@@ -70,7 +70,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 			public void actionPerformed(ActionEvent e) {
 				String selectedName = null;
 				for (int i = 0; i < 100; i++) {
-					String name = "Dichte " + (id++);
+					String name = "Dichte" + (id++);
 					if (model.isValidDensityName(name, null)) {
 						selectedName = name;
 						break;

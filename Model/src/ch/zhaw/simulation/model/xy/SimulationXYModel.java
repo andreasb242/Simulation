@@ -1,7 +1,6 @@
 package ch.zhaw.simulation.model.xy;
 
 import java.awt.Point;
-import java.util.Iterator;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.AbstractSimulationModel;
@@ -170,8 +169,17 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 		return listener;
 	}
 
-	public Iterator<DensityData> getDensity() {
-		return density.iterator();
+	public Vector<DensityData> getDensity() {
+		return density;
+	}
+
+	public DensityData getDensityByName(String name) {
+		for (DensityData d : this.density) {
+			if (name.equals(d.getName())) {
+				return d;
+			}
+		}
+		return null;
 	}
 
 	public Vector<MesoData> getMeso() {
@@ -261,14 +269,14 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	 * @param o
 	 */
 	public void fireObjectChangedAutoparser(Object o) {
-		if(o instanceof NamedFormulaData) {
-			o = ((NamedFormulaData)o).getRealNamedFormulaData();
+		if (o instanceof NamedFormulaData) {
+			o = ((NamedFormulaData) o).getRealNamedFormulaData();
 		}
-		
+
 		if (o instanceof AbstractNamedSimulationData) {
 			checkIntegrity((AbstractNamedSimulationData) o);
 		}
-		
+
 		if (o instanceof AbstractSimulationData) {
 			for (int i = 0; i < listener.size(); i++) {
 				listener.get(i).dataChanged((AbstractSimulationData) o);

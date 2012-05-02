@@ -12,6 +12,8 @@ import ch.zhaw.simulation.model.element.SimulationGlobalData;
  */
 public class DensityData implements NamedFormulaData {
 	private String formula = "";
+	
+	// TODO validate Density name!
 	private String name;
 	private String description;
 
