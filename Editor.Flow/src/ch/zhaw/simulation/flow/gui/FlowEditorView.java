@@ -284,8 +284,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			}
 		}
 
-		System.out.println(range.getX() + "," + range.getY() + "," + range.getWidth() + "," + range.getHeight());
-
 		repaint(range.getX(), range.getY(), range.getWidth(), range.getHeight());
 	}
 
