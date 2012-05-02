@@ -54,10 +54,6 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 
 		printInitialValueVector(out);
 
-		out.printComment("Initialize delta matrix");
-		out.println("sim_k = zeros(length(sim_y), 4);");
-		out.newline();
-
 		out.println("sim_count = ceil(sim_end / sim_dt);");
 		out.newline();
 		out.println("for i = 1:sim_count");
@@ -100,10 +96,12 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 
 	@Override
 	protected void printContainerCalculations(CodeOutput out) {
-		out.println("sim_k(:,1) = " + FILENAME_ODE + "(sim_time + sim_c(1), sim_y + sim_dt * sim_k * sim_a(:,1));");
-		out.println("sim_k(:,2) = " + FILENAME_ODE + "(sim_time + sim_c(2), sim_y + sim_dt * sim_k * sim_a(:,2));");
-		out.println("sim_k(:,3) = " + FILENAME_ODE + "(sim_time + sim_c(3), sim_y + sim_dt * sim_k * sim_a(:,3));");
-		out.println("sim_k(:,4) = " + FILENAME_ODE + "(sim_time + sim_c(4), sim_y + sim_dt * sim_k * sim_a(:,4));");
+		out.printComment("Reset intermediate steps");
+		out.println("sim_k = zeros(length(sim_y), 4);");
+		out.println("sim_k(:,1) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(1), sim_y + sim_dt * sim_k * sim_a(:,1));");
+		out.println("sim_k(:,2) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(2), sim_y + sim_dt * sim_k * sim_a(:,2));");
+		out.println("sim_k(:,3) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(3), sim_y + sim_dt * sim_k * sim_a(:,3));");
+		out.println("sim_k(:,4) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(4), sim_y + sim_dt * sim_k * sim_a(:,4));");
 		out.newline();
 		out.printComment("t = t + dt");
 		out.println("sim_time = sim_time + sim_dt;");
