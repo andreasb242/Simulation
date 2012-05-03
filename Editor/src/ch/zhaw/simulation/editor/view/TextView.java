@@ -12,14 +12,20 @@ import javax.swing.JLabel;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.util.DrawHelper;
+import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.htmleditor.HTMLEditor;
+import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
+import ch.zhaw.simulation.model.listener.SimulationAdapter;
+import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.undo.action.MoveUndoAction;
 import ch.zhaw.simulation.undo.action.ResizeUndoAction;
+import ch.zhaw.simulation.undo.action.TextEditUndoAction;
 
 public class TextView extends AbstractDataView<TextData> {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +40,10 @@ public class TextView extends AbstractDataView<TextData> {
 
 	private JLabel lbConents = new JLabel();
 
+	private SimulationListener modelListener;
+
+	private String oldText = null;
+
 	public TextView(AbstractEditorControl<?> control, TextData data) {
 		super(data, control);
 		config = control.getSysintegration().getGuiConfig();
@@ -43,11 +53,31 @@ public class TextView extends AbstractDataView<TextData> {
 
 		add(lbConents);
 		setContents(data.getText());
+
+		modelListener = control.getModel().addSimulationListener(new SimulationAdapter() {
+			@Override
+			public void dataChanged(AbstractSimulationData o) {
+				if (o == getData()) {
+					textChanged();
+				}
+			}
+		});
 	}
 
 	@Override
 	protected void doubleClicked(MouseEvent e) {
 		showTextEditor();
+	}
+
+	private void textChanged() {
+		if (oldText == getData().getText()) {
+			return;
+		}
+
+		oldText = getData().getText();
+
+		setContents(getData().getText());
+		repaint();
 	}
 
 	protected void dragged(Point p) {
@@ -93,14 +123,23 @@ public class TextView extends AbstractDataView<TextData> {
 	}
 
 	public void showTextEditor() {
+		String oldTxt = getData().getText();
+
 		editor.setVisible(true);
 
 		if (editor.isSaved()) {
-			getData().setText(editor.getContents());
-			setContents(getData().getText());
-			getControl().getModel().fireObjectChanged(getData());
+			String newText = editor.getContents();
 
-			repaint();
+			if (StringUtil.equals(newText, oldTxt)) {
+				return;
+			}
+
+			AbstractSimulationModel<?> model = getControl().getModel();
+
+			getControl().getUndoManager().addEdit(new TextEditUndoAction(getData(), oldTxt, newText, model));
+
+			getData().setText(newText);
+			model.fireObjectChanged(getData());
 		}
 	}
 
@@ -122,7 +161,7 @@ public class TextView extends AbstractDataView<TextData> {
 		} catch (Exception e) {
 			Errorhandler.showError(e);
 		}
-		
+
 		paintText();
 		repaint();
 	}
@@ -146,5 +185,12 @@ public class TextView extends AbstractDataView<TextData> {
 
 		g.setColor(Color.WHITE);
 		g.fillRect(x + 1, y + 1, 7, 7);
+	}
+
+	@Override
+	public void dispose() {
+		getControl().getModel().removeListener(modelListener);
+
+		super.dispose();
 	}
 }

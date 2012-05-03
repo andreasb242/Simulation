@@ -6,6 +6,7 @@ import java.util.Vector;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.undo.UndoManager;
 
 import org.jdesktop.swingx.JXTaskPane;
 
@@ -43,6 +44,11 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	private M model;
 
 	/**
+	 * Undo / redo manager
+	 */
+	private UndoManager undo;
+
+	/**
 	 * The listener to handle the events
 	 */
 	private SidebarActionListener listener = new SidebarActionListener() {
@@ -65,9 +71,10 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 
 	};
 
-	public ConfigurationSidebarPanel(M model, SelectionModel selectionModel) {
+	public ConfigurationSidebarPanel(M model, SelectionModel selectionModel, UndoManager undo) {
 		this.selectionModel = selectionModel;
 		this.model = model;
+		this.undo = undo;
 
 		if (selectionModel == null) {
 			throw new NullPointerException("selectionModel == null");
@@ -95,6 +102,10 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 
 	public M getModel() {
 		return model;
+	}
+
+	public UndoManager getUndo() {
+		return undo;
 	}
 
 	private void initConfigurationFiels() {

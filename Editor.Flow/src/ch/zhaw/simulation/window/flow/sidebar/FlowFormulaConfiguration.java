@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.window.flow.sidebar;
 
+import javax.swing.undo.UndoManager;
+
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -12,8 +14,8 @@ public class FlowFormulaConfiguration extends ConfigurationSidebarPanel<Simulati
 	private FlowEditorControl control;
 	private DensityConfigurationField densityConfig;
 
-	public FlowFormulaConfiguration(SimulationFlowModel model, FlowEditorControl control, SelectionModel selectionModel) {
-		super(model, selectionModel);
+	public FlowFormulaConfiguration(SimulationFlowModel model, FlowEditorControl control, SelectionModel selectionModel, UndoManager undo) {
+		super(model, selectionModel, undo);
 		this.control = control;
 		
 		densityConfig.init(this.control.getDoc().getXyModel());
