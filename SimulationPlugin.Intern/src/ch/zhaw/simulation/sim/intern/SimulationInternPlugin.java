@@ -2,17 +2,15 @@ package ch.zhaw.simulation.sim.intern;
 
 import javax.swing.JPanel;
 
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import org.jdesktop.swingx.JXTaskPane;
-
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.sim.intern.main.Simulation;
 import ch.zhaw.simulation.sim.intern.sidebar.InternSimulationSidebar;
 

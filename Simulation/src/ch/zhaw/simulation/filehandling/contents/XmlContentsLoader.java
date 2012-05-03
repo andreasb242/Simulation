@@ -85,7 +85,7 @@ public class XmlContentsLoader implements XmlContentsNames {
 			doc.setType(SimulationType.FLOW_SIMULATION);
 
 			XmlModelLoader loader = new XmlModelLoader();
-			return loader.load(doc.getFlowModel(), n);
+			return loader.load(doc.getFlowModel(), null, n);
 
 		} else if (XML_MODEL_TYPE_XY.equals(type)) {
 			doc.setType(SimulationType.XY_MODEL);

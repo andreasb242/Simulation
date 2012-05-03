@@ -304,12 +304,15 @@ public class XmlModelLoader implements XmlContentsNames {
 	 * 
 	 * @param flowModel
 	 *            The model to be overwritten
+	 * @param xyModel
+	 *            This model is needed if we want to import submodels wich refer
+	 *            to the XY-Model Density, else it can be <code>null</code>
 	 * @param root
 	 *            The root node of the model
 	 * @throws Exception
 	 *             If something went wrong, the file cannot be read
 	 */
-	public boolean load(SimulationFlowModel flowModel, Node root) {
+	public boolean load(SimulationFlowModel flowModel, SimulationXYModel xyModel, Node root) {
 		flowConnectors.clear();
 		parameterConnectors.clear();
 
@@ -329,6 +332,28 @@ public class XmlModelLoader implements XmlContentsNames {
 		boolean result = parseConnectors(flowModel);
 
 		flowModel.calculateIds();
+
+		// assign density to density container
+		if (xyModel != null) {
+			for (AbstractNamedSimulationData data : flowModel.getNamedSimulationObject()) {
+				if (!(data instanceof SimulationDensityContainerData)) {
+					continue;
+				}
+
+				SimulationDensityContainerData dc = (SimulationDensityContainerData) data;
+				if ("".equals(dc.getFormula())) {
+					continue;
+				}
+
+				DensityData density = xyModel.getDensityByName(dc.getFormula());
+
+				if (density == null) {
+					System.err.println("Density «" + dc.getFormula() + "» for «" + dc.getName() + "» could not be assigned");
+				} else {
+					dc.setDensity(density);
+				}
+			}
+		}
 
 		return result;
 	}
@@ -400,7 +425,7 @@ public class XmlModelLoader implements XmlContentsNames {
 		}
 
 		SubModel submodel = new SubModel();
-		if (!load(submodel.getModel(), root)) {
+		if (!load(submodel.getModel(), xyModel, root)) {
 			throw new RuntimeException("Coult not load submodel: «" + name + "»");
 		}
 		submodel.setName(name);

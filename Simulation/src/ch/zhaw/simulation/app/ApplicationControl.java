@@ -153,7 +153,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			@Override
 			public void executionStarted(final String message) {
 				SwingUtilities.invokeLater(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						mainFrame.lock(message);
@@ -164,14 +164,14 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			@Override
 			public void setExecutionMessage(final String message) {
 				SwingUtilities.invokeLater(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						mainFrame.setLockText(message);
 					}
 				});
 			}
-			
+
 			@Override
 			public void executionFinished() {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -180,18 +180,17 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 						SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 						mainFrame.unlock();
 						DiagramFrame frame = new DiagramFrame(collection);
-						//frame.updateSimulationCollection();
+						// frame.updateSimulationCollection();
 						frame.setVisible(true);
 						/*
-						SimulationSerie series[] = collection.getSeries();
-						for (int i = 0; i < series.length; i++) {
-							System.out.println(series[i].getName());
-							Vector<SimulationEntry> entries = series[i].getData();
-							for (SimulationEntry entry : entries) {
-								System.out.println(entry.time + ": " + entry.value);
-							}
-						}
-						*/
+						 * SimulationSerie series[] = collection.getSeries();
+						 * for (int i = 0; i < series.length; i++) {
+						 * System.out.println(series[i].getName());
+						 * Vector<SimulationEntry> entries =
+						 * series[i].getData(); for (SimulationEntry entry :
+						 * entries) { System.out.println(entry.time + ": " +
+						 * entry.value); } }
+						 */
 					}
 				});
 			}
@@ -221,17 +220,17 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			e.printStackTrace();
 		}
 
-		SimulationType type = getLastUsedSimulationType();
+					SimulationType type = getLastUsedSimulationType();
+	
+			doc.setType(type);
+			loadSimulationParameterFromSettings();
+	
+			if (type == SimulationType.FLOW_SIMULATION) {
+				showFlowWindow(true);
+			} else {
+				showXYWindow();
+			}
 
-		doc.setType(type);
-		loadSimulationParameterFromSettings();
-
-		if (type == SimulationType.FLOW_SIMULATION) {
-			showFlowWindow(true);
-		} else {
-			showXYWindow();
-		}
-		
 		windowPosition.applay(this.mainFrame);
 
 		this.sysintegration = SysintegrationFactory.getSysintegration();
@@ -245,6 +244,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		// Alle relevanten Settings in die Konfiguration übernehmen
 		simulationSettingsSaver.load();
 
+		
+		if(openfile != null && open(new File(openfile)) || openLastFile()) {
+			// TODO: Optimize, do not show a window and close it and open then the file, open the file direct
+		}
 	}
 
 	public void showXYWindow() {
@@ -390,7 +393,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public JFrame getMainFrame() {
 		return mainFrame;
 	}
-	
+
 	public PluginDescription<SimulationPlugin> getSelectedPluginDescriptor() {
 		String pluginName = doc.getSimulationConfiguration().getSelectedPluginName();
 
@@ -398,7 +401,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			Messagebox.showError(getMainFrame(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
 			return null;
 		}
-
 
 		PluginDescription<SimulationPlugin> selectedPluginDescription = null;
 		for (PluginDescription<SimulationPlugin> pluginDescription : manager.getPluginDescriptions()) {
@@ -413,7 +415,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	public void startSimulation() {
 		PluginDescription<SimulationPlugin> selectedPluginDescription = getSelectedPluginDescriptor();
-		
+
 		if (selectedPluginDescription == null) {
 			Messagebox.showError(getMainFrame(), "Plugin nicht gefunden", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
 			return;
@@ -574,7 +576,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public boolean exit() {
 		if (askSave() == true) {
 			releaseOpenWindow();
-			
+
 			doc.getSimulationConfiguration().removePluginChangeListener(simulationSettingsSaver);
 			doc.getSimulationConfiguration().removeSimulationParameterListener(simulationSettingsSaver);
 
@@ -619,16 +621,18 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return true;
 	}
 
-	public void openLastFile() {
+	public boolean openLastFile() {
 		if (settings.isSetting("autoloadLastDocument", false)) {
 			String path = recentMenu.getNewstEntry();
 			if (path != null) {
 				File f = new File(path);
 				if (f.exists() && f.canRead()) {
 					open(new File(path));
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	@Override
@@ -717,13 +721,13 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	@Override
 	public void updateTitle() {
 		if (documentName == null) {
-			this.mainFrame.setTitle("Simulation");
+			this.mainFrame.setTitle("(AB)² Simulation");
 		} else {
 			String saved = "";
 			if (doc.isChanged()) {
 				saved = " *";
 			}
-			this.mainFrame.setTitle(documentName + saved + " - Simulation");
+			this.mainFrame.setTitle(documentName + saved + " - (AB)² Simulation");
 		}
 	}
 

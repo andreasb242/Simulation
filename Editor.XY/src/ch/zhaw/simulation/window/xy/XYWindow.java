@@ -12,7 +12,7 @@ import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorView;
 import ch.zhaw.simulation.frame.sidebar.FrameSidebar;
 import ch.zhaw.simulation.menu.xy.XYMenubar;
-import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.toolbar.xy.XYToolbar;
@@ -80,7 +80,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void showFormulaEditor(AbstractNamedSimulationData data) {
+			public void showFormulaEditor(NamedFormulaData data) {
 				control.showFormulaEditor(data);
 			}
 

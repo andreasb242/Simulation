@@ -8,6 +8,7 @@ import java.awt.geom.CubicCurve2D;
 import javax.swing.JComponent;
 
 import butti.javalibs.util.DrawHelper;
+import butti.javalibs.util.ExtendableRange;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
@@ -26,6 +27,8 @@ public abstract class BezierConnector {
 	 * If this connector is selected
 	 */
 	protected boolean selected = false;
+
+	private ExtendableRange range = new ExtendableRange();
 
 	public BezierConnector(JComponent parent, BezierConnectorData connector, AbstractConnectorData<?> connectorData, AbstractEditorControl<?> control) {
 		this.parent = parent;
@@ -91,7 +94,30 @@ public abstract class BezierConnector {
 		Point endPoint = end.getPoint();
 		Point middle = movePoint.getPoint();
 
+		updateRange();
+
 		this.curve.setCurve(startPoint.x, startPoint.y, middle.x, middle.y, middle.x, middle.y, endPoint.x, endPoint.y);
+	}
+
+	/**
+	 * Resizes the repaint range
+	 */
+	private void updateRange() {
+		Point startPoint = start.getPoint();
+		Point endPoint = end.getPoint();
+		Point middle = movePoint.getPoint();
+
+		range.addPoint(startPoint);
+		range.addPoint(endPoint);
+		range.addPoint(middle);
+	}
+
+	public Rectangle getAndClearRepaintBounds() {
+		updateRange();
+		Rectangle rect = range.getRect();
+		range.clear();
+		updateRange();
+		return rect;
 	}
 
 	public Rectangle getBounds() {

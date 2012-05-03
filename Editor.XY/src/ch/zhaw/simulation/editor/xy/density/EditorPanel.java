@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.editor.xy.density;
 
+import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -8,9 +9,13 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import butti.javalibs.gui.GridBagManager;
+import butti.javalibs.util.ColorConstants;
 import ch.zhaw.simulation.gui.codeditor.FormulaEditorPanel;
+import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -22,7 +27,10 @@ public class EditorPanel extends JPanel {
 
 	private GridBagManager gbm;
 
+	private NameChecker nameChecker = new NameChecker();
 	private JTextField txtName = new JTextField();
+	private Color defaultBackground;
+
 	private JTextField txtDescription = new JTextField();
 
 	private DensityData selected;
@@ -56,13 +64,45 @@ public class EditorPanel extends JPanel {
 
 		};
 
-		txtName.addFocusListener(listener);
 		txtDescription.addFocusListener(listener);
+
+		txtName.addFocusListener(listener);
+		this.defaultBackground = txtName.getBackground();
+		
+		txtName.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				nameChanged();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				nameChanged();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				nameChanged();
+			}
+		});
+
 	}
 
+	protected void nameChanged() {
+		String name = txtName.getText();
+		if (nameChecker.checkName(name)) {
+			txtName.setBackground(defaultBackground);
+
+			selected.setName(txtName.getText());
+			model.densityChanged(selected);
+		} else {
+			txtName.setBackground(ColorConstants.ERROR_COLOR);
+		}
+	}
+	
 	protected void saveContents() {
 		if (this.selected != null) {
-			selected.setName(txtName.getText());
 			selected.setDescription(txtDescription.getText());
 			model.densityChanged(selected);
 		}

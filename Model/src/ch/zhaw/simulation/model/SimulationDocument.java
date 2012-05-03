@@ -96,13 +96,13 @@ public class SimulationDocument {
 
 	public void stopAutoparser() {
 		for (AutoparserListener l : autoparserListener) {
-			l.startAutoparser();
+			l.stopAutoparser();
 		}
 	}
 
 	public void startAutoparser() {
 		for (AutoparserListener l : autoparserListener) {
-			l.stopAutoparser();
+			l.startAutoparser();
 		}
 	}
 

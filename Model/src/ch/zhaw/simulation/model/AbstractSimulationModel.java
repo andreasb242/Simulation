@@ -62,15 +62,15 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 * Checks if this object can be inserted into this model, if not it will be
 	 * reanamed
 	 */
-	protected void checkIntegrity(AbstractNamedSimulationData newData) {
+	protected void checkIntegrity(NamedFormulaData newData) {
 		String searchName = newData.getName();
 
 		for (AbstractSimulationData data : this.data) {
-			if (data instanceof AbstractNamedSimulationData) {
+			if (data instanceof NamedFormulaData) {
 				if (data == newData) {
 					continue;
 				}
-				String name = ((AbstractNamedSimulationData) data).getName();
+				String name = ((NamedFormulaData) data).getName();
 				if (name.equals(searchName)) {
 					String newName = getNewNameFor(newData);
 					newData.setName(newName);
@@ -86,7 +86,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 *            The object
 	 * @return The new name
 	 */
-	private String getNewNameFor(AbstractNamedSimulationData newObject) {
+	private String getNewNameFor(NamedFormulaData newObject) {
 		Vector<String> names = new Vector<String>();
 		String name = newObject.getName();
 
@@ -232,8 +232,9 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 * @param o
 	 */
 	public void fireObjectChangedAutoparser(Object o) {
-		if (o instanceof AbstractNamedSimulationData) {
-			checkIntegrity((AbstractNamedSimulationData) o);
+		if (o instanceof NamedFormulaData) {
+			o = ((NamedFormulaData)o).getRealNamedFormulaData();
+			checkIntegrity((NamedFormulaData) o);
 		}
 		for (int i = 0; i < listener.size(); i++) {
 			listener.get(i).dataChanged((AbstractSimulationData) o);

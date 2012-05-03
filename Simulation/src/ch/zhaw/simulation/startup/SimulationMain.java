@@ -58,6 +58,7 @@ public class SimulationMain {
 
 		ApplicationControl app = new ApplicationControl();
 		app.start(settings, openfile);
+		app.updateTitle();
 	}
 
 	public static void main(String[] args) {

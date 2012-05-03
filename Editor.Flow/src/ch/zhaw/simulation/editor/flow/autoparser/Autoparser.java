@@ -1,10 +1,11 @@
-package ch.zhaw.simulation.math;
+package ch.zhaw.simulation.editor.flow.autoparser;
 
 
 import java.util.Vector;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
+import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.NamedFormulaData.Status;
@@ -14,6 +15,7 @@ import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 
 public class Autoparser {
@@ -67,6 +69,7 @@ public class Autoparser {
 				dataChanged(o);
 			}
 
+			@Override
 			public void connectorRemoved(AbstractConnectorData<?> c) {
 				connectorChanged(c);
 			};
@@ -110,7 +113,7 @@ public class Autoparser {
 
 		SimulationFlowModel model = control.getModel();
 		for (AbstractSimulationData d : model.getData()) {
-			if (d instanceof AbstractNamedSimulationData) {
+			if (d instanceof AbstractNamedSimulationData && !(d instanceof SimulationDensityContainerData)) {
 				parse((AbstractNamedSimulationData) d);
 			}
 		}

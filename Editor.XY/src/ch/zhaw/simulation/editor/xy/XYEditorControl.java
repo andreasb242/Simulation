@@ -16,6 +16,7 @@ import butti.javalibs.gui.splitmenuitem.SplitMenuitem;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
+import ch.zhaw.simulation.editor.xy.autoparser.Autoparser;
 import ch.zhaw.simulation.editor.xy.dialog.XYSizeDialog;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
@@ -35,6 +36,8 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 	private XYDefaultSettingsHandler defaultSettings;
 	private SubmodelHandler submodelHandler = new SubmodelHandler();
 
+	private Autoparser autoparser;
+	
 	public XYEditorControl(SimulationApplication app, SimulationDocument doc, SimulationXYModel model, JFrame parent, Settings settings) {
 		super(parent, settings, app, doc, model);
 
@@ -83,14 +86,14 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	@Override
 	public void stopAutoparser() {
-		// TODO Autoparser XY Dialog
-
+		autoparser.stop();
+		System.out.println("stop autoparser");
 	}
 
 	@Override
 	public void startAutoparser() {
-		// TODO Autoparser XY Dialog
-
+		autoparser.start();
+		System.out.println("start autoparser");
 	}
 
 	public void addMeso() {
@@ -190,13 +193,15 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			popup.addSeparator();
 		}
 
-		SplitMenuitem madd = new SplitMenuitem("Neus Submodell erstellen");
+		SplitMenuitem madd = new SplitMenuitem("Neues Submodell erstellen");
 		popup.add(madd);
 		madd.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				m.addModel(new SubModel());
+				SubModel sub = new SubModel();
+				m.addModel(sub);
+				submodelHandler.fireItemSelected(sub);
 			}
 		});
 

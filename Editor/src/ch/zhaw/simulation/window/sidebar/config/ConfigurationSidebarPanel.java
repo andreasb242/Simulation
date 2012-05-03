@@ -11,6 +11,7 @@ import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
@@ -50,7 +51,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 		public void sidebarActionPerformed(SidebarAction action, Object data) {
 			switch (action) {
 			case SHOW_FORMULA_EDITOR:
-				showFormulaEditor((AbstractNamedSimulationData) data);
+				showFormulaEditor((NamedFormulaData) data);
 				break;
 
 			case FIRE_SIMULATION_OBJECT_CHANGED:
@@ -130,6 +131,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	protected void removeConfigurationField(ConfigurationField field) {
 		field.removeListener(listener);
 		this.fields.remove(field);
+		field.dispose();
 	}
 
 	public ConfigurationField[] getFields() {
@@ -142,7 +144,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	 * @param data
 	 *            The data to edit
 	 */
-	public abstract void showFormulaEditor(AbstractNamedSimulationData data);
+	public abstract void showFormulaEditor(NamedFormulaData data);
 
 	@Override
 	public void selectionChanged() {
@@ -212,6 +214,10 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	public void dispose() {
 		for (ConfigurationField f : this.fields) {
 			f.removeListener(listener);
+		}
+
+		for (ConfigurationField f : this.fields) {
+			f.dispose();
 		}
 
 		this.fields.clear();

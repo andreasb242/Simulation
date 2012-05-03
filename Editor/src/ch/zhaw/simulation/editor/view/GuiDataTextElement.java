@@ -100,11 +100,12 @@ public abstract class GuiDataTextElement<T extends AbstractNamedSimulationData> 
 
 		getImage().drawImage(g, isSelected());
 
+		DrawHelper.antialisingOn(g);
 		g.setColor(Color.BLACK);
 
 		g.drawString(name, textX, textY);
 
-		if (!getData().getStaus().equals(AbstractNamedSimulationData.Status.SYNTAX_OK)) {
+		if (getData().getStaus() != AbstractNamedSimulationData.Status.SYNTAX_OK) {
 			g.setColor(Color.RED);
 
 			int x = (getWidth() - g.getFontMetrics().stringWidth("?")) / 2;

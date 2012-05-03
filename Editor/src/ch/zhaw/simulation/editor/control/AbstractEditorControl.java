@@ -19,6 +19,7 @@ import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.AutoparserListener;
+import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
@@ -230,7 +231,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		return parent;
 	}
 
-	public void showFormulaEditor(AbstractNamedSimulationData data) {
+	public void showFormulaEditor(NamedFormulaData data) {
 		if (formulaEditor == null) {
 			formulaEditor = new FormularEditorDialog(parent, getSysintegration(), getModel());
 		}

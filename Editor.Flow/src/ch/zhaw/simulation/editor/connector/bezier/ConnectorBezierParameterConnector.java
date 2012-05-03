@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.editor.connector.bezier;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -24,7 +23,6 @@ public class ConnectorBezierParameterConnector extends BezierConnector {
 
 	@Override
 	protected void drawArrow(Graphics2D g) {
-
 		final double u = 0.96875;
 		double x2;
 		double y2;
@@ -33,13 +31,17 @@ public class ConnectorBezierParameterConnector extends BezierConnector {
 		Point endPoint = end.getPoint();
 		Point middle = movePoint.getPoint();
 
+		
+		/**
+		 * This code is copied from CubicCurve2D.Double to calculate the last points
+		 */
 		x2 = startPoint.x * Math.pow(1.0 - u, 3) + middle.x * 3 * u * Math.pow(1.0 - u, 2) + middle.x * 3 * Math.pow(u, 2) * (1.0 - u) + endPoint.x
 				* Math.pow(u, 3);
 
 		y2 = startPoint.y * Math.pow(1.0 - u, 3) + middle.y * 3 * u * Math.pow(1.0 - u, 2) + middle.y * 3 * Math.pow(u, 2) * (1.0 - u) + endPoint.y
 				* Math.pow(u, 3);
 
-		g.setColor(Color.BLACK);
+		g.setColor(guicfg.getConnectorLineColor(this.selected));
 		drawArrow(g, x2, y2, endPoint.x, endPoint.y);
 	}
 

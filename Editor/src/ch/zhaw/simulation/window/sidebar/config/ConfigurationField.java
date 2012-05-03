@@ -80,7 +80,7 @@ public abstract class ConfigurationField implements Comparable<ConfigurationFiel
 			l.sidebarActionPerformed(action, data);
 		}
 	}
-	
+
 	protected void fireDataChanged(AbstractNamedSimulationData data) {
 		fireActionPerformed(SidebarAction.FIRE_SIMULATION_OBJECT_CHANGED, data);
 	}
@@ -145,5 +145,11 @@ public abstract class ConfigurationField implements Comparable<ConfigurationFiel
 	 *            the selection elements
 	 */
 	public abstract boolean dataSelected(AbstractNamedSimulationData[] data);
+
+	/**
+	 * Releases all open ressources / removes all listeners
+	 */
+	public void dispose() {
+	}
 
 }

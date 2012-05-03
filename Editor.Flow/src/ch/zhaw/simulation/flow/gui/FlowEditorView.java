@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Vector;
 
+import butti.javalibs.util.ExtendableRange;
+
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.clipboard.flow.FlowTransferable;
@@ -79,7 +81,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 		add(arrowDrag);
 		arrowDrag.setVisible(false);
-		
+
 		loadDataFromModel();
 	}
 
@@ -221,7 +223,6 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		return false;
 	}
 
-
 	public void visitElements(ImageExport export, boolean onlySelection, boolean exportHelperPoints) {
 		for (ConnectorUi c : connectors) {
 			if (c instanceof FlowConnectorUi) {
@@ -234,13 +235,19 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 				export.draw(c);
 			}
 		}
-		
+
 		super.visitElements(export, onlySelection, exportHelperPoints);
 	}
-	
+
 	@Override
 	public void dataChanged(AbstractSimulationData o) {
 		revalidate();
+
+		/**
+		 * This code is for repaint handling, its not really nice, but if we
+		 * repaint everything the application gets to slow, so this is a little
+		 * workaround to get fast responsibility
+		 */
 
 		AbstractDataView<?> c = findGuiComponent(o);
 		if (c == null) {
@@ -248,11 +255,10 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			return;
 		}
 
-		if (control.getModel().getParameterConnectorsTo(o).size() > 0) {
-			// Alles neu zeichnen, der Aufwand um zu brechnen was wirklich neu
-			// gezeichnet werden muss ist bei kleinen Diagrammen höher als der
-			// Aufwand für das ganze neu zeichnen....
-			repaint();
+		Vector<AbstractConnectorData<?>> connectors = control.getModel().getConnectorsTo(o);
+
+		if (connectors.size() > 0) {
+			repaintRect(c, connectors);
 		} else {
 			c.repaint();
 		}
@@ -262,6 +268,23 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			String text = ((AbstractNamedSimulationData) d).getStatusText();
 			((GuiDataTextElement<?>) c).setStatus(text);
 		}
+	}
+
+	private void repaintRect(AbstractDataView<?> c, Vector<AbstractConnectorData<?>> connectors) {
+		ExtendableRange range = new ExtendableRange();
+
+		range.addRect(c.getBounds());
+
+		for (ConnectorUi con : this.connectors) {
+			if (connectors.remove(con.getData())) {
+				for (SelectableElement<?> sel : con.getSelectableElements()) {
+					range.addPoint(sel.getX(), sel.getY());
+					range.addPoint(sel.getX() + sel.getWidth(), sel.getY() + sel.getHeight());
+				}
+			}
+		}
+
+		repaint(range.getX(), range.getY(), range.getWidth(), range.getHeight());
 	}
 
 	@Override

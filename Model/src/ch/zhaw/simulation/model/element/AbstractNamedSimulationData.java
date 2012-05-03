@@ -105,6 +105,11 @@ public abstract class AbstractNamedSimulationData extends AbstractSimulationData
 		return staus;
 	}
 
+	@Override
+	public NamedFormulaData getRealNamedFormulaData() {
+		return this;
+	}
+
 	/**
 	 * 
 	 * If a new element is created it needs an unique name, this is created from

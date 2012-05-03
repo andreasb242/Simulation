@@ -43,82 +43,9 @@ public class MesoData extends AbstractNamedSimulationData {
 	private Derivative derivative = Derivative.FIRST_DERIVATIVE;
 
 	// Formula for X and Y direction
-	private String formulaX = "";
-	private String formulaY = "";
 
-	private NamedFormulaData dataX = new NamedFormulaData() {
-
-		@Override
-		public String getName() {
-			return MesoData.this.getName();
-		}
-
-		@Override
-		public void setName(String name) {
-			// Note implemented
-		}
-
-		@Override
-		public String getFormula() {
-			return formulaX;
-		}
-
-		@Override
-		public void setFormula(String formula) {
-			if (formula == null) {
-				throw new NullPointerException("formula == null");
-			}
-			formulaX = formula;
-		}
-
-		@Override
-		public void setFormula(String formula, Status status, String statusText) {
-			// Note implemented
-		}
-
-		@Override
-		public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
-			// Note implemented
-		}
-
-	};
-
-	private NamedFormulaData dataY = new NamedFormulaData() {
-
-		@Override
-		public String getName() {
-			return MesoData.this.getName();
-		}
-
-		@Override
-		public void setName(String name) {
-			// Note implemented
-		}
-
-		@Override
-		public String getFormula() {
-			return formulaY;
-		}
-
-		@Override
-		public void setFormula(String formula) {
-			if (formula == null) {
-				throw new NullPointerException("formula == null");
-			}
-			formulaY = formula;
-		}
-
-		@Override
-		public void setFormula(String formula, Status status, String statusText) {
-			// Note implemented
-		}
-
-		@Override
-		public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
-			// Note implemented
-		}
-
-	};
+	private MesoDataFormula dataX = new MesoDataFormula();
+	private MesoDataFormula dataY = new MesoDataFormula();
 
 	public MesoData(int x, int y) {
 		super(x, y);
@@ -151,32 +78,104 @@ public class MesoData extends AbstractNamedSimulationData {
 		this.derivative = derivative;
 	}
 
-	public String getFormulaX() {
-		return formulaX;
-	}
-
-	public String getFormulaY() {
-		return formulaY;
-	}
-
-	public NamedFormulaData getDataX() {
+	public MesoDataFormula getDataX() {
 		return dataX;
 	}
 
-	public NamedFormulaData getDataY() {
+	public MesoDataFormula getDataY() {
 		return dataY;
+	}
+
+	@Override
+	public void setStaus(Status staus, String statusText) {
+		throw new RuntimeException("Do not call this method on MesoData");
+	}
+
+	@Override
+	public String getStatusText() {
+		if (submodel == null) {
+			return "Kein Submodell";
+		} else if (this.dataX.getStatus() != Status.SYNTAX_OK) {
+			return "X: " + this.dataX.getStatusText();
+		} else if (this.dataY.getStatus() != Status.SYNTAX_OK) {
+			return "Y: " + this.dataX.getStatusText();
+		}
+
+		return null;
+	}
+
+	@Override
+	public Status getStaus() {
+		if (this.submodel == null) {
+			return Status.SYNTAX_ERROR;
+		} else if (this.dataX.getStatus() != Status.SYNTAX_OK) {
+			return Status.SYNTAX_ERROR;
+		} else if (this.dataY.getStatus() != Status.SYNTAX_OK) {
+			return Status.SYNTAX_ERROR;
+		}
+
+		return Status.SYNTAX_OK;
 	}
 
 	public void setSubmodel(SubModel submodel) {
 		this.submodel = submodel;
-		if (submodel == null) {
-			setStaus(Status.SYNTAX_ERROR, "Kein Submodell");
-		} else {
-			setStaus(Status.SYNTAX_OK, null);
-		}
 	}
 
 	public SubModel getSubmodel() {
 		return submodel;
 	}
+
+	public class MesoDataFormula implements NamedFormulaData {
+		private String formula = "";
+		private Status status;
+		private String statusText;
+
+		@Override
+		public String getName() {
+			return MesoData.this.getName();
+		}
+
+		@Override
+		public void setName(String name) {
+			// Note implemented
+		}
+
+		@Override
+		public String getFormula() {
+			return formula;
+		}
+
+		@Override
+		public void setFormula(String formula) {
+			if (formula == null) {
+				throw new NullPointerException("formula == null");
+			}
+			this.formula = formula;
+		}
+
+		@Override
+		public void setFormula(String formula, Status status, String statusText) {
+			setFormula(formula);
+			this.status = status;
+			this.statusText = statusText;
+		}
+
+		public Status getStatus() {
+			return status;
+		}
+
+		public String getStatusText() {
+			return statusText;
+		}
+
+		@Override
+		public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
+			// Note implemented
+		}
+
+		@Override
+		public NamedFormulaData getRealNamedFormulaData() {
+			return MesoData.this;
+		}
+	};
 }
