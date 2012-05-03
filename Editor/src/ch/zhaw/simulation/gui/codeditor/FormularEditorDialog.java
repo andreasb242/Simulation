@@ -20,7 +20,7 @@ public class FormularEditorDialog extends BDialog {
 	public FormularEditorDialog(JFrame parent, Sysintegration sys, AbstractSimulationModel<?> model) {
 		super(parent);
 
-		editor = new FormulaEditorPanel(sys, model, new Vector<String>());
+		editor = new FormulaEditorPanel(sys, model, new Vector<String>(), true);
 		add(editor);
 
 		pack();
@@ -30,7 +30,7 @@ public class FormularEditorDialog extends BDialog {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				editor.checkFormula();
+				editor.saveContents();
 			}
 
 		});

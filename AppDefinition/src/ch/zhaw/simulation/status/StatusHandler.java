@@ -37,8 +37,14 @@ public class StatusHandler implements StatusListener {
 		}
 	}
 
+	@Override
+	public void setStatusTextError(String text) {
+		for (StatusListener l : listener) {
+			l.setStatusTextError(text);
+		}
+	}
+
 	public void dispose() {
 		this.listener.clear();
 	}
-
 }

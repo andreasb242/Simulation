@@ -16,11 +16,19 @@ public interface StatusListener {
 	public void setStatusText(String text);
 
 	/**
-	 * Sets the startus text and sets an additional info icon
+	 * Sets the status text and sets an additional info icon
 	 * 
 	 * @param text
 	 *            The text
 	 */
 	public void setStatusTextInfo(String text);
+
+	/**
+	 * Sets the status text and sets an additional error icon
+	 * 
+	 * @param text
+	 *            The text
+	 */
+	public void setStatusTextError(String text);
 
 }
