@@ -12,10 +12,12 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.undo.UndoManager;
 
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.gui.messagebox.Messagebox;
+import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.editor.density.DensityListModel;
 import ch.zhaw.simulation.editor.xy.density.DensityEditorDialog;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
@@ -24,6 +26,9 @@ import ch.zhaw.simulation.model.listener.XYSimulationAdapter;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
+import ch.zhaw.simulation.undo.action.xy.ChangeDensityUndoAction;
+import ch.zhaw.simulation.undo.action.xy.CreateDensityUndoAction;
+import ch.zhaw.simulation.undo.action.xy.DeleteDensityUndoAction;
 
 public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	private static final long serialVersionUID = 1L;
@@ -36,7 +41,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	private Object lastSelected = null;
 	protected Vector<ActionListener> listenerList = new Vector<ActionListener>();
 
-	public DensitySidebar(final JFrame parent, final SimulationXYModel model, JComponent comp, Sysintegration sys) {
+	public DensitySidebar(final JFrame parent, final SimulationXYModel model, JComponent comp, Sysintegration sys, final UndoManager undo) {
 		setTitle("Dichte");
 
 		listModel = new DensityListModel(model);
@@ -70,7 +75,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 			public void actionPerformed(ActionEvent e) {
 				String selectedName = null;
 				for (int i = 0; i < 100; i++) {
-					String name = "Dichte" + (id++);
+					String name = "d" + (id++);
 					if (model.isValidDensityName(name, null)) {
 						selectedName = name;
 						break;
@@ -87,6 +92,8 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 				d.setName(selectedName);
 				d.setDescription("");
 				model.addDensity(d);
+
+				undo.addEdit(new CreateDensityUndoAction(d, model));
 			}
 		});
 
@@ -101,6 +108,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 				DensityData d = (DensityData) cbDensity.getSelectedItem();
 				if (d != null) {
 					model.removeDensity(d);
+					undo.addEdit(new DeleteDensityUndoAction(d, model));
 				}
 			}
 		});
@@ -114,8 +122,22 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 			public void actionPerformed(ActionEvent e) {
 				DensityData d = (DensityData) cbDensity.getSelectedItem();
 				if (d != null) {
+					String oldName = d.getName();
+					String oldDescription = d.getDescription();
+					String oldFormula = d.getFormula();
+
 					densityEditor.setSelectedDensity(d);
 					densityEditor.setVisible(true);
+
+					String newName = d.getName();
+					String newDescription = d.getDescription();
+					String newFormula = d.getFormula();
+
+					if (!StringUtil.equals(oldName, newName) || !StringUtil.equals(oldDescription, newDescription)
+							|| !StringUtil.equals(oldFormula, newFormula)) {
+						undo.addEdit(new ChangeDensityUndoAction(d, oldName, oldDescription, oldFormula, newName, newDescription, newFormula, model));
+					}
+
 				} else {
 					Messagebox.showWarning(parent, "Kein Eintrag gwählt", "Bitte wählen / erstellen sie Zuerst einen Eintrag mit dem [+]");
 				}

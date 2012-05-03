@@ -235,7 +235,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 		}
 	}
 
-	public void fireObjectChanged(AbstractSimulationData o) {
+	public void fireObjectChanged(Object o) {
 		setChanged();
 		fireObjectChangedAutoparser(o);
 	}
