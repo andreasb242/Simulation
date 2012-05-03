@@ -47,12 +47,12 @@ public class SubModelCreateUndoAction extends AbstractUndoableEdit {
 
 	@Override
 	public String getRedoPresentationName() {
-		return "Submodel löschen: «" + sub.getName() + "»";
+		return "Submodel widerherstellen: «" + sub.getName() + "»";
 	}
 
 	@Override
 	public String getUndoPresentationName() {
-		return "Submodel widerherstellen: «" + sub.getName() + "»";
+		return "Submodel löschen: «" + sub.getName() + "»";
 	}
 
 }

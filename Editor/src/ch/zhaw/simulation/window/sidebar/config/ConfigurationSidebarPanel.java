@@ -14,7 +14,6 @@ import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
@@ -58,10 +57,6 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 			switch (action) {
 			case SHOW_FORMULA_EDITOR:
 				showFormulaEditor((NamedFormulaData) data);
-				break;
-
-			case FIRE_SIMULATION_OBJECT_CHANGED:
-				model.fireObjectChanged((AbstractSimulationData) data);
 				break;
 
 			default:
@@ -130,7 +125,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	 * <code>super.istanceConfigurationFields();</code>
 	 */
 	protected void instanceConfigurationFields() {
-		addConfigurationField(new NameConfigurationField());
+		addConfigurationField(new NameConfigurationField(this.getUndo(), this.model));
 		addConfigurationField(new FormulaConfigurationField());
 	}
 

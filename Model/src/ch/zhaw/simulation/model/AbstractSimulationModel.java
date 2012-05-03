@@ -9,6 +9,21 @@ import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.listener.SimulationListener;
 
+/**
+ * This is the base model for both the XY and the Flow model
+ * 
+ * === MODEL ===
+ * 
+ * The whole Simulation model uses references, for compare two objects we use
+ * always <code>==</code> instead of equals, because only if it's the same
+ * reference it's the same object.
+ * 
+ * Even if the name has to be unique because else it cannot be saved to an XML
+ * file
+ * 
+ * 
+ * @author Andreas Butti
+ */
 public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	/**
 	 * If the model has changed (saved / not saved)
@@ -233,7 +248,7 @@ public abstract class AbstractSimulationModel<T extends SimulationListener> {
 	 */
 	public void fireObjectChangedAutoparser(Object o) {
 		if (o instanceof NamedFormulaData) {
-			o = ((NamedFormulaData)o).getRealNamedFormulaData();
+			o = ((NamedFormulaData) o).getRealNamedFormulaData();
 			checkIntegrity((NamedFormulaData) o);
 		}
 		for (int i = 0; i < listener.size(); i++) {

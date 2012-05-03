@@ -23,6 +23,8 @@ import ch.zhaw.simulation.window.xy.sidebar.SubmodelComboboxModel;
 public class SubmodelConfigurationField extends MultipleConfigurationField {
 	private JComboBox cbSubmodel;
 
+	private boolean submodelComboboxChanging = false;
+
 	private Object lastSelectedObject;
 
 	private SimulationXYModel model;
@@ -48,6 +50,11 @@ public class SubmodelConfigurationField extends MultipleConfigurationField {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				// ignor our own events
+				if (submodelComboboxChanging) {
+					return;
+				}
+
 				if (ItemEvent.SELECTED == e.getStateChange()) {
 					if (cbSubmodel.getSelectedItem() != lastSelectedObject) {
 						lastSelectedObject = cbSubmodel.getSelectedItem();
@@ -86,7 +93,9 @@ public class SubmodelConfigurationField extends MultipleConfigurationField {
 			}
 		}
 
+		submodelComboboxChanging = true;
 		cbSubmodel.setSelectedItem(selected);
+		submodelComboboxChanging = false;
 	}
 
 	protected void setSubmodel(SubModel submodel) {

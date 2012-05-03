@@ -3,9 +3,9 @@ package ch.zhaw.simulation.window.sidebar.config;
 import java.util.Vector;
 
 import javax.swing.GroupLayout;
-import javax.swing.JComponent;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.JComponent;
 
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.window.sidebar.config.SidebarActionListener.SidebarAction;
@@ -79,10 +79,6 @@ public abstract class ConfigurationField implements Comparable<ConfigurationFiel
 		for (SidebarActionListener l : this.listener) {
 			l.sidebarActionPerformed(action, data);
 		}
-	}
-
-	protected void fireDataChanged(AbstractNamedSimulationData data) {
-		fireActionPerformed(SidebarAction.FIRE_SIMULATION_OBJECT_CHANGED, data);
 	}
 
 	/**
