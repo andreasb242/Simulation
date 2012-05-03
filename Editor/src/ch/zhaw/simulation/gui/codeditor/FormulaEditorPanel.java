@@ -64,9 +64,12 @@ public class FormulaEditorPanel extends JPanel {
 
 	private Vector<String> additionalVars = new Vector<String>();
 
-	public FormulaEditorPanel(Sysintegration sys, AbstractSimulationModel<?> model, Vector<String> addiditonalVars) {
+	private boolean autosaveFormula;
+
+	public FormulaEditorPanel(Sysintegration sys, AbstractSimulationModel<?> model, Vector<String> addiditonalVars, boolean autosaveFormula) {
 		this.model = model;
 		this.additionalVars = addiditonalVars;
+		this.autosaveFormula = autosaveFormula;
 		tb = sys.createToolbar();
 
 		gbm = new GridBagManager(this);
@@ -117,7 +120,7 @@ public class FormulaEditorPanel extends JPanel {
 			@Override
 			public void run() {
 				System.out.println("check timer activated");
-				checkFormula();
+				checkFormula(false);
 			}
 		}, CHECK_DELAY);
 	}
@@ -133,7 +136,7 @@ public class FormulaEditorPanel extends JPanel {
 		globals.setComponent(component);
 	}
 
-	protected void checkFormula() {
+	protected void checkFormula(boolean forceSave) {
 		if (value == null || data == null) {
 			return;
 		}
@@ -167,9 +170,15 @@ public class FormulaEditorPanel extends JPanel {
 			statusText = e.getMessage();
 			Errorhandler.logError(e);
 		}
-		data.setFormula(text.getText(), status, statusText);
-		
-		model.fireObjectChangedAutoparser(data);
+
+		if (this.autosaveFormula || forceSave) {
+			data.setFormula(text.getText(), status, statusText);
+			model.fireObjectChangedAutoparser(data);
+		}
+	}
+
+	public void saveContents() {
+		checkFormula(true);
 	}
 
 	public void inserEditor(String text, int relCursor) {
@@ -182,10 +191,14 @@ public class FormulaEditorPanel extends JPanel {
 		text.addAutocomplete(new Autocomplete.AutocompleteWord(var, 0));
 	}
 
+	public void unselect() {
+		this.data = null;
+	}
+
 	public void setData(NamedFormulaData data) {
 		if (this.data != null) {
 			// Save Data
-			checkFormula();
+			checkFormula(false);
 		}
 
 		value = data.getFormula();
@@ -224,7 +237,7 @@ public class FormulaEditorPanel extends JPanel {
 		text.setConsts(getConst(), getFunctions(), parameter, globalData);
 		updateGlobals(globalData);
 
-		checkFormula();
+		checkFormula(false);
 	}
 
 	private void updateGlobals(Vector<SimulationGlobalData> global) {

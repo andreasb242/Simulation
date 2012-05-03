@@ -45,7 +45,7 @@ public class EditorPanel extends JPanel {
 		vars.add("x");
 		vars.add("y");
 
-		editor = new FormulaEditorPanel(sys, model, vars);
+		editor = new FormulaEditorPanel(sys, model, vars, false);
 
 		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name"));
 		gbm.setX(0).setY(1).setWeightY(0).setWeightX(0).setComp(new JLabel("Beschreibung"));
@@ -68,7 +68,7 @@ public class EditorPanel extends JPanel {
 
 		txtName.addFocusListener(listener);
 		this.defaultBackground = txtName.getBackground();
-		
+
 		txtName.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -90,6 +90,12 @@ public class EditorPanel extends JPanel {
 	}
 
 	protected void nameChanged() {
+		// if we set the name first we get an event that the text has changed,
+		// but we don't need to save the text, because it was the original name
+		if (this.selected == null) {
+			return;
+		}
+
 		String name = txtName.getText();
 		if (nameChecker.checkName(name)) {
 			txtName.setBackground(defaultBackground);
@@ -100,25 +106,27 @@ public class EditorPanel extends JPanel {
 			txtName.setBackground(ColorConstants.ERROR_COLOR);
 		}
 	}
-	
+
 	protected void saveContents() {
 		if (this.selected != null) {
 			selected.setDescription(txtDescription.getText());
 			model.densityChanged(selected);
+			editor.saveContents();
 		}
 	}
 
 	public void unselecet() {
 		this.selected = null;
+		editor.unselect();
 	}
 
 	public void setSelected(DensityData selected) {
 		saveContents();
-		this.selected = selected;
 
 		txtName.setText(selected.getName());
 		txtDescription.setText(selected.getDescription());
 
+		this.selected = selected;
 		editor.setData(selected);
 	}
 

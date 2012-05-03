@@ -183,12 +183,18 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (getControl() != null && getControl().getStatus() != null) {
-					getControl().getStatus().clearStatus();
-				}
+				if (e.getID() == 2) {
+					if (getControl() != null && getControl().getStatus() != null) {
+						getControl().getStatus().setStatusTextError("Dichte berechnen Fehlgeschlagen! Formel prüfen!");
+					}
+				} else {
+					if (getControl() != null && getControl().getStatus() != null) {
+						getControl().getStatus().clearStatus();
+					}
 
-				// repaint, even if we have twice no formula
-				repaint();
+					// repaint, even if we have twice no formula
+					repaint();
+				}
 			}
 		});
 	}

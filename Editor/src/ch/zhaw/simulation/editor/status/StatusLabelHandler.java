@@ -46,6 +46,13 @@ public class StatusLabelHandler implements StatusListener {
 		emptyStatus = false;
 	}
 
+	@Override
+	public void setStatusTextError(String text) {
+		setStatusText(text);
+		lbStatus.setIcon(IconLoader.getIcon("warning", 22));
+		emptyStatus = false;
+	}
+	
 	public JXStatusBar getStatusBar() {
 		return sBar;
 	}

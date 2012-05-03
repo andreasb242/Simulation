@@ -42,6 +42,13 @@ public class DensityDraw {
 			return;
 		}
 
+		try {
+			valueFor(0, 0);
+		} catch (Exception e) {
+			finishListener.actionPerformed(new ActionEvent(this, 2, "failed"));
+			return;
+		}
+
 		synchronized (this) {
 			if (updateThread != null) {
 				cancelUpdate = true;
@@ -58,26 +65,39 @@ public class DensityDraw {
 
 				@Override
 				public void run() {
-					BufferedImage img = updateImage();
-					if (img != null) {
-						synchronized (DensityDraw.this) {
-							DensityDraw.this.imgOther = DensityDraw.this.img;
-							DensityDraw.this.img = img;
+					try {
+						BufferedImage img = updateImage();
+						if (img != null) {
+							synchronized (DensityDraw.this) {
+								DensityDraw.this.imgOther = DensityDraw.this.img;
+								DensityDraw.this.img = img;
+							}
+
+							SwingUtilities.invokeLater(new Runnable() {
+
+								@Override
+								public void run() {
+									finishListener.actionPerformed(new ActionEvent(this, 0, "repaint"));
+								}
+							});
 						}
 
+						updateThread = null;
+						synchronized (DensityDraw.this) {
+							// notify the waiting thread
+							DensityDraw.this.notifyAll();
+
+						}
+					} catch (Exception e) {
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override
 							public void run() {
-								finishListener.actionPerformed(new ActionEvent(this, 0, "repaint"));
+								finishListener.actionPerformed(new ActionEvent(this, 2, "failed"));
 							}
 						});
-					}
 
-					updateThread = null;
-					synchronized (DensityDraw.this) {
-						// notify the waiting thread
-						DensityDraw.this.notifyAll();
+						System.out.println("DensityDraw: " + e.getMessage());
 					}
 				}
 			});
@@ -85,7 +105,7 @@ public class DensityDraw {
 		}
 	}
 
-	private BufferedImage updateImage() {
+	private BufferedImage updateImage() throws ParseException {
 		long startTime = System.currentTimeMillis();
 
 		BufferedImage img;
@@ -149,15 +169,10 @@ public class DensityDraw {
 		return img;
 	}
 
-	private double valueFor(int x, int y) {
-		try {
-			parser.setVar("x", x);
-			parser.setVar("y", y);
-			return parser.evaluate();
-		} catch (ParseException e) {
-			Errorhandler.showError(e, "Formel fehler");
-		}
-		return 0;
+	private double valueFor(int x, int y) throws ParseException {
+		parser.setVar("x", x);
+		parser.setVar("y", y);
+		return parser.evaluate();
 	}
 
 	public BufferedImage getImage() {
