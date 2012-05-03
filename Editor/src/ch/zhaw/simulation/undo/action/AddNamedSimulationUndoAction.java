@@ -50,11 +50,11 @@ public class AddNamedSimulationUndoAction extends AbstractUndoableEdit {
 
 	@Override
 	public String getRedoPresentationName() {
-		return "Widerherstellen " + getName();
+		return "Widerherstellen «" + getName() + "»";
 	}
 
 	@Override
 	public String getUndoPresentationName() {
-		return "Lösche " + getName();
+		return "Lösche «" + getName() + "»";
 	}
 }

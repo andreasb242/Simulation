@@ -18,8 +18,8 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 	private FlowEditorControl control;
 	private Vector<InfiniteData> removedInfinite;
 
-	public DeleteUndoAction(Vector<AbstractNamedSimulationData> removedObjects, Vector<AbstractConnectorData<?>> removedConnectors, Vector<InfiniteData> removedInfinite,
-			FlowEditorControl control) {
+	public DeleteUndoAction(Vector<AbstractNamedSimulationData> removedObjects, Vector<AbstractConnectorData<?>> removedConnectors,
+			Vector<InfiniteData> removedInfinite, FlowEditorControl control) {
 		this.removedObjects = removedObjects;
 		this.removedConnectors = removedConnectors;
 		this.removedInfinite = removedInfinite;
@@ -103,12 +103,12 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 
 	@Override
 	public String getRedoPresentationName() {
-		return "Löschen: " + getNames();
+		return "Löschen: «" + getNames() + "»";
 	}
 
 	@Override
 	public String getUndoPresentationName() {
-		return "Widerherstellen: " + getNames();
+		return "Widerherstellen: «" + getNames() + "»";
 	}
 
 }

@@ -11,10 +11,6 @@ public class SubmodelHandler {
 	}
 
 	public void fireItemSelected(SubModel submodel) {
-		if (submodel == null) {
-			throw new NullPointerException("submodel == null");
-		}
-
 		for (SubModelSelectionListener l : this.listener) {
 			l.subModelSelected(submodel);
 		}
