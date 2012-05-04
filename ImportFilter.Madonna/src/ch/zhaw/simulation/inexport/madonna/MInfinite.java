@@ -3,14 +3,13 @@ package ch.zhaw.simulation.inexport.madonna;
 import java.awt.Point;
 
 /**
- * A Textfiled
+ * An infinite Element
  * 
  * @author Andreas Butti
  */
-public class MText extends MadonnaElement {
+public class MInfinite extends MadonnaElement {
 
-	public MText(Point pos) {
+	public MInfinite(Point pos) {
 		super(pos);
 	}
-
 }

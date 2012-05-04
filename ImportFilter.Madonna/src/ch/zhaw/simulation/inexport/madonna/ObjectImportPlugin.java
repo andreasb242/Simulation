@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.inexport.madonna;
 
-
 import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,12 +9,16 @@ import ch.zhaw.simulation.inexport.ImportPlugin;
 
 import butti.javalibs.errorhandler.Errorhandler;
 
+/**
+ * Baseclass for IO Reading
+ * 
+ * @author Andreas Butti
+ */
 public abstract class ObjectImportPlugin extends ImportPlugin {
+	private ObjectInputStream oi;
 
 	public ObjectImportPlugin() {
 	}
-
-	private ObjectInputStream oi;
 
 	protected void initObjectInputStream(PushbackInputStream in) throws IOException {
 		oi = new ObjectInputStream(in);

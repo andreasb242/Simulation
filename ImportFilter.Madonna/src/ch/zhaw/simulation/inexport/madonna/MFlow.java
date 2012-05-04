@@ -1,11 +1,29 @@
 package ch.zhaw.simulation.inexport.madonna;
 
-import java.awt.Point;
+/**
+ * A flow element
+ * 
+ * @author Andreas Butti
+ */
+public class MFlow extends MadonnaElement {
+	/**
+	 * The from / to fileintern IDs
+	 */
+	private int fromId;
+	private int toId;
 
-public class MFlow extends MadonnaFormulaElement {
+	public MFlow(int fromId, int toId) {
+		super(null);
 
-	public MFlow(String name, Point pos, String formula) {
-		super(name, pos, formula);
+		this.fromId = fromId;
+		this.toId = toId;
 	}
 
+	public int getFromId() {
+		return fromId;
+	}
+
+	public int getToId() {
+		return toId;
+	}
 }
