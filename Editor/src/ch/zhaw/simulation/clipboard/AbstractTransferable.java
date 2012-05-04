@@ -24,6 +24,16 @@ public abstract class AbstractTransferable<T extends AbstractClipboardData<?, ?>
 	protected T data;
 
 	public interface TransferDataTransformer {
+		/**
+		 * Transforms the data to a TransferData, or returns
+		 * <code>null</null> if there is nothing to copy to clipboard
+		 * 
+		 * @param s
+		 *            GuiElement
+		 * @param data
+		 *            Data (Model)
+		 * @return The new created TransferData
+		 */
 		public TransferData transform(SelectableElement<?> s, Object data);
 	}
 
@@ -68,7 +78,7 @@ public abstract class AbstractTransferable<T extends AbstractClipboardData<?, ?>
 				continue;
 			}
 			if (!addCopy(s, s.getData())) {
-				throw new RuntimeException("Class not handled in copy / paste: " + s.getClass().getName());
+				throw new RuntimeException("Class not handled in copy / paste: " + s.getData().getClass().getName());
 			}
 		}
 	}
@@ -89,7 +99,10 @@ public abstract class AbstractTransferable<T extends AbstractClipboardData<?, ?>
 			return false;
 		}
 
-		this.data.add(transformer.transform(s, data));
+		TransferData d = transformer.transform(s, data);
+		if (d != null) {
+			this.data.add(d);
+		}
 
 		return true;
 	}

@@ -10,4 +10,5 @@ public interface ClipboardData {
 	 *         because its the wrong data for this model
 	 */
 	public boolean addToModel(AbstractEditorControl<?> control);
+
 }

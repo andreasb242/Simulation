@@ -147,6 +147,13 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	}
 
 	/**
+	 * Returns the paste ofset, so each pasted elements are moved a little bit more, so you see there are multiple elements
+	 */
+	public int getPasteOffset() {
+		return 10;
+	}
+	
+	/**
 	 * Deletes the current selected elements
 	 */
 	public void deleteSelected() {
