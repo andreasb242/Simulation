@@ -31,7 +31,7 @@ import butti.javalibs.config.Settings;
  * @author Andreas Butti
  * 
  */
-public class DynasisImportPlugin extends BinaryImportPlugin {
+public class DynasysImportPlugin extends BinaryImportPlugin {
 	private String name;
 	private String formula;
 	private Point pos;
@@ -49,7 +49,7 @@ public class DynasisImportPlugin extends BinaryImportPlugin {
 	
 	private Settings settings;
 
-	public DynasisImportPlugin() {
+	public DynasysImportPlugin() {
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class DynasisImportPlugin extends BinaryImportPlugin {
 		openFile(file);
 		// 3035401 (4 Byte) "Magic bytes"
 		if (!checkFile(null)) {
-			throw new ImportException("Kein Dynasis File!");
+			throw new ImportException("Kein Dynasys File!");
 		}
 
 		int count = readInt();

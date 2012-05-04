@@ -12,7 +12,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Dynasis"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Dynasys"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Madonna"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>

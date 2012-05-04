@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<class>ch.zhaw.simulation.inexport.dynasys.DynasisImportPlugin</class>
-	<name>DynasisImport</name>
-	<description>Dynasis import filter, supports most Dynasis files</description>
-	<author>Andreas Butti</author>
-</plugin>

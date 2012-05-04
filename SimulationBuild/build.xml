@@ -74,12 +74,12 @@
 		</copy>
 
 
-		<ant antfile="../ImportFilter.Dynasis/build.xml" target="jar" useNativeBasedir="true">
+		<ant antfile="../ImportFilter.Dynasys/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/ImportFilter.Dynasis" />
+			<property name="build" value="${build}/ImportFilter.Dynasys" />
 		</ant>
 		<copy todir="${build}/distrib/plugin/import">
-			<fileset dir="${build}/ImportFilter.Dynasis">
+			<fileset dir="${build}/ImportFilter.Dynasys">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
