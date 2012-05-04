@@ -7,11 +7,10 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
-import ch.zhaw.simulation.model.flow.connection.FlowConnectorData.ConnectorDeletedListener;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-public class FlowValveElement extends GuiDataTextElement<FlowValveData> implements ConnectorDeletedListener {
+public class FlowValveElement extends GuiDataTextElement<FlowValveData> {
 	private static final long serialVersionUID = 1L;
 	private int size;
 	private GuiConfig config;
@@ -27,8 +26,6 @@ public class FlowValveElement extends GuiDataTextElement<FlowValveData> implemen
 
 		textY = 30;
 		questionmarkY = 45;
-
-		connector.addConnectorDeletedListener(this);
 
 		this.connector = connector;
 
@@ -46,11 +43,11 @@ public class FlowValveElement extends GuiDataTextElement<FlowValveData> implemen
 	}
 
 	@Override
-	public void connectorDeleted() {
-		connector.removeConnectorDeletedListener(this);
+	public void dispose() {
 		connector = null;
 		config = null;
 		image = null;
+
 		super.dispose();
 	}
 
