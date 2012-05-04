@@ -35,7 +35,7 @@ public class LayoutUndoAction extends AbstractUndoableEdit {
 
 	@Override
 	public String getRedoPresentationName() {
-		return "Ausrichten: " + name;
+		return "Ausrichten «" + name + "»";
 	}
 
 	@Override

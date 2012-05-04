@@ -27,7 +27,9 @@ import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.model.xy.SubModelList;
+import ch.zhaw.simulation.model.xy.SubModelListener;
 import ch.zhaw.simulation.undo.action.xy.DeleteUndoAction;
+import ch.zhaw.simulation.undo.action.xy.SubModelCreateUndoAction;
 import ch.zhaw.simulation.xy.util.ColorIcon;
 
 public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
@@ -37,7 +39,32 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 	private SubmodelHandler submodelHandler = new SubmodelHandler();
 
 	private Autoparser autoparser;
-	
+
+	SubModelListener subModelListener = new SubModelListener() {
+
+		@Override
+		public void submodelRemoved(SubModel model) {
+			if (getView().getCurrentSelectedSubmodel() == model) {
+				SubModelList subm = XYEditorControl.this.model.getSubmodels();
+
+				if (subm.getSize() == 0) {
+					submodelHandler.fireItemSelected(null);
+				} else {
+					submodelHandler.fireItemSelected(subm.getModel(subm.getSize() - 1));
+				}
+			}
+		}
+
+		@Override
+		public void submodelChanged(SubModel model) {
+		}
+
+		@Override
+		public void submodelAdded(SubModel model) {
+			submodelHandler.fireItemSelected(model);
+		}
+	};
+
 	public XYEditorControl(SimulationApplication app, SimulationDocument doc, SimulationXYModel model, JFrame parent, Settings settings) {
 		super(parent, settings, app, doc, model);
 
@@ -45,6 +72,8 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 		if (model.getWidth() == 0) {
 			getDefaultSettings().load(model);
 		}
+
+		model.getSubmodels().addListener(subModelListener);
 	}
 
 	private XYDefaultSettingsHandler getDefaultSettings() {
@@ -201,7 +230,8 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			public void actionPerformed(ActionEvent e) {
 				SubModel sub = new SubModel();
 				m.addModel(sub);
-				submodelHandler.fireItemSelected(sub);
+
+				getUndoManager().addEdit(new SubModelCreateUndoAction(sub, XYEditorControl.this));
 			}
 		});
 
@@ -214,5 +244,12 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 		dlg.setVisible(true);
 
 		dlg.dispose();
+	}
+
+	@Override
+	public void dispose() {
+		model.getSubmodels().removeListener(subModelListener);
+
+		super.dispose();
 	}
 }

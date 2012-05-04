@@ -281,10 +281,21 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 					range.addPoint(sel.getX(), sel.getY());
 					range.addPoint(sel.getX() + sel.getWidth(), sel.getY() + sel.getHeight());
 				}
+
+				addElementToRange(range, con.getData().getSource());
+				addElementToRange(range, con.getData().getTarget());
 			}
 		}
 
 		repaint(range.getX(), range.getY(), range.getWidth(), range.getHeight());
+	}
+
+	private void addElementToRange(ExtendableRange range, AbstractSimulationData obj) {
+		AbstractDataView<?> c = findGuiComponent(obj);
+		if (c == null) {
+			return;
+		}
+		range.addRect(c.getBounds());
 	}
 
 	@Override

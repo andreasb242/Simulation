@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.toolbar.xy;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
@@ -19,7 +20,7 @@ public class XYToolbar extends AbstractToolbar implements SubModelSelectionListe
 
 	private MesoImage mesoimg;
 	private ToolbarButton mesoToolbarAction;
-	
+
 	public XYToolbar(Sysintegration sys, boolean mainToolbar) {
 		super(sys, mainToolbar);
 	}
@@ -49,7 +50,11 @@ public class XYToolbar extends AbstractToolbar implements SubModelSelectionListe
 
 	@Override
 	public void subModelSelected(SubModel submodel) {
-		mesoimg.setColor(submodel.getColor());
+		if (submodel != null) {
+			mesoimg.setColor(submodel.getColor());
+		} else {
+			mesoimg.setColor(Color.WHITE);
+		}
 		ImageIcon mesoIcon = addShadow(GuiImage.drawToImage(mesoimg));
 		mesoToolbarAction.setIcon(mesoIcon);
 	}

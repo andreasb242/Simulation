@@ -26,7 +26,7 @@ public class DensityEditorDialog extends BDialog {
 
 		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosed(WindowEvent e) {
+			public void windowClosing(WindowEvent e) {
 				editor.saveContents();
 				editor.unselecet();
 			}

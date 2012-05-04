@@ -114,7 +114,7 @@ public class MoveConfigurationField extends SingleConfigurationField {
 		JLabel lbValue = new JLabel("Ableitung");
 
 		/**
-		 * Turn of Eclipse Formater...
+		 * Turn of Eclipse Formatter...
 		 * 
 		 * Menu Window / Preferences Java / Code Style / Formatter: [Edit], Tab
 		 * "Off/On Tags"

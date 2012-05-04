@@ -70,12 +70,12 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 
 	@Override
 	public String getRedoPresentationName() {
-		return "Löschen: " + getNames();
+		return "Löschen «" + getNames() + "»";
 	}
 
 	@Override
 	public String getUndoPresentationName() {
-		return "Widerherstellen: " + getNames();
+		return "Widerherstellen «" + getNames() + "»";
 	}
 
 }

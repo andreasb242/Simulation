@@ -110,6 +110,10 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 		flowControl = null;
 		connector = null;
 		valve = null;
+		
+		connector1.dispose();
+		connector2.dispose();
+		
 		connector1 = null;
 		connector2 = null;
 	}

@@ -1,25 +1,29 @@
 package ch.zhaw.simulation.window.sidebar.config;
 
+import java.awt.Container;
 import java.util.Collections;
 import java.util.Vector;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.JPanel;
+import javax.swing.undo.UndoManager;
 
 import org.jdesktop.swingx.JXTaskPane;
 
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
-import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 
-public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationModel<?>> extends JXTaskPane implements SelectionListener, SidebarPosition {
+public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationModel<?>, C extends AbstractEditorControl<M>> extends JXTaskPane implements
+		SelectionListener, SidebarPosition {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -43,6 +47,16 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	private M model;
 
 	/**
+	 * The editor controller
+	 */
+	private C control;
+
+	/**
+	 * Undo / redo manager
+	 */
+	private UndoManager undo;
+
+	/**
 	 * The listener to handle the events
 	 */
 	private SidebarActionListener listener = new SidebarActionListener() {
@@ -54,10 +68,6 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 				showFormulaEditor((NamedFormulaData) data);
 				break;
 
-			case FIRE_SIMULATION_OBJECT_CHANGED:
-				model.fireObjectChanged((AbstractSimulationData) data);
-				break;
-
 			default:
 				throw new RuntimeException("SidebarAction not handled: " + action);
 			}
@@ -65,9 +75,11 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 
 	};
 
-	public ConfigurationSidebarPanel(M model, SelectionModel selectionModel) {
+	public ConfigurationSidebarPanel(M model, SelectionModel selectionModel, UndoManager undo, C control) {
 		this.selectionModel = selectionModel;
 		this.model = model;
+		this.undo = undo;
+		this.control = control;
 
 		if (selectionModel == null) {
 			throw new NullPointerException("selectionModel == null");
@@ -97,6 +109,14 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 		return model;
 	}
 
+	public C getControl() {
+		return control;
+	}
+
+	public UndoManager getUndo() {
+		return undo;
+	}
+
 	private void initConfigurationFiels() {
 		Collections.sort(this.fields);
 
@@ -119,7 +139,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	 * <code>super.istanceConfigurationFields();</code>
 	 */
 	protected void instanceConfigurationFields() {
-		addConfigurationField(new NameConfigurationField());
+		addConfigurationField(new NameConfigurationField(this.getUndo(), this.model));
 		addConfigurationField(new FormulaConfigurationField());
 	}
 
@@ -144,7 +164,9 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	 * @param data
 	 *            The data to edit
 	 */
-	public abstract void showFormulaEditor(NamedFormulaData data);
+	public void showFormulaEditor(NamedFormulaData data) {
+		control.showFormulaEditor(data);
+	}
 
 	@Override
 	public void selectionChanged() {
@@ -165,6 +187,16 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 			dataSelected(selectedData.get(0));
 		} else {
 			dataSelected(selectedData.toArray(new AbstractNamedSimulationData[] {}));
+		}
+
+		// force relayouting, else the sidebar is e.g. to small or to big
+		Container p = getParent();
+		for (int i = 0; i < 4 && p != null; i++) {
+			p = p.getParent();
+		}
+
+		if (p != null && p instanceof JPanel) {
+			((JPanel) p).revalidate();
 		}
 	}
 

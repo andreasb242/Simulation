@@ -2,6 +2,7 @@ package ch.zhaw.simulation.window.xy.sidebar.config;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Vector;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -9,23 +10,29 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.undo.UndoManager;
 
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
+import ch.zhaw.simulation.undo.action.xy.SubModelAssignUndoAction;
 import ch.zhaw.simulation.window.sidebar.config.MultipleConfigurationField;
 import ch.zhaw.simulation.window.xy.sidebar.SubmodelComboboxModel;
 
 public class SubmodelConfigurationField extends MultipleConfigurationField {
 	private JComboBox cbSubmodel;
 
+	private boolean submodelComboboxChanging = false;
+
 	private Object lastSelectedObject;
 
 	private SimulationXYModel model;
+	private UndoManager undo;
 
-	public SubmodelConfigurationField(SimulationXYModel model) {
+	public SubmodelConfigurationField(SimulationXYModel model, UndoManager undo) {
 		this.model = model;
+		this.undo = undo;
 	}
 
 	@Override
@@ -43,6 +50,11 @@ public class SubmodelConfigurationField extends MultipleConfigurationField {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				// ignor our own events
+				if (submodelComboboxChanging) {
+					return;
+				}
+
 				if (ItemEvent.SELECTED == e.getStateChange()) {
 					if (cbSubmodel.getSelectedItem() != lastSelectedObject) {
 						lastSelectedObject = cbSubmodel.getSelectedItem();
@@ -81,15 +93,16 @@ public class SubmodelConfigurationField extends MultipleConfigurationField {
 			}
 		}
 
+		submodelComboboxChanging = true;
 		cbSubmodel.setSelectedItem(selected);
+		submodelComboboxChanging = false;
 	}
 
 	protected void setSubmodel(SubModel submodel) {
-		for (AbstractNamedSimulationData d : getData()) {
-			MesoData m = (MesoData) d;
+		Vector<AbstractNamedSimulationData> data = getData();
 
-			m.setSubmodel(submodel);
-			fireDataChanged(m);
+		if (data.size() != 0) {
+			undo.addEdit(new SubModelAssignUndoAction(getData(), submodel, model));
 		}
 	}
 }

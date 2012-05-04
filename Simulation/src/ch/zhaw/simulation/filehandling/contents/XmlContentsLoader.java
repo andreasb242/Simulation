@@ -12,6 +12,7 @@ import ch.zhaw.simulation.filehandling.XmlHelper;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 
+
 public class XmlContentsLoader implements XmlContentsNames {
 
 	public XmlContentsLoader() {

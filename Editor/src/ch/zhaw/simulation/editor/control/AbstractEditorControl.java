@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 
 import butti.javalibs.config.Settings;
+import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.editor.status.StatusLabelHandler;
@@ -35,6 +36,7 @@ import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
+import ch.zhaw.simulation.undo.action.FormulaChangeUndoAction;
 
 /**
  * The controler of a model editor
@@ -232,12 +234,22 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	}
 
 	public void showFormulaEditor(NamedFormulaData data) {
+		String oldFormula = data.getFormula();
+		
 		if (formulaEditor == null) {
 			formulaEditor = new FormularEditorDialog(parent, getSysintegration(), getModel());
 		}
 
 		formulaEditor.setData(data);
 		formulaEditor.setVisible(true);
+		
+		formulaEditor.unselect();
+		
+		
+		String newFormula = data.getFormula();
+		if (!StringUtil.equals(oldFormula, newFormula)) {
+			getUndoManager().addEdit(new FormulaChangeUndoAction(data, oldFormula, newFormula, model));
+		}
 	}
 
 	/**
