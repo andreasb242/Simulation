@@ -44,8 +44,8 @@ public class MesoData extends AbstractNamedSimulationData {
 
 	// Formula for X and Y direction
 
-	private MesoDataFormula dataX = new MesoDataFormula();
-	private MesoDataFormula dataY = new MesoDataFormula();
+	private MesoDataFormula dataX = new MesoDataFormula(":X");
+	private MesoDataFormula dataY = new MesoDataFormula(":Y");
 
 	public MesoData(int x, int y) {
 		super(x, y);
@@ -129,10 +129,15 @@ public class MesoData extends AbstractNamedSimulationData {
 		private String formula = "";
 		private Status status;
 		private String statusText;
+		private String nameSuffix;
+
+		public MesoDataFormula(String nameSuffix) {
+			this.nameSuffix = nameSuffix;
+		}
 
 		@Override
 		public String getName() {
-			return MesoData.this.getName();
+			return MesoData.this.getName() + nameSuffix;
 		}
 
 		@Override

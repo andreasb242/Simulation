@@ -13,6 +13,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.undo.UndoManager;
 
 import butti.javalibs.util.ColorConstants;
+import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -67,7 +68,9 @@ public class NameConfigurationField extends SingleConfigurationField {
 		if (nameChecker.checkName(name)) {
 			txtName.setBackground(defaultBackground);
 
-			undo.addEdit(new NameChangeUndoAction(getData(), getData().getName(), name, model));
+			if (!StringUtil.equals(getData().getName(), name)) {
+				undo.addEdit(new NameChangeUndoAction(getData(), getData().getName(), name, model));
+			}
 		} else {
 			txtName.setBackground(ColorConstants.ERROR_COLOR);
 		}

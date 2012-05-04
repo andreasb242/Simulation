@@ -35,11 +35,16 @@ public class FormularEditorDialog extends BDialog {
 
 		});
 		setLocationRelativeTo(parent);
+		setModal(true);
 	}
 
 	public void setData(NamedFormulaData data) {
 		setTitle(data.getName());
 		editor.setData(data);
+	}
+	
+	public void unselect() {
+		editor.unselect();
 	}
 
 	public void setTitle(String title) {
