@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AppDefinition/AppDefinition.iml" filepath="$PROJECT_DIR$/AppDefinition/AppDefinition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../BJavalibs/BJavalibs/BJavalibs/BJavalibs.iml" filepath="$PROJECT_DIR$/../BJavalibs/BJavalibs/BJavalibs/BJavalibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ColorTester/ColorTester.iml" filepath="$PROJECT_DIR$/ColorTester/ColorTester.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../BJavalibs/DirChooser/DirChooser/DirChooser.iml" filepath="$PROJECT_DIR$/../BJavalibs/DirChooser/DirChooser/DirChooser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Editor/Editor.iml" filepath="$PROJECT_DIR$/Editor/Editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Editor.Flow/Editor.Flow.iml" filepath="$PROJECT_DIR$/Editor.Flow/Editor.Flow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Editor.XY/Editor.XY.iml" filepath="$PROJECT_DIR$/Editor.XY/Editor.XY.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EditorWindow/EditorWindow.iml" filepath="$PROJECT_DIR$/EditorWindow/EditorWindow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ExternLibraries/ExternLibraries.iml" filepath="$PROJECT_DIR$/ExternLibraries/ExternLibraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelpBrowser/HelpBrowser.iml" filepath="$PROJECT_DIR$/HelpBrowser/HelpBrowser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HtmlEditor/HtmlEditor.iml" filepath="$PROJECT_DIR$/HtmlEditor/HtmlEditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImportFilter/ImportFilter.iml" filepath="$PROJECT_DIR$/ImportFilter/ImportFilter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImportFilter.Dynasis/ImportFilter.Dynasys.iml" filepath="$PROJECT_DIR$/ImportFilter.Dynasis/ImportFilter.Dynasys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImportFilter.Madonna/ImportFilter.Madonna.iml" filepath="$PROJECT_DIR$/ImportFilter.Madonna/ImportFilter.Madonna.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Model/Model.iml" filepath="$PROJECT_DIR$/Model/Model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NetbeansDirchooser/NetbeansDirchooser.iml" filepath="$PROJECT_DIR$/NetbeansDirchooser/NetbeansDirchooser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugin/Plugin.iml" filepath="$PROJECT_DIR$/Plugin/Plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Simulation/Simulation.iml" filepath="$PROJECT_DIR$/Simulation/Simulation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimulationBuild/SimulationBuild.iml" filepath="$PROJECT_DIR$/SimulationBuild/SimulationBuild.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimulationDiagram/SimulationDiagram.iml" filepath="$PROJECT_DIR$/SimulationDiagram/SimulationDiagram.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimulationJepLib-2.4.1/SimulationJepLib-2.4.1.iml" filepath="$PROJECT_DIR$/SimulationJepLib-2.4.1/SimulationJepLib-2.4.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimulationPlugin/SimulationPlugin.iml" filepath="$PROJECT_DIR$/SimulationPlugin/SimulationPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimulationPlugin.Intern/SimulationPlugin.Intern.iml" filepath="$PROJECT_DIR$/SimulationPlugin.Intern/SimulationPlugin.Intern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/SimulationPlugin.MatlabOctave.iml" filepath="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/SimulationPlugin.MatlabOctave.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimulationSidebar/SimulationSidebar.iml" filepath="$PROJECT_DIR$/SimulationSidebar/SimulationSidebar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sysintegration/Sysintegration.iml" filepath="$PROJECT_DIR$/Sysintegration/Sysintegration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VectorExport/VectorExport.iml" filepath="$PROJECT_DIR$/VectorExport/VectorExport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XYResultViewer/XYResultViewer.iml" filepath="$PROJECT_DIR$/XYResultViewer/XYResultViewer.iml" />
+    </modules>
+  </component>
+</project>
+
