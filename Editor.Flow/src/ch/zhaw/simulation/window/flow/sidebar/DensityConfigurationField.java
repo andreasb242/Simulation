@@ -60,13 +60,12 @@ public class DensityConfigurationField extends SingleConfigurationField {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: richtig behandeln!!!
-				/*
 				DensityData d = (DensityData) cbDensity.getSelectedItem();
 				SimulationDensityContainerData dc = (SimulationDensityContainerData) getData();
-				dc.setDensity(d);
-				model.fireObjectChanged(dc);
-				*/
+				if (dc != null) {
+					dc.setDensity(d);
+					model.fireObjectChanged(dc);
+				}
 			}
 		});
 	}
