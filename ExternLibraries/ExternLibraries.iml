@@ -3,6 +3,7 @@
   <component name="EclipseModuleManager">
     <libelement value="jar://$MODULE_DIR$/lib/svgSalamander.jar!/" />
     <libelement value="jar://$MODULE_DIR$/lib/swingx-1.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jxlayer-3.0.4.jar!/" />
     <src_description expected_position="0">
       <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
     </src_description>
@@ -16,15 +17,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="JavaSE-1.6" jdkType="JavaSDK" />
     <orderEntry type="module-library" exported="">
-      <library name="svgSalamander.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/svgSalamander.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="swingx-1.6.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/swingx-1.6.jar!/" />
@@ -36,12 +28,14 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library>
+      <library name="jxlayer-3.0.4.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/jxlayer-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/jxlayer-3.0.4-sources.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <javadoc-paths>
