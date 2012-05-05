@@ -90,6 +90,15 @@ public class FlowTransferable extends AbstractTransferable<FlowClipboardData> {
 				return new TransferData(d.getId(), d.getX(), d.getY(), Type.Flow, d.getName(), d.getFormula(), source, target, null);
 			}
 		}, FlowValveData.class);
+		
+		// we don't need this, because FlowValveData handle this for us
+		registerTransformer(new TransferDataTransformer() {
+
+			@Override
+			public TransferData transform(SelectableElement<?> s, Object data) {
+				return null;
+			}
+		}, FlowConnectorData.class);
 
 		registerTransformer(new TransferDataTransformer() {
 

@@ -2,9 +2,8 @@ package ch.zhaw.simulation.inexport.dynasys;
 
 import butti.javalibs.config.Settings;
 
-
 /**
- * Dynasis Konfiguration
+ * Dynasys Konfiguration
  * 
  * @author Andreas Butti
  */

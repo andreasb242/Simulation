@@ -2,8 +2,15 @@ package ch.zhaw.simulation.inexport.madonna;
 
 import java.awt.Point;
 
+/**
+ * An Connector
+ * 
+ * @author Andreas Butti
+ */
 public class MConnector extends MadonnaElement {
-
+	/**
+	 * The from / to fileintern IDs
+	 */
 	private int fromId;
 	private int toId;
 

@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.inexport.dynasys;
 
-
 import java.awt.Rectangle;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -13,6 +12,12 @@ import java.io.InputStream;
 
 import ch.zhaw.simulation.inexport.ImportPlugin;
 
+
+/**
+ * This is the baseclass for IO reading of the Dynasys File
+ * 
+ * @author Andreas Butti
+ */
 public abstract class BinaryImportPlugin extends ImportPlugin {
 	protected InputStream in;
 

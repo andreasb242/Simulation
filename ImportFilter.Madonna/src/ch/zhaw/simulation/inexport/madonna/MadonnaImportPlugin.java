@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.inexport.madonna;
 
-
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -15,7 +14,13 @@ import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 
-
+/**
+ * @see AbstractMadonnaImportPlugin
+ * 
+ *      This is the Converter from Madonna to (AB)² Simulation
+ * 
+ * @author Andreas Butti
+ */
 public class MadonnaImportPlugin extends AbstractMadonnaImportPlugin {
 	private HashMap<Integer, AbstractNamedSimulationData> data2 = new HashMap<Integer, AbstractNamedSimulationData>();
 
@@ -39,8 +44,8 @@ public class MadonnaImportPlugin extends AbstractMadonnaImportPlugin {
 
 				model.addData(c);
 				data2.put(id, c);
-			} else if (d instanceof MFormula) {
-				MFormula e = (MFormula) d;
+			} else if (d instanceof MParameter) {
+				MParameter e = (MParameter) d;
 
 				SimulationParameterData c = new SimulationParameterData(e.getPos().x, e.getPos().y);
 
@@ -53,17 +58,15 @@ public class MadonnaImportPlugin extends AbstractMadonnaImportPlugin {
 		}
 
 		// Handle flows
-
 		for (Entry<Integer, MadonnaElement> d : data.entrySet()) {
-			if (d.getValue() instanceof MFlow) {
-				MFlow e = (MFlow) d.getValue();
+			if (d.getValue() instanceof MValve) {
+				MValve e = (MValve) d.getValue();
 
 				handleFlow(e, model, d.getKey());
 			}
 		}
 
 		// Handle Parameter
-
 		for (Entry<Integer, MadonnaElement> d : data.entrySet()) {
 			if (d.getValue() instanceof MConnector) {
 				MConnector e = (MConnector) d.getValue();
@@ -93,13 +96,13 @@ public class MadonnaImportPlugin extends AbstractMadonnaImportPlugin {
 		model.addConnector(c);
 	}
 
-	private void handleFlow(MFlow f, SimulationFlowModel model, int id) throws ImportException {
-		MConnector2 toArrow = null;
-		MConnector2 fromArrow = null;
+	private void handleFlow(MValve f, SimulationFlowModel model, int id) throws ImportException {
+		MFlow toArrow = null;
+		MFlow fromArrow = null;
 
 		for (MadonnaElement e : data.values()) {
-			if (e instanceof MConnector2) {
-				MConnector2 p = (MConnector2) e;
+			if (e instanceof MFlow) {
+				MFlow p = (MFlow) e;
 
 				if (p.getFromId() == id) {
 					if (toArrow != null) {
@@ -146,8 +149,8 @@ public class MadonnaImportPlugin extends AbstractMadonnaImportPlugin {
 	private AbstractSimulationData getValueFor(int id, SimulationFlowModel model) {
 		AbstractNamedSimulationData v = data2.get(id);
 
-		if (v == null && data.get(id) instanceof MCloud) {
-			MCloud c = (MCloud) data.get(id);
+		if (v == null && data.get(id) instanceof MInfinite) {
+			MInfinite c = (MInfinite) data.get(id);
 
 			InfiniteData d = new InfiniteData(c.getPos().x, c.getPos().y);
 			model.addData(d);
