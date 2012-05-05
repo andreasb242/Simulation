@@ -7,7 +7,7 @@ import java.io.IOException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
+import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
 
 /**
  * Euler Code-Generator
@@ -22,7 +22,7 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 	 * @see AbstractCodeGenerator
 	 */
 	@Override
-	public void generateFlowSimulation(SimulationDocument doc) throws IOException {
+	public void generateSimulation(SimulationDocument doc) throws IOException {
 		String outputFile;
 		CodeOutput out;
 
@@ -71,11 +71,6 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 	}
 
 	@Override
-	public void generateXYSimulation(SimulationDocument doc) throws Exception {
-		// TODO: implement method
-	}
-
-	@Override
 	public String getGeneratedFile() {
 		return FILENAME;
 	}
@@ -87,7 +82,7 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 		out.printComment("Container calculations");
 
 		for (SimulationContainerData c : flowModel.getSimulationContainer()) {
-			MatlabAttachment a = (MatlabAttachment) c.attachment;
+			FlowModelAttachment a = (FlowModelAttachment) c.attachment;
 
 			// Only calculate non-constants
 			if (!a.isConst()) {

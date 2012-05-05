@@ -7,7 +7,7 @@ import ch.zhaw.simulation.plugin.StandardParameter;
  * 
  * @author Andreas Bachmann
  */
-public abstract class FixedStepCodeGenerator extends DefaultCodeGenerator {
+public abstract class FixedStepCodeGenerator extends FlowCodeGenerator {
 
 	protected static final String DT = "sim_dt";
 	protected static final String COUNT = "sim_count";

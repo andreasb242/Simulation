@@ -4,12 +4,15 @@ import javax.swing.*;
 
 import butti.javalibs.dirwatcher.DirectoryWatcher;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
+import ch.zhaw.simulation.plugin.matlab.codegen.*;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
 import ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.optimizer.ModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.optimizer.XYModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
+import ch.zhaw.simulation.plugin.matlab.sidebar.NumericMethod;
+import ch.zhaw.simulation.plugin.matlab.sidebar.NumericMethodType;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
@@ -36,7 +39,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public JXTaskPane getConfigurationSidebar() {
+	public DefaultConfigurationSidebar getConfigurationSidebar() {
 		return sidebar;
 	}
 
@@ -45,7 +48,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		this.settings = settings;
 		this.config = config;
 		this.provider = provider;
-		this.sidebar = new MatlabConfigurationSidebar(config);
+		this.sidebar = new MatlabConfigurationSidebar(config, provider.getSimulationType());
 		this.watcher = new DirectoryWatcher(1000);
 		this.finishListener = new MatlabFinishListener(this);
 		this.watcher.addResourceListener(this.finishListener);
@@ -80,17 +83,19 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	@Override
 	public void executeFlowSimulation(SimulationDocument doc) throws Exception {
 		String workpath = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
+		String filename = null;
 
-		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
+		 AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
 		
 		try {
 			finishListener.updateWorkpath(workpath);
 			watcher.start(workpath);
 			provider.getExecutionListener().executionStarted("Simulation läuft...");
-	
+
 			codeGenerator.setWorkingFolder(workpath);
-			codeGenerator.generateFlowSimulation(doc);
-			startApplication(workpath, codeGenerator.getGeneratedFile());
+			codeGenerator.generateSimulation(doc);
+			filename = codeGenerator.getGeneratedFile();
+			startApplication(workpath, filename);
 		} catch (IOException e) {
 			watcher.stop();
 			provider.getExecutionListener().executionFinished();
@@ -100,12 +105,6 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			provider.getExecutionListener().executionFinished();
 			throw e;
 		}
-
-	}
-
-	@Override
-	public void executeXYSimulation(SimulationDocument doc) throws Exception {
-		throw new Exception("not implemented");
 	}
 
 	@Override

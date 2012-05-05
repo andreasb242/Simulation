@@ -37,39 +37,7 @@ public abstract class AbstractCodeGenerator {
 	 *            The model to simulate
 	 * @throws IOException
 	 */
-	public abstract void generateFlowSimulation(SimulationDocument doc) throws Exception;
-
-	public abstract void generateXYSimulation(SimulationDocument doc) throws Exception;
-
-
+	public abstract void generateSimulation(SimulationDocument doc) throws Exception;
 	protected abstract void initSimulation(SimulationDocument doc) throws IOException;
 
-	protected abstract void printHeader(CodeOutput out);
-
-	protected abstract void printPredefinedConstants(CodeOutput out);
-
-
-	/**
-	 * Print out container initialisation
-	 *
-	 * @param out file to write on
-	 */
-	protected abstract void printContainerInitialisation(CodeOutput out);
-
-	/**
-	 * Print out parameter initialisation
-	 *
-	 * @param out file to write on
-	 */
-	protected abstract void printParameterInitialisation(CodeOutput out);
-
-	protected abstract void printOpenFiles(CodeOutput out);
-	protected abstract void printValuesToFile(CodeOutput out);
-	protected abstract void printCloseFiles(CodeOutput out);
-
-	protected abstract void printFlowCalculations(CodeOutput out);
-
-	protected abstract void printContainerCalculations(CodeOutput out);
-	
-	protected abstract void printParameterCalculations(CodeOutput out);
 }

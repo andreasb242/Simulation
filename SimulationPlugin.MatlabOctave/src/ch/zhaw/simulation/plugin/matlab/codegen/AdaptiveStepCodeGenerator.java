@@ -10,21 +10,16 @@ import java.io.FileOutputStream;
 /**
  * @author: bachi
  */
-public abstract class AdaptiveStepCodeGenerator extends DefaultCodeGenerator {
+public abstract class AdaptiveStepCodeGenerator extends FlowCodeGenerator {
 
 	protected static final String FILENAME_MAIN = "simulation_adaptive";
 	protected static final String FILENAME_ODE = "simulation_adaptive_ode";
 
 	@Override
-	public void generateFlowSimulation(SimulationDocument doc) throws Exception {
+	public void generateSimulation(SimulationDocument doc) throws Exception {
 		initSimulation(doc);
 		saveSimulationMain();
 		saveSimulationDifferential();
-	}
-
-	@Override
-	public void generateXYSimulation(SimulationDocument doc) throws Exception {
-		// TODO: implement method
 	}
 
 	@Override

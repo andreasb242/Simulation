@@ -3,6 +3,7 @@ package ch.zhaw.simulation.plugin.sidebar;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import ch.zhaw.simulation.model.SimulationType;
 import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
@@ -14,9 +15,11 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 
 	protected SimulationConfiguration config;
 	protected DefaultConfigurationPane pane;
+	protected SimulationType type;
 
-	public DefaultConfigurationSidebar(SimulationConfiguration config) {
+	public DefaultConfigurationSidebar(SimulationConfiguration config, SimulationType type) {
 		this.config = config;
+		this.type = type;
 		if (config == null) {
 			throw new NullPointerException("config == null");
 		}
@@ -28,6 +31,11 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 	protected void initComponents() {
 		pane = new FixedStepConfigurationPane(this);
 		pane.add();
+	}
+
+	public void updateSidebar(SimulationType type) {
+		this.type = type;
+		initComponents();
 	}
 
 	public SimulationConfiguration getConfig() {

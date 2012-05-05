@@ -7,31 +7,31 @@ import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationPane;
  * @author: bachi
  */
 public class NumericMethod {
-	
-	private String name;
+
+	private NumericMethodType type;
 	private DefaultConfigurationPane pane;
-	private AbstractCodeGenerator codeGenerator;
+	AbstractCodeGenerator codeGenerator;
 	
-	public NumericMethod(String name, DefaultConfigurationPane pane, AbstractCodeGenerator codeGenerator) {
-		this.name = name;
+	public NumericMethod(NumericMethodType type, DefaultConfigurationPane pane, AbstractCodeGenerator codeGenerator) {
+		this.type = type;
 		this.pane = pane;
 		this.codeGenerator = codeGenerator;
 	}
-	
-	public String getName() {
-		return name;
-	}
 
-	public AbstractCodeGenerator getCodeGenerator() {
-		return codeGenerator;
+	public NumericMethodType getType() {
+		return type;
 	}
 
 	public DefaultConfigurationPane getPane() {
 		return pane;
 	}
 
+	public AbstractCodeGenerator getCodeGenerator() {
+		return codeGenerator;
+	}
+
 	@Override
 	public String toString() {
-		return name;
+		return type.toString();
 	}
 }

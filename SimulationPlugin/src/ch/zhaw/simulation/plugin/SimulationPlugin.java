@@ -3,6 +3,7 @@ package ch.zhaw.simulation.plugin;
 import javax.swing.JPanel;
 
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
@@ -27,7 +28,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * 
 	 * This is only called if the plugin is loaded
 	 */
-	public JXTaskPane getConfigurationSidebar();
+	public DefaultConfigurationSidebar getConfigurationSidebar();
 
 	/**
 	 * Initialisiert das Plugin mit den Einstellungen
@@ -56,8 +57,6 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 *             angezeigt
 	 */
 	public void executeFlowSimulation(SimulationDocument doc) throws Exception;
-
-	public void executeXYSimulation(SimulationDocument doc) throws Exception;
 
 	public SimulationCollection getSimulationResults(SimulationDocument doc);
 

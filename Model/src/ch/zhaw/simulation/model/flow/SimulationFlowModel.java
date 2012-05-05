@@ -13,6 +13,7 @@ import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.listener.FlowSimulationAdapter;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
@@ -256,6 +257,17 @@ public class SimulationFlowModel extends AbstractSimulationModel<FlowSimulationL
 			}
 		}
 
+		return containers;
+	}
+
+	public Vector<SimulationDensityContainerData> getSimulationDensityContainer() {
+		Vector<SimulationDensityContainerData> containers = new Vector<SimulationDensityContainerData>();
+
+		for (AbstractSimulationData d : data) {
+			if (d instanceof SimulationDensityContainerData) {
+				containers.add((SimulationDensityContainerData) d);
+			}
+		}
 		return containers;
 	}
 

@@ -17,7 +17,7 @@ import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 
-public class MatlabAttachment implements SimulationAttachment {
+public class FlowModelAttachment implements SimulationAttachment {
 	private Vector<AbstractNamedSimulationData> sources;
 	private ParserNodePair parsed;
 	private Vector<AssigmentPair> assigment = new Vector<AssigmentPair>();
@@ -43,10 +43,16 @@ public class MatlabAttachment implements SimulationAttachment {
 	 */
 	private boolean isConst = false;
 
-	public MatlabAttachment() {
+	public FlowModelAttachment() {
 		super();
 	}
 
+	/**
+	 * Set source (only for connectors)
+	 * ex. parameter --> flow => source: parameter
+	 *
+	 * @param sources
+	 */
 	public void setSources(Vector<AbstractNamedSimulationData> sources) {
 		if (sources == null) {
 			throw new NullPointerException("sources == null");
@@ -60,7 +66,6 @@ public class MatlabAttachment implements SimulationAttachment {
 	 * @param parsed
 	 */
 	public void setParsed(ParserNodePair parsed) {
-		// TODO: stimmt kommentar? oder ist methoden-name semi-optimal gewählt?
 		if (parsed == null) {
 			throw new NullPointerException("parsed == null");
 		}
@@ -102,7 +107,7 @@ public class MatlabAttachment implements SimulationAttachment {
 				}
 			}
 
-			MatlabAttachment x = (MatlabAttachment) a.getSimulationObject().attachment;
+			FlowModelAttachment x = (FlowModelAttachment) a.getSimulationObject().attachment;
 			x.optimizeStatic(model);
 			if (x.getValue() == null) {
 				return;
@@ -112,17 +117,25 @@ public class MatlabAttachment implements SimulationAttachment {
 		value = j.evaluate(formula);
 	}
 
-	// TODO: nicht schon gemacht bei Parser.processEquation() ?
+	/**
+	 * Parse again and simplify formula
+	 * from parsed.nodes (Vector<Node>.lastElement) to formula (Node)
+	 *
+	 * @throws ParseException
+	 */
 	public void optimize() throws ParseException {
 		MatrixJep j = parsed.jep;
 		Node processed = j.preprocess(parsed.nodes.lastElement());
 
 		formula = j.simplify(processed);
 
+		// Constant value (no assigments)
 		if (assigment.size() == 0) {
 			value = j.evaluate(formula);
 			// String s = j.getPrintVisitor().formatValue(value);
 			// System.out.println("Calculated value: " + s);
+
+		// Variable value (assigment-list: every involving variables)
 		} else {
 			// String s = j.getPrintVisitor().formatValue(formula);
 			// System.out.println("Optimized formula: " + s);
@@ -147,7 +160,7 @@ public class MatlabAttachment implements SimulationAttachment {
 				continue;
 			}
 
-			MatlabAttachment a = (MatlabAttachment) ap.getSimulationObject().attachment;
+			FlowModelAttachment a = (FlowModelAttachment) ap.getSimulationObject().attachment;
 			x = Math.max(x, a.calcOrder());
 		}
 
@@ -161,6 +174,7 @@ public class MatlabAttachment implements SimulationAttachment {
 	}
 
 	private void checkAssignNodeTree(Node node) throws VarNotFoundExceptionTmp {
+		// is node variable (not constant)
 		if (node instanceof ASTVarNode) {
 			ASTVarNode a = (ASTVarNode) node;
 
@@ -234,6 +248,10 @@ public class MatlabAttachment implements SimulationAttachment {
 		return bo.toString();
 	}
 
+	/**
+	 * This class is for a chain of simulation-datas to find out, if the ancestor is a constant,
+	 * and for calculation-order purposes
+	 */
 	private static class AssigmentPair {
 		private AbstractNamedSimulationData so;
 
@@ -260,6 +278,9 @@ public class MatlabAttachment implements SimulationAttachment {
 		}
 	}
 
+	/**
+	 * Extends of AssigmentPair to mark as a system-variable
+	 */
 	private static class TimeDtAssigmentPair extends AssigmentPair {
 
 		public TimeDtAssigmentPair() {
