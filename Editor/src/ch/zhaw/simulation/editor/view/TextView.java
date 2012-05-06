@@ -104,7 +104,7 @@ public class TextView extends AbstractDataView<TextData> {
 			paintText();
 		} else {
 			selectionModel.move(dX, dY);
-			getControl().getUndoManager().addEdit(new MoveUndoAction(selectionModel.getSelected(), dX, dY));
+			getControl().getUndoManager().addEdit(new MoveUndoAction(selectionModel.getSelected(), dX, dY, getControl().getView()));
 		}
 	}
 

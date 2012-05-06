@@ -5,14 +5,17 @@ import java.util.Vector;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
+import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
 public class LayoutUndoAction extends AbstractUndoableEdit {
 	private Vector<ElemPoint> moves = new Vector<ElemPoint>();
 	private String name;
+	private AbstractEditorView<?> view;
 
-	public LayoutUndoAction(String name) {
+	public LayoutUndoAction(String name, AbstractEditorView<?> view) {
 		this.name = name;
+		this.view = view;
 	}
 
 	@Override
@@ -48,29 +51,31 @@ public class LayoutUndoAction extends AbstractUndoableEdit {
 
 	public void newPosition(SelectableElement<?> e, int dX, int dY) {
 		e.moveElement(dX, dY);
-		moves.add(new ElemPoint(e, dX, dY));
-	}
-}
-
-class ElemPoint {
-	protected SelectableElement<?> e;
-	private int dX;
-	private int dY;
-
-	protected ElemPoint() {
+		moves.add(new ElemPoint(e.getData(), dX, dY));
 	}
 
-	public ElemPoint(SelectableElement<?> e, int dX, int dY) {
-		this.e = e;
-		this.dX = dX;
-		this.dY = dY;
-	}
+	class ElemPoint {
+		protected Object data;
+		private int dX;
+		private int dY;
 
-	public void move(boolean back) {
-		if (back) {
-			e.moveElement(dX, dY);
-		} else {
-			e.moveElement(-dX, -dY);
+		protected ElemPoint() {
+		}
+
+		public ElemPoint(Object data, int dX, int dY) {
+			this.data = data;
+			this.dX = dX;
+			this.dY = dY;
+		}
+
+		public void move(boolean back) {
+			SelectableElement<?> e = view.findGuiComponentForObj(this.data);
+
+			if (back) {
+				e.moveElement(dX, dY);
+			} else {
+				e.moveElement(-dX, -dY);
+			}
 		}
 	}
 }

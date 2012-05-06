@@ -1,20 +1,18 @@
 package ch.zhaw.simulation.undo.action;
 
-import java.util.Vector;
-
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 
+import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 
-public class MoveUndoAction extends AbstractUndoableEdit {
-	private SelectableElement<?>[] elements;
+public class MoveUndoAction extends PositionUndoAction {
 	private int dX;
 	private int dY;
 
-	public MoveUndoAction(SelectableElement<?>[] elements, int dX, int dY) {
-		this.elements = elements;
+	public MoveUndoAction(SelectableElement<?>[] elements, int dX, int dY, AbstractEditorView<?> view) {
+		super(elements, view);
 		this.dX = dX;
 		this.dY = dY;
 	}
@@ -35,7 +33,7 @@ public class MoveUndoAction extends AbstractUndoableEdit {
 		int dX = this.dX * factor;
 		int dY = this.dY * factor;
 
-		for (SelectableElement<?> e : elements) {
+		for (SelectableElement<?> e : this) {
 			e.moveElement(dX, dY);
 		}
 	}
@@ -44,7 +42,7 @@ public class MoveUndoAction extends AbstractUndoableEdit {
 	public boolean addEdit(UndoableEdit e) {
 		if (e instanceof MoveUndoAction) {
 			MoveUndoAction a = (MoveUndoAction) e;
-			if (equalsElements(a.elements)) {
+			if (equalsElements(a)) {
 				this.dX += a.dX;
 				this.dY += a.dY;
 
@@ -53,21 +51,6 @@ public class MoveUndoAction extends AbstractUndoableEdit {
 
 		}
 		return false;
-	}
-
-	private boolean equalsElements(SelectableElement<?>[] elem) {
-		Vector<SelectableElement<?>> list = new Vector<SelectableElement<?>>();
-		for (SelectableElement<?> e : elem) {
-			list.add(e);
-		}
-
-		for (SelectableElement<?> e : elements) {
-			if (!list.remove(e)) {
-				return false;
-			}
-		}
-
-		return list.size() == 0;
 	}
 
 	@Override

@@ -116,7 +116,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		this.menubar = menubar;
 		this.toolbar = toolbar;
 		this.view = view;
-		this.layouter = new Layouting(view.getControl().getSelectionModel(), view.getUndoHandler());
+		this.layouter = new Layouting(view.getControl().getSelectionModel(), view.getUndoHandler(), view);
 		this.doc = view.getControl().getDoc();
 
 		doc.getSimulationConfiguration().addPluginChangeListener(this);

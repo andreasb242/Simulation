@@ -28,6 +28,12 @@ public abstract class AbstractDataView<T extends AbstractSimulationData> extends
 
 	@Override
 	public void moveElement(int dX, int dY) {
+		// TODO DEBUG
+		if(data == null) {
+			new Exception("Could not move: no data element! class: " + getClass().getName()).printStackTrace();
+			
+			return;
+		}
 		data.move(dX, dY);
 		getModel().fireObjectChanged(data);
 	}

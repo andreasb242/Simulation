@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.editor.layouting;
 
+import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -15,10 +16,12 @@ public class Layouting {
 
 	private SelectionModel selectionModel;
 	private UndoHandler undo;
+	private AbstractEditorView<?> view;
 
-	public Layouting(SelectionModel selectionModel, UndoHandler undo) {
+	public Layouting(SelectionModel selectionModel, UndoHandler undo, AbstractEditorView<?> view) {
 		this.selectionModel = selectionModel;
 		this.undo = undo;
+		this.view = view;
 	}
 
 	public void layoutTop() {
@@ -27,7 +30,7 @@ public class Layouting {
 			return;
 		}
 
-		LayoutUndoAction a = new LayoutUndoAction("Oben");
+		LayoutUndoAction a = new LayoutUndoAction("Oben", view);
 
 		int y = elements[0].getY();
 
@@ -50,7 +53,7 @@ public class Layouting {
 			return;
 		}
 
-		LayoutUndoAction a = new LayoutUndoAction("Rechts");
+		LayoutUndoAction a = new LayoutUndoAction("Rechts", view);
 
 		int x = 0;
 
@@ -73,7 +76,7 @@ public class Layouting {
 			return;
 		}
 
-		LayoutUndoAction a = new LayoutUndoAction("Links");
+		LayoutUndoAction a = new LayoutUndoAction("Links", view);
 
 		int x = elements[0].getX();
 
@@ -96,7 +99,7 @@ public class Layouting {
 			return;
 		}
 
-		LayoutUndoAction a = new LayoutUndoAction("Unten");
+		LayoutUndoAction a = new LayoutUndoAction("Unten", view);
 
 		int y = 0;
 
@@ -119,7 +122,7 @@ public class Layouting {
 			return;
 		}
 
-		LayoutUndoAction a = new LayoutUndoAction("Horizontal zentriert");
+		LayoutUndoAction a = new LayoutUndoAction("Horizontal zentriert", view);
 
 		int x = 0;
 
@@ -142,7 +145,7 @@ public class Layouting {
 			return;
 		}
 
-		LayoutUndoAction a = new LayoutUndoAction("Vertikal zentriert");
+		LayoutUndoAction a = new LayoutUndoAction("Vertikal zentriert", view);
 
 		int y = 0;
 

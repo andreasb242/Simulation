@@ -105,7 +105,7 @@ public abstract class AbstractView<T> extends JComponent implements SelectionLis
 		int dY = (int) p.getY() - lastY;
 		selectionModel.move(dX, dY);
 
-		control.getUndoManager().addEdit(new MoveUndoAction(selectionModel.getSelected(), dX, dY));
+		control.getUndoManager().addEdit(new MoveUndoAction(selectionModel.getSelected(), dX, dY, getControl().getView()));
 	}
 
 	protected void doubleClicked(MouseEvent e) {

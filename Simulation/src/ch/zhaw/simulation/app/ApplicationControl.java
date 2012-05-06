@@ -253,7 +253,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		
 		if(parameter.contains("--debug-undo")) {
 			UndoRedoDebugDialog dlg = new UndoRedoDebugDialog(this.mainFrame.getView().getControl().getUndoManager());
-			dlg.setLocationRelativeTo(null);
 			dlg.setVisible(true);
 		}
 	}

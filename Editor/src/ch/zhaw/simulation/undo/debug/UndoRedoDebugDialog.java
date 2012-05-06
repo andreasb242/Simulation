@@ -4,6 +4,8 @@ import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
+import butti.javalibs.config.WindowPositionSaver;
+
 import ch.zhaw.simulation.undo.UndoHandler;
 
 public class UndoRedoDebugDialog extends JDialog {
@@ -22,6 +24,10 @@ public class UndoRedoDebugDialog extends JDialog {
 		add(new JScrollPane(list));
 		
 		pack();
+		
+		setLocationRelativeTo(null);
+
+		new WindowPositionSaver(this);
 	}
 	
 	

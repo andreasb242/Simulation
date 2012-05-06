@@ -404,6 +404,21 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		return null;
 	}
 
+	/**
+	 * Returns the selectable element for Data Objects, this method is
+	 * overwritten and works also with connectors
+	 * 
+	 * @param o
+	 *            The data object
+	 * @return The SelectableElement
+	 */
+	public SelectableElement<?> findGuiComponentForObj(Object o) {
+		if (!(o instanceof AbstractSimulationData)) {
+			throw new RuntimeException("o is not instanceof AbstractSimulationData");
+		}
+		return findGuiComponent((AbstractSimulationData) o);
+	}
+
 	public UndoHandler getUndoHandler() {
 		return undoHandler;
 	}
@@ -525,8 +540,8 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 			if ("ArrowDragView".equals(c.getClass().getSimpleName())) {
 				continue;
 			}
-			
+
 			export.draw(c);
-		}		
+		}
 	}
 }
