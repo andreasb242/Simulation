@@ -4,9 +4,9 @@ import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.*;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
-import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
+import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
+import ch.zhaw.simulation.plugin.matlab.XYModelAttachment;
 import org.nfunk.jep.ParseException;
 
 import java.util.Vector;
@@ -38,26 +38,16 @@ public class XYModelOptimizer implements ModelOptimizer {
 		for (AbstractSimulationData data : xyModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData namedData = (AbstractNamedSimulationData) data;
-				namedData.attachment = new MatlabAttachment();
+				namedData.attachment = new FlowModelAttachment();
 			}
 		}
 	}
 
 	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException {
-		MatlabAttachment attachment = (MatlabAttachment) namedData.attachment;
+		XYModelAttachment attachment = (XYModelAttachment) namedData.attachment;
 
-		Vector<AbstractNamedSimulationData> sources = xyModel.getSource(namedData);
-		attachment.setSources(sources);
-
-		// Check formula and set attachment to parsed
-		attachment.setParsed(parser.checkCode(namedData.getFormula(), namedData, xyModel, sources, namedData.getName()));
 		try {
-			attachment.assigneSourcesVars();
-		} catch (MatlabAttachment.VarNotFoundExceptionTmp e1) {
-			throw new VarNotFoundException(namedData, e1.getMessage(), e1);
-		}
-		try {
-			attachment.optimize();
+			attachment.optimize(parser.checkCode(namedData.getFormula(), namedData, xyModel, null, namedData.getName()));
 		} catch (ParseException e) {
 			throw new SimulationParserException(namedData, e);
 		}

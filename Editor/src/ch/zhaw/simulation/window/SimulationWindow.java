@@ -260,6 +260,10 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		return toolbar;
 	}
 
+	public ConfigurationSidebarPanel<?, ?> getConfigurationSidebar() {
+		return configurationSidebar;
+	}
+
 	@Override
 	public void pluginChanged(String pluginName) {
 		PluginDescription<SimulationPlugin> pluginDescription = view.getControl().getApp().getManager().getSelectedPluginDescription();

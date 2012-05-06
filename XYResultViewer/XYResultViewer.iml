@@ -8,11 +8,10 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="JavaSE-1.6" jdkType="JavaSDK" />
-    <orderEntry type="module" module-name="BJavalibs" />
-    <orderEntry type="module" module-name="ExternLibraries" />
     <orderEntry type="module" module-name="Model" />
-    <orderEntry type="module" module-name="SimulationPlugin" />
-    <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
+    <orderEntry type="module" module-name="Editor.XY" />
+    <orderEntry type="module" module-name="Sysintegration" />
+    <orderEntry type="module" module-name="Editor" />
   </component>
 </module>
 

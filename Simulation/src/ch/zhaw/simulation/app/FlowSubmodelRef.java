@@ -5,6 +5,8 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.window.flow.FlowWindow;
+import ch.zhaw.simulation.window.flow.sidebar.DensityConfigurationField;
+import ch.zhaw.simulation.window.flow.sidebar.FlowFormulaConfiguration;
 
 public class FlowSubmodelRef {
 
@@ -19,6 +21,10 @@ public class FlowSubmodelRef {
 		app.addListener(control);
 		win.init(control);
 		win.addListener(control);
+
+		FlowFormulaConfiguration flowFormulaConfiguration = (FlowFormulaConfiguration) this.win.getConfigurationSidebar();
+		DensityConfigurationField densityConfigurationField = flowFormulaConfiguration.getDensityConfigurationField();
+		densityConfigurationField.updateDensityComboBox(doc.getXyModel().getDensity());
 	}
 
 	public FlowWindow getWin() {

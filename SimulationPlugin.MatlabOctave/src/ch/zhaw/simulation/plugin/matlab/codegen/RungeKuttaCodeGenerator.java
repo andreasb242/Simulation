@@ -15,15 +15,10 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 	private static final String FILENAME_ODE = "simulation_rk_ode";
 
 	@Override
-	public void generateFlowSimulation(SimulationDocument doc) throws Exception {
+	public void generateSimulation(SimulationDocument doc) throws Exception {
 		initSimulation(doc);
 		saveSimulationMain();
 		saveSimulationDifferential();
-	}
-
-	@Override
-	public void generateXYSimulation(SimulationDocument doc) throws Exception {
-		// TODO: implement method
 	}
 
 	@Override
@@ -53,10 +48,6 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		printButcherTableau(out);
 
 		printInitialValueVector(out);
-
-		out.printComment("Initialize delta matrix");
-		out.println("sim_k = zeros(length(sim_y), 4);");
-		out.newline();
 
 		out.println("sim_count = ceil(sim_end / sim_dt);");
 		out.newline();
@@ -100,10 +91,12 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 
 	@Override
 	protected void printContainerCalculations(CodeOutput out) {
-		out.println("sim_k(:,1) = " + FILENAME_ODE + "(sim_time + sim_c(1), sim_y + sim_dt * sim_k * sim_a(:,1));");
-		out.println("sim_k(:,2) = " + FILENAME_ODE + "(sim_time + sim_c(2), sim_y + sim_dt * sim_k * sim_a(:,2));");
-		out.println("sim_k(:,3) = " + FILENAME_ODE + "(sim_time + sim_c(3), sim_y + sim_dt * sim_k * sim_a(:,3));");
-		out.println("sim_k(:,4) = " + FILENAME_ODE + "(sim_time + sim_c(4), sim_y + sim_dt * sim_k * sim_a(:,4));");
+		out.printComment("Reset intermediate steps");
+		out.println("sim_k = zeros(length(sim_y), 4);");
+		out.println("sim_k(:,1) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(1), sim_y + sim_dt * sim_k * sim_a(:,1));");
+		out.println("sim_k(:,2) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(2), sim_y + sim_dt * sim_k * sim_a(:,2));");
+		out.println("sim_k(:,3) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(3), sim_y + sim_dt * sim_k * sim_a(:,3));");
+		out.println("sim_k(:,4) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(4), sim_y + sim_dt * sim_k * sim_a(:,4));");
 		out.newline();
 		out.printComment("t = t + dt");
 		out.println("sim_time = sim_time + sim_dt;");

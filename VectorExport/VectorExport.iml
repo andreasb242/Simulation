@@ -31,17 +31,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="freehep-graphics2d-2.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/freehep-graphics2d-2.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/vectorgraphics-2.1.1-src.zip!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="freehep-graphicsio-2.1.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/freehep-graphicsio-2.1.1.jar!/" />
@@ -59,17 +48,6 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="freehep-graphicsio-svg-2.1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/freehep-graphicsio-svg-2.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/vectorgraphics-2.1.1-src.zip!/" />
-        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -94,6 +72,24 @@
       <library name="freehep-graphicsio-ps-2.1.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/freehep-graphicsio-ps-2.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="freehep-graphicsio-svg-2.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/freehep-graphicsio-svg-2.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="freehep-graphics2d-2.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/freehep-graphics2d-2.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

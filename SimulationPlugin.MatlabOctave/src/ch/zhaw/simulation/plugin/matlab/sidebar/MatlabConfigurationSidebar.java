@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.plugin.matlab.sidebar;
 
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.matlab.codegen.*;
 import ch.zhaw.simulation.plugin.sidebar.AdaptiveStepConfigurationPane;
@@ -19,23 +20,29 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 
 	private JComboBox cbNumericMethods;
 
-	public MatlabConfigurationSidebar(SimulationConfiguration config) {
-		super(config);
+	public MatlabConfigurationSidebar(SimulationConfiguration config, SimulationType type) {
+		super(config, type);
 	}
 
 	@Override
 	protected void initComponents() {
+		removeAll();
+
 		Vector<NumericMethod> numericMethods;
 		
 		FixedStepConfigurationPane fixedStepConfigurationPane = new FixedStepConfigurationPane(this);
 		AdaptiveStepConfigurationPane adaptiveStepConfigurationPane = new AdaptiveStepConfigurationPane(this);
 
 		numericMethods = new Vector<NumericMethod>();
-		numericMethods.add(new NumericMethod("Euler", fixedStepConfigurationPane, new EulerCodeGenerator()));
-		numericMethods.add(new NumericMethod("Runge-Kutta 4", fixedStepConfigurationPane, new RungeKuttaCodeGenerator()));
-		numericMethods.add(new NumericMethod("Fehlberg", adaptiveStepConfigurationPane, new FehlbergCodeGenerator()));
-		numericMethods.add(new NumericMethod("Cash–Karp", adaptiveStepConfigurationPane, new CashKarpCodeGenerator()));
-		numericMethods.add(new NumericMethod("Dormand–Prince", adaptiveStepConfigurationPane, new DormandPrinceCodeGenerator()));
+		if (type == SimulationType.FLOW_SIMULATION) {
+			numericMethods.add(new NumericMethod(NumericMethodType.EULER, fixedStepConfigurationPane, new EulerCodeGenerator()));
+			numericMethods.add(new NumericMethod(NumericMethodType.RK4, fixedStepConfigurationPane, new RungeKuttaCodeGenerator()));
+			numericMethods.add(new NumericMethod(NumericMethodType.FEHLBERG, adaptiveStepConfigurationPane, new FehlbergCodeGenerator()));
+			numericMethods.add(new NumericMethod(NumericMethodType.CASH_KARP, adaptiveStepConfigurationPane, new CashKarpCodeGenerator()));
+			numericMethods.add(new NumericMethod(NumericMethodType.DORMAND_PRINCE, adaptiveStepConfigurationPane, new DormandPrinceCodeGenerator()));
+		} else if (type == SimulationType.XY_MODEL) {
+			numericMethods.add(new NumericMethod(NumericMethodType.RK4, fixedStepConfigurationPane, new XYCodeGenerator()));
+		}
 
 		add(new JLabel("Numerisches Verfahren"));
 		cbNumericMethods = new JComboBox(numericMethods);

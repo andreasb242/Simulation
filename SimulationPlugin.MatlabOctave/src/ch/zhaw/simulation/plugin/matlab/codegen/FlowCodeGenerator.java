@@ -8,7 +8,7 @@ import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
+import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
 import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.Vector;
 /**
  *
  */
-public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
+public abstract class FlowCodeGenerator extends AbstractCodeGenerator {
 
 	protected static final String START = "sim_start";
 	protected static final String END = "sim_end";
@@ -31,7 +31,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 
 	protected Vector<AbstractNamedSimulationData> dataVector = new Vector<AbstractNamedSimulationData>();
 
-	public DefaultCodeGenerator() {
+	public FlowCodeGenerator() {
 
 	}
 
@@ -49,6 +49,9 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		dataVector.addAll(flowModel.getSimulationContainer());
 		dataVector.addAll(flowModel.getSimulationParameter());
 	}
+
+	protected abstract void printPredefinedConstants(CodeOutput out);
+	protected abstract void printContainerCalculations(CodeOutput out);
 
 	protected void printHeader(CodeOutput out) {
 		out.printComment("Generated file by Simulation");
@@ -71,7 +74,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		out.printComment("Init container values");
 
 		for (SimulationContainerData container : containers) {
-			MatlabAttachment attachment = (MatlabAttachment) container.attachment;
+			FlowModelAttachment attachment = (FlowModelAttachment) container.attachment;
 
 			if (attachment.isConst()) {
 				out.println(container.getName() + ".value = " + attachment.getConstValue() + "; % constant");
@@ -95,7 +98,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		out.printComment("Init parameter values");
 
 		for (SimulationParameterData parameter : parameters) {
-			MatlabAttachment attachment = (MatlabAttachment) parameter.attachment;
+			FlowModelAttachment attachment = (FlowModelAttachment) parameter.attachment;
 
 			if (attachment.isConst()) {
 				out.println(parameter.getName() + ".value = " + attachment.getConstValue() + "; % constant");
@@ -110,7 +113,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		out.printComment("Flow calculations");
 
 		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
-			MatlabAttachment a = (MatlabAttachment) c.getValve().attachment;
+			FlowModelAttachment a = (FlowModelAttachment) c.getValve().attachment;
 
 			out.println(c.getValve().getName() + ".value = " + a.getPreparedFormula(visitor) + ";");
 		}
@@ -124,7 +127,7 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 		sortByRelevanz(parameters);
 
 		for (SimulationParameterData p : parameters) {
-			MatlabAttachment a = (MatlabAttachment) p.attachment;
+			FlowModelAttachment a = (FlowModelAttachment) p.attachment;
 
 			// Konstanten nicht neu berechnen
 			if (!a.isConst()) {
@@ -145,8 +148,8 @@ public abstract class DefaultCodeGenerator extends AbstractCodeGenerator {
 
 			@Override
 			public int compare(AbstractNamedSimulationData o1, AbstractNamedSimulationData o2) {
-				MatlabAttachment a = (MatlabAttachment) o1.attachment;
-				MatlabAttachment b = (MatlabAttachment) o2.attachment;
+				FlowModelAttachment a = (FlowModelAttachment) o1.attachment;
+				FlowModelAttachment b = (FlowModelAttachment) o2.attachment;
 
 				return a.getDependencyOrder() - b.getDependencyOrder();
 			}

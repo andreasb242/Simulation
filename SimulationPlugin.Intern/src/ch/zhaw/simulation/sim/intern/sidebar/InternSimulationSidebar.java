@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 import ch.zhaw.simulation.sim.intern.InternSimulationParameter;
@@ -15,8 +16,8 @@ public class InternSimulationSidebar extends DefaultConfigurationSidebar impleme
 
 	private JComboBox cbType;
 
-	public InternSimulationSidebar(SimulationConfiguration config) {
-		super(config);
+	public InternSimulationSidebar(SimulationConfiguration config, SimulationType type) {
+		super(config, type);
 	}
 
 	@Override

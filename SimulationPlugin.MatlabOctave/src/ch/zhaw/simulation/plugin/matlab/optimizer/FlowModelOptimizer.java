@@ -2,7 +2,7 @@ package ch.zhaw.simulation.plugin.matlab.optimizer;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment;
+import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
 import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.math.Parser;
@@ -17,7 +17,7 @@ import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.plugin.matlab.MatlabAttachment.VarNotFoundExceptionTmp;
+import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment.VarNotFoundExceptionTmp;
 
 public class FlowModelOptimizer implements ModelOptimizer {
 	private SimulationFlowModel flowModel;
@@ -56,26 +56,25 @@ public class FlowModelOptimizer implements ModelOptimizer {
 
 	/**
 	 * For every AbstractSimulationData and FlowConnectorData,
-	 * assign a new MatlabAttachment
+	 * assign a new FlowModelAttachment
 	 */
 	private void initModelForSimulation() {
 		for (AbstractSimulationData data : flowModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData namedData = (AbstractNamedSimulationData) data;
-				namedData.attachment = new MatlabAttachment();
+				namedData.attachment = new FlowModelAttachment();
 			}
 		}
 
 		for (FlowConnectorData connector : flowModel.getFlowConnectors()) {
-			connector.getValve().attachment = new MatlabAttachment();
+			connector.getValve().attachment = new FlowModelAttachment();
 		}
 	}
 
-	// TODO passender name für methode? methode optimiert auch!
 	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException {
-		MatlabAttachment attachment = (MatlabAttachment) namedData.attachment;
+		FlowModelAttachment attachment = (FlowModelAttachment) namedData.attachment;
 
-		// TODO: in die initModelForSimulation?
+		// if namedData has sources (only for connectors)
 		Vector<AbstractNamedSimulationData> sources = flowModel.getSource(namedData);
 		attachment.setSources(sources);
 
@@ -97,7 +96,7 @@ public class FlowModelOptimizer implements ModelOptimizer {
 	 * Optimize out calculations which are static
 	 */
 	private void optimizeStatic(AbstractNamedSimulationData namedData) throws SimulationParserException {
-		MatlabAttachment attachment = (MatlabAttachment) namedData.attachment;
+		FlowModelAttachment attachment = (FlowModelAttachment) namedData.attachment;
 		try {
 			attachment.optimizeStatic(flowModel);
 			
@@ -119,7 +118,7 @@ public class FlowModelOptimizer implements ModelOptimizer {
 			}
 		}
 
-		MatlabAttachment attachment = (MatlabAttachment) namedData.attachment;
+		FlowModelAttachment attachment = (FlowModelAttachment) namedData.attachment;
 
 		Object value = attachment.getValue();
 		if (value != null) {
