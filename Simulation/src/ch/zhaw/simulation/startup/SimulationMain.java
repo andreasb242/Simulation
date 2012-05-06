@@ -2,6 +2,7 @@ package ch.zhaw.simulation.startup;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.swing.UIManager;
 
@@ -22,6 +23,7 @@ import ch.zhaw.simulation.app.ApplicationControl;
  */
 public class SimulationMain {
 	private static String openfile;
+	private static Vector<String> parameter = new Vector<String>();
 
 	public static void main() {
 		Settings settings = new FileSettings("settings.ini");
@@ -57,7 +59,7 @@ public class SimulationMain {
 		m.installUI();
 
 		ApplicationControl app = new ApplicationControl();
-		app.start(settings, openfile);
+		app.start(settings, parameter, openfile);
 		app.updateTitle();
 	}
 
@@ -65,7 +67,8 @@ public class SimulationMain {
 		try {
 			Config.initConifg("Simulation");
 		} catch (IOException e) {
-			Messagebox.showError(null, "Konfiguration fehlt", "<html>Die Datei «" + Config.getConfigFile() + "» konnte nicht geöffnet / gelesen werden!<br>Start nicht möglich.</html>");
+			Messagebox.showError(null, "Konfiguration fehlt", "<html>Die Datei «" + Config.getConfigFile()
+					+ "» konnte nicht geöffnet / gelesen werden!<br>Start nicht möglich.</html>");
 			System.exit(0);
 		}
 
@@ -74,11 +77,15 @@ public class SimulationMain {
 
 		try {
 			for (String s : args) {
-				File f = new File(s);
-				if (f.exists() && f.canRead()) {
-					openfile = s;
+				if (s.startsWith("--")) {
+					parameter.add(s);
 				} else {
-					System.err.println("Could not open file: " + s);
+					File f = new File(s);
+					if (f.exists() && f.canRead()) {
+						openfile = s;
+					} else {
+						System.err.println("Could not open file: " + s);
+					}
 				}
 			}
 

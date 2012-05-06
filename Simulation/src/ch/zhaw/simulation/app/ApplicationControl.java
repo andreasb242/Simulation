@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -46,6 +47,7 @@ import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
+import ch.zhaw.simulation.undo.debug.UndoRedoDebugDialog;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
@@ -135,7 +137,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public ApplicationControl() {
 	}
 
-	public void start(Settings settings, String openfile) {
+	public void start(Settings settings, Vector<String> parameter, String openfile) {
 		this.settings = settings;
 
 		if (settings == null) {
@@ -220,16 +222,16 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			e.printStackTrace();
 		}
 
-					SimulationType type = getLastUsedSimulationType();
-	
-			doc.setType(type);
-			loadSimulationParameterFromSettings();
-	
-			if (type == SimulationType.FLOW_SIMULATION) {
-				showFlowWindow(true);
-			} else {
-				showXYWindow();
-			}
+		SimulationType type = getLastUsedSimulationType();
+
+		doc.setType(type);
+		loadSimulationParameterFromSettings();
+
+		if (type == SimulationType.FLOW_SIMULATION) {
+			showFlowWindow(true);
+		} else {
+			showXYWindow();
+		}
 
 		windowPosition.applay(this.mainFrame);
 
@@ -244,9 +246,15 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		// Alle relevanten Settings in die Konfiguration übernehmen
 		simulationSettingsSaver.load();
 
+		if (openfile != null && open(new File(openfile)) || openLastFile()) {
+			// TODO: Optimize, do not show a window and close it and open then
+			// the file, open the file direct
+		}
 		
-		if(openfile != null && open(new File(openfile)) || openLastFile()) {
-			// TODO: Optimize, do not show a window and close it and open then the file, open the file direct
+		if(parameter.contains("--debug-undo")) {
+			UndoRedoDebugDialog dlg = new UndoRedoDebugDialog(this.mainFrame.getView().getControl().getUndoManager());
+			dlg.setLocationRelativeTo(null);
+			dlg.setVisible(true);
 		}
 	}
 

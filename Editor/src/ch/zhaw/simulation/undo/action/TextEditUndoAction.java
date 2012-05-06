@@ -17,8 +17,6 @@ public class TextEditUndoAction extends AbstractUndoableEdit {
 		this.oldTxt = oldTxt;
 		this.newText = newText;
 		this.model = model;
-
-		System.out.println("TextEditUndoAction: " + oldTxt + " => " + newText);
 	}
 
 	@Override
@@ -37,8 +35,6 @@ public class TextEditUndoAction extends AbstractUndoableEdit {
 
 		this.textData.setText(newText);
 		model.fireObjectChanged(this.textData);
-
-		System.out.println("TextEditUndoAction: redo: " + oldTxt + " => " + newText);
 	}
 
 	@Override
@@ -47,9 +43,6 @@ public class TextEditUndoAction extends AbstractUndoableEdit {
 
 		this.textData.setText(oldTxt);
 		model.fireObjectChanged(this.textData);
-		
-		System.out.println("TextEditUndoAction: undo: " + oldTxt + " => " + newText);
-
 	}
 
 	@Override

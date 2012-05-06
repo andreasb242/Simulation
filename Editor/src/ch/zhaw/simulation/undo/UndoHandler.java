@@ -68,4 +68,12 @@ public class UndoHandler extends UndoManager {
 		super.discardAllEdits();
 		fireUpdateUndoRedo();
 	}
+	
+	public int getUndoCount() {
+		return edits.size();
+	}
+	
+	public UndoableEdit getUndoElement(int index) {
+		return edits.get(index);
+	}
 }
