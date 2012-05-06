@@ -11,6 +11,8 @@ public abstract class PositionUndoAction extends AbstractUndoableEdit implements
 	private AbstractEditorView<?> view;
 
 	public PositionUndoAction(SelectableElement<?>[] elements, AbstractEditorView<?> view) {
+		this.view = view;
+		
 		for (SelectableElement<?> e : elements) {
 			data.add(e.getData());
 		}

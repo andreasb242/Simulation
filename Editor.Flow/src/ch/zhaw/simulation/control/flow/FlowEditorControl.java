@@ -15,6 +15,7 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
+import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.flow.gui.FlowEditorView;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.SimulationDocument;
@@ -107,6 +108,13 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			if (el instanceof InfiniteSymbol) {
 				addInfiniteData(removedInfinite, ((InfiniteSymbol) el).getData());
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(((InfiniteSymbol) el).getData()));
+			}
+		}
+		
+		for (SelectableElement<?> el : elements) {
+			if (el instanceof TextView) {
+				TextView txt = (TextView) el;
+				removedObjects.add(txt.getData());
 			}
 		}
 

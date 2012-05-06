@@ -16,6 +16,7 @@ import butti.javalibs.gui.splitmenuitem.SplitMenuitem;
 import ch.zhaw.simulation.app.SimulationApplication;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
+import ch.zhaw.simulation.editor.view.TextView;
 import ch.zhaw.simulation.editor.xy.autoparser.Autoparser;
 import ch.zhaw.simulation.editor.xy.dialog.XYSizeDialog;
 import ch.zhaw.simulation.icon.IconLoader;
@@ -93,6 +94,13 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 				AbstractNamedSimulationData data = (AbstractNamedSimulationData) control.getData();
 
 				removedObjects.add(data);
+
+			} else if (el instanceof TextView) {
+				TextView txt = (TextView) el;
+				removedObjects.add(txt.getData());
+			
+			} else {
+				System.err.println("XYEditorControl::delete: could not delete " + el.getClass() + "\n" + el.toString());
 			}
 		}
 

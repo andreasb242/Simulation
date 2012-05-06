@@ -39,7 +39,7 @@ public class UndoRedoListCellRenderer extends JPanel implements ListCellRenderer
 
 		if (value instanceof UndoableEdit) {
 			UndoableEdit ue = (UndoableEdit) value;
-			txtClass.setText(ue.getClass().getName());
+			txtClass.setText(ue.getClass().getName().substring(19));
 			txtUndo.setText(ue.getUndoPresentationName());
 			txtRedo.setText(ue.getRedoPresentationName());
 			if (ue.canRedo()) {

@@ -18,6 +18,10 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 		this.removedObjects = removedObjects;
 		this.control = control;
 
+		if(this.removedObjects.size() == 0) {
+			throw new RuntimeException("xy.DeleteUndoAction.removedObjects.size() == 0");
+		}
+		
 		delete();
 	}
 
