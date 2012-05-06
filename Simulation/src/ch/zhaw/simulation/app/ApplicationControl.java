@@ -251,9 +251,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		// Alle relevanten Settings in die Konfiguration übernehmen
 		simulationSettingsSaver.load();
 
-		//if(openfile != null && open(new File(openfile)) || openLastFile()) {
+		if(openfile != null && open(new File(openfile)) || openLastFile()) {
 			// TODO: Optimize, do not show a window and close it and open then
-		//}
 		}
 		
 		if(parameter.contains("--debug-undo")) {
@@ -632,16 +631,17 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return true;
 	}
 
-	public void openLastFile() {
+	public boolean openLastFile() {
 		if (settings.isSetting("autoloadLastDocument", false)) {
 			String path = recentMenu.getNewstEntry();
 			if (path != null) {
 				File f = new File(path);
 				if (f.exists() && f.canRead()) {
-					open(new File(path));
+					return open(new File(path));
 				}
 			}
 		}
+		return false;
 	}
 
 	@Override
