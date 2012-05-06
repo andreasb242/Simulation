@@ -28,4 +28,8 @@ public class UndoListModel extends AbstractListModel implements UndoListener {
 	public void undoRedoUpdated() {
 		fireContentsChanged(0, 0, getSize());
 	}
+
+	public void dispose() {
+		this.undoHandler.removeUndoListener(this);
+	}
 }

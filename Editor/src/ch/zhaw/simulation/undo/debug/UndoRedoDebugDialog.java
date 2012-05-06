@@ -12,24 +12,30 @@ public class UndoRedoDebugDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private JList list;
-	
+	private UndoListModel model;
+
 	public UndoRedoDebugDialog(UndoHandler undoHandler) {
 		setTitle("Undo / Redo Testdialog");
-		
+
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-		list = new JList(new UndoListModel(undoHandler));
+
+		model = new UndoListModel(undoHandler);
+		list = new JList(model);
 		list.setCellRenderer(new UndoRedoListCellRenderer());
-		
+
 		add(new JScrollPane(list));
-		
+
 		pack();
-		
+
 		setLocationRelativeTo(null);
 
 		new WindowPositionSaver(this);
 	}
-	
-	
-	
+
+	@Override
+	public void dispose() {
+		model.dispose();
+		super.dispose();
+	}
+
 }
