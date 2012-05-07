@@ -131,6 +131,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			throw new IllegalArgumentException();
 		}
 
+		System.out.println(executable + " " + arguments);
 		Process p = Runtime.getRuntime().exec(executable + " " + arguments);
 		//BufferedReader stdout = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		//BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
