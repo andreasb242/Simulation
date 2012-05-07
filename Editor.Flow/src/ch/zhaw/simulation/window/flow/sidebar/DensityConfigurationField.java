@@ -2,7 +2,6 @@ package ch.zhaw.simulation.window.flow.sidebar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -89,13 +88,6 @@ public class DensityConfigurationField extends SingleConfigurationField {
 			System.out.println("DensityConfigurationField::xyModel != null");
 		} else {
 			System.out.println("DensityConfigurationField::xyModel == null");
-		}
-	}
-
-	public void updateDensityComboBox(Vector<DensityData> densityList) {
-		cbDensity.removeAll();
-		for (DensityData density : densityList) {
-			cbDensity.addItem(density);
 		}
 	}
 }

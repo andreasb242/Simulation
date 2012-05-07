@@ -1,4 +1,4 @@
-<project name="Sysintegration" basedir="." default="error">
+<project name="SimulationDiagram" basedir="." default="error">
 	<target name="error">
 		<echo message="Build should be started with SimulationBuild/build.xml else build order is not correct" />
 	</target>
@@ -30,16 +30,14 @@
 				<include name="**/*.png" />
 				<include name="**/*.gif" />
 				<include name="**/*.jpg" />
-				<include name="**/*.svg" />
 				<include name="**/*.html" />
-				<include name="**/*.ttf" />
 				<include name="**/*.properties" />
 			</fileset>
 		</copy>
 
 
 		<!-- Build the jar file -->
-		<jar basedir="${build}" destfile="${build}/Editor.jar" />
+		<jar basedir="${build}" destfile="${build}/HtmlEditor.jar" />
 
 	</target>
 </project>

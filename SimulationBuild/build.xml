@@ -28,19 +28,6 @@
 	</target>
 
 	<target name="complete" depends="init">
-
-		<ant antfile="../HelpBrowser/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-
-			<property name="build" value="${build}/HelpBrowser" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/HelpBrowser">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
 		<ant antfile="../Model/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/Model" />
@@ -84,7 +71,7 @@
 			</fileset>
 		</copy>
 
-
+		
 		<ant antfile="../ImportFilter.Madonna/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/ImportFilter.Madonna" />
@@ -117,6 +104,18 @@
 			</fileset>
 		</copy>
 
+		
+		<ant antfile="../SimulationDiagram/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/SimulationDiagram" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/SimulationDiagram">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+	
 		<ant antfile="../SimulationJepLib-2.4.1/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/SimulationJepLib-2.4.1" />
