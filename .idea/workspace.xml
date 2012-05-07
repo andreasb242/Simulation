@@ -379,7 +379,11 @@
       <created>1336379324487</created>
       <updated>1336379324487</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="merge">
+      <created>1336379354870</created>
+      <updated>1336379354870</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
