@@ -65,7 +65,9 @@ public class NameConfigurationField extends SingleConfigurationField {
 
 	protected void nameChanged() {
 		String name = txtName.getText();
-		if (nameChecker.checkName(name)) {
+
+		// TODO: use checkName!
+		if (nameChecker.checkNameValid(name)) {
 			txtName.setBackground(defaultBackground);
 
 			if (!StringUtil.equals(getData().getName(), name)) {

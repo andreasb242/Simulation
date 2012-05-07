@@ -437,6 +437,7 @@ public class XmlModelLoader implements XmlContentsNames {
 		data.setName(XmlHelper.getAttribute(n, XML_ELEMENT_ATTRIB_NAME));
 		data.setFormula(XmlHelper.getAttribute(n, XML_ELEMENT_ATTRIB_VALUE));
 		data.setDescription(XmlHelper.getAttribute(n, XML_ELEMENT_ATTRIB_TEXT));
+		xyModel.addDensity(data);
 	}
 
 }

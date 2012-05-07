@@ -97,7 +97,9 @@ public class EditorPanel extends JPanel {
 		}
 
 		String name = txtName.getText();
-		if (nameChecker.checkName(name)) {
+		
+		// TODO: use checkName!
+		if (nameChecker.checkNameValid(name)) {
 			txtName.setBackground(defaultBackground);
 
 			selected.setName(txtName.getText());

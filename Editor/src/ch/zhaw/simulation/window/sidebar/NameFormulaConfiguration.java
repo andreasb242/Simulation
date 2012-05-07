@@ -134,7 +134,8 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 			return;
 		}
 
-		if (nameChecker.checkName(txtName.getText())) {
+		// TODO: use checkName!
+		if (nameChecker.checkNameValid(txtName.getText())) {
 			data.setName(txtName.getText());
 			txtName.setForeground(Color.BLACK);
 			model.fireObjectChanged(data);
