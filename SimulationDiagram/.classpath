@@ -6,6 +6,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.MatlabOctave"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

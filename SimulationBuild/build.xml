@@ -105,17 +105,6 @@
 		</copy>
 
 		
-		<ant antfile="../SimulationDiagram/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/SimulationDiagram" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/SimulationDiagram">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-	
 		<ant antfile="../SimulationJepLib-2.4.1/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/SimulationJepLib-2.4.1" />
@@ -160,6 +149,17 @@
 		</copy>
 
 
+		<ant antfile="../SimulationDiagram/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${build}/distrib/lib" />
+			<property name="build" value="${build}/SimulationDiagram" />
+		</ant>
+		<copy todir="${build}/distrib/lib">
+			<fileset dir="${build}/SimulationDiagram">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+	
 		<ant antfile="../AppDefinition/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${build}/distrib/lib" />
 			<property name="build" value="${build}/AppDefinition" />

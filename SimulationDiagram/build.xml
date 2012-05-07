@@ -37,7 +37,7 @@
 
 
 		<!-- Build the jar file -->
-		<jar basedir="${build}" destfile="${build}/HtmlEditor.jar" />
+		<jar basedir="${build}" destfile="${build}/SimulationDiagram.jar" />
 
 	</target>
 </project>
