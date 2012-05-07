@@ -179,20 +179,22 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 						mainFrame.unlock();
-						DiagramFrame frame = new DiagramFrame(collection);
-						// frame.updateSimulationCollection();
-						frame.setVisible(true);
-						/*
-						 * SimulationSerie series[] = collection.getSeries();
-						 * for (int i = 0; i < series.length; i++) {
-						 * System.out.println(series[i].getName());
-						 * Vector<SimulationEntry> entries =
-						 * series[i].getData(); for (SimulationEntry entry :
-						 * entries) { System.out.println(entry.time + ": " +
-						 * entry.value); } }
-						 */
+						if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+							SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+							DiagramFrame frame = new DiagramFrame(collection);
+							// frame.updateSimulationCollection();
+							frame.setVisible(true);
+							/*
+							 * SimulationSerie series[] = collection.getSeries();
+							 * for (int i = 0; i < series.length; i++) {
+							 * System.out.println(series[i].getName());
+							 * Vector<SimulationEntry> entries =
+							 * series[i].getData(); for (SimulationEntry entry :
+							 * entries) { System.out.println(entry.time + ": " +
+							 * entry.value); } }
+							 */
+						}
 					}
 				});
 			}

@@ -2,16 +2,12 @@ package ch.zhaw.simulation.plugin.matlab.optimizer;
 
 import java.util.Vector;
 
+import ch.zhaw.simulation.math.exception.*;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
 import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.math.Parser;
-import ch.zhaw.simulation.math.exception.CompilerError;
-import ch.zhaw.simulation.math.exception.EmptyFormulaException;
-import ch.zhaw.simulation.math.exception.NotUsedException;
-import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.math.exception.SimulationParserException;
-import ch.zhaw.simulation.math.exception.VarNotFoundException;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -34,21 +30,28 @@ public class FlowModelOptimizer implements ModelOptimizer {
 		initModelForSimulation();
 		for (AbstractSimulationData data : flowModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
-				parseFormula((AbstractNamedSimulationData) data);
+				if (data instanceof SimulationDensityContainerData) {
+					SimulationDensityContainerData densityContainer = (SimulationDensityContainerData) data;
+					if (densityContainer.getDensity() == null) {
+						throw new EmptyDensityException(densityContainer);
+					}
+				} else {
+					parseFormula((AbstractNamedSimulationData) data);
+				}
 			}
 		}
 
 		// Wenn möglich optimieren (Parameter die nur von konstanten Parametern
 		// abhängig sind auch konstant machen)
 		for (AbstractSimulationData data : flowModel.getData()) {
-			if (data instanceof AbstractNamedSimulationData) {
+			if (data instanceof AbstractNamedSimulationData && !(data instanceof SimulationDensityContainerData)) {
 				optimizeStatic((AbstractNamedSimulationData) data);
 			}
 		}
 
 		// Constwerte auslesen
 		for (AbstractSimulationData data : flowModel.getData()) {
-			if (data instanceof AbstractNamedSimulationData) {
+			if (data instanceof AbstractNamedSimulationData && !(data instanceof SimulationDensityContainerData)) {
 				calculateConstValues((AbstractNamedSimulationData) data);
 			}
 		}

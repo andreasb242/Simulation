@@ -16,7 +16,7 @@ import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
  */
 public class EulerCodeGenerator extends FixedStepCodeGenerator {
 
-	private static final String FILENAME = "simulation_euler.m";
+	private static final String FILENAME = "simulation_euler";
 
 	/**
 	 * @see AbstractCodeGenerator
@@ -26,7 +26,7 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 		String outputFile;
 		CodeOutput out;
 
-		outputFile= getWorkingFolder() + File.separator + FILENAME;
+		outputFile= getWorkingFolder() + File.separator + FILENAME + ".m";
 		out = new CodeOutput(new FileOutputStream(outputFile));
 
 		initSimulation(doc);

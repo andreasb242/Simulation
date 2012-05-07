@@ -13,7 +13,7 @@ public class SubModel {
 
 	public SubModel() {
 		model = new SimulationFlowModel();
-		setName("Model " + (nextNr++));
+		setName("model" + (nextNr++));
 	}
 
 	public String getName() {

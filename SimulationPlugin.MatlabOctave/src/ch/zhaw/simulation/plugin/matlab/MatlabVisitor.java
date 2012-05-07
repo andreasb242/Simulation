@@ -5,14 +5,25 @@ import org.nfunk.jep.ASTVarNode;
 import org.nfunk.jep.ParseException;
 
 public class MatlabVisitor extends PrintVisitor {
+
+	private String prefix;
+
+	public MatlabVisitor() {
+		prefix = "";
+	}
+
+	public MatlabVisitor(String prefix) {
+		this.prefix = prefix;
+	}
+
 	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		if ("time".equals(node.getName())) {
-			sb.append("_time");
+			sb.append("sim_time");
 		} else if ("dt".equals(node.getName())) {
-			sb.append("_dt");
+			sb.append("sim_dt");
 		} else {
-			sb.append(node.getName() + ".value");
+			sb.append(prefix + node.getName() + ".value");
 		}
 		return data;
 	}
