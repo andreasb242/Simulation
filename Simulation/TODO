@@ -5,3 +5,4 @@ Interface um Definirte Variabeln zu erhalten
 Warnen wenn Fehler im Model und trotzdem versucht wird zu simulieren
 Cancel Button beim Simulieren
 Repaint bei Ventil Markierung geht nicht
+Refactoring bei Namen

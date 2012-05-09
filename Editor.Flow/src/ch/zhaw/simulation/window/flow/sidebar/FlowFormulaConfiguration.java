@@ -6,7 +6,6 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.window.sidebar.config.ConfigurationSidebarPanel;
-import ch.zhaw.simulation.window.sidebar.config.SingleConfigurationField;
 
 public class FlowFormulaConfiguration extends ConfigurationSidebarPanel<SimulationFlowModel, FlowEditorControl> {
 	private static final long serialVersionUID = 1L;

@@ -23,7 +23,7 @@ public class FormulaConfigurationField extends SingleConfigurationField {
 	}
 
 	@Override
-	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup leftGroup, ParallelGroup rightGroup) {
+	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup layoutBoth, ParallelGroup leftGroup, ParallelGroup rightGroup) {
 		JLabel lbValue = new JLabel("Wert");
 		leftGroup.addComponent(lbValue);
 		addComponent(lbValue);

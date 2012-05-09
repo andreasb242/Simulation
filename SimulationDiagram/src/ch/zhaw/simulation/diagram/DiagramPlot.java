@@ -1,10 +1,14 @@
 package ch.zhaw.simulation.diagram;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
-import java.util.Vector;
-import java.text.NumberFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Vector;
 
 import javax.swing.JComponent;
 

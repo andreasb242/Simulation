@@ -7,6 +7,8 @@ import java.util.TimerTask;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -61,9 +63,6 @@ public class LockFrame extends JFrame {
 		gbm.setX(1).setY(1).setFill(GridBagConstraints.NONE).setComp(lock);
 
 		gbm.setX(0).setY(0).setWidth(3).setHeight(3).setComp(layer);
-
-		// Neues Layout für das Panel...
-		gbm = new GridBagManager(panel);
 	}
 
 	/**
@@ -76,12 +75,35 @@ public class LockFrame extends JFrame {
 	public void unlock() {
 		lock.setVisible(false);
 		blurUI.setLocked(false);
+
+		enableJmenu(true);
+	}
+	
+	/**
+	 * Sets the progress in Percent, -1 hides the Progressbar
+	 */
+	public void setPercent(int percent) {
+		lock.setPercent(percent);
+	}
+
+	private void enableJmenu(boolean enable) {
+		JMenuBar menu = getJMenuBar();
+		if (menu == null) {
+			return;
+		}
+
+		for (int i = 0; i < menu.getMenuCount(); i++) {
+			JMenu m = menu.getMenu(i);
+			m.setEnabled(enable);
+		}
 	}
 
 	public void lock(String text) {
 		blurUI.setLocked(true);
 		lock.setVisible(true);
 		lock.setText(text);
+
+		enableJmenu(false);
 	}
 
 	public void setLockText(String text) {

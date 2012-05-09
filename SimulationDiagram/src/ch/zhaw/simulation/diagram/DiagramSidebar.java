@@ -1,17 +1,19 @@
 package ch.zhaw.simulation.diagram;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import org.jdesktop.swingx.VerticalLayout;
 
 import ch.zhaw.simulation.diagram.colorcheckbox.ColorCheckbox;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 public class DiagramSidebar extends JScrollPane implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -19,7 +21,9 @@ public class DiagramSidebar extends JScrollPane implements ActionListener {
 	private JPanel component;
 	private DiagramPlot plot;
 	private SimulationCollection collection;
-	//private Vector<ColorCheckbox> colorCheckboxes = new Vector<ColorCheckbox>();
+
+	// private Vector<ColorCheckbox> colorCheckboxes = new
+	// Vector<ColorCheckbox>();
 
 	public DiagramSidebar(SimulationCollection collection, DiagramPlot plot) {
 		super(new JPanel(), VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
@@ -31,7 +35,7 @@ public class DiagramSidebar extends JScrollPane implements ActionListener {
 
 		int size = collection.size();
 		Color[] colors = calcColors(size);
-		
+
 		for (int i = 0; i < size; i++) {
 			SimulationSerie serie = collection.getSerie(i);
 			serie.setColor(colors[i]);

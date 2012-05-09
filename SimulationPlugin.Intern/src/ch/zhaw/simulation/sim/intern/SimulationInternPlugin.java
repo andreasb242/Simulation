@@ -1,34 +1,38 @@
 package ch.zhaw.simulation.sim.intern;
 
-import javax.swing.JPanel;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
+import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.plugin.ExecutionListener;
+import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 import ch.zhaw.simulation.sim.intern.main.Simulation;
 import ch.zhaw.simulation.sim.intern.sidebar.InternSimulationSidebar;
 
 public class SimulationInternPlugin implements SimulationPlugin {
-	private Settings settings;
 	private PluginDataProvider provider;
 	private InternSimulationSidebar sidebar;
+	private SimulationCollection collection;
+	private Simulation sim;
 
 	public SimulationInternPlugin() {
 	}
 
 	@Override
 	public void init(Settings settings, SimulationConfiguration config, PluginDataProvider provider) {
-		this.settings = settings;
 		this.provider = provider;
 		this.sidebar = new InternSimulationSidebar(config, provider.getSimulationType());
-		
 	}
 
 	@Override
@@ -55,19 +59,55 @@ public class SimulationInternPlugin implements SimulationPlugin {
 	@Override
 	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
 		if (doc.getType() != SimulationType.FLOW_SIMULATION) {
-			throw new IllegalArgumentException("only flow model supported currently");
+			throw new IllegalArgumentException("Intern Simulation supports currently only flow model");
 		}
 	}
 
 	@Override
 	public void executeFlowSimulation(SimulationDocument doc) throws Exception {
-		Simulation sim = new Simulation(provider, this.settings, doc);
+		final ExecutionListener executionListener = provider.getExecutionListener();
+
+		this.sim = new Simulation(doc);
 		sim.checkData();
-		sim.startSimulation();
+		
+		try {
+			sim.initSimulation();
+		} catch (Exception e) {
+			executionListener.executionFinished(e.getMessage(), FinishState.ERROR);
+			e.printStackTrace();
+		}
+		
+		sim.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				if ("progress".equals(evt.getPropertyName())) {
+					executionListener.setState((Integer) evt.getNewValue());
+				} else if ("state".equals(evt.getPropertyName())) {
+					if (evt.getNewValue() == SwingWorker.StateValue.DONE) {
+						try {
+							SimulationInternPlugin.this.collection = sim.getSimulationResult();
+							executionListener.executionFinished(null, FinishState.SUCCESSFULLY);
+						} catch (java.util.concurrent.CancellationException e) {
+							executionListener.executionFinished(null, FinishState.CANCELED);
+						} catch (Exception e) {
+							executionListener.executionFinished(e.getMessage(), FinishState.ERROR);
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+
+		executionListener.executionStarted("Simulieren...");
+		sim.execute();
 	}
 
 	@Override
 	public SimulationCollection getSimulationResults(SimulationDocument doc) {
-		return null;
+		return this.collection;
+	}
+
+	@Override
+	public void cancelSimulation() {
+		this.sim.cancelSimulation();
 	}
 }

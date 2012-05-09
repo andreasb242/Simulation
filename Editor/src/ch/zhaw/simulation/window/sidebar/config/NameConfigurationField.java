@@ -15,12 +15,14 @@ import javax.swing.undo.UndoManager;
 import butti.javalibs.util.ColorConstants;
 import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.InvalidNameException;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.undo.action.NameChangeUndoAction;
 
 public class NameConfigurationField extends SingleConfigurationField {
 	private JTextField txtName = new JTextField();
+	private JLabel lbNameError = new JLabel();
 	private NameChecker nameChecker = new NameChecker();
 	private Color defaultBackground;
 	private UndoManager undo;
@@ -32,16 +34,22 @@ public class NameConfigurationField extends SingleConfigurationField {
 	}
 
 	@Override
-	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup leftGroup, ParallelGroup rightGroup) {
+	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup layoutBoth, ParallelGroup leftGroup, ParallelGroup rightGroup) {
 		JLabel title = new JLabel("Name");
 		addComponent(title);
 		addComponent(txtName);
+		addComponent(lbNameError);
+
+		lbNameError.setVisible(false);
+
 		this.defaultBackground = txtName.getBackground();
 
 		g.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(title).addComponent(txtName));
+		g.addGroup(layout.createParallelGroup().addComponent(lbNameError));
 
 		leftGroup.addComponent(title);
 		rightGroup.addComponent(txtName);
+		layoutBoth.addComponent(lbNameError);
 
 		txtName.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -66,14 +74,19 @@ public class NameConfigurationField extends SingleConfigurationField {
 	protected void nameChanged() {
 		String name = txtName.getText();
 
-		// TODO: use checkName!
-		if (nameChecker.checkNameValid(name)) {
+		try {
+			nameChecker.checkName(name);
 			txtName.setBackground(defaultBackground);
 
 			if (!StringUtil.equals(getData().getName(), name)) {
 				undo.addEdit(new NameChangeUndoAction(getData(), getData().getName(), name, model));
 			}
-		} else {
+
+			lbNameError.setVisible(false);
+
+		} catch (InvalidNameException e) {
+			lbNameError.setVisible(true);
+			lbNameError.setText(e.getMessage());
 			txtName.setBackground(ColorConstants.ERROR_COLOR);
 		}
 	}

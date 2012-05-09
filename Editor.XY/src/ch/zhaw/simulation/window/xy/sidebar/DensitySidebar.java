@@ -139,7 +139,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 					}
 
 				} else {
-					Messagebox.showWarning(parent, "Kein Eintrag gwählt", "Bitte wählen / erstellen sie Zuerst einen Eintrag mit dem [+]");
+					Messagebox.showWarning(parent, "Kein Eintrag gwählt", "Bitte wählen / erstellen Sie zuerst einen Eintrag mit dem [+]");
 				}
 			}
 		});

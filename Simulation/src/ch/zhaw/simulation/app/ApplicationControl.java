@@ -175,28 +175,30 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			}
 
 			@Override
-			public void executionFinished() {
+			public void executionFinished(final String message, final FinishState state) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 						mainFrame.unlock();
-						if (doc.getType() == SimulationType.FLOW_SIMULATION) {
-							SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-							DiagramFrame frame = new DiagramFrame(collection);
-							// frame.updateSimulationCollection();
-							frame.setVisible(true);
-							/*
-							 * SimulationSerie series[] = collection.getSeries();
-							 * for (int i = 0; i < series.length; i++) {
-							 * System.out.println(series[i].getName());
-							 * Vector<SimulationEntry> entries =
-							 * series[i].getData(); for (SimulationEntry entry :
-							 * entries) { System.out.println(entry.time + ": " +
-							 * entry.value); } }
-							 */
+
+						if (state == FinishState.SUCCESSFULLY) {
+							if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+								DiagramFrame frame = new DiagramFrame(collection);
+								frame.setVisible(true);
+							}
+						} else if (state == FinishState.CANCELED) {
+							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurd abgebrochen.");
+						} else {
+							Messagebox.showError(getMainFrame(), "Simulation fehlgeschlagen", message);
 						}
 					}
 				});
+			}
+
+			@Override
+			public void setState(int percent) {
+				mainFrame.setPercent(percent);
 			}
 
 		};
@@ -232,14 +234,14 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				return doc.getType();
 			}
 		});
-		
+
 		loadSimulationParameterFromSettings();
 		if (type == SimulationType.FLOW_SIMULATION) {
 			showFlowWindow(true);
 		} else {
 			showXYWindow();
 		}
-		
+
 		windowPosition.applay(this.mainFrame);
 
 		this.sysintegration = SysintegrationFactory.getSysintegration();
@@ -253,11 +255,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		// Alle relevanten Settings in die Konfiguration übernehmen
 		simulationSettingsSaver.load();
 
-		if(openfile != null && open(new File(openfile)) || openLastFile()) {
+		if (openfile != null && open(new File(openfile)) || openLastFile()) {
 			// TODO: Optimize, do not show a window and close it and open then
 		}
-		
-		if(parameter.contains("--debug-undo")) {
+
+		if (parameter.contains("--debug-undo")) {
 			UndoRedoDebugDialog dlg = new UndoRedoDebugDialog(this.mainFrame.getView().getControl().getUndoManager());
 			dlg.setVisible(true);
 		}
@@ -406,7 +408,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public JFrame getMainFrame() {
 		return mainFrame;
 	}
-	
+
 	public PluginDescription<SimulationPlugin> getSelectedPluginDescriptor() {
 		String pluginName = doc.getSimulationConfiguration().getSelectedPluginName();
 
@@ -414,7 +416,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			Messagebox.showError(getMainFrame(), "Kein Plugin gewählt", "Bitte wählen Sie in der Sidebar mit welchem Plugin simuliert werden soll");
 			return null;
 		}
-
 
 		PluginDescription<SimulationPlugin> selectedPluginDescription = null;
 		for (PluginDescription<SimulationPlugin> pluginDescription : manager.getPluginDescriptions()) {
@@ -448,6 +449,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			}
 
 			ex.printStackTrace();
+			return;
+		} catch (Exception e) {
+			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 			return;
 		}
 
@@ -588,7 +592,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public boolean exit() {
 		if (askSave() == true) {
 			releaseOpenWindow();
-			
+
 			doc.getSimulationConfiguration().removePluginChangeListener(simulationSettingsSaver);
 			doc.getSimulationConfiguration().removeSimulationParameterListener(simulationSettingsSaver);
 

@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXBusyLabel;
+
+import ch.zhaw.simulation.window.LockProgressbar;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.GridBagManager;
@@ -38,6 +41,11 @@ public class Lockpanel extends JPanel {
 	private JXBusyLabel busyLabel;
 
 	/**
+	 * Die Progressbar
+	 */
+	private LockProgressbar progress = new LockProgressbar();
+
+	/**
 	 * Der Text mit dem Status
 	 */
 	private JLabel lbText = new JLabel();
@@ -46,6 +54,11 @@ public class Lockpanel extends JPanel {
 	 * Zur Layoutverwaltung
 	 */
 	private GridBagManager gbm;
+
+	/**
+	 * Parent for repaint fix because of transparency
+	 */
+	private Container parent;
 
 	/**
 	 * Bild laden
@@ -66,6 +79,8 @@ public class Lockpanel extends JPanel {
 	 *            gezeichnet werden, wird nicht automatisch von Java vorgenommen
 	 */
 	public Lockpanel(final Container parent) {
+		this.parent = parent;
+
 		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
 		setPreferredSize(size);
 		setMinimumSize(size);
@@ -79,18 +94,20 @@ public class Lockpanel extends JPanel {
 			@Override
 			protected void frameChanged() {
 				Rectangle b = busyLabel.getBounds();
-				parent.repaint((int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight());
+				parent.repaint(b.x, b.y, b.width, b.height);
 				super.frameChanged();
 			}
 		};
 
 		busyLabel.setOpaque(false);
 
-		gbm.setX(0).setY(0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setComp(busyLabel);
+		gbm.setX(0).setY(0).setInsets(new Insets(35, 10, 10, 10)).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setComp(busyLabel);
+
+		gbm.setX(0).setY(1).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setComp(progress);
 
 		lbText.setForeground(Color.WHITE);
 
-		gbm.setX(0).setY(1).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setComp(lbText);
+		gbm.setX(0).setY(10).setInsets(new Insets(10, 10, 35, 10)).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setComp(lbText);
 
 		setVisible(false);
 	}
@@ -114,5 +131,14 @@ public class Lockpanel extends JPanel {
 	public void setVisible(boolean flag) {
 		super.setVisible(flag);
 		busyLabel.setBusy(flag);
+		progress.setPercent(-1, null);
+		progress.setVisible(flag);
+	}
+
+	/**
+	 * Sets the progress in Percent, -1 hides the Progressbar
+	 */
+	public void setPercent(int percent) {
+		progress.setPercent(percent, parent);
 	}
 }

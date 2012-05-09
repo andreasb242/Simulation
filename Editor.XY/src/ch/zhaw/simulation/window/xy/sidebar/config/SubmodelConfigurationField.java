@@ -41,7 +41,7 @@ public class SubmodelConfigurationField extends MultipleConfigurationField {
 	}
 
 	@Override
-	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup leftGroup, ParallelGroup rightGroup) {
+	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup layoutBoth, ParallelGroup leftGroup, ParallelGroup rightGroup) {
 		SubmodelComboboxModel cbModel = new SubmodelComboboxModel(model.getSubmodels());
 		cbSubmodel = new JComboBox(cbModel);
 		cbSubmodel.setRenderer(new SubModelRenderer());

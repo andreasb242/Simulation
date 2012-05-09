@@ -61,7 +61,7 @@ public abstract class ConfigurationField implements Comparable<ConfigurationFiel
 	 * @param leftGroup
 	 * @param panel
 	 */
-	public abstract void init(GroupLayout layout, SequentialGroup g, ParallelGroup leftGroup, ParallelGroup rightGroup);
+	public abstract void init(GroupLayout layout, SequentialGroup g, ParallelGroup layoutBoth, ParallelGroup leftGroup, ParallelGroup rightGroup);
 
 	public void addListener(SidebarActionListener listener) {
 		this.listener.add(listener);

@@ -23,23 +23,6 @@ public class NameChecker {
 	 * 
 	 * @param name
 	 *            The name
-	 * @return true if valid
-	 */
-	@Deprecated
-	public boolean checkNameValid(String name) {
-		try {
-			checkName(name);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Checks a name
-	 * 
-	 * @param name
-	 *            The name
 	 * @throws InvalidNameException
 	 *             If the name is invalid
 	 */

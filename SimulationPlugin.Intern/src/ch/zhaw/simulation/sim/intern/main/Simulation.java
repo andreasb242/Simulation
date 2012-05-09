@@ -1,26 +1,14 @@
 package ch.zhaw.simulation.sim.intern.main;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Collections;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
-import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import org.nfunk.jep.ParseException;
 import org.omg.CORBA.UserException;
 
-import butti.javalibs.config.Settings;
-import butti.javalibs.errorhandler.Errorhandler;
-import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.EmptyFormulaException;
@@ -34,19 +22,17 @@ import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.StandardParameter;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.sim.intern.InternSimulationParameter;
 import ch.zhaw.simulation.sim.intern.euler.EulerSimulation;
-import ch.zhaw.simulation.sim.intern.gui.SimulationProgress;
-import ch.zhaw.simulation.sim.intern.gui.TableDialog;
 import ch.zhaw.simulation.sim.intern.model.SimulationAttachment;
 import ch.zhaw.simulation.sim.intern.rungekutta.RungeKuttaSimulation;
 
 public class Simulation {
 	private SimulationDocument doc;
 	private SimulationFlowModel model;
-	private PluginDataProvider provider;
 
 	private Parser parser = new Parser();
 
@@ -57,100 +43,51 @@ public class Simulation {
 	private int type;
 
 	private AbstractSimulation simulation;
-	private SimulationProgress progressDialog;
 	private double dt;
-
-	private Settings settings;
 
 	public enum CheckState {
 		OK, NO_DATA, ERROR
 	};
 
-	public Simulation(PluginDataProvider provider, Settings settings, SimulationDocument doc) {
-		this.provider = provider;
+	public Simulation(SimulationDocument doc) {
 		this.doc = doc;
-		this.settings = settings;
 		this.model = doc.getFlowModel();
 
 		type = (int) doc.getSimulationConfiguration().getParameter(InternSimulationParameter.TYPE, 0);
 	}
 
-	public void startSimulation() {
-		progressDialog = new SimulationProgress(provider.getParent());
-		progressDialog.setVisible(true);
+	public void initSimulation() throws SimulationModelException, ParseException, RecursionException, InvalidAlgorithmParameterException,
+			InterruptedException, ExecutionException {
+		initSimulationAttachment();
 
-		final JProgressBar progressBar = progressDialog.getProgress();
+		// Zusammenhänge berechnen
+		calcSources();
 
-		try {
+		// Zusammenänge auf rekursion Prüfen
+		checkRecursion();
 
-			initSimulationAttachment();
+		SimulationCollection series = initSeries();
 
-			// Zusammenhänge berechnen
-			calcSources();
+		// Alle Formeln parsen, optimieren und ggf. berechnen
+		parseFormulas();
 
-			// Zusammenänge auf rekursion Prüfen
-			checkRecursion();
+		// Initwert für Container berechnen
+		initData();
 
-			SimulationCollection series = initSeries();
-
-			// Alle Formeln parsen, optimieren und ggf. berechnen
-			parseFormulas();
-
-			// Initwert für Container berechnen
-			initData();
-
-			initSimulate();
-			simulation.setSeries(series);
-
-			progressDialog.getCancelButton().addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					simulation.cancel(false);
-				}
-			});
-
-			simulation.addPropertyChangeListener(new PropertyChangeListener() {
-				public void propertyChange(PropertyChangeEvent evt) {
-					if ("progress".equals(evt.getPropertyName())) {
-						progressBar.setValue((Integer) evt.getNewValue());
-					} else if ("state".equals(evt.getPropertyName())) {
-						if (evt.getNewValue() == SwingWorker.StateValue.DONE) {
-							displayDiagramm();
-						}
-					}
-				}
-			});
-
-		} catch (SimulationModelException e) {
-			Messagebox.showError(provider.getParent(), "Simulationsfehler", e.getMessage());
-		} catch (Exception e) {
-			Errorhandler.showError(e, "Simulation fehlgeschlagen!");
-		} finally {
-			// Synchronisationsproblem...
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					progressDialog.setVisible(false);
-				}
-			});
-		}
-
+		initSimulate();
+		simulation.setSeries(series);
 	}
 
-	protected void displayDiagramm() {
-		try {
-			SimulationCollection series = simulation.get();
+	public void execute() {
+		simulation.execute();
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		simulation.addPropertyChangeListener(listener);
+	}
 
-			TableDialog dlg = new TableDialog(provider, settings, series);
-			dlg.setVisible(true);
-		} catch (java.util.concurrent.CancellationException e) {
-			Messagebox.showInfo(provider.getParent(), "Abgebrochen", "Die Simulaton wurd abgebrochen.");
-		} catch (Exception e) {
-			Errorhandler.showError(e, "Fehler bei der Simulation aufgetreten.");
-		}
-		progressDialog.setVisible(false);
+	public SimulationCollection getSimulationResult() throws InterruptedException, ExecutionException {
+		return simulation.get();
 	}
 
 	protected SimulationCollection initSeries() {
@@ -208,7 +145,8 @@ public class Simulation {
 
 	private void setConstValue(AbstractNamedSimulationData d) {
 		if (d instanceof SimulationContainerData) {
-			// TODO Optimize: Container dürfen nur Konstant sein wenn keine Ein- Und
+			// TODO Optimize: Container dürfen nur Konstant sein wenn keine Ein-
+			// Und
 			// Ausflüsse vorhanden sind!
 			return;
 		}
@@ -294,8 +232,6 @@ public class Simulation {
 		default:
 			throw new RuntimeException("Simulation " + type + " not found!");
 		}
-
-		simulation.execute();
 	}
 
 	private void checkRecursion() throws RecursionException {
@@ -398,5 +334,11 @@ public class Simulation {
 
 	public SimulationFlowModel getModel() {
 		return model;
+	}
+
+	public void cancelSimulation() {
+		if (simulation != null) {
+			simulation.cancel(false);
+		}
 	}
 }
