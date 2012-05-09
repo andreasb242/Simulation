@@ -94,13 +94,13 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			filename = codeGenerator.getGeneratedFile();
 			startApplication(workpath, filename);
 		} catch (IOException e) {
+			watcher.stop();
 			provider.getExecutionListener().executionFinished(e.getMessage(), FinishState.ERROR);
 			throw e;
 		} catch (IllegalArgumentException e) {
+			watcher.stop();
 			provider.getExecutionListener().executionFinished(e.getMessage(), FinishState.ERROR);
 			throw e;
-		} finally {
-			watcher.stop();
 		}
 	}
 
