@@ -104,7 +104,7 @@ public abstract class AdaptiveStepCodeGenerator extends FlowCodeGenerator {
 		printIncrementStepSize(out);
 
 		printSaveNewValues(out);
-		printVectorToContainerFlow(out);
+		printVectorToContainer(out);
 		printValuesToFile(out);
 
 		//printDebug(out);

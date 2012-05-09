@@ -367,22 +367,6 @@ public abstract class FlowCodeGenerator extends AbstractCodeGenerator {
 		out.newline();
 	}
 
-	protected void printVectorToContainerFlow(CodeOutput out) {
-		Vector<SimulationContainerData> containers = flowModel.getSimulationContainer();
-		SimulationContainerData container;
-		int i;
-
-		int containerSize = containers.size();
-
-		out.printComment("Convert vector to container/flow");
-		for (i = 1; i <= containerSize; i++) {
-			container = containers.get(i - 1);
-			out.println(container.getName() + ".value = sim_y(" + i + ");");
-		}
-
-		out.newline();
-	}
-
 	protected void printTimeStep(CodeOutput out) {
 		out.printComment("Increase time");
 		out.printComment("t = t + dt");

@@ -134,6 +134,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			// laplace
 			//out.println(density.getName() + ".laplace = del2(" + density.getName() + ".matrix);");
 		}
+		out.newline();
 
 		/*** initialize meso compartments ***/
 		out.printComment("init meso compartments");
@@ -212,11 +213,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.println("for i = 1:sim_count");
 		out.indent();
 
-		/*
-		printContainerCalculations(out);
-		printVectorToContainerFlow(out);
-		printValuesToFile(out);
-		 */
+		/*** for every meso: calculate meso.dy and add to meso.y ***/
 		i = 0;
 		for (MesoData meso : xyModel.getMeso()) {
 			flowFunction = flowFunctionMap.get(meso.getSubmodel().getName());
@@ -225,6 +222,31 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 				printContainerCalculations(out, meso.getName(), flowFunction);
 				printVectorToContainerFlow(out, prefix, meso.getSubmodel());
 			}
+			out.newline();
+
+			// move meso
+			out.printComment("move meso");
+			out.println("tmp_x = " + meso.getName() + ".position.x.value;");
+			out.println("tmp_y = " + meso.getName() + ".position.y.value;");
+			out.println("neighbour = -realmax();");
+			out.println("for x = " + meso.getName() + ".position.x.value - 1:" + meso.getName() + ".position.x.value + 1");
+			out.indent();
+			out.println("for y = " + meso.getName() + ".position.y.value - 1:" + meso.getName() + ".position.y.value + 1");
+			out.indent();
+			out.println("if d1.matrix(y, x) > neighbour");
+			out.indent();
+			out.println("neighbour = d1.matrix(y, x);");
+			out.println("tmp_x = x;");
+			out.println("tmp_y = y;");
+			out.detent();
+			out.println("end;");
+			out.detent();
+			out.println("end;");
+			out.detent();
+			out.println("end;");
+			out.println(meso.getName() + ".position.x.value = tmp_x;");
+			out.println(meso.getName() + ".position.y.value = tmp_y;");
+			out.newline();
 		}
 
 		fileWrite(out, variableList);
@@ -235,6 +257,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		out.detent();
 		out.println("end;");
+		out.newline();
 
 		fileClose(out, variableList);
 
@@ -358,7 +381,6 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		if (!isEmpty) {
 			out.println(builder.toString());
-			out.newline();
 		}
 	}
 

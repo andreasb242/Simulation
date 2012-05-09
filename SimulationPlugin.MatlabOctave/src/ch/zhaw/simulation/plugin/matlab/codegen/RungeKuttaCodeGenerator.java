@@ -55,7 +55,7 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		out.indent();
 		printContainerCalculations(out);
 		printTimeStep(out);
-		printVectorToContainerFlow(out);
+		printVectorToContainer(out);
 		printValuesToFile(out);
 		//printDebug(out);
 		out.detent();
