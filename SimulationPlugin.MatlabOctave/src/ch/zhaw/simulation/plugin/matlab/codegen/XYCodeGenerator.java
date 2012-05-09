@@ -55,6 +55,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		Map<String, String>				    flowFunctionMap;
 
 		String								functionName;
+		String								flowFunction;
 
 		Vector<SimulationContainerData>		containerList;
 		Vector<SimulationParameterData>		parameterList;
@@ -126,9 +127,9 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		// get gradient and laplace
 		for (DensityData density : xyModel.getDensity()) {
 			// gradient
-			out.println(density.getName() + ".gradient = gradient(" + density.getName() + ".matrix);");
+			out.println("[ " + density.getName() + ".grad.dx " + ", " + density.getName() + ".grad.dy ] = gradient(" + density.getName() + ".matrix);");
 			// laplace
-			out.println(density.getName() + ".laplace = del2(" + density.getName() + ".matrix);");
+			//out.println(density.getName() + ".laplace = del2(" + density.getName() + ".matrix);");
 		}
 
 		/*** initialize meso compartments ***/
@@ -141,17 +142,14 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			out.printComment("init " + meso.getName());
 
 			// set x/y
-			out.println(meso.getName() + ".x.value = " + meso.getXCenter() + ";");
-			out.println(meso.getName() + ".y.value = " + meso.getYCenter() + ";");
-			variableList.add(meso.getName() + ".x");
-			variableList.add(meso.getName() + ".y");
+			out.println(meso.getName() + ".position.x.value = " + meso.getXCenter() + ";");
+			out.println(meso.getName() + ".position.y.value = " + meso.getYCenter() + ";");
+			variableList.add(meso.getName() + ".position.x");
+			variableList.add(meso.getName() + ".position.y");
 
 			/*** init submodel ***/
 			submodel = meso.getSubmodel();
 			generateFlowFunction(submodel, flowFunctionMap);
-			if (flowFunctionMap.containsKey(submodel.getName())) {
-
-			}
 
 			// 1) add container
 			containerList = submodel.getModel().getSimulationContainer();
@@ -197,7 +195,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 				variableList.add(variable);
 			}
 			*/
-			printInitialValueVector(out, prefix, submodel);
+			printInitialValueVector(out, meso, prefix);
 			out.newline();
 		}
 
@@ -218,9 +216,15 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		 */
 		i = 0;
 		for (MesoData meso : xyModel.getMeso()) {
-			prefix = meso.getName() + ".submodel";
-			printContainerCalculations(out, prefix, flowFunctionMap.get(meso.getName()));
+			flowFunction = flowFunctionMap.get(meso.getSubmodel().getName());
+			if (flowFunction != null && meso.getSubmodel().getModel().getSimulationContainer().size() > 0) {
+				prefix = meso.getName();
+				printContainerCalculations(out, meso.getName(), flowFunction);
+				printVectorToContainerFlow(out, prefix, meso.getSubmodel());
+			}
 		}
+
+		fileWrite(out, variableList);
 
 		out.printComment("t = t + dt");
 		out.println("sim_time = sim_time + sim_dt;");
@@ -306,7 +310,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + functionName + ".m"));
 
 			out.printComment("Flow calculation");
-			out.println("function [ sim_dy ] = " + functionName + "(sim_time, sim_y, " + submodel.getName() + ")");
+			out.println("function [ sim_dy " + submodel.getName() + " ] = " + functionName + "(sim_time, sim_y, " + submodel.getName() + ")");
 			out.indent();
 			printVectorToContainer(out, submodel);
 			printParameterCalculations(out, submodel, visitor);
@@ -326,16 +330,16 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 	 *
 	 * @param out
 	 */
-	protected void printInitialValueVector(CodeOutput out, String prefix, SubModel submodel) {
+	protected void printInitialValueVector(CodeOutput out, MesoData meso, String prefix) {
 		StringBuilder builder;
 		Vector<SimulationContainerData> containerList;
 		boolean isEmpty = true;
 
 		builder = new StringBuilder();
-		containerList = submodel.getModel().getSimulationContainer();
+		containerList = meso.getSubmodel().getModel().getSimulationContainer();
 
 		builder.append("% Initial value vector\n");
-		builder.append(prefix + ".y = [");
+		builder.append(meso.getName() + ".y = [");
 		for (SimulationContainerData container : containerList) {
 			// to separate between vector elements
 			// first element has no prefix
@@ -454,23 +458,44 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.newline();
 	}
 
-	private void printContainerCalculations(CodeOutput out, String submodel, String flowFunction) {
+	private void printContainerCalculations(CodeOutput out, String mesoName, String flowFunction) {
+
 		out.printComment("Reset intermediate steps");
-		out.println(submodel + ".k = zeros(length(" + submodel + "y), 4);");
-		out.println(submodel + ".k(:,1) = " + flowFunction + "(sim_time + sim_dt * sim_c(1), " + submodel + ".y + sim_dt * " + submodel + ".k * sim_a(:,1)," + submodel + ");");
-		out.println(submodel + ".k(:,2) = " + flowFunction + "(sim_time + sim_dt * sim_c(2), " + submodel + ".y + sim_dt * " + submodel + ".k * sim_a(:,2)," + submodel + ");");
-		out.println(submodel + ".k(:,3) = " + flowFunction + "(sim_time + sim_dt * sim_c(3), " + submodel + ".y + sim_dt * " + submodel + ".k * sim_a(:,3)," + submodel + ");");
-		out.println(submodel + ".k(:,4) = " + flowFunction + "(sim_time + sim_dt * sim_c(4), " + submodel + ".y + sim_dt * " + submodel + ".k * sim_a(:,4)," + submodel + ");");
+		out.println(mesoName + ".k = zeros(length(" + mesoName + ".y), 4);");
+		out.println("[ " + mesoName + ".k(:,1) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(1), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,1)," + mesoName + ".submodel);");
+		out.println("[ " + mesoName + ".k(:,2) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(2), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,2)," + mesoName + ".submodel);");
+		out.println("[ " + mesoName + ".k(:,3) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(3), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,3)," + mesoName + ".submodel);");
+		out.println("[ " + mesoName + ".k(:,4) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(4), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,4)," + mesoName + ".submodel);");
 		out.newline();
 
 		out.printComment("dy");
-		out.println(submodel + ".dy = " + submodel + ".k * sim_b;");
+		out.println(mesoName + ".dy = " + mesoName + ".k * sim_b;");
 		out.newline();
 
 		out.printComment("y = y + dt * dy");
-		out.println("sim_y = sim_y + sim_dt * sim_dy;");
+		out.println(mesoName + ".y = " + mesoName + ".y + sim_dt * " + mesoName + ".dy;");
 		out.newline();
 
+	}
+
+	private void printVectorToContainerFlow(CodeOutput out, String prefix, SubModel submodel) {
+		Vector<SimulationContainerData> containerList;
+		SimulationContainerData container;
+		int containerSize;
+		int i;
+
+		containerList = submodel.getModel().getSimulationContainer();
+
+		containerSize = containerList.size();
+
+		sortByRelevanz(containerList);
+
+		out.printComment("Convert vector to container/flow");
+		for (i = 1; i <= containerSize; i++) {
+			container = containerList.get(i - 1);
+			out.println(prefix + "." + container.getName() + ".value = " + prefix + ".y(" + i + ");");
+		}
+		out.newline();
 	}
 
 	/**

@@ -15,7 +15,9 @@ import java.io.PrintStream;
  * @author: bachi
  */
 public class XYModelAttachment implements SimulationAttachment {
-	private Node formula = null;
+	private Node formula;
+	private Node dataX;
+	private Node dataY;
 	private FlowModelOptimizer flowModelOptimizer;
 
 	public XYModelAttachment() {
@@ -23,21 +25,47 @@ public class XYModelAttachment implements SimulationAttachment {
 	}
 
 	public void optimize(Parser.ParserNodePair parsed) throws ParseException {
+		formula = privateOptimize(parsed);
+	}
+
+	public void optimizeDataX(Parser.ParserNodePair parsed) throws ParseException {
+		dataX = privateOptimize(parsed);
+	}
+
+	public void optimizeDataY(Parser.ParserNodePair parsed) throws ParseException {
+		dataY = privateOptimize(parsed);
+	}
+
+	private Node privateOptimize(Parser.ParserNodePair parsed) throws ParseException {
 		MatrixJep j = parsed.jep;
 		Node processed = j.preprocess(parsed.nodes.lastElement());
 
-		formula = j.simplify(processed);
+		return j.simplify(processed);
 	}
 
 	public String getPreparedFormula(PrintVisitor visitor) {
-		if (this.formula == null) {
+		return getPrivateFormula(formula, visitor);
+	}
+
+	public String getDataXFormula(PrintVisitor visitor) {
+		return getPrivateFormula(dataX, visitor);
+	}
+
+	public String getDataYFormula(PrintVisitor visitor) {
+		return getPrivateFormula(dataY, visitor);
+	}
+
+	private String getPrivateFormula(Node node, PrintVisitor visitor) {
+		if (node == null) {
 			throw new NullPointerException();
 		}
 
 		ByteArrayOutputStream bo = new ByteArrayOutputStream();
 		PrintStream s = new PrintStream(bo);
-		visitor.print((Node) this.formula, s);
+		visitor.print(node, s);
 		s.close();
 		return bo.toString();
 	}
+
+
 }

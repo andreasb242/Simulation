@@ -54,6 +54,7 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		out.println("for i = 1:sim_count");
 		out.indent();
 		printContainerCalculations(out);
+		printTimeStep(out);
 		printVectorToContainerFlow(out);
 		printValuesToFile(out);
 		//printDebug(out);
@@ -97,9 +98,6 @@ public class RungeKuttaCodeGenerator extends FixedStepCodeGenerator {
 		out.println("sim_k(:,2) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(2), sim_y + sim_dt * sim_k * sim_a(:,2));");
 		out.println("sim_k(:,3) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(3), sim_y + sim_dt * sim_k * sim_a(:,3));");
 		out.println("sim_k(:,4) = " + FILENAME_ODE + "(sim_time + sim_dt * sim_c(4), sim_y + sim_dt * sim_k * sim_a(:,4));");
-		out.newline();
-		out.printComment("t = t + dt");
-		out.println("sim_time = sim_time + sim_dt;");
 		out.newline();
 
 		out.printComment("dy");

@@ -29,28 +29,10 @@ public class XYModelOptimizer implements ModelOptimizer {
 	}
 
 	public void optimize() throws SimulationModelException {
-		AbstractNamedSimulationData	namedData;
-		MesoData            		mesoData;
-
 		initModelForSimulation();
 		for (AbstractSimulationData data : xyModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
-				namedData = (AbstractNamedSimulationData) data;
-				if (namedData instanceof MesoData) {
-					mesoData = (MesoData) namedData;
-					// TODO: anders behandeln!
-					if (mesoData.getDataX().getFormula() == null) {
-						throw new EmptyDerivativeException(mesoData.getDataX());
-					}
-					if (mesoData.getDataY().getFormula() == null) {
-						throw new EmptyDerivativeException(mesoData.getDataX());
-					}
-
-					// Optimize submodel
-					new FlowModelOptimizer(mesoData.getSubmodel().getModel()).optimize();
-				} else {
-					parseFormula(namedData);
-				}
+				parseFormula((AbstractNamedSimulationData) data);
 			}
 		}
 
@@ -74,12 +56,21 @@ public class XYModelOptimizer implements ModelOptimizer {
 		}
 	}
 
-	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException {
+	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException, SimulationModelException {
+		MesoData mesoData;
 		XYModelAttachment attachment = (XYModelAttachment) namedData.attachment;
 
 		try {
 			System.out.println(namedData.getName());
-			if (!(namedData instanceof MesoData)) {
+			if (namedData instanceof MesoData) {
+				mesoData = (MesoData) namedData;
+
+				attachment.optimizeDataX(parser.checkCode(mesoData.getDataX().getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
+				attachment.optimizeDataY(parser.checkCode(mesoData.getDataY().getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
+
+				// Optimize submodel
+				new FlowModelOptimizer(mesoData.getSubmodel().getModel()).optimize();
+			} else {
                 attachment.optimize(parser.checkCode(namedData.getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
             }
 		} catch (ParseException e) {
