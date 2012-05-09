@@ -1,12 +1,16 @@
 package ch.zhaw.simulation.window;
 
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImageOp;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -43,6 +47,11 @@ public class LockFrame extends JFrame {
 	 */
 	private JPanel panel = new JPanel();
 
+	/**
+	 * The cancel listener ore <code>null</code>
+	 */
+	private ActionListener cancelListener;
+
 	public LockFrame() {
 
 		// Debugging NICHT aktivieren, es werden mehrere Komponenten
@@ -56,14 +65,23 @@ public class LockFrame extends JFrame {
 
 		layer.setUI(blurUI);
 
-		lock = new Lockpanel(this);
+		lock = new Lockpanel(this, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cancelAction();
+			}
+		});
 
 		gbm.setX(1).setY(1).setFill(GridBagConstraints.NONE).setComp(lock);
 
 		gbm.setX(0).setY(0).setWidth(3).setHeight(3).setComp(layer);
+	}
 
-		// Neues Layout für das Panel...
-		gbm = new GridBagManager(panel);
+	protected void cancelAction() {
+		if (this.cancelListener != null) {
+			this.cancelListener.actionPerformed(null);
+		}
 	}
 
 	/**
@@ -76,12 +94,40 @@ public class LockFrame extends JFrame {
 	public void unlock() {
 		lock.setVisible(false);
 		blurUI.setLocked(false);
+
+		enableJmenu(true);
+		this.cancelListener = null;
 	}
 
-	public void lock(String text) {
+	/**
+	 * Sets the progress in Percent, -1 hides the Progressbar
+	 */
+	public void setPercent(int percent) {
+		lock.setPercent(percent);
+	}
+
+	private void enableJmenu(boolean enable) {
+		JMenuBar menu = getJMenuBar();
+		if (menu == null) {
+			return;
+		}
+
+		for (int i = 0; i < menu.getMenuCount(); i++) {
+			JMenu m = menu.getMenu(i);
+			m.setEnabled(enable);
+		}
+	}
+
+	public void lock(String text, ActionListener cancelable) {
 		blurUI.setLocked(true);
 		lock.setVisible(true);
 		lock.setText(text);
+
+		enableJmenu(false);
+
+		// TODO !!! cancel if window is closed!
+		lock.setCancelable(cancelable != null);
+		this.cancelListener = cancelable;
 	}
 
 	public void setLockText(String text) {
@@ -104,7 +150,7 @@ public class LockFrame extends JFrame {
 
 						@Override
 						public void run() {
-							f.lock("Test123");
+							f.lock("Test123", null);
 						}
 					});
 				} else if (x == 1) {

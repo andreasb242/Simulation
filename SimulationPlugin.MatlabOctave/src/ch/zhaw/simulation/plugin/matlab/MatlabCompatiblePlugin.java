@@ -1,29 +1,26 @@
 package ch.zhaw.simulation.plugin.matlab;
 
-import javax.swing.*;
+import java.io.IOException;
 
+import javax.swing.JPanel;
+
+import butti.javalibs.config.Settings;
 import butti.javalibs.dirwatcher.DirectoryWatcher;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
+import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
+import ch.zhaw.simulation.plugin.PluginDataProvider;
+import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.matlab.codegen.*;
+import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
 import ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.optimizer.ModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.optimizer.XYModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
-import ch.zhaw.simulation.plugin.matlab.sidebar.NumericMethod;
-import ch.zhaw.simulation.plugin.matlab.sidebar.NumericMethodType;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
-import org.jdesktop.swingx.JXTaskPane;
-
-import butti.javalibs.config.Settings;
-import ch.zhaw.simulation.math.exception.SimulationModelException;
-import ch.zhaw.simulation.model.SimulationDocument;
-import ch.zhaw.simulation.model.SimulationType;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.PluginDataProvider;
-import ch.zhaw.simulation.plugin.SimulationPlugin;
-
-import java.io.IOException;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
 	private Settings settings;
@@ -97,13 +94,13 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			filename = codeGenerator.getGeneratedFile();
 			startApplication(workpath, filename);
 		} catch (IOException e) {
-			watcher.stop();
-			provider.getExecutionListener().executionFinished();
+			provider.getExecutionListener().executionFinished(e.getMessage(), FinishState.ERROR);
 			throw e;
 		} catch (IllegalArgumentException e) {
-			watcher.stop();
-			provider.getExecutionListener().executionFinished();
+			provider.getExecutionListener().executionFinished(e.getMessage(), FinishState.ERROR);
 			throw e;
+		} finally {
+			watcher.stop();
 		}
 	}
 
@@ -142,5 +139,12 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		//while ((line = stderr.readLine ()) != null) {
 		//	System.out.println ("stderr: " + line);
 		//}
+	}
+
+	@Override
+	public void cancelSimulation() {
+		provider.getExecutionListener().setExecutionMessage("Abbrechen nicht möglich");
+		// TODO Auto-generated method stub
+		
 	}
 }

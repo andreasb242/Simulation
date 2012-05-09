@@ -15,6 +15,7 @@ import javax.swing.event.DocumentListener;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.util.ColorConstants;
 import ch.zhaw.simulation.gui.codeditor.FormulaEditorPanel;
+import ch.zhaw.simulation.model.InvalidNameException;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
@@ -29,6 +30,7 @@ public class EditorPanel extends JPanel {
 
 	private NameChecker nameChecker = new NameChecker();
 	private JTextField txtName = new JTextField();
+	private JLabel lbNameError = new JLabel("!");
 	private Color defaultBackground;
 
 	private JTextField txtDescription = new JTextField();
@@ -41,19 +43,24 @@ public class EditorPanel extends JPanel {
 		gbm = new GridBagManager(this);
 		this.model = model;
 
+		lbNameError.setVisible(false);
+
 		Vector<String> vars = new Vector<String>();
 		vars.add("x");
 		vars.add("y");
 
 		editor = new FormulaEditorPanel(sys, model, vars, false);
 
-		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name"));
-		gbm.setX(0).setY(1).setWeightY(0).setWeightX(0).setComp(new JLabel("Beschreibung"));
+		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name!!"));
+		gbm.setX(0).setY(2).setWeightY(0).setWeightX(0).setComp(new JLabel("Beschreibung"));
 
 		gbm.setX(1).setY(0).setWeightY(0).setComp(txtName);
-		gbm.setX(1).setY(1).setWeightY(0).setComp(txtDescription);
 
-		gbm.setX(0).setWidth(2).setY(2).setComp(editor);
+		gbm.setX(1).setY(1).setWeightY(0).setComp(lbNameError);
+
+		gbm.setX(1).setY(2).setWeightY(0).setComp(txtDescription);
+
+		gbm.setX(0).setWidth(2).setY(5).setComp(editor);
 
 		FocusListener listener = new FocusAdapter() {
 
@@ -97,15 +104,18 @@ public class EditorPanel extends JPanel {
 		}
 
 		String name = txtName.getText();
-		
-		// TODO: use checkName!
-		if (nameChecker.checkNameValid(name)) {
-			txtName.setBackground(defaultBackground);
 
+		try {
+			nameChecker.checkName(name);
+
+			txtName.setBackground(defaultBackground);
 			selected.setName(txtName.getText());
 			model.densityChanged(selected);
-		} else {
+			lbNameError.setVisible(false);
+		} catch (InvalidNameException e) {
 			txtName.setBackground(ColorConstants.ERROR_COLOR);
+			lbNameError.setText(e.getMessage());
+			lbNameError.setVisible(true);
 		}
 	}
 

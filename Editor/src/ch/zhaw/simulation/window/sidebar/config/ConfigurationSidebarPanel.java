@@ -122,13 +122,17 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 
 		ParallelGroup leftGroup = layout.createParallelGroup();
 		ParallelGroup rightGroup = layout.createParallelGroup();
-		layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(leftGroup).addGroup(rightGroup));
+		ParallelGroup layoutBoth = layout.createParallelGroup();
+		SequentialGroup vertical = layout.createSequentialGroup();
+		layoutBoth.addGroup(vertical);
+		vertical.addGroup(leftGroup).addGroup(rightGroup);
+		layout.setHorizontalGroup(layoutBoth);
 
 		SequentialGroup g = layout.createSequentialGroup();
 		layout.setVerticalGroup(g);
 
 		for (ConfigurationField f : this.fields) {
-			f.init(this.layout, g, leftGroup, rightGroup);
+			f.init(this.layout, g, layoutBoth, leftGroup, rightGroup);
 		}
 	}
 

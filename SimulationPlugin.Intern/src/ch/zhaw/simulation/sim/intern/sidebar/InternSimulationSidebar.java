@@ -38,6 +38,15 @@ public class InternSimulationSidebar extends DefaultConfigurationSidebar impleme
 	}
 
 	@Override
+	public void updateSidebar(SimulationType type) {
+		if (type == SimulationType.FLOW_SIMULATION) {
+			setVisible(true);
+		} else {
+			setVisible(false);
+		}
+	}
+
+	@Override
 	protected void loadDataFromModel() {
 		super.loadDataFromModel();
 

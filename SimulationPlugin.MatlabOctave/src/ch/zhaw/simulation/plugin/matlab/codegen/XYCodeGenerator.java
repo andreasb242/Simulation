@@ -1,10 +1,18 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
@@ -12,11 +20,6 @@ import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
 import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.*;
 
 /**
  * @author: bachi

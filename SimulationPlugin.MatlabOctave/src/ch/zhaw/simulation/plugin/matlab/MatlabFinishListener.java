@@ -2,6 +2,8 @@ package ch.zhaw.simulation.plugin.matlab;
 
 import java.io.File;
 
+import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
+
 import butti.javalibs.dirwatcher.FileListener;
 
 /**
@@ -16,7 +18,7 @@ public class MatlabFinishListener extends FileListener {
 	public MatlabFinishListener(MatlabCompatiblePlugin parent) {
 		this.parent = parent;
 	}
-	
+
 	@Override
 	public void resourceAdded(File event) {
 		stop(event);
@@ -41,7 +43,7 @@ public class MatlabFinishListener extends FileListener {
 
 		if (event.equals(file)) {
 			parent.watcher.stop();
-			parent.provider.getExecutionListener().executionFinished();
+			parent.provider.getExecutionListener().executionFinished(null, FinishState.SUCCESSFULLY);
 		}
 	}
 

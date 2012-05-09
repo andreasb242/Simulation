@@ -2,15 +2,13 @@ package ch.zhaw.simulation.plugin;
 
 import javax.swing.JPanel;
 
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
-import org.jdesktop.swingx.JXTaskPane;
-
 import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 
 public interface SimulationPlugin extends AbstractPlugin {
 
@@ -58,6 +56,15 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 */
 	public void executeFlowSimulation(SimulationDocument doc) throws Exception;
 
+	/**
+	 * @return The result for <code>doc</code> or <code>null</code> if nothing
+	 *         available
+	 */
 	public SimulationCollection getSimulationResults(SimulationDocument doc);
 
+	/**
+	 * Cancel the current simulation, if possible
+	 */
+	public void cancelSimulation();
+	
 }

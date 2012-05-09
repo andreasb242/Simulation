@@ -103,7 +103,7 @@ public class MoveConfigurationField extends SingleConfigurationField {
 	}
 
 	@Override
-	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup leftGroup, ParallelGroup rightGroup) {
+	public void init(GroupLayout layout, SequentialGroup g, ParallelGroup layoutBoth, ParallelGroup leftGroup, ParallelGroup rightGroup) {
 		JLabel title = new TitleLabel("Bewegung");
 
 		leftGroup.addComponent(title);

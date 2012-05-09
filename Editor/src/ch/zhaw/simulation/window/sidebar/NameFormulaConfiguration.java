@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -18,6 +19,7 @@ import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
+import ch.zhaw.simulation.model.InvalidNameException;
 import ch.zhaw.simulation.model.NameChecker;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
@@ -30,6 +32,7 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 	private static final long serialVersionUID = 1L;
 
 	private JTextField txtName = new JTextField();
+	private JLabel lbNameError = new JLabel();
 
 	protected TitleLabel lbValue;
 	protected JButton btEdit;
@@ -50,9 +53,12 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 		setTitle("Eigenschaften");
 		setSpecial(true);
 		gbm = new GridBagManager(this);
+		
+		lbNameError.setVisible(false);
 
 		gbm.setX(0).setY(10).setWeightX(0).setWeightY(0).setComp(new TitleLabel("Name"));
 		gbm.setX(1).setY(10).setWeightY(0).setComp(txtName);
+		gbm.setX(0).setWidth(2).setY(11).setWeightY(0).setComp(lbNameError);
 
 		txtName.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -134,13 +140,17 @@ public abstract class NameFormulaConfiguration extends JXTaskPane implements Sel
 			return;
 		}
 
-		// TODO: use checkName!
-		if (nameChecker.checkNameValid(txtName.getText())) {
+		try {
+			nameChecker.checkName(txtName.getText());
 			data.setName(txtName.getText());
 			txtName.setForeground(Color.BLACK);
 			model.fireObjectChanged(data);
-		} else {
+			lbNameError.setVisible(false);
+			
+		} catch (InvalidNameException e) {
 			txtName.setForeground(Color.RED);
+			lbNameError.setVisible(true);
+			lbNameError.setText(e.getMessage());
 		}
 	}
 
