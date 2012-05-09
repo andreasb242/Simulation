@@ -13,6 +13,7 @@
     <orderEntry type="module" module-name="Model" />
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
+    <orderEntry type="module" module-name="Sysintegration" />
   </component>
 </module>
 
