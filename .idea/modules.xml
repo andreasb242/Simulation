@@ -14,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/HelpBrowser/HelpBrowser.iml" filepath="$PROJECT_DIR$/HelpBrowser/HelpBrowser.iml" />
       <module fileurl="file://$PROJECT_DIR$/HtmlEditor/HtmlEditor.iml" filepath="$PROJECT_DIR$/HtmlEditor/HtmlEditor.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImportFilter/ImportFilter.iml" filepath="$PROJECT_DIR$/ImportFilter/ImportFilter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImportFilter.Dynasys/ImportFilter.Dynasys.iml" filepath="$PROJECT_DIR$/ImportFilter.Dynasys/ImportFilter.Dynasys.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImportFilter.Dynasis/ImportFilter.Dynasys.iml" filepath="$PROJECT_DIR$/ImportFilter.Dynasis/ImportFilter.Dynasys.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImportFilter.Madonna/ImportFilter.Madonna.iml" filepath="$PROJECT_DIR$/ImportFilter.Madonna/ImportFilter.Madonna.iml" />
       <module fileurl="file://$PROJECT_DIR$/Model/Model.iml" filepath="$PROJECT_DIR$/Model/Model.iml" />
