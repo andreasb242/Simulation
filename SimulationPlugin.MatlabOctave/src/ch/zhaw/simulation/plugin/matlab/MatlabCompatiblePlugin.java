@@ -143,6 +143,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void cancelSimulation() {
+		provider.getExecutionListener().setExecutionMessage("Abbrechen nicht möglich");
 		// TODO Auto-generated method stub
 		
 	}

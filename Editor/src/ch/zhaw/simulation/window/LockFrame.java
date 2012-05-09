@@ -1,6 +1,8 @@
 package ch.zhaw.simulation.window;
 
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImageOp;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -45,6 +47,11 @@ public class LockFrame extends JFrame {
 	 */
 	private JPanel panel = new JPanel();
 
+	/**
+	 * The cancel listener ore <code>null</code>
+	 */
+	private ActionListener cancelListener;
+
 	public LockFrame() {
 
 		// Debugging NICHT aktivieren, es werden mehrere Komponenten
@@ -58,11 +65,23 @@ public class LockFrame extends JFrame {
 
 		layer.setUI(blurUI);
 
-		lock = new Lockpanel(this);
+		lock = new Lockpanel(this, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cancelAction();
+			}
+		});
 
 		gbm.setX(1).setY(1).setFill(GridBagConstraints.NONE).setComp(lock);
 
 		gbm.setX(0).setY(0).setWidth(3).setHeight(3).setComp(layer);
+	}
+
+	protected void cancelAction() {
+		if (this.cancelListener != null) {
+			this.cancelListener.actionPerformed(null);
+		}
 	}
 
 	/**
@@ -77,8 +96,9 @@ public class LockFrame extends JFrame {
 		blurUI.setLocked(false);
 
 		enableJmenu(true);
+		this.cancelListener = null;
 	}
-	
+
 	/**
 	 * Sets the progress in Percent, -1 hides the Progressbar
 	 */
@@ -98,12 +118,16 @@ public class LockFrame extends JFrame {
 		}
 	}
 
-	public void lock(String text) {
+	public void lock(String text, ActionListener cancelable) {
 		blurUI.setLocked(true);
 		lock.setVisible(true);
 		lock.setText(text);
 
 		enableJmenu(false);
+
+		// TODO !!! cancel if window is closed!
+		lock.setCancelable(cancelable != null);
+		this.cancelListener = cancelable;
 	}
 
 	public void setLockText(String text) {
@@ -126,7 +150,7 @@ public class LockFrame extends JFrame {
 
 						@Override
 						public void run() {
-							f.lock("Test123");
+							f.lock("Test123", null);
 						}
 					});
 				} else if (x == 1) {

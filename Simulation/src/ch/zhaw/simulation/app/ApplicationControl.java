@@ -2,6 +2,8 @@ package ch.zhaw.simulation.app;
 
 import java.awt.Desktop;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -158,7 +160,17 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 					@Override
 					public void run() {
-						mainFrame.lock(message);
+						mainFrame.lock(message, new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								PluginDescription<SimulationPlugin> selectedPluginDescription = getSelectedPluginDescriptor();
+								if (selectedPluginDescription != null) {
+									SimulationPlugin plugin = selectedPluginDescription.getPlugin();
+									plugin.cancelSimulation();
+								}
+							}
+						});
 					}
 				});
 			}
@@ -188,7 +200,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 								frame.setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
-							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurd abgebrochen.");
+							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurde abgebrochen.");
 						} else {
 							Messagebox.showError(getMainFrame(), "Simulation fehlgeschlagen", message);
 						}
