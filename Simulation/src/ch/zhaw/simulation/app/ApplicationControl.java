@@ -141,7 +141,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	public ApplicationControl() {
 	}
-	
+
 	public void start(Settings settings, Vector<String> parameter, String openfile) {
 		this.settings = settings;
 
@@ -199,7 +199,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 						if (state == FinishState.SUCCESSFULLY) {
 							if (doc.getType() == SimulationType.FLOW_SIMULATION) {
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-								DiagramFrame frame = new DiagramFrame(collection, getDocumentName(), sysintegration);
+								DiagramFrame frame = new DiagramFrame(collection, doc.getSimulationConfiguration(), getDocumentName(), sysintegration);
 								frame.setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {

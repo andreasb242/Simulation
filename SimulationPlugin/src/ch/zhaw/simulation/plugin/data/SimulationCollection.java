@@ -1,11 +1,9 @@
 package ch.zhaw.simulation.plugin.data;
 
+import java.util.Iterator;
 import java.util.Vector;
 
-public class SimulationCollection {
-	private double ymin = Double.MAX_VALUE;
-	private double ymax = Double.MIN_VALUE;
-
+public class SimulationCollection implements Iterable<SimulationSerie> {
 	private double startTime = 0;
 	private double endTime;
 
@@ -17,14 +15,6 @@ public class SimulationCollection {
 	}
 
 	public void addSeries(SimulationSerie serie) {
-		if (serie.getMin() < ymin) {
-			ymin = serie.getMin();
-		}
-
-		if (serie.getMax() > ymax) {
-			ymax = serie.getMax();
-		}
-
 		series.add(serie);
 	}
 
@@ -40,31 +30,16 @@ public class SimulationCollection {
 		return series.size();
 	}
 
-	public void setYMax(double ymax) {
-		this.ymax = ymax;
-	}
-
-	public double getYMax() {
-		return ymax;
-	}
-
-	public void setYMin(double ymin) {
-		this.ymin = ymin;
-	}
-
-	public double getYMin() {
-		return ymin;
-	}
-
-	public boolean isColumnNumeric() {
-		return true;
-	}
-
 	public double getStartTime() {
 		return startTime;
 	}
 
 	public double getEndTime() {
 		return endTime;
+	}
+
+	@Override
+	public Iterator<SimulationSerie> iterator() {
+		return series.iterator();
 	}
 }

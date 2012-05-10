@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.diagram.colorcheckbox;
+package ch.zhaw.simulation.diagram.sidebar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,13 +40,18 @@ public class ColorCheckbox extends JPanel {
 		}
 	};
 
-	public ColorCheckbox(String name) {
+	public ColorCheckbox() {
 		setLayout(new BorderLayout());
-		cb = new JCheckBox(name);
+		cb = new JCheckBox();
 		add(BorderLayout.CENTER, cb);
+		setOpaque(false);
 
 		label = new JLabel(icon);
 		add(BorderLayout.WEST, label);
+	}
+
+	public void setName(String name) {
+		cb.setText(name);
 	}
 
 	public void setColor(Color c) {
@@ -68,5 +73,9 @@ public class ColorCheckbox extends JPanel {
 
 	public boolean isSelected() {
 		return cb.isSelected();
+	}
+
+	public void setSelected(boolean selected) {
+		cb.setSelected(selected);
 	}
 }

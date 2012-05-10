@@ -11,8 +11,11 @@ import javax.swing.JScrollPane;
 import org.jdesktop.swingx.action.TargetableAction;
 
 import butti.javalibs.config.WindowPositionSaver;
+import ch.zhaw.simulation.diagram.plot.DiagramPlot;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.icon.IconLoader;
+import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
@@ -30,10 +33,17 @@ public class DiagramFrame extends JFrame {
 
 	private DiagramConfigListener listener;
 
-	public DiagramFrame(SimulationCollection collection, String name, Sysintegration sys) {
+	private SimulationConfiguration config;
+
+	public DiagramFrame(SimulationCollection collection, SimulationConfiguration config, String name, Sysintegration sys) {
 		this.model = new DiagramConfigModel(collection);
+
+		System.out.println("load: " + config.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
+		this.model.enableSeries(config.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.sidebar = new DiagramSidebar(this.model);
 		this.plot = new DiagramPlot(this.model);
+
+		this.config = config;
 		toolbar = sys.createToolbar();
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -157,6 +167,10 @@ public class DiagramFrame extends JFrame {
 		plot.dispose();
 		sidebar.dispose();
 		model.removeListener(listener);
+
+		System.out.println("save: " + model.getEnabledSeriesString());
+		config.setParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, model.getEnabledSeriesString());
+
 		super.dispose();
 	}
 }
