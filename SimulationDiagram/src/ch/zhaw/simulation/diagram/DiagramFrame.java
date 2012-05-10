@@ -1,26 +1,21 @@
 package ch.zhaw.simulation.diagram;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
+import org.jdesktop.swingx.action.TargetableAction;
+
 import butti.javalibs.config.WindowPositionSaver;
+import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
-
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
-
-import org.jdesktop.swingx.action.ActionManager;
-import org.jdesktop.swingx.action.TargetManager;
-import org.jdesktop.swingx.action.TargetableAction;
 
 public class DiagramFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -32,6 +27,8 @@ public class DiagramFrame extends JFrame {
 	private DiagramPlot plot;
 
 	private Toolbar toolbar;
+
+	private DiagramConfigListener listener;
 
 	public DiagramFrame(SimulationCollection collection, String name, Sysintegration sys) {
 		this.model = new DiagramConfigModel(collection);
@@ -58,8 +55,8 @@ public class DiagramFrame extends JFrame {
 
 	private void initToolbar() {
 		final int ICON_SIZE = 32;
-		
-		toolbar.add(new AbstractAction("Anzeigen als Tabelle",IconLoader.getIcon("spreadsheet", ICON_SIZE)) {
+
+		toolbar.add(new AbstractAction("Anzeigen als Tabelle", IconLoader.getIcon("spreadsheet", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -68,9 +65,9 @@ public class DiagramFrame extends JFrame {
 
 			}
 		});
-		
+
 		toolbar.addSeparator();
-		
+
 		toolbar.add(new AbstractAction("Speichern als CSV", IconLoader.getIcon("save", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
@@ -80,7 +77,7 @@ public class DiagramFrame extends JFrame {
 
 			}
 		});
-		
+
 		toolbar.add(new AbstractAction("Speichern als Bild", IconLoader.getIcon("photos", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
@@ -90,9 +87,9 @@ public class DiagramFrame extends JFrame {
 
 			}
 		});
-		
+
 		toolbar.addSeparator();
-		
+
 		toolbar.add(new AbstractAction("Vergrössern", IconLoader.getIcon("zoom-in", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
@@ -102,7 +99,7 @@ public class DiagramFrame extends JFrame {
 
 			}
 		});
-		
+
 		toolbar.add(new AbstractAction("Verkleinern", IconLoader.getIcon("zoom-out", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
@@ -112,7 +109,7 @@ public class DiagramFrame extends JFrame {
 
 			}
 		});
-		
+
 		toolbar.add(new AbstractAction("Passend", IconLoader.getIcon("zoom-fit-best", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
@@ -122,26 +119,35 @@ public class DiagramFrame extends JFrame {
 
 			}
 		});
-		
+
 		toolbar.addSeparator();
-		
-		TargetableAction action = new TargetableAction("Logarithmisch", "log", IconLoader.getIcon("log", ICON_SIZE)) {
+
+		final TargetableAction action = new TargetableAction("Logarithmisch", "log", IconLoader.getIcon("log", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-		    public void actionPerformed(ActionEvent evt) {
-		    }
+			public void actionPerformed(ActionEvent evt) {
+			}
 
 			@Override
-		    public void itemStateChanged(ItemEvent evt) {
-		        boolean newValue;
-		        newValue = evt.getStateChange() == ItemEvent.SELECTED;
-		        
-		        System.out.println("log="+newValue);
-		    }
+			public void itemStateChanged(ItemEvent evt) {
+				boolean newValue;
+				newValue = evt.getStateChange() == ItemEvent.SELECTED;
+
+				model.setLogEnabled(newValue);
+			}
 		};
 		action.setStateAction(true);
-		
+
+		listener = new DiagramConfigAdapter() {
+			@Override
+			public void setLogEnabled(boolean log) {
+				if (action.isEnabled() != log) {
+					action.setEnabled(log);
+				}
+			}
+		};
+
 		toolbar.addToogleAction(action);
 
 	}
@@ -150,6 +156,7 @@ public class DiagramFrame extends JFrame {
 	public void dispose() {
 		plot.dispose();
 		sidebar.dispose();
+		model.removeListener(listener);
 		super.dispose();
 	}
 }
