@@ -164,7 +164,8 @@ public class Lockpanel extends JPanel {
 	public void setVisible(boolean flag) {
 		super.setVisible(flag);
 		busyLabel.setBusy(flag);
-		progress.setPercent(-1, null);
+		progress.setVisible(flag);
+		progress.setPercent(0, null);
 	}
 
 	/**

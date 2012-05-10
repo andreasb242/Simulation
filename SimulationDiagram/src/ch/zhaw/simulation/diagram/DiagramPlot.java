@@ -52,7 +52,7 @@ public class DiagramPlot extends JComponent {
 	// Selected path
 	private SimulationCollection collection;
 
-	public DiagramPlot() {
+	public DiagramPlot(DiagramConfigModel model) {
 		// Size of Scrollbar
 		setPreferredSize(new Dimension(200, 200));
 
@@ -280,4 +280,8 @@ public class DiagramPlot extends JComponent {
 		repaint();
 	}
 
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
 }

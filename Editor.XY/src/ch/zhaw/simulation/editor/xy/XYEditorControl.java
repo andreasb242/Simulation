@@ -203,7 +203,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 							return "Der Name ist bereits vergeben";
 						}
 					});
-					dlg.setTitle("Simulation");
+					dlg.setTitle("(AB)² Simulation");
 					dlg.setText(sub.getName());
 					dlg.setVisible(true);
 

@@ -14,7 +14,7 @@ import butti.javalibs.util.DrawHelper;
 public class LockProgressbar extends JComponent {
 	private static final long serialVersionUID = 1L;
 
-	private int percent = -1;
+	private int percent = 0;
 
 	public LockProgressbar() {
 		setPreferredSize(new Dimension(200, 25));

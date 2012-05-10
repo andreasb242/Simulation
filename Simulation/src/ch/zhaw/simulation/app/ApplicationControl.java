@@ -126,6 +126,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	private HashMap<SimulationFlowModel, FlowSubmodelRef> submodels = new HashMap<SimulationFlowModel, FlowSubmodelRef>();
 
+	/**
+	 * Watches the simulation state / progress
+	 */
 	private ExecutionListener executionListener;
 
 	/**
@@ -138,7 +141,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	 */
 	public ApplicationControl() {
 	}
-
+	
 	public void start(Settings settings, Vector<String> parameter, String openfile) {
 		this.settings = settings;
 
@@ -196,7 +199,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 						if (state == FinishState.SUCCESSFULLY) {
 							if (doc.getType() == SimulationType.FLOW_SIMULATION) {
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-								DiagramFrame frame = new DiagramFrame(collection);
+								DiagramFrame frame = new DiagramFrame(collection, getDocumentName(), sysintegration);
 								frame.setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
@@ -748,13 +751,13 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	@Override
 	public void updateTitle() {
 		if (documentName == null) {
-			this.mainFrame.setTitle("Simulation");
+			this.mainFrame.setTitle("(AB)² Simulation");
 		} else {
 			String saved = "";
 			if (doc.isChanged()) {
 				saved = " *";
 			}
-			this.mainFrame.setTitle(documentName + saved + " - Simulation");
+			this.mainFrame.setTitle(documentName + saved + " - (AB)² Simulation");
 		}
 	}
 

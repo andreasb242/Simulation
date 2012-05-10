@@ -22,9 +22,10 @@ public class DiagramSidebar extends JScrollPane implements ActionListener {
 	private DiagramPlot plot;
 	private SimulationCollection collection;
 
-	// private Vector<ColorCheckbox> colorCheckboxes = new
-	// Vector<ColorCheckbox>();
-
+	public DiagramSidebar(DiagramConfigModel model) {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public DiagramSidebar(SimulationCollection collection, DiagramPlot plot) {
 		super(new JPanel(), VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
 		this.collection = collection;
@@ -43,6 +44,7 @@ public class DiagramSidebar extends JScrollPane implements ActionListener {
 		}
 
 	}
+
 
 	public Color[] calcColors(int count) {
 		Color[] colors = new Color[count];
@@ -82,5 +84,10 @@ public class DiagramSidebar extends JScrollPane implements ActionListener {
 			}
 			plot.updateSimulationCollection(newCollection);
 		}
+	}
+
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 }
