@@ -2,16 +2,27 @@ package ch.zhaw.simulation.diagram;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.DefaultFormatter;
 
 import org.jdesktop.swingx.action.TargetableAction;
 
 import butti.javalibs.config.WindowPositionSaver;
 import ch.zhaw.simulation.diagram.plot.DiagramPlot;
+import ch.zhaw.simulation.diagram.plot.Zoom;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
@@ -35,14 +46,16 @@ public class DiagramFrame extends JFrame {
 
 	private SimulationConfiguration config;
 
+	private Zoom zoom = new Zoom();
+
 	public DiagramFrame(SimulationCollection collection, SimulationConfiguration config, String name, Sysintegration sys) {
 		this.model = new DiagramConfigModel(collection);
 
 		System.out.println("load: " + config.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.model.enableSeries(config.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.sidebar = new DiagramSidebar(this.model);
-		this.plot = new DiagramPlot(this.model);
-
+		this.plot = new DiagramPlot(this.model, zoom);
+		
 		this.config = config;
 		toolbar = sys.createToolbar();
 
@@ -160,6 +173,85 @@ public class DiagramFrame extends JFrame {
 
 		toolbar.addToogleAction(action);
 
+		{
+			toolbar.add(new JLabel("ZoomX"));
+
+			final JSpinner zoomx = new JSpinner(new SpinnerNumberModel(100, 50, 10000000, 10));
+
+			JComponent comp = zoomx.getEditor();
+			JFormattedTextField field = (JFormattedTextField) comp.getComponent(0);
+			DefaultFormatter formatter = (DefaultFormatter) field.getFormatter();
+			formatter.setCommitsOnValidEdit(true);
+			zoomx.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					zoom.setxZoom((int) ((Integer) zoomx.getValue()));
+				}
+			});
+			toolbar.add(zoomx);
+
+		}
+
+		{
+			toolbar.add(new JLabel("ZoomY"));
+
+			final JSpinner zoomy = new JSpinner(new SpinnerNumberModel(100, 50, 10000000, 10));
+
+			JComponent comp = zoomy.getEditor();
+			JFormattedTextField field = (JFormattedTextField) comp.getComponent(0);
+			DefaultFormatter formatter = (DefaultFormatter) field.getFormatter();
+			formatter.setCommitsOnValidEdit(true);
+			zoomy.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					zoom.setyZoom((int) ((Integer) zoomy.getValue()));
+				}
+			});
+
+			toolbar.add(zoomy);
+		}
+
+		{
+			toolbar.add(new JLabel("OffsetX"));
+
+			final JSpinner offsetX = new JSpinner(new SpinnerNumberModel(0, -400, 400, 10));
+
+			JComponent comp = offsetX.getEditor();
+			JFormattedTextField field = (JFormattedTextField) comp.getComponent(0);
+			DefaultFormatter formatter = (DefaultFormatter) field.getFormatter();
+			formatter.setCommitsOnValidEdit(true);
+			offsetX.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					zoom.setxOffset((int) ((Integer) offsetX.getValue()));
+				}
+			});
+
+			toolbar.add(offsetX);
+		}
+
+		{
+			toolbar.add(new JLabel("OffsetY"));
+
+			final JSpinner offsetY = new JSpinner(new SpinnerNumberModel(100, -400, 400, 10));
+
+			JComponent comp = offsetY.getEditor();
+			JFormattedTextField field = (JFormattedTextField) comp.getComponent(0);
+			DefaultFormatter formatter = (DefaultFormatter) field.getFormatter();
+			formatter.setCommitsOnValidEdit(true);
+			offsetY.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					zoom.setyOffset((int) ((Integer) offsetY.getValue()));
+				}
+			});
+
+			toolbar.add(offsetY);
+		}
 	}
 
 	@Override

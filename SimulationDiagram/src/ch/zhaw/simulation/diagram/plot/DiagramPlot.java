@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.JComponent;
 
@@ -19,6 +22,7 @@ public class DiagramPlot extends JComponent {
 	private static final long serialVersionUID = 1L;
 
 	private DiagramConfigModel model;
+	private Zoom zoom;
 
 	private DiagramConfigListener listener = new DiagramConfigAdapter() {
 		@Override
@@ -33,19 +37,31 @@ public class DiagramPlot extends JComponent {
 	};
 
 	private Raster raster = new Raster();
-	private SeriePlot plot = new SeriePlot();
-	
+	private HashMap<SimulationSerie, SeriePlot> plots = new HashMap<SimulationSerie, SeriePlot>();
+
 	private double yRangeMax;
 	private double yRangeMin;
 	private double xRangeMax;
 	private double xRangeMin;
 
-	public DiagramPlot(DiagramConfigModel model) {
+	private ActionListener zoomListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			repaint();
+		}
+	};
+
+	
+	public DiagramPlot(DiagramConfigModel model, Zoom zoom) {
 		this.model = model;
+		this.zoom = zoom;
 		model.addListener(listener);
 
 		updateSimulationYRange();
 		updateSimulationXRange();
+
+		this.zoom.addListener(zoomListener);
 	}
 
 	private void setScrollSize() {
@@ -63,18 +79,25 @@ public class DiagramPlot extends JComponent {
 		// Background white
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, w, h);
-		
+
 		raster.paint(g);
-		
-		
+
 		SimulationCollection collection = model.getCollection();
-		for(SimulationSerie s : collection) {
-			if(model.isEnabled(s)) {
-				AffineTransform transform = g.getTransform();
-				plot.plot(g, s);
-				g.setTransform(transform);
+		for (SimulationSerie s : collection) {
+			if (model.isEnabled(s)) {
+				SeriePlot plot = getPlotFor(s);
+				plot.plot(g);
 			}
 		}
+	}
+
+	private SeriePlot getPlotFor(SimulationSerie s) {
+		SeriePlot plot = plots.get(s);
+		if (plot == null) {
+			plot = new SeriePlot(s, zoom);
+			plots.put(s, plot);
+		}
+		return plot;
 	}
 
 	private void updateSimulationXRange() {
@@ -105,5 +128,10 @@ public class DiagramPlot extends JComponent {
 
 	public void dispose() {
 		model.removeListener(listener);
+		zoom.removeListener(zoomListener);
+
+		for (SeriePlot p : this.plots.values()) {
+			p.dispose();
+		}
 	}
 }

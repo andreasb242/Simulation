@@ -65,7 +65,7 @@ public class SimulationMain {
 
 	public static void main(String[] args) {
 		try {
-			Config.initConifg("Simulation");
+			Config.initConfig("Simulation");
 		} catch (IOException e) {
 			Messagebox.showError(null, "Konfiguration fehlt", "<html>Die Datei «" + Config.getConfigFile()
 					+ "» konnte nicht geöffnet / gelesen werden!<br>Start nicht möglich.</html>");
