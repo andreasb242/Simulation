@@ -13,14 +13,13 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.editor.ChartEditorManager;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -48,7 +47,9 @@ public class DiagramFrame extends JFrame {
 	private DiagramConfigListener listener;
 
 	private SimulationConfiguration simConfig;
-	
+
+	private ChartPanel chartPanel;
+
 	static {
 		// init JFreeChart
 		ChartEditorManager.setChartEditorFactory(new SimulationChartEditorFactory());
@@ -95,13 +96,11 @@ public class DiagramFrame extends JFrame {
 		JFreeChart chart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, false);
 		currentTheme.apply(chart);
 
-		ChartPanel chartPanel = new ChartPanel(chart);
+		this.chartPanel = new ChartPanel(chart);
 
-		this.sidebar = new DiagramSidebar(this.model,  renderer);
+		this.sidebar = new DiagramSidebar(this.model, renderer);
 		add(BorderLayout.WEST, sidebar);
 
-		
-		
 		add(BorderLayout.CENTER, new JScrollPane(chartPanel));
 
 		initToolbar();
@@ -116,7 +115,7 @@ public class DiagramFrame extends JFrame {
 	private void initToolbar() {
 		final int ICON_SIZE = 32;
 
-		toolbar.add(new AbstractAction("Anzeigen als Tabelle", IconLoader.getIcon("spreadsheet", ICON_SIZE)) {
+		toolbar.add(new AbstractAction("Anzeigen als Tabelle", IconLoader.getIcon("diagram/spreadsheet", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -128,7 +127,7 @@ public class DiagramFrame extends JFrame {
 
 		toolbar.addSeparator();
 
-		toolbar.add(new AbstractAction("Speichern als CSV", IconLoader.getIcon("save", ICON_SIZE)) {
+		toolbar.add(new AbstractAction("Speichern als CSV", IconLoader.getIcon("diagram/save", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -138,39 +137,7 @@ public class DiagramFrame extends JFrame {
 			}
 		});
 
-		toolbar.add(new AbstractAction("Speichern als Bild", IconLoader.getIcon("photos", ICON_SIZE)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		toolbar.addSeparator();
-
-		toolbar.add(new AbstractAction("Vergrössern", IconLoader.getIcon("zoom-in", ICON_SIZE)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		toolbar.add(new AbstractAction("Verkleinern", IconLoader.getIcon("zoom-out", ICON_SIZE)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		toolbar.add(new AbstractAction("Passend", IconLoader.getIcon("zoom-fit-best", ICON_SIZE)) {
+		toolbar.add(new AbstractAction("Speichern als Bild", IconLoader.getIcon("diagram/screenshot", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -182,7 +149,142 @@ public class DiagramFrame extends JFrame {
 
 		toolbar.addSeparator();
 
-		final TargetableAction action = new TargetableAction("Logarithmisch", "log", IconLoader.getIcon("log", ICON_SIZE)) {
+		toolbar.add(new AbstractAction("Drucken", IconLoader.getIcon("diagram/print", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.PRINT_COMMAND));
+			}
+		});
+
+		toolbar.addSeparator();
+
+		toolbar.add(new AbstractAction("In die Zwischenablage kopieren (Rastergrafik)", IconLoader.getIcon("diagram/edit-copy", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.COPY_COMMAND));
+			}
+		});
+
+		toolbar.addSeparator();
+
+		toolbar.add(new AbstractAction("Diagramm Eigenschaften", IconLoader.getIcon("diagram/properties", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.PROPERTIES_COMMAND));
+			}
+		});
+
+		toolbar.addSeparator();
+
+		toolbar.add(new AbstractAction("Vergrössern", IconLoader.getIcon("diagram/zoom-in", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.ZOOM_IN_BOTH_COMMAND));
+			}
+		});
+
+		toolbar.add(new AbstractAction("Verkleinern", IconLoader.getIcon("diagram/zoom-out", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.ZOOM_OUT_BOTH_COMMAND));
+			}
+		});
+
+		toolbar.add(new AbstractAction("Passend", IconLoader.getIcon("diagram/zoom-original", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.ZOOM_RESET_BOTH_COMMAND));
+			}
+		});
+
+		toolbar.addSeparator();
+
+		toolbar.add(new AbstractAction("Vergrössern (x)", IconLoader.getIcon("diagram/zoom-in-x", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.ZOOM_IN_DOMAIN_COMMAND));
+			}
+		});
+
+		toolbar.add(new AbstractAction("Verkleinern (x)", IconLoader.getIcon("diagram/zoom-out-x", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.ZOOM_OUT_DOMAIN_COMMAND));
+			}
+		});
+
+		toolbar.add(new AbstractAction("Nach links", IconLoader.getIcon("diagram/left", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ValueAxis axis = DiagramFrame.this.chartPanel.getChart().getXYPlot().getDomainAxis();
+				Range range = axis.getRange();
+
+				double offset = 10;
+
+				SimulationCollection collection = model.getCollection();
+
+				if (range.getLowerBound() - offset < collection.getStartTime()) {
+					offset = range.getLowerBound() - collection.getStartTime();
+				}
+
+				if (offset != 0) {
+					axis.setRange(range.getLowerBound() - offset, range.getUpperBound() - offset);
+				}
+			}
+		});
+
+		toolbar.add(new AbstractAction("Nach rechts", IconLoader.getIcon("diagram/right", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ValueAxis axis = DiagramFrame.this.chartPanel.getChart().getXYPlot().getDomainAxis();
+				Range range = axis.getRange();
+
+				double offset = 10;
+
+				SimulationCollection collection = model.getCollection();
+
+				if (range.getUpperBound() + offset > collection.getEndTime()) {
+					offset = collection.getEndTime() - range.getUpperBound();
+				}
+
+				if (offset != 0) {
+					axis.setRange(range.getLowerBound() + offset, range.getUpperBound() + offset);
+				}
+			}
+		});
+
+		toolbar.add(new AbstractAction("Verkleinern (x)", IconLoader.getIcon("diagram/zoom-out-x", ICON_SIZE)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.ZOOM_OUT_DOMAIN_COMMAND));
+			}
+		});
+
+		toolbar.addSeparator();
+
+		final TargetableAction action = new TargetableAction("Logarithmisch", "diagram/log", IconLoader.getIcon("diagram/log", ICON_SIZE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

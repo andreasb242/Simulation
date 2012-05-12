@@ -65,6 +65,17 @@ public class AboutDialog extends BDialog {
 		addLib("JXLayer", "http://http://java.net/projects/jxlayer");
 		addLib("Jep Java - Math Expression Parser", "http://sourceforge.net/projects/jep/");
 		addLib("Dirchooser from Netbeans Project", "http://netbeans.org/");
+		addLib("JFreeChart", "http://www.jfree.org/");
+
+		JLabel lbIcons = new TitleLabel("Verwendete Icons");
+
+		gbm.setX(1).setY(100).setWeightY(0).setInsets(new Insets(30, 5, 5, 5)).setWidth(2).setComp(lbIcons);
+
+		yCoord = 101;
+
+		addLib("Faenza", "http://tiheum.deviantart.com/art/Faenza-Icons-173323228");
+		addLib("Humanity (Ubuntu / Canonical)", "https://launchpad.net/humanity");
+		addLib("Icons wurden teilweise angepasst.", null);
 
 		pack();
 		setLocationRelativeTo(parent);
@@ -73,7 +84,9 @@ public class AboutDialog extends BDialog {
 	private void addLib(String name, String url) {
 		gbm.setX(1).setInsets(new Insets(5, 24, 5, 5)).setY(yCoord).setWeightY(0).setComp(new JLabel(name));
 
-		gbm.setX(2).setY(yCoord++).setWeightY(0).setComp(new UrlLabel(url));
+		if (url != null) {
+			gbm.setX(2).setY(yCoord++).setWeightY(0).setComp(new UrlLabel(url));
+		}
 	}
 
 	/**

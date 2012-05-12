@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -73,8 +74,24 @@ public class IconLoader {
 
 		System.err.println("converting image...");
 
+		File target = new File(pngFolder + size + "/" + file + ".png").getParentFile();
+		System.err.println("target folder: " + target.getAbsolutePath());
+		if (!target.exists()) {
+			System.out.println("creating folder «" + target.getAbsolutePath() + "»");
+			if (!target.mkdirs()) {
+				System.err.println("could not create folder: «" + target.getAbsolutePath() + "»");
+			}
+		}
+
+		File sourceFile = new File(svgFolder + file + ".svg");
+
+		if (!sourceFile.exists()) {
+			System.err.println("Image file «" + sourceFile.getAbsolutePath() + "» missing!");
+			return;
+		}
+
 		String[] cmdarray = new String[] { "inkscape", "--export-width", "" + size, "--export-height", "" + size, "--export-png",
-				pngFolder + size + "/" + file + ".png", svgFolder + file + ".svg" };
+				pngFolder + size + "/" + file + ".png", sourceFile.getAbsolutePath() };
 		try {
 			Runtime.getRuntime().exec(cmdarray);
 		} catch (IOException e) {

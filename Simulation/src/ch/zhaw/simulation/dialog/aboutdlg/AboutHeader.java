@@ -18,7 +18,7 @@ public class AboutHeader extends HeaderPanel {
 	private ImageIcon icon;
 
 	public AboutHeader() {
-		GridBagManager gbm = new GridBagManager(this, true);
+		GridBagManager gbm = new GridBagManager(this);
 
 		this.icon = IconLoader.getIcon("simulation", 128);
 
