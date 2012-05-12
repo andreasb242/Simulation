@@ -19,19 +19,27 @@ import javax.swing.text.DefaultFormatter;
 import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.urls.StandardXYURLGenerator;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import butti.javalibs.config.WindowPositionSaver;
-import ch.zhaw.simulation.diagram.plot.ZoomAndPositionHandler;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationEntry;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 
@@ -42,7 +50,7 @@ public class DiagramFrame extends JFrame {
 
 	private DiagramSidebar sidebar;
 
-//	private DiagramPlot plot;
+	// private DiagramPlot plot;
 
 	private Toolbar toolbar;
 
@@ -51,7 +59,7 @@ public class DiagramFrame extends JFrame {
 	private SimulationConfiguration simConfig;
 
 	private ZoomAndPositionHandler zoom = new ZoomAndPositionHandler();
-	
+
 	private DiagramConfiguration config = new DiagramConfiguration();
 
 	public DiagramFrame(SimulationCollection collection, SimulationConfiguration simConfig, String name, Sysintegration sys) {
@@ -60,8 +68,8 @@ public class DiagramFrame extends JFrame {
 		System.out.println("load: " + simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.model.enableSeries(simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.sidebar = new DiagramSidebar(this.model);
-//		this.plot = new DiagramPlot(this.model, zoom, this.config);
-		
+		// this.plot = new DiagramPlot(this.model, zoom, this.config);
+
 		this.simConfig = simConfig;
 		toolbar = sys.createToolbar();
 
@@ -71,72 +79,39 @@ public class DiagramFrame extends JFrame {
 
 		add(BorderLayout.NORTH, toolbar.getComponent());
 		add(BorderLayout.WEST, sidebar);
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
-// create a dataset...
-XYSeries series1 = new XYSeries("Planned");
-series1.add(1.0, 1.0);
-series1.add(2.0, 4.0);
-series1.add(3.0, -3.0);
-series1.add(4.0, 5.0);
-series1.add(5.0, 5.0);
-series1.add(6.0, 7.0);
-series1.add(7.0, 7.0);
-series1.add(8.0, 8.0);
+		ChartTheme currentTheme = new StandardChartTheme("JFree");
 
-XYSeries series2 = new XYSeries("Delivered");
-series2.add(1.0, 5.0);
-series2.add(2.0, 7.0);
-series2.add(3.0, 6.0);
-series2.add(4.0, 8.0);
-series2.add(5.0, -4.0);
-series2.add(6.0, 4.0);
-series2.add(7.0, 2.0);
-series2.add(8.0, 1.0);
+		XYSeriesCollection col = new XYSeriesCollection();
+		for (SimulationSerie s : collection) {
+			XYSeries serie = new XYSeries(s.getName());
+			for (SimulationEntry d : s.getData()) {
+				serie.add(d.time, d.value);
+			}
+			col.addSeries(serie);
+		}
 
-XYSeries series3 = new XYSeries("Third");
-series3.add(3.0, 4.0);
-series3.add(4.0, 3.0);
-series3.add(5.0, 2.0);
-series3.add(6.0, -3.0);
-series3.add(7.0, 6.0);
-series3.add(8.0, 3.0);
-series3.add(9.0, -4.0);
-series3.add(10.0, 3.0);
+		boolean tooltips = true;
+		boolean urls = true;
 
-XYSeriesCollection dataset = new XYSeriesCollection();
-dataset.addSeries(series1);
-dataset.addSeries(series2);
-dataset.addSeries(series3);
+		NumberAxis xAxis = new NumberAxis("time");
+		xAxis.setAutoRangeIncludesZero(false);
+		NumberAxis yAxis = new NumberAxis(null);
+		XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false);
+		XYPlot plot = new XYPlot(col, xAxis, yAxis, renderer);
+		plot.setOrientation(PlotOrientation.VERTICAL);
+		if (tooltips) {
+			renderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		}
+		if (urls) {
+			renderer.setURLGenerator(new StandardXYURLGenerator());
+		}
 
-JFreeChart chart = ChartFactory.createXYLineChart("test", "x", "y", dataset, PlotOrientation.HORIZONTAL, true, true, false);
+		JFreeChart chart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, false);
+		currentTheme.apply(chart);
 
-XYPlot plot = (XYPlot)chart.getPlot();
+		ChartPanel chartPanel = new ChartPanel(chart);
 
-ChartPanel chartPanel = new ChartPanel(chart);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		add(BorderLayout.CENTER, new JScrollPane(chartPanel));
 
 		initToolbar();
