@@ -12,6 +12,7 @@ import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.editor.ChartEditorManager;
@@ -22,8 +23,11 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.omg.CORBA.StringHolder;
 
 import butti.javalibs.config.WindowPositionSaver;
+import butti.javalibs.gui.messagebox.Messagebox;
+import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.diagram.charteditor.SimulationChartEditorFactory;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.icon.IconLoader;
@@ -49,6 +53,11 @@ public class DiagramFrame extends JFrame {
 	private SimulationConfiguration simConfig;
 
 	private ChartPanel chartPanel;
+
+	private NumberAxis yAxis;
+	private NumberAxis yAxisLog;
+
+	private XYPlot plot;
 
 	static {
 		// init JFreeChart
@@ -85,9 +94,9 @@ public class DiagramFrame extends JFrame {
 
 		NumberAxis xAxis = new NumberAxis(null);
 		xAxis.setAutoRangeIncludesZero(false);
-		NumberAxis yAxis = new NumberAxis(null);
+		this.yAxis = new NumberAxis(null);
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
-		XYPlot plot = new XYPlot(col, xAxis, yAxis, renderer);
+		this.plot = new XYPlot(col, xAxis, yAxis, renderer);
 		plot.setOrientation(PlotOrientation.VERTICAL);
 		if (tooltips) {
 			renderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
@@ -101,7 +110,7 @@ public class DiagramFrame extends JFrame {
 		this.sidebar = new DiagramSidebar(this.model, renderer);
 		add(BorderLayout.WEST, sidebar);
 
-		add(BorderLayout.CENTER, new JScrollPane(chartPanel));
+		add(BorderLayout.CENTER, chartPanel);
 
 		initToolbar();
 
@@ -273,15 +282,6 @@ public class DiagramFrame extends JFrame {
 			}
 		});
 
-		toolbar.add(new AbstractAction("Verkleinern (x)", IconLoader.getIcon("diagram/zoom-out-x", ICON_SIZE)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				DiagramFrame.this.chartPanel.actionPerformed(new ActionEvent(this, 0, ChartPanel.ZOOM_OUT_DOMAIN_COMMAND));
-			}
-		});
-
 		toolbar.addSeparator();
 
 		final TargetableAction action = new TargetableAction("Logarithmisch", "diagram/log", IconLoader.getIcon("diagram/log", ICON_SIZE)) {
@@ -304,21 +304,73 @@ public class DiagramFrame extends JFrame {
 		listener = new DiagramConfigAdapter() {
 			@Override
 			public void setLogEnabled(boolean log) {
-				if (action.isEnabled() != log) {
-					action.setEnabled(log);
+				// check if we can show a log axis, all values have to be > 0
+
+				if (log && !canShowLogAxis()) {
+					Messagebox.showInfo(DiagramFrame.this, "Logarithmische Achsen",
+							"<html>Logarithmische achsen können nicht angewendet werden, da das Diagramm Negativ- oder Nullwerte enthält.<br>"
+									+ "Blenden Sie nur rein positive Serien ein und versuchen Sie es erneut.</html>");
+
+					model.setLogEnabled(false);
+					return;
+				}
+
+				if (log) {
+					if (DiagramFrame.this.yAxisLog == null) {
+						DiagramFrame.this.yAxisLog = new LogarithmicAxis(null);
+					}
+
+					String oldLabel = DiagramFrame.this.yAxisLog.getLabel();
+					String newLabel = DiagramFrame.this.yAxis.getLabel();
+
+					if (!StringUtil.equals(oldLabel, newLabel)) {
+						DiagramFrame.this.yAxisLog.setLabel(newLabel);
+					}
+
+					DiagramFrame.this.plot.setRangeAxis(DiagramFrame.this.yAxisLog);
+				} else {
+					if (DiagramFrame.this.yAxisLog == null) {
+						return;
+					}
+
+					String oldLabel = DiagramFrame.this.yAxis.getLabel();
+					String newLabel = DiagramFrame.this.yAxisLog.getLabel();
+
+					if (!StringUtil.equals(oldLabel, newLabel)) {
+						DiagramFrame.this.yAxis.setLabel(newLabel);
+					}
+
+					DiagramFrame.this.plot.setRangeAxis(DiagramFrame.this.yAxis);
+				}
+
+				if (action.isSelected() != log) {
+					action.setSelected(log);
 				}
 			}
 		};
+		this.model.addListener(listener);
 
 		toolbar.addToogleAction(action);
+	}
+
+	protected boolean canShowLogAxis() {
+		for (SimulationSerie s : model.getCollection()) {
+			if (model.isEnabled(s)) {
+				for (SimulationEntry d : s.getData()) {
+					if (d.value <= 0) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override
 	public void dispose() {
 		sidebar.dispose();
 		model.removeListener(listener);
-
-		System.out.println("save: " + model.getEnabledSeriesString());
 		simConfig.setParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, model.getEnabledSeriesString());
 
 		super.dispose();
