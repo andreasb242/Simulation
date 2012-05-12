@@ -13,5 +13,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationSidebar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/VectorExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

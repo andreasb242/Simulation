@@ -19,8 +19,10 @@ import ch.zhaw.simulation.sysintegration.Toolbar;
 
 public class DefaultToolbar implements Toolbar {
 	protected JToolBar toolbar;
+	private int defaultIconSize;
 
-	public DefaultToolbar() {
+	public DefaultToolbar(int defaultIconSize) {
+		this.defaultIconSize = defaultIconSize;
 		toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 	}
@@ -32,7 +34,7 @@ public class DefaultToolbar implements Toolbar {
 
 	@Override
 	public ToolbarButton add(final ToolbarAction action) {
-		final JButton b = new JButton(action.getToolbarIcon());
+		final JButton b = new JButton(action.getToolbarIcon(this.defaultIconSize));
 		b.setToolTipText(action.getName());
 		b.addActionListener(new ActionListener() {
 
@@ -54,6 +56,11 @@ public class DefaultToolbar implements Toolbar {
 	@Override
 	public void add(JComponent component) {
 		toolbar.add(component);
+	}
+	
+	@Override
+	public int getDefaultIconSize() {
+		return defaultIconSize;
 	}
 
 	@Override

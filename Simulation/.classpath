@@ -17,9 +17,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.MatlabOctave"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.Intern"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationDiagram"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

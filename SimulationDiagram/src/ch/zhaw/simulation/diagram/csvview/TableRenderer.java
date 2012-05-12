@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.intern.gui;
+package ch.zhaw.simulation.diagram.csvview;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -18,13 +18,13 @@ public class TableRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	protected void setValue(Object value) {
-		if(value instanceof Double) {
-			super.setValue(format.format((Double)value));
+		if (value instanceof Double) {
+			super.setValue(format.format((Double) value));
 		} else {
 			super.setValue(value);
 		}
 	}
-	
+
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

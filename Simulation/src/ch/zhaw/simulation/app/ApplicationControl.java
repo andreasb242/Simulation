@@ -27,6 +27,7 @@ import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.filehandling.ImportPluginLoader;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
@@ -199,7 +200,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 						if (state == FinishState.SUCCESSFULLY) {
 							if (doc.getType() == SimulationType.FLOW_SIMULATION) {
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-								DiagramFrame frame = new DiagramFrame(collection, doc.getSimulationConfiguration(), getDocumentName(), sysintegration);
+								DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, doc.getSimulationConfiguration(), getDocumentName(), sysintegration);
 								frame.setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
@@ -317,7 +318,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			}
 		}
 
-		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), getController(), name);
+		ImageExport expor = new ImageExport(getController());
+		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), expor, name);
 		dlg.setVisible(true);
 	}
 

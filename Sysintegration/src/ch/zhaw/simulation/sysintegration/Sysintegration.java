@@ -48,8 +48,8 @@ public class Sysintegration {
 		return this.sysMenuShortcuts;
 	}
 
-	public Toolbar createToolbar() {
-		return new DefaultToolbar();
+	public Toolbar createToolbar(int defaultIconSize) {
+		return new DefaultToolbar(defaultIconSize);
 	}
 
 	public Bookmarks getBookmarks() {

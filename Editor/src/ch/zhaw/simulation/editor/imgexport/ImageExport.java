@@ -18,11 +18,12 @@ import javax.imageio.ImageIO;
 
 import butti.javalibs.config.Settings;
 
+import ch.zhaw.simulation.dialog.snapshot.ImageExportable;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.vector.VectorExport;
 
-public class ImageExport implements ClipboardOwner {
+public class ImageExport implements ClipboardOwner, ImageExportable {
 	private Graphics2D g;
 	private int width = 0;
 	private int height = 0;
@@ -42,6 +43,7 @@ public class ImageExport implements ClipboardOwner {
 		this.height = v.getPreferredSize().height;
 	}
 
+	@Override
 	public void exportToClipboard(boolean onlySelection) {
 		AbstractEditorView<?> v = control.getView();
 		calcSize(v, onlySelection);
@@ -72,6 +74,7 @@ public class ImageExport implements ClipboardOwner {
 		return img;
 	}
 
+	@Override
 	public void export(boolean onlySelection, String format, File file) throws IOException {
 		AbstractEditorView<?> v = control.getView();
 		calcSize(v, onlySelection);
@@ -104,6 +107,11 @@ public class ImageExport implements ClipboardOwner {
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
 		// Nothing to do
+	}
+
+	@Override
+	public boolean supportsSelection() {
+		return true;
 	}
 
 }

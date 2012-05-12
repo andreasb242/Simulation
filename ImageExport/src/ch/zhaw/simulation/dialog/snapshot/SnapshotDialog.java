@@ -28,8 +28,6 @@ import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
-import ch.zhaw.simulation.editor.control.AbstractEditorControl;
-import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.filechooser.TxtDirChooser;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
@@ -56,15 +54,19 @@ public class SnapshotDialog extends BDialog {
 	private ButtonGroup format = new ButtonGroup();
 
 	private Settings settings;
-	private AbstractEditorControl<?> control;
+	private ImageExportable export;
 
-	public SnapshotDialog(JFrame parent, Settings settings, Sysintegration sys, final AbstractEditorControl<?> control, String name) {
+	public SnapshotDialog(JFrame parent, Settings settings, Sysintegration sys, ImageExportable exportable, String name) {
 		super(parent);
 		setTitle("Als Bild speichern...");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.settings = settings;
-		this.control = control;
+		this.export = exportable;
+		
+		if(!exportable.supportsSelection()) {
+			cbSelection.setVisible(false);
+		}
 
 		dirChooser = new TxtDirChooser(this, false);
 
@@ -206,12 +208,16 @@ public class SnapshotDialog extends BDialog {
 				SnapshotDialog.this.settings.setSetting("snapshot.custompath", dirChooser.getPath());
 
 				if ("<custom>".equals(b.getPath())) {
-					saveSnapshot(dirChooser.getPath(), control, txtName.getText());
+					if (saveSnapshot(dirChooser.getPath(), txtName.getText())) {
+						dispose();
+					}
 				} else {
 					if ("".equals(txtName.getText())) {
 						Messagebox.showWarning(SnapshotDialog.this, "Ungültige Eingabe", "Bitte geben Sie einen Dateiname ein");
 					} else {
-						saveSnapshot(b.getPath(), control, txtName.getText());
+						if (saveSnapshot(b.getPath(), txtName.getText())) {
+							dispose();
+						}
 					}
 				}
 			}
@@ -222,6 +228,7 @@ public class SnapshotDialog extends BDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				copyImageToClipboard();
+				dispose();
 			}
 		});
 
@@ -246,8 +253,6 @@ public class SnapshotDialog extends BDialog {
 
 	protected void copyImageToClipboard() {
 		boolean onlySelection = cbSelection.isSelected();
-
-		ImageExport export = new ImageExport(control);
 		export.exportToClipboard(onlySelection);
 	}
 
@@ -265,7 +270,7 @@ public class SnapshotDialog extends BDialog {
 		return "PNG";
 	}
 
-	protected void saveSnapshot(String path, AbstractEditorControl<?> control, String name) {
+	protected boolean saveSnapshot(String path, String name) {
 		String format = getFormat();
 		settings.setSetting("snapshot.format", format);
 
@@ -274,16 +279,15 @@ public class SnapshotDialog extends BDialog {
 		if (file != null) {
 			try {
 				boolean onlySelection = cbSelection.isSelected();
-
-				ImageExport export = new ImageExport(control);
 				export.export(onlySelection, format, file);
-
+				return true;
 			} catch (Exception e) {
 				Errorhandler.showError(e, "Bild speichern fehlgeschlagen!");
 			}
-			return;
+			return false;
 		} else {
 			Messagebox.showError(this, "Speichern fehlgeschlagen", "Speichern des Bildes ist fehlgeschlagen, bitte wählen Sie einen anderen Dateinamen");
+			return false;
 		}
 	}
 

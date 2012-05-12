@@ -53,7 +53,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 		this.mainToolbar = mainToolbar;
 		this.config = sys.getGuiConfig();
 
-		toolbar = sys.createToolbar();
+		toolbar = sys.createToolbar(24);
 	}
 
 	public static ImageIcon addShadow(BufferedImage icon) {

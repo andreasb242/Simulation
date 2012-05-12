@@ -31,8 +31,8 @@ public class MacSysintegration extends Sysintegration {
 	}
 
 	@Override
-	public Toolbar createToolbar() {
-		return new MacOSXToolbar();
+	public Toolbar createToolbar(int defaultIconSize) {
+		return new MacOSXToolbar(defaultIconSize);
 	}
 
 	private void initMacOsX() {

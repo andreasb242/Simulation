@@ -18,8 +18,10 @@ import ch.zhaw.simulation.sysintegration.gui.ImageButton;
 
 public class MacOSXToolbar implements Toolbar {
 	protected JPanel toolbar;
+	private int defaultIconSize;
 
-	public MacOSXToolbar() {
+	public MacOSXToolbar(int defaultIconSize) {
+		this.defaultIconSize = defaultIconSize;
 		toolbar = new JPanel();
 		toolbar.setLayout(new MacToolbarLayoutManager());
 	}
@@ -31,7 +33,7 @@ public class MacOSXToolbar implements Toolbar {
 
 	@Override
 	public ToolbarButton add(ToolbarAction action) {
-		ImageButton tb = new ImageButton(action);
+		ImageButton tb = new ImageButton(action, defaultIconSize);
 		toolbar.add(tb);
 		return tb;
 	}
@@ -43,6 +45,11 @@ public class MacOSXToolbar implements Toolbar {
 	@Override
 	public void add(JComponent component) {
 		toolbar.add(component);
+	}
+
+	@Override
+	public int getDefaultIconSize() {
+		return defaultIconSize;
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import butti.javalibs.config.Config;
+import butti.javalibs.config.FileSettings;
+import butti.javalibs.config.Settings;
 
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
@@ -13,10 +15,11 @@ import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 
 public class DiagramTest {
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, IOException {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException,
+			IOException {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		Config.initConfig("Simulation");
-		
+
 		SimulationCollection collection = new SimulationCollection(0, 100);
 
 		SimulationSerie s;
@@ -65,26 +68,26 @@ public class DiagramTest {
 
 		collection.addSeries(s);
 
-
 		// TODO testen nur mit diesen Daten
-//		s = new SimulationSerie("Ddddddddd");
-//		s.add(0,   1000);
-//		s.add(10,  1020);
-//		s.add(20,  1013);
-//		s.add(30,  1012);
-//		s.add(40,  1010);
-//		s.add(50,  1000);
-//		s.add(60,  1002);
-//		s.add(70,  1003);
-//		s.add(80,  1005);
-//		s.add(90,  1006);
-//		s.add(100, 1005);
-//
-//		collection.addSeries(s);
+		// s = new SimulationSerie("Ddddddddd");
+		// s.add(0, 1000);
+		// s.add(10, 1020);
+		// s.add(20, 1013);
+		// s.add(30, 1012);
+		// s.add(40, 1010);
+		// s.add(50, 1000);
+		// s.add(60, 1002);
+		// s.add(70, 1003);
+		// s.add(80, 1005);
+		// s.add(90, 1006);
+		// s.add(100, 1005);
+		//
+		// collection.addSeries(s);
 
-		
+		Settings settings = new FileSettings("settings.ini");
+
 		SimulationConfiguration config = new SimulationConfiguration();
-		DiagramFrame frame = new DiagramFrame(collection, config, "Test", SysintegrationFactory.getSysintegration());
+		DiagramFrame frame = new DiagramFrame(collection, settings, config, "Test", SysintegrationFactory.getSysintegration());
 
 		frame.setVisible(true);
 	}

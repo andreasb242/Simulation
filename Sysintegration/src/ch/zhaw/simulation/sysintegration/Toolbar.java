@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.sysintegration;
 
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
@@ -10,9 +9,8 @@ import javax.swing.JMenuItem;
 
 import org.jdesktop.swingx.action.TargetableAction;
 
-import ch.zhaw.simulation.icon.IconLoader;
-
 import butti.javalibs.errorhandler.Errorhandler;
+import ch.zhaw.simulation.icon.IconLoader;
 
 public interface Toolbar {
 	public JComponent getComponent();
@@ -37,9 +35,9 @@ public interface Toolbar {
 			this.toolbarIcon = toolbarIcon;
 		}
 
-		public Icon getToolbarIcon() {
+		public Icon getToolbarIcon(int defaultIconSize) {
 			if (toolbarIcon == null) {
-				toolbarIcon = IconLoader.getIcon(iconName, 24);
+				toolbarIcon = IconLoader.getIcon(iconName, defaultIconSize);
 			}
 			return toolbarIcon;
 		}
@@ -71,9 +69,9 @@ public interface Toolbar {
 		public void setEnabled(boolean enabled);
 
 		public void setText(String text);
-		
+
 		public void setIcon(Icon icon);
-		
+
 		public JComponent getComponent();
 	}
 
@@ -82,4 +80,6 @@ public interface Toolbar {
 	public ToolbarButton add(Action action);
 
 	public ToolbarButton addToogleAction(TargetableAction action);
+
+	int getDefaultIconSize();
 }

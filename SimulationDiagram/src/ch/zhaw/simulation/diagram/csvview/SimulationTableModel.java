@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.sim.intern.gui;
+package ch.zhaw.simulation.diagram.csvview;
 
 import java.util.Vector;
 
@@ -7,7 +7,6 @@ import javax.swing.table.AbstractTableModel;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationEntry;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
-
 
 public class SimulationTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

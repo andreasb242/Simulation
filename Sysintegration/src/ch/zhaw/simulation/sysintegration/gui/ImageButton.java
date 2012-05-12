@@ -24,10 +24,10 @@ public class ImageButton extends JComponent implements ToolbarButton {
 	private Icon iconDown;
 	private Icon icon;
 
-	public ImageButton(final ToolbarAction action) {
+	public ImageButton(final ToolbarAction action, int defaultIconSize) {
 		setLayout(null);
 
-		this.icon = (Icon) action.getToolbarIcon();
+		this.icon = (Icon) action.getToolbarIcon(defaultIconSize);
 		this.iconDown = darkerIcon(icon);
 		lbIcon = new JLabel(icon);
 		add(lbIcon);

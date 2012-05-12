@@ -113,7 +113,7 @@ public class HTMLEditor extends BDialog {
 		setTitle("Texteditor");
 
 		this.integration = integration;
-		toolBar = integration.createToolbar();
+		toolBar = integration.createToolbar(24);
 
 		this.settings = settings;
 

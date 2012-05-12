@@ -70,7 +70,8 @@ public class FormulaEditorPanel extends JPanel {
 		this.model = model;
 		this.additionalVars = addiditonalVars;
 		this.autosaveFormula = autosaveFormula;
-		tb = sys.createToolbar();
+		
+		tb = sys.createToolbar(24);
 
 		gbm = new GridBagManager(this);
 
