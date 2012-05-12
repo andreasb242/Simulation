@@ -13,15 +13,17 @@ public class SerieTreeNode implements TreeNode {
 	private boolean selected;
 	private Color color;
 	private SimulationSerie serie;
+	private int id;
 
 	protected SerieTreeNode(String name, Color color) {
 		this.name = name;
 		this.color = color;
 	}
 
-	public SerieTreeNode(SimulationSerie s) {
-		this(s.getName(), s.getColor());
+	public SerieTreeNode(SimulationSerie s, int id) {
+		this(s.getName(), (Color) s.getPaint());
 		this.serie = s;
+		this.id = id;
 	}
 
 	@Override
@@ -75,6 +77,10 @@ public class SerieTreeNode implements TreeNode {
 		return color;
 	}
 
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
 	@Override
 	public String toString() {
 		return name;
@@ -82,5 +88,9 @@ public class SerieTreeNode implements TreeNode {
 
 	public SimulationSerie getSerie() {
 		return serie;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

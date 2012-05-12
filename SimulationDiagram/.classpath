@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/zzz_JFreeChart"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

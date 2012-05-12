@@ -1,13 +1,13 @@
 package ch.zhaw.simulation.plugin.data;
 
-import java.awt.Color;
+import java.awt.Paint;
 import java.util.Vector;
 
 public class SimulationSerie {
 	private String name;
 	private Vector<SimulationEntry> data = new Vector<SimulationEntry>();
 	private String type = null;
-	private Color color;
+	private Paint paint;
 	private boolean visibel = true;
 
 	private double min = Double.MAX_VALUE;
@@ -42,12 +42,12 @@ public class SimulationSerie {
 		return type;
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
+	public void setPaint(Paint paint) {
+		this.paint = paint;
 	}
 
-	public Color getColor() {
-		return color;
+	public Paint getPaint() {
+		return paint;
 	}
 
 	public void setVisibel(boolean visibel) {

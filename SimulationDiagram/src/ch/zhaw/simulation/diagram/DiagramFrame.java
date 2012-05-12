@@ -12,18 +12,20 @@ import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.editor.ChartEditorManager;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.urls.StandardXYURLGenerator;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import butti.javalibs.config.WindowPositionSaver;
+import ch.zhaw.simulation.diagram.charteditor.SimulationChartEditorFactory;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
@@ -46,14 +48,17 @@ public class DiagramFrame extends JFrame {
 	private DiagramConfigListener listener;
 
 	private SimulationConfiguration simConfig;
+	
+	static {
+		// init JFreeChart
+		ChartEditorManager.setChartEditorFactory(new SimulationChartEditorFactory());
+	}
 
 	public DiagramFrame(SimulationCollection collection, SimulationConfiguration simConfig, String name, Sysintegration sys) {
 		this.model = new DiagramConfigModel(collection);
 
 		System.out.println("load: " + simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.model.enableSeries(simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
-		this.sidebar = new DiagramSidebar(this.model);
-		// this.plot = new DiagramPlot(this.model, zoom, this.config);
 
 		this.simConfig = simConfig;
 		toolbar = sys.createToolbar();
@@ -63,7 +68,6 @@ public class DiagramFrame extends JFrame {
 		setLayout(new BorderLayout());
 
 		add(BorderLayout.NORTH, toolbar.getComponent());
-		add(BorderLayout.WEST, sidebar);
 
 		ChartTheme currentTheme = new SimulationDiagramTheme("(AB)²");
 
@@ -78,10 +82,10 @@ public class DiagramFrame extends JFrame {
 
 		boolean tooltips = true;
 
-		NumberAxis xAxis = new NumberAxis("time");
+		NumberAxis xAxis = new NumberAxis(null);
 		xAxis.setAutoRangeIncludesZero(false);
 		NumberAxis yAxis = new NumberAxis(null);
-		XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false);
+		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
 		XYPlot plot = new XYPlot(col, xAxis, yAxis, renderer);
 		plot.setOrientation(PlotOrientation.VERTICAL);
 		if (tooltips) {
@@ -93,6 +97,11 @@ public class DiagramFrame extends JFrame {
 
 		ChartPanel chartPanel = new ChartPanel(chart);
 
+		this.sidebar = new DiagramSidebar(this.model,  renderer);
+		add(BorderLayout.WEST, sidebar);
+
+		
+		
 		add(BorderLayout.CENTER, new JScrollPane(chartPanel));
 
 		initToolbar();
