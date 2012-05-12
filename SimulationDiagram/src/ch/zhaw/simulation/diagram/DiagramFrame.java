@@ -17,7 +17,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultFormatter;
 
 import org.jdesktop.swingx.action.TargetableAction;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
@@ -50,8 +49,6 @@ public class DiagramFrame extends JFrame {
 
 	private DiagramSidebar sidebar;
 
-	// private DiagramPlot plot;
-
 	private Toolbar toolbar;
 
 	private DiagramConfigListener listener;
@@ -59,8 +56,6 @@ public class DiagramFrame extends JFrame {
 	private SimulationConfiguration simConfig;
 
 	private ZoomAndPositionHandler zoom = new ZoomAndPositionHandler();
-
-	private DiagramConfiguration config = new DiagramConfiguration();
 
 	public DiagramFrame(SimulationCollection collection, SimulationConfiguration simConfig, String name, Sysintegration sys) {
 		this.model = new DiagramConfigModel(collection);
