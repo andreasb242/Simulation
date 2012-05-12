@@ -78,7 +78,6 @@ public class DiagramFrame extends JFrame {
 		this.settings = settings;
 		this.collection = collection;
 
-		System.out.println("load: " + simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.model.enableSeries(simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 
 		this.simConfig = simConfig;
