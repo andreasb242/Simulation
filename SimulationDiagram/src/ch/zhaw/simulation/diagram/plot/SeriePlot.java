@@ -14,9 +14,9 @@ public class SeriePlot implements ActionListener {
 	private SimulationSerie serie;
 	private Path2D path;
 
-	private Zoom zoom;
+	private ZoomAndPositionHandler zoom;
 
-	public SeriePlot(SimulationSerie serie, Zoom zoom) {
+	public SeriePlot(SimulationSerie serie, ZoomAndPositionHandler zoom) {
 		this.serie = serie;
 		this.zoom = zoom;
 
@@ -31,10 +31,15 @@ public class SeriePlot implements ActionListener {
 		Vector<SimulationEntry> entries = serie.getData();
 		boolean first = true;
 
-		int yOffset = zoom.getyOffset();
-		int xOffset = zoom.getxOffset();
-		double zoomX = zoom.getxZoom() / 100.0;
-		double zoomY = zoom.getyZoom() / 100.0;
+		int offsetY = zoom.getOffsetY();
+		int offsetX = zoom.getOffsetX();
+		double zoomX = zoom.getZoomX() / 100.0;
+		double zoomY = zoom.getZoomY() / 100.0;
+		double dataOffsetY = zoom.getDataOffsetY();
+		int borderPadding = zoom.getBorderPadding();
+
+		offsetX += borderPadding;
+		offsetY += borderPadding;
 
 		// iterate over entries
 		for (SimulationEntry entry : entries) {
@@ -45,9 +50,9 @@ public class SeriePlot implements ActionListener {
 			// draw point
 			if (first) {
 				first = false;
-				this.path.moveTo((x * zoomX) + xOffset, (y * zoomY) + yOffset);
+				this.path.moveTo((x * zoomX) + offsetX, ((-y + dataOffsetY) * zoomY) + offsetY);
 			} else {
-				this.path.lineTo((x * zoomX) + xOffset, (y * zoomY) + yOffset);
+				this.path.lineTo((x * zoomX) + offsetX, ((-y + dataOffsetY) * zoomY) + offsetY);
 			}
 		}
 	}
@@ -63,7 +68,6 @@ public class SeriePlot implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand() + ": " + e.getID());
 		updatePath();
 	}
 }

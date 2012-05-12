@@ -1,13 +1,11 @@
 package ch.zhaw.simulation.diagram.plot;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import javax.swing.JComponent;
 
@@ -15,6 +13,7 @@ import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.diagram.DiagramConfigAdapter;
 import ch.zhaw.simulation.diagram.DiagramConfigListener;
 import ch.zhaw.simulation.diagram.DiagramConfigModel;
+import ch.zhaw.simulation.diagram.DiagramConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
@@ -22,7 +21,7 @@ public class DiagramPlot extends JComponent {
 	private static final long serialVersionUID = 1L;
 
 	private DiagramConfigModel model;
-	private Zoom zoom;
+	private ZoomAndPositionHandler zoom;
 
 	private DiagramConfigListener listener = new DiagramConfigAdapter() {
 		@Override
@@ -36,49 +35,60 @@ public class DiagramPlot extends JComponent {
 		}
 	};
 
-	private Raster raster = new Raster();
+	private Raster raster;
 	private HashMap<SimulationSerie, SeriePlot> plots = new HashMap<SimulationSerie, SeriePlot>();
 
+	/**
+	 * The maximum Y value (not scaled)
+	 */
 	private double yRangeMax;
+
+	/**
+	 * The minimum Y value (not scaled)
+	 */
 	private double yRangeMin;
+
+	/**
+	 * The maximum X value (not scaled)
+	 */
 	private double xRangeMax;
+
+	/**
+	 * The minimum X value (not scaled)
+	 */
 	private double xRangeMin;
 
 	private ActionListener zoomListener = new ActionListener() {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			repaint();
 		}
 	};
 
-	
-	public DiagramPlot(DiagramConfigModel model, Zoom zoom) {
+	public DiagramPlot(DiagramConfigModel model, ZoomAndPositionHandler zoom, DiagramConfiguration config) {
 		this.model = model;
 		this.zoom = zoom;
 		model.addListener(listener);
 
-		updateSimulationYRange();
+		this.raster = new Raster(zoom, config);
+
 		updateSimulationXRange();
+		updateSimulationYRange();
 
 		this.zoom.addListener(zoomListener);
 	}
 
 	private void setScrollSize() {
 		// Size of Scrollbar
+		
+		// TODO !! SIZE
 		setPreferredSize(new Dimension((int) (xRangeMax - xRangeMin) + 30, (int) (yRangeMax - yRangeMin) + 30));
 	}
 
 	@Override
 	public void paint(Graphics g1) {
 		Graphics2D g = DrawHelper.antialisingOn(g1);
-
-		int w = getWidth();
-		int h = getHeight();
-
-		// Background white
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 0, w, h);
 
 		raster.paint(g);
 
@@ -121,6 +131,10 @@ public class DiagramPlot extends JComponent {
 				yRangeMax = s.getMax();
 			}
 		}
+
+		zoom.setDataOffsetY(yRangeMax);
+
+		raster.size(xRangeMin, xRangeMax, yRangeMin, yRangeMax);
 
 		setScrollSize();
 		repaint();

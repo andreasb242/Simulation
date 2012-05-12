@@ -2,7 +2,6 @@ package ch.zhaw.simulation.diagram;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 import javax.swing.AbstractAction;
@@ -12,17 +11,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultFormatter;
 
 import org.jdesktop.swingx.action.TargetableAction;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import butti.javalibs.config.WindowPositionSaver;
-import ch.zhaw.simulation.diagram.plot.DiagramPlot;
-import ch.zhaw.simulation.diagram.plot.Zoom;
+import ch.zhaw.simulation.diagram.plot.ZoomAndPositionHandler;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
@@ -38,25 +42,27 @@ public class DiagramFrame extends JFrame {
 
 	private DiagramSidebar sidebar;
 
-	private DiagramPlot plot;
+//	private DiagramPlot plot;
 
 	private Toolbar toolbar;
 
 	private DiagramConfigListener listener;
 
-	private SimulationConfiguration config;
+	private SimulationConfiguration simConfig;
 
-	private Zoom zoom = new Zoom();
+	private ZoomAndPositionHandler zoom = new ZoomAndPositionHandler();
+	
+	private DiagramConfiguration config = new DiagramConfiguration();
 
-	public DiagramFrame(SimulationCollection collection, SimulationConfiguration config, String name, Sysintegration sys) {
+	public DiagramFrame(SimulationCollection collection, SimulationConfiguration simConfig, String name, Sysintegration sys) {
 		this.model = new DiagramConfigModel(collection);
 
-		System.out.println("load: " + config.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
-		this.model.enableSeries(config.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
+		System.out.println("load: " + simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
+		this.model.enableSeries(simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
 		this.sidebar = new DiagramSidebar(this.model);
-		this.plot = new DiagramPlot(this.model, zoom);
+//		this.plot = new DiagramPlot(this.model, zoom, this.config);
 		
-		this.config = config;
+		this.simConfig = simConfig;
 		toolbar = sys.createToolbar();
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -65,7 +71,73 @@ public class DiagramFrame extends JFrame {
 
 		add(BorderLayout.NORTH, toolbar.getComponent());
 		add(BorderLayout.WEST, sidebar);
-		add(BorderLayout.CENTER, new JScrollPane(plot));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+// create a dataset...
+XYSeries series1 = new XYSeries("Planned");
+series1.add(1.0, 1.0);
+series1.add(2.0, 4.0);
+series1.add(3.0, -3.0);
+series1.add(4.0, 5.0);
+series1.add(5.0, 5.0);
+series1.add(6.0, 7.0);
+series1.add(7.0, 7.0);
+series1.add(8.0, 8.0);
+
+XYSeries series2 = new XYSeries("Delivered");
+series2.add(1.0, 5.0);
+series2.add(2.0, 7.0);
+series2.add(3.0, 6.0);
+series2.add(4.0, 8.0);
+series2.add(5.0, -4.0);
+series2.add(6.0, 4.0);
+series2.add(7.0, 2.0);
+series2.add(8.0, 1.0);
+
+XYSeries series3 = new XYSeries("Third");
+series3.add(3.0, 4.0);
+series3.add(4.0, 3.0);
+series3.add(5.0, 2.0);
+series3.add(6.0, -3.0);
+series3.add(7.0, 6.0);
+series3.add(8.0, 3.0);
+series3.add(9.0, -4.0);
+series3.add(10.0, 3.0);
+
+XYSeriesCollection dataset = new XYSeriesCollection();
+dataset.addSeries(series1);
+dataset.addSeries(series2);
+dataset.addSeries(series3);
+
+JFreeChart chart = ChartFactory.createXYLineChart("test", "x", "y", dataset, PlotOrientation.HORIZONTAL, true, true, false);
+
+XYPlot plot = (XYPlot)chart.getPlot();
+
+ChartPanel chartPanel = new ChartPanel(chart);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		add(BorderLayout.CENTER, new JScrollPane(chartPanel));
 
 		initToolbar();
 
@@ -186,7 +258,7 @@ public class DiagramFrame extends JFrame {
 
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					zoom.setxZoom((int) ((Integer) zoomx.getValue()));
+					zoom.setZoomX(((Integer) zoomx.getValue()));
 				}
 			});
 			toolbar.add(zoomx);
@@ -206,7 +278,7 @@ public class DiagramFrame extends JFrame {
 
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					zoom.setyZoom((int) ((Integer) zoomy.getValue()));
+					zoom.setZoomY(((Integer) zoomy.getValue()));
 				}
 			});
 
@@ -226,7 +298,7 @@ public class DiagramFrame extends JFrame {
 
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					zoom.setxOffset((int) ((Integer) offsetX.getValue()));
+					zoom.setOffsetX(((Integer) offsetX.getValue()));
 				}
 			});
 
@@ -246,7 +318,7 @@ public class DiagramFrame extends JFrame {
 
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					zoom.setyOffset((int) ((Integer) offsetY.getValue()));
+					zoom.setOffsetY((int) ((Integer) offsetY.getValue()));
 				}
 			});
 
@@ -256,12 +328,12 @@ public class DiagramFrame extends JFrame {
 
 	@Override
 	public void dispose() {
-		plot.dispose();
+		// TODO !!! plot.dispose();
 		sidebar.dispose();
 		model.removeListener(listener);
 
 		System.out.println("save: " + model.getEnabledSeriesString());
-		config.setParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, model.getEnabledSeriesString());
+		simConfig.setParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, model.getEnabledSeriesString());
 
 		super.dispose();
 	}
