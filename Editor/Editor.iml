@@ -19,6 +19,7 @@
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="SimulationSidebar" />
     <orderEntry type="module" module-name="VectorExport" />
+    <orderEntry type="module" module-name="ImageExport" />
   </component>
 </module>
 
