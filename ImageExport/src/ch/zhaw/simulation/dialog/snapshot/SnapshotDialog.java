@@ -63,8 +63,8 @@ public class SnapshotDialog extends BDialog {
 
 		this.settings = settings;
 		this.export = exportable;
-		
-		if(!exportable.supportsSelection()) {
+
+		if (!exportable.supportsSelection()) {
 			cbSelection.setVisible(false);
 		}
 
@@ -239,7 +239,15 @@ public class SnapshotDialog extends BDialog {
 
 		dirChooser.setPath(settings.getSetting("snapshot.custompath", new File(".").getAbsolutePath()));
 
-		cbSavePath.setSelectedItem(settings.getSetting("snapshot.path"));
+		String lastPath = settings.getSetting("snapshot.path");
+		for (int i = 0; i < cbSavePath.getItemCount(); i++) {
+			Bookmark b = (Bookmark) cbSavePath.getItemAt(i);
+			if(b.getPath().equals(lastPath)) {
+				cbSavePath.setSelectedIndex(i);
+				break;
+			}
+		}
+
 		if (cbSavePath.getSelectedIndex() < 0) {
 			cbSavePath.setSelectedIndex(0);
 		}
