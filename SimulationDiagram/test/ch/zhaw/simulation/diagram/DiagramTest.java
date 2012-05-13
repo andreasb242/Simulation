@@ -18,8 +18,8 @@ public class DiagramTest {
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException,
 			IOException {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		Config.initConfig("AB2Simulation");
-		
+		Config.initConfig("(AB)²Simulation", "AB2Simulation");
+
 		SimulationCollection collection = new SimulationCollection(0, 100);
 
 		SimulationSerie s;
