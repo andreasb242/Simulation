@@ -2,6 +2,7 @@ package ch.zhaw.simulation.diagram.charteditor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,10 +12,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.editor.ChartEditor;
@@ -24,11 +26,14 @@ import org.jfree.chart.util.ResourceBundleWrapper;
 import org.jfree.layout.LCBLayout;
 import org.jfree.ui.PaintSample;
 
+import ch.zhaw.simulation.diagram.strokeeditor.SeriesStrokeColorEditor;
+
 /**
  * A panel for editing chart properties (includes subpanels for the title,
  * legend and plot).
  */
 class SimulationChartEditor extends JPanel implements ActionListener, ChartEditor {
+	private static final long serialVersionUID = 1L;
 
 	/** A panel for displaying/editing the properties of the title. */
 	private DefaultTitleEditor titleEditor;
@@ -55,7 +60,7 @@ class SimulationChartEditor extends JPanel implements ActionListener, ChartEdito
 	 * @param chart
 	 *            the chart, whichs properties should be changed.
 	 */
-	public SimulationChartEditor(JFreeChart chart) {
+	public SimulationChartEditor(final JFreeChart chart) {
 		setLayout(new BorderLayout());
 
 		JPanel other = new JPanel(new BorderLayout());
@@ -80,37 +85,52 @@ class SimulationChartEditor extends JPanel implements ActionListener, ChartEdito
 		button.addActionListener(this);
 		interior.add(button);
 
-		interior.add(new JLabel(localizationResources.getString("Series_Paint")));
-		JTextField info = new JTextField(localizationResources.getString("No_editor_implemented"));
-		info.setEnabled(false);
-		interior.add(info);
+		interior.add(new JLabel("Farben und Linienstiele"));
+		interior.add(new JLabel());
 		button = new JButton(localizationResources.getString("Edit..."));
-		button.setEnabled(false);
 		interior.add(button);
+		button.addActionListener(new ActionListener() {
 
-		interior.add(new JLabel(localizationResources.getString("Series_Stroke")));
-		info = new JTextField(localizationResources.getString("No_editor_implemented"));
-		info.setEnabled(false);
-		interior.add(info);
-		button = new JButton(localizationResources.getString("Edit..."));
-		button.setEnabled(false);
-		interior.add(button);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Component parent = getParent();
+				while (parent != null && !(parent instanceof JDialog)) {
+					parent = parent.getParent();
+				}
 
-		interior.add(new JLabel(localizationResources.getString("Series_Outline_Paint")));
-		info = new JTextField(localizationResources.getString("No_editor_implemented"));
-		info.setEnabled(false);
-		interior.add(info);
-		button = new JButton(localizationResources.getString("Edit..."));
-		button.setEnabled(false);
-		interior.add(button);
+				SeriesStrokeColorEditor editor = new SeriesStrokeColorEditor(chart);
+				editor.setVisible(true);
 
-		interior.add(new JLabel(localizationResources.getString("Series_Outline_Stroke")));
-		info = new JTextField(localizationResources.getString("No_editor_implemented"));
-		info.setEnabled(false);
-		interior.add(info);
-		button = new JButton(localizationResources.getString("Edit..."));
-		button.setEnabled(false);
-		interior.add(button);
+				int result = JOptionPane.showConfirmDialog(parent, editor, "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				if (result == JOptionPane.OK_OPTION) {
+					editor.updateChart(chart);
+				}
+			}
+		});
+
+//		interior.add(new JLabel(localizationResources.getString("Series_Stroke")));
+//		JTextField info = new JTextField(localizationResources.getString("No_editor_implemented"));
+//		info.setEnabled(false);
+//		interior.add(info);
+//		button = new JButton(localizationResources.getString("Edit..."));
+//		button.setEnabled(false);
+//		interior.add(button);
+//
+//		interior.add(new JLabel(localizationResources.getString("Series_Outline_Paint")));
+//		info = new JTextField(localizationResources.getString("No_editor_implemented"));
+//		info.setEnabled(false);
+//		interior.add(info);
+//		button = new JButton(localizationResources.getString("Edit..."));
+//		button.setEnabled(false);
+//		interior.add(button);
+//
+//		interior.add(new JLabel(localizationResources.getString("Series_Outline_Stroke")));
+//		info = new JTextField(localizationResources.getString("No_editor_implemented"));
+//		info.setEnabled(false);
+//		interior.add(info);
+//		button = new JButton(localizationResources.getString("Edit..."));
+//		button.setEnabled(false);
+//		interior.add(button);
 
 		general.add(interior, BorderLayout.NORTH);
 		other.add(general, BorderLayout.NORTH);
@@ -205,7 +225,6 @@ class SimulationChartEditor extends JPanel implements ActionListener, ChartEdito
 	 *            the chart.
 	 */
 	public void updateChart(JFreeChart chart) {
-
 		this.titleEditor.setTitleProperties(chart);
 		this.plotEditor.updatePlotProperties(chart.getPlot());
 

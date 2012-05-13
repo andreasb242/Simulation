@@ -55,22 +55,22 @@ public class ChartExporter implements ImageExportable {
 	}
 
 	private static String encodeHtml(String text) {
-		final StringBuilder result = new StringBuilder();
-		final StringCharacterIterator iterator = new StringCharacterIterator(text);
+		StringBuilder buf = new StringBuilder();
+		StringCharacterIterator iterator = new StringCharacterIterator(text);
 		char character = iterator.current();
 		while (character != CharacterIterator.DONE) {
 			if (character == '<') {
-				result.append("&lt;");
+				buf.append("&lt;");
 			} else if (character == '>') {
-				result.append("&gt;");
+				buf.append("&gt;");
+			} else if (character == '&') {
+				buf.append("&amp;");
 			} else {
-				// the char is not a special one
-				// add it to the result as is
-				result.append(character);
+				buf.append(character);
 			}
 			character = iterator.next();
 		}
-		return result.toString();
+		return buf.toString();
 	}
 
 	public static String getColorHex(Color color) {

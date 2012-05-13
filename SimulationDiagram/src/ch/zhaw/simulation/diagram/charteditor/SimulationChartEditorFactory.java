@@ -8,8 +8,6 @@ public class SimulationChartEditorFactory implements ChartEditorFactory {
 
 	@Override
 	public ChartEditor createEditor(JFreeChart chart) {
-		// TODO zeichnung glätten!?!?
-		
 		return new SimulationChartEditor(chart);
 	}
 

@@ -63,7 +63,7 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 		setLegendItemPaint(Color.DARK_GRAY);
 		setChartBackgroundPaint(Color.WHITE);
 
-		Stroke[] strokePaint = new Stroke[] { new BasicStroke(2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL) };
+		Stroke[] strokePaint = new Stroke[] { new BasicStroke(2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER) };
 
 		setDrawingSupplier(new DefaultDrawingSupplier(DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE, DefaultDrawingSupplier.DEFAULT_FILL_PAINT_SEQUENCE,
 				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE, strokePaint, DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,

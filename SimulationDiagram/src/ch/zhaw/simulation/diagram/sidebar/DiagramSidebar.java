@@ -25,12 +25,12 @@ public class DiagramSidebar extends JScrollPane {
 	private DefaultTreeModel treeModel;
 	private GroupTreeNode root = new GroupTreeNode("<root>");
 	private AbstractXYItemRenderer renderer;
-	
+
 	/**
 	 * The nodes, with the same Index as the series in the diagram
 	 */
 	private Vector<SerieTreeNode> serieTreeNodes = new Vector<SerieTreeNode>();
-	
+
 	private RendererChangeListener renderListener = new RendererChangeListener() {
 
 		@Override
@@ -104,11 +104,16 @@ public class DiagramSidebar extends JScrollPane {
 
 		treeModel.nodeStructureChanged(root);
 	}
-	
+
 	private void updateData() {
-		for(int i = 0; i < serieTreeNodes.size();i++) {
+		for (int i = 0; i < serieTreeNodes.size(); i++) {
 			SerieTreeNode n = serieTreeNodes.get(i);
-			n.setColor((Color) this.renderer.getSeriesPaint(i));
+			Color c = (Color) this.renderer.getSeriesPaint(i);
+			n.setColor(c);
+		}
+
+		if (tree != null) {
+			tree.repaint();
 		}
 	}
 
