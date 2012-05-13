@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.diagram.csvview;
+package ch.zhaw.simulation.diagram.tableview;
 
 import java.awt.BorderLayout;
 import java.awt.Window;

@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.diagram;
+package ch.zhaw.simulation.diagram.export;
 
 import javax.swing.JFrame;
 
