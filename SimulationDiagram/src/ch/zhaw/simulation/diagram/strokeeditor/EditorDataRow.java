@@ -23,7 +23,7 @@ public class EditorDataRow {
 	private JComboBox linestyle;
 	private Dash customDash = null;
 
-	public EditorDataRow(Paint paint, int thinkness, float[] dash, Color diagramBackground) {
+	public EditorDataRow(Paint paint, float thinkness, float[] dash, Color diagramBackground) {
 		this.preview = new StrokePreview(paint, diagramBackground);
 		this.thikness = new JSpinner(new SpinnerNumberModel(thinkness, 1, 20, 1));
 
@@ -75,8 +75,8 @@ public class EditorDataRow {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				int thikness = (Integer) EditorDataRow.this.thikness.getValue();
-				EditorDataRow.this.preview.setThikness(thikness);
+				double thikness = (Double) EditorDataRow.this.thikness.getValue();
+				EditorDataRow.this.preview.setThikness((float) thikness);
 			}
 		});
 		this.linestyle.addActionListener(new ActionListener() {

@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.diagram.sidebar;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.Enumeration;
 
@@ -12,6 +13,7 @@ public class SerieTreeNode implements TreeNode {
 	private String name;
 	private boolean selected;
 	private Color color;
+	private BasicStroke stroke;
 	private SimulationSerie serie;
 	private int id;
 
@@ -77,10 +79,18 @@ public class SerieTreeNode implements TreeNode {
 		return color;
 	}
 
+	public BasicStroke getStroke() {
+		return stroke;
+	}
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
-	
+
+	public void setStroke(BasicStroke stroke) {
+		this.stroke = stroke;
+	}
+
 	@Override
 	public String toString() {
 		return name;

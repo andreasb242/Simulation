@@ -1,7 +1,9 @@
 package ch.zhaw.simulation.diagram.sidebar;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
+import java.awt.Stroke;
 import java.util.Vector;
 
 import javax.swing.JScrollPane;
@@ -110,6 +112,18 @@ public class DiagramSidebar extends JScrollPane {
 			SerieTreeNode n = serieTreeNodes.get(i);
 			Color c = (Color) this.renderer.getSeriesPaint(i);
 			n.setColor(c);
+
+			Stroke stroke = this.renderer.getSeriesStroke(i);
+			
+			if(stroke == null) {
+				stroke = this.renderer.getBaseStroke();
+			}
+			
+			if (stroke instanceof BasicStroke) {
+				n.setStroke((BasicStroke) stroke);
+			} else {
+				System.err.println("DiagramSidebar.updateData: stroke.class = " + stroke.getClass());
+			}
 		}
 
 		if (tree != null) {

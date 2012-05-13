@@ -64,7 +64,7 @@ public class Dash {
 				return false;
 			}
 
-			if (d.dash.length != d.dash.length) {
+			if (d.dash.length != this.dash.length) {
 				return false;
 			}
 

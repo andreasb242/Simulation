@@ -8,7 +8,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellEditor;
 
-// TODO editieren mit Space oder Enter!!
+// TODO !!!!!!!!!!!! editieren mit Space oder Enter!!
 public class SerieTreeCellEditor extends AbstractCellEditor implements TreeCellEditor {
 	private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ public class SerieTreeCellEditor extends AbstractCellEditor implements TreeCellE
 		if (value instanceof SerieTreeNode) {
 			SerieTreeNode st = (SerieTreeNode) value;
 			cb.setSelected(st.isSelected());
-			cb.setColor(st.getColor());
+			cb.setColorAndStroke(st.getColor(), st.getStroke());
 		}
 
 		return cb;

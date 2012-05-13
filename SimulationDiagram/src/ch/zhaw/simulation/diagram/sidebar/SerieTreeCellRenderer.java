@@ -18,7 +18,7 @@ public class SerieTreeCellRenderer extends ColorCheckbox implements TreeCellRend
 		if (value instanceof SerieTreeNode) {
 			SerieTreeNode st = (SerieTreeNode) value;
 			setSelected(st.isSelected());
-			setColor(st.getColor());
+			setColorAndStroke(st.getColor(), st.getStroke());
 		}
 		
 		return this;

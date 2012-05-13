@@ -2,6 +2,8 @@ package ch.zhaw.simulation.diagram.strokeeditor;
 
 import java.awt.BasicStroke;
 
+import ch.zhaw.simulation.diagram.DiagramStrokeFactory;
+
 /**
  * @author Andreas Butti
  */
@@ -29,6 +31,6 @@ public class StrokData {
 	}
 
 	public BasicStroke getStroke() {
-		return new BasicStroke(this.thikness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, this.dash, 0);
+		return DiagramStrokeFactory.createStroke(this.thikness, this.dash);
 	}
 }

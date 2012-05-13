@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.diagram.strokeeditor;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -10,6 +9,8 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
+import ch.zhaw.simulation.diagram.DiagramStrokeFactory;
 
 public class DashComboboxRenderer extends JComponent implements ListCellRenderer {
 	private static final long serialVersionUID = 1L;
@@ -59,7 +60,7 @@ public class DashComboboxRenderer extends JComponent implements ListCellRenderer
 		}
 
 		if (this.dash != null) {
-			g.setStroke(new BasicStroke(2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, this.dash.getDash(), 0));
+			g.setStroke(DiagramStrokeFactory.createStroke(this.dash.getDash()));
 		}
 
 		int y = h / 2 - 1;

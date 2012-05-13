@@ -1,9 +1,11 @@
 package ch.zhaw.simulation.diagram.strokeeditor;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
@@ -51,7 +53,20 @@ public class SeriesStrokeColorEditor extends JPanel {
 			add(new JLabel(s.getKey().toString()));
 			final Paint paint = renderer.lookupSeriesPaint(i);
 
-			final EditorDataRow data = new EditorDataRow(paint, /* TODO */2, null, (Color) diagramBackground);
+			Stroke stroke = renderer.getSeriesStroke(i);
+
+			if (stroke == null) {
+				stroke = renderer.getBaseStroke();
+			}
+
+			float lineWidth = 2;
+			float[] dash = null;
+			if (stroke instanceof BasicStroke) {
+				lineWidth = ((BasicStroke) stroke).getLineWidth();
+				dash = ((BasicStroke) stroke).getDashArray();
+			}
+
+			final EditorDataRow data = new EditorDataRow(paint, lineWidth, dash, (Color) diagramBackground);
 			samples.add(data);
 			data.add(this);
 
