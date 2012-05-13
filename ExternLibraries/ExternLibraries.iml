@@ -38,6 +38,8 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="jcommon-1.0.17" level="project" />
+    <orderEntry type="library" exported="" name="jfreechart-1.0.14" level="project" />
     <javadoc-paths>
       <root url="jar://$MODULE_DIR$/doc/swingx-1.6-javadoc.zip!/" />
       <root url="jar://$MODULE_DIR$/doc/jep-2.3.1-javadoc.zip!/javadoc" />

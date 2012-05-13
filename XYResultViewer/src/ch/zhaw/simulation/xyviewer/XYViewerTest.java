@@ -14,7 +14,7 @@ import ch.zhaw.simulation.xyviewer.model.dummy.XYResultDummy;
 
 public class XYViewerTest {
 	public static void main(String[] args) throws IOException {
-		String outputPath = "/home/andreas/tmp/simtest/";
+		String outputPath = "c:\\tmp\\";
 
 		XYViewer viewer = new XYViewer();
 
