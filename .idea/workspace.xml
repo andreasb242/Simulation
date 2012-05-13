@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6195e07-915e-46f3-8941-edd42afbee6a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jcommon_1_0_17.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jfreechart_1_0_14.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ImageExport/ImageExport.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Simulation/examples/xymodeltest.simz" afterPath="$PROJECT_DIR$/Simulation/examples/xymodeltest.simz" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ExternLibraries/ExternLibraries.iml" afterPath="$PROJECT_DIR$/ExternLibraries/ExternLibraries.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimulationDiagram/SimulationDiagram.iml" afterPath="$PROJECT_DIR$/SimulationDiagram/SimulationDiagram.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerTest.java" afterPath="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Editor/Editor.iml" afterPath="$PROJECT_DIR$/Editor/Editor.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Simulation/Simulation.iml" afterPath="$PROJECT_DIR$/Simulation/Simulation.iml" />
     </list>
     <ignored path="Simulation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -112,53 +106,7 @@
     <favorites_list name="Simulation" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="DiagramFrame.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/DiagramFrame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="26" selection-start="1431" selection-end="1431" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChartExporter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/ChartExporter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="18" selection-start="1378" selection-end="1378" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VectorExport.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/VectorExport/src/ch/zhaw/simulation/vector/VectorExport.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="43" selection-start="992" selection-end="992" vertical-scroll-proportion="1.2343234">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChartExportHelper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/ChartExportHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="16" selection-start="674" selection-end="674" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SnapshotDialog.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ImageExport/src/ch/zhaw/simulation/dialog/snapshot/SnapshotDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="13" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -186,6 +134,9 @@
         <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerTest.java" />
       </list>
     </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-4" />
@@ -522,7 +473,11 @@
       <created>1336576282546</created>
       <updated>1336576282546</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="IntelliJ: add/change modules">
+      <created>1336913082281</created>
+      <updated>1336913082281</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -543,10 +498,10 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32940018" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24946581" sideWeight="0.32251722" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20943953" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27531958" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -591,7 +546,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Plugin: static meso movement" />
+    <option name="LAST_COMMIT_MESSAGE" value="IntelliJ: add/change modules" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -612,6 +567,7 @@
     <MESSAGE value="Plugin-Bugfix: stop only if  an error occur, not in any case (finally)" />
     <MESSAGE value="IntelliJ project file" />
     <MESSAGE value="Plugin: static meso movement" />
+    <MESSAGE value="IntelliJ: add/change modules" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -912,20 +868,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Simulation/src/ch/zhaw/simulation/app/ApplicationControl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="31" selection-start="5458" selection-end="5458" vertical-scroll-proportion="0.017137097">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabCompatiblePlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="41" selection-start="4688" selection-end="4688" vertical-scroll-proportion="0.46875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/model/dummy/XYResultDummy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="67" column="24" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.82510287">
@@ -984,28 +926,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/DiagramFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="26" selection-start="1431" selection-end="1431" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/ChartExportHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="16" selection-start="674" selection-end="674" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ImageExport/src/ch/zhaw/simulation/dialog/snapshot/SnapshotDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="13" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/ChartExporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="18" selection-start="1378" selection-end="1378" vertical-scroll-proportion="0.0">
+        <state line="36" column="26" selection-start="1431" selection-end="1431" vertical-scroll-proportion="0.4455645">
           <folding />
         </state>
       </provider>
@@ -1017,10 +938,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Editor/src/ch/zhaw/simulation/editor/imgexport/ImageExport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="0" selection-start="753" selection-end="753" vertical-scroll-proportion="0.41129032">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/VectorExport/src/ch/zhaw/simulation/vector/VectorExport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="43" selection-start="992" selection-end="992" vertical-scroll-proportion="1.2343234">
+        <state line="33" column="42" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.42842743">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/ChartExporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="18" selection-start="1378" selection-end="1378" vertical-scroll-proportion="0.41129032">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/ChartExportHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="16" selection-start="674" selection-end="674" vertical-scroll-proportion="0.29133064">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ImageExport/src/ch/zhaw/simulation/dialog/snapshot/SnapshotDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="13" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.06854839">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Simulation/src/ch/zhaw/simulation/app/ApplicationControl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="34" selection-start="2906" selection-end="2936" vertical-scroll-proportion="0.32560483">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1076,7 +1036,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>SimulationDiagram</last-edited>
+          <last-edited>Simulation</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

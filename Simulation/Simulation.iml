@@ -27,6 +27,7 @@
     <orderEntry type="module" module-name="SimulationPlugin.Intern" />
     <orderEntry type="module" module-name="SimulationDiagram" />
     <orderEntry type="module" module-name="SimulationPlugin" />
+    <orderEntry type="module" module-name="ImageExport" />
   </component>
 </module>
 
