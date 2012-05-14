@@ -13,8 +13,11 @@ public class Gradient extends PostfixMathCommand {
 		super();
 		this.numberOfParameters = 2;
 
-		density.add("ab");
-		density.add("density");
+		// TODO: dynamic add densities!!!!
+		density.add("d0");
+		density.add("d1");
+		density.add("d2");
+		density.add("d3");
 	}
 
 	@Override

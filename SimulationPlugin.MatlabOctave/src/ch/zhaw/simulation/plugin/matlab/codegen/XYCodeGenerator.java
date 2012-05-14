@@ -20,6 +20,7 @@ import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
 import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
+import ch.zhaw.simulation.plugin.matlab.XYModelAttachment;
 
 /**
  * @author: bachi
@@ -66,6 +67,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		FlowModelAttachment 				attachment;
 		MatlabVisitor 						visitor;
+		MesoVisitor 						mesoVisitor;
 		String 								prefix;
 		String 								variable;
 
@@ -146,10 +148,14 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			out.printComment("init " + meso.getName());
 
 			// set x/y
-			out.println(meso.getName() + ".position.x.value = " + meso.getXCenter() + ";");
-			out.println(meso.getName() + ".position.y.value = " + meso.getYCenter() + ";");
-			variableList.add(meso.getName() + ".position.x");
-			variableList.add(meso.getName() + ".position.y");
+			out.println(meso.getName() + ".position.exact.x.value = " + meso.getXCenter() + ";");
+			out.println(meso.getName() + ".position.exact.y.value = " + meso.getYCenter() + ";");
+			out.println(meso.getName() + ".position.approx.x.value = uint32(" + meso.getName() + ".position.exact.x.value);");
+			out.println(meso.getName() + ".position.approx.y.value = uint32(" + meso.getName() + ".position.exact.y.value);");
+			variableList.add(meso.getName() + ".position.exact.x");
+			variableList.add(meso.getName() + ".position.exact.y");
+			variableList.add(meso.getName() + ".position.approx.x");
+			variableList.add(meso.getName() + ".position.approx.y");
 
 			/*** init submodel ***/
 			submodel = meso.getSubmodel();
@@ -224,28 +230,39 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			}
 			out.newline();
 
+			mesoVisitor = new MesoVisitor(meso, xyModel.getDensity());
+
 			// move meso
 			out.printComment("move meso");
-			out.println("tmp_x = " + meso.getName() + ".position.x.value;");
-			out.println("tmp_y = " + meso.getName() + ".position.y.value;");
-			out.println("neighbour = -realmax();");
-			out.println("for x = " + meso.getName() + ".position.x.value - 1:" + meso.getName() + ".position.x.value + 1");
-			out.indent();
-			out.println("for y = " + meso.getName() + ".position.y.value - 1:" + meso.getName() + ".position.y.value + 1");
-			out.indent();
-			out.println("if d1.matrix(y, x) > neighbour");
-			out.indent();
-			out.println("neighbour = d1.matrix(y, x);");
-			out.println("tmp_x = x;");
-			out.println("tmp_y = y;");
-			out.detent();
-			out.println("end;");
-			out.detent();
-			out.println("end;");
-			out.detent();
-			out.println("end;");
-			out.println(meso.getName() + ".position.x.value = tmp_x;");
-			out.println(meso.getName() + ".position.y.value = tmp_y;");
+			if (meso.getDerivative() == MesoData.Derivative.FIRST_DERIVATIVE) {
+				/*
+				out.println("m0.position.exact.x.value = m0.position.exact.x.value + (100 * d1.grad.dx(m0.position.approx.y.value, m0.position.approx.x.value)) * sim_dt;");
+				out.println("m0.position.exact.x.value = m0.position.exact.x.value + (100 * d1.grad.dx(m0.position.approx.y.value, m0.position.approx.x.value)) * sim_dt;");
+				out.println("m0.position.exact.y.value = m0.position.exact.y.value + (100 * d1.grad.dy(m0.position.approx.y.value, m0.position.approx.x.value)) * sim_dt;");
+				out.println("m0.position.approx.x.value = uint32(m0.position.exact.x.value);");
+				out.println("m0.position.approx.y.value = uint32(m0.position.exact.y.value);");
+				*/
+
+				out.printComment("FIRST_DERIVATIVE");
+
+				// TODO
+				/*
+				out.println(meso.getName() + ".position.exact.x.value = " + meso.getName() + ".position.exact.x.value + (100 * d1.grad.dx(" + meso.getName() + ".position.approx.y.value, " + meso.getName() + ".position.approx.x.value)) * sim_dt;");
+				out.println(meso.getName() + ".position.exact.y.value = " + meso.getName() + ".position.exact.y.value + (100 * d1.grad.dy(" + meso.getName() + ".position.approx.y.value, " + meso.getName() + ".position.approx.x.value)) * sim_dt;");
+				out.println(meso.getName() + ".position.approx.x.value = uint32(" + meso.getName() + ".position.exact.x.value);");
+				out.println(meso.getName() + ".position.approx.y.value = uint32(" + meso.getName() + ".position.exact.y.value);");
+				*/
+
+				System.out.println("=== visit " + meso.getName());
+				out.println(meso.getName() + ".position.exact.x.value = " + meso.getName() + ".position.exact.x.value + (" + ((XYModelAttachment) meso.attachment).getDataXFormula(mesoVisitor) + ") * sim_dt;");
+				out.println(meso.getName() + ".position.exact.y.value = " + meso.getName() + ".position.exact.y.value + (" + ((XYModelAttachment) meso.attachment).getDataYFormula(mesoVisitor) + ") * sim_dt;");
+				out.println(meso.getName() + ".position.approx.x.value = uint32(" + meso.getName() + ".position.exact.x.value);");
+				out.println(meso.getName() + ".position.approx.y.value = uint32(" + meso.getName() + ".position.exact.y.value);");
+			} else if (meso.getDerivative() == MesoData.Derivative.SECOND_DERIVATIVE) {
+				out.printComment("SECOND_DERIVATIVE");
+			} else {
+				out.printComment("NO_DERIVATIVE");
+			}
 			out.newline();
 		}
 
@@ -275,7 +292,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		out.printComment("Open output files");
 		for (String variable : variableList) {
-			filename = "xy_data_" + variable + ".txt";
+			filename = "data_" + variable + ".txt";
 			fp       = variable + ".fp";
 			out.println(fp + " = fopen('" + filename + "', 'w');");
 		}

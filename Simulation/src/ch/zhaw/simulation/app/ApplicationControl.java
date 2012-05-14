@@ -202,6 +202,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 								DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, doc.getSimulationConfiguration(), getDocumentName(), sysintegration);
 								frame.setVisible(true);
+							} else if (doc.getType() == SimulationType.XY_MODEL) {
+								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 							}
 						} else if (state == FinishState.CANCELED) {
 							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurde abgebrochen.");

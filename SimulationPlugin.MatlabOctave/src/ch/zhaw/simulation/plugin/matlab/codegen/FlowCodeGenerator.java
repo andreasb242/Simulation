@@ -164,12 +164,12 @@ public abstract class FlowCodeGenerator extends AbstractCodeGenerator {
 		out.printComment("Open output files");
 		for (AbstractNamedSimulationData namedData : dataVector) {
 			String var = namedData.getName() + ".fp";
-			out.println(var + " = fopen('" + namedData.getName() + "_data.txt', 'w');");
+			out.println(var + " = fopen('data_" + namedData.getName() + ".txt', 'w');");
 		}
 
 		for (FlowConnectorData c : flowModel.getFlowConnectors()) {
 			String var = c.getValve().getName() + ".fp";
-			out.println(var + " = fopen('" + c.getValve().getName() + "_data.txt', 'w');");
+			out.println(var + " = fopen('data_" + c.getValve().getName() + ".txt', 'w');");
 		}
 		out.newline();
 	}
