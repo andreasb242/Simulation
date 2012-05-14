@@ -7,7 +7,12 @@ public interface DiagramConfigListener {
 	/**
 	 * Shows linear or logarithmic scala
 	 */
-	public void setLogEnabled(boolean log);
+	public void setLogXEnabled(boolean log);
+
+	/**
+	 * Shows linear or logarithmic scala
+	 */
+	public void setLogYEnabled(boolean log);
 
 	/**
 	 * A Serie was enabled

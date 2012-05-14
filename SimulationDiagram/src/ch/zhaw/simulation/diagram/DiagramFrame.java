@@ -294,7 +294,7 @@ public class DiagramFrame extends JFrame {
 
 		toolbar.addSeparator();
 
-		final TargetableAction action = new TargetableAction("Logarithmisch", "diagram/log", IconLoader.getIcon("diagram/log", toolbar.getDefaultIconSize())) {
+		final TargetableAction action = new TargetableAction("Logarithmisch", "diagram/log-y", IconLoader.getIcon("diagram/log", toolbar.getDefaultIconSize())) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -306,14 +306,14 @@ public class DiagramFrame extends JFrame {
 				boolean newValue;
 				newValue = evt.getStateChange() == ItemEvent.SELECTED;
 
-				model.setLogEnabled(newValue);
+				model.setLogYEnabled(newValue);
 			}
 		};
 		action.setStateAction(true);
 
 		listener = new DiagramConfigAdapter() {
 			@Override
-			public void setLogEnabled(boolean log) {
+			public void setLogYEnabled(boolean log) {
 				// check if we can show a log axis, all values have to be > 0
 
 				if (log && !canShowLogAxis()) {
@@ -321,7 +321,7 @@ public class DiagramFrame extends JFrame {
 							"<html>Logarithmische achsen können nicht angewendet werden, da das Diagramm Negativ- oder Nullwerte enthält.<br>"
 									+ "Blenden Sie nur rein positive Serien ein und versuchen Sie es erneut.</html>");
 
-					model.setLogEnabled(false);
+					model.setLogYEnabled(false);
 					return;
 				}
 

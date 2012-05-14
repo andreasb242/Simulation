@@ -1,14 +1,21 @@
-Status anzeigen bei Simulation => Matlab
-Matlab / Octave error abfangen
+Status anzeigen bei Simulation => Matlab (gestrichen)
+Matlab / Octave error abfangen => Nicht möglich!!
+
 Ableitung mit grad(variable,dx)
 Interface um Definirte Variabeln zu erhalten
 Warnen wenn Fehler im Model und trotzdem versucht wird zu simulieren
 Cancel Button beim Simulieren => Implementation für Matlab
 Repaint bei Ventil Markierung geht nicht
-Refactoring bei Namen (in formeln)
-Speichern von Vektorgrafiken, nur Ausschnitt, Rückmeldung
+Refactoring bei Namen (in Formeln)
+Speichern von Vektorgrafiken, nur Ausschnitt
 Dichte:
 	Export in Grafik
 	Legende (Export?)
 	Logarithmisch
-Plot/Chart mit x- und y-Achsen Beschriftungen
+
+Diagram:
+	Legende
+	Log beide Achsen
+	Beiliege Variabeln
+
+Fehlermeldung wenn Matlba / Octave nicht installiert, dem Benutzer erkären was er machen kann statdessen

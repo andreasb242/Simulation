@@ -40,6 +40,9 @@ public class Parser {
 		jep.addStandardFunctions();
 		// jep.addComplex();
 		jep.getSymbolTable().remove("x");
+		
+		jep.addFunction("grad", new Gradient());
+
 
 		// Add all functions from JEP to functionlist[]
 		Vector<Function> functionlist = new Vector<Function>();

@@ -5,7 +5,11 @@ import ch.zhaw.simulation.plugin.data.SimulationSerie;
 public class DiagramConfigAdapter implements DiagramConfigListener {
 
 	@Override
-	public void setLogEnabled(boolean log) {
+	public void setLogXEnabled(boolean log) {
+	}
+
+	@Override
+	public void setLogYEnabled(boolean log) {
 	}
 
 	@Override

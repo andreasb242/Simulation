@@ -20,9 +20,15 @@ public class DiagramConfigModel {
 		}
 	}
 
-	public void setLogEnabled(boolean log) {
+	public void setLogXEnabled(boolean log) {
 		for (DiagramConfigListener l : this.listener) {
-			l.setLogEnabled(log);
+			l.setLogXEnabled(log);
+		}
+	}
+
+	public void setLogYEnabled(boolean log) {
+		for (DiagramConfigListener l : this.listener) {
+			l.setLogYEnabled(log);
 		}
 	}
 
