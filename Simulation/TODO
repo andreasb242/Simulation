@@ -17,5 +17,7 @@ Diagram:
 	Legende
 	Log beide Achsen
 	Beiliege Variabeln
+	Speichern
 
 Fehlermeldung wenn Matlba / Octave nicht installiert, dem Benutzer erkären was er machen kann statdessen
+

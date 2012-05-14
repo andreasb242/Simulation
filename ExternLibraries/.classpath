@@ -6,6 +6,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/jxlayer-3.0.4.jar" sourcepath="lib/jxlayer-3.0.4-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.17.jar" sourcepath="lib/jcommon-1.0.17-src.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.14.jar" sourcepath="lib/jfreechart-1.0.14-src.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jrtf-0.5-30.07.2011.jar" sourcepath="lib/jrtf-src-0.5-30.07.2011.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

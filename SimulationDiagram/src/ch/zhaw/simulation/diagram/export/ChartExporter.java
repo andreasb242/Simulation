@@ -45,9 +45,6 @@ public class ChartExporter implements ImageExportable {
 
 		LegendExportHtml html = new LegendExportHtml();
 		html.exportLegend(file.getAbsolutePath() + ".legende.html", chartPanel.getChart(), name);
-		
-		LegendExportRtf rtf = new LegendExportRtf();
-		rtf.exportLegend(file.getAbsolutePath() + ".legende.rtf", chartPanel.getChart(), name);
 	}
 
 	@Override
