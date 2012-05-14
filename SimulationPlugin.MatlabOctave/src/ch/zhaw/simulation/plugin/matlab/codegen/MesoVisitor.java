@@ -2,42 +2,66 @@ package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
-import org.lsmp.djep.xjep.PrintVisitor;
+import ch.zhaw.simulation.plugin.matlab.MatlabVisitor;
 import org.nfunk.jep.*;
 
 import java.util.Vector;
 
-public class MesoVisitor extends PrintVisitor {
+public class MesoVisitor extends MatlabVisitor {
 
 	private MesoData meso;
-	private Vector<DensityData> density;
+	private Vector<DensityData> densityList;
 
 	public MesoVisitor(MesoData meso, Vector<DensityData> density) {
 		this.meso = meso;
-		this.density = density;
-	}
-
-	@Override
-	public Object visit(ASTVarNode node, Object data) throws ParseException {
-		System.out.println("variable : " + node.getName());
-		return data;
+		this.densityList = density;
 	}
 
 	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
-		System.out.println("function: " + node.getName());
-		return data;
+		if ("grad".equals(node.getName())) {
+			return visitGrad(node, data);
+		} else {
+			return super.visit(node, data);
+		}
 	}
 
-	@Override
-	public Object visit(ASTConstant node, Object data) {
-		System.out.println("const: " + node.getValue());
-		return data;
-	}
+	private Object visitGrad(ASTFunNode node, Object data) throws ParseException {
+		Node densityNode;
+		Node derivateNode;
+		ASTConstant densityConst;
+		ASTConstant derivateConst;
+		boolean isValid = false;
 
-	@Override
-	public Object visit(SimpleNode node, Object data) throws ParseException {
-		System.out.println("simple: " + node.getId());
+		if (node.jjtGetNumChildren() != 2) {
+			throw new ParseException("sinnvoller text");
+		}
+
+		densityNode = node.jjtGetChild(0);
+		derivateNode = node.jjtGetChild(1);
+
+		if(!(densityNode instanceof ASTConstant) || !(derivateNode instanceof ASTConstant)) {
+			throw new ParseException("sinnvoller text");
+		}
+
+		densityConst = (ASTConstant) densityNode;
+		derivateConst = (ASTConstant) derivateNode;
+
+		for (DensityData density : densityList) {
+			if (densityConst.getValue().equals(density.getName())) {
+				isValid = true;
+				break;
+			}
+		}
+
+		if (!isValid) {
+			throw new ParseException("sinnvoller text");
+		}
+
+		/* d1.grad.dx(m0.position.approx.y.value, m0.position.approx.x.value)) */
+		sb.append(densityConst.getValue() + ".grad.d" + derivateConst.getValue() + "(");
+		sb.append(meso.getName() + ".position.approx.y.value, " + meso.getName() + ".position.approx.x.value)");
+
 		return data;
 	}
 }

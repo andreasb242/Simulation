@@ -40,7 +40,7 @@ public class XYModelAttachment implements SimulationAttachment {
 		MatrixJep j = parsed.jep;
 		Node processed = j.preprocess(parsed.nodes.lastElement());
 
-		return j.simplify(processed);
+		return processed;
 	}
 
 	public String getPreparedFormula(PrintVisitor visitor) {
