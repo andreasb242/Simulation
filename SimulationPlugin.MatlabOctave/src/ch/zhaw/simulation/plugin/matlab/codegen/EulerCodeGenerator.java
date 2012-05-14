@@ -47,6 +47,8 @@ public class EulerCodeGenerator extends FixedStepCodeGenerator {
 
 		out.println("for i = 1 : sim_count + 1");
 		out.indent();
+		
+		out.println("printf(\"%i\\n\", i);");
 
 		printFlowCalculations(out);
 		printContainerCalculations(out);

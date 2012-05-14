@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -20,6 +22,7 @@ import ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.optimizer.ModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.optimizer.XYModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
+import ch.zhaw.simulation.plugin.matlab.util.OutputReaderThread;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 
 public class MatlabCompatiblePlugin implements SimulationPlugin {
@@ -31,6 +34,8 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	protected PluginDataProvider provider;
 	protected DirectoryWatcher watcher;
 	protected MatlabFinishListener finishListener;
+
+	private Process process;
 
 	public MatlabCompatiblePlugin() {
 	}
@@ -82,8 +87,8 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		String workpath = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
 		String filename = null;
 
-		 AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
-		
+		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
+
 		try {
 			finishListener.updateWorkpath(workpath);
 			watcher.start(workpath);
@@ -120,7 +125,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			arguments = "-nosplash -nodesktop -minimize -wait -sd " + dir + " -r " + filename;
 		} else if (t == MatlabTool.OCTAVE) {
 			executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
-			arguments = "--exec-path " + dir + " " + filename + ".m";
+			arguments = "--no-line-editing --exec-path " + dir + " " + filename + ".m";
 		} else if (t == MatlabTool.SCILAB) {
 			executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
 			arguments = "";
@@ -128,23 +133,42 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			throw new IllegalArgumentException();
 		}
 
-		System.out.println(executable + " " + arguments);
-		Process p = Runtime.getRuntime().exec(executable + " " + arguments);
-		//BufferedReader stdout = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		//BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-		//String line;
-		//while ((line = stdout.readLine ()) != null) {
-		//	System.out.println ("stdout: " + line);
-		//}
-		//while ((line = stderr.readLine ()) != null) {
-		//	System.out.println ("stderr: " + line);
-		//}
+		System.out.println("MatlabCompatiblePlugin: " + executable + " " + arguments);
+		this.process = Runtime.getRuntime().exec(executable + " " + arguments);
+
+		ActionListener errorListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				watcher.stop();
+				provider.getExecutionListener().executionFinished(e.getActionCommand(), FinishState.ERROR);
+			}
+		};
+
+		OutputReaderThread stdout = new OutputReaderThread("[" + t + "] ", process.getInputStream(), System.out);
+		OutputReaderThread stderr = new OutputReaderThread("[" + t + "] ", process.getInputStream(), System.err);
+
+		stdout.addListener(errorListener);
+		stderr.addListener(errorListener);
+
+		stdout.start();
+		stderr.start();
 	}
 
 	@Override
 	public void cancelSimulation() {
-		provider.getExecutionListener().setExecutionMessage("Abbrechen nicht möglich");
-		// TODO Auto-generated method stub
-		
+		provider.getExecutionListener().setExecutionMessage("Wird abgebrochen...");
+		watcher.stop();
+
+		this.process.destroy();
+
+		try {
+			int retCode = this.process.waitFor();
+			System.out.println("Process exited with: " + retCode);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			provider.getExecutionListener().executionFinished(null, FinishState.CANCELED);
+		}
 	}
 }
