@@ -4,15 +4,20 @@ import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 public interface DiagramConfigListener {
 
-	/**
-	 * Shows linear or logarithmic scala
-	 */
-	public void setLogXEnabled(boolean log);
+	public enum Direction {
+		X("x"), Y("y");
+
+		public final String name;
+
+		private Direction(String name) {
+			this.name = name;
+		}
+	};
 
 	/**
 	 * Shows linear or logarithmic scala
 	 */
-	public void setLogYEnabled(boolean log);
+	public void setLogEnabled(Direction direction, boolean log);
 
 	/**
 	 * A Serie was enabled

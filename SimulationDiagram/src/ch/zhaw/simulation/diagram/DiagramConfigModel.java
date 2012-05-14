@@ -2,6 +2,7 @@ package ch.zhaw.simulation.diagram;
 
 import java.util.Vector;
 
+import ch.zhaw.simulation.diagram.DiagramConfigListener.Direction;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
@@ -19,16 +20,10 @@ public class DiagramConfigModel {
 			throw new NullPointerException("collection == null");
 		}
 	}
-
-	public void setLogXEnabled(boolean log) {
+	
+	public void setLogEnabled(Direction direction, boolean log) {
 		for (DiagramConfigListener l : this.listener) {
-			l.setLogXEnabled(log);
-		}
-	}
-
-	public void setLogYEnabled(boolean log) {
-		for (DiagramConfigListener l : this.listener) {
-			l.setLogYEnabled(log);
+			l.setLogEnabled(direction, log);
 		}
 	}
 

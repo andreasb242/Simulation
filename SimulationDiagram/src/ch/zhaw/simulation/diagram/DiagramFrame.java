@@ -2,16 +2,13 @@ package ch.zhaw.simulation.diagram;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.editor.ChartEditorManager;
@@ -26,14 +23,11 @@ import org.jfree.data.xy.XYSeriesCollection;
 import butti.javalibs.config.Settings;
 import butti.javalibs.config.WindowPositionSaver;
 import butti.javalibs.errorhandler.Errorhandler;
-import butti.javalibs.gui.messagebox.Messagebox;
-import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.diagram.charteditor.SimulationChartEditorFactory;
 import ch.zhaw.simulation.diagram.csv.CSVSaver;
 import ch.zhaw.simulation.diagram.export.ChartExportHelper;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.diagram.tableview.TableDialog;
-import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
@@ -52,14 +46,9 @@ public class DiagramFrame extends JFrame {
 
 	private Toolbar toolbar;
 
-	private DiagramConfigListener listener;
-
 	private SimulationConfiguration simConfig;
 
 	private ChartPanel chartPanel;
-
-	private NumberAxis yAxis;
-	private NumberAxis yAxisLog;
 
 	private XYPlot plot;
 
@@ -68,6 +57,10 @@ public class DiagramFrame extends JFrame {
 	private Settings settings;
 
 	private SimulationCollection collection;
+
+	private LogButton buttonLogX;
+
+	private LogButton buttonLogY;
 
 	static {
 		// init JFreeChart
@@ -105,7 +98,7 @@ public class DiagramFrame extends JFrame {
 
 		NumberAxis xAxis = new NumberAxis(null);
 		xAxis.setAutoRangeIncludesZero(false);
-		this.yAxis = new NumberAxis(null);
+		NumberAxis yAxis = new NumberAxis(null);
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
 		this.plot = new XYPlot(col, xAxis, yAxis, renderer);
 		plot.setOrientation(PlotOrientation.VERTICAL);
@@ -132,7 +125,7 @@ public class DiagramFrame extends JFrame {
 
 		add(BorderLayout.CENTER, chartPanel);
 
-		initToolbar();
+		initToolbar(xAxis, yAxis);
 
 		setSize(640, 480);
 		setLocationRelativeTo(null);// center
@@ -141,7 +134,7 @@ public class DiagramFrame extends JFrame {
 		new WindowPositionSaver(this);
 	}
 
-	private void initToolbar() {
+	private void initToolbar(NumberAxis xAxis, NumberAxis yAxis) {
 		toolbar.add(new ToolbarAction("Anzeigen als Tabelle", "diagram/spreadsheet") {
 
 			@Override
@@ -294,87 +287,9 @@ public class DiagramFrame extends JFrame {
 
 		toolbar.addSeparator();
 
-		final TargetableAction action = new TargetableAction("Logarithmisch", "diagram/log-y", IconLoader.getIcon("diagram/log", toolbar.getDefaultIconSize())) {
-			private static final long serialVersionUID = 1L;
+		this.buttonLogX = new LogButton(this, plot, toolbar, model, xAxis, DiagramConfigListener.Direction.X);
+		this.buttonLogY = new LogButton(this, plot, toolbar, model, yAxis, DiagramConfigListener.Direction.Y);
 
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-			}
-
-			@Override
-			public void itemStateChanged(ItemEvent evt) {
-				boolean newValue;
-				newValue = evt.getStateChange() == ItemEvent.SELECTED;
-
-				model.setLogYEnabled(newValue);
-			}
-		};
-		action.setStateAction(true);
-
-		listener = new DiagramConfigAdapter() {
-			@Override
-			public void setLogYEnabled(boolean log) {
-				// check if we can show a log axis, all values have to be > 0
-
-				if (log && !canShowLogAxis()) {
-					Messagebox.showInfo(DiagramFrame.this, "Logarithmische Achsen",
-							"<html>Logarithmische achsen können nicht angewendet werden, da das Diagramm Negativ- oder Nullwerte enthält.<br>"
-									+ "Blenden Sie nur rein positive Serien ein und versuchen Sie es erneut.</html>");
-
-					model.setLogYEnabled(false);
-					return;
-				}
-
-				if (log) {
-					if (DiagramFrame.this.yAxisLog == null) {
-						DiagramFrame.this.yAxisLog = new LogarithmicAxis(null);
-					}
-
-					String oldLabel = DiagramFrame.this.yAxisLog.getLabel();
-					String newLabel = DiagramFrame.this.yAxis.getLabel();
-
-					if (!StringUtil.equals(oldLabel, newLabel)) {
-						DiagramFrame.this.yAxisLog.setLabel(newLabel);
-					}
-
-					DiagramFrame.this.plot.setRangeAxis(DiagramFrame.this.yAxisLog);
-				} else {
-					if (DiagramFrame.this.yAxisLog == null) {
-						return;
-					}
-
-					String oldLabel = DiagramFrame.this.yAxis.getLabel();
-					String newLabel = DiagramFrame.this.yAxisLog.getLabel();
-
-					if (!StringUtil.equals(oldLabel, newLabel)) {
-						DiagramFrame.this.yAxis.setLabel(newLabel);
-					}
-
-					DiagramFrame.this.plot.setRangeAxis(DiagramFrame.this.yAxis);
-				}
-
-				if (action.isSelected() != log) {
-					action.setSelected(log);
-				}
-			}
-		};
-		this.model.addListener(listener);
-
-		toolbar.addToogleAction(action);
-	}
-
-	protected boolean canShowLogAxis() {
-		for (SimulationSerie s : model.getCollection()) {
-			if (model.isEnabled(s)) {
-				for (SimulationEntry d : s.getData()) {
-					if (d.value <= 0) {
-						return false;
-					}
-				}
-			}
-		}
-
-		return true;
 	}
 
 	@Override
@@ -383,7 +298,8 @@ public class DiagramFrame extends JFrame {
 		if (tableDialog != null) {
 			tableDialog.dispose();
 		}
-		model.removeListener(listener);
+		this.buttonLogX.dispose();
+		this.buttonLogY.dispose();
 		simConfig.setParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, model.getEnabledSeriesString());
 
 		super.dispose();
