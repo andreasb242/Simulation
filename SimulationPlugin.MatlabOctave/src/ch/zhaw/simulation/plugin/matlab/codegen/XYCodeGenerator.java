@@ -142,7 +142,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		// get gradient and laplace
 		for (DensityData density : xyModel.getDensity()) {
 			// gradient
-			out.println("[ " + density.getName() + ".grad.dy " + ", " + density.getName() + ".grad.dx ] = gradient(" + density.getName() + ".matrix);");
+			out.println("[ " + density.getName() + ".grad.dx " + ", " + density.getName() + ".grad.dy ] = gradient(" + density.getName() + ".matrix);");
 			// laplace
 			//out.println(density.getName() + ".laplace = del2(" + density.getName() + ".matrix);");
 		}
