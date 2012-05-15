@@ -42,7 +42,7 @@ public class EditorDataRow {
 		}
 
 		this.linestyle = new JComboBox(dashes);
-		this.linestyle.setRenderer(new DashComboboxRenderer());
+		this.linestyle.setRenderer(new StrokeComboboxRenderer());
 		Dash d = new Dash(dash);
 
 		this.linestyle.setSelectedItem(d);

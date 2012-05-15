@@ -2,7 +2,7 @@ package ch.zhaw.simulation.diagram.persist;
 
 import java.awt.Color;
 
-import ch.zhaw.simulation.diagram.HtmlColorHelper;
+import ch.zhaw.simulation.diagram.HexColorHelper;
 
 public class PersistListColor extends AbstractPersistList<Color> {
 	public PersistListColor(String id) {
@@ -11,7 +11,7 @@ public class PersistListColor extends AbstractPersistList<Color> {
 
 	@Override
 	protected String elementToString(Color e) {
-		return HtmlColorHelper.colorAsHexString(e);
+		return HexColorHelper.colorAsHexString(e);
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class PersistListColor extends AbstractPersistList<Color> {
 			return Color.BLACK;
 		}
 
-		return HtmlColorHelper.colorFromHexString(data);
+		return HexColorHelper.colorFromHexString(data);
 	}
 
 }

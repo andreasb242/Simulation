@@ -17,33 +17,6 @@ Dichte:
 Diagram:
 	Legende Im Diagramm für export
 	Beiliege Variabeln als y
-	Einstellungen Speichern
-		Log
-		ÜBerschrift:
-			Anzeigen
-			Text
-			Schrift
-			Farbe
-		Rubrikenachse / Werteachse
-			Beschriftung
-			Schrift
-			Farbe
-			Markierung:
-				Beschriftung anzeigen
-				Schrift
-				Markierungen zeichnen
-			Wertebereich:
-				Auto
-				Min
-				Max
-			Darstellung
-				Rahmenart: Combobox!!!
-				Rahmenfarbe
-				Hintergrundfarbe
-				Orientierung
-		Sonstiges:
-			Glätten
-			Hintergrundfarbe
 
 Fehlermeldung wenn Matlba / Octave nicht installiert, dem Benutzer erkären was er machen kann statdessen
 

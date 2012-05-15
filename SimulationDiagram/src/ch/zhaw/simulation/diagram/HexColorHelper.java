@@ -2,7 +2,7 @@ package ch.zhaw.simulation.diagram;
 
 import java.awt.Color;
 
-public class HtmlColorHelper {
+public class HexColorHelper {
 
 	public static String colorAsHexString(Color color) {
 		if (color == null) {

@@ -105,36 +105,6 @@ class SimulationChartEditor extends JPanel implements ActionListener, ChartEdito
 			}
 		});
 
-		// interior.add(new
-		// JLabel(localizationResources.getString("Series_Stroke")));
-		// JTextField info = new
-		// JTextField(localizationResources.getString("No_editor_implemented"));
-		// info.setEnabled(false);
-		// interior.add(info);
-		// button = new JButton(localizationResources.getString("Edit..."));
-		// button.setEnabled(false);
-		// interior.add(button);
-		//
-		// interior.add(new
-		// JLabel(localizationResources.getString("Series_Outline_Paint")));
-		// info = new
-		// JTextField(localizationResources.getString("No_editor_implemented"));
-		// info.setEnabled(false);
-		// interior.add(info);
-		// button = new JButton(localizationResources.getString("Edit..."));
-		// button.setEnabled(false);
-		// interior.add(button);
-		//
-		// interior.add(new
-		// JLabel(localizationResources.getString("Series_Outline_Stroke")));
-		// info = new
-		// JTextField(localizationResources.getString("No_editor_implemented"));
-		// info.setEnabled(false);
-		// interior.add(info);
-		// button = new JButton(localizationResources.getString("Edit..."));
-		// button.setEnabled(false);
-		// interior.add(button);
-
 		general.add(interior, BorderLayout.NORTH);
 		other.add(general, BorderLayout.NORTH);
 

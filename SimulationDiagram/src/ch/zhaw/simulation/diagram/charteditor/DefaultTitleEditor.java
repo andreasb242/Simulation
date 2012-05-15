@@ -67,6 +67,8 @@ import org.jfree.layout.LCBLayout;
 import org.jfree.ui.FontDisplayField;
 import org.jfree.ui.PaintSample;
 
+import ch.zhaw.simulation.diagram.SimulationDiagramTheme;
+
 import butti.fontchooser.FontChooser;
 
 /**
@@ -110,12 +112,23 @@ class DefaultTitleEditor extends JPanel implements ActionListener {
 	 *            the title, which should be changed.
 	 */
 	public DefaultTitleEditor(Title title) {
-
-		TextTitle t = (title != null ? (TextTitle) title : new TextTitle(localizationResources.getString("Title")));
-		this.showTitle = (title != null);
-		this.titleFont = t.getFont();
-		this.titleField = new JTextField(t.getText());
-		this.titlePaint = new PaintSample(t.getPaint());
+		if(title == null) {
+			this.showTitle = false;
+			this.titleFont = SimulationDiagramTheme.DEFAULT_TITLE_FONT;
+			this.titleField = new JTextField();
+			this.titlePaint = new PaintSample(Color.BLACK);
+			
+		} else {
+			TextTitle t = (TextTitle)title;
+			
+			this.showTitle = title.isVisible();
+			this.titleFont = t.getFont();
+			this.titleField = new JTextField(t.getText());
+			this.titlePaint = new PaintSample(t.getPaint());
+		}
+		
+		System.out.println(this.titleFont.getName());
+		
 
 		setLayout(new BorderLayout());
 
@@ -263,18 +276,15 @@ class DefaultTitleEditor extends JPanel implements ActionListener {
 	 *            the chart whose title is to be modified.
 	 */
 	public void setTitleProperties(JFreeChart chart) {
-		if (this.showTitle) {
-			TextTitle title = chart.getTitle();
-			if (title == null) {
-				title = new TextTitle();
-				chart.setTitle(title);
-			}
-			title.setText(getTitleText());
-			title.setFont(getTitleFont());
-			title.setPaint(getTitlePaint());
-		} else {
-			chart.setTitle((TextTitle) null);
+		TextTitle title = chart.getTitle();
+		if (title == null) {
+			title = new TextTitle();
+			chart.setTitle(title);
 		}
+		title.setText(getTitleText());
+		title.setFont(getTitleFont());
+		title.setPaint(getTitlePaint());
+		title.setVisible(this.showTitle);
 	}
 
 }

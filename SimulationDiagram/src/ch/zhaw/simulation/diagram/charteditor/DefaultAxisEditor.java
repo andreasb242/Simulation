@@ -118,12 +118,6 @@ public class DefaultAxisEditor extends JPanel implements ActionListener {
 	/** A flag that indicates whether or not the tick marks are visible. */
 	private JCheckBox showTickMarksCheckBox;
 
-	// /** Insets text field. */
-	// private InsetsTextField tickLabelInsetsTextField;
-	//
-	// /** Label insets text field. */
-	// private InsetsTextField labelInsetsTextField;
-
 	/** The tick label insets. */
 	private RectangleInsets tickLabelInsets;
 

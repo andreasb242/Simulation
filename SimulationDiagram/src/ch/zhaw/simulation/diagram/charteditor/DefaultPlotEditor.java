@@ -55,6 +55,7 @@ import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
@@ -76,11 +77,10 @@ import org.jfree.chart.util.ResourceBundleWrapper;
 import org.jfree.layout.LCBLayout;
 import org.jfree.ui.PaintSample;
 import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.StrokeChooserPanel;
 import org.jfree.ui.StrokeSample;
 import org.jfree.util.BooleanUtilities;
 
-import butti.fontchooser.EditorDialog;
+import ch.zhaw.simulation.diagram.strokeeditor.StrokeComboboxRenderer;
 
 /**
  * A panel for editing the properties of a {@link Plot}.
@@ -98,6 +98,8 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 
 	/** The stroke used to draw the outline of the plot. */
 	private StrokeSample outlineStrokeSample;
+
+	private JComboBox cbOutlineStroke;
 
 	/** The paint (color) used to draw the outline of the plot. */
 	private PaintSample outlinePaintSample;
@@ -212,14 +214,20 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 		interior.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 
 		interior.add(new JLabel(localizationResources.getString("Outline_stroke")));
-		JButton button = new JButton(localizationResources.getString("Select..."));
-		button.setActionCommand("OutlineStroke");
-		button.addActionListener(this);
-		interior.add(this.outlineStrokeSample);
-		interior.add(button);
+
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		for (StrokeSample s : this.availableStrokeSamples) {
+			model.addElement(s.getStroke());
+		}
+		this.cbOutlineStroke = new JComboBox(model);
+		this.cbOutlineStroke.setSelectedItem(this.outlineStrokeSample.getStroke());
+		this.cbOutlineStroke.setRenderer(new StrokeComboboxRenderer());
+
+		interior.add(this.cbOutlineStroke);
+		interior.add(new JLabel());
 
 		interior.add(new JLabel(localizationResources.getString("Outline_Paint")));
-		button = new JButton(localizationResources.getString("Select..."));
+		JButton button = new JButton(localizationResources.getString("Select..."));
 		button.setActionCommand("OutlinePaint");
 		button.addActionListener(this);
 		interior.add(this.outlinePaintSample);
@@ -240,8 +248,8 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 			this.orientationCombo.setSelectedIndex(index);
 			this.orientationCombo.setActionCommand("Orientation");
 			this.orientationCombo.addActionListener(this);
-			interior.add(new JPanel());
 			interior.add(this.orientationCombo);
+			interior.add(new JPanel());
 		}
 
 		if (this.drawLines != null) {
@@ -373,8 +381,6 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 		String command = event.getActionCommand();
 		if (command.equals("BackgroundPaint")) {
 			attemptBackgroundPaintSelection();
-		} else if (command.equals("OutlineStroke")) {
-			attemptOutlineStrokeSelection();
 		} else if (command.equals("OutlinePaint")) {
 			attemptOutlinePaintSelection();
 		} else if (command.equals("Orientation")) {
@@ -394,19 +400,6 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 		c = JColorChooser.showDialog(this, localizationResources.getString("Background_Color"), Color.blue);
 		if (c != null) {
 			this.backgroundPaintSample.setPaint(c);
-		}
-	}
-
-	/**
-	 * Allow the user to change the outline stroke.
-	 */
-	private void attemptOutlineStrokeSelection() {
-		StrokeChooserPanel panel = new StrokeChooserPanel(this.outlineStrokeSample, this.availableStrokeSamples);
-
-		EditorDialog dlg = EditorDialog.create(this, localizationResources.getString("Stroke_Selection"), panel);
-
-		if (dlg.display()) {
-			this.outlineStrokeSample.setStroke(panel.getSelectedStroke());
 		}
 	}
 
@@ -462,6 +455,8 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 	 */
 	@SuppressWarnings("deprecation")
 	public void updatePlotProperties(Plot plot) {
+
+		this.outlineStrokeSample.setStroke((Stroke) this.cbOutlineStroke.getSelectedItem());
 
 		// set the plot properties...
 		plot.setOutlinePaint(getOutlinePaint());

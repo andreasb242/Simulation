@@ -22,6 +22,14 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 
 	private BasicStroke baseStroke;
 
+	public static final Color DEFAULT_OUTLINE_PAINT = Color.LIGHT_GRAY;
+	public static final BasicStroke DEFAULT_OUTLINE_STROKE = new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL);
+	public static final Font DEFAULT_TITLE_FONT = new Font("Sans", Font.BOLD, 12);
+	public static final Font DEFAULT_FONT_AXIS = new Font("Serif", 0, 10);
+	public static final Font DEFAULT_FONT_TICK = new Font("Serif", 0, 10);
+	public static final Color DEFAULT_AXIS_LABEL_PAINT = Color.DARK_GRAY;
+	public static final Color DEFAULT_TICK_LABEL_PAINT = Color.DARK_GRAY;
+
 	/**
 	 * Creates a new default instance.
 	 * 
@@ -60,8 +68,7 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 		Stroke[] strokePaint = new Stroke[] { this.baseStroke };
 
 		setDrawingSupplier(new DefaultDrawingSupplier(DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE, DefaultDrawingSupplier.DEFAULT_FILL_PAINT_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE, strokePaint, DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
-				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE));
+				new Color[] { DEFAULT_OUTLINE_PAINT }, strokePaint, new Stroke[] { DEFAULT_OUTLINE_STROKE }, DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE));
 		setPlotBackgroundPaint(Color.WHITE);
 		setPlotOutlinePaint(Color.BLACK);
 		setLabelLinkPaint(Color.BLACK);
@@ -71,8 +78,8 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 		setRangeGridlinePaint(Color.DARK_GRAY);
 		setBaselinePaint(Color.BLACK);
 		setCrosshairPaint(Color.BLUE);
-		setAxisLabelPaint(Color.DARK_GRAY);
-		setTickLabelPaint(Color.DARK_GRAY);
+		setAxisLabelPaint(DEFAULT_AXIS_LABEL_PAINT);
+		setTickLabelPaint(DEFAULT_TICK_LABEL_PAINT);
 		setBarPainter(new GradientBarPainter());
 		setXYBarPainter(new GradientXYBarPainter());
 		setShadowVisible(false);

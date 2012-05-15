@@ -30,10 +30,10 @@ import ch.zhaw.simulation.diagram.LogButton.Direction;
 import ch.zhaw.simulation.diagram.charteditor.SimulationChartEditorFactory;
 import ch.zhaw.simulation.diagram.csv.CSVSaver;
 import ch.zhaw.simulation.diagram.export.ChartExportHelper;
+import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.diagram.persist.PersistDiagramSettings;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.diagram.tableview.TableDialog;
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationEntry;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
@@ -47,8 +47,6 @@ public class DiagramFrame extends JFrame {
 	private DiagramSidebar sidebar;
 
 	private Toolbar toolbar;
-
-	private SimulationConfiguration simConfig;
 
 	private ChartPanel chartPanel;
 
@@ -66,16 +64,18 @@ public class DiagramFrame extends JFrame {
 
 	private PersistDiagramSettings persitSettings;
 
+	private DiagramConfiguration config;
+
 	static {
 		// init JFreeChart
 		ChartEditorManager.setChartEditorFactory(new SimulationChartEditorFactory());
 	}
 
-	public DiagramFrame(SimulationCollection collection, final Settings settings, SimulationConfiguration simConfig, final String name, final Sysintegration sys) {
+	public DiagramFrame(SimulationCollection collection, final Settings settings, DiagramConfiguration config, final String name, final Sysintegration sys) {
 		this.settings = settings;
 		this.collection = collection;
+		this.config = config;
 
-		this.simConfig = simConfig;
 		toolbar = sys.createToolbar(32);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -131,13 +131,11 @@ public class DiagramFrame extends JFrame {
 				if (dlg.display()) {
 					editor.updateChart(this.getChart());
 				}
-
 			}
-
 		};
 
-		this.persitSettings = new PersistDiagramSettings(this.collection, renderer);
-		this.persitSettings.load(simConfig);
+		this.persitSettings = new PersistDiagramSettings(this.collection, renderer, chart);
+		this.persitSettings.load(config);
 
 		this.sidebar = new DiagramSidebar(this.collection, renderer);
 		add(sidebar, BorderLayout.WEST);
@@ -316,7 +314,7 @@ public class DiagramFrame extends JFrame {
 		this.buttonLogX.dispose();
 		this.buttonLogY.dispose();
 
-		this.persitSettings.save(simConfig);
+		this.persitSettings.save(config);
 
 		super.dispose();
 	}

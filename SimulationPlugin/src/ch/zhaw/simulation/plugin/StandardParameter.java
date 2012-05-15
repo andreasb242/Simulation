@@ -2,13 +2,6 @@ package ch.zhaw.simulation.plugin;
 
 public interface StandardParameter {
 	/**
-	 * Diagram settings
-	 */
-	public static String DIAGRAM_LAST_VIEWED_SERIES = "diagram.series.visible";
-	public static String DIAGRAM_SERIES_COLOR = "diagram.series.color";
-	public static String DIAGRAM_SERIES_STROKE = "diagram.series.stroke";
-
-	/**
 	 * Simulation settings
 	 */
 	public static String SIM_PROPERTY_DOUBLE_PREFIX = "simulation.dproperty.";

@@ -12,7 +12,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import ch.zhaw.simulation.diagram.HtmlColorHelper;
+import ch.zhaw.simulation.diagram.HexColorHelper;
 
 public class LegendExportHtml {
 	public LegendExportHtml() {
@@ -55,7 +55,7 @@ public class LegendExportHtml {
 
 		for (int i = 0; i < dataset.getSeriesCount(); i++) {
 
-			out.write("\t<span style=\"color: #" + HtmlColorHelper.colorAsHexString((Color) renderer.lookupSeriesPaint(i)) + "\">&bull;</span> "
+			out.write("\t<span style=\"color: #" + HexColorHelper.colorAsHexString((Color) renderer.lookupSeriesPaint(i)) + "\">&bull;</span> "
 					+ encodeHtml(dataset.getSeries(i).getKey().toString()) + "<br />\n");
 		}
 

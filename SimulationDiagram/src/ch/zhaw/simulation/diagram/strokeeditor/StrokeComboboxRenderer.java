@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import javax.swing.JComponent;
 import javax.swing.JList;
@@ -12,16 +13,16 @@ import javax.swing.ListCellRenderer;
 
 import ch.zhaw.simulation.diagram.DiagramStrokeFactory;
 
-public class DashComboboxRenderer extends JComponent implements ListCellRenderer {
+public class StrokeComboboxRenderer extends JComponent implements ListCellRenderer {
 	private static final long serialVersionUID = 1L;
-	private Dash dash;
+	private Stroke stroke;
 	private boolean isSelected;
 	private Color selectionBackground;
 	private Color selectionForground;
 	private Color background;
 	private Color foreground;
 
-	public DashComboboxRenderer() {
+	public StrokeComboboxRenderer() {
 		setPreferredSize(new Dimension(100, 25));
 	}
 
@@ -33,8 +34,11 @@ public class DashComboboxRenderer extends JComponent implements ListCellRenderer
 		this.background = list.getBackground();
 		this.foreground = list.getForeground();
 
-		if (value instanceof Dash) {
-			this.dash = (Dash) value;
+		if (value instanceof Stroke) {
+			this.stroke = (Stroke) value;
+		} else if (value instanceof Dash) {
+			Dash dash = (Dash) value;
+			this.stroke = DiagramStrokeFactory.createStroke(dash.getDash());
 		}
 
 		return this;
@@ -59,8 +63,8 @@ public class DashComboboxRenderer extends JComponent implements ListCellRenderer
 			g.setColor(foreground);
 		}
 
-		if (this.dash != null) {
-			g.setStroke(DiagramStrokeFactory.createStroke(this.dash.getDash()));
+		if (this.stroke != null) {
+			g.setStroke(this.stroke);
 		}
 
 		int y = h / 2 - 1;

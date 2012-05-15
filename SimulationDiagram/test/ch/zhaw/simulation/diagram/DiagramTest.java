@@ -1,5 +1,10 @@
 package ch.zhaw.simulation.diagram;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.UIManager;
@@ -8,8 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import butti.javalibs.config.Config;
 import butti.javalibs.config.FileSettings;
 import butti.javalibs.config.Settings;
-
-import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
@@ -85,9 +89,29 @@ public class DiagramTest {
 
 		Settings settings = new FileSettings("settings.ini");
 
-		SimulationConfiguration config = new SimulationConfiguration();
-		DiagramFrame frame = new DiagramFrame(collection, settings, config, "Test", SysintegrationFactory.getSysintegration());
+		final DiagramConfiguration config = new DiagramConfiguration();
 
+		final File file = new File("diagramcfg.properties");
+		System.out.println("->" + file.getAbsolutePath());
+		if (file.exists()) {
+			config.load(new FileInputStream(file));
+		}
+
+		DiagramFrame frame = new DiagramFrame(collection, settings, config, "Test", SysintegrationFactory.getSysintegration());
 		frame.setVisible(true);
+
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				System.out.println("config.isChanged() = " + config.isChanged());
+				if (config.isChanged()) {
+					try {
+						config.store(new FileOutputStream(file));
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 }
