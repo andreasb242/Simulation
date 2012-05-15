@@ -26,13 +26,14 @@ import butti.fontchooser.EditorDialog;
 import butti.javalibs.config.Settings;
 import butti.javalibs.config.WindowPositionSaver;
 import butti.javalibs.errorhandler.Errorhandler;
+import ch.zhaw.simulation.diagram.LogButton.Direction;
 import ch.zhaw.simulation.diagram.charteditor.SimulationChartEditorFactory;
 import ch.zhaw.simulation.diagram.csv.CSVSaver;
 import ch.zhaw.simulation.diagram.export.ChartExportHelper;
+import ch.zhaw.simulation.diagram.persist.PersistDiagramSettings;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.diagram.tableview.TableDialog;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
-import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationEntry;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
@@ -42,8 +43,6 @@ import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 
 public class DiagramFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-
-	private DiagramConfigModel model;
 
 	private DiagramSidebar sidebar;
 
@@ -65,18 +64,16 @@ public class DiagramFrame extends JFrame {
 
 	private LogButton buttonLogY;
 
+	private PersistDiagramSettings persitSettings;
+
 	static {
 		// init JFreeChart
 		ChartEditorManager.setChartEditorFactory(new SimulationChartEditorFactory());
 	}
 
 	public DiagramFrame(SimulationCollection collection, final Settings settings, SimulationConfiguration simConfig, final String name, final Sysintegration sys) {
-		this.model = new DiagramConfigModel(collection);
 		this.settings = settings;
 		this.collection = collection;
-
-		this.model.enableSeries(simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
-		this.model.parseSeriesConfigString(simConfig.getParameter(StandardParameter.DIAGRAM_SERIES_CONFIG, null));
 
 		this.simConfig = simConfig;
 		toolbar = sys.createToolbar(32);
@@ -90,12 +87,16 @@ public class DiagramFrame extends JFrame {
 		ChartTheme currentTheme = new SimulationDiagramTheme("(AB)²");
 
 		XYSeriesCollection col = new XYSeriesCollection();
+		int id = 0;
 		for (SimulationSerie s : collection) {
 			XYSeries serie = new XYSeries(s.getName());
 			for (SimulationEntry d : s.getData()) {
 				serie.add(d.time, d.value);
 			}
 			col.addSeries(serie);
+
+			s.setChartId(id);
+			id++;
 		}
 
 		boolean tooltips = true;
@@ -135,7 +136,10 @@ public class DiagramFrame extends JFrame {
 
 		};
 
-		this.sidebar = new DiagramSidebar(this.model, renderer);
+		this.persitSettings = new PersistDiagramSettings(this.collection, renderer);
+		this.persitSettings.load(simConfig);
+
+		this.sidebar = new DiagramSidebar(this.collection, renderer);
 		add(sidebar, BorderLayout.WEST);
 
 		add(chartPanel, BorderLayout.CENTER);
@@ -155,7 +159,7 @@ public class DiagramFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (tableDialog == null) {
-					tableDialog = new TableDialog(DiagramFrame.this, settings, model.getCollection());
+					tableDialog = new TableDialog(DiagramFrame.this, settings, collection);
 				}
 				tableDialog.setVisible(true);
 			}
@@ -267,8 +271,6 @@ public class DiagramFrame extends JFrame {
 
 				double offset = 10;
 
-				SimulationCollection collection = model.getCollection();
-
 				if (range.getLowerBound() - offset < collection.getStartTime()) {
 					offset = range.getLowerBound() - collection.getStartTime();
 				}
@@ -288,8 +290,6 @@ public class DiagramFrame extends JFrame {
 
 				double offset = 10;
 
-				SimulationCollection collection = model.getCollection();
-
 				if (range.getUpperBound() + offset > collection.getEndTime()) {
 					offset = collection.getEndTime() - range.getUpperBound();
 				}
@@ -302,8 +302,8 @@ public class DiagramFrame extends JFrame {
 
 		toolbar.addSeparator();
 
-		this.buttonLogX = new LogButton(this, plot, toolbar, model, xAxis, DiagramConfigListener.Direction.X);
-		this.buttonLogY = new LogButton(this, plot, toolbar, model, yAxis, DiagramConfigListener.Direction.Y);
+		this.buttonLogX = new LogButton(this, plot, toolbar, collection, xAxis, Direction.X);
+		this.buttonLogY = new LogButton(this, plot, toolbar, collection, yAxis, Direction.Y);
 
 	}
 
@@ -315,8 +315,8 @@ public class DiagramFrame extends JFrame {
 		}
 		this.buttonLogX.dispose();
 		this.buttonLogY.dispose();
-		simConfig.setParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, model.getEnabledSeriesString());
-		simConfig.setParameter(StandardParameter.DIAGRAM_SERIES_CONFIG, model.getSeriesConfigString());
+
+		this.persitSettings.save(simConfig);
 
 		super.dispose();
 	}

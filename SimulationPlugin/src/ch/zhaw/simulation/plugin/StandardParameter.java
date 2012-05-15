@@ -4,15 +4,16 @@ public interface StandardParameter {
 	/**
 	 * Diagram settings
 	 */
-	public static String DIAGRAM_LAST_VIEWED_SERIES = "diagram.lastviewed.series";
-	public static String DIAGRAM_SERIES_CONFIG = "diagram.series.config";
+	public static String DIAGRAM_LAST_VIEWED_SERIES = "diagram.series.visible";
+	public static String DIAGRAM_SERIES_COLOR = "diagram.series.color";
+	public static String DIAGRAM_SERIES_STROKE = "diagram.series.stroke";
 
 	/**
 	 * Simulation settings
 	 */
 	public static String SIM_PROPERTY_DOUBLE_PREFIX = "simulation.dproperty.";
 	public static String SIM_PROPERTY_STRING_PREFIX = "simulation.sproperty.";
-	
+
 	public static String DT = "simulation.sidebar.dt";
 	public static String START = "simulation.sidebar.start";
 	public static String END = "simulation.sidebar.end";

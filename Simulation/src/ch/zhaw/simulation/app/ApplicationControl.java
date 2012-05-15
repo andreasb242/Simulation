@@ -272,7 +272,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		simulationSettingsSaver.load();
 
 		if (openfile != null && open(new File(openfile)) || openLastFile()) {
-			// TODO: Optimize, do not show a window and close it and open then
+			// TODO Optimize, do not show a window and close it and open then
 		}
 
 		if (parameter.contains("--debug-undo")) {

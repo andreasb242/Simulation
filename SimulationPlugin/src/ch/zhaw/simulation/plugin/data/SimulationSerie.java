@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.plugin.data;
 
-import java.awt.Paint;
 import java.util.Vector;
 
 public class SimulationSerie {
@@ -8,7 +7,6 @@ public class SimulationSerie {
 
 	private Vector<SimulationEntry> data = new Vector<SimulationEntry>();
 	private String type = null;
-	private Paint paint;
 	private boolean visibel = true;
 
 	private double min = Double.MAX_VALUE;
@@ -16,8 +14,18 @@ public class SimulationSerie {
 	private double constValue;
 	private boolean isConstValue = false;
 
+	private int chartId = -1;
+
 	public SimulationSerie(String name) {
 		this.name = name;
+	}
+
+	public void setChartId(int chartId) {
+		this.chartId = chartId;
+	}
+
+	public int getChartId() {
+		return chartId;
 	}
 
 	public void add(double time, double value) {
@@ -41,14 +49,6 @@ public class SimulationSerie {
 
 	public String getType() {
 		return type;
-	}
-
-	public void setPaint(Paint paint) {
-		this.paint = paint;
-	}
-
-	public Paint getPaint() {
-		return paint;
 	}
 
 	public void setVisibel(boolean visibel) {

@@ -18,10 +18,10 @@ public class DiagramStrokeFactory {
 		return createStroke(2, dash);
 	}
 
-	public static BasicStroke createStroke(float thikness, float[] dash) {
+	public static BasicStroke createStroke(float width, float[] dash) {
 		// BasicStroke.CAP_SQUARE
 		// BasicStroke.CAP_BUTT
-		return new BasicStroke(thikness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, dash, 0) {
+		return new BasicStroke(width, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, dash, 0) {
 		};
 	}
 }

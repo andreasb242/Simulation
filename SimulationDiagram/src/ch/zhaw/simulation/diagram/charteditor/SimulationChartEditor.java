@@ -96,7 +96,9 @@ class SimulationChartEditor extends JPanel implements ActionListener, ChartEdito
 				SeriesStrokeColorEditor editor = new SeriesStrokeColorEditor(chart);
 				editor.setVisible(true);
 
-				EditorDialog dlg = EditorDialog.create(SimulationChartEditor.this, "Linienformat", new JScrollPane(editor));
+				JScrollPane scrol = new JScrollPane(editor);
+				scrol.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+				EditorDialog dlg = EditorDialog.create(SimulationChartEditor.this, "Linienformat", scrol);
 				if (dlg.display()) {
 					editor.updateChart(chart);
 				}

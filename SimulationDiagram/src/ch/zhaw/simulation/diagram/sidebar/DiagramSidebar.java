@@ -1,8 +1,5 @@
 package ch.zhaw.simulation.diagram.sidebar;
 
-import java.awt.BasicStroke;
-import java.awt.Paint;
-import java.awt.Stroke;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Vector;
@@ -18,18 +15,18 @@ import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.event.RendererChangeListener;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 
-import ch.zhaw.simulation.diagram.DiagramConfigModel;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 public class DiagramSidebar extends JScrollPane {
 	private static final long serialVersionUID = 1L;
-	private DiagramConfigModel model;
 
 	private JTree tree;
 	private DefaultTreeModel treeModel;
 	private GroupTreeNode root = new GroupTreeNode("<root>");
 	private AbstractXYItemRenderer renderer;
+
+	private SimulationCollection collection;
 
 	/**
 	 * The nodes, with the same Index as the series in the diagram
@@ -44,9 +41,9 @@ public class DiagramSidebar extends JScrollPane {
 		}
 	};
 
-	public DiagramSidebar(DiagramConfigModel model, AbstractXYItemRenderer renderer) {
+	public DiagramSidebar(SimulationCollection collection, AbstractXYItemRenderer renderer) {
 		super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
-		this.model = model;
+		this.collection = collection;
 		this.renderer = renderer;
 		this.treeModel = new DefaultTreeModel(root) {
 			private static final long serialVersionUID = 1L;
@@ -57,7 +54,7 @@ public class DiagramSidebar extends JScrollPane {
 
 				boolean visible = (Boolean) newValue;
 
-				node.setSelected(visible);
+				node.setSerieVisible(visible);
 
 				nodeChanged(node);
 			}
@@ -81,14 +78,7 @@ public class DiagramSidebar extends JScrollPane {
 			public void treeNodesChanged(TreeModelEvent e) {
 				for (Object o : e.getChildren()) {
 					SerieTreeNode node = (SerieTreeNode) o;
-
-					if (node.isSelected()) {
-						DiagramSidebar.this.model.enableSerie(node.getSerie());
-					} else {
-						DiagramSidebar.this.model.disableSerie(node.getSerie());
-					}
-
-					DiagramSidebar.this.renderer.setSeriesVisible(node.getId(), node.isSelected());
+					DiagramSidebar.this.renderer.setSeriesVisible(node.getChartId(), node.isSerieVisible());
 				}
 			}
 		});
@@ -131,28 +121,12 @@ public class DiagramSidebar extends JScrollPane {
 		root.removeAllChildren();
 		serieTreeNodes.clear();
 
-		SimulationCollection collection = model.getCollection();
-
 		for (int i = 0; i < collection.size(); i++) {
 			SimulationSerie s = collection.getSerie(i);
 
-			if (s.getPaint() != null) {
-				renderer.setSeriesPaint(i, s.getPaint());
-			} else {
-				Paint paint = this.renderer.lookupSeriesPaint(i);
-				s.setPaint(paint);
-			}
-
-			SerieTreeNode n = new SerieTreeNode(s, i);
-			updateTreeNode(n, i);
+			SerieTreeNode n = new SerieTreeNode(s, renderer);
 
 			serieTreeNodes.add(n);
-
-			boolean enabled = model.isEnabled(s);
-			if (enabled) {
-				n.setSelected(true);
-			}
-			DiagramSidebar.this.renderer.setSeriesVisible(i, enabled);
 			root.add(n);
 		}
 
@@ -160,30 +134,8 @@ public class DiagramSidebar extends JScrollPane {
 	}
 
 	private void updateData() {
-		for (int i = 0; i < serieTreeNodes.size(); i++) {
-			SerieTreeNode n = serieTreeNodes.get(i);
-			updateTreeNode(n, i);
-		}
-
 		if (tree != null) {
 			tree.repaint();
-		}
-	}
-
-	private void updateTreeNode(SerieTreeNode n, int i) {
-		Paint paint = this.renderer.getSeriesPaint(i);
-		n.getSerie().setPaint(paint);
-
-		Stroke stroke = this.renderer.getSeriesStroke(i);
-
-		if (stroke == null) {
-			stroke = this.renderer.getBaseStroke();
-		}
-
-		if (stroke instanceof BasicStroke) {
-			n.setStroke((BasicStroke) stroke);
-		} else {
-			System.err.println("DiagramSidebar.updateData: stroke.class = " + stroke.getClass());
 		}
 	}
 

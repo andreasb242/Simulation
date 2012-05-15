@@ -34,7 +34,7 @@ public class SerieTreeCellEditor extends AbstractCellEditor implements TreeCellE
 
 		if (value instanceof SerieTreeNode) {
 			SerieTreeNode st = (SerieTreeNode) value;
-			cb.setSelected(st.isSelected());
+			cb.setSelected(st.isSerieVisible());
 			cb.setColorAndStroke(st.getColor(), st.getStroke());
 		}
 

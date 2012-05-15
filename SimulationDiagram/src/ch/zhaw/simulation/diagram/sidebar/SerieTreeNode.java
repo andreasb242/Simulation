@@ -6,25 +6,24 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
+import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
+
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 public class SerieTreeNode implements TreeNode {
 	private TreeNode parent;
 	private String name;
-	private boolean selected;
 	private SimulationSerie serie;
-	private int id;
-
-	private BasicStroke stroke;
+	private AbstractXYItemRenderer renderer;
 
 	protected SerieTreeNode(String name) {
 		this.name = name;
 	}
 
-	public SerieTreeNode(SimulationSerie s, int id) {
+	public SerieTreeNode(SimulationSerie s, AbstractXYItemRenderer renderer) {
 		this(s.getName());
 		this.serie = s;
-		this.id = id;
+		this.renderer = renderer;
 	}
 
 	@Override
@@ -66,19 +65,23 @@ public class SerieTreeNode implements TreeNode {
 		return null;
 	}
 
-	public boolean isSelected() {
-		return selected;
+	public boolean isSerieVisible() {
+		if (serie == null) {
+			return false;
+		}
+
+		return renderer.isSeriesVisible(serie.getChartId());
 	}
 
-	public void setSelected(boolean selected) {
-		this.selected = selected;
+	public void setSerieVisible(boolean visible) {
+		renderer.setSeriesVisible(serie.getChartId(), visible);
 	}
 
 	/**
 	 * @return true if toggled, false if it's not possible to toggle
 	 */
 	public boolean toggleSelection() {
-		this.selected = !this.selected;
+		setSerieVisible(!isSerieVisible());
 		return true;
 	}
 
@@ -86,15 +89,15 @@ public class SerieTreeNode implements TreeNode {
 		if (serie == null) {
 			return null;
 		}
-		return (Color) serie.getPaint();
+
+		return (Color) renderer.lookupSeriesPaint(serie.getChartId());
 	}
 
 	public BasicStroke getStroke() {
-		return stroke;
-	}
-
-	public void setStroke(BasicStroke stroke) {
-		this.stroke = stroke;
+		if (serie == null) {
+			return null;
+		}
+		return (BasicStroke) renderer.lookupSeriesStroke(serie.getChartId());
 	}
 
 	@Override
@@ -106,7 +109,8 @@ public class SerieTreeNode implements TreeNode {
 		return serie;
 	}
 
-	public int getId() {
-		return id;
+	public int getChartId() {
+		return serie.getChartId();
 	}
+
 }

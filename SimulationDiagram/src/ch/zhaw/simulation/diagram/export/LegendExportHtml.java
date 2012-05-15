@@ -55,7 +55,7 @@ public class LegendExportHtml {
 
 		for (int i = 0; i < dataset.getSeriesCount(); i++) {
 
-			out.write("\t<span style=\"color: #" + HtmlColorHelper.getColorHex((Color) renderer.lookupSeriesPaint(i)) + "\">&bull;</span> "
+			out.write("\t<span style=\"color: #" + HtmlColorHelper.colorAsHexString((Color) renderer.lookupSeriesPaint(i)) + "\">&bull;</span> "
 					+ encodeHtml(dataset.getSeries(i).getKey().toString()) + "<br />\n");
 		}
 

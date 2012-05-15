@@ -74,9 +74,11 @@ public class LockFrame extends JFrame {
 
 	public LockFrame() {
 
-		// Debugging NICHT aktivieren, es werden mehrere Komponenten
-		// übereinander
-		// gelegt! (Halbtransparentes JPanel (Wartedialog bei Datenladen)
+		/**
+		 * Debugging NICHT aktivieren, es werden mehrere Komponenten
+		 * übereinander gelegt! (Halbtransparentes JPanel (Wartedialog bei
+		 * Datenladen)
+		 */
 		GridBagManager gbm = new GridBagManager(this, false);
 
 		blurUI = new LockableUI(new LayerEffect[] { new BufferedImageOpEffect(new BufferedImageOp[] { new FastBlurFilter(2) }) });
@@ -92,7 +94,7 @@ public class LockFrame extends JFrame {
 				cancelAction();
 			}
 		});
-		
+
 		addWindowListener(listener);
 
 		gbm.setX(1).setY(1).setFill(GridBagConstraints.NONE).setComp(lock);
@@ -147,7 +149,6 @@ public class LockFrame extends JFrame {
 
 		enableJmenu(false);
 
-		// TODO !!! cancel if window is closed!
 		lock.setCancelable(cancelable != null);
 		this.cancelListener = cancelable;
 	}
