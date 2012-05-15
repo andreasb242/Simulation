@@ -40,6 +40,8 @@ public class XYModelAttachment implements SimulationAttachment {
 		MatrixJep j = parsed.jep;
 		Node processed = j.preprocess(parsed.nodes.lastElement());
 
+		// don't simplify node-tree!
+		// if you do, grad() will get cut out
 		return processed;
 	}
 

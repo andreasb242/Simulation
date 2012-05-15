@@ -3,10 +3,13 @@ package ch.zhaw.simulation.math;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.nfunk.jep.EvaluatorI;
+import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
+import org.nfunk.jep.function.CallbackEvaluationI;
 import org.nfunk.jep.function.PostfixMathCommand;
 
-public class Gradient extends PostfixMathCommand {
+public class Gradient extends PostfixMathCommand implements CallbackEvaluationI {
 	private Vector<String> density = new Vector<String>();
 
 	public Gradient() {
@@ -32,5 +35,12 @@ public class Gradient extends PostfixMathCommand {
 		if(!("x".equals(direction) || "y".equals(direction))) {
 			throw new ParseException("grad: unknown direction «" + direction + "» only \"x\" and \"y\" allowed");
 		}
+	}
+
+	/**
+	 * Hack to pass by an function without a real number-value.
+	 */
+	public Object evaluate(Node node, EvaluatorI pv) throws ParseException {
+		return null;
 	}
 }
