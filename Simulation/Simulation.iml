@@ -13,7 +13,7 @@
     <orderEntry type="module" module-name="Editor.XY" />
     <orderEntry type="module" module-name="BJavalibs" />
     <orderEntry type="module" module-name="ExternLibraries" />
-    <orderEntry type="module" module-name="Sysintegration" />
+    <orderEntry type="module" module-name="Sysintegration" exported="" />
     <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
     <orderEntry type="module" module-name="AppDefinition" />
     <orderEntry type="module" module-name="HtmlEditor" />
@@ -28,6 +28,8 @@
     <orderEntry type="module" module-name="SimulationDiagram" />
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="ImageExport" />
+    <orderEntry type="module" module-name="DirChooser" />
+    <orderEntry type="module" module-name="XYResultViewer" />
   </component>
 </module>
 

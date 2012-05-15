@@ -114,7 +114,7 @@ public class Simulation {
 
 			SimulationSerie serie = new SimulationSerie(c.getName() + " " + type);
 			((SimulationAttachment) c.attachment).serie = serie;
-			series.addSeries(serie);
+			series.addSerie(serie);
 		}
 
 		return series;

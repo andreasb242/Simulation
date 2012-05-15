@@ -103,7 +103,7 @@ public class SimulationResultParser {
 						serie.add(Double.valueOf(cell[0]).doubleValue(), Double.valueOf(cell[1]).doubleValue());
 					}
 				}
-				collection.addSeries(serie);
+				collection.addSerie(serie);
 			} catch (FileNotFoundException e) {
 				Errorhandler.logError(e, e.getMessage());
 			} catch (IOException e) {

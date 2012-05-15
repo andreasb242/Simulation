@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="Editor.XY" />
     <orderEntry type="module" module-name="Sysintegration" />
     <orderEntry type="module" module-name="Editor" />
+    <orderEntry type="module" module-name="SimulationPlugin" />
   </component>
 </module>
 

@@ -3,8 +3,15 @@ package ch.zhaw.simulation.plugin.data;
 import java.util.Iterator;
 import java.util.Vector;
 
+/**
+ * example: capacitor
+ * container: Q
+ * flow: I
+ * parameter: UB, UC, UR, C, R
+ * every serie represents one container, flow or parameter
+ */
 public class SimulationCollection implements Iterable<SimulationSerie> {
-	private double startTime = 0;
+	private double startTime;
 	private double endTime;
 
 	private Vector<SimulationSerie> series = new Vector<SimulationSerie>();
@@ -13,8 +20,12 @@ public class SimulationCollection implements Iterable<SimulationSerie> {
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
+	public SimulationCollection() {
+		this.startTime = 0.0;
+		this.endTime = 0.0;
+	}
 
-	public void addSeries(SimulationSerie serie) {
+	public void addSerie(SimulationSerie serie) {
 		series.add(serie);
 	}
 

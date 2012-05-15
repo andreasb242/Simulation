@@ -54,6 +54,9 @@ import ch.zhaw.simulation.undo.debug.UndoRedoDebugDialog;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
+import ch.zhaw.simulation.xyviewer.ResultViewerDialog;
+import ch.zhaw.simulation.xyviewer.model.XYResultChooser;
+import ch.zhaw.simulation.xyviewer.model.XYResultList;
 
 public class ApplicationControl extends StatusHandler implements SimulationApplication, MenuActionListener, SysintegrationEventlistener {
 
@@ -204,6 +207,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 								frame.setVisible(true);
 							} else if (doc.getType() == SimulationType.XY_MODEL) {
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+								XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
+								XYResultList xyResultList = chooser.chooseMesoPart();
+								new ResultViewerDialog(xyResultList).setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
 							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurde abgebrochen.");

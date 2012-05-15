@@ -36,7 +36,7 @@ public class DiagramTest {
 //		s.add(90, 12);
 //		s.add(100, 20);
 
-//		collection.addSeries(s);
+//		collection.addSerie(s);
 
 		s = new SimulationSerie("Bbbbbbb");
 //		s.add(0, 15);
@@ -51,7 +51,7 @@ public class DiagramTest {
 		s.add(90, 6);
 		s.add(100, 5);
 
-		collection.addSeries(s);
+		collection.addSerie(s);
 
 //		s = new SimulationSerie("Ccccccc");
 ////		s.add(0, 15);
@@ -66,7 +66,7 @@ public class DiagramTest {
 //		s.add(90, 6);
 //		s.add(100, 5);
 //
-//		collection.addSeries(s);
+//		collection.addSerie(s);
 
 		// TODO testen nur mit diesen Daten
 		// s = new SimulationSerie("Ddddddddd");
@@ -82,7 +82,7 @@ public class DiagramTest {
 		// s.add(90, 1006);
 		// s.add(100, 1005);
 		//
-		// collection.addSeries(s);
+		// collection.addSerie(s);
 
 		Settings settings = new FileSettings("settings.ini");
 

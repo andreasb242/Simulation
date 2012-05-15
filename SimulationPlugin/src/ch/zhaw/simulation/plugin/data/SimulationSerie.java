@@ -38,6 +38,10 @@ public class SimulationSerie {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -105,5 +109,14 @@ public class SimulationSerie {
 
 	public double getConstValue() {
 		return constValue;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	public int size() {
+		return data.size();
 	}
 }

@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import ch.zhaw.simulation.model.xy.ColorCalculator;
-import ch.zhaw.simulation.xyviewer.model.XYResult;
-import ch.zhaw.simulation.xyviewer.model.XYResultMeso;
-import ch.zhaw.simulation.xyviewer.model.XYResultStep;
+import ch.zhaw.simulation.xyviewer.model.attic.XYResult;
+import ch.zhaw.simulation.xyviewer.model.attic.XYResultMeso;
+import ch.zhaw.simulation.xyviewer.model.attic.XYResultStep;
 
 public class XYResultDummy implements XYResult {
 	private XYResultMeso m1 = new XYResultMeso(0, 1, 1);
