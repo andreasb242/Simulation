@@ -1,5 +1,8 @@
 package ch.zhaw.simulation.xyviewer;
 
+import ch.zhaw.simulation.xyviewer.model.XYResultList;
+import ch.zhaw.simulation.xyviewer.model.XYResultStepList;
+
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,36 +14,35 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ch.zhaw.simulation.xyviewer.model.XYResult;
-import ch.zhaw.simulation.xyviewer.model.XYResultStep;
-import ch.zhaw.simulation.xyviewer.model.dummy.XYResultDummy;
-
 public class ResultViewerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private JSlider slider;
 	private XYViewer viewer = new XYViewer();
+	private XYResultList resultList;
 
-	public ResultViewerDialog(final XYResult result) {
+	public ResultViewerDialog(XYResultList result) {
+		resultList = result;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		setLayout(new BorderLayout());
 
 		viewer.init(result);
 
-		slider = new JSlider(0, result.getCount());
+		slider = new JSlider(0, result.getStepCount());
+		slider.setValue(0);
 
 		JComponent comp = new JComponent() {
 			private static final long serialVersionUID = 1L;
 
 			{
-				setPreferredSize(result.getModelSize());
+				setPreferredSize(resultList.getModelSize());
 			}
 
 			@Override
 			protected void paintComponent(Graphics g) {
-				XYResultStep step = result.getStep(slider.getValue());
-				viewer.draw((Graphics2D) g, step);
+				XYResultStepList stepList = resultList.getStep(slider.getValue());
+				viewer.draw((Graphics2D) g, stepList);
 			}
 
 		};
@@ -58,10 +60,5 @@ public class ResultViewerDialog extends JDialog {
 
 		pack();
 		setLocationRelativeTo(null);
-	}
-
-	public static void main(String[] args) {
-		XYResult result = new XYResultDummy();
-		new ResultViewerDialog(result).setVisible(true);
 	}
 }

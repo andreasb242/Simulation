@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Editor.XY"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

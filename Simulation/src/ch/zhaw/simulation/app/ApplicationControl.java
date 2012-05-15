@@ -23,6 +23,7 @@ import butti.javalibs.util.RestartUtil;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.diagram.DiagramFrame;
+import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
@@ -54,6 +55,9 @@ import ch.zhaw.simulation.undo.debug.UndoRedoDebugDialog;
 import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
+import ch.zhaw.simulation.xyviewer.ResultViewerDialog;
+import ch.zhaw.simulation.xyviewer.model.XYResultChooser;
+import ch.zhaw.simulation.xyviewer.model.XYResultList;
 
 public class ApplicationControl extends StatusHandler implements SimulationApplication, MenuActionListener, SysintegrationEventlistener {
 
@@ -199,10 +203,18 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 						if (state == FinishState.SUCCESSFULLY) {
 							if (doc.getType() == SimulationType.FLOW_SIMULATION) {
-								//////// TODO !!!!!!!!!!!!!!!!!!!! DIAGRAM
-//								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-//								DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, doc.getSimulationConfiguration(), getDocumentName(), sysintegration);
-//								frame.setVisible(true);
+								// ////// TODO !!!!!!!!!!!!!!!!!!!! DIAGRAM
+
+								DiagramConfiguration config = new DiagramConfiguration();
+
+								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+								DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, config, getDocumentName(), sysintegration);
+								frame.setVisible(true);
+							} else if (doc.getType() == SimulationType.XY_MODEL) {
+								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+								XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
+								XYResultList xyResultList = chooser.chooseMesoPart();
+								new ResultViewerDialog(xyResultList).setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
 							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurde abgebrochen.");

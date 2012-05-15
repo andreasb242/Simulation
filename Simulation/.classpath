@@ -22,5 +22,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/XYResultViewer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

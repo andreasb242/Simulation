@@ -8,12 +8,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import ch.zhaw.simulation.xyviewer.model.XYResult;
-import ch.zhaw.simulation.xyviewer.model.XYResultStep;
+import ch.zhaw.simulation.xyviewer.model.attic.XYResult;
+import ch.zhaw.simulation.xyviewer.model.attic.XYResultStep;
 import ch.zhaw.simulation.xyviewer.model.dummy.XYResultDummy;
 
 public class XYViewerTest {
 	public static void main(String[] args) throws IOException {
+		/*
 		String outputPath = "c:\\tmp\\";
 
 		XYViewer viewer = new XYViewer();
@@ -38,6 +39,7 @@ public class XYViewerTest {
 		System.out.println("fertig!");
 
 		g.dispose();
+		*/
 	}
 
 }
