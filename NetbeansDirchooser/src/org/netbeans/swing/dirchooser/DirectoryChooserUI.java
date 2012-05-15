@@ -1272,9 +1272,9 @@ public class DirectoryChooserUI extends BasicFileChooserUI {
 				notShowP.add(notShow);
 				slownessPanel.setLayout(new BorderLayout());
 				slownessPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-				slownessPanel.add(BorderLayout.CENTER, slownessNote);
-				slownessPanel.add(BorderLayout.SOUTH, notShowP);
-				centerPanel.add(BorderLayout.NORTH, slownessPanel);
+				slownessPanel.add(slownessNote, BorderLayout.CENTER);
+				slownessPanel.add(notShowP, BorderLayout.SOUTH);
+				centerPanel.add(slownessPanel, BorderLayout.NORTH);
 				centerPanel.revalidate();
 			}
 		}

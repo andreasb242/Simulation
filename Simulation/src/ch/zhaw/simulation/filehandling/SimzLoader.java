@@ -75,7 +75,9 @@ public class SimzLoader implements SimzFileVersion {
 
 		doc.clear();
 
-		configLoader.parseXml(doc.getSimulationConfiguration(), new ByteArrayInputStream(xmlConfiguration.getBytes()));
+		if (xmlConfiguration != null) {
+			configLoader.parseXml(doc.getSimulationConfiguration(), new ByteArrayInputStream(xmlConfiguration.getBytes()));
+		}
 
 		return contentsLoader.parseXml(doc, new ByteArrayInputStream(xmlContents.getBytes()));
 	}

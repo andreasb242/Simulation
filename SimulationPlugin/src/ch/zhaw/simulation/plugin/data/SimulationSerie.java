@@ -5,6 +5,7 @@ import java.util.Vector;
 
 public class SimulationSerie {
 	private String name;
+
 	private Vector<SimulationEntry> data = new Vector<SimulationEntry>();
 	private String type = null;
 	private Paint paint;

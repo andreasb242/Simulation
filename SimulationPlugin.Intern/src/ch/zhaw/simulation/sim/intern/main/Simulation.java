@@ -19,9 +19,7 @@ import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
-import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
@@ -100,19 +98,19 @@ public class Simulation {
 		Collections.sort(namedObjects);
 
 		for (AbstractNamedSimulationData c : namedObjects) {
-			String type = "";
+//			String type = "";
+//
+//			if (c instanceof FlowValveData) {
+//				type = "flow";
+//			} else if (c instanceof SimulationContainerData) {
+//				type = "container";
+//			} else if (c instanceof SimulationParameterData) {
+//				type = "parameter";
+//			} else {
+//				type = c.getClass().getName();
+//			}
 
-			if (c instanceof FlowValveData) {
-				type = "flow";
-			} else if (c instanceof SimulationContainerData) {
-				type = "container";
-			} else if (c instanceof SimulationParameterData) {
-				type = "parameter";
-			} else {
-				type = c.getClass().getName();
-			}
-
-			SimulationSerie serie = new SimulationSerie(c.getName() + " " + type);
+			SimulationSerie serie = new SimulationSerie(c.getName());
 			((SimulationAttachment) c.attachment).serie = serie;
 			series.addSeries(serie);
 		}
@@ -146,8 +144,7 @@ public class Simulation {
 	private void setConstValue(AbstractNamedSimulationData d) {
 		if (d instanceof SimulationContainerData) {
 			// TODO Optimize: Container dürfen nur Konstant sein wenn keine Ein-
-			// Und
-			// Ausflüsse vorhanden sind!
+			// Und Ausflüsse vorhanden sind!
 			return;
 		}
 

@@ -56,7 +56,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -65,13 +64,11 @@ import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.util.ResourceBundleWrapper;
 import org.jfree.layout.LCBLayout;
-import org.jfree.ui.FontChooserPanel;
 import org.jfree.ui.FontDisplayField;
 import org.jfree.ui.PaintSample;
 import org.jfree.ui.RectangleInsets;
 
-// TODO !! Diagramm einstellungen speichern
-// TODO !! zeichnung glätten!?!?
+import butti.fontchooser.FontChooser;
 
 /**
  * A panel for editing the properties of an axis.
@@ -368,13 +365,10 @@ public class DefaultAxisEditor extends JPanel implements ActionListener {
 	 * Presents a font selection dialog to the user.
 	 */
 	private void attemptLabelFontSelection() {
+		Font font = FontChooser.chooseFont(this, this.labelFont);
 
-		FontChooserPanel panel = new FontChooserPanel(this.labelFont);
-		int result = JOptionPane.showConfirmDialog(this, panel, localizationResources.getString("Font_Selection"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
-
-		if (result == JOptionPane.OK_OPTION) {
-			this.labelFont = panel.getSelectedFont();
+		if (font != null) {
+			this.labelFont = font;
 			this.labelFontField.setText(this.labelFont.getFontName() + " " + this.labelFont.getSize());
 		}
 
@@ -395,13 +389,10 @@ public class DefaultAxisEditor extends JPanel implements ActionListener {
 	 * Presents a tick label font selection dialog to the user.
 	 */
 	public void attemptTickLabelFontSelection() {
+		Font font = FontChooser.chooseFont(this, this.tickLabelFont);
 
-		FontChooserPanel panel = new FontChooserPanel(this.tickLabelFont);
-		int result = JOptionPane.showConfirmDialog(this, panel, localizationResources.getString("Font_Selection"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
-
-		if (result == JOptionPane.OK_OPTION) {
-			this.tickLabelFont = panel.getSelectedFont();
+		if (font != null) {
+			this.tickLabelFont = font;
 			this.tickLabelFontField.setText(this.tickLabelFont.getFontName() + " " + this.tickLabelFont.getSize());
 		}
 

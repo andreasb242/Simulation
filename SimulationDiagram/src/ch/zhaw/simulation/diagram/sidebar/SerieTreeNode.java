@@ -12,18 +12,17 @@ public class SerieTreeNode implements TreeNode {
 	private TreeNode parent;
 	private String name;
 	private boolean selected;
-	private Color color;
-	private BasicStroke stroke;
 	private SimulationSerie serie;
 	private int id;
 
-	protected SerieTreeNode(String name, Color color) {
+	private BasicStroke stroke;
+
+	protected SerieTreeNode(String name) {
 		this.name = name;
-		this.color = color;
 	}
 
 	public SerieTreeNode(SimulationSerie s, int id) {
-		this(s.getName(), (Color) s.getPaint());
+		this(s.getName());
 		this.serie = s;
 		this.id = id;
 	}
@@ -75,16 +74,23 @@ public class SerieTreeNode implements TreeNode {
 		this.selected = selected;
 	}
 
+	/**
+	 * @return true if toggled, false if it's not possible to toggle
+	 */
+	public boolean toggleSelection() {
+		this.selected = !this.selected;
+		return true;
+	}
+
 	public Color getColor() {
-		return color;
+		if (serie == null) {
+			return null;
+		}
+		return (Color) serie.getPaint();
 	}
 
 	public BasicStroke getStroke() {
 		return stroke;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
 	}
 
 	public void setStroke(BasicStroke stroke) {

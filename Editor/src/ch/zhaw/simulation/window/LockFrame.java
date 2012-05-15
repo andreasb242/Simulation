@@ -3,6 +3,9 @@ package ch.zhaw.simulation.window;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImageOp;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,6 +55,23 @@ public class LockFrame extends JFrame {
 	 */
 	private ActionListener cancelListener;
 
+	/**
+	 * Listener to cancel an action on window close
+	 */
+	private WindowListener listener = new WindowAdapter() {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			cancelAction();
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			cancelAction();
+		}
+
+	};
+
 	public LockFrame() {
 
 		// Debugging NICHT aktivieren, es werden mehrere Komponenten
@@ -72,6 +92,8 @@ public class LockFrame extends JFrame {
 				cancelAction();
 			}
 		});
+		
+		addWindowListener(listener);
 
 		gbm.setX(1).setY(1).setFill(GridBagConstraints.NONE).setComp(lock);
 

@@ -50,11 +50,11 @@ public class ColorCheckbox extends JPanel {
 	public ColorCheckbox() {
 		setLayout(new BorderLayout());
 		cb = new JCheckBox();
-		add(BorderLayout.CENTER, cb);
+		add(cb, BorderLayout.CENTER);
 		setOpaque(false);
 
 		label = new JLabel(icon);
-		add(BorderLayout.WEST, label);
+		add(label, BorderLayout.WEST);
 	}
 
 	public void setName(String name) {
@@ -65,6 +65,13 @@ public class ColorCheckbox extends JPanel {
 		this.color = c;
 		this.stroke = stroke;
 		label.repaint();
+	}
+
+	@Override
+	public void setForeground(Color fg) {
+		if (cb != null) {
+			cb.setForeground(fg);
+		}
 	}
 
 	public void addActionListener(ActionListener listener) {

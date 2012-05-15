@@ -116,8 +116,8 @@ public class SettingsDlg extends BDialog {
 		lbTitle = new JLabel(icon);
 		lbTitle.setBorder(new EmptyBorder(0, 0, 0, 12));
 
-		header.add(BorderLayout.WEST, titel);
-		header.add(BorderLayout.EAST, lbTitle);
+		header.add(titel, BorderLayout.WEST);
+		header.add(lbTitle, BorderLayout.EAST);
 	}
 
 }

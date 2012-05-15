@@ -6,6 +6,9 @@ Warnen wenn Fehler im Model und trotzdem versucht wird zu simulieren
 Repaint bei Ventil Markierung geht nicht
 Refactoring bei Namen (in Formeln)
 Speichern von Vektorgrafiken, nur Ausschnitt
+
+Nach öffnen von Datei titel aktualisieren!
+
 Dichte:
 	Export in Grafik
 	Legende (Export?)
@@ -13,10 +16,8 @@ Dichte:
 
 Diagram:
 	Legende Im Diagramm für export
-	Beiliege Variabeln
+	Beiliege Variabeln als y
 	Einstellungen Speichern
-	Legende hat falsche Liniendicke bei Start
-	Scrollbar bei Konfiguration der Linien
 
 Fehlermeldung wenn Matlba / Octave nicht installiert, dem Benutzer erkären was er machen kann statdessen
 

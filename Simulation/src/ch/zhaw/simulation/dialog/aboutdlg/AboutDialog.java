@@ -29,7 +29,7 @@ public class AboutDialog extends BDialog {
 
 		JPanel headerPanel = new JPanel(new BorderLayout());
 		AboutHeader header = new AboutHeader();
-		headerPanel.add(BorderLayout.NORTH, header);
+		headerPanel.add(header, BorderLayout.NORTH);
 
 		add(headerPanel, BorderLayout.NORTH);
 

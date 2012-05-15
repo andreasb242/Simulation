@@ -229,7 +229,6 @@ public class MoveConfigurationField extends SingleConfigurationField {
 	}
 
 	protected void editFormula(MesoData meso, NamedFormulaData data) {
-		// TODO !! Additional Variables (x, y)
 		fireActionPerformed(SidebarAction.SHOW_FORMULA_EDITOR, data);
 	}
 

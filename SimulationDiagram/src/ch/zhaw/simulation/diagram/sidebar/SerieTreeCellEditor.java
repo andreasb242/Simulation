@@ -8,7 +8,6 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellEditor;
 
-// TODO !!!!!!!!!!!! editieren mit Space oder Enter!!
 public class SerieTreeCellEditor extends AbstractCellEditor implements TreeCellEditor {
 	private static final long serialVersionUID = 1L;
 

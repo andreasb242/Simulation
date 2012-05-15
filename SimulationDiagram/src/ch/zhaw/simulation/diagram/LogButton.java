@@ -113,7 +113,7 @@ public class LogButton extends TargetableAction {
 
 			return true;
 		} else {
-			// TODO !!!
+			// TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			return true;
 		}
 	}

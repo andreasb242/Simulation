@@ -12,8 +12,7 @@ import ch.zhaw.simulation.model.element.SimulationGlobalData;
  */
 public class DensityData implements NamedFormulaData {
 	private String formula = "";
-	
-	// TODO validate Density name!
+
 	private String name;
 	private String description;
 
@@ -55,7 +54,7 @@ public class DensityData implements NamedFormulaData {
 	@Override
 	public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;

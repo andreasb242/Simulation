@@ -54,7 +54,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -66,6 +65,8 @@ import org.jfree.layout.LCBLayout;
 import org.jfree.ui.PaintSample;
 import org.jfree.ui.StrokeChooserPanel;
 import org.jfree.ui.StrokeSample;
+
+import butti.fontchooser.EditorDialog;
 
 /**
  * A panel for editing the properties of a value axis.
@@ -224,10 +225,10 @@ class DefaultNumberAxisEditor extends DefaultAxisEditor implements FocusListener
 	 */
 	private void attemptGridStrokeSelection() {
 		StrokeChooserPanel panel = new StrokeChooserPanel(this.gridStrokeSample, this.availableStrokeSamples);
-		int result = JOptionPane.showConfirmDialog(this, panel, localizationResources.getString("Stroke_Selection"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
 
-		if (result == JOptionPane.OK_OPTION) {
+		EditorDialog dlg = EditorDialog.create(this, localizationResources.getString("Stroke_Selection"), panel);
+
+		if (dlg.display()) {
 			this.gridStrokeSample.setStroke(panel.getSelectedStroke());
 		}
 	}

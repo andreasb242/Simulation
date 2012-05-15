@@ -9,7 +9,7 @@ public class GroupTreeNode extends SerieTreeNode {
 	private Vector<SerieTreeNode> children = new Vector<SerieTreeNode>();
 
 	public GroupTreeNode(String name) {
-		super(name, null);
+		super(name);
 	}
 
 	@Override
@@ -48,5 +48,6 @@ public class GroupTreeNode extends SerieTreeNode {
 
 	public void add(SerieTreeNode n) {
 		this.children.add(n);
+		n.setParent(this);
 	}
 }

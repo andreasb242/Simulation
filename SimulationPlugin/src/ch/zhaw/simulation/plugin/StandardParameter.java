@@ -1,11 +1,17 @@
 package ch.zhaw.simulation.plugin;
 
 public interface StandardParameter {
-	
+	/**
+	 * Diagram settings
+	 */
+	public static String DIAGRAM_LAST_VIEWED_SERIES = "diagram.lastviewed.series";
+	public static String DIAGRAM_SERIES_CONFIG = "diagram.series.config";
+
+	/**
+	 * Simulation settings
+	 */
 	public static String SIM_PROPERTY_DOUBLE_PREFIX = "simulation.dproperty.";
 	public static String SIM_PROPERTY_STRING_PREFIX = "simulation.sproperty.";
-
-	public static String DIAGRAM_LAST_VIEWED_SERIES = "diagram.lastviewed.series";
 	
 	public static String DT = "simulation.sidebar.dt";
 	public static String START = "simulation.sidebar.start";

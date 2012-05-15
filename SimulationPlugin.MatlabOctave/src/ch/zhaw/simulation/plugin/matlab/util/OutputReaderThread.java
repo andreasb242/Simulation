@@ -43,7 +43,7 @@ public class OutputReaderThread extends Thread {
 		} catch (IOException e) {
 			System.err.println(prefix);
 			e.printStackTrace();
-			// TODO !!! fireAction(0, prefix + e.getMessage());
+			// TODO fireAction(0, prefix + e.getMessage());
 		}
 	}
 

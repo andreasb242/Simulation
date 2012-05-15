@@ -1,10 +1,10 @@
 package ch.zhaw.simulation.diagram;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 
-import org.jfree.chart.ChartTheme;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PieLabelLinkStyle;
@@ -20,14 +20,7 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates and returns the default '(AB)²' chart theme.
-	 * 
-	 * @return A chart theme.
-	 */
-	public static ChartTheme createJFreeTheme() {
-		return new SimulationDiagramTheme("(AB)²");
-	}
+	private BasicStroke baseStroke;
 
 	/**
 	 * Creates a new default instance.
@@ -62,7 +55,9 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 		setLegendItemPaint(Color.DARK_GRAY);
 		setChartBackgroundPaint(Color.WHITE);
 
-		Stroke[] strokePaint = new Stroke[] { DiagramStrokeFactory.createStroke() };
+		this.baseStroke = DiagramStrokeFactory.createStroke();
+
+		Stroke[] strokePaint = new Stroke[] { this.baseStroke };
 
 		setDrawingSupplier(new DefaultDrawingSupplier(DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE, DefaultDrawingSupplier.DEFAULT_FILL_PAINT_SEQUENCE,
 				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE, strokePaint, DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,

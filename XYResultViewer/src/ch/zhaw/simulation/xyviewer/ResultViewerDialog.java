@@ -45,8 +45,8 @@ public class ResultViewerDialog extends JDialog {
 
 		};
 
-		add(BorderLayout.CENTER, new JScrollPane(comp));
-		add(BorderLayout.SOUTH, slider);
+		add(new JScrollPane(comp), BorderLayout.CENTER);
+		add(slider, BorderLayout.SOUTH);
 
 		slider.addChangeListener(new ChangeListener() {
 

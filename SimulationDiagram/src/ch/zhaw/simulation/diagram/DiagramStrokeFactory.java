@@ -21,6 +21,7 @@ public class DiagramStrokeFactory {
 	public static BasicStroke createStroke(float thikness, float[] dash) {
 		// BasicStroke.CAP_SQUARE
 		// BasicStroke.CAP_BUTT
-		return new BasicStroke(thikness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, dash, 0);
+		return new BasicStroke(thikness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, dash, 0) {
+		};
 	}
 }

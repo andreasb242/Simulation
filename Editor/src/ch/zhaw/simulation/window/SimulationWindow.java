@@ -93,7 +93,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
 
 		getPanel().setLayout(new BorderLayout());
-		getPanel().add(BorderLayout.EAST, sidebar.getPanel());
+		getPanel().add(sidebar.getPanel(), BorderLayout.EAST);
 
 		addWindowListener(new WindowAdapter() {
 
@@ -129,9 +129,9 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		view.getUndoHandler().addUndoListener(toolbar);
 		view.getClipboard().addListener(toolbar);
 
-		getPanel().add(BorderLayout.NORTH, toolbar.getToolbar());
-		getPanel().add(BorderLayout.CENTER, new JScrollPane(view));
-		getPanel().add(BorderLayout.SOUTH, view.getControl().getStatus().getStatusBar());
+		getPanel().add(toolbar.getToolbar(), BorderLayout.NORTH);
+		getPanel().add(new JScrollPane(view), BorderLayout.CENTER);
+		getPanel().add(view.getControl().getStatus().getStatusBar(), BorderLayout.SOUTH);
 
 		initSidebar(sidebar);
 	}

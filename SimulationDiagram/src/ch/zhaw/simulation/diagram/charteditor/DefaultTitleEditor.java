@@ -56,7 +56,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -65,9 +64,10 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.title.Title;
 import org.jfree.chart.util.ResourceBundleWrapper;
 import org.jfree.layout.LCBLayout;
-import org.jfree.ui.FontChooserPanel;
 import org.jfree.ui.FontDisplayField;
 import org.jfree.ui.PaintSample;
+
+import butti.fontchooser.FontChooser;
 
 /**
  * A panel for editing the properties of a chart title.
@@ -212,13 +212,10 @@ class DefaultTitleEditor extends JPanel implements ActionListener {
 	 * Presents a font selection dialog to the user.
 	 */
 	public void attemptFontSelection() {
+		Font font = FontChooser.chooseFont(this, this.titleFont);
 
-		FontChooserPanel panel = new FontChooserPanel(this.titleFont);
-		int result = JOptionPane.showConfirmDialog(this, panel, localizationResources.getString("Font_Selection"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
-
-		if (result == JOptionPane.OK_OPTION) {
-			this.titleFont = panel.getSelectedFont();
+		if (font != null) {
+			this.titleFont = font;
 			this.fontfield.setText(this.titleFont.getFontName() + " " + this.titleFont.getSize());
 		}
 	}

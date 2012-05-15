@@ -2,7 +2,6 @@ package ch.zhaw.simulation.diagram.charteditor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,10 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.jfree.chart.JFreeChart;
@@ -25,6 +23,8 @@ import org.jfree.chart.title.Title;
 import org.jfree.chart.util.ResourceBundleWrapper;
 import org.jfree.layout.LCBLayout;
 import org.jfree.ui.PaintSample;
+
+import butti.fontchooser.EditorDialog;
 
 import ch.zhaw.simulation.diagram.strokeeditor.SeriesStrokeColorEditor;
 
@@ -93,44 +93,45 @@ class SimulationChartEditor extends JPanel implements ActionListener, ChartEdito
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Component parent = getParent();
-				while (parent != null && !(parent instanceof JDialog)) {
-					parent = parent.getParent();
-				}
-
 				SeriesStrokeColorEditor editor = new SeriesStrokeColorEditor(chart);
 				editor.setVisible(true);
 
-				int result = JOptionPane.showConfirmDialog(parent, editor, "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-				if (result == JOptionPane.OK_OPTION) {
+				EditorDialog dlg = EditorDialog.create(SimulationChartEditor.this, "Linienformat", new JScrollPane(editor));
+				if (dlg.display()) {
 					editor.updateChart(chart);
 				}
 			}
 		});
 
-//		interior.add(new JLabel(localizationResources.getString("Series_Stroke")));
-//		JTextField info = new JTextField(localizationResources.getString("No_editor_implemented"));
-//		info.setEnabled(false);
-//		interior.add(info);
-//		button = new JButton(localizationResources.getString("Edit..."));
-//		button.setEnabled(false);
-//		interior.add(button);
-//
-//		interior.add(new JLabel(localizationResources.getString("Series_Outline_Paint")));
-//		info = new JTextField(localizationResources.getString("No_editor_implemented"));
-//		info.setEnabled(false);
-//		interior.add(info);
-//		button = new JButton(localizationResources.getString("Edit..."));
-//		button.setEnabled(false);
-//		interior.add(button);
-//
-//		interior.add(new JLabel(localizationResources.getString("Series_Outline_Stroke")));
-//		info = new JTextField(localizationResources.getString("No_editor_implemented"));
-//		info.setEnabled(false);
-//		interior.add(info);
-//		button = new JButton(localizationResources.getString("Edit..."));
-//		button.setEnabled(false);
-//		interior.add(button);
+		// interior.add(new
+		// JLabel(localizationResources.getString("Series_Stroke")));
+		// JTextField info = new
+		// JTextField(localizationResources.getString("No_editor_implemented"));
+		// info.setEnabled(false);
+		// interior.add(info);
+		// button = new JButton(localizationResources.getString("Edit..."));
+		// button.setEnabled(false);
+		// interior.add(button);
+		//
+		// interior.add(new
+		// JLabel(localizationResources.getString("Series_Outline_Paint")));
+		// info = new
+		// JTextField(localizationResources.getString("No_editor_implemented"));
+		// info.setEnabled(false);
+		// interior.add(info);
+		// button = new JButton(localizationResources.getString("Edit..."));
+		// button.setEnabled(false);
+		// interior.add(button);
+		//
+		// interior.add(new
+		// JLabel(localizationResources.getString("Series_Outline_Stroke")));
+		// info = new
+		// JTextField(localizationResources.getString("No_editor_implemented"));
+		// info.setEnabled(false);
+		// interior.add(info);
+		// button = new JButton(localizationResources.getString("Edit..."));
+		// button.setEnabled(false);
+		// interior.add(button);
 
 		general.add(interior, BorderLayout.NORTH);
 		other.add(general, BorderLayout.NORTH);

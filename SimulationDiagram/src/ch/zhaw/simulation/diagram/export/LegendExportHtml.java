@@ -12,6 +12,8 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import ch.zhaw.simulation.diagram.HtmlColorHelper;
+
 public class LegendExportHtml {
 	public LegendExportHtml() {
 	}
@@ -35,12 +37,6 @@ public class LegendExportHtml {
 		return buf.toString();
 	}
 
-	public static String getColorHex(Color color) {
-		final String ZEROES = "000000";
-		String s = Integer.toString(color.getRGB() & 0x00ffffff, 16);
-		return s.length() <= 6 ? ZEROES.substring(s.length()) + s : s;
-	}
-
 	public void exportLegend(String file, JFreeChart chart, String name) throws IOException {
 		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), "UTF8");
 
@@ -59,7 +55,7 @@ public class LegendExportHtml {
 
 		for (int i = 0; i < dataset.getSeriesCount(); i++) {
 
-			out.write("\t<span style=\"color: #" + getColorHex((Color) renderer.lookupSeriesPaint(i)) + "\">&bull;</span> "
+			out.write("\t<span style=\"color: #" + HtmlColorHelper.getColorHex((Color) renderer.lookupSeriesPaint(i)) + "\">&bull;</span> "
 					+ encodeHtml(dataset.getSeries(i).getKey().toString()) + "<br />\n");
 		}
 

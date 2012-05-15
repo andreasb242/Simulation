@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.diagram;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
@@ -11,6 +12,7 @@ import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.editor.ChartEditor;
 import org.jfree.chart.editor.ChartEditorManager;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
@@ -20,6 +22,7 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import butti.fontchooser.EditorDialog;
 import butti.javalibs.config.Settings;
 import butti.javalibs.config.WindowPositionSaver;
 import butti.javalibs.errorhandler.Errorhandler;
@@ -73,6 +76,7 @@ public class DiagramFrame extends JFrame {
 		this.collection = collection;
 
 		this.model.enableSeries(simConfig.getParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, null));
+		this.model.parseSeriesConfigString(simConfig.getParameter(StandardParameter.DIAGRAM_SERIES_CONFIG, null));
 
 		this.simConfig = simConfig;
 		toolbar = sys.createToolbar(32);
@@ -81,7 +85,7 @@ public class DiagramFrame extends JFrame {
 		setTitle(name + " - (AB)² Simulation");
 		setLayout(new BorderLayout());
 
-		add(BorderLayout.NORTH, toolbar.getComponent());
+		add(toolbar.getComponent(), BorderLayout.NORTH);
 
 		ChartTheme currentTheme = new SimulationDiagramTheme("(AB)²");
 
@@ -118,12 +122,23 @@ public class DiagramFrame extends JFrame {
 				h.exportChart(this, name, getWidth(), getHeight());
 			}
 
+			@Override
+			public void doEditChartProperties() {
+				ChartEditor editor = ChartEditorManager.getChartEditor(this.getChart());
+
+				EditorDialog dlg = EditorDialog.create(this, localizationResources.getString("Chart_Properties"), (Component) editor);
+				if (dlg.display()) {
+					editor.updateChart(this.getChart());
+				}
+
+			}
+
 		};
 
 		this.sidebar = new DiagramSidebar(this.model, renderer);
-		add(BorderLayout.WEST, sidebar);
+		add(sidebar, BorderLayout.WEST);
 
-		add(BorderLayout.CENTER, chartPanel);
+		add(chartPanel, BorderLayout.CENTER);
 
 		initToolbar(xAxis, yAxis);
 
@@ -301,6 +316,7 @@ public class DiagramFrame extends JFrame {
 		this.buttonLogX.dispose();
 		this.buttonLogY.dispose();
 		simConfig.setParameter(StandardParameter.DIAGRAM_LAST_VIEWED_SERIES, model.getEnabledSeriesString());
+		simConfig.setParameter(StandardParameter.DIAGRAM_SERIES_CONFIG, model.getSeriesConfigString());
 
 		super.dispose();
 	}

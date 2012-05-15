@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.diagram;
 
+import java.awt.Color;
 import java.util.Vector;
 
 import ch.zhaw.simulation.diagram.DiagramConfigListener.Direction;
@@ -20,7 +21,7 @@ public class DiagramConfigModel {
 			throw new NullPointerException("collection == null");
 		}
 	}
-	
+
 	public void setLogEnabled(Direction direction, boolean log) {
 		for (DiagramConfigListener l : this.listener) {
 			l.setLogEnabled(direction, log);
@@ -114,4 +115,62 @@ public class DiagramConfigModel {
 		return s.toString().substring(1);
 	}
 
+	public SimulationSerie getSerieByName(String name) {
+		if (name == null) {
+			return null;
+		}
+
+		for (SimulationSerie s : collection) {
+			if (name.equals(s.getName())) {
+				return s;
+			}
+		}
+		return null;
+	}
+
+	public void parseSeriesConfigString(String s) {
+		// TODO: default!
+
+		if (s == null || "".equals(s)) {
+			return;
+		}
+
+		for (String e : s.split(",")) {
+			String[] values = e.split(":");
+
+			SimulationSerie serie = getSerieByName(values[0]);
+			if (serie == null) {
+				continue;
+			}
+
+			for (int i = 1; i < values.length ; i += 2) {
+				String[] tmp = values[i].split("=");
+				
+				String key = tmp[0];
+				String value = tmp[1];
+				
+				if ("color".equals(key) && "0x".equals(value.substring(0, 2))) {
+					serie.setPaint(new Color(Integer.parseInt(value.substring(2), 16)));
+				}
+			}
+		}
+	}
+
+	public String getSeriesConfigString() {
+		StringBuilder s = new StringBuilder();
+		for (SimulationSerie e : enableSeries) {
+			s.append(",");
+			s.append(e.getName());
+			if (e.getPaint() != null) {
+				s.append(":color=0x");
+				s.append(HtmlColorHelper.getColorHex((Color) e.getPaint()));
+			}
+		}
+
+		if (s.length() == 0) {
+			return "";
+		}
+
+		return s.toString().substring(1);
+	}
 }
