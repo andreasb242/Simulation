@@ -5,16 +5,10 @@ import java.awt.Color;
 import java.util.Map.Entry;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.LogarithmicAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
@@ -180,83 +174,39 @@ public class PersistDiagramSettings {
 		cfg.set("plot.outline.stroke", (BasicStroke) plot.getOutlineStroke());
 		cfg.set("plot.backgroundcolor", (Color) plot.getBackgroundPaint());
 
-		// TODO !!!!!!
-		cfg.set("plot.layout.bordercolor", "");
-		cfg.set("plot.layout.backgroundcolor", "");
-		cfg.set("plot.layout.orientation", plot.getOrientation().toString());
+		// Configuration by user Disable, because makes no sens for us
+		// cfg.set("plot.layout.orientation", plot.getOrientation().toString());
 
 		// not editable by user
 		// cfg.set("plot.insets", plot.getInsets());
 
 	}
 
-	//
-	// // then the axis properties...
-	// if (this.domainAxisPropertyPanel != null) {
-	// Axis domainAxis = null;
-	// if (plot instanceof CategoryPlot) {
-	// CategoryPlot p = (CategoryPlot) plot;
-	// domainAxis = p.getDomainAxis();
-	// } else if (plot instanceof XYPlot) {
-	// XYPlot p = (XYPlot) plot;
-	// domainAxis = p.getDomainAxis();
-	// }
-	// if (domainAxis != null) {
-	// this.domainAxisPropertyPanel.setAxisProperties(domainAxis);
-	// }
-	// }
-	//
-	// if (this.rangeAxisPropertyPanel != null) {
-	// Axis rangeAxis = null;
-	// if (plot instanceof CategoryPlot) {
-	// CategoryPlot p = (CategoryPlot) plot;
-	// rangeAxis = p.getRangeAxis();
-	// } else if (plot instanceof XYPlot) {
-	// XYPlot p = (XYPlot) plot;
-	// rangeAxis = p.getRangeAxis();
-	// }
-	// if (rangeAxis != null) {
-	// this.rangeAxisPropertyPanel.setAxisProperties(rangeAxis);
-	// }
-	// }
-	//
-	// if (this.drawLines != null) {
-	// if (plot instanceof CategoryPlot) {
-	// CategoryPlot p = (CategoryPlot) plot;
-	// CategoryItemRenderer r = p.getRenderer();
-	// if (r instanceof LineAndShapeRenderer) {
-	// ((LineAndShapeRenderer)
-	// r).setLinesVisible(this.drawLines.booleanValue());
-	// }
-	// } else if (plot instanceof XYPlot) {
-	// XYPlot p = (XYPlot) plot;
-	// XYItemRenderer r = p.getRenderer();
-	// if (r instanceof StandardXYItemRenderer) {
-	// ((StandardXYItemRenderer) r).setPlotLines(this.drawLines.booleanValue());
-	// }
-	// }
-	// }
-	//
-	// if (this.drawShapes != null) {
-	// if (plot instanceof CategoryPlot) {
-	// CategoryPlot p = (CategoryPlot) plot;
-	// CategoryItemRenderer r = p.getRenderer();
-	// if (r instanceof LineAndShapeRenderer) {
-	// ((LineAndShapeRenderer)
-	// r).setShapesVisible(this.drawShapes.booleanValue());
-	// }
-	// } else if (plot instanceof XYPlot) {
-	// XYPlot p = (XYPlot) plot;
-	// XYItemRenderer r = p.getRenderer();
-	// if (r instanceof StandardXYItemRenderer) {
-	// ((StandardXYItemRenderer)
-	// r).setBaseShapesVisible(this.drawShapes.booleanValue());
-	// }
-	// }
-	// }
-
 	private void loadOther(DiagramConfiguration cfg) {
 		XYPlot plot = chart.getXYPlot();
+
+		boolean logarithmic = cfg.get("axis.x.layout.logarithmic", false);
+		try {
+			if (logarithmic) {
+				plot.setDomainAxis(new LogarithmicAxis(null));
+			} else {
+				plot.setDomainAxis(new NumberAxis(null));
+			}
+		} catch (RuntimeException e) {
+			plot.setDomainAxis(new NumberAxis(null));
+		}
+
+		logarithmic = cfg.get("axis.y.layout.logarithmic", false);
+		try {
+			if (logarithmic) {
+				plot.setRangeAxis(new LogarithmicAxis(null));
+			} else {
+				plot.setRangeAxis(new NumberAxis(null));
+			}
+		} catch (RuntimeException e) {
+			plot.setRangeAxis(new NumberAxis(null));
+		}
+
 		loadAxis(cfg, "x", plot.getDomainAxis());
 		loadAxis(cfg, "y", plot.getRangeAxis());
 
@@ -277,12 +227,14 @@ public class PersistDiagramSettings {
 		plot.setOutlineStroke(cfg.get("plot.outline.stroke", SimulationDiagramTheme.DEFAULT_OUTLINE_STROKE));
 		plot.setBackgroundPaint(cfg.get("plot.backgroundcolor", (Color) plot.getBackgroundPaint()));
 
-		String orientation = cfg.get("plot.layout.orientation", PlotOrientation.VERTICAL.toString());
-		if (PlotOrientation.HORIZONTAL.toString().equals(orientation)) {
-			plot.setOrientation(PlotOrientation.HORIZONTAL);
-		} else {
-			plot.setOrientation(PlotOrientation.VERTICAL);
-		}
+		// Disabled because makes no sense for us
+		// String orientation = cfg.get("plot.layout.orientation",
+		// PlotOrientation.VERTICAL.toString());
+		// if (PlotOrientation.HORIZONTAL.toString().equals(orientation)) {
+		// plot.setOrientation(PlotOrientation.HORIZONTAL);
+		// } else {
+		// plot.setOrientation(PlotOrientation.VERTICAL);
+		// }
 	}
 
 	private void loadAxis(DiagramConfiguration cfg, String direction, ValueAxis axis) {
@@ -306,9 +258,6 @@ public class PersistDiagramSettings {
 		upper = cfg.get("axis." + direction + ".values.max", upper);
 
 		axis.setRange(new Range(lower, upper));
-
-		cfg.get("axis." + direction + ".layout.logarithmic", axis instanceof LogarithmicAxis);
-
 	}
 
 	private void saveAxis(DiagramConfiguration cfg, String direction, ValueAxis axis) {

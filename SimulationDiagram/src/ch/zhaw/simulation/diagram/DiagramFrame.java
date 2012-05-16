@@ -142,7 +142,7 @@ public class DiagramFrame extends JFrame {
 
 		add(chartPanel, BorderLayout.CENTER);
 
-		initToolbar(xAxis, yAxis);
+		initToolbar();
 
 		setSize(640, 480);
 		setLocationRelativeTo(null);// center
@@ -151,7 +151,7 @@ public class DiagramFrame extends JFrame {
 		new WindowPositionSaver(this);
 	}
 
-	private void initToolbar(NumberAxis xAxis, NumberAxis yAxis) {
+	private void initToolbar() {
 		toolbar.add(new ToolbarAction("Anzeigen als Tabelle", "diagram/spreadsheet") {
 
 			@Override
@@ -300,8 +300,8 @@ public class DiagramFrame extends JFrame {
 
 		toolbar.addSeparator();
 
-		this.buttonLogX = new LogButton(this, plot, toolbar, collection, xAxis, Direction.X);
-		this.buttonLogY = new LogButton(this, plot, toolbar, collection, yAxis, Direction.Y);
+		this.buttonLogX = new LogButton(this, plot, toolbar, Direction.X);
+		this.buttonLogY = new LogButton(this, plot, toolbar, Direction.Y);
 
 	}
 

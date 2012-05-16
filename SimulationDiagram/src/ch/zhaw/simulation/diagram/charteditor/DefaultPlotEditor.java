@@ -67,7 +67,6 @@ import javax.swing.JTabbedPane;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
@@ -89,9 +88,10 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	/** Orientation constants. */
-	private final static String[] orientationNames = { "Vertical", "Horizontal" };
-	private final static int ORIENTATION_VERTICAL = 0;
-	private final static int ORIENTATION_HORIZONTAL = 1;
+	// private final static String[] orientationNames = { "Vertical",
+	// "Horizontal" };
+	// private final static int ORIENTATION_VERTICAL = 0;
+	// private final static int ORIENTATION_HORIZONTAL = 1;
 
 	/** The paint (color) used to fill the background of the plot. */
 	private PaintSample backgroundPaintSample;
@@ -124,13 +124,15 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 	 * The orientation for the plot (for <tt>CategoryPlot</tt>s and
 	 * <tt>XYPlot</tt>s).
 	 */
-	private PlotOrientation plotOrientation;
+	// Disabled because makes no sense for us
+	// private PlotOrientation plotOrientation;
 
 	/**
 	 * The orientation combo box (for <tt>CategoryPlot</tt>s and <tt>XYPlot</tt>
 	 * s).
 	 */
-	private JComboBox orientationCombo;
+	// Disabled because makes no sense for us
+	// private JComboBox orientationCombo;
 
 	/**
 	 * Whether or not to draw lines between each data point (for
@@ -174,11 +176,12 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 		this.backgroundPaintSample = new PaintSample(plot.getBackgroundPaint());
 		this.outlineStrokeSample = new StrokeSample(plot.getOutlineStroke());
 		this.outlinePaintSample = new PaintSample(plot.getOutlinePaint());
-		if (plot instanceof CategoryPlot) {
-			this.plotOrientation = ((CategoryPlot) plot).getOrientation();
-		} else if (plot instanceof XYPlot) {
-			this.plotOrientation = ((XYPlot) plot).getOrientation();
-		}
+		// Disabled because makes no sense for us
+		// if (plot instanceof CategoryPlot) {
+		// this.plotOrientation = ((CategoryPlot) plot).getOrientation();
+		// } else if (plot instanceof XYPlot) {
+		// this.plotOrientation = ((XYPlot) plot).getOrientation();
+		// }
 		if (plot instanceof CategoryPlot) {
 			CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 			if (renderer instanceof LineAndShapeRenderer) {
@@ -240,17 +243,21 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 		interior.add(this.backgroundPaintSample);
 		interior.add(button);
 
-		if (this.plotOrientation != null) {
-			boolean isVertical = this.plotOrientation.equals(PlotOrientation.VERTICAL);
-			int index = isVertical ? ORIENTATION_VERTICAL : ORIENTATION_HORIZONTAL;
-			interior.add(new JLabel(localizationResources.getString("Orientation")));
-			this.orientationCombo = new JComboBox(orientationNames);
-			this.orientationCombo.setSelectedIndex(index);
-			this.orientationCombo.setActionCommand("Orientation");
-			this.orientationCombo.addActionListener(this);
-			interior.add(this.orientationCombo);
-			interior.add(new JPanel());
-		}
+		// Disabled because makes no sense for us
+		// if (this.plotOrientation != null) {
+		// boolean isVertical =
+		// this.plotOrientation.equals(PlotOrientation.VERTICAL);
+		// int index = isVertical ? ORIENTATION_VERTICAL :
+		// ORIENTATION_HORIZONTAL;
+		// interior.add(new
+		// JLabel(localizationResources.getString("Orientation")));
+		// this.orientationCombo = new JComboBox(orientationNames);
+		// this.orientationCombo.setSelectedIndex(index);
+		// this.orientationCombo.setActionCommand("Orientation");
+		// this.orientationCombo.addActionListener(this);
+		// interior.add(this.orientationCombo);
+		// interior.add(new JPanel());
+		// }
 
 		if (this.drawLines != null) {
 			interior.add(new JLabel(localizationResources.getString("Draw_lines")));
@@ -383,8 +390,9 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 			attemptBackgroundPaintSelection();
 		} else if (command.equals("OutlinePaint")) {
 			attemptOutlinePaintSelection();
-		} else if (command.equals("Orientation")) {
-			attemptOrientationSelection();
+			// Disabled because makes no sense for us
+			// } else if (command.equals("Orientation")) {
+			// attemptOrientationSelection();
 		} else if (command.equals("DrawLines")) {
 			attemptDrawLinesSelection();
 		} else if (command.equals("DrawShapes")) {
@@ -419,16 +427,17 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 	 * Allow the user to modify the plot orientation if this is an editor for a
 	 * <tt>CategoryPlot</tt> or a <tt>XYPlot</tt>.
 	 */
-	private void attemptOrientationSelection() {
-
-		int index = this.orientationCombo.getSelectedIndex();
-
-		if (index == ORIENTATION_VERTICAL) {
-			this.plotOrientation = PlotOrientation.VERTICAL;
-		} else {
-			this.plotOrientation = PlotOrientation.HORIZONTAL;
-		}
-	}
+	// Disabled because makes no sense for us
+	// private void attemptOrientationSelection() {
+	//
+	// int index = this.orientationCombo.getSelectedIndex();
+	//
+	// if (index == ORIENTATION_VERTICAL) {
+	// this.plotOrientation = PlotOrientation.VERTICAL;
+	// } else {
+	// this.plotOrientation = PlotOrientation.HORIZONTAL;
+	// }
+	// }
 
 	/**
 	 * Allow the user to modify whether or not lines are drawn between data
@@ -493,15 +502,16 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
 			}
 		}
 
-		if (this.plotOrientation != null) {
-			if (plot instanceof CategoryPlot) {
-				CategoryPlot p = (CategoryPlot) plot;
-				p.setOrientation(this.plotOrientation);
-			} else if (plot instanceof XYPlot) {
-				XYPlot p = (XYPlot) plot;
-				p.setOrientation(this.plotOrientation);
-			}
-		}
+		// Disabled because makes no sense for us
+		// if (this.plotOrientation != null) {
+		// if (plot instanceof CategoryPlot) {
+		// CategoryPlot p = (CategoryPlot) plot;
+		// p.setOrientation(this.plotOrientation);
+		// } else if (plot instanceof XYPlot) {
+		// XYPlot p = (XYPlot) plot;
+		// p.setOrientation(this.plotOrientation);
+		// }
+		// }
 
 		if (this.drawLines != null) {
 			if (plot instanceof CategoryPlot) {

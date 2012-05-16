@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.diagram;
 
+import java.awt.Font;
+import java.awt.Paint;
 import java.awt.event.ItemEvent;
 
 import javax.swing.JFrame;
@@ -7,15 +9,11 @@ import javax.swing.JFrame;
 import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 
 import butti.javalibs.gui.messagebox.Messagebox;
-import butti.javalibs.util.StringUtil;
+
 import ch.zhaw.simulation.icon.IconLoader;
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.data.SimulationEntry;
-import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 
 public class LogButton extends TargetableAction {
@@ -31,117 +29,101 @@ public class LogButton extends TargetableAction {
 		}
 	}
 
-	// private DiagramConfigModel model;
-	// private Direction direction;
-	// private DiagramConfigListener listener;
-	// private NumberAxis axis;
-	// private NumberAxis axisLog;
-	//
-	public LogButton(final JFrame parent, final XYPlot plot, Toolbar toolbar, SimulationCollection collection, NumberAxis axis, Direction direction) {
-		// super("Logarithmisch (" + direction.name + ")", "diagram/log-" +
-		// direction.name, IconLoader.getIcon("diagram/log-" + direction.name,
-		// toolbar.getDefaultIconSize()));
-		//
-		// this.model = model;
-		// this.direction = direction;
-		//
-		// this.axis = axis;
-		//
-		// setStateAction(true);
-		// toolbar.addToogleAction(this);
-		//
-		// listener = new DiagramConfigAdapter() {
-		// @Override
-		// public void setLogEnabled(Direction direction, boolean log) {
-		// if(LogButton.this.direction != direction) {
-		// return;
-		// }
-		//
-		// // check if we can show a log axis, all values have to be > 0
-		// if (log && !canShowLogAxis(direction)) {
-		// Messagebox.showInfo(parent, "Logarithmische Achsen",
-		// "<html>Logarithmische achsen können nicht angewendet werden, da das Diagramm Negativ- oder Nullwerte enthält.<br>"
-		// +
-		// "Blenden Sie nur rein positive Serien ein und versuchen Sie es erneut.</html>");
-		//
-		// LogButton.this.model.setLogEnabled(LogButton.this.direction, false);
-		// return;
-		// }
-		//
-		// ValueAxis newAxis;
-		//
-		// if (log) {
-		// if (LogButton.this.axisLog == null) {
-		// LogButton.this.axisLog = new LogarithmicAxis(null);
-		// }
-		//
-		// String oldLabel = LogButton.this.axisLog.getLabel();
-		// String newLabel = LogButton.this.axis.getLabel();
-		//
-		// if (!StringUtil.equals(oldLabel, newLabel)) {
-		// LogButton.this.axisLog.setLabel(newLabel);
-		// }
-		//
-		// newAxis = axisLog;
-		// } else {
-		// if (LogButton.this.axisLog == null) {
-		// return;
-		// }
-		//
-		// String oldLabel = LogButton.this.axis.getLabel();
-		// String newLabel = LogButton.this.axisLog.getLabel();
-		//
-		// if (!StringUtil.equals(oldLabel, newLabel)) {
-		// LogButton.this.axis.setLabel(newLabel);
-		// }
-		//
-		// newAxis = LogButton.this.axis;
-		// }
-		//
-		// if(direction == Direction.Y) {
-		// plot.setRangeAxis(newAxis);
-		// } else {
-		// plot.setDomainAxis(newAxis);
-		// }
-		//
-		// if (isSelected() != log) {
-		// setSelected(log);
-		// }
-		// }
-		// };
-		// this.model.addListener(listener);
-	}
-	//
-	// protected boolean canShowLogAxis(Direction direction) {
-	// if (direction == Direction.Y) {
-	// for (SimulationSerie s : model.getCollection()) {
-	// if (model.isEnabled(s)) {
-	// for (SimulationEntry d : s.getData()) {
-	// if (d.value <= 0) {
-	// return false;
-	// }
-	// }
-	// }
-	// }
-	//
-	// return true;
-	// } else {
-	// // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// return true;
-	// }
-	// }
-	//
-	// @Override
-	// public void itemStateChanged(ItemEvent evt) {
-	// boolean newValue = evt.getStateChange() == ItemEvent.SELECTED;
-	//
-	// model.setLogEnabled(direction, newValue);
-	// }
-	//
-	// @Override
-	// public void dispose() {
-	// model.removeListener(listener);
-	// super.dispose();
-	// }
+	private NumberAxis axis;
+	private NumberAxis axisLog;
+	private Direction direction;
+	private XYPlot plot;
 
+	public LogButton(final JFrame parent, XYPlot plot, Toolbar toolbar, Direction direction) {
+		super("Logarithmisch (" + direction.name + ")", "diagram/log-" + direction.name, IconLoader.getIcon("diagram/log-" + direction.name,
+				toolbar.getDefaultIconSize()));
+		this.direction = direction;
+		this.plot = plot;
+
+		NumberAxis currentAxis = getCurrentAxis();
+		
+		setStateAction(true);
+		toolbar.addToogleAction(this);
+
+		if (currentAxis instanceof LogarithmicAxis) {
+			setSelected(true);
+			this.axisLog = currentAxis;
+			this.axis = new NumberAxis();
+		} else {
+			this.axis = currentAxis;
+			this.axisLog = new LogarithmicAxis(null);
+		}
+	}
+
+	private NumberAxis getCurrentAxis() {
+		if (direction == Direction.Y) {
+			return (NumberAxis) this.plot.getRangeAxis();
+		} else {
+			return (NumberAxis) this.plot.getDomainAxis();
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent evt) {
+		boolean log = evt.getStateChange() == ItemEvent.SELECTED;
+
+		NumberAxis currentAxis = getCurrentAxis();
+
+		if ((currentAxis instanceof LogarithmicAxis) == log) {
+			return;
+		}
+
+		NumberAxis newAxis;
+		if (log) {
+			newAxis = this.axisLog;
+		} else {
+			newAxis = this.axis;
+		}
+
+		AxisPropertySaver saver = new AxisPropertySaver();
+		saver.load(currentAxis);
+		saver.applyTo(newAxis);
+
+		try {
+			setAxis(newAxis);
+		} catch (Exception e) {
+			Messagebox.showError(null, "(AB)² Simulation", e.getMessage());
+			setAxis(currentAxis);
+		}
+	}
+
+	private void setAxis(NumberAxis newAxis) {
+		if (direction == Direction.Y) {
+			this.plot.setRangeAxis(newAxis);
+		} else {
+			this.plot.setDomainAxis(newAxis);
+		}
+	}
+
+	public static class AxisPropertySaver {
+		private String label;
+		private Paint linePaint;
+		private Font labelFont;
+		private Font tickLabelFont;
+		private Paint tickLabelPaint;
+
+		public AxisPropertySaver() {
+		}
+
+		public void load(NumberAxis axis) {
+			this.label = axis.getLabel();
+			this.linePaint = axis.getAxisLinePaint();
+			this.labelFont = axis.getLabelFont();
+			this.tickLabelFont = axis.getTickLabelFont();
+			this.tickLabelPaint = axis.getTickLabelPaint();
+		}
+
+		public void applyTo(NumberAxis axis) {
+			axis.setLabel(this.label);
+			axis.setAxisLinePaint(this.linePaint);
+			axis.setLabelFont(this.labelFont);
+			axis.setTickLabelFont(this.tickLabelFont);
+			axis.setTickLabelPaint(this.tickLabelPaint);
+		}
+	}
 }
