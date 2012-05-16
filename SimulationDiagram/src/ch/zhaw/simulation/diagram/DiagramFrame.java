@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import org.jfree.chart.ChartPanel;
@@ -62,6 +63,8 @@ public class DiagramFrame extends JFrame {
 
 	private LogButton buttonLogY;
 
+	private JComboBox cbY;
+
 	private PersistDiagramSettings persitSettings;
 
 	private DiagramConfiguration config;
@@ -81,6 +84,14 @@ public class DiagramFrame extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle(name + " - (AB)² Simulation");
 		setLayout(new BorderLayout());
+
+		cbY = new JComboBox();
+		cbY.addItem("Zeit");
+		for (SimulationSerie s : this.collection) {
+			cbY.addItem(s);
+		}
+		
+		cbY.setRenderer(new SerieCbRenderer());
 
 		add(toolbar.getComponent(), BorderLayout.NORTH);
 
@@ -143,6 +154,7 @@ public class DiagramFrame extends JFrame {
 		add(chartPanel, BorderLayout.CENTER);
 
 		initToolbar();
+		this.toolbar.add(cbY);
 
 		setSize(640, 480);
 		setLocationRelativeTo(null);// center

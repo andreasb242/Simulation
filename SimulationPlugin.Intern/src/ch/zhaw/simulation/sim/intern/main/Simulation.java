@@ -17,12 +17,16 @@ import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
+import ch.zhaw.simulation.plugin.data.SimulationSerie.SerieSource;
 import ch.zhaw.simulation.sim.intern.InternSimulationParameter;
 import ch.zhaw.simulation.sim.intern.euler.EulerSimulation;
 import ch.zhaw.simulation.sim.intern.model.SimulationAttachment;
@@ -54,8 +58,8 @@ public class Simulation {
 		type = (int) doc.getSimulationConfiguration().getParameter(InternSimulationParameter.TYPE, 0);
 	}
 
-	public void initSimulation() throws SimulationModelException, ParseException, RecursionException, InvalidAlgorithmParameterException,
-			InterruptedException, ExecutionException {
+	public void initSimulation() throws SimulationModelException, ParseException, RecursionException, InvalidAlgorithmParameterException, InterruptedException,
+			ExecutionException {
 		initSimulationAttachment();
 
 		// Zusammenhänge berechnen
@@ -79,7 +83,7 @@ public class Simulation {
 	public void execute() {
 		simulation.execute();
 	}
-	
+
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		simulation.addPropertyChangeListener(listener);
 	}
@@ -98,19 +102,19 @@ public class Simulation {
 		Collections.sort(namedObjects);
 
 		for (AbstractNamedSimulationData c : namedObjects) {
-//			String type = "";
-//
-//			if (c instanceof FlowValveData) {
-//				type = "flow";
-//			} else if (c instanceof SimulationContainerData) {
-//				type = "container";
-//			} else if (c instanceof SimulationParameterData) {
-//				type = "parameter";
-//			} else {
-//				type = c.getClass().getName();
-//			}
+			SimulationSerie.SerieSource type = null;
 
-			SimulationSerie serie = new SimulationSerie(c.getName());
+			if (c instanceof FlowValveData) {
+				type = SerieSource.FLOW;
+			} else if (c instanceof SimulationContainerData) {
+				type = SerieSource.CONTAINER;
+			} else if (c instanceof SimulationParameterData) {
+				type = SerieSource.PARAMETER;
+			} else if (c instanceof SimulationGlobalData) {
+				type = SerieSource.GLOBAL;
+			}
+
+			SimulationSerie serie = new SimulationSerie(c.getName(), type);
 			((SimulationAttachment) c.attachment).serie = serie;
 			series.addSerie(serie);
 		}

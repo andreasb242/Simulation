@@ -16,6 +16,7 @@ import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
+import ch.zhaw.simulation.plugin.data.SimulationSerie.SerieSource;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 
 public class DiagramTest {
@@ -27,23 +28,23 @@ public class DiagramTest {
 		SimulationCollection collection = new SimulationCollection(0, 100);
 
 		SimulationSerie s;
-//		s = new SimulationSerie("Aaaaaa");
-//		s.add(0, 0);
-//		s.add(10, 10);
-//		s.add(20, 11);
-//		s.add(30, 15);
-//		s.add(40, 20);
-//		s.add(50, 10);
-//		s.add(60, 15);
-//		s.add(70, -3);
-//		s.add(80, 0);
-//		s.add(90, 12);
-//		s.add(100, 20);
-//
-//		collection.addSerie(s);
+		s = new SimulationSerie("Aaaaaa", SerieSource.PARAMETER);
+		s.add(0, 0);
+		s.add(10, 10);
+		s.add(20, 11);
+		s.add(30, 15);
+		s.add(40, 20);
+		s.add(50, 10);
+		s.add(60, 15);
+		s.add(70, -3);
+		s.add(80, 0);
+		s.add(90, 12);
+		s.add(100, 20);
 
-		s = new SimulationSerie("Bbbbbbb");
-//		s.add(0, 15);
+		collection.addSerie(s);
+
+		s = new SimulationSerie("Bbbbbbb", SerieSource.CONTAINER);
+		s.add(0, 15);
 		s.add(10, 14);
 		s.add(20, 13);
 		s.add(30, 12);
@@ -57,35 +58,50 @@ public class DiagramTest {
 
 		collection.addSerie(s);
 
-//		s = new SimulationSerie("Ccccccc");
-//		s.add(0, 15);
-//		s.add(10, 14);
-//		s.add(20, 13);
-//		s.add(30, 12);
-//		s.add(40, -30);
-//		s.add(50, -22);
-//		s.add(60, -17);
-//		s.add(70, -11);
-//		s.add(80, -2);
-//		s.add(90, 6);
-//		s.add(100, 5);
-//
-//		collection.addSerie(s);
+		s = new SimulationSerie("Ccccccc", SerieSource.FLOW);
+		s.add(0, 15);
+		s.add(10, 14);
+		s.add(20, 13);
+		s.add(30, 12);
+		s.add(40, -30);
+		s.add(50, -22);
+		s.add(60, -17);
+		s.add(70, -11);
+		s.add(80, -2);
+		s.add(90, 6);
+		s.add(100, 5);
 
-		// s = new SimulationSerie("Ddddddddd");
-		// s.add(0, 1000);
-		// s.add(10, 1020);
-		// s.add(20, 1013);
-		// s.add(30, 1012);
-		// s.add(40, 1010);
-		// s.add(50, 1000);
-		// s.add(60, 1002);
-		// s.add(70, 1003);
-		// s.add(80, 1005);
-		// s.add(90, 1006);
-		// s.add(100, 1005);
-		//
-		// collection.addSerie(s);
+		collection.addSerie(s);
+
+		s = new SimulationSerie("Ddddddddd", SerieSource.GLOBAL);
+		s.add(0, 1000);
+		s.add(10, 1020);
+		s.add(20, 1013);
+		s.add(30, 1012);
+		s.add(40, 1010);
+		s.add(50, 1000);
+		s.add(60, 1002);
+		s.add(70, 1003);
+		s.add(80, 1005);
+		s.add(90, 1006);
+		s.add(100, 1005);
+
+		collection.addSerie(s);
+
+		s = new SimulationSerie("Eeeeeee", SerieSource.DENSITY_CONTAINER);
+		s.add(0, 1000);
+		s.add(10, 1020);
+		s.add(20, 1013);
+		s.add(30, 1012);
+		s.add(40, 1010);
+		s.add(50, 1000);
+		s.add(60, 1002);
+		s.add(70, 1003);
+		s.add(80, 1005);
+		s.add(90, 1006);
+		s.add(100, 1005);
+
+		collection.addSerie(s);
 
 		Settings settings = new FileSettings("settings.ini");
 

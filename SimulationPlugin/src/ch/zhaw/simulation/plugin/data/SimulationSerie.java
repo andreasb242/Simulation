@@ -3,6 +3,10 @@ package ch.zhaw.simulation.plugin.data;
 import java.util.Vector;
 
 public class SimulationSerie {
+	public enum SerieSource {
+		PARAMETER, GLOBAL, CONTAINER, FLOW, DENSITY_CONTAINER
+	}
+
 	private String name;
 
 	private Vector<SimulationEntry> data = new Vector<SimulationEntry>();
@@ -16,8 +20,23 @@ public class SimulationSerie {
 
 	private int chartId = -1;
 
+	private SerieSource source;
+
+	/**
+	 * Use: SimulationSerie(String name, SerieSource source)
+	 */
+	@Deprecated
 	public SimulationSerie(String name) {
+		this(name, null);
+	}
+	
+	public SimulationSerie(String name, SerieSource source) {
 		this.name = name;
+		this.source = source;
+	}
+
+	public SerieSource getSource() {
+		return source;
 	}
 
 	public void setChartId(int chartId) {
