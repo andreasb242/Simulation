@@ -1,14 +1,15 @@
 package ch.zhaw.simulation.diagram;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.io.IOException;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
@@ -29,16 +30,18 @@ import butti.javalibs.config.Settings;
 import butti.javalibs.config.WindowPositionSaver;
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.diagram.LogButton.Direction;
-import ch.zhaw.simulation.diagram.charteditor.SimulationChartEditorFactory;
+import ch.zhaw.simulation.diagram.charteditor.SimulationChartEditor;
 import ch.zhaw.simulation.diagram.csv.CSVSaver;
 import ch.zhaw.simulation.diagram.export.ChartExportHelper;
 import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.diagram.persist.PersistDiagramSettings;
 import ch.zhaw.simulation.diagram.sidebar.DiagramSidebar;
 import ch.zhaw.simulation.diagram.tableview.TableDialog;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationEntry;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
+import ch.zhaw.simulation.simplecharteditor.SimpleChartEditor;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
@@ -70,10 +73,7 @@ public class DiagramFrame extends JFrame {
 
 	private DiagramConfiguration config;
 
-	static {
-		// init JFreeChart
-		ChartEditorManager.setChartEditorFactory(new SimulationChartEditorFactory());
-	}
+	private JFreeChart chart;
 
 	public DiagramFrame(SimulationCollection collection, final Settings settings, DiagramConfiguration config, final String name, final Sysintegration sys) {
 		this.settings = settings;
@@ -118,12 +118,16 @@ public class DiagramFrame extends JFrame {
 		NumberAxis yAxis = new NumberAxis(null);
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
 		this.plot = new XYPlot(col, xAxis, yAxis, renderer);
-		plot.setOrientation(PlotOrientation.VERTICAL);
+		this.plot.setOrientation(PlotOrientation.VERTICAL);
+
 		if (tooltips) {
 			renderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
 		}
 
-		JFreeChart chart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, false);
+		/**
+		 * Always create legend, only hide / show if the user chooses
+		 */
+		this.chart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 		currentTheme.apply(chart);
 
 		this.chartPanel = new ChartPanel(chart) {
@@ -137,11 +141,16 @@ public class DiagramFrame extends JFrame {
 
 			@Override
 			public void doEditChartProperties() {
-				ChartEditor editor = ChartEditorManager.getChartEditor(this.getChart());
+				if (settings.isSetting("extendedDiagramSettings", false)) {
+					SimulationChartEditor editor = new SimulationChartEditor(chart);
 
-				EditorDialog dlg = EditorDialog.create(this, localizationResources.getString("Chart_Properties"), (Component) editor);
-				if (dlg.display()) {
-					editor.updateChart(this.getChart());
+					EditorDialog dlg = EditorDialog.create(this, localizationResources.getString("Chart_Properties"), editor);
+					if (dlg.display()) {
+						editor.updateChart(this.getChart());
+					}
+				} else {
+					SimpleChartEditor editor = new SimpleChartEditor(DiagramFrame.this, chart);
+					editor.setVisible(true);
 				}
 			}
 		};
@@ -318,18 +327,26 @@ public class DiagramFrame extends JFrame {
 
 		this.buttonLogX = new LogButton(this, plot, toolbar, Direction.X);
 		this.buttonLogY = new LogButton(this, plot, toolbar, Direction.Y);
-		
 
 		toolbar.addSeparator();
 
-		toolbar.add(new ToolbarAction("Legende", "diagram/legend") {
+		TargetableAction legend = new TargetableAction("Legende", IconLoader.getIcon("diagram/legend", toolbar.getDefaultIconSize())) {
+			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO !!!!!!!!!
+			public void itemStateChanged(ItemEvent evt) {
+				boolean showLegend = evt.getStateChange() == ItemEvent.SELECTED;
+				chart.getLegend().setVisible(showLegend);
 			}
-		});
+		};
 
+		legend.setStateAction(true);
+		toolbar.addToogleAction(legend);
+
+		if (chart.getLegend().isVisible()) {
+			System.out.println("visible");
+			legend.setSelected(true);
+		}
 	}
 
 	@Override

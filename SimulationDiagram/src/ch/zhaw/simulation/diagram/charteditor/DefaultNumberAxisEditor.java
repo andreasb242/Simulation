@@ -71,7 +71,7 @@ import butti.fontchooser.EditorDialog;
 /**
  * A panel for editing the properties of a value axis.
  */
-class DefaultNumberAxisEditor extends DefaultAxisEditor implements FocusListener {
+public class DefaultNumberAxisEditor extends DefaultAxisEditor implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 

@@ -148,7 +148,7 @@ public class PersistDiagramSettings {
 		saveAxis(cfg, "x", plot.getDomainAxis());
 		saveAxis(cfg, "y", plot.getRangeAxis());
 
-		// TODO Speichern was die X achse ist
+		// TODO !!!!!!!!! Speichern was die X achse ist
 
 		// Header
 		TextTitle title = chart.getTitle();
@@ -174,6 +174,10 @@ public class PersistDiagramSettings {
 		cfg.set("plot.outline.stroke", (BasicStroke) plot.getOutlineStroke());
 		cfg.set("plot.backgroundcolor", (Color) plot.getBackgroundPaint());
 
+		// Legend
+		cfg.set("legend.visible", chart.getLegend().isVisible());
+
+		
 		// Configuration by user Disable, because makes no sens for us
 		// cfg.set("plot.layout.orientation", plot.getOrientation().toString());
 
@@ -226,6 +230,11 @@ public class PersistDiagramSettings {
 		plot.setOutlinePaint(cfg.get("plot.outline.color", SimulationDiagramTheme.DEFAULT_OUTLINE_PAINT));
 		plot.setOutlineStroke(cfg.get("plot.outline.stroke", SimulationDiagramTheme.DEFAULT_OUTLINE_STROKE));
 		plot.setBackgroundPaint(cfg.get("plot.backgroundcolor", (Color) plot.getBackgroundPaint()));
+
+		// Legend
+		chart.getLegend().setVisible(cfg.get("legend.visible", false));
+		
+		// TODO save / load legend Font
 
 		// Disabled because makes no sense for us
 		// String orientation = cfg.get("plot.layout.orientation",

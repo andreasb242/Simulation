@@ -3,9 +3,11 @@ package ch.zhaw.simulation.dialog.settings;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -30,6 +32,7 @@ public class SettingsDlg extends BDialog {
 	private HeaderPanel header = new HeaderPanel();
 
 	private JCheckBox cbAutoloadLastDocument = new JCheckBox("Letzte geöffnete Datei beim Start laden");
+	private JCheckBox cbShowAdvancedDiagramSettings = new JCheckBox("<html>Eweiterter Diagramm Einstellungen Dialog verwenden<br><i>(komplizierter, nicht empfohlen)</i></html>");
 
 	private JTabbedPane tabs = new JTabbedPane();
 
@@ -47,16 +50,23 @@ public class SettingsDlg extends BDialog {
 		GradientPanel panel = new GradientPanel();
 
 		gbm = new GridBagManager(panel);
-		gbm.setX(0).setY(1).setComp(tabs);
+		gbm.setX(0).setY(1).setInsets(new Insets(0, 0, 0, 0)).setComp(tabs);
 		add(panel, BorderLayout.CENTER);
 
-		tabs.addTab("Generell", cbAutoloadLastDocument);
+		JPanel pGeneral = new JPanel();
+		pGeneral.setLayout(new GridLayout(0, 1, 0, 5));
+		pGeneral.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+		addTab("Allgemein", pGeneral);
+
+		pGeneral.add(cbAutoloadLastDocument);
+		pGeneral.add(cbShowAdvancedDiagramSettings);
 
 		for (PluginDescription<ImportPlugin> pluginDescription : app.getImportPluginLoader().getPluginDescriptions()) {
 			JPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
-				tabs.addTab(pluginDescription.getName(), settingsPanel);
+				addTab(pluginDescription.getName(), settingsPanel);
 			}
 		}
 
@@ -64,7 +74,7 @@ public class SettingsDlg extends BDialog {
 			JPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
-				tabs.addTab(pluginDescription.getName(), settingsPanel);
+				addTab(pluginDescription.getName(), settingsPanel);
 			}
 		}
 
@@ -81,6 +91,15 @@ public class SettingsDlg extends BDialog {
 		setLocationRelativeTo(app.getMainFrame());
 	}
 
+	private void addTab(String name, JPanel panel) {
+		JPanel pContents = new JPanel();
+		pContents.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		pContents.setLayout(new BorderLayout());
+		tabs.addTab(name, pContents);
+
+		pContents.add(panel, BorderLayout.NORTH);
+	}
+
 	private void initData() {
 		cbAutoloadLastDocument.setSelected(settings.isSetting("autoloadLastDocument", false));
 		cbAutoloadLastDocument.addActionListener(new ActionListener() {
@@ -90,6 +109,16 @@ public class SettingsDlg extends BDialog {
 				settings.setSetting("autoloadLastDocument", cbAutoloadLastDocument.isSelected());
 			}
 		});
+
+		cbShowAdvancedDiagramSettings.setSelected(settings.isSetting("extendedDiagramSettings", false));
+		cbShowAdvancedDiagramSettings.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				settings.setSetting("extendedDiagramSettings", cbShowAdvancedDiagramSettings.isSelected());
+			}
+		});
+
 	}
 
 	private void initHeader() {
