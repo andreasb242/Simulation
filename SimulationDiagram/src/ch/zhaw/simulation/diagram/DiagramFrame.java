@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartTheme;
@@ -90,8 +91,8 @@ public class DiagramFrame extends JFrame {
 		for (SimulationSerie s : this.collection) {
 			cbY.addItem(s);
 		}
-		
-		cbY.setRenderer(new SerieCbRenderer());
+
+		cbY.setRenderer(new SerieCbRenderer(sys));
 
 		add(toolbar.getComponent(), BorderLayout.NORTH);
 
@@ -148,12 +149,15 @@ public class DiagramFrame extends JFrame {
 		this.persitSettings = new PersistDiagramSettings(this.collection, renderer, chart);
 		this.persitSettings.load(config);
 
-		this.sidebar = new DiagramSidebar(this.collection, renderer);
+		this.sidebar = new DiagramSidebar(this.collection, renderer, sys);
 		add(sidebar, BorderLayout.WEST);
 
 		add(chartPanel, BorderLayout.CENTER);
 
 		initToolbar();
+
+		this.toolbar.addSeparator();
+		this.toolbar.add(new JLabel(" y-Achse: "));
 		this.toolbar.add(cbY);
 
 		setSize(640, 480);
@@ -314,6 +318,17 @@ public class DiagramFrame extends JFrame {
 
 		this.buttonLogX = new LogButton(this, plot, toolbar, Direction.X);
 		this.buttonLogY = new LogButton(this, plot, toolbar, Direction.Y);
+		
+
+		toolbar.addSeparator();
+
+		toolbar.add(new ToolbarAction("Legende", "diagram/legend") {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO !!!!!!!!!
+			}
+		});
 
 	}
 

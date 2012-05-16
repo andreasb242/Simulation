@@ -10,5 +10,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/VectorExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Editor.Flow"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Editor.XY"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

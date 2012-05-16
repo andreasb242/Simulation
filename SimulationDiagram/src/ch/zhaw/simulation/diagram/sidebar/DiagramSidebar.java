@@ -17,6 +17,7 @@ import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class DiagramSidebar extends JScrollPane {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +42,7 @@ public class DiagramSidebar extends JScrollPane {
 		}
 	};
 
-	public DiagramSidebar(SimulationCollection collection, AbstractXYItemRenderer renderer) {
+	public DiagramSidebar(SimulationCollection collection, AbstractXYItemRenderer renderer, Sysintegration sys) {
 		super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
 		this.collection = collection;
 		this.renderer = renderer;

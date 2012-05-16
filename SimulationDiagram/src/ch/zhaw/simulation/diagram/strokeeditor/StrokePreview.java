@@ -19,13 +19,24 @@ import javax.swing.JComponent;
 public class StrokePreview extends JComponent {
 	private static final long serialVersionUID = 1L;
 
-	/** The paint. */
+	/**
+	 * The paint.
+	 */
 	private Paint paint;
 
-	/** The Stroke */
+	/**
+	 * The Stroke
+	 */
 	private StrokData stroke = new StrokData();
 
-	/** The background of the diagram */
+	/**
+	 * Shows this stroke instead of the configured
+	 */
+	private BasicStroke strokeOverwrite = null;
+
+	/**
+	 * The background of the diagram
+	 */
 	private Color diagramBackground;
 
 	/**
@@ -58,7 +69,7 @@ public class StrokePreview extends JComponent {
 	 * @param paint
 	 *            the paint.
 	 */
-	public void setPaint(final Paint paint) {
+	public void setPaint(Paint paint) {
 		this.paint = paint;
 		repaint();
 	}
@@ -81,6 +92,11 @@ public class StrokePreview extends JComponent {
 		repaint();
 	}
 
+	public void setStroke(BasicStroke stroke) {
+		this.strokeOverwrite = stroke;
+		repaint();
+	}
+
 	/**
 	 * Fills the component with the current Paint.
 	 * 
@@ -100,10 +116,17 @@ public class StrokePreview extends JComponent {
 
 		Stroke defaultStroke = g2.getStroke();
 
-		g2.setPaint(diagramBackground);
-		g2.fill(area);
+		if (diagramBackground != null) {
+			g2.setPaint(diagramBackground);
+			g2.fill(area);
+		}
 
-		g2.setStroke(stroke.getStroke());
+		if (this.strokeOverwrite != null) {
+			g2.setStroke(this.strokeOverwrite);
+		} else {
+			g2.setStroke(stroke.getStroke());
+		}
+
 		g2.setPaint(this.paint);
 
 		final double y = yy + hh / 2;

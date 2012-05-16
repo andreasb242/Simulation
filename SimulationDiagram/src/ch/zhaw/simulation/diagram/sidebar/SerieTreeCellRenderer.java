@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
 
-public class SerieTreeCellRenderer extends ColorCheckbox implements TreeCellRenderer {
+public class SerieTreeCellRenderer extends SeriesCheckbox implements TreeCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	public SerieTreeCellRenderer() {
@@ -20,8 +20,8 @@ public class SerieTreeCellRenderer extends ColorCheckbox implements TreeCellRend
 			setSelected(st.isSerieVisible());
 			setColorAndStroke(st.getColor(), st.getStroke());
 		}
-		
+
 		return this;
 	}
-	
+
 }

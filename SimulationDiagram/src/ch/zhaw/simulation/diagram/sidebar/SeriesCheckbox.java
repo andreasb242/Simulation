@@ -14,7 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ColorCheckbox extends JPanel {
+public class SeriesCheckbox extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Color color = Color.BLACK;
@@ -47,7 +47,7 @@ public class ColorCheckbox extends JPanel {
 		}
 	};
 
-	public ColorCheckbox() {
+	public SeriesCheckbox() {
 		setLayout(new BorderLayout());
 		cb = new JCheckBox();
 		add(cb, BorderLayout.CENTER);

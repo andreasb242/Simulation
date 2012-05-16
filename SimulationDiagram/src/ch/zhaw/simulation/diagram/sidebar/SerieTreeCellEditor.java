@@ -11,10 +11,12 @@ import javax.swing.tree.TreeCellEditor;
 public class SerieTreeCellEditor extends AbstractCellEditor implements TreeCellEditor {
 	private static final long serialVersionUID = 1L;
 
-	private ColorCheckbox cb = new ColorCheckbox();
+	private SerieTreeCellRenderer renderer;
 
 	public SerieTreeCellEditor() {
-		cb.addActionListener(new ActionListener() {
+		this.renderer = new SerieTreeCellRenderer();
+
+		renderer.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -25,20 +27,11 @@ public class SerieTreeCellEditor extends AbstractCellEditor implements TreeCellE
 
 	@Override
 	public Object getCellEditorValue() {
-		return cb.isSelected();
+		return renderer.isSelected();
 	}
 
 	@Override
 	public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
-		cb.setName(value.toString());
-
-		if (value instanceof SerieTreeNode) {
-			SerieTreeNode st = (SerieTreeNode) value;
-			cb.setSelected(st.isSerieVisible());
-			cb.setColorAndStroke(st.getColor(), st.getStroke());
-		}
-
-		return cb;
+		return renderer.getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, true);
 	}
-
 }
