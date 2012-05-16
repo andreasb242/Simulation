@@ -27,13 +27,10 @@ public class EditorDataRow {
 		this.preview = new StrokePreview(paint, diagramBackground);
 		this.thikness = new JSpinner(new SpinnerNumberModel(thinkness, 1, 20, 1));
 
-		String str = Config.get("predefinedDash");
-		String[] dashStr = new String[] {};
-		if (str == null) {
+		String[] dashStr = Config.getArray("predefinedDash");
+		if (dashStr.length == 0) {
 			Messagebox.showError(null, "Dash Konfiguration", "<html>Kein «predefinedDash» erfasst in «" + Config.getConfigFile() + "».<br>"
 					+ "Bitte erfassen Sie etwas wie: «:5 5: 10 10: 2 10: 10 10 2 10»</html>");
-		} else {
-			dashStr = str.split(":");
 		}
 
 		Vector<Dash> dashes = new Vector<Dash>();

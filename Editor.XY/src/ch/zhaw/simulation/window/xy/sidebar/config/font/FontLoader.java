@@ -26,11 +26,11 @@ public class FontLoader {
 		try {
 			InputStream is = FontLoader.class.getResourceAsStream("FreeSans.ttf");
 			font = Font.createFont(Font.TRUETYPE_FONT, is);
-			font = font.deriveFont((float)FONT_SIZE);
+			font = font.deriveFont((float) FONT_SIZE);
 		} catch (Exception ex) {
 			Errorhandler.showError(ex, "Schrift konnte nicht geladen werden, möglicherweise können die Ableitungszeichen nicht dargestellt werden!");
 
-			font = new Font("sans", Font.PLAIN, FONT_SIZE);
+			font = new Font("Sans", Font.PLAIN, FONT_SIZE);
 		}
 
 		return font;

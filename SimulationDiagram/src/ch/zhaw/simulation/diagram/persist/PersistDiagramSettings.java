@@ -5,9 +5,16 @@ import java.awt.Color;
 import java.util.Map.Entry;
 
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
@@ -173,10 +180,80 @@ public class PersistDiagramSettings {
 		cfg.set("plot.outline.stroke", (BasicStroke) plot.getOutlineStroke());
 		cfg.set("plot.backgroundcolor", (Color) plot.getBackgroundPaint());
 
+		// TODO !!!!!!
+		cfg.set("plot.layout.bordercolor", "");
+		cfg.set("plot.layout.backgroundcolor", "");
+		cfg.set("plot.layout.orientation", plot.getOrientation().toString());
+
 		// not editable by user
 		// cfg.set("plot.insets", plot.getInsets());
 
 	}
+
+	//
+	// // then the axis properties...
+	// if (this.domainAxisPropertyPanel != null) {
+	// Axis domainAxis = null;
+	// if (plot instanceof CategoryPlot) {
+	// CategoryPlot p = (CategoryPlot) plot;
+	// domainAxis = p.getDomainAxis();
+	// } else if (plot instanceof XYPlot) {
+	// XYPlot p = (XYPlot) plot;
+	// domainAxis = p.getDomainAxis();
+	// }
+	// if (domainAxis != null) {
+	// this.domainAxisPropertyPanel.setAxisProperties(domainAxis);
+	// }
+	// }
+	//
+	// if (this.rangeAxisPropertyPanel != null) {
+	// Axis rangeAxis = null;
+	// if (plot instanceof CategoryPlot) {
+	// CategoryPlot p = (CategoryPlot) plot;
+	// rangeAxis = p.getRangeAxis();
+	// } else if (plot instanceof XYPlot) {
+	// XYPlot p = (XYPlot) plot;
+	// rangeAxis = p.getRangeAxis();
+	// }
+	// if (rangeAxis != null) {
+	// this.rangeAxisPropertyPanel.setAxisProperties(rangeAxis);
+	// }
+	// }
+	//
+	// if (this.drawLines != null) {
+	// if (plot instanceof CategoryPlot) {
+	// CategoryPlot p = (CategoryPlot) plot;
+	// CategoryItemRenderer r = p.getRenderer();
+	// if (r instanceof LineAndShapeRenderer) {
+	// ((LineAndShapeRenderer)
+	// r).setLinesVisible(this.drawLines.booleanValue());
+	// }
+	// } else if (plot instanceof XYPlot) {
+	// XYPlot p = (XYPlot) plot;
+	// XYItemRenderer r = p.getRenderer();
+	// if (r instanceof StandardXYItemRenderer) {
+	// ((StandardXYItemRenderer) r).setPlotLines(this.drawLines.booleanValue());
+	// }
+	// }
+	// }
+	//
+	// if (this.drawShapes != null) {
+	// if (plot instanceof CategoryPlot) {
+	// CategoryPlot p = (CategoryPlot) plot;
+	// CategoryItemRenderer r = p.getRenderer();
+	// if (r instanceof LineAndShapeRenderer) {
+	// ((LineAndShapeRenderer)
+	// r).setShapesVisible(this.drawShapes.booleanValue());
+	// }
+	// } else if (plot instanceof XYPlot) {
+	// XYPlot p = (XYPlot) plot;
+	// XYItemRenderer r = p.getRenderer();
+	// if (r instanceof StandardXYItemRenderer) {
+	// ((StandardXYItemRenderer)
+	// r).setBaseShapesVisible(this.drawShapes.booleanValue());
+	// }
+	// }
+	// }
 
 	private void loadOther(DiagramConfiguration cfg) {
 		XYPlot plot = chart.getXYPlot();
@@ -198,7 +275,14 @@ public class PersistDiagramSettings {
 		// Plot
 		plot.setOutlinePaint(cfg.get("plot.outline.color", SimulationDiagramTheme.DEFAULT_OUTLINE_PAINT));
 		plot.setOutlineStroke(cfg.get("plot.outline.stroke", SimulationDiagramTheme.DEFAULT_OUTLINE_STROKE));
-		cfg.set("plot.backgroundcolor", (Color) plot.getBackgroundPaint());
+		plot.setBackgroundPaint(cfg.get("plot.backgroundcolor", (Color) plot.getBackgroundPaint()));
+
+		String orientation = cfg.get("plot.layout.orientation", PlotOrientation.VERTICAL.toString());
+		if (PlotOrientation.HORIZONTAL.toString().equals(orientation)) {
+			plot.setOrientation(PlotOrientation.HORIZONTAL);
+		} else {
+			plot.setOrientation(PlotOrientation.VERTICAL);
+		}
 	}
 
 	private void loadAxis(DiagramConfiguration cfg, String direction, ValueAxis axis) {
@@ -215,19 +299,14 @@ public class PersistDiagramSettings {
 		axis.setAutoRange(cfg.get("axis." + direction + ".values.auto", true));
 
 		Range range = axis.getRange();
-		double upper =range.getUpperBound();
+		double upper = range.getUpperBound();
 		double lower = range.getLowerBound();
-		
-		lower=cfg.get("axis." + direction + ".values.min", lower);
-		upper=cfg.get("axis." + direction + ".values.max", upper);
+
+		lower = cfg.get("axis." + direction + ".values.min", lower);
+		upper = cfg.get("axis." + direction + ".values.max", upper);
 
 		axis.setRange(new Range(lower, upper));
-		
-		// TODO !!!!!!
-		cfg.get("axis." + direction + ".layout.border", "");
-		cfg.get("axis." + direction + ".layout.bordercolor", "");
-		cfg.get("axis." + direction + ".layout.backgroundcolor", "");
-		cfg.get("axis." + direction + ".layout.orientation", "");
+
 		cfg.get("axis." + direction + ".layout.logarithmic", axis instanceof LogarithmicAxis);
 
 	}
@@ -247,14 +326,7 @@ public class PersistDiagramSettings {
 		cfg.set("axis." + direction + ".values.min", range.getLowerBound());
 		cfg.set("axis." + direction + ".values.max", range.getUpperBound());
 
-		// TODO !!!!!!
-		// cfg.set("axis." + direction + ".layout.border", "");
-		// cfg.set("axis." + direction + ".layout.bordercolor", "");
-		// cfg.set("axis." + direction + ".layout.backgroundcolor", "");
-		// cfg.set("axis." + direction + ".layout.orientation", "");
-		// cfg.set("axis." + direction + ".layout.logarithmic", axis instanceof
-		// LogarithmicAxis);
-
+		cfg.set("axis." + direction + ".layout.logarithmic", axis instanceof LogarithmicAxis);
 	}
 
 	// ///////////////////////////////////////////////
