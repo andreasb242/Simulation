@@ -249,10 +249,10 @@ public class PersistDiagramSettings {
 	private void loadAxis(DiagramConfiguration cfg, String direction, ValueAxis axis) {
 		axis.setLabel(cfg.get("axis." + direction + ".text", ""));
 
-		axis.setLabelFont(cfg.get("axis." + direction + ".font", SimulationDiagramTheme.DEFAULT_FONT_AXIS));
+		axis.setLabelFont(cfg.get("axis." + direction + ".font", SimulationDiagramTheme.DEFAULT_FONT_AXIS_TICK_LEGEND));
 		axis.setLabelPaint(cfg.get("axis." + direction + ".color", SimulationDiagramTheme.DEFAULT_AXIS_LABEL_PAINT));
 
-		axis.setTickLabelFont(cfg.get("axis." + direction + ".marker.font", SimulationDiagramTheme.DEFAULT_FONT_AXIS));
+		axis.setTickLabelFont(cfg.get("axis." + direction + ".marker.font", SimulationDiagramTheme.DEFAULT_FONT_AXIS_TICK_LEGEND));
 		axis.setTickLabelPaint(cfg.get("axis." + direction + ".marker.color", SimulationDiagramTheme.DEFAULT_TICK_LABEL_PAINT));
 		axis.setTickMarksVisible(cfg.get("axis." + direction + ".marker.showmarker", true));
 		axis.setTickLabelsVisible(cfg.get("axis." + direction + ".marker.showtext", true));

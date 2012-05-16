@@ -15,8 +15,6 @@ import org.jfree.chart.ChartTheme;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.editor.ChartEditor;
-import org.jfree.chart.editor.ChartEditorManager;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
@@ -146,10 +144,11 @@ public class DiagramFrame extends JFrame {
 
 					EditorDialog dlg = EditorDialog.create(this, localizationResources.getString("Chart_Properties"), editor);
 					if (dlg.display()) {
+						DiagramFrame.this.config.set("charteditor.style", "NOT_SET");
 						editor.updateChart(this.getChart());
 					}
 				} else {
-					SimpleChartEditor editor = new SimpleChartEditor(DiagramFrame.this, chart);
+					SimpleChartEditor editor = new SimpleChartEditor(DiagramFrame.this, chart, DiagramFrame.this.config);
 					editor.setVisible(true);
 				}
 			}
@@ -344,7 +343,6 @@ public class DiagramFrame extends JFrame {
 		toolbar.addToogleAction(legend);
 
 		if (chart.getLegend().isVisible()) {
-			System.out.println("visible");
 			legend.setSelected(true);
 		}
 	}
