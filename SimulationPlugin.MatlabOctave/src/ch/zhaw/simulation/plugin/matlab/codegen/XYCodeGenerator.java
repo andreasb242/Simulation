@@ -130,7 +130,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			functionName = generateDensityFunctionFile(density);
 
 			// assign function(model-x, model-y) to matrix(matlab-x, matlab-y)
-			out.println(density.getName() + ".matrix(y, x) = " + functionName + "(tmp_y, tmp_x);");
+			out.println("density." + density.getName() + ".matrix(y, x) = " + functionName + "(tmp_y, tmp_x);");
 		}
 		out.detent();
 		out.println("end;");
@@ -142,7 +142,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		// get gradient and laplace
 		for (DensityData density : xyModel.getDensity()) {
 			// gradient
-			out.println("[ " + density.getName() + ".grad.dx " + ", " + density.getName() + ".grad.dy ] = gradient(" + density.getName() + ".matrix);");
+			out.println("[ density." + density.getName() + ".grad.dx " + ", density." + density.getName() + ".grad.dy ] = gradient(density." + density.getName() + ".matrix);");
 			// laplace
 			//out.println(density.getName() + ".laplace = del2(" + density.getName() + ".matrix);");
 		}
@@ -369,7 +369,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + functionName + ".m"));
 
 			out.printComment("Flow calculation");
-			out.println("function [ sim_dy " + submodel.getName() + " ] = " + functionName + "(sim_time, sim_y, " + submodel.getName() + ")");
+			out.println("function [ sim_dy ] = " + functionName + "(sim_time, sim_y, " + submodel.getName() + ")");
 			out.indent();
 			printVectorToContainer(out, submodel);
 			printParameterCalculations(out, submodel, visitor);
@@ -520,10 +520,13 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		out.printComment("Reset intermediate steps");
 		out.println(mesoName + ".k = zeros(length(" + mesoName + ".y), 4);");
-		out.println("[ " + mesoName + ".k(:,1) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(1), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,1)," + mesoName + ".submodel);");
-		out.println("[ " + mesoName + ".k(:,2) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(2), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,2)," + mesoName + ".submodel);");
-		out.println("[ " + mesoName + ".k(:,3) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(3), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,3)," + mesoName + ".submodel);");
-		out.println("[ " + mesoName + ".k(:,4) " + mesoName + ".submodel ] = " + flowFunction + "(sim_time + sim_dt * sim_c(4), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,4)," + mesoName + ".submodel);");
+		out.newline();
+
+		out.printComment("Calculate k-vector");
+		out.println("[ " + mesoName + ".k(:,1) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(1), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,1)," + mesoName + ".submodel);");
+		out.println("[ " + mesoName + ".k(:,2) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(2), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,2)," + mesoName + ".submodel);");
+		out.println("[ " + mesoName + ".k(:,3) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(3), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,3)," + mesoName + ".submodel);");
+		out.println("[ " + mesoName + ".k(:,4) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(4), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,4)," + mesoName + ".submodel);");
 		out.newline();
 
 		out.printComment("dy");

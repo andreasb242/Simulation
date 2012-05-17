@@ -59,7 +59,7 @@ public class MesoVisitor extends MatlabVisitor {
 		}
 
 		/* d1.grad.dx(m0.position.approx.y.value, m0.position.approx.x.value)) */
-		sb.append(densityConst.getValue() + ".grad.d" + derivateConst.getValue() + "(");
+		sb.append("density." + densityConst.getValue() + ".grad.d" + derivateConst.getValue() + "(");
 		sb.append(meso.getName() + ".position.approx.y.value, " + meso.getName() + ".position.approx.x.value)");
 
 		return data;
