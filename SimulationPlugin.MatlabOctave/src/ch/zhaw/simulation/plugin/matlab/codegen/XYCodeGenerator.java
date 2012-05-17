@@ -13,6 +13,7 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
@@ -236,13 +237,16 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			if (flowFunction != null && meso.getSubmodel().getModel().getSimulationContainer().size() > 0) {
 				prefix = meso.getName();
 				printContainerCalculations(out, meso.getName(), flowFunction);
-				printVectorToContainerFlow(out, prefix, meso.getSubmodel());
+				printMainVectorToContainer(out, prefix, meso.getSubmodel());
+
 			}
 			out.newline();
+		}
 
+		// move meso
+		for (MesoData meso : xyModel.getMeso()) {
 			mesoVisitor = new MesoVisitor(meso, xyModel.getDensity());
 
-			// move meso
 			out.printComment("move meso");
 			if (meso.getDerivative() == MesoData.Derivative.FIRST_DERIVATIVE) {
 				out.printComment("FIRST_DERIVATIVE");
@@ -250,42 +254,52 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 				out.println(meso.getName() + ".position.exact.y.value = " + meso.getName() + ".position.exact.y.value + (" + ((XYModelAttachment) meso.attachment).getDataYFormula(mesoVisitor) + ") * sim_dt;");
 				out.println(meso.getName() + ".position.approx.x.value = uint32(" + meso.getName() + ".position.exact.x.value);");
 				out.println(meso.getName() + ".position.approx.y.value = uint32(" + meso.getName() + ".position.exact.y.value);");
-				out.println("if " + meso.getName() + ".position.approx.x.value < 1");
-				out.indent();
-				out.println(meso.getName() + ".position.exact.x.value = 1;");
-				out.println(meso.getName() + ".position.approx.x.value = 1;");
-				out.detent();
-				out.println("end;");
-				out.println("if " + meso.getName() + ".position.approx.x.value > xymodel.width");
-				out.indent();
-				out.println(meso.getName() + ".position.exact.x.value = xymodel.width;");
-				out.println(meso.getName() + ".position.approx.x.value = xymodel.width;");
-				out.detent();
-				out.println("end;");
-				out.println("if " + meso.getName() + ".position.approx.y.value < 1");
-				out.indent();
-				out.println(meso.getName() + ".position.exact.y.value = 1;");
-				out.println(meso.getName() + ".position.approx.y.value = 1;");
-				out.detent();
-				out.println("end;");
-				out.println("if " + meso.getName() + ".position.approx.y.value > xymodel.height");
-				out.indent();
-				out.println(meso.getName() + ".position.exact.y.value = xymodel.height;");
-				out.println(meso.getName() + ".position.approx.y.value = xymodel.height;");
-				out.detent();
-				out.println("end;");
 			} else if (meso.getDerivative() == MesoData.Derivative.SECOND_DERIVATIVE) {
 				out.printComment("SECOND_DERIVATIVE");
 			} else {
 				out.printComment("NO_DERIVATIVE");
 			}
+			out.println("if " + meso.getName() + ".position.approx.x.value < 1");
+			out.indent();
+			out.println(meso.getName() + ".position.exact.x.value = 1;");
+			out.println(meso.getName() + ".position.approx.x.value = 1;");
+			out.detent();
+			out.println("end;");
+			out.println("if " + meso.getName() + ".position.approx.x.value > xymodel.width");
+			out.indent();
+			out.println(meso.getName() + ".position.exact.x.value = xymodel.width;");
+			out.println(meso.getName() + ".position.approx.x.value = xymodel.width;");
+			out.detent();
+			out.println("end;");
+			out.println("if " + meso.getName() + ".position.approx.y.value < 1");
+			out.indent();
+			out.println(meso.getName() + ".position.exact.y.value = 1;");
+			out.println(meso.getName() + ".position.approx.y.value = 1;");
+			out.detent();
+			out.println("end;");
+			out.println("if " + meso.getName() + ".position.approx.y.value > xymodel.height");
+			out.indent();
+			out.println(meso.getName() + ".position.exact.y.value = xymodel.height;");
+			out.println(meso.getName() + ".position.approx.y.value = xymodel.height;");
+			out.detent();
+			out.println("end;");
 			out.newline();
 		}
 
-		fileWrite(out, variableList);
-
 		out.printComment("t = t + dt");
 		out.println("sim_time = sim_time + sim_dt;");
+		out.newline();
+
+		fileWrite(out, variableList);
+		out.newline();
+
+		// get gradient and laplace
+		for (DensityData density : xyModel.getDensity()) {
+			// gradient
+			out.println("[ density." + density.getName() + ".grad.dx " + ", density." + density.getName() + ".grad.dy ] = gradient(density." + density.getName() + ".matrix);");
+			// laplace
+			//out.println(density.getName() + ".laplace = del2(" + density.getName() + ".matrix);");
+		}
 		out.newline();
 
 		out.detent();
@@ -369,11 +383,12 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + functionName + ".m"));
 
 			out.printComment("Flow calculation");
-			out.println("function [ sim_dy ] = " + functionName + "(sim_time, sim_y, " + submodel.getName() + ")");
+			out.println("function [ sim_dy " + submodel.getName() + " density ] = " + functionName + "(sim_time, sim_y, " + submodel.getName() + ", position, density)");
 			out.indent();
-			printVectorToContainer(out, submodel);
+			printFlowFunctionVectorToContainer(out, submodel);
 			printParameterCalculations(out, submodel, visitor);
 			printFlowCalculations(out, submodel, visitor);
+			printDensityCalculation(out, submodel);
 			printFlowToDifferential(out, submodel);
 			out.detent();
 			out.println("end");
@@ -382,6 +397,34 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 			flowFunctionMap.put(submodel.getName(), functionName);
 		}
+	}
+
+	private void printDensityCalculation(CodeOutput out, SubModel submodel) {
+		Vector<FlowConnectorData> connectorList;
+		SimulationDensityContainerData densityContainer;
+		String densityStr;
+		String flowStr;
+
+		connectorList = submodel.getModel().getFlowConnectors();
+
+		out.printComment("Density calculations");
+		for (FlowConnectorData connector : connectorList) {
+			// consume
+			if (connector.getSource() instanceof SimulationDensityContainerData) {
+				densityContainer = (SimulationDensityContainerData) connector.getSource();
+				densityStr = "density." + densityContainer.getDensity().getName() + ".matrix(position.y.value, position.x.value)";
+				flowStr  = submodel.getName() + "." + connector.getValve().getName() + ".value";
+				out.println(densityStr + " = " + densityStr + " - " + flowStr + "; % consume");
+			}
+			// produce
+			if (connector.getTarget() instanceof SimulationDensityContainerData) {
+				densityContainer = (SimulationDensityContainerData) connector.getTarget();
+				densityStr = "density." + densityContainer.getDensity().getName() + ".matrix(position.y.value, position.x.value)";
+				flowStr  = submodel.getName() + "." + connector.getValve().getName() + ".value";
+				out.println(densityStr + " = " + densityStr + " + " + flowStr + "; % produce");
+			}
+		}
+		out.newline();
 	}
 
 	/**
@@ -417,7 +460,13 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		}
 	}
 
-	private void printVectorToContainer(CodeOutput out, SubModel submodel) {
+	/**
+	 * In flow function
+	 *
+	 * @param out
+	 * @param submodel
+	 */
+	private void printFlowFunctionVectorToContainer(CodeOutput out, SubModel submodel) {
 		Vector<SimulationContainerData> containerList;
 		int size;
 
@@ -522,11 +571,10 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.println(mesoName + ".k = zeros(length(" + mesoName + ".y), 4);");
 		out.newline();
 
-		out.printComment("Calculate k-vector");
-		out.println("[ " + mesoName + ".k(:,1) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(1), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,1)," + mesoName + ".submodel);");
-		out.println("[ " + mesoName + ".k(:,2) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(2), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,2)," + mesoName + ".submodel);");
-		out.println("[ " + mesoName + ".k(:,3) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(3), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,3)," + mesoName + ".submodel);");
-		out.println("[ " + mesoName + ".k(:,4) ] = " + flowFunction + "(sim_time + sim_dt * sim_c(4), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:,4)," + mesoName + ".submodel);");
+		out.printComment("Calculate k-vector without saving submodel and density");
+		for (int i = 1; i <= 4; i++) {
+			out.println("[ " + mesoName + ".k(:, " + i + ") tmp_model tmp_density ] = " + flowFunction + "(sim_time + sim_dt * sim_c(" + i + "), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:," + i + "), " + mesoName + ".submodel, " + mesoName + ".position.approx, density);");
+		}
 		out.newline();
 
 		out.printComment("dy");
@@ -537,9 +585,19 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.println(mesoName + ".y = " + mesoName + ".y + sim_dt * " + mesoName + ".dy;");
 		out.newline();
 
+		out.printComment("Calculate and save submodel and density");
+		out.println("[ tmp_k " + mesoName + ".submodel density ] = " + flowFunction + "(sim_time, " + mesoName + ".y, " + mesoName + ".submodel, " + mesoName + ".position.approx, density);");
+
 	}
 
-	private void printVectorToContainerFlow(CodeOutput out, String prefix, SubModel submodel) {
+	/**
+	 * In main method
+	 *
+	 * @param out
+	 * @param prefix
+	 * @param submodel
+	 */
+	private void printMainVectorToContainer(CodeOutput out, String prefix, SubModel submodel) {
 		Vector<SimulationContainerData> containerList;
 		SimulationContainerData container;
 		int containerSize;

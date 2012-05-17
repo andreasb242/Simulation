@@ -34,6 +34,10 @@ public class TypeIcons {
 	}
 
 	public Icon iconFor(SerieSource type) {
+		if (type == null) {
+			return null;
+		}
+
 		switch (type) {
 		case GLOBAL:
 			return ICON_GLOBAL;
