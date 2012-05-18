@@ -6,6 +6,9 @@ import java.awt.*;
 import java.util.Iterator;
 import java.util.Vector;
 
+/**
+ * This class contains
+ */
 public class XYResultList implements Iterable<XYResultEntry> {
 	private Vector<XYResultEntry> entryList = new Vector<XYResultEntry>();
 	private int stepCount = Integer.MAX_VALUE;
@@ -35,10 +38,21 @@ public class XYResultList implements Iterable<XYResultEntry> {
 		}
 	}
 
+	/**
+	 * Get model size, so the components size of the XYViewer (where all mesos get placed)
+	 *
+	 * @return width and height as a Dimension object
+	 */
 	public Dimension getModelSize() {
 		return modelSize;
 	}
 
+	/**
+	 * Set model size, so the components size of the XYViewer (where all mesos get placed)
+	 *
+	 * @param width
+	 * @param height
+	 */
 	protected void setModelSize(int width, int height) {
 		modelSize = new Dimension(width, height);
 	}

@@ -18,45 +18,22 @@ public class ResultViewerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private JSlider slider;
-	private XYViewer viewer = new XYViewer();
-	private XYResultList resultList;
+	private XYViewer viewer;
 
-	public ResultViewerDialog(XYResultList result) {
-		resultList = result;
+	public ResultViewerDialog(XYResultList resultList) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		setLayout(new BorderLayout());
 
-		viewer.init(result);
+		viewer = new XYViewer(resultList);
 
-		slider = new JSlider(0, result.getStepCount());
+		slider = new JSlider(0, resultList.getStepCount());
 		slider.setValue(0);
 
-		JComponent comp = new JComponent() {
-			private static final long serialVersionUID = 1L;
-
-			{
-				setPreferredSize(resultList.getModelSize());
-			}
-
-			@Override
-			protected void paintComponent(Graphics g) {
-				XYResultStepList stepList = resultList.getStep(slider.getValue());
-				viewer.draw((Graphics2D) g, stepList);
-			}
-
-		};
-
-		add(new JScrollPane(comp), BorderLayout.CENTER);
+		add(new JScrollPane(viewer), BorderLayout.CENTER);
 		add(slider, BorderLayout.SOUTH);
 
-		slider.addChangeListener(new ChangeListener() {
-
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				repaint();
-			}
-		});
+		slider.addChangeListener(viewer);
 
 		pack();
 		setLocationRelativeTo(null);
