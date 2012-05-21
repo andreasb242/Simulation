@@ -2,12 +2,16 @@ package ch.zhaw.simulation.diagram;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.ChartPanel;
@@ -19,9 +23,11 @@ import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleEdge;
 
 import butti.fontchooser.EditorDialog;
 import butti.javalibs.config.Settings;
@@ -165,7 +171,7 @@ public class DiagramFrame extends JFrame {
 		initToolbar();
 
 		this.toolbar.addSeparator();
-		this.toolbar.add(new JLabel(" y-Achse: "));
+		this.toolbar.add(new JLabel(" x-Achse: "));
 		this.toolbar.add(cbY);
 
 		setSize(640, 480);
@@ -345,6 +351,61 @@ public class DiagramFrame extends JFrame {
 		if (chart.getLegend().isVisible()) {
 			legend.setSelected(true);
 		}
+
+		final JButton btLegende = new JButton("Lengende");
+		toolbar.add(btLegende);
+
+		btLegende.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JPopupMenu p = new JPopupMenu();
+
+				JMenuItem it = new JMenuItem("Links");
+				it.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						LegendTitle l = DiagramFrame.this.chart.getLegend();
+						l.setPosition(RectangleEdge.LEFT);
+					}
+				});
+				p.add(it);
+				it = new JMenuItem("Rechts");
+				it.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						LegendTitle l = DiagramFrame.this.chart.getLegend();
+						l.setPosition(RectangleEdge.RIGHT);
+					}
+				});
+				p.add(it);
+				it = new JMenuItem("Oben");
+				it.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						LegendTitle l = DiagramFrame.this.chart.getLegend();
+						l.setPosition(RectangleEdge.TOP);
+					}
+				});
+				p.add(it);
+				it = new JMenuItem("Unten");
+				it.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						LegendTitle l = DiagramFrame.this.chart.getLegend();
+						l.setPosition(RectangleEdge.BOTTOM);
+					}
+				});
+				p.add(it);
+
+				p.show(btLegende, 0, btLegende.getHeight());
+			}
+		});
+
 	}
 
 	@Override
