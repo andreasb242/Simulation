@@ -13,5 +13,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Editor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Editor.Flow"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Editor.XY"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/OnscreenKeyboard"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

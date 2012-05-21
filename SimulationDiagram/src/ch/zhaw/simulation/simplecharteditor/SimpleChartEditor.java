@@ -27,6 +27,7 @@ import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.icon.IconLoader;
+import ch.zhaw.simulation.osk.AddKeyboardButton;
 import ch.zhaw.simulation.simplecharteditor.ChartConfigurationModel.ColorState;
 
 public class SimpleChartEditor extends JDialog {
@@ -93,7 +94,7 @@ public class SimpleChartEditor extends JDialog {
 			}
 		});
 
-		gbm.setX(0).setY(1).setWeightY(0).setComp(txtDiagramTitle);
+		gbm.setX(0).setY(1).setWeightY(0).setComp(AddKeyboardButton.add(txtDiagramTitle));
 
 		gbm.setX(0).setY(10).setAnchor(GridBagConstraints.LINE_START).setFill(GridBagConstraints.VERTICAL).setWeightY(0).setComp(new TitleLabel("x-Achse"));
 
@@ -116,7 +117,7 @@ public class SimpleChartEditor extends JDialog {
 			}
 		});
 
-		gbm.setX(0).setY(11).setWeightY(0).setComp(txtXAxis);
+		gbm.setX(0).setY(11).setWeightY(0).setComp(AddKeyboardButton.add(txtXAxis));
 
 		gbm.setX(0).setY(20).setAnchor(GridBagConstraints.LINE_START).setFill(GridBagConstraints.VERTICAL).setWeightY(0).setComp(new TitleLabel("y-Achse"));
 
@@ -139,7 +140,7 @@ public class SimpleChartEditor extends JDialog {
 			}
 		});
 
-		gbm.setX(0).setY(21).setWeightY(0).setComp(txtYAxis);
+		gbm.setX(0).setY(21).setWeightY(0).setComp(AddKeyboardButton.add(txtYAxis));
 
 	}
 
