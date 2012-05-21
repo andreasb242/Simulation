@@ -42,7 +42,14 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public DefaultConfigurationSidebar getConfigurationSidebar() {
+	public DefaultConfigurationSidebar getConfigurationSidebar(SimulationType type) {
+		if (sidebar.getType() != type) {
+			this.sidebar.unload();
+
+			this.sidebar = new MatlabConfigurationSidebar(this.config, this.provider.getSimulationType());
+			this.sidebar.load();
+		}
+
 		return sidebar;
 	}
 
@@ -51,7 +58,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		this.settings = settings;
 		this.config = config;
 		this.provider = provider;
-		this.sidebar = new MatlabConfigurationSidebar(config, provider.getSimulationType());
+		this.sidebar = new MatlabConfigurationSidebar(this.config, this.provider.getSimulationType());
 		this.watcher = new DirectoryWatcher(1000);
 		this.finishListener = new MatlabFinishListener(this);
 		this.watcher.addResourceListener(this.finishListener);

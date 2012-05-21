@@ -27,6 +27,7 @@ import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
 import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
@@ -253,6 +254,11 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	public C getControl() {
 		return control;
 	}
+
+	/**
+	 * @return The Simulation Type supported by this view
+	 */
+	public abstract SimulationType getSimulationType();
 
 	public Rectangle getSelectionRange() {
 		int x = sX;

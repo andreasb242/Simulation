@@ -26,10 +26,8 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 
 	@Override
 	protected void initComponents() {
-		removeAll();
-
 		Vector<NumericMethod> numericMethods;
-		
+
 		FixedStepConfigurationPane fixedStepConfigurationPane = new FixedStepConfigurationPane(this);
 		AdaptiveStepConfigurationPane adaptiveStepConfigurationPane = new AdaptiveStepConfigurationPane(this);
 
@@ -65,4 +63,3 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 		return (NumericMethod) cbNumericMethods.getSelectedItem();
 	}
 }
-

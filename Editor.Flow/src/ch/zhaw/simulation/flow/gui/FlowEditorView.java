@@ -30,6 +30,7 @@ import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
@@ -83,6 +84,11 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		arrowDrag.setVisible(false);
 
 		loadDataFromModel();
+	}
+
+	@Override
+	public SimulationType getSimulationType() {
+		return SimulationType.FLOW_SIMULATION;
 	}
 
 	@Override

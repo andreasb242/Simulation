@@ -6,6 +6,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import org.jdesktop.swingx.JXTaskPane;
+
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
@@ -16,7 +18,7 @@ import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
+import ch.zhaw.simulation.plugin.sidebar.NotSupportedSidebar;
 import ch.zhaw.simulation.sim.intern.main.Simulation;
 import ch.zhaw.simulation.sim.intern.sidebar.InternSimulationSidebar;
 
@@ -52,8 +54,12 @@ public class SimulationInternPlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public DefaultConfigurationSidebar getConfigurationSidebar() {
-		return this.sidebar;
+	public JXTaskPane getConfigurationSidebar(SimulationType type) {
+		if (type == SimulationType.FLOW_SIMULATION) {
+			return this.sidebar;
+		}
+
+		return new NotSupportedSidebar(type, "Intern Simulation");
 	}
 
 	@Override
@@ -69,14 +75,14 @@ public class SimulationInternPlugin implements SimulationPlugin {
 
 		this.sim = new Simulation(doc);
 		sim.checkData();
-		
+
 		try {
 			sim.initSimulation();
 		} catch (Exception e) {
 			executionListener.executionFinished(e.getMessage(), FinishState.ERROR);
 			e.printStackTrace();
 		}
-		
+
 		sim.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				if ("progress".equals(evt.getPropertyName())) {

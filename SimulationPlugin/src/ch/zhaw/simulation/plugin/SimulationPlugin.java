@@ -2,13 +2,15 @@ package ch.zhaw.simulation.plugin;
 
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXTaskPane;
+
 import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 
 public interface SimulationPlugin extends AbstractPlugin {
 
@@ -26,7 +28,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * 
 	 * This is only called if the plugin is loaded
 	 */
-	public DefaultConfigurationSidebar getConfigurationSidebar();
+	public JXTaskPane getConfigurationSidebar(SimulationType type);
 
 	/**
 	 * Initialisiert das Plugin mit den Einstellungen
@@ -66,5 +68,5 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * Cancel the current simulation, if possible
 	 */
 	public void cancelSimulation();
-	
+
 }

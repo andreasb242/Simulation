@@ -14,6 +14,7 @@ import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.xy.density.DensityDraw;
 import ch.zhaw.simulation.editor.xy.element.meso.MesoView;
+import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.DensityData;
@@ -38,6 +39,11 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		density = new DensityDraw(m.getWidth(), m.getHeight());
 
 		loadDataFromModel();
+	}
+
+	@Override
+	public SimulationType getSimulationType() {
+		return SimulationType.XY_MODEL;
 	}
 
 	@Override

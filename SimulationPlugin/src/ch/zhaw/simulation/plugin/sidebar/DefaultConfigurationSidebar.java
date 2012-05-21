@@ -28,14 +28,13 @@ public class DefaultConfigurationSidebar extends JXTaskPane implements FocusList
 		initComponents();
 	}
 
+	public SimulationType getType() {
+		return type;
+	}
+	
 	protected void initComponents() {
 		pane = new FixedStepConfigurationPane(this);
 		pane.add();
-	}
-
-	public void updateSidebar(SimulationType type) {
-		this.type = type;
-		initComponents();
 	}
 
 	public SimulationConfiguration getConfig() {

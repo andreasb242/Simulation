@@ -67,9 +67,9 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	protected V view;
 
 	/**
-	 * The Simulation plugin which is used
+	 * To remove the taskbar if the plugin changes
 	 */
-	private PluginDescription<SimulationPlugin> selectedPluginDescription;
+	private JXTaskPane lastPluginTaskbar = null;
 
 	/**
 	 * If this is the main application window
@@ -268,18 +268,14 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	public void pluginChanged(String pluginName) {
 		PluginDescription<SimulationPlugin> pluginDescription = view.getControl().getApp().getManager().getSelectedPluginDescription();
 
-		if (selectedPluginDescription != pluginDescription && selectedPluginDescription != null) {
-			JXTaskPane sb = selectedPluginDescription.getPlugin().getConfigurationSidebar();
-			if (sb != null) {
-				this.sidebar.remove(sb);
-			}
+		if (lastPluginTaskbar != null) {
+			this.sidebar.remove(lastPluginTaskbar);
 		}
 
-		selectedPluginDescription = pluginDescription;
-
-		JXTaskPane sb = pluginDescription.getPlugin().getConfigurationSidebar();
+		JXTaskPane sb = pluginDescription.getPlugin().getConfigurationSidebar(view.getSimulationType());
 		if (sb != null) {
 			this.sidebar.add(sb);
+			lastPluginTaskbar = sb;
 		}
 	}
 }

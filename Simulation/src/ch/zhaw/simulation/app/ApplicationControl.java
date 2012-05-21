@@ -527,12 +527,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	private void createMainWindow() {
-
-		// Update all plugins so that the plugin has it's new SimulationType (FLOW_SIMULATION or XY_MODEL)
-		for (PluginDescription<SimulationPlugin> pluginDescription : manager.getPluginDescriptions()) {
-			pluginDescription.getPlugin().getConfigurationSidebar().updateSidebar(doc.getType());
-		}
-
 		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
 			showFlowWindow(true);
 		} else if (doc.getType() == SimulationType.XY_MODEL) {
