@@ -13,6 +13,7 @@ import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.plugin.ExecutionListener;
 import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
@@ -35,6 +36,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	protected PluginDataProvider provider;
 	protected DirectoryWatcher watcher;
 	protected MatlabFinishListener finishListener;
+	protected MatlabProgressListener progressListener;
 
 	private Process process;
 
@@ -61,7 +63,9 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		this.sidebar = new MatlabConfigurationSidebar(this.config, this.provider.getSimulationType());
 		this.watcher = new DirectoryWatcher(1000);
 		this.finishListener = new MatlabFinishListener(this);
+		this.progressListener = new MatlabProgressListener(this);
 		this.watcher.addResourceListener(this.finishListener);
+		this.watcher.addResourceListener(this.progressListener);
 	}
 
 	@Override
@@ -156,7 +160,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				watcher.stop();
-				provider.getExecutionListener().executionFinished(e.getActionCommand(), FinishState.ERROR);
+				provider.getExecutionListener().executionFinished(e.getActionCommand(), ExecutionListener.FinishState.ERROR);
 			}
 		};
 
@@ -168,6 +172,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 		stdout.start();
 		stderr.start();
+
 	}
 
 	@Override
