@@ -3,11 +3,7 @@ package ch.zhaw.simulation.plugin.matlab.codegen;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -226,9 +222,20 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		fileWrite(out, variableList);
 
 		out.println("sim_count = ceil(sim_end / sim_dt);");
+		out.println("sim_progress_new = uint8(0);");
+		out.println("sim_progress_old = uint8(0);");
 		out.newline();
 		out.println("for i = 1:sim_count");
 		out.indent();
+
+		/*** progress ***/
+		out.println("sim_progress_new = uint8(100*sim_time/sim_end);");
+		out.println("if sim_progress_new > sim_progress_old");
+		out.indent();
+		out.println("fclose(fopen(strcat('progress_', int2str(sim_progress_new)), 'w'));");
+		out.println("sim_progress_old = sim_progress_new;");
+		out.detent();
+		out.println("end;");
 
 		/*** for every meso: calculate meso.dy and add to meso.y ***/
 		i = 0;
@@ -293,13 +300,8 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		fileWrite(out, variableList);
 		out.newline();
 
-		// get gradient and laplace
-		for (DensityData density : xyModel.getDensity()) {
-			// gradient
-			out.println("[ density." + density.getName() + ".grad.dx " + ", density." + density.getName() + ".grad.dy ] = gradient(density." + density.getName() + ".matrix);");
-			// laplace
-			//out.println(density.getName() + ".laplace = del2(" + density.getName() + ".matrix);");
-		}
+		// get gradient
+		printGradientCalculation(out, xyModel);
 		out.newline();
 
 		out.detent();
@@ -388,7 +390,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			printFlowFunctionVectorToContainer(out, submodel);
 			printParameterCalculations(out, submodel, visitor);
 			printFlowCalculations(out, submodel, visitor);
-			printDensityCalculation(out, submodel);
+			printFlowDensityCalculation(out, submodel);
 			printFlowToDifferential(out, submodel);
 			out.detent();
 			out.println("end");
@@ -399,7 +401,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		}
 	}
 
-	private void printDensityCalculation(CodeOutput out, SubModel submodel) {
+	private void printFlowDensityCalculation(CodeOutput out, SubModel submodel) {
 		Vector<FlowConnectorData> connectorList;
 		SimulationDensityContainerData densityContainer;
 		String densityStr;
@@ -425,6 +427,36 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			}
 		}
 		out.newline();
+	}
+
+	private void printGradientCalculation(CodeOutput out, SimulationXYModel xyModel) {
+		HashSet<DensityData> densitySet;
+		Vector<FlowConnectorData> connectorList;
+		SimulationDensityContainerData densityContainer;
+
+		// make a set of all densities, which will change over time
+		densitySet = new HashSet<DensityData>();
+		for (MesoData meso : xyModel.getMeso()) {
+			connectorList = meso.getSubmodel().getModel().getFlowConnectors();
+			for (FlowConnectorData connector : connectorList) {
+				if (connector.getSource() instanceof SimulationDensityContainerData) {
+					densityContainer = (SimulationDensityContainerData) connector.getSource();
+					densitySet.add(densityContainer.getDensity());
+				}
+				if (connector.getTarget() instanceof SimulationDensityContainerData) {
+					densityContainer = (SimulationDensityContainerData) connector.getTarget();
+					densitySet.add(densityContainer.getDensity());
+				}
+			}
+		}
+
+		// calculate gradient only, if it's in the set of used densities
+		for (DensityData density : xyModel.getDensity()) {
+			if (densitySet.contains(density)) {
+				// gradient
+				out.println("[ density." + density.getName() + ".grad.dx " + ", density." + density.getName() + ".grad.dy ] = gradient(density." + density.getName() + ".matrix);");
+			}
+		}
 	}
 
 	/**
