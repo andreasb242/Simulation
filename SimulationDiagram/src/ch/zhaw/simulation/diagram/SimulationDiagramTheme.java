@@ -6,12 +6,14 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Stroke;
 
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PieLabelLinkStyle;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.GradientBarPainter;
 import org.jfree.chart.renderer.xy.GradientXYBarPainter;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.ui.RectangleInsets;
 
 import butti.javalibs.config.Config;
@@ -28,8 +30,7 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 	public static final Color DEFAULT_OUTLINE_PAINT = Color.LIGHT_GRAY;
 	public static final BasicStroke DEFAULT_OUTLINE_STROKE = new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL);
 	public static final Font DEFAULT_TITLE_FONT;
-	public static final Font DEFAULT_FONT_AXIS;
-	public static final Font DEFAULT_FONT_TICK;
+	public static final Font DEFAULT_FONT_AXIS_TICK_LEGEND;
 	public static final Color DEFAULT_AXIS_LABEL_PAINT = Color.DARK_GRAY;
 	public static final Color DEFAULT_TICK_LABEL_PAINT = Color.DARK_GRAY;
 	public static final String DEFAULT_FONT_NAME;
@@ -55,8 +56,7 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 
 		DEFAULT_FONT_NAME = fontName;
 		DEFAULT_TITLE_FONT = new Font(fontName, Font.BOLD, 12);
-		DEFAULT_FONT_AXIS = new Font(fontName, 0, 10);
-		DEFAULT_FONT_TICK = new Font(fontName, 0, 10);
+		DEFAULT_FONT_AXIS_TICK_LEGEND = new Font(fontName, 0, 10);
 	}
 
 	/**
@@ -117,6 +117,16 @@ public class SimulationDiagramTheme extends StandardChartTheme {
 		setThermometerPaint(Color.WHITE);
 		setWallPaint(BarRenderer3D.DEFAULT_WALL_PAINT);
 		setErrorIndicatorPaint(Color.BLACK);
+	}
+
+	@Override
+	public void apply(JFreeChart chart) {
+		super.apply(chart);
+
+		LegendTitle legend = chart.getLegend();
+		if (legend != null) {
+			legend.setItemFont(DEFAULT_FONT_AXIS_TICK_LEGEND);
+		}
 	}
 
 }

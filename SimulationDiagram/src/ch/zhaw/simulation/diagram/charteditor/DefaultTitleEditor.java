@@ -74,7 +74,7 @@ import butti.fontchooser.FontChooser;
 /**
  * A panel for editing the properties of a chart title.
  */
-class DefaultTitleEditor extends JPanel implements ActionListener {
+public class DefaultTitleEditor extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	/** Whether or not to display the title on the chart. */
@@ -112,23 +112,22 @@ class DefaultTitleEditor extends JPanel implements ActionListener {
 	 *            the title, which should be changed.
 	 */
 	public DefaultTitleEditor(Title title) {
-		if(title == null) {
+		if (title == null) {
 			this.showTitle = false;
 			this.titleFont = SimulationDiagramTheme.DEFAULT_TITLE_FONT;
 			this.titleField = new JTextField();
 			this.titlePaint = new PaintSample(Color.BLACK);
-			
+
 		} else {
-			TextTitle t = (TextTitle)title;
-			
+			TextTitle t = (TextTitle) title;
+
 			this.showTitle = title.isVisible();
 			this.titleFont = t.getFont();
 			this.titleField = new JTextField(t.getText());
 			this.titlePaint = new PaintSample(t.getPaint());
 		}
-		
+
 		System.out.println(this.titleFont.getName());
-		
 
 		setLayout(new BorderLayout());
 

@@ -148,7 +148,7 @@ public class PersistDiagramSettings {
 		saveAxis(cfg, "x", plot.getDomainAxis());
 		saveAxis(cfg, "y", plot.getRangeAxis());
 
-		// TODO Speichern was die X achse ist
+		// TODO !!!!!!!!! Speichern was die X achse ist
 
 		// Header
 		TextTitle title = chart.getTitle();
@@ -174,6 +174,10 @@ public class PersistDiagramSettings {
 		cfg.set("plot.outline.stroke", (BasicStroke) plot.getOutlineStroke());
 		cfg.set("plot.backgroundcolor", (Color) plot.getBackgroundPaint());
 
+		// Legend
+		cfg.set("legend.visible", chart.getLegend().isVisible());
+
+		
 		// Configuration by user Disable, because makes no sens for us
 		// cfg.set("plot.layout.orientation", plot.getOrientation().toString());
 
@@ -227,6 +231,11 @@ public class PersistDiagramSettings {
 		plot.setOutlineStroke(cfg.get("plot.outline.stroke", SimulationDiagramTheme.DEFAULT_OUTLINE_STROKE));
 		plot.setBackgroundPaint(cfg.get("plot.backgroundcolor", (Color) plot.getBackgroundPaint()));
 
+		// Legend
+		chart.getLegend().setVisible(cfg.get("legend.visible", false));
+		
+		// TODO save / load legend Font
+
 		// Disabled because makes no sense for us
 		// String orientation = cfg.get("plot.layout.orientation",
 		// PlotOrientation.VERTICAL.toString());
@@ -240,10 +249,10 @@ public class PersistDiagramSettings {
 	private void loadAxis(DiagramConfiguration cfg, String direction, ValueAxis axis) {
 		axis.setLabel(cfg.get("axis." + direction + ".text", ""));
 
-		axis.setLabelFont(cfg.get("axis." + direction + ".font", SimulationDiagramTheme.DEFAULT_FONT_AXIS));
+		axis.setLabelFont(cfg.get("axis." + direction + ".font", SimulationDiagramTheme.DEFAULT_FONT_AXIS_TICK_LEGEND));
 		axis.setLabelPaint(cfg.get("axis." + direction + ".color", SimulationDiagramTheme.DEFAULT_AXIS_LABEL_PAINT));
 
-		axis.setTickLabelFont(cfg.get("axis." + direction + ".marker.font", SimulationDiagramTheme.DEFAULT_FONT_AXIS));
+		axis.setTickLabelFont(cfg.get("axis." + direction + ".marker.font", SimulationDiagramTheme.DEFAULT_FONT_AXIS_TICK_LEGEND));
 		axis.setTickLabelPaint(cfg.get("axis." + direction + ".marker.color", SimulationDiagramTheme.DEFAULT_TICK_LABEL_PAINT));
 		axis.setTickMarksVisible(cfg.get("axis." + direction + ".marker.showmarker", true));
 		axis.setTickLabelsVisible(cfg.get("axis." + direction + ".marker.showtext", true));

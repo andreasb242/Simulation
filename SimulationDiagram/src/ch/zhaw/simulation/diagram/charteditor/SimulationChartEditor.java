@@ -32,7 +32,7 @@ import ch.zhaw.simulation.diagram.strokeeditor.SeriesStrokeColorEditor;
  * A panel for editing chart properties (includes subpanels for the title,
  * legend and plot).
  */
-class SimulationChartEditor extends JPanel implements ActionListener, ChartEditor {
+public class SimulationChartEditor extends JPanel implements ActionListener, ChartEditor {
 	private static final long serialVersionUID = 1L;
 
 	/** A panel for displaying/editing the properties of the title. */

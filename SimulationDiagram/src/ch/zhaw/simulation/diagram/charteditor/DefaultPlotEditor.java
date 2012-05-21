@@ -84,7 +84,7 @@ import ch.zhaw.simulation.diagram.strokeeditor.StrokeComboboxRenderer;
 /**
  * A panel for editing the properties of a {@link Plot}.
  */
-class DefaultPlotEditor extends JPanel implements ActionListener {
+public class DefaultPlotEditor extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	/** Orientation constants. */

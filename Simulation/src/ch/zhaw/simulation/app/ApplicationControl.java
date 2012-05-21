@@ -242,10 +242,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			e.printStackTrace();
 		}
 
+		// Before creating SimulationManager, set document-type first
 		SimulationType type = getLastUsedSimulationType();
 		doc.setType(type);
 
-		// Before creating SimulationManager, set document-type first
 		this.manager = new SimulationManager(settings, doc.getSimulationConfiguration(), new PluginDataProvider() {
 
 			@Override
@@ -527,7 +527,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	private void createMainWindow() {
-		getSelectedPluginDescriptor().getPlugin().getConfigurationSidebar().updateSidebar(doc.getType());
+
+		// Update all plugins so that the plugin has it's new SimulationType (FLOW_SIMULATION or XY_MODEL)
+		for (PluginDescription<SimulationPlugin> pluginDescription : manager.getPluginDescriptions()) {
+			pluginDescription.getPlugin().getConfigurationSidebar().updateSidebar(doc.getType());
+		}
 
 		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
 			showFlowWindow(true);

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.dirwatcher.DirectoryWatcher;
+import butti.javalibs.util.OS;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
@@ -125,7 +126,14 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			arguments = "-nosplash -nodesktop -minimize -wait -sd " + dir + " -r " + filename;
 		} else if (t == MatlabTool.OCTAVE) {
 			executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
-			arguments = "--no-line-editing --exec-path " + dir + " " + filename + ".m";
+			if (OS.getOs() == OS.WINDOWS) {
+				if (!dir.endsWith("\\")) {
+					dir = dir + "\\";
+				}
+				arguments = "--no-line-editing --silent --path " + dir + " --exec-path " + dir + " " + dir + filename + ".m";
+			} else {
+				arguments = "--no-line-editing --exec-path " + dir + " " + filename + ".m";
+			}
 		} else if (t == MatlabTool.SCILAB) {
 			executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
 			arguments = "";
@@ -146,7 +154,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		};
 
 		OutputReaderThread stdout = new OutputReaderThread("[" + t + "] ", process.getInputStream(), System.out);
-		OutputReaderThread stderr = new OutputReaderThread("[" + t + "] ", process.getInputStream(), System.err);
+		OutputReaderThread stderr = new OutputReaderThread("[" + t + "] ", process.getErrorStream(), System.err);
 
 		stdout.addListener(errorListener);
 		stderr.addListener(errorListener);

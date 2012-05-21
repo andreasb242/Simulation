@@ -8,7 +8,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
@@ -37,8 +36,6 @@ public class SettingsGui extends JPanel {
 		MatlabTool matlabTool;
 
 		gbm = new GridBagManager(this);
-
-		setBorder(new TitledBorder("Software"));
 
 		/*** Tool ***/
 
@@ -110,7 +107,6 @@ public class SettingsGui extends JPanel {
 		gbm.setX(0).setY(6).setWeightY(0).setWeightX(0).setComp(new JLabel("Octave Path"));
 		gbm.setX(1).setY(6).setWeightY(0).setComp(execOctavePath);
 
-
 		if (OS.getOs() == OS.WINDOWS) {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH + ".exe";
 		} else {
@@ -134,7 +130,6 @@ public class SettingsGui extends JPanel {
 
 		gbm.setX(0).setY(8).setWeightY(0).setWeightX(0).setComp(new JLabel("Scilab Path"));
 		gbm.setX(1).setY(8).setWeightY(0).setComp(execScilabPath);
-
 
 		if (OS.getOs() == OS.WINDOWS) {
 			defaultPath = MatlabParameter.DEFAULT_EXEC_SCILAB_PATH + ".exe";

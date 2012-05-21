@@ -14,12 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.border.TitledBorder;
-
-import ch.zhaw.simulation.inexport.dynasys.DynasysModel;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
+import ch.zhaw.simulation.inexport.dynasys.DynasysModel;
 
 /**
  * This is an additional Settings page for the Dynasys import
@@ -48,8 +46,6 @@ public class DynasysImportSettings extends JPanel {
 	public DynasysImportSettings(Settings settings) {
 		gbm = new GridBagManager(this);
 		model = new DynasysModel(settings);
-
-		setBorder(new TitledBorder("Dynasys Importeinstellungen"));
 
 		gbm.setX(0).setY(0).setWeightY(0).setComp(new JLabel("Skalierungsfaktor"));
 		gbm.setX(1).setY(0).setWeightY(0).setComp(txtScale);
