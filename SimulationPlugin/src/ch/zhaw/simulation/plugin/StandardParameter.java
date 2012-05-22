@@ -22,4 +22,10 @@ public interface StandardParameter {
 	public static double DEFAULT_H_FACTOR = 1.25;
 	public static double DEFAULT_MAX_STEP = 0.5;
 	public static double DEFAULT_TOLERANCE = 0.001;
+
+	public static String FRAMES = "simulation.sidebar.frames";
+	public static String DIFFUSION = "simulation.sidebar.diffusion";
+
+	public static double DEFAULT_FRAMES = 4.0;
+	public static double DEFAULT_DIFFUSION = 0.1;
 }

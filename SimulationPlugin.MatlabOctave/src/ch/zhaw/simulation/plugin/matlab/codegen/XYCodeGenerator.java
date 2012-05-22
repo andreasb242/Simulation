@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.plugin.matlab.codegen;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -24,16 +25,6 @@ import ch.zhaw.simulation.plugin.matlab.XYModelAttachment;
  * @author: bachi
  */
 public class XYCodeGenerator extends AbstractCodeGenerator {
-
-	/*
-	public class SubModelData {
-		public String							mesoName;
-		public String 							modelName;
-		public Vector<SimulationContainerData>	containerList;
-		public Vector<SimulationParameterData>	parameterList;
-		public Vector<FlowConnectorData>		connectorList;
-	}
-	 */
 
 	public static final String FILENAME = "xy_main";
 
@@ -72,6 +63,8 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		double 								start;
 		double 								end;
 		double								dt;
+		double                              framesPerUnit;
+		double								diffusionCoefficient;
 
 		int									i;
 
@@ -79,6 +72,9 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		flowFunctionMap = new HashMap<String, String>();
 
 		out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + FILENAME + ".m"));
+
+		generateGradientFunctionFile();
+		generateDiffusionFunctionFile();
 
 		out.println("clear all;");
 		out.println("close all;");
@@ -90,13 +86,19 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		start = doc.getSimulationConfiguration().getParameter(StandardParameter.START, StandardParameter.DEFAULT_START);
 		end   = doc.getSimulationConfiguration().getParameter(StandardParameter.END, StandardParameter.DEFAULT_END);
 		dt    = doc.getSimulationConfiguration().getParameter(StandardParameter.DT, StandardParameter.DEFAULT_DT);
+		framesPerUnit = doc.getSimulationConfiguration().getParameter(StandardParameter.FRAMES, StandardParameter.DEFAULT_FRAMES);
+		diffusionCoefficient = doc.getSimulationConfiguration().getParameter(StandardParameter.DIFFUSION, StandardParameter.DEFAULT_DIFFUSION);
 
 		out.printComment("Predefined constants");
-
 		out.printVariable("sim_start", start);
 		out.printVariable("sim_end", end);
 		out.printVariable("sim_time", start);
 		out.printVariable("sim_dt", dt);
+		out.newline();
+
+		out.printComment("Frames per unit");
+		out.println("sim_frame_per_unit = 1/" + framesPerUnit + ";");
+		out.println("sim_frame_count = sim_frame_per_unit;");
 		out.newline();
 
 		// xy-model dimension (width/height)
@@ -201,17 +203,6 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 				variableList.add(variable);
 			}
 
-			// add density
-			/*
-			Iterator<SimulationDensityContainerData> densityContainerIter = submodel.getModel().getSimulationDensityContainer().iterator();
-			while (densityContainerIter.hasNext()) {
-				SimulationDensityContainerData densityContainer = densityContainerIter.next();
-				DensityData density = densityContainer.getDensity();
-				variable = meso.getName() + ".submodel." + densityContainer.getName() + "." + density.getName();
-				out.println(variable + ".value = " + density.getFormula() + ";");
-				variableList.add(variable);
-			}
-			*/
 			printInitialValueVector(out, meso, prefix);
 			out.newline();
 		}
@@ -237,13 +228,13 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.detent();
 		out.println("end;");
 
-		/*** for every meso: calculate meso.dy and add to meso.y ***/
+		/*** container: for every meso, calculate meso.dy and add to meso.y ***/
 		i = 0;
 		for (MesoData meso : xyModel.getMeso()) {
 			flowFunction = flowFunctionMap.get(meso.getSubmodel().getName());
-			if (flowFunction != null && meso.getSubmodel().getModel().getSimulationContainer().size() > 0) {
+			if (flowFunction != null) {
 				prefix = meso.getName();
-				printContainerCalculations(out, meso.getName(), flowFunction);
+				printContainerCalculations(out, meso, flowFunction);
 				printMainVectorToContainer(out, prefix, meso.getSubmodel());
 
 			}
@@ -297,12 +288,16 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.println("sim_time = sim_time + sim_dt;");
 		out.newline();
 
+		out.println("if (sim_frame_count <= sim_time || i == sim_count)	");
+		out.indent();
 		fileWrite(out, variableList);
+		out.println("sim_frame_count = sim_frame_count + sim_frame_per_unit;");
+		out.detent();
+		out.println("end;");
 		out.newline();
 
-		// get gradient
+		printDiffusionCalculation(out, xyModel, diffusionCoefficient);
 		printGradientCalculation(out, xyModel);
-		out.newline();
 
 		out.detent();
 		out.println("end;");
@@ -316,6 +311,68 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		out.close();
 
+	}
+
+	private void generateGradientFunctionFile() throws FileNotFoundException {
+		CodeOutput out;
+		String content =
+				"function [dx dy] = sim_gradient(f)\n" +
+				"    [ylen xlen] = size(f);\n" +
+				"    dx = zeros(ylen, xlen);\n" +
+				"    dy = zeros(ylen, xlen);\n" +
+				"    for y = 1:ylen\n" +
+				"        for x = 1:xlen\n" +
+				"            if x == xlen || y == ylen\n" +
+				"                dx(y,x) = 0;\n" +
+				"                dy(y,x) = 0;\n" +
+				"            else\n" +
+				"                dx(y,x) = f(y, x + 1) - f(y, x);\n" +
+				"                dy(y,x) = f(y + 1, x) - f(y, x);\n" +
+				"            end;\n" +
+				"        end;\n" +
+				"    end;\n" +
+				"end";
+
+		out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + "sim_gradient.m"));
+		out.println(content);
+		out.close();
+	}
+
+	private void generateDiffusionFunctionFile() throws FileNotFoundException {
+		CodeOutput out;
+		String content =
+				"function [g] = sim_diffusion(f, dt, a)\n" +
+				"    [ylen xlen] = size(f);\n" +
+				"    df = zeros(ylen, xlen);\n" +
+				"    for y = 1:ylen\n" +
+				"        for x = 1:xlen\n" +
+				"            if x == 1 && y == 1\n" +
+				"                df(y, x) = dt * a * (f(y+1, x) + f(y, x+1) - 2*f(y,x));\n" +
+				"            elseif x == xlen && y == 1\n" +
+				"                df(y, x) = dt * a * (f(y+1, x) + f(y, x-1) - 2*f(y,x));\n" +
+				"            elseif x == 1 && y == ylen\n" +
+				"                df(y, x) = dt * a * (f(y-1, x) + f(y, x+1) - 2*f(y,x));\n" +
+				"            elseif x == xlen && y == ylen\n" +
+				"                df(y, x) = dt * a * (f(y-1, x) + f(y, x-1) - 2*f(y,x));\n" +
+				"            elseif x == 1\n" +
+				"                df(y, x) = dt * a * (f(y+1, x) + f(y-1, x) + f(y, x+1) - 3*f(y,x));\n" +
+				"            elseif x == xlen\n" +
+				"                df(y, x) = dt * a * (f(y+1, x) + f(y-1, x) + f(y, x-1) - 3*f(y,x));\n" +
+				"            elseif y == 1\n" +
+				"                df(y, x) = dt * a * (f(y+1, x) + f(y, x+1) + f(y, x-1) - 3*f(y,x));\n" +
+				"            elseif y == ylen\n" +
+				"                df(y, x) = dt * a * (f(y-1, x) + f(y, x+1) + f(y, x-1) - 3*f(y,x));\n" +
+				"            else\n" +
+				"                df(y, x) = dt * a * (f(y+1, x) + f(y-1, x) + f(y, x+1) + f(y, x-1) - 4*f(y,x));\n" +
+				"            end;\n" +
+				"        end;\n" +
+				"    end;\n" +
+				"    g = f + df;\n" +
+				"end";
+
+		out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + "sim_diffusion.m"));
+		out.println(content);
+		out.close();
 	}
 
 	private void fileOpen(CodeOutput out, Vector<String> variableList) {
@@ -334,6 +391,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 	private void fileWrite(CodeOutput out, Vector<String> variableList) {
 		String fp;
 		String value;
+
 
 		out.printComment("Save calculations");
 		for (String variable : variableList) {
@@ -429,6 +487,13 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.newline();
 	}
 
+	private void printDiffusionCalculation(CodeOutput out, SimulationXYModel xyModel, double diffusionCoefficient) {
+		for (DensityData density : xyModel.getDensity()) {
+				out.println("density." + density.getName() + ".matrix = sim_diffusion(density." + density.getName() + ".matrix, sim_dt, " + diffusionCoefficient + ");");
+		}
+		out.newline();
+	}
+
 	private void printGradientCalculation(CodeOutput out, SimulationXYModel xyModel) {
 		HashSet<DensityData> densitySet;
 		Vector<FlowConnectorData> connectorList;
@@ -454,9 +519,10 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		for (DensityData density : xyModel.getDensity()) {
 			if (densitySet.contains(density)) {
 				// gradient
-				out.println("[ density." + density.getName() + ".grad.dx " + ", density." + density.getName() + ".grad.dy ] = gradient(density." + density.getName() + ".matrix);");
+				out.println("[ density." + density.getName() + ".grad.dx " + ", density." + density.getName() + ".grad.dy ] = sim_gradient(density." + density.getName() + ".matrix);");
 			}
 		}
+		out.newline();
 	}
 
 	/**
@@ -489,6 +555,8 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		if (!isEmpty) {
 			out.println(builder.toString());
+		} else {
+			out.println(meso.getName() + ".y = 0;");
 		}
 	}
 
@@ -597,29 +665,31 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.newline();
 	}
 
-	private void printContainerCalculations(CodeOutput out, String mesoName, String flowFunction) {
+	private void printContainerCalculations(CodeOutput out, MesoData meso, String flowFunction) {
+		String mesoName = meso.getName();
 
-		out.printComment("Reset intermediate steps");
-		out.println(mesoName + ".k = zeros(length(" + mesoName + ".y), 4);");
-		out.newline();
+		if (meso.getSubmodel().getModel().getSimulationContainer().size() > 0) {
+			out.printComment("Reset intermediate steps");
+			out.println(mesoName + ".k = zeros(length(" + mesoName + ".y), 4);");
+			out.newline();
 
-		out.printComment("Calculate k-vector without saving submodel and density");
-		for (int i = 1; i <= 4; i++) {
-			out.println("[ " + mesoName + ".k(:, " + i + ") tmp_model tmp_density ] = " + flowFunction + "(sim_time + sim_dt * sim_c(" + i + "), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:," + i + "), " + mesoName + ".submodel, " + mesoName + ".position.approx, density);");
+			out.printComment("Calculate k-vector without saving submodel and density");
+			for (int i = 1; i <= 4; i++) {
+				out.println("[ " + mesoName + ".k(:, " + i + ") tmp_model tmp_density ] = " + flowFunction + "(sim_time + sim_dt * sim_c(" + i + "), " + mesoName + ".y + sim_dt * " + mesoName + ".k * sim_a(:," + i + "), " + mesoName + ".submodel, " + mesoName + ".position.approx, density);");
+			}
+			out.newline();
+
+			out.printComment("dy");
+			out.println(mesoName + ".dy = " + mesoName + ".k * sim_b;");
+			out.newline();
+
+			out.printComment("y = y + dt * dy");
+			out.println(mesoName + ".y = " + mesoName + ".y + sim_dt * " + mesoName + ".dy;");
+			out.newline();
 		}
-		out.newline();
-
-		out.printComment("dy");
-		out.println(mesoName + ".dy = " + mesoName + ".k * sim_b;");
-		out.newline();
-
-		out.printComment("y = y + dt * dy");
-		out.println(mesoName + ".y = " + mesoName + ".y + sim_dt * " + mesoName + ".dy;");
-		out.newline();
 
 		out.printComment("Calculate and save submodel and density");
 		out.println("[ tmp_k " + mesoName + ".submodel density ] = " + flowFunction + "(sim_time, " + mesoName + ".y, " + mesoName + ".submodel, " + mesoName + ".position.approx, density);");
-
 	}
 
 	/**

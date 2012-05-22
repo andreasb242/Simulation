@@ -6,6 +6,7 @@ import ch.zhaw.simulation.plugin.matlab.codegen.*;
 import ch.zhaw.simulation.plugin.sidebar.AdaptiveStepConfigurationPane;
 import ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
 import ch.zhaw.simulation.plugin.sidebar.FixedStepConfigurationPane;
+import ch.zhaw.simulation.plugin.sidebar.XYConfigurationPane;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,7 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 
 		FixedStepConfigurationPane fixedStepConfigurationPane = new FixedStepConfigurationPane(this);
 		AdaptiveStepConfigurationPane adaptiveStepConfigurationPane = new AdaptiveStepConfigurationPane(this);
+		XYConfigurationPane xyConfigurationPane = new XYConfigurationPane(this);
 
 		numericMethods = new Vector<NumericMethod>();
 		if (type == SimulationType.FLOW_SIMULATION) {
@@ -38,8 +40,10 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 			numericMethods.add(new NumericMethod(NumericMethodType.FEHLBERG, adaptiveStepConfigurationPane, new FehlbergCodeGenerator()));
 			numericMethods.add(new NumericMethod(NumericMethodType.CASH_KARP, adaptiveStepConfigurationPane, new CashKarpCodeGenerator()));
 			numericMethods.add(new NumericMethod(NumericMethodType.DORMAND_PRINCE, adaptiveStepConfigurationPane, new DormandPrinceCodeGenerator()));
+			pane = fixedStepConfigurationPane;
 		} else if (type == SimulationType.XY_MODEL) {
-			numericMethods.add(new NumericMethod(NumericMethodType.RK4, fixedStepConfigurationPane, new XYCodeGenerator()));
+			numericMethods.add(new NumericMethod(NumericMethodType.RK4, xyConfigurationPane, new XYCodeGenerator()));
+			pane = xyConfigurationPane;
 		}
 
 		add(new JLabel("Numerisches Verfahren"));
@@ -54,8 +58,6 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 		});
 		add(cbNumericMethods);
 
-		// Default is 'fixed Step'
-		pane = fixedStepConfigurationPane;
 		pane.add();
 	}
 
