@@ -19,6 +19,7 @@
       <module fileurl="file://$PROJECT_DIR$/ImportFilter.Madonna/ImportFilter.Madonna.iml" filepath="$PROJECT_DIR$/ImportFilter.Madonna/ImportFilter.Madonna.iml" />
       <module fileurl="file://$PROJECT_DIR$/Model/Model.iml" filepath="$PROJECT_DIR$/Model/Model.iml" />
       <module fileurl="file://$PROJECT_DIR$/NetbeansDirchooser/NetbeansDirchooser.iml" filepath="$PROJECT_DIR$/NetbeansDirchooser/NetbeansDirchooser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OnscreenKeyboard/OnscreenKeyboard.iml" filepath="$PROJECT_DIR$/OnscreenKeyboard/OnscreenKeyboard.iml" />
       <module fileurl="file://$PROJECT_DIR$/Plugin/Plugin.iml" filepath="$PROJECT_DIR$/Plugin/Plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/Simulation/Simulation.iml" filepath="$PROJECT_DIR$/Simulation/Simulation.iml" />
       <module fileurl="file://$PROJECT_DIR$/SimulationBuild/SimulationBuild.iml" filepath="$PROJECT_DIR$/SimulationBuild/SimulationBuild.iml" />
