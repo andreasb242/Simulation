@@ -10,16 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="JavaSE-1.6" jdkType="JavaSDK" />
     <orderEntry type="module" module-name="BJavalibs" />
-    <orderEntry type="module" module-name="ExternLibraries" />
-    <orderEntry type="module" module-name="Model" />
-    <orderEntry type="module" module-name="SimulationPlugin" />
-    <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
-    <orderEntry type="module" module-name="Sysintegration" />
-    <orderEntry type="module" module-name="ImageExport" />
-    <orderEntry type="module" module-name="VectorExport" />
-    <orderEntry type="module" module-name="Editor" />
-    <orderEntry type="module" module-name="Editor.Flow" />
-    <orderEntry type="module" module-name="OnscreenKeyboard" />
   </component>
 </module>
 
