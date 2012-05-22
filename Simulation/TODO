@@ -1,13 +1,8 @@
-Status anzeigen bei Simulation => Matlab (gestrichen)
-Matlab / Octave error abfangen => Nicht möglich!!
-
 Interface um Definierte Variabeln zu erhalten
 Warnen wenn Fehler im Model und trotzdem versucht wird zu simulieren
 Repaint bei Ventil Markierung geht nicht
 Refactoring bei Namen (in Formeln)
 Speichern von Vektorgrafiken, nur Ausschnitt
-
-Nach öffnen von Datei titel aktualisieren!
 
 Dichte:
 	Export in Grafik
@@ -18,5 +13,5 @@ Diagram:
 	Legende Im Diagramm für export
 	Beiliege Variabeln als y
 
-Fehlermeldung wenn Matlba / Octave nicht installiert, dem Benutzer erkären was er machen kann statdessen
+Diagram: Farbe / SW / Custom
 

@@ -567,10 +567,13 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				updatePaths();
 
 				createMainWindow();
+				updateTitle();
 				return true;
 			} else {
 				newFile(getLastUsedSimulationType());
 			}
+			
+			updateTitle();
 		}
 
 		return false;

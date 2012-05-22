@@ -147,12 +147,13 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	}
 
 	/**
-	 * Returns the paste ofset, so each pasted elements are moved a little bit more, so you see there are multiple elements
+	 * Returns the paste ofset, so each pasted elements are moved a little bit
+	 * more, so you see there are multiple elements
 	 */
 	public int getPasteOffset() {
 		return 10;
 	}
-	
+
 	/**
 	 * Deletes the current selected elements
 	 */
@@ -160,7 +161,9 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		SelectableElement<?>[] selected = selectionModel.getSelected();
 		selectionModel.clearSelection();
 
-		delete(selected);
+		if (selected.length > 0) {
+			delete(selected);
+		}
 	}
 
 	/**
@@ -242,17 +245,16 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 
 	public void showFormulaEditor(NamedFormulaData data) {
 		String oldFormula = data.getFormula();
-		
+
 		if (formulaEditor == null) {
 			formulaEditor = new FormularEditorDialog(parent, getSysintegration(), getModel());
 		}
 
 		formulaEditor.setData(data);
 		formulaEditor.setVisible(true);
-		
+
 		formulaEditor.unselect();
-		
-		
+
 		String newFormula = data.getFormula();
 		if (!StringUtil.equals(oldFormula, newFormula)) {
 			getUndoManager().addEdit(new FormulaChangeUndoAction(data, oldFormula, newFormula, model));
