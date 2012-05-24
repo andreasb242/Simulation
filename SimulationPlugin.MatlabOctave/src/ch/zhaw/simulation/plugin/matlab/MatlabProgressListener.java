@@ -1,8 +1,9 @@
 package ch.zhaw.simulation.plugin.matlab;
 
-import butti.javalibs.dirwatcher.FileListener;
 
 import java.io.File;
+
+import ch.zhaw.simulation.plugin.matlab.dirwatcher.FileListener;
 
 public class MatlabProgressListener extends FileListener {
 

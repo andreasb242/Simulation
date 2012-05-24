@@ -3,8 +3,8 @@ package ch.zhaw.simulation.plugin.matlab;
 import java.io.File;
 
 import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
+import ch.zhaw.simulation.plugin.matlab.dirwatcher.FileListener;
 
-import butti.javalibs.dirwatcher.FileListener;
 
 /**
  * @author: bachi

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.text.DecimalFormat;
 
 import javax.swing.JComponent;
 
@@ -20,6 +21,8 @@ public class DensityLegendView extends JComponent implements DensityListener {
 
 	final int LEGEND_WIDTH = 20;
 	final int HORIZONTAL_FONT_POS = 30;
+
+	private DecimalFormat format = new DecimalFormat("0.##E0");
 
 	public DensityLegendView() {
 		setPreferredSize(new Dimension(100, 80));
@@ -44,9 +47,21 @@ public class DensityLegendView extends JComponent implements DensityListener {
 
 			g.setColor(Color.BLACK);
 
-			int offset = g.getFontMetrics().getAscent() / 2;
+			int ascent = g.getFontMetrics().getAscent();
+			int offset = ascent / 2;
 
-			g.drawString("0", HORIZONTAL_FONT_POS, h/2 - offset / 2);
+			int y = h / 2;
+			g.drawLine(LEGEND_WIDTH, y, HORIZONTAL_FONT_POS - 3, y);
+			g.drawString(format.format(0), HORIZONTAL_FONT_POS, y + offset / 2);
+
+			y = 0;
+			g.drawLine(LEGEND_WIDTH, y, HORIZONTAL_FONT_POS - 3, y);
+			g.drawString(format.format(max), HORIZONTAL_FONT_POS, ascent);
+
+			y = getHeight() - 1;
+			g.drawLine(LEGEND_WIDTH, y, HORIZONTAL_FONT_POS - 3, y);
+			g.drawString(format.format(min), HORIZONTAL_FONT_POS, y);
+
 		}
 
 		// draw border

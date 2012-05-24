@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.swing.JPanel;
 
 import butti.javalibs.config.Settings;
-import butti.javalibs.dirwatcher.DirectoryWatcher;
 import butti.javalibs.util.OS;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
@@ -19,6 +18,7 @@ import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
+import ch.zhaw.simulation.plugin.matlab.dirwatcher.DirectoryWatcher;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
 import ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
 import ch.zhaw.simulation.plugin.matlab.optimizer.ModelOptimizer;

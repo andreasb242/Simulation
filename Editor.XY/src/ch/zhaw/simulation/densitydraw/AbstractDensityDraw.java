@@ -55,7 +55,7 @@ public abstract class AbstractDensityDraw {
 				@Override
 				public void run() {
 					try {
-						final RenderResult result = updateImage();
+						final RenderResult result = renderImage();
 						if (result != null) {
 							synchronized (AbstractDensityDraw.this) {
 								AbstractDensityDraw.this.imgOther = AbstractDensityDraw.this.img;
@@ -94,7 +94,7 @@ public abstract class AbstractDensityDraw {
 		}
 	}
 
-	private RenderResult updateImage() throws ParseException {
+	private RenderResult renderImage() throws ParseException {
 		long startTime = System.currentTimeMillis();
 
 		BufferedImage img;
