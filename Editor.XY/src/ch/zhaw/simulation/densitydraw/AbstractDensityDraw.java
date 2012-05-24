@@ -1,51 +1,40 @@
-package ch.zhaw.simulation.editor.xy.density;
+package ch.zhaw.simulation.densitydraw;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.Vector;
 
 import javax.swing.SwingUtilities;
 
 import org.nfunk.jep.ParseException;
 
-import butti.javalibs.errorhandler.Errorhandler;
-import ch.zhaw.simulation.math.Parser;
-
-public class DensityDraw {
+public abstract class AbstractDensityDraw {
 	private int width;
 	private int height;
 
 	private BufferedImage img;
 	private BufferedImage imgOther;
 
-	private boolean noFormula = true;
-	private Parser parser = new Parser();
-
 	private Thread updateThread;
 	private boolean cancelUpdate = false;
 
-	public DensityDraw(int width, int height) {
+	private Vector<DensityListener> listener = new Vector<DensityListener>();
+
+	public AbstractDensityDraw(int width, int height) {
 		setSize(width, height);
 	}
 
 	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
-		parser.addVar("x", 0);
-		parser.addVar("y", 0);
 	}
 
-	public void updateImageAsynchron(final ActionListener finishListener) {
-		if (noFormula) {
-			finishListener.actionPerformed(new ActionEvent(this, 1, "nothing"));
-			return;
-		}
-
+	public void updateImageAsynchron() {
 		try {
+			// Check if there are valid data available
 			valueFor(0, 0);
 		} catch (Exception e) {
-			finishListener.actionPerformed(new ActionEvent(this, 2, "failed"));
+			fireActionFailed(e);
 			return;
 		}
 
@@ -66,34 +55,34 @@ public class DensityDraw {
 				@Override
 				public void run() {
 					try {
-						BufferedImage img = updateImage();
-						if (img != null) {
-							synchronized (DensityDraw.this) {
-								DensityDraw.this.imgOther = DensityDraw.this.img;
-								DensityDraw.this.img = img;
+						final RenderResult result = updateImage();
+						if (result != null) {
+							synchronized (AbstractDensityDraw.this) {
+								AbstractDensityDraw.this.imgOther = AbstractDensityDraw.this.img;
+								AbstractDensityDraw.this.img = result.img;
 							}
 
 							SwingUtilities.invokeLater(new Runnable() {
 
 								@Override
 								public void run() {
-									finishListener.actionPerformed(new ActionEvent(this, 0, "repaint"));
+									fireDataUpdated(result.min, result.max);
 								}
 							});
 						}
 
 						updateThread = null;
-						synchronized (DensityDraw.this) {
+						synchronized (AbstractDensityDraw.this) {
 							// notify the waiting thread
-							DensityDraw.this.notifyAll();
+							AbstractDensityDraw.this.notifyAll();
 
 						}
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override
 							public void run() {
-								finishListener.actionPerformed(new ActionEvent(this, 2, "failed"));
+								fireActionFailed(e);
 							}
 						});
 
@@ -105,19 +94,19 @@ public class DensityDraw {
 		}
 	}
 
-	private BufferedImage updateImage() throws ParseException {
+	private RenderResult updateImage() throws ParseException {
 		long startTime = System.currentTimeMillis();
 
 		BufferedImage img;
 
-		double[][] values = new double[height][width];
+		float[][] values = new float[height][width];
 
-		double min = Double.MAX_VALUE;
-		double max = Double.MIN_VALUE;
+		float min = Float.MAX_VALUE;
+		float max = Float.MIN_VALUE;
 
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width && !cancelUpdate; x++) {
-				double v = valueFor(x, y);
+				float v = valueFor(x, y);
 				min = Math.min(min, v);
 				max = Math.max(max, v);
 				values[y][x] = v;
@@ -153,7 +142,7 @@ public class DensityDraw {
 				}
 
 				pixels[x + y * width] = rgb;
-				// slower img.setRGB(x, y, rgb);
+				// slower: img.setRGB(x, y, rgb);
 			}
 		}
 
@@ -166,37 +155,55 @@ public class DensityDraw {
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("->DensityDraw duration: " + estimatedTime + "ms");
 
-		return img;
+		return new RenderResult(img, min, max);
 	}
 
-	private double valueFor(int x, int y) throws ParseException {
-		parser.setVar("x", x);
-		parser.setVar("y", y);
-		return parser.evaluate();
+	private static class RenderResult {
+		BufferedImage img;
+		float min;
+		float max;
+
+		public RenderResult(BufferedImage img, float min, float max) {
+			this.img = img;
+			this.min = min;
+			this.max = max;
+		}
 	}
+
+	protected abstract float valueFor(int x, int y) throws ParseException;
 
 	public BufferedImage getImage() {
-		if (noFormula) {
-			return null;
-		}
-
 		synchronized (this) {
 			return img;
 		}
 	}
 
-	public void setFormula(String formula) {
-		if (formula == null || "".equals(formula)) {
-			noFormula = true;
-			return;
-		}
-
-		try {
-			parser.simplyfy(formula);
-			noFormula = false;
-		} catch (ParseException e) {
-			Errorhandler.showError(e, "Formel fehler");
+	/**
+	 * Update was starte, but nothing was done
+	 */
+	protected void fireNoActionPerformed() {
+		for (DensityListener l : this.listener) {
+			l.noActionPerfomed();
 		}
 	}
 
+	protected void fireActionFailed(Exception reason) {
+		for (DensityListener l : this.listener) {
+			l.actionFailed(reason);
+		}
+	}
+
+	protected void fireDataUpdated(float min, float max) {
+		for (DensityListener l : this.listener) {
+			l.dataUpdated(min, max);
+		}
+	}
+
+	public void addListener(DensityListener l) {
+		listener.add(l);
+	}
+
+	public void removeListener(DensityListener l) {
+		listener.remove(l);
+	}
 }

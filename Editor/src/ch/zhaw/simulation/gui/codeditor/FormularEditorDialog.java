@@ -23,9 +23,6 @@ public class FormularEditorDialog extends BDialog {
 		editor = new FormulaEditorPanel(sys, model, new Vector<String>(), true);
 		add(editor);
 
-		pack();
-		new WindowPositionSaver(this);
-
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -34,8 +31,8 @@ public class FormularEditorDialog extends BDialog {
 			}
 
 		});
-		setLocationRelativeTo(parent);
 		setModal(true);
+		new WindowPositionSaver(this);
 	}
 
 	public void setData(NamedFormulaData data) {

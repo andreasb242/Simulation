@@ -102,9 +102,6 @@ public class TableDialog extends BDialog {
 
 		});
 
-		pack();
-		setLocationRelativeTo(parent);
-
 		new WindowPositionSaver(this);
 	}
 

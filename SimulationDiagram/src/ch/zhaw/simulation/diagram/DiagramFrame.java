@@ -174,11 +174,8 @@ public class DiagramFrame extends JFrame {
 		this.toolbar.add(new JLabel(" x-Achse: "));
 		this.toolbar.add(cbY);
 
-		setSize(640, 480);
-		setLocationRelativeTo(null);// center
-
 		// restore old position
-		new WindowPositionSaver(this);
+		new WindowPositionSaver(this, 640, 480);
 	}
 
 	private void initToolbar() {

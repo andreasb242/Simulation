@@ -9,10 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import ch.zhaw.simulation.clipboard.TransferableFactory;
+import ch.zhaw.simulation.densitydraw.AbstractDensityDraw;
+import ch.zhaw.simulation.densitydraw.DensityListener;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
-import ch.zhaw.simulation.editor.xy.density.DensityDraw;
+import ch.zhaw.simulation.editor.xy.density.FormulaDensityDraw;
 import ch.zhaw.simulation.editor.xy.element.meso.MesoView;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
@@ -27,7 +29,7 @@ import ch.zhaw.simulation.sysintegration.GuiConfig;
 public class XYEditorView extends AbstractEditorView<XYEditorControl> implements XYSimulationListener, SubModelSelectionListener, SubModelListener {
 	private static final long serialVersionUID = 1L;
 
-	private DensityDraw density;
+	private FormulaDensityDraw density;
 	private SubModel currentSelectedSubmodel = null;
 
 	public XYEditorView(XYEditorControl control, TransferableFactory factory) {
@@ -36,7 +38,31 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		SimulationXYModel m = control.getModel();
 		m.getSubmodels().addListener(this);
 
-		density = new DensityDraw(m.getWidth(), m.getHeight());
+		this.density = new FormulaDensityDraw(m.getWidth(), m.getHeight());
+		this.density.addListener(new DensityListener() {
+
+			@Override
+			public void noActionPerfomed() {
+				if (getControl() != null && getControl().getStatus() != null) {
+					getControl().getStatus().clearStatus();
+				}
+
+				// repaint, even if we have no formula
+				repaint();
+			}
+
+			@Override
+			public void dataUpdated(float min, float max) {
+				noActionPerfomed();
+			}
+
+			@Override
+			public void actionFailed(Exception reason) {
+				if (getControl() != null && getControl().getStatus() != null) {
+					getControl().getStatus().setStatusTextError("Dichte berechnen Fehlgeschlagen! Formel prüfen!");
+				}
+			}
+		});
 
 		loadDataFromModel();
 	}
@@ -144,7 +170,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		modelSizeRasterChanged();
 	}
 
-	public DensityDraw getDensity() {
+	public AbstractDensityDraw getDensity() {
 		return density;
 	}
 
@@ -166,7 +192,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 		this.density.setSize(m.getWidth(), m.getHeight());
 
-		updateDensity(null, true);
+		updateDensity(null);
 
 		SimulationLayout l = (SimulationLayout) getLayout();
 		l.setMinWidth(m.getWidth());
@@ -179,30 +205,11 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	/**
 	 * If the formula is <code>null</code> or empty nothing is draw
 	 */
-	public void updateDensity(String formula, boolean onlyUpdate) {
-		if (!onlyUpdate) {
-			this.density.setFormula(formula);
-		}
-
+	public void updateDensity(String formula) {
 		getControl().getStatus().setStatusTextInfo("Dichte wird berechnet...");
-		this.density.updateImageAsynchron(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (e.getID() == 2) {
-					if (getControl() != null && getControl().getStatus() != null) {
-						getControl().getStatus().setStatusTextError("Dichte berechnen Fehlgeschlagen! Formel prüfen!");
-					}
-				} else {
-					if (getControl() != null && getControl().getStatus() != null) {
-						getControl().getStatus().clearStatus();
-					}
-
-					// repaint, even if we have twice no formula
-					repaint();
-				}
-			}
-		});
+		
+		this.density.setFormula(formula);
+		this.density.updateImageAsynchron();
 	}
 
 	@Override

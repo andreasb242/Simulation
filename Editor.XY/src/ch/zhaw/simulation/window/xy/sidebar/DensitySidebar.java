@@ -8,6 +8,7 @@ import java.awt.event.ItemListener;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -15,9 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.undo.UndoManager;
 
 import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.VerticalLayout;
 
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.util.StringUtil;
+import ch.zhaw.simulation.densitydraw.DensityLegendView;
 import ch.zhaw.simulation.editor.density.DensityListModel;
 import ch.zhaw.simulation.editor.xy.density.DensityEditorDialog;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
@@ -41,6 +44,8 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	private Object lastSelected = null;
 	protected Vector<ActionListener> listenerList = new Vector<ActionListener>();
 
+	private DensityLegendView legendView;
+
 	public DensitySidebar(final JFrame parent, final SimulationXYModel model, JComponent comp, Sysintegration sys, final UndoManager undo) {
 		setTitle("Dichte");
 
@@ -49,6 +54,8 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		cbDensity.setRenderer(new DensityListCellRenderer());
 
 		densityEditor = new DensityEditorDialog(parent, model, sys);
+
+		setLayout(new VerticalLayout());
 
 		add(cbDensity);
 
@@ -92,6 +99,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 				d.setName(selectedName);
 				d.setDescription("");
 				model.addDensity(d);
+				cbDensity.setSelectedItem(d);
 
 				undo.addEdit(new CreateDensityUndoAction(d, model));
 			}
@@ -157,6 +165,18 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 				}
 			}
 		});
+
+		this.legendView = new DensityLegendView();
+		add(legendView);
+
+		JCheckBox cbLog = new JCheckBox("Logarithmisch");
+		add(cbLog);
+
+		lastSelected = listModel.getSelectedItem();
+	}
+
+	public DensityLegendView getLegendView() {
+		return legendView;
 	}
 
 	protected void selectionChanged() {
@@ -171,7 +191,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	}
 
 	public DensityData getSelected() {
-		return (DensityData) lastSelected;
+		return (DensityData) listModel.getSelectedItem();
 	}
 
 	public void dispose() {

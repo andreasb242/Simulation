@@ -271,7 +271,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			showXYWindow();
 		}
 
-		windowPosition.applay(this.mainFrame);
+		if(!windowPosition.applay(this.mainFrame)) {
+			this.mainFrame.setSize(800, 600);
+			this.mainFrame.setLocationRelativeTo(null);
+		}
 
 		this.sysintegration = SysintegrationFactory.getSysintegration();
 		this.sysintegration.addListener(this);

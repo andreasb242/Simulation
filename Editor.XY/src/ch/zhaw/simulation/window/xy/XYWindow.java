@@ -28,9 +28,8 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			getView().updateDensity(densitySidebar.getSelected().getFormula(), false);
+			updateDensity();
 		}
-
 	};
 
 	public XYWindow() {
@@ -50,6 +49,8 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 		densitySidebar.addActionListener(densityListener);
 
+		view.getDensity().addListener(densitySidebar.getLegendView());
+
 		control.setView(view);
 
 		XYMenubar menubar = new XYMenubar(control.getSysintegration(), um, control.getClipboard());
@@ -63,6 +64,8 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		SubmodelHandler submodelhandler = control.getSubmodelHandler();
 		submodelhandler.addSubModelSelectionListener(tb);
 		submodelhandler.addSubModelSelectionListener(getView());
+
+		updateDensity();
 	}
 
 	@Override
@@ -77,6 +80,16 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 		configurationSidebar = new XYFormulaConfiguration((SimulationXYModel) control.getModel(), control.getSelectionModel(), control.getUndoManager(),
 				(XYEditorControl) control);
+	}
+
+	private void updateDensity() {
+		String formula;
+		if (densitySidebar.getSelected() != null) {
+			formula = densitySidebar.getSelected().getFormula();
+		} else {
+			formula = null;
+		}
+		getView().updateDensity(formula);
 	}
 
 	@Override

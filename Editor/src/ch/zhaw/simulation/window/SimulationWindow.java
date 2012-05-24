@@ -107,9 +107,6 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 			}
 
 		});
-
-		setSize(800, 600);
-		setLocationRelativeTo(null);
 	}
 
 	protected void init(M menubar, T toolbar, V view) {

@@ -25,10 +25,6 @@ public class UndoRedoDebugDialog extends JDialog {
 
 		add(new JScrollPane(list));
 
-		pack();
-
-		setLocationRelativeTo(null);
-
 		new WindowPositionSaver(this);
 	}
 
