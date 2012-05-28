@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import ch.zhaw.simulation.editor.xy.element.meso.MesoImage;
@@ -28,7 +30,8 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 	private XYResultStepList stepList;
 
 	// list of densities at the end of the simulation
-	private Vector<XYDensityRaw> rawList;
+	private Map<String, XYDensityRaw> rawMap;
+	private XYDensityRaw rawCurrent;
 
 	private Dimension size;
 	private MesoImage[] images;
@@ -42,7 +45,11 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 		setPreferredSize(resultList.getModelSize());
 		this.dialog = dialog;
 		this.resultList = resultList;
-		this.rawList = rawList;
+		this.rawMap = new HashMap<String, XYDensityRaw>();
+		for (XYDensityRaw raw : rawList) {
+			rawMap.put(raw.getDensityName(), raw);
+		}
+		rawCurrent = null;
 
 		// draw first frame
 		stepList = resultList.getStep(0);
@@ -83,7 +90,8 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JRadioButton) {
 			JRadioButton radioButton = (JRadioButton) e.getSource();
-			System.out.println(radioButton.getText());
+			rawCurrent = rawMap.get(radioButton.getText());
+			repaint();
 		}
 	}
 
@@ -91,7 +99,9 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, size.width, size.height);
 
-		drawDensity(g);
+		if (rawCurrent != null) {
+			drawDensity(g);
+		}
 
 		for (XYResultStepEntry stepEntry : stepList) {
 			drawMeso(g, stepEntry);
@@ -116,7 +126,6 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 
 	private void drawDensity(Graphics2D g) {
 		BufferedImage img;
-		XYDensityRaw raw;
 		int[] pixels;
 		int rgb;
 		int tmp;
@@ -128,13 +137,12 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 
-		raw = rawList.get(1);
-		maxMinusFactor = 255.0 / raw.getMaxMinus();
-		maxPlusFactor = 255.0 / raw.getMaxPlus();
+		maxMinusFactor = 255.0 / rawCurrent.getMaxMinus();
+		maxPlusFactor = 255.0 / rawCurrent.getMaxPlus();
 
 		for (int y = 0; y < size.height; y++) {
 			for (int x = 0; x < size.width; x++) {
-				value = raw.getMatrixValue(x, y);
+				value = rawCurrent.getMatrixValue(x, y);
 				rgb = 0xffffff;
 
 				if (value < -0.1) {
