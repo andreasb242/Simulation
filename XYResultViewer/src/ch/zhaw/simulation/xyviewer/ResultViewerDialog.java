@@ -15,8 +15,8 @@ public class ResultViewerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	protected JSlider slider;
-	private XYViewer viewer;
-	private XYViewerSidebar sidebar;
+	protected XYViewer viewer;
+	protected XYViewerSidebar sidebar;
 
 	public ResultViewerDialog(SimulationXYModel xyModel, XYResultList resultList, Vector<XYDensityRaw> rawList) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -29,7 +29,7 @@ public class ResultViewerDialog extends JDialog {
 		slider = new JSlider(0, resultList.getStepCount());
 		slider.setValue(0);
 
-		sidebar = new XYViewerSidebar(rawList);
+		sidebar = new XYViewerSidebar(this, rawList);
 
 		add(new JScrollPane(viewer), BorderLayout.CENTER);
 		add(slider, BorderLayout.SOUTH);

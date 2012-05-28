@@ -1,6 +1,8 @@
 package ch.zhaw.simulation.xyviewer;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Vector;
@@ -16,7 +18,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class XYViewer extends JComponent implements ChangeListener {
+public class XYViewer extends JComponent implements ChangeListener, ActionListener {
 	private ResultViewerDialog dialog;
 
 	// list of mesos with positions (XYResultStepEntry) at any time and submodel-results (SimulationCollection)
@@ -74,6 +76,15 @@ public class XYViewer extends JComponent implements ChangeListener {
 		JSlider slider = (JSlider) e.getSource();
 		stepList = resultList.getStep(slider.getValue());
 		repaint();
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JRadioButton) {
+			JRadioButton radioButton = (JRadioButton) e.getSource();
+			System.out.println(radioButton.getText());
+		}
 	}
 
 	public void draw(Graphics2D g, XYResultStepList stepList) {
