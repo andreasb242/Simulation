@@ -2,6 +2,7 @@ package ch.zhaw.simulation.plugin;
 
 import javax.swing.JPanel;
 
+import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
@@ -11,6 +12,8 @@ import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
+
+import java.util.Vector;
 
 public interface SimulationPlugin extends AbstractPlugin {
 
@@ -63,6 +66,8 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 *         available
 	 */
 	public SimulationCollection getSimulationResults(SimulationDocument doc);
+
+	public Vector<XYDensityRaw> getXYResults(SimulationDocument doc);
 
 	/**
 	 * Cancel the current simulation, if possible

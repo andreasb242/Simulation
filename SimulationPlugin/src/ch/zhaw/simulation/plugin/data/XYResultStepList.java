@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.xyviewer.model;
+package ch.zhaw.simulation.plugin.data;
 
 import java.util.Iterator;
 import java.util.Vector;

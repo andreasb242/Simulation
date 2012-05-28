@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.xyviewer.model;
+package ch.zhaw.simulation.plugin.data;
 
 import ch.zhaw.simulation.model.xy.ColorCalculator;
 

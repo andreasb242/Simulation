@@ -3,6 +3,7 @@ package ch.zhaw.simulation.plugin.matlab;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 
@@ -17,6 +18,7 @@ import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
 import ch.zhaw.simulation.plugin.matlab.dirwatcher.DirectoryWatcher;
 import ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
@@ -135,6 +137,11 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	@Override
 	public SimulationCollection getSimulationResults(SimulationDocument doc) {
 		return new SimulationResultParser(doc, config).parse(settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH));
+	}
+
+	@Override
+	public Vector<XYDensityRaw> getXYResults(SimulationDocument doc) {
+		return new XYDensityParser(doc.getXyModel()).parse(settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH));
 	}
 
 	protected void startApplication(String dir, String filename) throws IllegalArgumentException, IOException {

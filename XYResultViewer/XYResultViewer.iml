@@ -13,6 +13,7 @@
     <orderEntry type="module" module-name="Sysintegration" />
     <orderEntry type="module" module-name="Editor" />
     <orderEntry type="module" module-name="SimulationPlugin" />
+    <orderEntry type="module" module-name="BJavalibs" />
   </component>
 </module>
 

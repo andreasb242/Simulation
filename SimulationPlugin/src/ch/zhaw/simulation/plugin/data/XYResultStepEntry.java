@@ -1,4 +1,4 @@
-package ch.zhaw.simulation.xyviewer.model;
+package ch.zhaw.simulation.plugin.data;
 
 public class XYResultStepEntry {
 	private int step;

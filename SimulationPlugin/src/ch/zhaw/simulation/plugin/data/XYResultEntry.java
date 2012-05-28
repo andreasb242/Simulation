@@ -1,9 +1,5 @@
-package ch.zhaw.simulation.xyviewer.model;
+package ch.zhaw.simulation.plugin.data;
 
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.data.SimulationSerie;
-
-import java.awt.*;
 import java.util.HashMap;
 
 /**

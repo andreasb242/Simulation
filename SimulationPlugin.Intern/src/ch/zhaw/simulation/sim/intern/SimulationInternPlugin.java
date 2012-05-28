@@ -2,10 +2,12 @@ package ch.zhaw.simulation.sim.intern;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
@@ -110,6 +112,12 @@ public class SimulationInternPlugin implements SimulationPlugin {
 	@Override
 	public SimulationCollection getSimulationResults(SimulationDocument doc) {
 		return this.collection;
+	}
+
+	@Override
+	public Vector<XYDensityRaw> getXYResults(SimulationDocument doc) {
+		// not used
+		return null;
 	}
 
 	@Override

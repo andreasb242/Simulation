@@ -1,10 +1,7 @@
-package ch.zhaw.simulation.xyviewer.model;
+package ch.zhaw.simulation.plugin.data;
 
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
-import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.plugin.data.SimulationEntry;
-import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 import java.util.HashMap;
 

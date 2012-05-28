@@ -75,6 +75,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 
 		generateGradientFunctionFile();
 		generateDiffusionFunctionFile();
+		generateDensityOutputFunctionFile();
 
 		out.println("clear all;");
 		out.println("close all;");
@@ -253,7 +254,8 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 				out.println(meso.getName() + ".position.approx.x.value = uint32(" + meso.getName() + ".position.exact.x.value);");
 				out.println(meso.getName() + ".position.approx.y.value = uint32(" + meso.getName() + ".position.exact.y.value);");
 			} else if (meso.getDerivative() == MesoData.Derivative.SECOND_DERIVATIVE) {
-				out.printComment("SECOND_DERIVATIVE");
+				// TODO: Second Derivative
+				out.printComment("SECOND_DERIVATIVE: TODO!");
 			} else {
 				out.printComment("NO_DERIVATIVE");
 			}
@@ -304,6 +306,10 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.newline();
 
 		fileClose(out, variableList);
+
+		for (DensityData density : xyModel.getDensity()) {
+			out.println("sim_density_out('data_density." + density.getName() + ".txt', density." + density.getName() + ".matrix);");
+		}
 
 		out.println("fclose(fopen('matlab_finish.txt', 'w'));");
 		out.println("exit;");
@@ -371,6 +377,28 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 				"end";
 
 		out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + "sim_diffusion.m"));
+		out.println(content);
+		out.close();
+	}
+
+	private void generateDensityOutputFunctionFile() throws FileNotFoundException {
+		CodeOutput out;
+		String content =
+				"function tmp = sim_density_out(filename, density)\n" +
+						"    [ylen xlen] = size(density);\n" +
+						"    df = zeros(ylen, xlen);\n" +
+						"    fp = fopen(filename, 'w');\n" +
+						"    fprintf(fp, '%d %d\\n', xlen, ylen);\n" +
+						"    for y = 1:ylen\n" +
+						"        for x = 1:xlen\n" +
+						"           fprintf(fp, '%f ', density(y,x));\n" +
+						"        end;\n" +
+						"        fprintf(fp, '\\n');" +
+						"    end;\n" +
+						"    fclose(fp);\n" +
+						"end";
+
+		out = new CodeOutput(new FileOutputStream(getWorkingFolder() + File.separator + "sim_density_out.m"));
 		out.println(content);
 		out.close();
 	}
@@ -688,8 +716,10 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			out.newline();
 		}
 
-		out.printComment("Calculate and save submodel and density");
-		out.println("[ tmp_k " + mesoName + ".submodel density ] = " + flowFunction + "(sim_time, " + mesoName + ".y, " + mesoName + ".submodel, " + mesoName + ".position.approx, density);");
+		if (meso.getSubmodel().getModel().getSimulationContainer().size() > 0 || meso.getSubmodel().getModel().getSimulationDensityContainer().size() > 0) {
+			out.printComment("Calculate and save submodel and density");
+			out.println("[ tmp_k " + mesoName + ".submodel density ] = " + flowFunction + "(sim_time, " + mesoName + ".y, " + mesoName + ".submodel, " + mesoName + ".position.approx, density);");
+		}
 	}
 
 	/**

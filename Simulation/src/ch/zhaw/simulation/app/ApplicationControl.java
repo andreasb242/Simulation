@@ -47,6 +47,7 @@ import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
@@ -56,8 +57,8 @@ import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
 import ch.zhaw.simulation.xyviewer.ResultViewerDialog;
-import ch.zhaw.simulation.xyviewer.model.XYResultChooser;
-import ch.zhaw.simulation.xyviewer.model.XYResultList;
+import ch.zhaw.simulation.plugin.data.XYResultChooser;
+import ch.zhaw.simulation.plugin.data.XYResultList;
 
 public class ApplicationControl extends StatusHandler implements SimulationApplication, MenuActionListener, SysintegrationEventlistener {
 
@@ -212,9 +213,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 								frame.setVisible(true);
 							} else if (doc.getType() == SimulationType.XY_MODEL) {
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+								Vector<XYDensityRaw> rawList = getSelectedPluginDescriptor().getPlugin().getXYResults(doc);
 								XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
 								XYResultList xyResultList = chooser.chooseMesoPart();
-								new ResultViewerDialog(xyResultList).setVisible(true);
+								new ResultViewerDialog(doc.getXyModel(), xyResultList, rawList).setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
 							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurde abgebrochen.");
