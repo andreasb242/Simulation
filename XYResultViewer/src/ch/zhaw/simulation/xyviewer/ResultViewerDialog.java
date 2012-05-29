@@ -1,15 +1,15 @@
 package ch.zhaw.simulation.xyviewer;
 
-import ch.zhaw.simulation.model.xy.SimulationXYModel;
-import ch.zhaw.simulation.plugin.data.XYDensityRaw;
-import ch.zhaw.simulation.plugin.data.XYResultList;
-
 import java.awt.BorderLayout;
 import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.plugin.data.XYDensityRaw;
+import ch.zhaw.simulation.plugin.data.XYResultList;
 
 public class ResultViewerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -24,16 +24,16 @@ public class ResultViewerDialog extends JDialog {
 		setLayout(new BorderLayout());
 
 		// HACK: parse density-files
-		viewer = new XYViewer(this, resultList, rawList);
+		viewer = new XYViewer(resultList, rawList);
 
 		slider = new JSlider(0, resultList.getStepCount());
 		slider.setValue(0);
 
-		sidebar = new XYViewerSidebar(this, rawList);
+		sidebar = new XYViewerSidebar(viewer, rawList);
 
 		add(new JScrollPane(viewer), BorderLayout.CENTER);
 		add(slider, BorderLayout.SOUTH);
-		add(sidebar, BorderLayout.WEST);
+		add(new JScrollPane(sidebar, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.WEST);
 
 		slider.addChangeListener(viewer);
 

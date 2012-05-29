@@ -169,6 +169,8 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		this.legendView = new DensityLegendView();
 		add(legendView);
 
+		
+		// TODO logarithmisch
 		JCheckBox cbLog = new JCheckBox("Logarithmisch");
 		add(cbLog);
 

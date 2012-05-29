@@ -1,29 +1,32 @@
 package ch.zhaw.simulation.xyviewer;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.JComponent;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import ch.zhaw.simulation.editor.xy.element.meso.MesoImage;
-import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.data.XYResultList;
 import ch.zhaw.simulation.plugin.data.XYResultStepEntry;
 import ch.zhaw.simulation.plugin.data.XYResultStepList;
+import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+public class XYViewer extends JComponent implements ChangeListener {
+	private static final long serialVersionUID = 1L;
 
-public class XYViewer extends JComponent implements ChangeListener, ActionListener {
-	private ResultViewerDialog dialog;
-
-	// list of mesos with positions (XYResultStepEntry) at any time and submodel-results (SimulationCollection)
+	// list of mesos with positions (XYResultStepEntry) at any time and
+	// submodel-results (SimulationCollection)
 	private XYResultList resultList;
 
 	// list of meso-positions at a specific time
@@ -41,9 +44,8 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 	private int radius;
 	private int halfRadius;
 
-	public XYViewer(ResultViewerDialog dialog, XYResultList resultList, Vector<XYDensityRaw> rawList) {
+	public XYViewer(XYResultList resultList, Vector<XYDensityRaw> rawList) {
 		setPreferredSize(resultList.getModelSize());
-		this.dialog = dialog;
 		this.resultList = resultList;
 		this.rawMap = new HashMap<String, XYDensityRaw>();
 		for (XYDensityRaw raw : rawList) {
@@ -58,7 +60,7 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 		Color[] colors = resultList.getColors();
 		images = new MesoImage[colors.length];
 		radius = config.getMesoSize();
-		halfRadius = radius/2;
+		halfRadius = radius / 2;
 
 		for (int i = 0; i < colors.length; i++) {
 			MesoImage m = new MesoImage(radius, config);
@@ -73,9 +75,8 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 	}
 
 	/**
-	 * Callback function
-	 * Gets called every time the slider changes its value
-	 *
+	 * Callback function Gets called every time the slider changes its value
+	 * 
 	 * @param e
 	 */
 	@Override
@@ -85,14 +86,9 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 		repaint();
 	}
 
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof JRadioButton) {
-			JRadioButton radioButton = (JRadioButton) e.getSource();
-			rawCurrent = rawMap.get(radioButton.getText());
-			repaint();
-		}
+	public void setDensitySelected(XYDensityRaw raw) {
+		this.rawCurrent = raw;
+		repaint();
 	}
 
 	public void draw(Graphics2D g, XYResultStepList stepList) {
@@ -109,8 +105,10 @@ public class XYViewer extends JComponent implements ChangeListener, ActionListen
 	}
 
 	private void drawMeso(Graphics2D g, XYResultStepEntry stepEntry) {
-		if (stepEntry == null) System.out.println("XYViewer.drawMeso() stepEntry == null");
-		if (stepEntry.getResultEntry() == null) System.out.println("XYViewer.drawMeso() stepEntry.getResultEntry() == null");
+		if (stepEntry == null)
+			System.out.println("XYViewer.drawMeso() stepEntry == null");
+		if (stepEntry.getResultEntry() == null)
+			System.out.println("XYViewer.drawMeso() stepEntry.getResultEntry() == null");
 
 		if (stepEntry.getResultEntry().getColorId() > this.images.length) {
 			System.out.println(stepEntry.getResultEntry().getColorId());
