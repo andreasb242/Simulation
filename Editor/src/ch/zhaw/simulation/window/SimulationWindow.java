@@ -269,10 +269,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		PluginDescription<SimulationPlugin> pluginDescription = manager.getSelectedPluginDescription();
 		if (pluginDescription == null) {
 			Messagebox.showWarning(this, "Simulation", "Plugin «" + pluginName + "» konnte nicht selektiert werden!");
-
-			// remove wrong key
-			view.getControl().getSettings().removeSetting("simulation.plugin");
-
+			
 			return;
 		}
 

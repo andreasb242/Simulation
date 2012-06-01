@@ -265,7 +265,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				return doc.getType();
 			}
 		});
-
+		
 		loadSimulationParameterFromSettings();
 		if (type == SimulationType.FLOW_SIMULATION) {
 			showFlowWindow(true);
@@ -284,8 +284,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		this.savehandler = new LoadSaveHandler(mainFrame, settings, sysintegration, this.importPluginLoader);
 		this.savehandler.addListener(this);
 
-		// Speicherfähigkeit erstellen
+		// Speichern der Einstellungen
 		simulationSettingsSaver = new SimulationSettingsSaver(doc.getSimulationConfiguration(), settings);
+
 		// Alle relevanten Settings in die Konfiguration übernehmen
 		simulationSettingsSaver.load();
 
