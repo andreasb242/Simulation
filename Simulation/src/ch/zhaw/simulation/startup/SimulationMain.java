@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.jdesktop.swingx.util.OS;
@@ -26,7 +27,7 @@ public class SimulationMain {
 	private static Vector<String> parameter = new Vector<String>();
 
 	public static void main() {
-		Settings settings = new FileSettings("settings.ini");
+		final Settings settings = new FileSettings("settings.ini");
 
 		String lookAndFeel = settings.getSetting("ui.look-and-feel", null);
 
@@ -54,13 +55,20 @@ public class SimulationMain {
 			Errorhandler.logError(e);
 		}
 
-		// install netbeans Folderchooser for JFilechooser
-		FolderChooserUi m = new FolderChooserUi();
-		m.installUI();
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				// install netbeans Folderchooser for JFilechooser
+				FolderChooserUi m = new FolderChooserUi();
+				m.installUI();
 
-		ApplicationControl app = new ApplicationControl();
-		app.start(settings, parameter, openfile);
-		app.updateTitle();
+				ApplicationControl app = new ApplicationControl();
+				app.start(settings, parameter, openfile);
+				app.updateTitle();
+				
+			}
+		});
 	}
 
 	public static void main(String[] args) {

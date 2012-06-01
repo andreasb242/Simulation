@@ -29,8 +29,8 @@ public class FixedStepConfigurationPane extends DefaultConfigurationPane {
 	}
 
 	@Override
-	public void add() {
-		super.add();
+	public void addToSidebar() {
+		super.addToSidebar();
 
 		sidebar.add(lblDt);
 		sidebar.add(ntDt);
@@ -38,13 +38,13 @@ public class FixedStepConfigurationPane extends DefaultConfigurationPane {
 	}
 
 	@Override
-	public void remove() {
+	public void removeFromSidebar() {
 
 		sidebar.remove(lblDt);
 		sidebar.remove(ntDt);
 		ntDt.removeFocusListener(this);
 
-		super.remove();
+		super.removeFromSidebar();
 	}
 
 	@Override

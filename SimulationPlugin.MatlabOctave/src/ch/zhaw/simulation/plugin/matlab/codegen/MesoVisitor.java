@@ -41,7 +41,7 @@ public class MesoVisitor extends MatlabVisitor {
 		derivateNode = node.jjtGetChild(1);
 
 		if(!(densityNode instanceof ASTConstant) || !(derivateNode instanceof ASTConstant)) {
-			throw new ParseException("sinnvoller text");
+			throw new ParseException("Keine Konstante");
 		}
 
 		densityConst = (ASTConstant) densityNode;
@@ -55,7 +55,7 @@ public class MesoVisitor extends MatlabVisitor {
 		}
 
 		if (!isValid) {
-			throw new ParseException("sinnvoller text");
+			throw new ParseException("Nicht valid");
 		}
 
 		/* d1.grad.dx(m0.position.approx.y.value, m0.position.approx.x.value)) */

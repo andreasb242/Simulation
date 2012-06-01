@@ -51,14 +51,14 @@ public class MatlabConfigurationSidebar extends DefaultConfigurationSidebar {
 		cbNumericMethods.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				pane.remove();
+				pane.removeFromSidebar();
 				pane = getSelectedNumericMethod().getPane();
-				pane.add();
+				pane.addToSidebar();
 			}
 		});
 		add(cbNumericMethods);
 
-		pane.add();
+		pane.addToSidebar();
 	}
 
 	public NumericMethod getSelectedNumericMethod() {

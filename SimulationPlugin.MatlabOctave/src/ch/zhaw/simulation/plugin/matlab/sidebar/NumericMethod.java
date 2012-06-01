@@ -10,7 +10,7 @@ public class NumericMethod {
 
 	private NumericMethodType type;
 	private DefaultConfigurationPane pane;
-	AbstractCodeGenerator codeGenerator;
+	private AbstractCodeGenerator codeGenerator;
 	
 	public NumericMethod(NumericMethodType type, DefaultConfigurationPane pane, AbstractCodeGenerator codeGenerator) {
 		this.type = type;

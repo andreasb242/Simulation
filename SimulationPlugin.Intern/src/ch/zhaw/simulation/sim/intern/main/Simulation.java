@@ -17,12 +17,9 @@ import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
-import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
-import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
@@ -102,17 +99,7 @@ public class Simulation {
 		Collections.sort(namedObjects);
 
 		for (AbstractNamedSimulationData c : namedObjects) {
-			SimulationSerie.SerieSource type = null;
-
-			if (c instanceof FlowValveData) {
-				type = SerieSource.FLOW;
-			} else if (c instanceof SimulationContainerData) {
-				type = SerieSource.CONTAINER;
-			} else if (c instanceof SimulationParameterData) {
-				type = SerieSource.PARAMETER;
-			} else if (c instanceof SimulationGlobalData) {
-				type = SerieSource.GLOBAL;
-			}
+			SimulationSerie.SerieSource type = SerieSource.forSimulationObject(c);
 
 			SimulationSerie serie = new SimulationSerie(c.getName(), type);
 			((SimulationAttachment) c.attachment).serie = serie;

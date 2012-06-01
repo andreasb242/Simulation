@@ -19,19 +19,34 @@ import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.SimulationSerie;
+import ch.zhaw.simulation.plugin.data.SimulationSerie.SerieSource;
 
 /**
  * @author: bachi
  */
 public class SimulationResultParser {
 
-	private Vector<String> filenames;
+	private Vector<FileEntry> filenames;
 	private double start;
 	private double end;
-	
+
+	private static class FileEntry {
+		private String name;
+		private SerieSource serieSource;
+
+		public FileEntry(String name) {
+			this(name, null);
+		}
+
+		public FileEntry(String name, SerieSource serieSource) {
+			this.name = name;
+			this.serieSource = serieSource;
+		}
+	}
+
 	public SimulationResultParser(SimulationDocument doc, SimulationConfiguration config) {
 		Vector<AbstractNamedSimulationData> dataVector = new Vector<AbstractNamedSimulationData>();
-		filenames = new Vector<String>();
+		filenames = new Vector<FileEntry>();
 
 		start = config.getParameter(StandardParameter.START, StandardParameter.DEFAULT_START);
 		end = config.getParameter(StandardParameter.END, StandardParameter.DEFAULT_END);
@@ -48,34 +63,32 @@ public class SimulationResultParser {
 				dataVector.add(c.getValve());
 			}
 
-			AbstractNamedSimulationData data;
-			for (int i = 0; i < dataVector.size(); i++) {
-				data = dataVector.get(i);
-				filenames.add(data.getName());
+			for (AbstractNamedSimulationData data : dataVector) {
+				filenames.add(new FileEntry(data.getName(), SerieSource.forSimulationObject(data)));
 			}
 		} else if (doc.getType() == SimulationType.XY_MODEL) {
 			String prefix;
 			for (MesoData meso : doc.getXyModel().getMeso()) {
 				prefix = meso.getName() + ".submodel.";
 
-				filenames.add(meso.getName() + ".position.exact.x");
-				filenames.add(meso.getName() + ".position.exact.y");
-				filenames.add(meso.getName() + ".position.approx.x");
-				filenames.add(meso.getName() + ".position.approx.y");
+				filenames.add(new FileEntry(meso.getName() + ".position.exact.x"));
+				filenames.add(new FileEntry(meso.getName() + ".position.exact.y"));
+				filenames.add(new FileEntry(meso.getName() + ".position.approx.x"));
+				filenames.add(new FileEntry(meso.getName() + ".position.approx.y"));
 
 				// 1) add container
 				for (SimulationContainerData container : meso.getSubmodel().getModel().getSimulationContainer()) {
-					filenames.add(prefix + container.getName());
+					filenames.add(new FileEntry(prefix + container.getName(), SerieSource.CONTAINER));
 				}
 
 				// 2) add parameter
 				for (SimulationParameterData parameter : meso.getSubmodel().getModel().getSimulationParameter()) {
-					filenames.add(prefix + parameter.getName());
+					filenames.add(new FileEntry(prefix + parameter.getName(), SerieSource.PARAMETER));
 				}
 
 				// 3) add connector
 				for (FlowConnectorData connector : meso.getSubmodel().getModel().getFlowConnectors()) {
-					filenames.add(prefix + connector.getValve().getName());
+					filenames.add(new FileEntry(prefix + connector.getValve().getName(), SerieSource.FLOW));
 				}
 			}
 		}
@@ -89,11 +102,11 @@ public class SimulationResultParser {
 		BufferedReader reader;
 
 		collection = new SimulationCollection(start, end);
-		
-		for (String filename : filenames) {
+
+		for (FileEntry file : filenames) {
 			try {
-				serie = new SimulationSerie(filename);
-				reader = new BufferedReader(new FileReader(new File(workpath + File.separator + "data_" + filename + ".txt")));
+				serie = new SimulationSerie(file.name, file.serieSource);
+				reader = new BufferedReader(new FileReader(new File(workpath + File.separator + "data_" + file.name + ".txt")));
 				// go through every line in a file
 				while ((line = reader.readLine()) != null) {
 					// Tab-split line in two parts

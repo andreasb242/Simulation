@@ -31,7 +31,7 @@ public class DefaultConfigurationPane implements FocusListener, SimulationParame
 		ntEnd.setValue(sidebar.config.getParameter(StandardParameter.END, StandardParameter.DEFAULT_END));
 	}
 
-	public void add() {
+	public void addToSidebar() {
 		loadDataFromModel();
 
 		sidebar.add(lblStart);
@@ -43,7 +43,7 @@ public class DefaultConfigurationPane implements FocusListener, SimulationParame
 		ntEnd.addFocusListener(this);
 	}
 
-	public void remove() {
+	public void removeFromSidebar() {
 		sidebar.remove(lblStart);
 		sidebar.remove(ntStart);
 		ntStart.removeFocusListener(this);

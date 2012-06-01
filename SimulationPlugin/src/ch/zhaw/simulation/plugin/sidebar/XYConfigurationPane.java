@@ -31,8 +31,8 @@ public class XYConfigurationPane extends FixedStepConfigurationPane {
 	}
 
 	@Override
-	public void add() {
-		super.add();
+	public void addToSidebar() {
+		super.addToSidebar();
 
 		sidebar.add(lblFrames);
 		sidebar.add(ntFrames);
@@ -44,7 +44,7 @@ public class XYConfigurationPane extends FixedStepConfigurationPane {
 	}
 
 	@Override
-	public void remove() {
+	public void removeFromSidebar() {
 
 		sidebar.remove(lblFrames);
 		sidebar.remove(ntFrames);
@@ -54,7 +54,7 @@ public class XYConfigurationPane extends FixedStepConfigurationPane {
 		sidebar.remove(ntDiffusion);
 		ntDiffusion.removeFocusListener(this);
 
-		super.remove();
+		super.removeFromSidebar();
 	}
 
 	@Override

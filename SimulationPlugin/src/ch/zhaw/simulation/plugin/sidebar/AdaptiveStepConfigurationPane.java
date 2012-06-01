@@ -1,12 +1,13 @@
 package ch.zhaw.simulation.plugin.sidebar;
 
-import butti.javalibs.numerictextfield.NumericTextField;
-import ch.zhaw.simulation.plugin.StandardParameter;
-
-import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.ParseException;
+
+import javax.swing.JLabel;
+
+import butti.javalibs.numerictextfield.NumericTextField;
+import ch.zhaw.simulation.plugin.StandardParameter;
 
 /**
  * @author: bachi
@@ -35,8 +36,8 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 	}
 
 	@Override
-	public void add() {
-		super.add();
+	public void addToSidebar() {
+		super.addToSidebar();
 		sidebar.add(lblHFactor);
 		sidebar.add(ntHFactor);
 		ntHFactor.addFocusListener(this);
@@ -51,7 +52,7 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 	}
 
 	@Override
-	public void remove() {
+	public void removeFromSidebar() {
 		sidebar.remove(lblHFactor);
 		sidebar.remove(ntHFactor);
 		ntHFactor.removeFocusListener(this);
@@ -64,7 +65,7 @@ public class AdaptiveStepConfigurationPane extends DefaultConfigurationPane impl
 		sidebar.remove(ntTolerance);
 		ntTolerance.removeFocusListener(this);
 
-		super.remove();
+		super.removeFromSidebar();
 	}
 
 	@Override

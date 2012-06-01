@@ -117,11 +117,9 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 			if (e.getMessage() != null && e.getMessage().startsWith("Cannot run program")) {
 				String tool = settings.getSetting(MatlabParameter.TOOL, MatlabParameter.DEFAULT_TOOL);
-				String message = "<html><b>«"
-						+ tool
-						+ "» konnte nicht ausgeführt werden.</b><br>" +
-						"Kontrollieren Sie die Einstellungen unter Bearbeiten / Einstellungen / Matlab Compatible Simulator<br><br>" +
-						"Wenn Sie weder Matlab noch Octave installiert haben wählen als Simulationsplugin «Interne Simulation»</html>";
+				String message = "<html><b>«" + tool + "» konnte nicht ausgeführt werden.</b><br>"
+						+ "Kontrollieren Sie die Einstellungen unter Bearbeiten / Einstellungen / Matlab Compatible Simulator<br><br>"
+						+ "Wenn Sie weder Matlab noch Octave installiert haben wählen als Simulationsplugin «Interne Simulation»</html>";
 
 				provider.getExecutionListener().executionFinished(message, FinishState.ERROR);
 				return;
