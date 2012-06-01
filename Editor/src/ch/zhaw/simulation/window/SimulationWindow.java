@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTaskPane;
 
+import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.editor.layouting.Layouting;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
@@ -20,6 +21,7 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.simulation.PluginChangeListener;
+import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -263,7 +265,16 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 	@Override
 	public void pluginChanged(String pluginName) {
-		PluginDescription<SimulationPlugin> pluginDescription = view.getControl().getApp().getManager().getSelectedPluginDescription();
+		SimulationManager manager = view.getControl().getApp().getManager();
+		PluginDescription<SimulationPlugin> pluginDescription = manager.getSelectedPluginDescription();
+		if (pluginDescription == null) {
+			Messagebox.showWarning(this, "Simulation", "Plugin «" + pluginName + "» konnte nicht selektiert werden!");
+
+			// remove wrong key
+			view.getControl().getSettings().removeSetting("simulation.plugin");
+
+			return;
+		}
 
 		if (lastPluginTaskbar != null) {
 			this.sidebar.remove(lastPluginTaskbar);

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simconfig>
+    <double name="simulation.dt" value="0.1"/>
+    <double name="simulation.intern.type" value="0.0"/>
+    <double name="simulation.end" value="5.0"/>
+    <double name="simulation.start" value="0.0"/>
+    <double name="simulation.sidebar.dt" value="0.1"/>
+    <double name="simulation.sidebar.end" value="50.0"/>
+</simconfig>

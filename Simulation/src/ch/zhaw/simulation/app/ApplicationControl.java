@@ -204,19 +204,19 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 						if (state == FinishState.SUCCESSFULLY) {
 							if (doc.getType() == SimulationType.FLOW_SIMULATION) {
-								// ////// TODO !!!!!!!!!!!!!!!!!!!! DIAGRAM
-
 								DiagramConfiguration config = new DiagramConfiguration();
 
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 								DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, config, getDocumentName(), sysintegration);
 								frame.setVisible(true);
+
 							} else if (doc.getType() == SimulationType.XY_MODEL) {
 								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 								Vector<XYDensityRaw> rawList = getSelectedPluginDescriptor().getPlugin().getXYResults(doc);
 								XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
 								XYResultList xyResultList = chooser.chooseMesoPart();
-								new ResultViewerDialog(doc.getXyModel(), xyResultList, rawList).setVisible(true);
+								ResultViewerDialog dlg = new ResultViewerDialog(xyResultList, rawList);
+								dlg.setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
 							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurde abgebrochen.");
@@ -273,7 +273,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			showXYWindow();
 		}
 
-		if(!windowPosition.applay(this.mainFrame)) {
+		if (!windowPosition.applay(this.mainFrame)) {
 			this.mainFrame.setSize(800, 600);
 			this.mainFrame.setLocationRelativeTo(null);
 		}
@@ -491,7 +491,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 
 		try {
-			plugin.executeFlowSimulation(doc);
+			plugin.executeSimulation(doc);
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}
@@ -577,7 +577,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			} else {
 				newFile(getLastUsedSimulationType());
 			}
-			
+
 			updateTitle();
 		}
 

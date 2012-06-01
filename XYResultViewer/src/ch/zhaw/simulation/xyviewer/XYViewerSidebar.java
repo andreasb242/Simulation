@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.Vector;
 
 public class XYViewerSidebar extends JScrollPane {
+	private static final long serialVersionUID = 1L;
 
 	private JLabel lblTitle;
 	private ButtonGroup radioGroup;
@@ -31,11 +32,4 @@ public class XYViewerSidebar extends JScrollPane {
 		add(lblTitle);
 		add(radioPanel);
 	}
-
-	/*
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(200, 200);
-	}
-	*/
 }

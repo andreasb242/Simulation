@@ -66,8 +66,6 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		double                              framesPerUnit;
 		double								diffusionCoefficient;
 
-		int									i;
-
 		variableList = new Vector<String>();
 		flowFunctionMap = new HashMap<String, String>();
 
@@ -230,7 +228,6 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		out.println("end;");
 
 		/*** container: for every meso, calculate meso.dy and add to meso.y ***/
-		i = 0;
 		for (MesoData meso : xyModel.getMeso()) {
 			flowFunction = flowFunctionMap.get(meso.getSubmodel().getName());
 			if (flowFunction != null) {

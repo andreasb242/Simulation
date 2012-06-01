@@ -59,7 +59,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 *             Falls etwas schief geht, die Meldung wird dem Benutzer
 	 *             angezeigt
 	 */
-	public void executeFlowSimulation(SimulationDocument doc) throws Exception;
+	public void executeSimulation(SimulationDocument doc) throws Exception;
 
 	/**
 	 * @return The result for <code>doc</code> or <code>null</code> if nothing
@@ -67,6 +67,10 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 */
 	public SimulationCollection getSimulationResults(SimulationDocument doc);
 
+	/**
+	 * @return The result for <code>doc</code> or <code>null</code> if nothing
+	 *         available
+	 */
 	public Vector<XYDensityRaw> getXYResults(SimulationDocument doc);
 
 	/**

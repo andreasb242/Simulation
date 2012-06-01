@@ -97,7 +97,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public void executeFlowSimulation(SimulationDocument doc) throws Exception {
+	public void executeSimulation(SimulationDocument doc) throws Exception {
 		String workpath = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
 		String filename = null;
 
