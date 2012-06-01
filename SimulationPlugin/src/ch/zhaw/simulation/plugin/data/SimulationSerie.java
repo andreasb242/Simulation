@@ -2,9 +2,28 @@ package ch.zhaw.simulation.plugin.data;
 
 import java.util.Vector;
 
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
+
 public class SimulationSerie {
 	public enum SerieSource {
-		PARAMETER, GLOBAL, CONTAINER, FLOW, DENSITY_CONTAINER
+		PARAMETER, GLOBAL, CONTAINER, FLOW, DENSITY_CONTAINER;
+
+		public static SerieSource forSimulationObject(AbstractNamedSimulationData c) {
+			if (c instanceof FlowValveData) {
+				return SerieSource.FLOW;
+			} else if (c instanceof SimulationContainerData) {
+				return SerieSource.CONTAINER;
+			} else if (c instanceof SimulationParameterData) {
+				return SerieSource.PARAMETER;
+			} else if (c instanceof SimulationGlobalData) {
+				return SerieSource.GLOBAL;
+			}
+			return null;
+		}
 	}
 
 	private String name;
@@ -22,14 +41,6 @@ public class SimulationSerie {
 
 	private SerieSource source;
 
-	/**
-	 * Use: SimulationSerie(String name, SerieSource source)
-	 */
-	@Deprecated
-	public SimulationSerie(String name) {
-		this(name, null);
-	}
-	
 	public SimulationSerie(String name, SerieSource source) {
 		this.name = name;
 		this.source = source;

@@ -1,18 +1,22 @@
 package ch.zhaw.simulation.plugin.matlab.optimizer;
 
+import java.util.Vector;
+
+import org.nfunk.jep.ParseException;
+
 import ch.zhaw.simulation.math.Parser;
-import ch.zhaw.simulation.math.exception.*;
+import ch.zhaw.simulation.math.exception.CompilerError;
+import ch.zhaw.simulation.math.exception.EmptyFormulaException;
+import ch.zhaw.simulation.math.exception.NotUsedException;
+import ch.zhaw.simulation.math.exception.SimulationModelException;
+import ch.zhaw.simulation.math.exception.SimulationParserException;
+import ch.zhaw.simulation.math.exception.VarNotFoundException;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
-import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
-import ch.zhaw.simulation.plugin.matlab.FlowModelAttachment;
 import ch.zhaw.simulation.plugin.matlab.XYModelAttachment;
-import org.nfunk.jep.ParseException;
-
-import java.util.Vector;
 
 /**
  * @author: bachi

@@ -38,6 +38,9 @@ public class SimulationConfiguration {
 		setSelectedPluginNameForce(selectedPluginName);
 	}
 
+	/**
+	 * Setts the plugin, even if the plugin is alredy selected
+	 */
 	public void setSelectedPluginNameForce(String selectedPluginName) {
 		this.selectedPluginName = selectedPluginName;
 		fireTypeChanged();

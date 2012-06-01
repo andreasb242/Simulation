@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.xyviewer;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -44,7 +43,7 @@ public class XYViewerSidebar extends JComponent {
 			radioPanel.add(radioButton);
 		}
 
-		add(lblTitle, BorderLayout.NORTH);
-		add(radioPanel, BorderLayout.CENTER);
+		add(lblTitle);
+		add(radioPanel);
 	}
 }

@@ -39,11 +39,10 @@ public class XYResultChooser {
 		Integer x;
 		Integer y;
 		int step;
+		int colorId = 0;
 
 		resultList = new XYResultList();
 		resultList.setModelSize(xyModel.getWidth(), xyModel.getHeight());
-
-		XYResultEntry.resetColorCounter();
 
 		for (MesoData meso : xyModel.getMeso()) {
 			name = meso.getName();
@@ -52,7 +51,7 @@ public class XYResultChooser {
 			submodel = name + ".submodel.";
 			xSerie = null;
 			ySerie = null;
-			resultEntry = new XYResultEntry();
+			resultEntry = new XYResultEntry(colorId++);
 
 			// loop over all series in the collection
 			// and choose only series from the current meso

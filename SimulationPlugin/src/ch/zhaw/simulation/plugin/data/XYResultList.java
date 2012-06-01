@@ -6,13 +6,17 @@ import java.awt.*;
 import java.util.Iterator;
 import java.util.Vector;
 
-/**
- * This class contains
- */
 public class XYResultList implements Iterable<XYResultEntry> {
 	private Vector<XYResultEntry> entryList = new Vector<XYResultEntry>();
 	private int stepCount = Integer.MAX_VALUE;
 	private Dimension modelSize;
+
+	public XYResultList() {
+	}
+
+	public XYResultList(int width, int height) {
+		setModelSize(width, height);
+	}
 
 	public XYResultStepList getStep(int step) {
 		XYResultStepList stepList = new XYResultStepList();
@@ -29,7 +33,7 @@ public class XYResultList implements Iterable<XYResultEntry> {
 		return entryList.iterator();
 	}
 
-	protected void add(XYResultEntry resultEntry) {
+	public void add(XYResultEntry resultEntry) {
 		entryList.add(resultEntry);
 
 		int stepCount = resultEntry.getStepCount();
@@ -39,8 +43,9 @@ public class XYResultList implements Iterable<XYResultEntry> {
 	}
 
 	/**
-	 * Get model size, so the components size of the XYViewer (where all mesos get placed)
-	 *
+	 * Get model size, so the components size of the XYViewer (where all mesos
+	 * get placed)
+	 * 
 	 * @return width and height as a Dimension object
 	 */
 	public Dimension getModelSize() {
@@ -48,12 +53,13 @@ public class XYResultList implements Iterable<XYResultEntry> {
 	}
 
 	/**
-	 * Set model size, so the components size of the XYViewer (where all mesos get placed)
-	 *
+	 * Set model size, so the components size of the XYViewer (where all mesos
+	 * get placed)
+	 * 
 	 * @param width
 	 * @param height
 	 */
-	protected void setModelSize(int width, int height) {
+	public void setModelSize(int width, int height) {
 		modelSize = new Dimension(width, height);
 	}
 

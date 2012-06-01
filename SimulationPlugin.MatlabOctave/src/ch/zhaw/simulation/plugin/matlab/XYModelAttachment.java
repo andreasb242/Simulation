@@ -1,15 +1,15 @@
 package ch.zhaw.simulation.plugin.matlab;
 
-import ch.zhaw.simulation.math.Parser;
-import ch.zhaw.simulation.model.SimulationAttachment;
-import ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import org.lsmp.djep.matrixJep.MatrixJep;
 import org.lsmp.djep.xjep.PrintVisitor;
 import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import ch.zhaw.simulation.math.Parser;
+import ch.zhaw.simulation.model.SimulationAttachment;
 
 /**
  * @author: bachi
@@ -18,7 +18,6 @@ public class XYModelAttachment implements SimulationAttachment {
 	private Node formula;
 	private Node dataX;
 	private Node dataY;
-	private FlowModelOptimizer flowModelOptimizer;
 
 	public XYModelAttachment() {
 		super();
@@ -68,6 +67,5 @@ public class XYModelAttachment implements SimulationAttachment {
 		s.close();
 		return bo.toString();
 	}
-
 
 }

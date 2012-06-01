@@ -62,6 +62,9 @@ public class SimulationConfigurationPanel extends JXTaskPane implements ActionLi
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// After pressing the button for sure the right simulation plugin is selected
+				configuration.setSelectedPluginName(cbSimulationtype.getSelectedItem().toString());
+
 				control.menuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.START_SIMULATION));
 			}
 		});

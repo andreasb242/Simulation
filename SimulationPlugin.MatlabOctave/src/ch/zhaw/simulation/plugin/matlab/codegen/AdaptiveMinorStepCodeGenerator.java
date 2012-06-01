@@ -15,8 +15,6 @@ public abstract class AdaptiveMinorStepCodeGenerator extends AdaptiveStepCodeGen
 
 	@Override
 	protected void printContainerCalculations(CodeOutput out) {
-		int size = flowModel.getSimulationContainer().size();
-
 		out.println("sim_k(:,2) = " + FILENAME_ODE + "(sim_time + sim_hc(1), sim_y + sim_k * sim_ha(:,1));");
 		out.println("sim_k(:,3) = " + FILENAME_ODE + "(sim_time + sim_hc(2), sim_y + sim_k * sim_ha(:,2));");
 		out.println("sim_k(:,4) = " + FILENAME_ODE + "(sim_time + sim_hc(3), sim_y + sim_k * sim_ha(:,3));");

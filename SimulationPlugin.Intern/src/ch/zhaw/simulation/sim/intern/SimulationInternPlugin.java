@@ -72,7 +72,7 @@ public class SimulationInternPlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public void executeFlowSimulation(SimulationDocument doc) throws Exception {
+	public void executeSimulation(SimulationDocument doc) throws Exception {
 		final ExecutionListener executionListener = provider.getExecutionListener();
 
 		this.sim = new Simulation(doc);

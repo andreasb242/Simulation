@@ -3,9 +3,8 @@ package ch.zhaw.simulation.plugin.data;
 import java.util.HashMap;
 
 /**
- * This class represents one meso compartiment from a xy-model
- * stepMap has entries of [time, x/y]
- * collection has all submodels of one meso
+ * This class represents one meso compartiment from a xy-model stepMap has
+ * entries of [time, x/y] collection has all submodels of one meso
  */
 public class XYResultEntry {
 	// stepMap has entries of [time, x/y]
@@ -16,14 +15,8 @@ public class XYResultEntry {
 
 	private int colorId;
 
-	private static int colorCounter = 0;
-
-	public XYResultEntry() {
-		colorId = colorCounter++;
-	}
-
-	public static void resetColorCounter() {
-		colorCounter = 0;
+	public XYResultEntry(int colorId) {
+		this.colorId = colorId;
 	}
 
 	public XYResultStepEntry getStep(int step) {
@@ -34,11 +27,11 @@ public class XYResultEntry {
 		return colorId;
 	}
 
-	protected void addStep(XYResultStepEntry entry) {
+	public void addStep(XYResultStepEntry entry) {
 		stepMap.put(entry.getStep(), entry);
 	}
 
-	protected void addSerie(SimulationSerie serie) {
+	public void addSerie(SimulationSerie serie) {
 		collection.addSerie(serie);
 	}
 

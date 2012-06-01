@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation>
+    <model grid="20" height="400" type="xy" width="400" zerox="200" zeroy="200">
+        <meso derivative="FIRST_DERIVATIVE" directionx="grad(&quot;d1&quot;, &quot;x&quot;)" directiony="1" name="m0" value="model3" x="151" y="89"/>
+        <meso derivative="FIRST_DERIVATIVE" directionx="sin(1/2)" directiony="cos(1/2)" name="m1" value="model3" x="10" y="88"/>
+        <meso derivative="FIRST_DERIVATIVE" directionx="1" directiony="1" name="m2" value="model1" x="133" y="255"/>
+        <meso derivative="FIRST_DERIVATIVE" directionx="1" directiony="1" name="m3" value="model1" x="328" y="130"/>
+        <meso derivative="FIRST_DERIVATIVE" directionx="1" directiony="1" name="m4" value="model2" x="22" y="203"/>
+        <meso derivative="FIRST_DERIVATIVE" directionx="1" directiony="1" name="m5" value="model2" x="256" y="281"/>
+        <global name="g0" value="5" x="252" y="37"/>
+        <density name="d1" text="" value="10*sin(x/20)+10*cos(y/20)"/>
+        <density name="d2" text="" value="x"/>
+        <density name="d3" text="" value="y^4"/>
+        <density name="d4" text="" value="10*sin(x/2)+10*cos(y/2)"/>
+        <density name="d5" text="" value="x"/>
+        <model name="model1" type="flow"/>
+        <model name="model2" type="flow">
+            <container name="Q" value="0" x="262" y="109"/>
+            <parameter name="UC" value="Q/C" x="220" y="238"/>
+            <parameter name="C" value="520*10^-6" x="368" y="234"/>
+            <parameter name="UB" value="9" x="27" y="219"/>
+            <parameter name="UR" value="UB-UC" x="116" y="225"/>
+            <parameter name="R" value="1250" x="87" y="18"/>
+            <flowConnector name="I" value="UR/R">
+                <source>
+                    <helperpoint x="116" y="147"/>
+                    <infinite x="34" y="116"/>
+                </source>
+                <target to="Q">
+                    <helperpoint x="230" y="145"/>
+                </target>
+                <valve x="140" y="118"/>
+            </flowConnector>
+            <connector from="Q" to="UC">
+                <helperpoint x="256" y="207"/>
+            </connector>
+            <connector from="C" to="UC">
+                <helperpoint x="300" y="261"/>
+            </connector>
+            <connector from="R" to="I">
+                <helperpoint x="169" y="67"/>
+            </connector>
+            <connector from="UR" to="I">
+                <helperpoint x="158" y="190"/>
+            </connector>
+            <connector from="UB" to="UR">
+                <helperpoint x="96" y="247"/>
+            </connector>
+            <connector from="UC" to="UR">
+                <helperpoint x="193" y="256"/>
+            </connector>
+        </model>
+        <model name="model3" type="flow">
+            <density name="d0" value="d3" x="21" y="144"/>
+            <density name="d1" value="d1" x="343" y="63"/>
+            <density name="d2" value="d1" x="347" y="190"/>
+            <container name="con3" value="0" x="217" y="144"/>
+            <flowConnector name="fluss0" value="5">
+                <source from="d0">
+                    <helperpoint x="114" y="179"/>
+                </source>
+                <target to="con3">
+                    <helperpoint x="182" y="178"/>
+                </target>
+                <valve x="123" y="154"/>
+            </flowConnector>
+            <flowConnector name="fluss1" value="2">
+                <source from="con3">
+                    <helperpoint x="231" y="90"/>
+                </source>
+                <target to="d1">
+                    <helperpoint x="282" y="57"/>
+                </target>
+                <valve x="202" y="18"/>
+            </flowConnector>
+            <flowConnector name="fluss2" value="2">
+                <source from="con3">
+                    <helperpoint x="241" y="233"/>
+                </source>
+                <target to="d2">
+                    <helperpoint x="351" y="316"/>
+                </target>
+                <valve x="219" y="255"/>
+            </flowConnector>
+        </model>
+    </model>
+</simulation>

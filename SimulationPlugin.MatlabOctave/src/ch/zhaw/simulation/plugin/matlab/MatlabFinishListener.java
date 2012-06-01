@@ -48,7 +48,7 @@ public class MatlabFinishListener extends FileListener {
 	}
 
 	public void updateWorkpath(String workpath) {
-		synchronized (workpath) {
+		synchronized (this.workpath) {
 			this.workpath = workpath;
 		}
 	}
