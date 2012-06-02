@@ -72,7 +72,6 @@ public class XYResultChooser {
 			// if it couldn't find at least one meso position (x and y)
 			// throw away meso infos and continue with another meso
 			if (xSerie == null || ySerie == null) {
-				// TODO exception werfen?
 				continue;
 			}
 

@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 
 import org.nfunk.jep.ParseException;
 
-// TODO: wird nur ein mal instanziert? wann soll cancelUpdate geresetted (= false) werden?
 public abstract class AbstractDensityDraw {
 	private int width;
 	private int height;
@@ -51,7 +50,6 @@ public abstract class AbstractDensityDraw {
 				}
 			}
 
-			// TODO: vorschlag von Andreas B. ;)
 			cancelUpdate = false;
 
 			updateThread = new Thread(new Runnable() {

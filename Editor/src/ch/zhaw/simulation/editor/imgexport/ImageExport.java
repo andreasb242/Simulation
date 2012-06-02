@@ -111,7 +111,11 @@ public class ImageExport implements ClipboardOwner, ImageExportable {
 
 	@Override
 	public boolean supportsSelection() {
-		return true;
+
+		// TODO: selektion implementieren
+		return false;
+		
+		//return true;
 	}
 
 }
