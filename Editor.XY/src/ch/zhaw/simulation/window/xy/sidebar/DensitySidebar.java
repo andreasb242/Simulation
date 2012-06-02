@@ -18,6 +18,7 @@ import javax.swing.undo.UndoManager;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.VerticalLayout;
 
+import butti.javalibs.config.Settings;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.densitydraw.DensityLegendView;
@@ -46,7 +47,10 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 
 	private DensityLegendView legendView;
 
-	public DensitySidebar(final JFrame parent, final SimulationXYModel model, JComponent comp, Sysintegration sys, final UndoManager undo) {
+	private JCheckBox cbLog;
+
+	public DensitySidebar(final JFrame parent, final Settings settings, final SimulationXYModel model, JComponent comp, Sysintegration sys,
+			final UndoManager undo) {
 		setTitle("Dichte");
 
 		listModel = new DensityListModel(model);
@@ -169,10 +173,19 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		this.legendView = new DensityLegendView();
 		add(legendView);
 
-		
-		// TODO logarithmisch
-		JCheckBox cbLog = new JCheckBox("Logarithmisch");
+		this.cbLog = new JCheckBox("Logarithmisch");
 		add(cbLog);
+
+		cbLog.setSelected(settings.isSetting("density.logarithmic", false));
+
+		cbLog.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				settings.setSetting("density.logarithmic", cbLog.isSelected());
+				fireDensityChanged();
+			}
+		});
 
 		lastSelected = listModel.getSelectedItem();
 	}
@@ -187,6 +200,10 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		}
 		lastSelected = cbDensity.getSelectedItem();
 
+		fireDensityChanged();
+	}
+
+	private void fireDensityChanged() {
 		for (ActionListener l : listenerList) {
 			l.actionPerformed(null);
 		}
@@ -211,5 +228,12 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 
 	public void removeActionListener(ActionListener l) {
 		listenerList.remove(l);
+	}
+
+	public boolean isLogarithmic() {
+		if (this.cbLog != null) {
+			return this.cbLog.isSelected();
+		}
+		return false;
 	}
 }

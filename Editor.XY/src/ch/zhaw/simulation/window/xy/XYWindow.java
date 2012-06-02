@@ -45,7 +45,8 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 			}
 		});
 
-		densitySidebar = new DensitySidebar(control.getParent(), control.getModel(), view, control.getSysintegration(), view.getUndoHandler());
+		densitySidebar = new DensitySidebar(control.getParent(), control.getSettings(), control.getModel(), view, control.getSysintegration(),
+				view.getUndoHandler());
 
 		densitySidebar.addActionListener(densityListener);
 
@@ -89,7 +90,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 		} else {
 			formula = null;
 		}
-		getView().updateDensity(formula);
+		getView().updateDensity(formula, densitySidebar.isLogarithmic());
 	}
 
 	@Override

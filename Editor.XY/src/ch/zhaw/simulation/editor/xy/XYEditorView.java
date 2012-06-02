@@ -192,7 +192,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 		this.density.setSize(m.getWidth(), m.getHeight());
 
-		updateDensity(null);
+		updateDensity(null, false);
 
 		SimulationLayout l = (SimulationLayout) getLayout();
 		l.setMinWidth(m.getWidth());
@@ -205,10 +205,10 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	/**
 	 * If the formula is <code>null</code> or empty nothing is draw
 	 */
-	public void updateDensity(String formula) {
+	public void updateDensity(String formula, boolean logarithmic) {
 		getControl().getStatus().setStatusTextInfo("Dichte wird berechnet...");
 		
-		this.density.setFormula(formula);
+		this.density.setFormula(formula, logarithmic);
 		this.density.updateImageAsynchron();
 	}
 

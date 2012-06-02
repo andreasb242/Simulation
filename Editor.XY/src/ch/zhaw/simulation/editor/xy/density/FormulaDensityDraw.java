@@ -11,6 +11,7 @@ import ch.zhaw.simulation.math.Parser;
 public class FormulaDensityDraw extends AbstractDensityDraw {
 	private boolean noFormula = true;
 	private Parser parser = new Parser();
+	private boolean logarithmic = false;
 
 	public FormulaDensityDraw(int width, int height) {
 		super(width, height);
@@ -40,14 +41,23 @@ public class FormulaDensityDraw extends AbstractDensityDraw {
 	protected float valueFor(int x, int y) throws ParseException {
 		parser.setVar("x", x);
 		parser.setVar("y", y);
-		return (float) parser.evaluate();
+
+		double v = parser.evaluate();
+
+		if (this.logarithmic) {
+			return (float) Math.log(v);
+		}
+
+		return (float) v;
 	}
 
-	public void setFormula(String formula) {
+	public void setFormula(String formula, boolean logarithmic) {
 		if (formula == null || "".equals(formula)) {
 			noFormula = true;
 			return;
 		}
+
+		this.logarithmic = logarithmic;
 
 		try {
 			parser.simplyfy(formula);
