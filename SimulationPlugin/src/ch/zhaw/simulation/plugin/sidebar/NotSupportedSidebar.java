@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.plugin.sidebar;
 
-import org.jdesktop.swingx.JXLabel;
+import javax.swing.JLabel;
+
 import org.jdesktop.swingx.JXTaskPane;
 
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
@@ -10,8 +11,7 @@ public class NotSupportedSidebar extends JXTaskPane implements SidebarPosition {
 	private static final long serialVersionUID = 1L;
 
 	public NotSupportedSidebar(SimulationType t, String pluginName) {
-		JXLabel lb = new JXLabel("Der Simulationstype «" + t + "» wird nicht unterstützt von «" + pluginName + "»");
-		lb.setLineWrap(true);
+		JLabel lb = new JLabel("<html>Der Simulationstype " + "«" + t + "»<br>" + "wird nicht unterstützt von<br>" + "«" + pluginName + "»<html>");
 		add(lb);
 	}
 

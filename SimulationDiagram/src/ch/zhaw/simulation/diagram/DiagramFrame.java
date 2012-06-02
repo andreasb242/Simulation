@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -71,7 +73,7 @@ public class DiagramFrame extends JFrame {
 
 	private LogButton buttonLogY;
 
-	private JComboBox cbY;
+	private JComboBox cbX;
 
 	private PersistDiagramSettings persitSettings;
 
@@ -79,49 +81,48 @@ public class DiagramFrame extends JFrame {
 
 	private JFreeChart chart;
 
+	private Object xAxisType = null;
+
 	public DiagramFrame(SimulationCollection collection, final Settings settings, DiagramConfiguration config, final String name, final Sysintegration sys) {
 		this.settings = settings;
 		this.collection = collection;
 		this.config = config;
 
 		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
-		
+
 		toolbar = sys.createToolbar(32);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-		if(name != null) {
+
+		if (name != null) {
 			setTitle(name + " - (AB)² Simulation");
 		} else {
 			setTitle("(AB)² Simulation");
 		}
-		
+
 		setLayout(new BorderLayout());
 
-		cbY = new JComboBox();
-		cbY.addItem("Zeit");
+		cbX = new JComboBox();
+		cbX.addItem("Zeit");
 		for (SimulationSerie s : this.collection) {
-			cbY.addItem(s);
+			cbX.addItem(s);
 		}
 
-		cbY.setRenderer(new SerieCbRenderer(sys));
+		cbX.setRenderer(new SerieCbRenderer(sys));
+
+		cbX.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				updateSimulationSeries();
+			}
+		});
 
 		add(toolbar.getComponent(), BorderLayout.NORTH);
 
 		ChartTheme currentTheme = new SimulationDiagramTheme("(AB)²");
 
-		XYSeriesCollection col = new XYSeriesCollection();
-		int id = 0;
-		for (SimulationSerie s : collection) {
-			XYSeries serie = new XYSeries(s.getName());
-			for (SimulationEntry d : s.getData()) {
-				serie.add(d.time, d.value);
-			}
-			col.addSeries(serie);
-
-			s.setChartId(id);
-			id++;
-		}
+		XYSeriesCollection col = createSeriesCollection();
 
 		boolean tooltips = true;
 
@@ -168,7 +169,7 @@ public class DiagramFrame extends JFrame {
 			}
 		};
 
-		this.persitSettings = new PersistDiagramSettings(this.collection, renderer, chart);
+		this.persitSettings = new PersistDiagramSettings(this.collection, renderer, chart, cbX);
 		this.persitSettings.load(config);
 
 		this.sidebar = new DiagramSidebar(this.collection, renderer, sys);
@@ -180,10 +181,75 @@ public class DiagramFrame extends JFrame {
 
 		this.toolbar.addSeparator();
 		this.toolbar.add(new JLabel(" x-Achse: "));
-		this.toolbar.add(cbY);
+		this.toolbar.add(cbX);
 
 		// restore old position
-		new WindowPositionSaver(this, 640, 480);
+		new WindowPositionSaver(this, 800, 480);
+	}
+
+	protected void updateSimulationSeries() {
+		System.out.println("updateSimulationSeries()");
+		if (xAxisType == null || !xAxisType.equals(cbX.getSelectedItem())) {
+			xAxisType = cbX.getSelectedItem();
+			
+			XYSeriesCollection col = createSeriesCollection();
+			this.plot.setDataset(col);
+		}
+	}
+
+	private XYSeriesCollection createSeriesCollection() {
+		XYSeriesCollection col = new XYSeriesCollection();
+
+		if (xAxisType != null && xAxisType instanceof SimulationSerie) {
+			SimulationSerie xSerie = (SimulationSerie) xAxisType;
+			
+			System.out.println("xSerie = "+xSerie.getName());
+			
+			int id = 0;
+
+			boolean countMatches = true;
+
+			Vector<SimulationEntry> xSerieData = xSerie.getData();
+			int xSerieDataCount = xSerieData.size();
+
+			for (SimulationSerie s : collection) {
+				XYSeries serie = new XYSeries(s.getName(), false, false);
+				Vector<SimulationEntry> data = s.getData();
+
+				if (xSerieDataCount == data.size()) {
+					for (int i = 0; i < data.size(); i++) {
+						SimulationEntry d = data.get(i);
+						serie.add(xSerieData.get(i).value, d.value);
+					}
+				} else {
+					countMatches = false;
+				}
+
+				col.addSeries(serie);
+
+				s.setChartId(id);
+				id++;
+			}
+
+			if (!countMatches) {
+				// TODO was machen mit dieser Meldung?
+//				Messagebox.showInfo(this, "Datenpunkte", "<html>Nicht alle Datenreihen enhielten gleich viele Punkte wie die Datenreihe der X-Achse.<br>"
+//						+ "Alle nicht übereinstimmenden Reihen wurden ausgeblendet.</html>");
+			}
+		} else {
+			int id = 0;
+			for (SimulationSerie s : collection) {
+				XYSeries serie = new XYSeries(s.getName(), false, false);
+				for (SimulationEntry d : s.getData()) {
+					serie.add(d.time, d.value);
+				}
+				col.addSeries(serie);
+
+				s.setChartId(id);
+				id++;
+			}
+		}
+		return col;
 	}
 
 	private void initToolbar() {

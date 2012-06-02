@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.Map.Entry;
 
+import javax.swing.JComboBox;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
@@ -30,11 +32,13 @@ public class PersistDiagramSettings {
 	private SimulationCollection collection;
 	private XYLineAndShapeRenderer renderer;
 	private JFreeChart chart;
+	private JComboBox cbX;
 
-	public PersistDiagramSettings(SimulationCollection collection, XYLineAndShapeRenderer renderer, JFreeChart chart) {
+	public PersistDiagramSettings(SimulationCollection collection, XYLineAndShapeRenderer renderer, JFreeChart chart, JComboBox cbX) {
 		this.collection = collection;
 		this.chart = chart;
 		this.renderer = renderer;
+		this.cbX = cbX;
 	}
 
 	private SimulationSerie getCollectionByName(String name) {
@@ -148,7 +152,12 @@ public class PersistDiagramSettings {
 		saveAxis(cfg, "x", plot.getDomainAxis());
 		saveAxis(cfg, "y", plot.getRangeAxis());
 
-		// TODO !!!!!!!!! Speichern was die X achse ist
+		Object x = cbX.getSelectedItem();
+		if (x != null && x instanceof SimulationSerie) {
+			cfg.set("axis.x.type", ":" + ((SimulationSerie) x).getName());
+		} else {
+			cfg.set("axis.x.type", "time");
+		}
 
 		// Header
 		TextTitle title = chart.getTitle();
@@ -177,7 +186,6 @@ public class PersistDiagramSettings {
 		// Legend
 		cfg.set("legend.visible", chart.getLegend().isVisible());
 
-		
 		// Configuration by user Disable, because makes no sens for us
 		// cfg.set("plot.layout.orientation", plot.getOrientation().toString());
 
@@ -214,6 +222,25 @@ public class PersistDiagramSettings {
 		loadAxis(cfg, "x", plot.getDomainAxis());
 		loadAxis(cfg, "y", plot.getRangeAxis());
 
+		String xType = cfg.get("axis.x.type", "");
+
+		if (xType.startsWith(":")) {
+			String name = xType.substring(1);
+
+			for (int i = 0; i < cbX.getItemCount(); i++) {
+				Object item = cbX.getItemAt(i);
+				if (item != null && item instanceof SimulationSerie) {
+					SimulationSerie s = (SimulationSerie) item;
+					if (name.equals(s.getName())) {
+						cbX.setSelectedIndex(i);
+						break;
+					}
+				}
+			}
+		} else {
+			cbX.setSelectedIndex(0);
+		}
+
 		// Header
 		TextTitle title = new TextTitle();
 		title.setText(cfg.get("title.text", ""));
@@ -233,7 +260,7 @@ public class PersistDiagramSettings {
 
 		// Legend
 		chart.getLegend().setVisible(cfg.get("legend.visible", false));
-		
+
 		// TODO save / load legend Font
 
 		// Disabled because makes no sense for us
