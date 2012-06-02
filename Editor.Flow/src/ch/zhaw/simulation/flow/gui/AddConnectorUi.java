@@ -273,7 +273,8 @@ public class AddConnectorUi {
 
 	protected void setEndElement(AbstractDataView<?> end) {
 		if (addArcType == ArcType.SELECATABLE) {
-			if (start instanceof ContainerView || end instanceof ContainerView) {
+			if ((start instanceof ContainerView || start instanceof DensityContainerView)
+					&& (end instanceof ContainerView || end instanceof DensityContainerView)) {
 				ConnectorSelectDialog dlg = new ConnectorSelectDialog(control);
 				dlg.setVisible(true);
 				ArcType arc = dlg.getArc();
