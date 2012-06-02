@@ -137,7 +137,7 @@ public class FormulaEditorPanel extends JPanel {
 		globals.setComponent(component);
 	}
 
-	protected void checkFormula(boolean forceSave) {
+	protected synchronized void checkFormula(boolean forceSave) {
 		if (value == null || data == null) {
 			return;
 		}
