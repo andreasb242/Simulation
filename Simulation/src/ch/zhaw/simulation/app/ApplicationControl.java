@@ -215,7 +215,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 								Vector<XYDensityRaw> rawList = getSelectedPluginDescriptor().getPlugin().getXYResults(doc);
 								XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
 								XYResultList xyResultList = chooser.chooseMesoPart();
-								ResultViewerDialog dlg = new ResultViewerDialog(xyResultList, rawList);
+								ResultViewerDialog dlg = new ResultViewerDialog(getMainFrame(), xyResultList, rawList);
 								dlg.setVisible(true);
 							}
 						} else if (state == FinishState.CANCELED) {
@@ -265,7 +265,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 				return doc.getType();
 			}
 		});
-		
+
 		loadSimulationParameterFromSettings();
 		if (type == SimulationType.FLOW_SIMULATION) {
 			showFlowWindow(true);

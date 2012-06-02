@@ -81,7 +81,6 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				FlowConnectorData c = ((FlowValveElement) el).getConnector();
 
 				tmpRemovedConnectors.add(c);
-
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(c.getValve()));
 			} else if (el instanceof BezierHelperPoint) {
 				AbstractConnectorData<?> condata = ((BezierHelperPoint) el).getData();
@@ -89,6 +88,11 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				if (condata instanceof ParameterConnectorData) {
 					ParameterConnectorData d = (ParameterConnectorData) condata;
 					tmpRemovedConnectors.add(d);
+				} else if(condata instanceof FlowConnectorData) {
+					FlowConnectorData fcd = (FlowConnectorData) condata;
+					
+					tmpRemovedConnectors.add(fcd);
+					addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(fcd.getValve()));
 				}
 			}
 		}
@@ -117,7 +121,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				removedObjects.add(txt.getData());
 			}
 		}
-
+		
 		getUndoManager().addEdit(new DeleteUndoAction(removedObjects, removedConnectors, removedInfinite, this));
 	}
 

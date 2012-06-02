@@ -30,7 +30,7 @@ public class DialogTest {
 		raw.setMatrixValue(50, 53, 1.2);
 		rawList.add(raw);
 
-		ResultViewerDialog dlg = new ResultViewerDialog(resultList, rawList);
+		ResultViewerDialog dlg = new ResultViewerDialog(null, resultList, rawList);
 
 		dlg.setVisible(true);
 	}

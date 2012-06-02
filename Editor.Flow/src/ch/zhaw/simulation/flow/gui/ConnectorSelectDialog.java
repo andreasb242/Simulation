@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.flow.gui;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,16 +11,16 @@ import javax.swing.SwingConstants;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
+import ch.zhaw.simulation.flow.gui.AddConnectorUi.ArcType;
 import ch.zhaw.simulation.toolbar.xy.FlowToolbar;
 
 import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
 
-
 public class ConnectorSelectDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
-	private boolean flow = false;
+	private ArcType arc = null;
 
 	private GridBagManager gbm;
 
@@ -48,7 +47,7 @@ public class ConnectorSelectDialog extends BDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				flow = true;
+				ConnectorSelectDialog.this.arc = ArcType.FLOW;
 				setVisible(false);
 			}
 		});
@@ -65,6 +64,7 @@ public class ConnectorSelectDialog extends BDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				ConnectorSelectDialog.this.arc = ArcType.PARAMETER;
 				setVisible(false);
 			}
 		});
@@ -73,7 +73,7 @@ public class ConnectorSelectDialog extends BDialog {
 		setLocationRelativeTo(control.getParent());
 	}
 
-	public boolean isFlow() {
-		return flow;
+	public ArcType getArc() {
+		return arc;
 	}
 }

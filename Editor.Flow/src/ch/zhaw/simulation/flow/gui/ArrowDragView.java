@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 
 /**
- * This is the bluew arrow on the right of a component to add a new connection
+ * This is the blue arrow on the right of a component to add a new connection
  * 
  * @author Andreas Butti
  */

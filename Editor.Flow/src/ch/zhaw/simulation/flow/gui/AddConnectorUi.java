@@ -123,7 +123,26 @@ public class AddConnectorUi {
 
 			SelectableElement<?>[] selected = selectionModel.getSelected();
 
-			if (addArcType == ArcType.FLOW) {
+			if (addArcType == ArcType.PARAMETER) {
+				if (start != null) {
+					if (selected.length == 2) {
+						if (!checkType(selected[1])) {
+							System.err.println("check type failed: 3");
+							return; // Sollte nicht auftreten, error Handling
+						}
+						setEndElement((AbstractDataView<?>) selected[1]);
+					} else {
+						control.setStatusTextInfo("Auf Ziel klicken oder mit <ESC> abbrechen");
+					}
+				} else if (selected.length == 1) {
+					if (!checkType(selected[0])) {
+						System.err.println("check type failed: 4");
+						return; // Sollte nicht auftreten, error Handling
+					}
+					setStartElement((AbstractDataView<?>) selected[0]);
+					selectionModel.acceptTmpSelection();
+				}
+			} else {
 				if (start != null) {
 					if (start instanceof InfiniteSymbol && selected.length == 1) {
 						if (!checkType(selected[0])) {
@@ -165,25 +184,6 @@ public class AddConnectorUi {
 					control.setStatusTextInfo("Auf Container klicken, oder mit <ESC> abbrechen");
 					start = infinite;
 
-				}
-			} else {
-				if (start != null) {
-					if (selected.length == 2) {
-						if (!checkType(selected[1])) {
-							System.err.println("check type failed: 3");
-							return; // Sollte nicht auftreten, error Handling
-						}
-						setEndElement((AbstractDataView<?>) selected[1]);
-					} else {
-						control.setStatusTextInfo("Auf Ziel klicken oder mit <ESC> abbrechen");
-					}
-				} else if (selected.length == 1) {
-					if (!checkType(selected[0])) {
-						System.err.println("check type failed: 4");
-						return; // Sollte nicht auftreten, error Handling
-					}
-					setStartElement((AbstractDataView<?>) selected[0]);
-					selectionModel.acceptTmpSelection();
 				}
 			}
 		};
@@ -276,9 +276,12 @@ public class AddConnectorUi {
 			if (start instanceof ContainerView || end instanceof ContainerView) {
 				ConnectorSelectDialog dlg = new ConnectorSelectDialog(control);
 				dlg.setVisible(true);
-				if (dlg.isFlow()) {
-					addArcType = ArcType.FLOW;
+				ArcType arc = dlg.getArc();
+				if (arc == null) {
+					cancelAddArrow();
+					return;
 				}
+				addArcType = arc;
 			}
 		}
 

@@ -1,15 +1,15 @@
-Interface um Definierte Variabeln zu erhalten
-Warnen wenn Fehler im Model und trotzdem versucht wird zu simulieren
-Repaint bei Ventil Markierung geht nicht
-Refactoring bei Namen (in Formeln)
-Speichern von Vektorgrafiken, nur Ausschnitt
+LATER: Interface um Definierte Variabeln zu erhalten
+LATER: Warnen wenn Fehler im Model und trotzdem versucht wird zu simulieren
+LATER: Repaint bei Ventil Markierung geht nicht
+LATER: Refactoring bei Namen (in Formeln)
+LATER: Speichern von Vektorgrafiken, nur Ausschnitt
 
 Dichte:
-	Export in Grafik
+LATER: 	Export in Grafik
 	Logarithmisch
 
 Diagram:
 	Beiliege Variabeln als y
 
-Diagram: Farbe / SW / Custom
+LATER: Diagram: Farbe / SW / Custom
 

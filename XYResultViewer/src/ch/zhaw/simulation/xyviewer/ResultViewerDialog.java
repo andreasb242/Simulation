@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.xyviewer;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.util.Vector;
 
 import javax.swing.JDialog;
@@ -13,7 +14,9 @@ import ch.zhaw.simulation.plugin.data.XYResultList;
 public class ResultViewerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
-	public ResultViewerDialog(XYResultList resultList, Vector<XYDensityRaw> rawList) {
+	public ResultViewerDialog(Window parent, XYResultList resultList, Vector<XYDensityRaw> rawList) {
+		super(parent);
+
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		setLayout(new BorderLayout());

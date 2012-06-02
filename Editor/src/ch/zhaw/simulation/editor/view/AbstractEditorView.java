@@ -342,6 +342,11 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 			Component c = getComponent(i);
 			if (c instanceof SelectableElement) {
 				paintSubComponent(g, c);
+			} else {
+				if (c.isVisible()) {
+					Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+					c.paint(cg);
+				}
 			}
 		}
 	}

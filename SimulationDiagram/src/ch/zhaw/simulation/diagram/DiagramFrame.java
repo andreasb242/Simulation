@@ -84,10 +84,18 @@ public class DiagramFrame extends JFrame {
 		this.collection = collection;
 		this.config = config;
 
+		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
+		
 		toolbar = sys.createToolbar(32);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setTitle(name + " - (AB)² Simulation");
+		
+		if(name != null) {
+			setTitle(name + " - (AB)² Simulation");
+		} else {
+			setTitle("(AB)² Simulation");
+		}
+		
 		setLayout(new BorderLayout());
 
 		cbY = new JComboBox();

@@ -25,8 +25,8 @@ public class DeleteUndoAction extends AbstractUndoableEdit {
 		this.removedInfinite = removedInfinite;
 		this.control = control;
 
-		if(this.removedObjects.size() == 0) {
-			throw new RuntimeException("flow.DeleteUndoAction.removedObjects.size() == 0");
+		if(this.removedObjects.size() == 0 && this.removedConnectors.size() == 0 && this.removedInfinite.size() == 0) {
+			throw new RuntimeException("flow.DeleteUndoAction.removed == 0");
 		}
 		
 		delete();
