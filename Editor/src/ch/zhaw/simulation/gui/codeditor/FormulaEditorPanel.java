@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -121,7 +122,14 @@ public class FormulaEditorPanel extends JPanel {
 			@Override
 			public void run() {
 				System.out.println("check timer activated");
-				checkFormula(false);
+				
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						checkFormula(false);
+					}
+				});
 			}
 		}, CHECK_DELAY);
 	}
@@ -137,7 +145,7 @@ public class FormulaEditorPanel extends JPanel {
 		globals.setComponent(component);
 	}
 
-	protected synchronized void checkFormula(boolean forceSave) {
+	protected void checkFormula(boolean forceSave) {
 		if (value == null || data == null) {
 			return;
 		}
