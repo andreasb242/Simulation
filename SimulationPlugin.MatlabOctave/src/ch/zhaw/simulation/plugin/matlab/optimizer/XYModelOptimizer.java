@@ -46,7 +46,9 @@ public class XYModelOptimizer implements ModelOptimizer {
 		predefined.add("y");
 
 		// Iterate over all initial densities (because they aren't AbstractNamedSimulationData)
+		// and syntax check formula
 		for (DensityData density : xyModel.getDensity()) {
+			// TODO: replace parser variables with MATLAB variables and save in attachment
 			parser.checkCode(density.getFormula(), density, xyModel, new Vector<AbstractNamedSimulationData>(), predefined, density.getName());
 		}
 	}

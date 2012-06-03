@@ -211,14 +211,15 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		fileOpen(out, variableList);
 		fileWrite(out, variableList);
 
-		out.println("sim_count = ceil(sim_end / sim_dt);");
+		out.println("sim_count = ceil(sim_end / sim_dt) - ceil(sim_start / sim_dt);");
 		out.println("sim_progress_new = uint8(0);");
 		out.println("sim_progress_old = uint8(0);");
 		out.newline();
-		out.println("for i = 1:sim_count");
+		out.println("for i = sim_start:sim_count");
 		out.indent();
 
 		/*** progress ***/
+		out.printComment("progress bar");
 		out.println("sim_progress_new = uint8(100*sim_time/sim_end);");
 		out.println("if sim_progress_new > sim_progress_old");
 		out.indent();

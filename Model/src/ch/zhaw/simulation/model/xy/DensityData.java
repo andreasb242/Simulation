@@ -3,6 +3,7 @@ package ch.zhaw.simulation.model.xy;
 import java.util.Vector;
 
 import ch.zhaw.simulation.model.NamedFormulaData;
+import ch.zhaw.simulation.model.SimulationAttachment;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
 
 /**
@@ -15,6 +16,11 @@ public class DensityData implements NamedFormulaData {
 
 	private String name;
 	private String description;
+
+	/**
+	 * The attachment, Temporary used for simulation / codegeneration
+	 */
+	public SimulationAttachment attachment;
 
 	public DensityData() {
 	}

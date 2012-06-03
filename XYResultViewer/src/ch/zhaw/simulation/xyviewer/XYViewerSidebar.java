@@ -22,7 +22,7 @@ public class XYViewerSidebar extends JComponent {
 	private JPanel radioPanel;
 
 	public XYViewerSidebar(final XYViewer viewer, Vector<XYDensityRaw> rawList) {
-		setLayout(new FlowLayout());
+		setLayout(new BorderLayout());
 
 		lblTitle = new JLabel("End-Dichte:");
 

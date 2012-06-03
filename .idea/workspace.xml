@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/Editor.XY/src/ch/zhaw/simulation/editor/xy/XYEditorView.java" line="207" mnemonic="1" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="1be1664b-b57b-4d74-b967-eadb3b2e39de" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ImageExport/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/XYResultViewer/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../BJavalibs/BJavalibs/BJavalibs/build.xml" afterPath="$PROJECT_DIR$/../BJavalibs/BJavalibs/BJavalibs/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ant.xml" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimulationBuild/build.xml" afterPath="$PROJECT_DIR$/SimulationBuild/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/xy/DensityData.java" afterPath="$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/xy/DensityData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/codegen/XYCodeGenerator.java" afterPath="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/codegen/XYCodeGenerator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/optimizer/XYModelOptimizer.java" afterPath="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/optimizer/XYModelOptimizer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerSidebar.java" afterPath="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerSidebar.java" />
     </list>
     <ignored path="Simulation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -18,6 +21,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -30,7 +38,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/SerieCbRenderer.java" line="16" class="ch.zhaw.simulation.diagram.SerieCbRenderer" package="ch.zhaw.simulation.diagram">
+      <breakpoint url="file://$PROJECT_DIR$/Simulation/src/ch/zhaw/simulation/app/ApplicationControl.java" line="219" class="ch.zhaw.simulation.app.ApplicationControl$1$1" package="ch.zhaw.simulation.app">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -40,8 +48,8 @@
         <option name="CONDITION_ENABLED" value="false" />
         <option name="CLASS_FILTERS_ENABLED" value="false" />
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </line_breakpoints>
     <breakpoint_any>
@@ -57,8 +65,8 @@
         <option name="CONDITION_ENABLED" value="false" />
         <option name="CLASS_FILTERS_ENABLED" value="false" />
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -72,107 +80,102 @@
         <option name="CONDITION_ENABLED" value="false" />
         <option name="CLASS_FILTERS_ENABLED" value="false" />
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </breakpoint_any>
     <breakpoint_rules />
-    <ui_properties />
+    <ui_properties>
+      <property name="line_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_flattenPackages" value="true" />
+      <property name="method_breakpoints_flattenPackages" value="true" />
+      <property name="field_breakpoints_flattenPackages" value="true" />
+      <property name="exception_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_groupByClasses" value="true" />
+      <property name="method_breakpoints_viewId" value="TABLE" />
+      <property name="field_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_flattenPackages" value="true" />
+      <property name="field_breakpoints_groupByClasses" value="true" />
+      <property name="method_breakpoints_groupByClasses" value="true" />
+      <property name="exception_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="method_breakpoints_groupByMethods" value="false" />
+    </ui_properties>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="Simulation" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="XYCodeGenerator.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="XYViewerSidebar.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerSidebar.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="0" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XYCodeGenerator.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/codegen/XYCodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="464" column="17" selection-start="16866" selection-end="16866" vertical-scroll-proportion="0.0">
+            <state line="217" column="51" selection-start="8064" selection-end="8064" vertical-scroll-proportion="1.6950147">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/SimulationBuild/build.xml">
+      <file leaf-file-name="ModelOptimizer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/optimizer/ModelOptimizer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="249" column="0" selection-start="7998" selection-end="7998" vertical-scroll-proportion="0.9066456">
+            <state line="7" column="17" selection-start="164" selection-end="164" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ApplicationControl.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Simulation/src/ch/zhaw/simulation/app/ApplicationControl.java">
+      <file leaf-file-name="XYModelOptimizer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/optimizer/XYModelOptimizer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="34" selection-start="2620" selection-end="2620" vertical-scroll-proportion="0.0">
+            <state line="51" column="24" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/XYResultViewer/build.xml">
+      <file leaf-file-name="Parser.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SimulationJepLib-2.4.1/src/ch/zhaw/simulation/math/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="29" selection-start="15" selection-end="29" vertical-scroll-proportion="0.0">
+            <state line="160" column="28" selection-start="5008" selection-end="5008" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Model/build.xml">
+      <file leaf-file-name="DensityData.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/xy/DensityData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="33" selection-start="0" selection-end="1053" vertical-scroll-proportion="0.0">
+            <state line="22" column="31" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ImageExport/build.xml">
+      <file leaf-file-name="NamedFormulaData.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/NamedFormulaData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="38" selection-start="876" selection-end="876" vertical-scroll-proportion="0.0">
+            <state line="6" column="17" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImageExport.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Editor/src/ch/zhaw/simulation/editor/imgexport/ImageExport.java">
+      <file leaf-file-name="AbstractNamedSimulationData.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/element/AbstractNamedSimulationData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="42" selection-start="796" selection-end="796" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImageExportable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ImageExport/src/ch/zhaw/simulation/dialog/snapshot/ImageExportable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TypeIcons.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/TypeIcons.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="41" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DirectoryWatcher.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../BJavalibs/BJavalibs/BJavalibs/src/butti/javalibs/dirwatcher/DirectoryWatcher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="31" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
+            <state line="34" column="30" selection-start="945" selection-end="1064" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -195,22 +198,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Editor/src/ch/zhaw/simulation/window/sidebar/SimulationConfigurationPanel.java" />
-        <option value="$PROJECT_DIR$/Simulation/src/ch/zhaw/simulation/app/ApplicationControl.java" />
-        <option value="$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/SerieCbRenderer.java" />
-        <option value="$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/TypeIcons.java" />
-        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/ResultViewerDialog.java" />
-        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/model/XYResultChooser.java" />
-        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/model/XYResultEntry.java" />
-        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/model/XYResultList.java" />
-        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewer.java" />
-        <option value="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/util/ProcessThread.java" />
-        <option value="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabProgressListener.java" />
+        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYDensityParser.java" />
+        <option value="$PROJECT_DIR$/SimulationPlugin/src/ch/zhaw/simulation/plugin/data/XYResultChooser.java" />
         <option value="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabCompatiblePlugin.java" />
+        <option value="$PROJECT_DIR$/SimulationPlugin/src/ch/zhaw/simulation/plugin/SimulationPlugin.java" />
+        <option value="$PROJECT_DIR$/SimulationPlugin.Intern/src/ch/zhaw/simulation/sim/intern/SimulationInternPlugin.java" />
+        <option value="$PROJECT_DIR$/Editor.XY/src/ch/zhaw/simulation/densitydraw/AbstractDensityDraw.java" />
+        <option value="$PROJECT_DIR$/Simulation/src/ch/zhaw/simulation/app/ApplicationControl.java" />
+        <option value="$PROJECT_DIR$/SimulationPlugin/src/ch/zhaw/simulation/plugin/data/XYDensityList.java" />
+        <option value="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/XYDensityParser.java" />
+        <option value="$PROJECT_DIR$/SimulationPlugin/src/ch/zhaw/simulation/plugin/data/XYDensityRaw.java" />
+        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/ResultViewerDialog.java" />
+        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewer.java" />
+        <option value="$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/xy/DensityData.java" />
+        <option value="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/optimizer/XYModelOptimizer.java" />
+        <option value="$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerSidebar.java" />
         <option value="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/codegen/XYCodeGenerator.java" />
-        <option value="$PROJECT_DIR$/ImageExport/build.xml" />
-        <option value="$PROJECT_DIR$/XYResultViewer/build.xml" />
-        <option value="$PROJECT_DIR$/SimulationBuild/build.xml" />
       </list>
     </option>
   </component>
@@ -249,17 +252,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Simulation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -284,7 +276,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SimulationBuild" />
+              <option name="myItemId" value="XYResultViewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xyviewer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -294,7 +294,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Model" />
+              <option name="myItemId" value="SimulationPlugin.MatlabOctave" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -304,7 +304,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ExternLibraries" />
+              <option name="myItemId" value="SimulationPlugin.MatlabOctave" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -314,11 +318,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ExternLibraries" />
+              <option name="myItemId" value="SimulationPlugin.MatlabOctave" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="optimizer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -328,8 +336,78 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="BJavalibs" />
+              <option name="myItemId" value="SimulationPlugin.MatlabOctave" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="codegen" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Simulation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimulationJepLib-2.4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Simulation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimulationJepLib-2.4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Simulation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimulationJepLib-2.4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="function" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Simulation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -338,21 +416,21 @@
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="282" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="280" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="289" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="287" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="296" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="294" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="296" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="970" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="975" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="291" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="285" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="294" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="965" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="970" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="289" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="283" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
@@ -360,8 +438,9 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
@@ -372,9 +451,16 @@
     <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ch.zhaw.simulation.plugin.sidebar" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\bachi\Documents\Repository\Simulation\XYResultViewer" />
       <recent name="C:\Users\bachi\Documents\Repository\Simulation\ImageExport" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ch.zhaw.simulation.plugin.matlab" />
+      <recent name="ch.zhaw.simulation.plugin.data" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\bachi\Documents\Repository\Simulation\ExternLibraries\lib" />
@@ -551,7 +637,35 @@
       <created>1337596147387</created>
       <updated>1337596147387</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Build adjusted">
+      <created>1337600979067</created>
+      <updated>1337600979067</updated>
+    </task>
+    <task id="LOCAL-00005" summary="IntelliJ Project changes">
+      <created>1337697855065</created>
+      <updated>1337697855065</updated>
+    </task>
+    <task id="LOCAL-00006" summary="IntelliJ Project changes">
+      <created>1337697864000</created>
+      <updated>1337697864000</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Plugin: gradient and diffusion">
+      <created>1337697903709</created>
+      <updated>1337697903709</updated>
+    </task>
+    <task id="LOCAL-00008" summary="XYResultViewer: show densities">
+      <created>1338222775354</created>
+      <updated>1338222775354</updated>
+    </task>
+    <task id="LOCAL-00009" summary="XYResultViewer: add radio buttons">
+      <created>1338224341662</created>
+      <updated>1338224341662</updated>
+    </task>
+    <task id="LOCAL-00010" summary="XYResultViewer: bugfix radio buttons">
+      <created>1338225259916</created>
+      <updated>1338225259916</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -575,31 +689,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1928" height="1164" extended-state="6" />
+    <frame x="-4" y="-4" width="1928" height="1164" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32940018" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6273353" sideWeight="0.49786323" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32940018" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.58013767" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.58013767" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39921337" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6273353" sideWeight="0.49839744" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32940018" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41986233" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32940018" sideWeight="0.49786323" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32940018" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23959444" sideWeight="0.6705998" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39957264" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23824786" sideWeight="0.3726647" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.59390366" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32940018" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41986233" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -640,7 +754,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Plugin: Progressbar with Matlab" />
+    <option name="LAST_COMMIT_MESSAGE" value="XYResultViewer: bugfix radio buttons" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -656,6 +770,12 @@
     <MESSAGE value="Plugin: consume and produce densities" />
     <MESSAGE value="XYResultViewer: Bugfix" />
     <MESSAGE value="Plugin: Progressbar with Matlab" />
+    <MESSAGE value="Build adjusted" />
+    <MESSAGE value="IntelliJ Project changes" />
+    <MESSAGE value="Plugin: gradient and diffusion" />
+    <MESSAGE value="XYResultViewer: show densities" />
+    <MESSAGE value="XYResultViewer: add radio buttons" />
+    <MESSAGE value="XYResultViewer: bugfix radio buttons" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -687,106 +807,92 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/xy/SubModelList.java">
+    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/XYDensityParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="11" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0" />
+        <state line="48" column="35" selection-start="1376" selection-end="1376" vertical-scroll-proportion="0.5715726" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabCompatiblePlugin.java">
+    <entry file="file://$PROJECT_DIR$/Editor.XY/src/ch/zhaw/simulation/editor/xy/XYEditorView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="0" selection-start="1909" selection-end="1909" vertical-scroll-proportion="0.0">
+        <state line="27" column="0" selection-start="1193" selection-end="1193" vertical-scroll-proportion="0.017137097">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationPlugin/src/ch/zhaw/simulation/plugin/ExecutionListener.java">
+    <entry file="file://$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="34" selection-start="79" selection-end="96" vertical-scroll-proportion="0.0" />
+        <state line="101" column="45" selection-start="2802" selection-end="2802" vertical-scroll-proportion="0.017137097" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/FlowModelAttachment.java">
+    <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/DiagramFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="681" selection-end="681" vertical-scroll-proportion="0.0" />
+        <state line="158" column="17" selection-start="5122" selection-end="5122" vertical-scroll-proportion="0.017137097" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabFinishListener.java">
+    <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/sidebar/DiagramSidebar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="45" selection-start="544" selection-end="544" vertical-scroll-proportion="0.0" />
+        <state line="0" column="30" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabProgressListener.java">
+    <entry file="file://$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/ResultViewerDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="812" selection-end="812" vertical-scroll-proportion="0.0" />
+        <state line="20" column="29" selection-start="561" selection-end="561" vertical-scroll-proportion="0.34274194" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../BJavalibs/BJavalibs/BJavalibs/src/butti/javalibs/dirwatcher/DirectoryWatcher.java">
+    <entry file="file://$PROJECT_DIR$/SimulationJepLib-2.4.1/src/org/nfunk/jep/function/Ele.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="31" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0" />
+        <state line="31" column="27" selection-start="678" selection-end="678" vertical-scroll-proportion="0.38477367" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimulationJepLib-2.4.1/src/org/nfunk/jep/function/If.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="5" selection-start="1750" selection-end="1783" vertical-scroll-proportion="0.85685486" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/optimizer/ModelOptimizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="17" selection-start="164" selection-end="164" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/optimizer/XYModelOptimizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="24" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimulationJepLib-2.4.1/src/ch/zhaw/simulation/math/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="160" column="28" selection-start="5008" selection-end="5008" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/xy/DensityData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="31" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/NamedFormulaData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="17" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Model/src/ch/zhaw/simulation/model/element/AbstractNamedSimulationData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="30" selection-start="945" selection-end="1064" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/XYResultViewer/src/ch/zhaw/simulation/xyviewer/XYViewerSidebar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/codegen/XYCodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="464" column="17" selection-start="16866" selection-end="16866" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationDiagram/src/ch/zhaw/simulation/diagram/TypeIcons.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="41" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Editor/src/ch/zhaw/simulation/editor/imgexport/ImageExport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="42" selection-start="796" selection-end="796" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ImageExport/src/ch/zhaw/simulation/dialog/snapshot/ImageExportable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ImageExport/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="38" selection-start="876" selection-end="876" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Model/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="33" selection-start="0" selection-end="1053" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Simulation/src/ch/zhaw/simulation/app/ApplicationControl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="34" selection-start="2620" selection-end="2620" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/XYResultViewer/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="29" selection-start="15" selection-end="29" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimulationBuild/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="0" selection-start="7998" selection-end="7998" vertical-scroll-proportion="0.9066456">
+        <state line="217" column="51" selection-start="8064" selection-end="8064" vertical-scroll-proportion="1.6950147">
           <folding />
         </state>
       </provider>
@@ -843,7 +949,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>SimulationDiagram</last-edited>
+          <last-edited>XYResultViewer</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
