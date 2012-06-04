@@ -151,7 +151,11 @@ public class SettingsGui extends JPanel {
 
 		/*** Just generate ***/
 		boolean selected = settings.isSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
-		cbGenerate = new JCheckBox("", selected);
+		cbGenerate = new JCheckBox("<html>Simulationsfiles werden nur generiert,<br>" +
+				"und können dann von Hand ausgeführt werden.<br>" +
+				"Alle Dateien werden im Ordner «Workpath» abgelegt.<br>" +
+				"Resultate können in diesen Ordner gelegt werden und dann mit<br>" +
+				"<b>Simulation / Lade letzte Resultate</b> angezeigt werden.</html>", selected);
 
 		gbm.setX(0).setY(9).setWeightY(0).setWeightX(0).setComp(new JLabel("Just generate"));
 		gbm.setX(1).setY(9).setWeightY(0).setComp(cbGenerate);

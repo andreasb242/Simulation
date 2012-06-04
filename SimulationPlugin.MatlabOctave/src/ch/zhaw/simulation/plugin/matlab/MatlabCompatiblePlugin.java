@@ -2,6 +2,7 @@ package ch.zhaw.simulation.plugin.matlab;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -102,10 +103,22 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		String filename = null;
 
 		AbstractCodeGenerator codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
+		boolean justGenerate = settings.isSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
+
+		File f = new File(workpath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+
+		if (!f.isDirectory()) {
+			throw new Exception("Workpath «" + workpath + "» is not a Folder / does not exists, and could not be created");
+		}
 
 		try {
 			finishListener.updateWorkpath(workpath);
-			watcher.start(workpath);
+			if (justGenerate == false) {
+				watcher.start(workpath);
+			}
 			provider.getExecutionListener().executionStarted("Simulation läuft...");
 
 			codeGenerator.setWorkingFolder(workpath);
@@ -126,9 +139,9 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 			}
 			throw e;
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			watcher.stop();
 			provider.getExecutionListener().executionFinished(e.getMessage(), FinishState.ERROR);
-			throw e;
 		}
 	}
 

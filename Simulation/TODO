@@ -9,3 +9,8 @@ LATER: 	Export in Grafik
 
 LATER: Diagram: Farbe / SW / Custom
 LATER: ArrowDragView: verbinden von bereits verbundenen Containern nicht möglich (auch wenn nur Parameterverbindung besteht)
+
+Netbeans dirchooser: Horizontale Scrollbar
+
+Density: Logarithmisch dekativieren wenn nicht möglich
+Density: Schönere Legende

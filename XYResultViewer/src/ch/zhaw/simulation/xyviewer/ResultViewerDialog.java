@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.data.XYResultList;
@@ -14,8 +13,14 @@ import ch.zhaw.simulation.plugin.data.XYResultList;
 public class ResultViewerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
+	private PositionModel model;
+
+	private PositionControlPanel positionControl;
+
 	public ResultViewerDialog(Window parent, XYResultList resultList, Vector<XYDensityRaw> rawList) {
 		super(parent);
+
+		this.model = new PositionModel(resultList.getStepCount());
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -23,7 +28,7 @@ public class ResultViewerDialog extends JDialog {
 
 		XYViewer viewer = new XYViewer(resultList, rawList);
 
-		PositionControlPanel positionControl = new PositionControlPanel(resultList.getStepCount());
+		this.positionControl = new PositionControlPanel(this.model);
 
 		XYViewerSidebar sidebar = new XYViewerSidebar(viewer, rawList);
 
@@ -31,7 +36,16 @@ public class ResultViewerDialog extends JDialog {
 		add(positionControl, BorderLayout.SOUTH);
 		add(sidebar, BorderLayout.WEST);
 
+		model.firePosition(0);
+
 		pack();
 		setLocationRelativeTo(null);
+	}
+
+	@Override
+	public void dispose() {
+		this.positionControl.dispose();
+
+		super.dispose();
 	}
 }

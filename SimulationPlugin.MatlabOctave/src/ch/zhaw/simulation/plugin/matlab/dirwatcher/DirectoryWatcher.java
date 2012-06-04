@@ -11,7 +11,7 @@ public class DirectoryWatcher extends ResourceWatcher<FileListener, File> {
 	private Map<String, Long> currentFiles;
 	private Map<String, Long> previousFiles;
 	private File directoryFile;
-	
+
 	public DirectoryWatcher(int interval) throws IllegalArgumentException {
 		super(interval);
 		currentFiles = new HashMap<String, Long>();
@@ -34,8 +34,12 @@ public class DirectoryWatcher extends ResourceWatcher<FileListener, File> {
 		currentFiles.clear();
 
 		File[] content = directoryFile.listFiles();
-		for (File file : content) {
-			currentFiles.put(file.getAbsolutePath(), file.lastModified());
+		if (content != null) {
+			for (File file : content) {
+				currentFiles.put(file.getAbsolutePath(), file.lastModified());
+			}
+		} else {
+			System.out.println("DirectoryWatcher::Folder «" + directoryFile + "» deleted?!");
 		}
 	}
 
@@ -43,7 +47,7 @@ public class DirectoryWatcher extends ResourceWatcher<FileListener, File> {
 	public void doInterval() {
 		updateFiles();
 
-		for (Map.Entry<String, Long> currentEntry: currentFiles.entrySet()) {
+		for (Map.Entry<String, Long> currentEntry : currentFiles.entrySet()) {
 			if (!previousFiles.containsKey(currentEntry.getKey())) {
 				resourceAdded(new File(currentEntry.getKey()));
 			} else if (previousFiles.get(currentEntry.getKey()).compareTo(currentEntry.getValue()) != 0) {
@@ -51,7 +55,7 @@ public class DirectoryWatcher extends ResourceWatcher<FileListener, File> {
 			}
 		}
 
-		for (Map.Entry<String, Long> lastEntry: previousFiles.entrySet()) {
+		for (Map.Entry<String, Long> lastEntry : previousFiles.entrySet()) {
 			if (!currentFiles.containsKey(lastEntry.getKey())) {
 				resourceDeleted(new File(lastEntry.getKey()));
 			}
