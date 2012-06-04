@@ -144,7 +144,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	protected void startApplication(String dir, String filename) throws IllegalArgumentException, IOException {
 
-		boolean justGenerate = settings.getSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
+		boolean justGenerate = settings.isSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
 
 		if (justGenerate) {
 			provider.getExecutionListener().executionFinished(null, FinishState.SURRENDER);
