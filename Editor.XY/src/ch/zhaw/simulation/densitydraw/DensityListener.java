@@ -9,6 +9,6 @@ public interface DensityListener {
 
 	public void actionFailed(Exception reason);
 
-	public void dataUpdated(float min, float max);
+	public void dataUpdated(double min, double max);
 	
 }

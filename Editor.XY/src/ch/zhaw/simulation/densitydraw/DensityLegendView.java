@@ -14,8 +14,8 @@ import butti.javalibs.util.DrawHelper;
 public class DensityLegendView extends JComponent implements DensityListener {
 	private static final long serialVersionUID = 1L;
 
-	private float min;
-	private float max;
+	private double min;
+	private double max;
 
 	private boolean paintLegend = false;
 
@@ -35,8 +35,6 @@ public class DensityLegendView extends JComponent implements DensityListener {
 		Graphics2D g = DrawHelper.antialisingOn(g1);
 
 		if (paintLegend) {
-			// TODO nur min / max anzeigen wenn nötig!
-
 			// draw +
 			g.setPaint(new GradientPaint(0, 0, Color.RED, 0, h / 2, Color.WHITE));
 			g.fillRect(0, 0, LEGEND_WIDTH, h / 2);
@@ -83,7 +81,7 @@ public class DensityLegendView extends JComponent implements DensityListener {
 	}
 
 	@Override
-	public void dataUpdated(float min, float max) {
+	public void dataUpdated(double min, double max) {
 		this.min = min;
 		this.max = max;
 

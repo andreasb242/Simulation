@@ -1,32 +1,30 @@
 package ch.zhaw.simulation.densitydraw;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.util.Vector;
 
 import javax.swing.SwingUtilities;
 
 import org.nfunk.jep.ParseException;
 
-public abstract class AbstractDensityDraw {
-	private int width;
-	private int height;
-
+/**
+ * @author Andreas Butti
+ */
+public abstract class AbstractDensityView extends DensityRenderer {
 	private BufferedImage img;
 	private BufferedImage imgOther;
 
 	private Thread updateThread;
 	private boolean cancelUpdate = false;
 
+	private double values[][];
+
 	private Vector<DensityListener> listener = new Vector<DensityListener>();
+	private double maxMinus;
+	private double maxPlus;
 
-	public AbstractDensityDraw(int width, int height) {
+	public AbstractDensityView(int width, int height) {
 		setSize(width, height);
-	}
-
-	public void setSize(int width, int height) {
-		this.width = width;
-		this.height = height;
 	}
 
 	public void updateImageAsynchron() {
@@ -57,11 +55,12 @@ public abstract class AbstractDensityDraw {
 				@Override
 				public void run() {
 					try {
+
 						final RenderResult result = renderImage();
 						if (result != null) {
-							synchronized (AbstractDensityDraw.this) {
-								AbstractDensityDraw.this.imgOther = AbstractDensityDraw.this.img;
-								AbstractDensityDraw.this.img = result.img;
+							synchronized (AbstractDensityView.this) {
+								AbstractDensityView.this.imgOther = AbstractDensityView.this.img;
+								AbstractDensityView.this.img = result.img;
 							}
 
 							SwingUtilities.invokeLater(new Runnable() {
@@ -74,9 +73,9 @@ public abstract class AbstractDensityDraw {
 						}
 
 						updateThread = null;
-						synchronized (AbstractDensityDraw.this) {
+						synchronized (AbstractDensityView.this) {
 							// notify the waiting thread
-							AbstractDensityDraw.this.notifyAll();
+							AbstractDensityView.this.notifyAll();
 
 						}
 					} catch (final Exception e) {
@@ -96,21 +95,45 @@ public abstract class AbstractDensityDraw {
 		}
 	}
 
-	private RenderResult renderImage() throws ParseException {
+	@Override
+	protected double getMaxMinus() {
+		return this.maxMinus;
+	}
+
+	@Override
+	protected double getMaxPlus() {
+		return this.maxPlus;
+	}
+
+	protected abstract double valueFor(int x, int y) throws ParseException;
+
+	@Override
+	protected final double getValueFor(int x, int y) throws Exception {
+		return this.values[y][x];
+	}
+
+	private RenderResult renderImage() throws Exception {
 		long startTime = System.currentTimeMillis();
 
-		BufferedImage img;
+		this.maxMinus = Double.MAX_VALUE;
+		this.maxPlus = Double.MIN_VALUE;
 
-		float[][] values = new float[height][width];
+		int heigth = getSize().height;
+		int width = getSize().width;
 
-		float min = Float.MAX_VALUE;
-		float max = Float.MIN_VALUE;
+		if (values == null || values.length != heigth || values[0].length != width) {
+			values = new double[heigth][width];
+		}
 
-		for (int y = 0; y < height; y++) {
+		for (int y = 0; y < heigth; y++) {
 			for (int x = 0; x < width && !cancelUpdate; x++) {
-				float v = valueFor(x, y);
-				min = Math.min(min, v);
-				max = Math.max(max, v);
+				double v = valueFor(x, y);
+				if (v < maxMinus) {
+					maxMinus = v;
+				}
+				if (v > maxPlus) {
+					maxPlus = v;
+				}
 				values[y][x] = v;
 			}
 		}
@@ -119,36 +142,12 @@ public abstract class AbstractDensityDraw {
 			return null;
 		}
 
-		if (imgOther != null && imgOther.getWidth() == width && imgOther.getHeight() == height) {
+		BufferedImage img = null;
+		if (imgOther != null) {
 			img = imgOther;
-		} else {
-			img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		}
 
-		int[] pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
-
-		double maxFactor = 255.0 / max;
-		double minFactor = 255.0 / min;
-
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width && !cancelUpdate; x++) {
-				double v = values[y][x];
-				int rgb = 0xffffff;
-
-				if (v < -0.1) {
-					int tmp = 255 - (int) (v * minFactor);
-					rgb = (tmp << 16) | (tmp << 8) | 0x0000ff;
-				} else if (v > 0.1) {
-					int tmp = 255 - ((int) (v * maxFactor));
-					rgb = (tmp << 8) | tmp | 0xff0000;
-				}
-
-				pixels[x + y * width] = rgb;
-				// slower: img.setRGB(x, y, rgb);
-			}
-		}
-
-		values = null;
+		img = drawDensity(img);
 
 		if (cancelUpdate == true) {
 			return null;
@@ -157,22 +156,20 @@ public abstract class AbstractDensityDraw {
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("->DensityDraw duration: " + estimatedTime + "ms");
 
-		return new RenderResult(img, min, max);
+		return new RenderResult(img, this.maxMinus, this.maxPlus);
 	}
 
 	private static class RenderResult {
 		BufferedImage img;
-		float min;
-		float max;
+		double min;
+		double max;
 
-		public RenderResult(BufferedImage img, float min, float max) {
+		public RenderResult(BufferedImage img, double min, double max) {
 			this.img = img;
 			this.min = min;
 			this.max = max;
 		}
 	}
-
-	protected abstract float valueFor(int x, int y) throws ParseException;
 
 	public BufferedImage getImage() {
 		synchronized (this) {
@@ -195,7 +192,7 @@ public abstract class AbstractDensityDraw {
 		}
 	}
 
-	protected void fireDataUpdated(float min, float max) {
+	protected void fireDataUpdated(double min, double max) {
 		for (DensityListener l : this.listener) {
 			l.dataUpdated(min, max);
 		}

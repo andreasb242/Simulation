@@ -22,7 +22,7 @@ import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 public class XYViewerSidebar extends JComponent {
 	private static final long serialVersionUID = 1L;
 
-	public XYViewerSidebar(final XYViewer viewer, Vector<XYDensityRaw> rawList) {
+	public XYViewerSidebar(final ResultViewerDialog resultViewer, Vector<XYDensityRaw> rawList) {
 		setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		setLayout(new BorderLayout(5, 5));
 
@@ -37,7 +37,7 @@ public class XYViewerSidebar extends JComponent {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				viewer.setDensitySelected(null);
+				resultViewer.setSelectedDensity(null);
 			}
 		});
 		radioGroup.add(rbNoDensity);
@@ -50,7 +50,7 @@ public class XYViewerSidebar extends JComponent {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					viewer.setDensitySelected(raw);
+					resultViewer.setSelectedDensity(raw);
 				}
 			});
 			radioGroup.add(radioButton);

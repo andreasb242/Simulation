@@ -21,7 +21,7 @@ import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.icon.IconLoader;
 
-public class PositionControlPanel extends JPanel {
+public class XYViewerControlPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JSlider slider;
@@ -48,7 +48,7 @@ public class PositionControlPanel extends JPanel {
 
 	private Settings settings;
 
-	public PositionControlPanel(PositionModel model, Settings settings) {
+	public XYViewerControlPanel(PositionModel model, Settings settings) {
 		gbm = new GridBagManager(this);
 		this.model = model;
 		this.settings = settings;
@@ -60,8 +60,8 @@ public class PositionControlPanel extends JPanel {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				int fps = (Integer) PositionControlPanel.this.spinFps.getValue();
-				PositionControlPanel.this.settings.setSetting("xyviewer.fps", fps);
+				int fps = (Integer) XYViewerControlPanel.this.spinFps.getValue();
+				XYViewerControlPanel.this.settings.setSetting("xyviewer.fps", fps);
 			}
 		});
 
@@ -73,11 +73,11 @@ public class PositionControlPanel extends JPanel {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider slider = (JSlider) e.getSource();
-				PositionControlPanel.this.model.firePosition(slider.getValue());
+				XYViewerControlPanel.this.model.firePosition(slider.getValue());
 			}
 		});
 
-		gbm.setX(0).setY(0).setWeightY(0).setWidth(10).setComp(slider);
+		gbm.setX(0).setY(0).setWeightY(0).setWidth(20).setComp(slider);
 
 		this.playPause = new JButton(IconLoader.getIcon("player/play", 32));
 		playPause.setBackground(Color.BLACK);
@@ -99,7 +99,7 @@ public class PositionControlPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PositionControlPanel.this.model.positionPrev();
+				XYViewerControlPanel.this.model.positionPrev();
 			}
 		});
 
@@ -110,7 +110,7 @@ public class PositionControlPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PositionControlPanel.this.model.positionNext();
+				XYViewerControlPanel.this.model.positionNext();
 			}
 		});
 
@@ -135,7 +135,6 @@ public class PositionControlPanel extends JPanel {
 		gbm.setX(5).setY(1).setWeightX(0).setWeightY(0).setInsets(new Insets(5, 5, 5, 25)).setFill(GridBagConstraints.NONE)
 				.setAnchor(GridBagConstraints.CENTER).setComp(new JLabel("fps"));
 
-		gbm.setX(9).setY(1).setWeightX(0).setWeightY(0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.LINE_END).setComp(lbPosition);
 	}
 
 	protected void stop() {
@@ -159,7 +158,7 @@ public class PositionControlPanel extends JPanel {
 			this.model.positionStart();
 		}
 
-		int fps = (Integer) PositionControlPanel.this.spinFps.getValue();
+		int fps = (Integer) XYViewerControlPanel.this.spinFps.getValue();
 		int period = 1000 / fps;
 
 		this.steptimer = new Timer();

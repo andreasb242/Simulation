@@ -10,12 +10,10 @@ import java.util.Vector;
 
 public class XYDensityParser {
 
-	private Vector<String> densityNameList = new Vector<String>();
+	private SimulationXYModel xyModel;
 
 	public XYDensityParser(SimulationXYModel xyModel) {
-		for (DensityData density : xyModel.getDensity()) {
-			densityNameList.add(density.getName());
-		}
+		this.xyModel = xyModel;
 	}
 
 	public Vector<XYDensityRaw> parse(String workpath) {
@@ -29,7 +27,10 @@ public class XYDensityParser {
 
 		rawList = new Vector<XYDensityRaw>();
 
-		for (String densityName : densityNameList) {
+		for (DensityData density : xyModel.getDensity()) {
+			String densityName = density.getName();
+			boolean logView = density.isDisplayLogarithmic();
+
 			try {
 				reader = new BufferedReader(new FileReader(new File(workpath + File.separator + "data_density." + densityName + ".txt")));
 
@@ -46,7 +47,7 @@ public class XYDensityParser {
 				}
 				x = Integer.valueOf(cell[0]);
 				y = Integer.valueOf(cell[0]);
-				raw = new XYDensityRaw(densityName, x, y);
+				raw = new XYDensityRaw(densityName, logView,  x, y);
 
 				for (y = 0; (line = reader.readLine()) != null; y++) {
 					cell = line.split(" ");

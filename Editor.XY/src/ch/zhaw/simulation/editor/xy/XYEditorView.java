@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import ch.zhaw.simulation.clipboard.TransferableFactory;
-import ch.zhaw.simulation.densitydraw.AbstractDensityDraw;
+import ch.zhaw.simulation.densitydraw.AbstractDensityView;
 import ch.zhaw.simulation.densitydraw.DensityListener;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
@@ -52,7 +52,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 			}
 
 			@Override
-			public void dataUpdated(float min, float max) {
+			public void dataUpdated(double min, double max) {
 				noActionPerfomed();
 			}
 
@@ -170,7 +170,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		modelSizeRasterChanged();
 	}
 
-	public AbstractDensityDraw getDensity() {
+	public AbstractDensityView getDensity() {
 		return density;
 	}
 
@@ -207,7 +207,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	 */
 	public void updateDensity(String formula, boolean logarithmic) {
 		getControl().getStatus().setStatusTextInfo("Dichte wird berechnet...");
-		
+
 		this.density.setFormula(formula, logarithmic);
 		this.density.updateImageAsynchron();
 	}

@@ -6,9 +6,11 @@ public class XYDensityRaw {
 	private double matrix[][];
 	private double maxMinus;
 	private double maxPlus;
+	private boolean logView;
 
-	public XYDensityRaw(String densityName, int width, int height) {
+	public XYDensityRaw(String densityName, boolean logView, int width, int height) {
 		this.densityName = densityName;
+		this.logView = logView;
 		matrix = new double[height][width];
 		maxMinus = 0.0f;
 		maxPlus = 0.0f;
@@ -41,5 +43,13 @@ public class XYDensityRaw {
 
 	public String getDensityName() {
 		return densityName;
+	}
+
+	public boolean isLogView() {
+		return logView;
+	}
+
+	public void setLogView(boolean logView) {
+		this.logView = logView;
 	}
 }

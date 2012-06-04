@@ -5,10 +5,10 @@ import java.awt.image.BufferedImage;
 import org.nfunk.jep.ParseException;
 
 import butti.javalibs.errorhandler.Errorhandler;
-import ch.zhaw.simulation.densitydraw.AbstractDensityDraw;
+import ch.zhaw.simulation.densitydraw.AbstractDensityView;
 import ch.zhaw.simulation.math.Parser;
 
-public class FormulaDensityDraw extends AbstractDensityDraw {
+public class FormulaDensityDraw extends AbstractDensityView {
 	private boolean noFormula = true;
 	private Parser parser = new Parser();
 	private boolean logarithmic = false;
@@ -38,17 +38,11 @@ public class FormulaDensityDraw extends AbstractDensityDraw {
 	}
 
 	@Override
-	protected float valueFor(int x, int y) throws ParseException {
+	protected double valueFor(int x, int y) throws ParseException {
 		parser.setVar("x", x);
 		parser.setVar("y", y);
 
-		double v = parser.evaluate();
-
-		if (this.logarithmic) {
-			return (float) Math.log(v);
-		}
-
-		return (float) v;
+		return parser.evaluate();
 	}
 
 	public void setFormula(String formula, boolean logarithmic) {
@@ -65,6 +59,11 @@ public class FormulaDensityDraw extends AbstractDensityDraw {
 		} catch (ParseException e) {
 			Errorhandler.showError(e, "Formel Fehler");
 		}
+	}
+
+	@Override
+	protected boolean isLogarithmic() {
+		return this.logarithmic;
 	}
 
 }

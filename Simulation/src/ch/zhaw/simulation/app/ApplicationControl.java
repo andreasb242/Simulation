@@ -519,7 +519,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 			XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
 			XYResultList xyResultList = chooser.chooseMesoPart();
-			ResultViewerDialog dlg = new ResultViewerDialog(getMainFrame(), this.settings, xyResultList, rawList);
+			ResultViewerDialog dlg = new ResultViewerDialog(getMainFrame(), this.settings, sysintegration, xyResultList, rawList);
 			dlg.setVisible(true);
 		}
 	}

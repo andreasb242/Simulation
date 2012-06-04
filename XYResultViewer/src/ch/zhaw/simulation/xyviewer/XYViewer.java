@@ -9,13 +9,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JComponent;
 
+import butti.javalibs.errorhandler.Errorhandler;
+import ch.zhaw.simulation.densitydraw.DensityRenderer;
 import ch.zhaw.simulation.editor.xy.element.meso.MesoImage;
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.data.XYResultList;
@@ -33,11 +32,8 @@ public class XYViewer extends JComponent {
 	// list of meso-positions at a specific time
 	private XYResultStepList stepList;
 
-	// list of densities at the end of the simulation
-	private Map<String, XYDensityRaw> rawMap;
 	private XYDensityRaw rawCurrent;
 
-	private Dimension size;
 	private MesoImage[] images;
 	private GuiConfig config = new GuiConfig();
 
@@ -46,6 +42,32 @@ public class XYViewer extends JComponent {
 	private int halfRadius;
 
 	private PositionModel model;
+
+	private BufferedImage densityImg;
+	private BufferedImage lastDensityImg;
+
+	private DensityRenderer renderer = new DensityRenderer() {
+
+		@Override
+		protected boolean isLogarithmic() {
+			return rawCurrent.isLogView();
+		}
+
+		@Override
+		protected double getValueFor(int x, int y) {
+			return rawCurrent.getMatrixValue(x, y);
+		}
+
+		@Override
+		protected double getMaxPlus() {
+			return rawCurrent.getMaxPlus();
+		}
+
+		@Override
+		protected double getMaxMinus() {
+			return rawCurrent.getMaxMinus();
+		}
+	};
 
 	private PositionListener listener = new PositionListener() {
 
@@ -59,10 +81,6 @@ public class XYViewer extends JComponent {
 		setPreferredSize(resultList.getModelSize());
 		this.resultList = resultList;
 		this.model = model;
-		this.rawMap = new HashMap<String, XYDensityRaw>();
-		for (XYDensityRaw raw : rawList) {
-			rawMap.put(raw.getDensityName(), raw);
-		}
 
 		this.model.addListener(listener);
 
@@ -95,7 +113,7 @@ public class XYViewer extends JComponent {
 		// draw first frame
 		stepList = resultList.getStep(0);
 
-		this.size = resultList.getModelSize();
+		renderer.setSize(resultList.getModelSize());
 		Color[] colors = resultList.getColors();
 		images = new MesoImage[colors.length];
 		radius = config.getMesoSize();
@@ -116,15 +134,26 @@ public class XYViewer extends JComponent {
 	public void setPostion(int pos) {
 		stepList = resultList.getStep(pos);
 		repaint();
+		// TODO: If there are different densities: repaintDensity()
 	}
 
-	public void setDensitySelected(XYDensityRaw raw) {
+	public void setSelectedDensity(XYDensityRaw raw) {
 		this.rawCurrent = raw;
+		repaintDensity();
+	}
+
+	public void repaintDensity() {
+		this.densityImg = null;
 		repaint();
+	}
+
+	public XYDensityRaw getSelectedDensity() {
+		return this.rawCurrent;
 	}
 
 	public void draw(Graphics2D g, XYResultStepList stepList) {
 		g.setColor(Color.WHITE);
+		Dimension size = renderer.getSize();
 		g.fillRect(0, 0, size.width, size.height);
 
 		if (rawCurrent != null) {
@@ -155,39 +184,17 @@ public class XYViewer extends JComponent {
 	}
 
 	private void drawDensity(Graphics2D g) {
-		BufferedImage img;
-		int[] pixels;
-		int rgb;
-		int tmp;
-		double value;
-		double maxMinusFactor;
-		double maxPlusFactor;
-
-		img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
-
-		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
-
-		maxMinusFactor = 255.0 / rawCurrent.getMaxMinus();
-		maxPlusFactor = 255.0 / rawCurrent.getMaxPlus();
-
-		for (int y = 0; y < size.height; y++) {
-			for (int x = 0; x < size.width; x++) {
-				value = rawCurrent.getMatrixValue(x, y);
-				rgb = 0xffffff;
-
-				if (value < -0.1) {
-					tmp = 255 - (int) (value * maxMinusFactor);
-					rgb = (tmp << 16) | (tmp << 8) | 0x0000ff;
-				} else if (value > 0.1) {
-					tmp = 255 - ((int) (value * maxPlusFactor));
-					rgb = (tmp << 8) | tmp | 0xff0000;
-				}
-
-				pixels[x + y * size.width] = rgb;
+		try {
+			if (densityImg == null) {
+				densityImg = renderer.drawDensity(lastDensityImg);
+				lastDensityImg = densityImg;
 			}
+			g.drawImage(densityImg, 0, 0, null);
+		} catch (Exception e) {
+			// here should nothing happen, because the data is read, and not
+			// calculated
+			Errorhandler.showError(e);
 		}
-
-		g.drawImage(img, 0, 0, null);
 	}
 
 	public void dispose() {
