@@ -17,6 +17,9 @@ public class DensityData implements NamedFormulaData {
 	private String name;
 	private String description;
 
+	// TODO !!!!!!!! save
+	private boolean displayLogarithmic = false;
+
 	/**
 	 * The attachment, Temporary used for simulation / codegeneration
 	 */
@@ -69,5 +72,13 @@ public class DensityData implements NamedFormulaData {
 	@Override
 	public NamedFormulaData getRealNamedFormulaData() {
 		return this;
+	}
+
+	public boolean isDisplayLogarithmic() {
+		return displayLogarithmic;
+	}
+
+	public void setDisplayLogarithmic(boolean displayLogarithmic) {
+		this.displayLogarithmic = displayLogarithmic;
 	}
 }

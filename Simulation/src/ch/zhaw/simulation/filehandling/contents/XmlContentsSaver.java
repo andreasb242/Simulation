@@ -82,6 +82,7 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		density.setAttribute(XML_ELEMENT_ATTRIB_NAME, d.getName());
 		density.setAttribute(XML_ELEMENT_ATTRIB_VALUE, d.getFormula());
 		density.setAttribute(XML_ELEMENT_ATTRIB_TEXT, d.getDescription());
+		density.setAttribute(XML_ELEMENT_ATTRIB_LOG, Boolean.toString(d.isDisplayLogarithmic()));
 
 		xmlModel.appendChild(density);
 	}

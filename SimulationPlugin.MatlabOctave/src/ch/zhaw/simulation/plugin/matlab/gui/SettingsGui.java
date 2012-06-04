@@ -150,7 +150,7 @@ public class SettingsGui extends JPanel {
 		});
 
 		/*** Just generate ***/
-		boolean selected = settings.getSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
+		boolean selected = settings.isSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
 		cbGenerate = new JCheckBox("", selected);
 
 		gbm.setX(0).setY(9).setWeightY(0).setWeightX(0).setComp(new JLabel("Just generate"));
