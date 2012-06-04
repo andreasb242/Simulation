@@ -85,12 +85,15 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 	private void updateDensity() {
 		String formula;
+		boolean logarithmic;
 		if (densitySidebar.getSelected() != null) {
 			formula = densitySidebar.getSelected().getFormula();
+			logarithmic = densitySidebar.getSelected().isDisplayLogarithmic();
 		} else {
 			formula = null;
+			logarithmic = false;
 		}
-		getView().updateDensity(formula, densitySidebar.isLogarithmic());
+		getView().updateDensity(formula, logarithmic);
 	}
 
 	@Override

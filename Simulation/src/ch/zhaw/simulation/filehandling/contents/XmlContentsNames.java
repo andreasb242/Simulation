@@ -39,6 +39,7 @@ public interface XmlContentsNames {
 	public static String XML_ELEMENT_ATTRIB_NAME = "name";
 	public static String XML_ELEMENT_ATTRIB_VALUE = "value";
 	public static String XML_ELEMENT_ATTRIB_TEXT = "text";
+	public static String XML_ELEMENT_ATTRIB_LOG = "log";
 
 	public static String XML_ELEMENT_ATTRIB_CONNECTOR = "connector";
 

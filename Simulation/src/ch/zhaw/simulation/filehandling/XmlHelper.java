@@ -21,4 +21,8 @@ public class XmlHelper {
 		return val.getNodeValue();
 	}
 
+	public static boolean getAttributeBoolean(Node node, String name) {
+		return Boolean.parseBoolean(getAttribute(node, name));
+	}
+
 }

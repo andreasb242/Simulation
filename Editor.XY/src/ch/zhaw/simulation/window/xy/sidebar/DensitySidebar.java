@@ -42,7 +42,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 
 	private DensityEditorDialog densityEditor;
 
-	private Object lastSelected = null;
+	private DensityData lastSelected = null;
 	protected Vector<ActionListener> listenerList = new Vector<ActionListener>();
 
 	private DensityLegendView legendView;
@@ -176,18 +176,18 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		this.cbLog = new JCheckBox("Logarithmisch");
 		add(cbLog);
 
-		cbLog.setSelected(settings.isSetting("density.logarithmic", false));
-
 		cbLog.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("density.logarithmic", cbLog.isSelected());
-				fireDensityChanged();
+				if (lastSelected != null) {
+					lastSelected.setDisplayLogarithmic(cbLog.isSelected());
+					fireDensityChanged();
+				}
 			}
 		});
 
-		lastSelected = listModel.getSelectedItem();
+		lastSelected = (DensityData) listModel.getSelectedItem();
 	}
 
 	public DensityLegendView getLegendView() {
@@ -198,7 +198,8 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		if (lastSelected == cbDensity.getSelectedItem()) {
 			return;
 		}
-		lastSelected = cbDensity.getSelectedItem();
+		lastSelected = (DensityData) cbDensity.getSelectedItem();
+		this.cbLog.setSelected(lastSelected.isDisplayLogarithmic());
 
 		fireDensityChanged();
 	}
@@ -228,12 +229,5 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 
 	public void removeActionListener(ActionListener l) {
 		listenerList.remove(l);
-	}
-
-	public boolean isLogarithmic() {
-		if (this.cbLog != null) {
-			return this.cbLog.isSelected();
-		}
-		return false;
 	}
 }
