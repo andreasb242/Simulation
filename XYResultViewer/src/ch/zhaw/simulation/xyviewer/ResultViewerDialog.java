@@ -1,24 +1,41 @@
 package ch.zhaw.simulation.xyviewer;
 
 import java.awt.BorderLayout;
-import java.awt.Window;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import org.jdesktop.swingx.action.TargetableAction;
 
 import butti.javalibs.config.Settings;
-
+import butti.javalibs.gui.messagebox.Messagebox;
+import ch.zhaw.simulation.diagram.DiagramFrame;
+import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
+import ch.zhaw.simulation.dialog.snapshot.ImageExportable;
+import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.icon.IconLoader;
+import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.data.XYResultList;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
+import ch.zhaw.simulation.vector.VectorExport;
 
 public class ResultViewerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -35,8 +52,32 @@ public class ResultViewerDialog extends JDialog {
 
 	private TargetableAction logButton;
 
-	public ResultViewerDialog(Window parent, Settings settings, Sysintegration sysintegration, XYResultList resultList, Vector<XYDensityRaw> rawList) {
+	private JFrame parent;
+
+	private Settings settings;
+
+	private String name;
+
+	private static final int MAX_LINE_COUNT = 20;
+	private JSpinner spinnerLineCount = new JSpinner(new SpinnerNumberModel(5, 1, MAX_LINE_COUNT, 1));
+
+	private XYResultList resultList;
+
+	public ResultViewerDialog(String name, JFrame parent, Settings settings, Sysintegration sysintegration, XYResultList resultList,
+			Vector<XYDensityRaw> rawList) {
 		super(parent);
+
+		if (name != null) {
+			setTitle(name + " - (AB)² Simulation");
+		} else {
+			setTitle("(AB)² Simulation");
+		}
+
+		this.parent = parent;
+		this.settings = settings;
+		this.sysintegration = sysintegration;
+		this.name = name;
+		this.resultList = resultList;
 
 		this.model = new PositionModel(resultList.getStepCount());
 		this.sysintegration = sysintegration;
@@ -58,6 +99,11 @@ public class ResultViewerDialog extends JDialog {
 		initToolbar();
 
 		model.firePosition(0);
+
+		int count = (int) settings.getSetting("xyviewer.diagramlinecount", 5);
+		if (0 < count && count >= MAX_LINE_COUNT) {
+			spinnerLineCount.setValue(count);
+		}
 
 		pack();
 		setLocationRelativeTo(null);
@@ -92,17 +138,19 @@ public class ResultViewerDialog extends JDialog {
 
 			@Override
 			protected void actionPerformed(ActionEvent e) {
-				System.out.println("bild");
+				exportImage();
 			}
 		});
 
-		this.toolbar.add(new ToolbarAction("Speichern als Film", "diagram/video") {
-
-			@Override
-			protected void actionPerformed(ActionEvent e) {
-				System.out.println("Film");
-			}
-		});
+		// TODO: Save images, to a folder, convert them with ffmpeg to a movie
+		// this.toolbar.add(new ToolbarAction("Speichern als Film",
+		// "diagram/video") {
+		//
+		// @Override
+		// protected void actionPerformed(ActionEvent e) {
+		// System.out.println("Film");
+		// }
+		// });
 
 		this.toolbar.addSeparator();
 
@@ -110,17 +158,160 @@ public class ResultViewerDialog extends JDialog {
 
 			@Override
 			protected void actionPerformed(ActionEvent e) {
-				System.out.println("horizontal");
+				showDiagramHorizontal();
 			}
 		});
 		this.toolbar.add(new ToolbarAction("Dichte als XY Diagramm anzeigen, vertikal", "diagram/diagram_vertical") {
 
 			@Override
 			protected void actionPerformed(ActionEvent e) {
-				System.out.println("vertikal");
+				showDiagramVertical();
 			}
 		});
 
+		this.toolbar.add(spinnerLineCount);
+		this.toolbar.add(new JLabel("Linien im Diagramm anzeigen"));
+
+	}
+
+	private void saveLastSliderValue() {
+		settings.setSetting("xyviewer.diagramlinecount", (Integer) spinnerLineCount.getValue());
+	}
+
+	protected void showDiagramVertical() {
+		saveLastSliderValue();
+
+		XYDensityRaw density = this.view.getSelectedDensity();
+
+		if (density == null) {
+			Messagebox.showError(this, "Keine Daten", "Keine Dichte gewählt. Bitte wählen Sie zuerst eine Dichte.");
+			return;
+		}
+
+		int width = resultList.getModelSize().width;
+		int height = resultList.getModelSize().height;
+
+		SimulationCollection collection = new SimulationCollection(0, height);
+
+		int count = (Integer) spinnerLineCount.getValue();
+
+		int dt = width / count;
+		int x = dt / 2;
+		for (int i = 0; i < count; i++) {
+
+			SimulationSerie s = new SimulationSerie("x = " + x, null);
+
+			for (int y = 0; y < height; y++) {
+				s.add(y, density.getMatrixValue(x, y));
+			}
+
+			collection.addSerie(s);
+
+			x += dt;
+			if (x >= width) {
+				x = width - 1;
+			}
+		}
+
+		String name;
+		if (this.name != null) {
+			name = this.name + " - vertikal";
+		} else {
+			name = "vertikal";
+		}
+
+		DiagramConfiguration config = new DiagramConfiguration();
+		DiagramFrame diagram = new DiagramFrame(collection, settings, config, name, sysintegration);
+		diagram.setVisible(true);
+	}
+
+	protected void showDiagramHorizontal() {
+		saveLastSliderValue();
+
+		XYDensityRaw density = this.view.getSelectedDensity();
+
+		if (density == null) {
+			Messagebox.showError(this, "Keine Daten", "Keine Dichte gewählt. Bitte wählen Sie zuerst eine Dichte.");
+			return;
+		}
+
+		int width = resultList.getModelSize().width;
+		int height = resultList.getModelSize().height;
+
+		SimulationCollection collection = new SimulationCollection(0, width);
+
+		int count = (Integer) spinnerLineCount.getValue();
+
+		int dt = height / count;
+		int y = dt / 2;
+		for (int i = 0; i < count; i++) {
+
+			SimulationSerie s = new SimulationSerie("y = " + y, null);
+
+			for (int x = 0; x < width; x++) {
+				s.add(x, density.getMatrixValue(x, y));
+			}
+
+			collection.addSerie(s);
+
+			y += dt;
+			if (y >= height) {
+				y = height - 1;
+			}
+		}
+
+		String name;
+		if (this.name != null) {
+			name = this.name + " - horizontal";
+		} else {
+			name = "horizontal";
+		}
+
+		DiagramConfiguration config = new DiagramConfiguration();
+		DiagramFrame diagram = new DiagramFrame(collection, settings, config, name, sysintegration);
+		diagram.setVisible(true);
+	}
+
+	protected void exportImage() {
+		ImageExportable export = new ImageExportable() {
+
+			@Override
+			public boolean supportsSelection() {
+				return false;
+			}
+
+			@Override
+			public void exportToClipboard(boolean onlySelection) {
+			}
+
+			@Override
+			public void export(boolean onlySelection, String format, File file) throws IOException {
+				int width = view.getWidth();
+				int height = view.getHeight();
+
+				if ("PNG".equals(format)) {
+					BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+					Graphics2D g = img.createGraphics();
+
+					view.paint(g);
+
+					g.dispose();
+					ImageIO.write(img, "PNG", file);
+				} else {
+					VectorExport ex = new VectorExport(new FileOutputStream(file), new Dimension(width, height), format);
+
+					Graphics2D g = ex.getGraphics();
+
+					view.paint(g);
+
+					ex.close();
+				}
+			}
+		};
+
+		SnapshotDialog dlg = new SnapshotDialog(this.parent, this.settings, this.sysintegration, export, name);
+		dlg.setVisible(true);
 	}
 
 	@Override

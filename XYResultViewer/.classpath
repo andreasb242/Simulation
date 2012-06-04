@@ -10,5 +10,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BJavalibs"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/VectorExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationDiagram"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -47,7 +47,7 @@ public class DialogTest {
 
 		Sysintegration sys = SysintegrationFactory.getSysintegration();
 
-		ResultViewerDialog dlg = new ResultViewerDialog(null, settings, sys, resultList, rawList);
+		ResultViewerDialog dlg = new ResultViewerDialog("name", null, settings, sys, resultList, rawList);
 
 		dlg.setVisible(true);
 	}

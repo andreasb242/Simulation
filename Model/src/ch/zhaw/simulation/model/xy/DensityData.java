@@ -17,7 +17,6 @@ public class DensityData implements NamedFormulaData {
 	private String name;
 	private String description;
 
-	// TODO !!!!!!!! save
 	private boolean displayLogarithmic = false;
 
 	/**

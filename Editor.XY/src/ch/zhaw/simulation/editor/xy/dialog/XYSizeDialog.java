@@ -25,8 +25,6 @@ import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.editor.xy.XYDefaultSettingsHandler;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
-// TODO !!!!!!!!! LIVE validieren
-
 public class XYSizeDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
 
