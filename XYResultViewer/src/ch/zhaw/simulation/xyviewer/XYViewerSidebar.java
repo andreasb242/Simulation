@@ -1,33 +1,28 @@
 package ch.zhaw.simulation.xyviewer;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+
+import org.jfree.ui.tabbedui.VerticalLayout;
 
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 
 public class XYViewerSidebar extends JComponent {
 	private static final long serialVersionUID = 1L;
 
-	private JLabel lblTitle;
-	private ButtonGroup radioGroup;
-	private JPanel radioPanel;
-
 	public XYViewerSidebar(final XYViewer viewer, Vector<XYDensityRaw> rawList) {
 		setLayout(new BorderLayout());
 
-		lblTitle = new JLabel("End-Dichte:");
-
-		radioGroup = new ButtonGroup();
-		radioPanel = new JPanel(new GridLayout(0, 1));
+		ButtonGroup radioGroup = new ButtonGroup();
+		JPanel radioPanel = new JPanel(new VerticalLayout());
 
 		for (final XYDensityRaw raw : rawList) {
 			System.out.println(raw.getDensityName());
@@ -42,8 +37,6 @@ public class XYViewerSidebar extends JComponent {
 			radioGroup.add(radioButton);
 			radioPanel.add(radioButton);
 		}
-
-		add(lblTitle);
-		add(radioPanel);
+		add(new JScrollPane(radioPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 	}
 }

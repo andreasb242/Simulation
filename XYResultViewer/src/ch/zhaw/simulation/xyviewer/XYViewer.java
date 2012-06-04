@@ -11,9 +11,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JComponent;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ch.zhaw.simulation.editor.xy.element.meso.MesoImage;
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
@@ -22,7 +19,7 @@ import ch.zhaw.simulation.plugin.data.XYResultStepEntry;
 import ch.zhaw.simulation.plugin.data.XYResultStepList;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
 
-public class XYViewer extends JComponent implements ChangeListener {
+public class XYViewer extends JComponent {
 	private static final long serialVersionUID = 1L;
 
 	// list of mesos with positions (XYResultStepEntry) at any time and
@@ -74,15 +71,8 @@ public class XYViewer extends JComponent implements ChangeListener {
 		draw((Graphics2D) g, stepList);
 	}
 
-	/**
-	 * Callback function Gets called every time the slider changes its value
-	 * 
-	 * @param e
-	 */
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		JSlider slider = (JSlider) e.getSource();
-		stepList = resultList.getStep(slider.getValue());
+	public void setPostion(int pos) {
+		stepList = resultList.getStep(pos);
 		repaint();
 	}
 
