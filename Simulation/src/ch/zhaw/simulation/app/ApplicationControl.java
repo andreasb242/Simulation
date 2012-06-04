@@ -491,12 +491,16 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			DiagramConfiguration config = new DiagramConfiguration();
 
 			SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-			
-			if(collection == null) {
-				Messagebox.showInfo(getMainFrame(), "Keine Resultate", "<html>Das Simulationsplugin stellt keine Resultate zur Verfügung.<br>Bitte Starten die Simulation erneut und kontrollieren Sie ob keine Fehler im Modell sind.</html>");
+
+			if (collection == null) {
+				Messagebox
+						.showInfo(
+								getMainFrame(),
+								"Keine Resultate",
+								"<html>Das Simulationsplugin stellt keine Resultate zur Verfügung.<br>Bitte Starten die Simulation erneut und kontrollieren Sie ob keine Fehler im Modell sind.</html>");
 				return;
 			}
-			
+
 			DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, config, getDocumentName(), sysintegration);
 			frame.setVisible(true);
 
@@ -504,14 +508,18 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
 			Vector<XYDensityRaw> rawList = getSelectedPluginDescriptor().getPlugin().getXYResults(doc);
 
-			if(collection == null) {
-				Messagebox.showInfo(getMainFrame(), "Keine Resultate", "<html>Das Simulationsplugin stellt keine Resultate zur Verfügung.<br>Bitte Starten die Simulation erneut und kontrollieren Sie ob keine Fehler im Modell sind.</html>");
+			if (collection == null) {
+				Messagebox
+						.showInfo(
+								getMainFrame(),
+								"Keine Resultate",
+								"<html>Das Simulationsplugin stellt keine Resultate zur Verfügung.<br>Bitte Starten die Simulation erneut und kontrollieren Sie ob keine Fehler im Modell sind.</html>");
 				return;
 			}
-			
+
 			XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
 			XYResultList xyResultList = chooser.chooseMesoPart();
-			ResultViewerDialog dlg = new ResultViewerDialog(getMainFrame(), xyResultList, rawList);
+			ResultViewerDialog dlg = new ResultViewerDialog(getMainFrame(), this.settings, xyResultList, rawList);
 			dlg.setVisible(true);
 		}
 	}

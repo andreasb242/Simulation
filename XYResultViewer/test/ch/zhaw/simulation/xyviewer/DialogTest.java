@@ -6,6 +6,9 @@ import java.util.Vector;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import butti.javalibs.config.FileSettings;
+import butti.javalibs.config.Settings;
+
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.data.XYResultEntry;
 import ch.zhaw.simulation.plugin.data.XYResultList;
@@ -13,9 +16,10 @@ import ch.zhaw.simulation.plugin.data.XYResultStepEntry;
 
 public class DialogTest {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
+			UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		
+
 		Vector<XYDensityRaw> rawList = new Vector<XYDensityRaw>();
 		XYResultList resultList = new XYResultList(640, 480);
 		XYResultEntry re = new XYResultEntry(0);
@@ -35,7 +39,9 @@ public class DialogTest {
 		raw.setMatrixValue(50, 53, 1.2);
 		rawList.add(raw);
 
-		ResultViewerDialog dlg = new ResultViewerDialog(null, resultList, rawList);
+		Settings settings = new FileSettings("settings.ini");
+
+		ResultViewerDialog dlg = new ResultViewerDialog(null, settings, resultList, rawList);
 
 		dlg.setVisible(true);
 	}

@@ -7,6 +7,8 @@ import java.util.Vector;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
+import butti.javalibs.config.Settings;
+
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.data.XYResultList;
 
@@ -17,7 +19,9 @@ public class ResultViewerDialog extends JDialog {
 
 	private PositionControlPanel positionControl;
 
-	public ResultViewerDialog(Window parent, XYResultList resultList, Vector<XYDensityRaw> rawList) {
+	private XYViewer viewer;
+
+	public ResultViewerDialog(Window parent, Settings settings, XYResultList resultList, Vector<XYDensityRaw> rawList) {
 		super(parent);
 
 		this.model = new PositionModel(resultList.getStepCount());
@@ -26,9 +30,9 @@ public class ResultViewerDialog extends JDialog {
 
 		setLayout(new BorderLayout());
 
-		XYViewer viewer = new XYViewer(resultList, rawList);
+		this.viewer = new XYViewer(resultList, rawList, this.model);
 
-		this.positionControl = new PositionControlPanel(this.model);
+		this.positionControl = new PositionControlPanel(this.model, settings);
 
 		XYViewerSidebar sidebar = new XYViewerSidebar(viewer, rawList);
 
@@ -45,6 +49,7 @@ public class ResultViewerDialog extends JDialog {
 	@Override
 	public void dispose() {
 		this.positionControl.dispose();
+		this.viewer.dispose();
 
 		super.dispose();
 	}

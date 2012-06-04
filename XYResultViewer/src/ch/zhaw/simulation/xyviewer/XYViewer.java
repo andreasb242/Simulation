@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.HashMap;
@@ -41,13 +45,51 @@ public class XYViewer extends JComponent {
 	private int radius;
 	private int halfRadius;
 
-	public XYViewer(XYResultList resultList, Vector<XYDensityRaw> rawList) {
+	private PositionModel model;
+
+	private PositionListener listener = new PositionListener() {
+
+		@Override
+		public void positionChanged(int pos) {
+			setPostion(pos);
+		}
+	};
+
+	public XYViewer(XYResultList resultList, Vector<XYDensityRaw> rawList, PositionModel model) {
 		setPreferredSize(resultList.getModelSize());
 		this.resultList = resultList;
+		this.model = model;
 		this.rawMap = new HashMap<String, XYDensityRaw>();
 		for (XYDensityRaw raw : rawList) {
 			rawMap.put(raw.getDensityName(), raw);
 		}
+
+		this.model.addListener(listener);
+
+		setFocusable(true);
+
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				requestFocus();
+			}
+		});
+
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					XYViewer.this.model.positionPrev();
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					XYViewer.this.model.positionNext();
+				} else if (e.getKeyCode() == KeyEvent.VK_HOME) {
+					XYViewer.this.model.positionStart();
+				} else if (e.getKeyCode() == KeyEvent.VK_END) {
+					XYViewer.this.model.positionEnd();
+				}
+			}
+		});
+
 		rawCurrent = null;
 
 		// draw first frame
@@ -148,4 +190,7 @@ public class XYViewer extends JComponent {
 		g.drawImage(img, 0, 0, null);
 	}
 
+	public void dispose() {
+		this.model.removeListener(listener);
+	}
 }

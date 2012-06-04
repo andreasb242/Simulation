@@ -1,9 +1,10 @@
 package ch.zhaw.simulation.editor.xy.dialog;
 
-import java.awt.GridBagConstraints;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 
 import javax.swing.ButtonGroup;
@@ -18,12 +19,13 @@ import javax.swing.SpinnerNumberModel;
 
 import butti.javalibs.controls.TitleLabel;
 import butti.javalibs.gui.BDialog;
-import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.editor.xy.XYDefaultSettingsHandler;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+
+// TODO !!!!!!!!! LIVE validieren
 
 public class XYSizeDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -129,28 +131,14 @@ public class XYSizeDialog extends BDialog {
 		gbm.setX(0).setY(82).setWidth(5).setComp(rArrows);
 		gbm.setX(0).setY(83).setWidth(5).setComp(rBoth);
 
-		JButton btCancel = ButtonFactory.createButton("Abbrechen", false);
-		JButton btOk = ButtonFactory.createButton("OK", true);
-
-		gbm.setX(0).setY(100).setWeightX(0).setWeightY(0).setWidth(3).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.LINE_END).setComp(btCancel);
-		gbm.setX(3).setWidth(2).setY(100).setWeightX(0).setWeightY(0).setComp(btOk);
-
-		btCancel.addActionListener(new ActionListener() {
-
+		addWindowListener(new WindowAdapter() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
-
-		btOk.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (saveData()) {
-					setVisible(false);
+			public void windowClosing(WindowEvent e) {
+				if (!saveData()) {
+					setVisible(true);
 				}
 			}
+
 		});
 
 		loadData();
@@ -212,14 +200,16 @@ public class XYSizeDialog extends BDialog {
 			}
 
 			model.fireSizeRasterChanged();
-			
+
 			xyDefaultSettingsHandler.save(model);
-			
+
 			return true;
 		} catch (ParseException e) {
+			e.printStackTrace();
+
+			// Should not happen...
 			Messagebox.showError((JFrame) getParent(), "Ungültige Eingabe", "Bitte korrigieren Sie Ihre Eingaben");
 
-			e.printStackTrace();
 			return false;
 		}
 	}
