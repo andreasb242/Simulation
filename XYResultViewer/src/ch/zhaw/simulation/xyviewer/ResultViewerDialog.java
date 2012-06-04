@@ -23,16 +23,13 @@ public class ResultViewerDialog extends JDialog {
 
 		XYViewer viewer = new XYViewer(resultList, rawList);
 
-		JSlider slider = new JSlider(0, resultList.getStepCount());
-		slider.setValue(0);
+		PositionControlPanel positionControl = new PositionControlPanel(resultList.getStepCount());
 
 		XYViewerSidebar sidebar = new XYViewerSidebar(viewer, rawList);
 
 		add(new JScrollPane(viewer), BorderLayout.CENTER);
-		add(slider, BorderLayout.SOUTH);
-		add(new JScrollPane(sidebar, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.WEST);
-
-		slider.addChangeListener(viewer);
+		add(positionControl, BorderLayout.SOUTH);
+		add(sidebar, BorderLayout.WEST);
 
 		pack();
 		setLocationRelativeTo(null);
