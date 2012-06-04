@@ -214,6 +214,15 @@
 			</fileset>
 		</copy>
 
+        <ant antfile="../OnscreenKeyboard/build.xml" target="jar" useNativeBasedir="true">
+            <property name="lib" value="${build}/distrib/lib" />
+            <property name="build" value="${build}/OnscreenKeyboard" />
+        </ant>
+        <copy todir="${build}/distrib/lib">
+            <fileset dir="${build}/OnscreenKeyboard">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
 
         <ant antfile="../SimulationDiagram/build.xml" target="jar" useNativeBasedir="true">
             <property name="lib" value="${build}/distrib/lib" />
