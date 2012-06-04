@@ -3,11 +3,10 @@ package ch.zhaw.simulation.plugin.matlab.gui;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
@@ -29,6 +28,7 @@ public class SettingsGui extends JPanel {
 	private ExecDirChooser execMatlabPath;
 	private ExecDirChooser execOctavePath;
 	private ExecDirChooser execScilabPath;
+	private JCheckBox cbGenerate;
 
 	public SettingsGui(final Settings settings, Window parent) {
 		String defaultPath;
@@ -146,6 +146,21 @@ public class SettingsGui extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				settings.setSetting(MatlabParameter.EXEC_SCILAB_PATH, execScilabPath.getPath());
+			}
+		});
+
+		/*** Just generate ***/
+		boolean selected = settings.getSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
+		cbGenerate = new JCheckBox("", selected);
+
+		gbm.setX(0).setY(9).setWeightY(0).setWeightX(0).setComp(new JLabel("Just generate"));
+		gbm.setX(1).setY(9).setWeightY(0).setComp(cbGenerate);
+
+		cbGenerate.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				JCheckBox self = (JCheckBox) e.getItemSelectable();
+				settings.setSetting(MatlabParameter.JUST_GENERATE, self.isSelected());
 			}
 		});
 

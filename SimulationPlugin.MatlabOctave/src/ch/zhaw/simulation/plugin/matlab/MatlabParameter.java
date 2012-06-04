@@ -19,4 +19,7 @@ public interface MatlabParameter extends StandardParameter {
 	public static String DEFAULT_EXEC_MATLAB_PATH = "matlab";
 	public static String DEFAULT_EXEC_OCTAVE_PATH = "octave";
 	public static String DEFAULT_EXEC_SCILAB_PATH = "scilab";
+
+	public static String JUST_GENERATE = "matlab.just_generate";
+	public static boolean DEFAULT_JUST_GENERATE = false;
 }

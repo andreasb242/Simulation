@@ -149,6 +149,7 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 		if (mainMenu) {
 			addMenuItem(mSimulation, "Zeitsimulation", "start-simulation", MenuToolbarActionType.START_SIMULATION, sysmenu.getSimulationSimulation());
+			addMenuItem(mSimulation, "Lade letzte Resultate", null, MenuToolbarActionType.LOAD_RESULTS, null);
 		}
 
 		addAdditionalSimulation();

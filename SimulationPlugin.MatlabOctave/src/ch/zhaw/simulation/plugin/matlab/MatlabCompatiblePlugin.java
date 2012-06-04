@@ -143,52 +143,58 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	protected void startApplication(String dir, String filename) throws IllegalArgumentException, IOException {
-		String tool = settings.getSetting(MatlabParameter.TOOL, MatlabParameter.DEFAULT_TOOL);
-		MatlabTool t = MatlabTool.fromString(tool);
-		String executable = null;
-		String arguments = null;
 
-		if (t == MatlabTool.MATLAB) {
-			executable = settings.getSetting(MatlabParameter.EXEC_MATLAB_PATH, MatlabParameter.DEFAULT_EXEC_MATLAB_PATH);
-			arguments = "-nosplash -nodesktop -minimize -wait -sd " + dir + " -r " + filename;
-		} else if (t == MatlabTool.OCTAVE) {
-			executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
-			if (OS.getOs() == OS.WINDOWS) {
-				if (!dir.endsWith("\\")) {
-					dir = dir + "\\";
-				}
-				arguments = "--no-line-editing --silent --path " + dir + " --exec-path " + dir + " " + dir + filename + ".m";
-			} else {
-				arguments = "--no-line-editing --exec-path " + dir + " " + filename + ".m";
-			}
-		} else if (t == MatlabTool.SCILAB) {
-			executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
-			arguments = "";
+		boolean justGenerate = settings.getSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
+
+		if (justGenerate) {
+			provider.getExecutionListener().executionFinished(null, FinishState.SURRENDER);
 		} else {
-			throw new IllegalArgumentException();
-		}
+			String tool = settings.getSetting(MatlabParameter.TOOL, MatlabParameter.DEFAULT_TOOL);
+			MatlabTool t = MatlabTool.fromString(tool);
+			String executable = null;
+			String arguments = null;
 
-		System.out.println("MatlabCompatiblePlugin: " + executable + " " + arguments);
-		this.process = Runtime.getRuntime().exec(executable + " " + arguments);
-
-		ActionListener errorListener = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				watcher.stop();
-				provider.getExecutionListener().executionFinished(e.getActionCommand(), ExecutionListener.FinishState.ERROR);
+			if (t == MatlabTool.MATLAB) {
+				executable = settings.getSetting(MatlabParameter.EXEC_MATLAB_PATH, MatlabParameter.DEFAULT_EXEC_MATLAB_PATH);
+				arguments = "-nosplash -nodesktop -minimize -wait -sd " + dir + " -r " + filename;
+			} else if (t == MatlabTool.OCTAVE) {
+				executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
+				if (OS.getOs() == OS.WINDOWS) {
+					if (!dir.endsWith("\\")) {
+						dir = dir + "\\";
+					}
+					arguments = "--no-line-editing --silent --path " + dir + " --exec-path " + dir + " " + dir + filename + ".m";
+				} else {
+					arguments = "--no-line-editing --exec-path " + dir + " " + filename + ".m";
+				}
+			} else if (t == MatlabTool.SCILAB) {
+				executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
+				arguments = "";
+			} else {
+				throw new IllegalArgumentException();
 			}
-		};
 
-		OutputReaderThread stdout = new OutputReaderThread("[" + t + "] ", process.getInputStream(), System.out);
-		OutputReaderThread stderr = new OutputReaderThread("[" + t + "] ", process.getErrorStream(), System.err);
+			System.out.println("MatlabCompatiblePlugin: " + executable + " " + arguments);
+			this.process = Runtime.getRuntime().exec(executable + " " + arguments);
 
-		stdout.addListener(errorListener);
-		stderr.addListener(errorListener);
+			ActionListener errorListener = new ActionListener() {
 
-		stdout.start();
-		stderr.start();
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					watcher.stop();
+					provider.getExecutionListener().executionFinished(e.getActionCommand(), ExecutionListener.FinishState.ERROR);
+				}
+			};
 
+			OutputReaderThread stdout = new OutputReaderThread("[" + t + "] ", process.getInputStream(), System.out);
+			OutputReaderThread stderr = new OutputReaderThread("[" + t + "] ", process.getErrorStream(), System.err);
+
+			stdout.addListener(errorListener);
+			stderr.addListener(errorListener);
+
+			stdout.start();
+			stderr.start();
+		}
 	}
 
 	@Override
@@ -196,11 +202,12 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 		provider.getExecutionListener().setExecutionMessage("Wird abgebrochen...");
 		watcher.stop();
 
-		this.process.destroy();
-
 		try {
-			int retCode = this.process.waitFor();
-			System.out.println("Process exited with: " + retCode);
+			if (this.process != null) {
+				this.process.destroy();
+				int retCode = this.process.waitFor();
+				System.out.println("Process exited with: " + retCode);
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {

@@ -18,7 +18,12 @@ public interface ExecutionListener {
 		/**
 		 * Something went wrong
 		 */
-		ERROR
+		ERROR,
+
+		/**
+		 * Surrender without aspirate a sound
+		 */
+		SURRENDER
 	}
 
 	/**

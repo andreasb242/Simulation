@@ -17,6 +17,7 @@ public class MatlabFinishListener extends FileListener {
 
 	public MatlabFinishListener(MatlabCompatiblePlugin parent) {
 		this.parent = parent;
+		this.workpath = new String();
 	}
 
 	@Override

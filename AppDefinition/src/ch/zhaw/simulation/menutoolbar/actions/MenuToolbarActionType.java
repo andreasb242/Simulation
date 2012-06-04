@@ -86,6 +86,11 @@ public enum MenuToolbarActionType {
 	START_SIMULATION,
 
 	/**
+	 * Loads last results
+	 */
+	LOAD_RESULTS,
+
+	/**
 	 * Shows an overview window
 	 */
 	FORMULA_OVERVIEW,

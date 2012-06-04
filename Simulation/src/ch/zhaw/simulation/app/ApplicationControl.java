@@ -203,23 +203,11 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 						mainFrame.unlock();
 
 						if (state == FinishState.SUCCESSFULLY) {
-							if (doc.getType() == SimulationType.FLOW_SIMULATION) {
-								DiagramConfiguration config = new DiagramConfiguration();
-
-								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-								DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, config, getDocumentName(), sysintegration);
-								frame.setVisible(true);
-
-							} else if (doc.getType() == SimulationType.XY_MODEL) {
-								SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
-								Vector<XYDensityRaw> rawList = getSelectedPluginDescriptor().getPlugin().getXYResults(doc);
-								XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
-								XYResultList xyResultList = chooser.chooseMesoPart();
-								ResultViewerDialog dlg = new ResultViewerDialog(getMainFrame(), xyResultList, rawList);
-								dlg.setVisible(true);
-							}
+							loadLastResults();
 						} else if (state == FinishState.CANCELED) {
 							Messagebox.showInfo(getMainFrame(), "Abgebrochen", "Die Simulaton wurde abgebrochen.");
+						} else if (state == FinishState.SURRENDER) {
+							// do nothing
 						} else {
 							Messagebox.showError(getMainFrame(), "Simulation fehlgeschlagen", message);
 						}
@@ -498,6 +486,24 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 	}
 
+	public void loadLastResults() {
+		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+			DiagramConfiguration config = new DiagramConfiguration();
+
+			SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+			DiagramFrame frame = new DiagramFrame(collection, ApplicationControl.this.settings, config, getDocumentName(), sysintegration);
+			frame.setVisible(true);
+
+		} else if (doc.getType() == SimulationType.XY_MODEL) {
+			SimulationCollection collection = getSelectedPluginDescriptor().getPlugin().getSimulationResults(doc);
+			Vector<XYDensityRaw> rawList = getSelectedPluginDescriptor().getPlugin().getXYResults(doc);
+			XYResultChooser chooser = new XYResultChooser(doc.getXyModel(), collection);
+			XYResultList xyResultList = chooser.chooseMesoPart();
+			ResultViewerDialog dlg = new ResultViewerDialog(getMainFrame(), xyResultList, rawList);
+			dlg.setVisible(true);
+		}
+	}
+
 	@Override
 	public void newFile(SimulationType type) {
 		if (askSave() == true) {
@@ -742,6 +748,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		case START_SIMULATION:
 			startSimulation();
 			break;
+
+		case LOAD_RESULTS:
+			loadLastResults();
 
 		default:
 			System.err.println("Unhandled event (ApplicationControl): " + action.getType() + " / " + action.getData());
