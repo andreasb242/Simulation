@@ -49,7 +49,7 @@ public class PositionControlPanel extends JPanel {
 	private Settings settings;
 
 	public PositionControlPanel(PositionModel model, Settings settings) {
-		gbm = new GridBagManager(this, true);
+		gbm = new GridBagManager(this);
 		this.model = model;
 		this.settings = settings;
 
