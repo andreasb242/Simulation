@@ -7,7 +7,7 @@ public class LinuxSysintegration extends Sysintegration {
 
 	public LinuxSysintegration() {
 	}
-	
+
 	@Override
 	protected void initBookmarks() {
 		this.bookmarks = new GtkBookmarks();

@@ -654,6 +654,8 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	public boolean exit() {
 		if (askSave() == true) {
+			this.sysintegration.removeListener(this);
+			
 			releaseOpenWindow();
 
 			doc.getSimulationConfiguration().removePluginChangeListener(simulationSettingsSaver);
@@ -801,15 +803,24 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	@Override
 	public void updateTitle() {
+		boolean saved = false;
+
 		if (documentName == null) {
 			this.mainFrame.setTitle("(AB)² Simulation");
 		} else {
-			String saved = "";
+			String strSaved = "";
 			if (doc.isChanged()) {
-				saved = " *";
+				strSaved = " *";
+			} else {
+				saved = true;
 			}
-			this.mainFrame.setTitle(documentName + saved + " - (AB)² Simulation");
+			this.mainFrame.setTitle(documentName + strSaved + " - (AB)² Simulation");
 		}
+
+		// Property wird von Mac OS X dargestellt: ein Punkt im close Button
+		// signalisiert das noch nicht gespeichert wurde
+		getMainFrame().getRootPane().putClientProperty("Window.documentModified", saved);
+
 	}
 
 	public String getDocumentName() {

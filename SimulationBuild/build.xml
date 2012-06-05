@@ -332,6 +332,13 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 			</fileset>
 		</copy>
 
+		<!-- wrapper for Linux / Unix -->
+		<copy todir="${distrib}">
+			<fileset dir="linux">
+				<include name="Simulation.sh" />
+			</fileset>
+		</copy>
+
 		<!-- wrapper for windows -->
 		<copy todir="${distrib}">
 			<fileset dir="windows/launch4j">

@@ -23,10 +23,10 @@ import butti.javalibs.config.WindowPositionSaver;
 import butti.javalibs.gui.BDialog;
 import ch.zhaw.simulation.diagram.csv.CSVSaver;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
+import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 
 public class TableDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -106,7 +106,11 @@ public class TableDialog extends BDialog {
 	}
 
 	private void initToolbar() {
-		Toolbar toolbar = SysintegrationFactory.getSysintegration().createToolbar(32);
+		// Mac Toolbar implementation not working as expected:
+		// Toolbar toolbar =
+		// SysintegrationFactory.getSysintegration().createToolbar(32);
+		Toolbar toolbar = new DefaultToolbar(32);
+
 		tbCopy = toolbar.add(new ToolbarAction("Kopieren", "diagram/edit-copy") {
 			@Override
 			public void actionPerformed(ActionEvent e) {

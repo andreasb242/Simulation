@@ -2,18 +2,14 @@ package ch.zhaw.simulation.diagram;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 import org.jdesktop.swingx.action.TargetableAction;
 import org.jfree.chart.ChartPanel;
@@ -25,11 +21,9 @@ import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleEdge;
 
 import butti.fontchooser.EditorDialog;
 import butti.javalibs.config.Settings;
@@ -51,6 +45,7 @@ import ch.zhaw.simulation.simplecharteditor.SimpleChartEditor;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
+import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 
 public class DiagramFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -92,7 +87,9 @@ public class DiagramFrame extends JFrame {
 
 		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
 
-		toolbar = sys.createToolbar(32);
+		// Mac Toolbar implementation not working as expected:
+		// toolBar = integration.createToolbar(32);
+		toolbar = new DefaultToolbar(32);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -431,59 +428,59 @@ public class DiagramFrame extends JFrame {
 			legend.setSelected(true);
 		}
 
-		final JButton btLegende = new JButton("Lengende");
-		toolbar.add(btLegende);
-
-		btLegende.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JPopupMenu p = new JPopupMenu();
-
-				JMenuItem it = new JMenuItem("Links");
-				it.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						LegendTitle l = DiagramFrame.this.chart.getLegend();
-						l.setPosition(RectangleEdge.LEFT);
-					}
-				});
-				p.add(it);
-				it = new JMenuItem("Rechts");
-				it.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						LegendTitle l = DiagramFrame.this.chart.getLegend();
-						l.setPosition(RectangleEdge.RIGHT);
-					}
-				});
-				p.add(it);
-				it = new JMenuItem("Oben");
-				it.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						LegendTitle l = DiagramFrame.this.chart.getLegend();
-						l.setPosition(RectangleEdge.TOP);
-					}
-				});
-				p.add(it);
-				it = new JMenuItem("Unten");
-				it.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						LegendTitle l = DiagramFrame.this.chart.getLegend();
-						l.setPosition(RectangleEdge.BOTTOM);
-					}
-				});
-				p.add(it);
-
-				p.show(btLegende, 0, btLegende.getHeight());
-			}
-		});
+//		final JButton btLegende = new JButton("Lengende");
+//		toolbar.add(btLegende);
+//
+//		btLegende.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				JPopupMenu p = new JPopupMenu();
+//
+//				JMenuItem it = new JMenuItem("Links");
+//				it.addActionListener(new ActionListener() {
+//
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						LegendTitle l = DiagramFrame.this.chart.getLegend();
+//						l.setPosition(RectangleEdge.LEFT);
+//					}
+//				});
+//				p.add(it);
+//				it = new JMenuItem("Rechts");
+//				it.addActionListener(new ActionListener() {
+//
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						LegendTitle l = DiagramFrame.this.chart.getLegend();
+//						l.setPosition(RectangleEdge.RIGHT);
+//					}
+//				});
+//				p.add(it);
+//				it = new JMenuItem("Oben");
+//				it.addActionListener(new ActionListener() {
+//
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						LegendTitle l = DiagramFrame.this.chart.getLegend();
+//						l.setPosition(RectangleEdge.TOP);
+//					}
+//				});
+//				p.add(it);
+//				it = new JMenuItem("Unten");
+//				it.addActionListener(new ActionListener() {
+//
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						LegendTitle l = DiagramFrame.this.chart.getLegend();
+//						l.setPosition(RectangleEdge.BOTTOM);
+//					}
+//				});
+//				p.add(it);
+//
+//				p.show(btLegende, 0, btLegende.getHeight());
+//			}
+//		});
 
 	}
 

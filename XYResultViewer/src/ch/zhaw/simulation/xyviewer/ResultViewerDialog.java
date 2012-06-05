@@ -37,6 +37,7 @@ import ch.zhaw.simulation.plugin.data.XYResultList;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
+import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 import ch.zhaw.simulation.vector.VectorExport;
 
 public class ResultViewerDialog extends JDialog {
@@ -112,7 +113,10 @@ public class ResultViewerDialog extends JDialog {
 	}
 
 	private void initToolbar() {
-		this.toolbar = this.sysintegration.createToolbar(32);
+		// Mac Toolbar implementation not working as expected:
+		// this.toolbar = this.sysintegration.createToolbar(32);
+		this.toolbar = new DefaultToolbar(32);
+		
 		add(this.toolbar.getComponent(), BorderLayout.NORTH);
 
 		this.logButton = new TargetableAction("Dichte logarithmisch darstellen", "diagram/log-x", IconLoader.getIcon("diagram/log-x",

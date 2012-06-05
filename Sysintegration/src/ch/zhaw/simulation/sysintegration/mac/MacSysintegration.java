@@ -48,17 +48,6 @@ public class MacSysintegration extends Sysintegration {
 		} catch (Exception e) {
 			Errorhandler.logError(e, "Error while loading the OSXAdapter:");
 		}
-
-		// TODO mac os x
-		// control.getModel().addListener(new SimulationAdapter() {
-		//
-		// @Override
-		// public void dataSaved(boolean saved) {
-		// control.getParent().getRootPane().putClientProperty("Window.documentModified",
-		// saved);
-		// }
-		// });
-
 	}
 
 	public boolean osXquit() {

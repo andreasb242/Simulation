@@ -2,15 +2,19 @@ package ch.zhaw.simulation.gui.codeditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -31,13 +35,13 @@ import ch.zhaw.simulation.model.NamedFormulaData.Status;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
-import ch.zhaw.simulation.sysintegration.Toolbar;
+import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 
 public class FormulaEditorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private FormulaTextPane text = new FormulaTextPane();
-	private Toolbar tb;
+	private JToolBar tb = new JToolBar();;
 
 	private VariableMenu constants = new VariableMenu("Konstanten", "constants", this);
 	private VariableMenu variables = new VariableMenu("Variablen", "variables", this);
@@ -71,8 +75,6 @@ public class FormulaEditorPanel extends JPanel {
 		this.model = model;
 		this.additionalVars = addiditonalVars;
 		this.autosaveFormula = autosaveFormula;
-		
-		tb = sys.createToolbar(24);
 
 		gbm = new GridBagManager(this);
 
@@ -86,7 +88,7 @@ public class FormulaEditorPanel extends JPanel {
 		initToolbar();
 
 		gbm.setInsets(new Insets(0, 0, 0, 0));
-		gbm.setX(0).setY(0).setWidth(2).setWeightY(0).setComp(tb.getComponent());
+		gbm.setX(0).setY(0).setWidth(2).setWeightY(0).setComp(tb);
 
 		keyboard = new FormularKeyboard(text);
 		gbm.setInsets(new Insets(0, 0, 0, 0));
@@ -122,9 +124,9 @@ public class FormulaEditorPanel extends JPanel {
 			@Override
 			public void run() {
 				System.out.println("check timer activated");
-				
+
 				SwingUtilities.invokeLater(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						checkFormula(false);
@@ -135,14 +137,31 @@ public class FormulaEditorPanel extends JPanel {
 	}
 
 	private void initToolbar() {
-		JComponent component = tb.add(constants).getComponent();
+		tb.setFloatable(false);
+		
+		JComponent component = addToToolbar(constants);
 		constants.setComponent(component);
 
-		component = tb.add(variables).getComponent();
+		component = addToToolbar(variables);
 		variables.setComponent(component);
 
-		component = tb.add(globals).getComponent();
+		component = addToToolbar(globals);
 		globals.setComponent(component);
+	}
+
+	private JButton addToToolbar(final ToolbarAction action) {
+		final JButton b = new JButton(action.getToolbarIcon(24));
+		b.setToolTipText(action.getName());
+		b.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				action.run(e);
+			}
+		});
+		tb.add(b);
+
+		return b;
 	}
 
 	protected void checkFormula(boolean forceSave) {

@@ -36,6 +36,7 @@ import ch.zhaw.simulation.sysintegration.SysMenuShortcuts;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
+import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 
 /**
  * Stellt ein HTML Editor dar.
@@ -113,7 +114,11 @@ public class HTMLEditor extends BDialog {
 		setTitle("Texteditor");
 
 		this.integration = integration;
-		toolBar = integration.createToolbar(24);
+		
+		
+		// Mac Toolbar implementation not working as expected:
+		// toolBar = integration.createToolbar(24);
+		toolBar = new DefaultToolbar(24);
 
 		this.settings = settings;
 
@@ -426,7 +431,7 @@ public class HTMLEditor extends BDialog {
 
 	private void handleTag(Element elem) {
 		// img tag is not yet handled...
-		
+
 		for (int i = 0; i < elem.getElementCount(); i++) {
 			Element e = elem.getElement(i);
 			handleTag(e);
