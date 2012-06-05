@@ -355,7 +355,6 @@ public class ResultViewerDialog extends JDialog {
 	public void setSelectedDensity(XYDensityRaw raw) {
 		this.view.setSelectedDensity(raw);
 		if (raw != null) {
-			System.out.println(raw.isLogView());
 			this.logButton.setSelected(raw.isLogView());
 		}
 	}

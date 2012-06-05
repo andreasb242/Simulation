@@ -134,7 +134,8 @@ public class XYViewer extends JComponent {
 	public void setPostion(int pos) {
 		stepList = resultList.getStep(pos);
 		repaint();
-		// If there are different densities for different times call: repaintDensity()
+		// If there are different densities for different times call:
+		// repaintDensity()
 	}
 
 	public void setSelectedDensity(XYDensityRaw raw) {
@@ -166,13 +167,16 @@ public class XYViewer extends JComponent {
 	}
 
 	private void drawMeso(Graphics2D g, XYResultStepEntry stepEntry) {
-		if (stepEntry == null)
-			System.out.println("XYViewer.drawMeso() stepEntry == null");
-		if (stepEntry.getResultEntry() == null)
+		if (stepEntry == null) {
+			System.err.println("XYViewer.drawMeso() stepEntry == null");
+			return;
+		}
+		if (stepEntry.getResultEntry() == null) {
 			System.out.println("XYViewer.drawMeso() stepEntry.getResultEntry() == null");
+			return;
+		}
 
 		if (stepEntry.getResultEntry().getColorId() > this.images.length) {
-			System.out.println(stepEntry.getResultEntry().getColorId());
 			return;
 		}
 
