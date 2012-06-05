@@ -17,10 +17,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
+import butti.javalibs.clipboard.JTableCopyAdapter;
 import butti.javalibs.config.Settings;
 import butti.javalibs.config.WindowPositionSaver;
 import butti.javalibs.gui.BDialog;
-import butti.javalibs.util.JTableCopyAdapter;
 import ch.zhaw.simulation.diagram.csv.CSVSaver;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;

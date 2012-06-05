@@ -134,7 +134,7 @@ public class XYViewer extends JComponent {
 	public void setPostion(int pos) {
 		stepList = resultList.getStep(pos);
 		repaint();
-		// TODO: If there are different densities: repaintDensity()
+		// If there are different densities for different times call: repaintDensity()
 	}
 
 	public void setSelectedDensity(XYDensityRaw raw) {

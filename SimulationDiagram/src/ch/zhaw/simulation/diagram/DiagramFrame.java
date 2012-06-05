@@ -83,6 +83,8 @@ public class DiagramFrame extends JFrame {
 
 	private Object xAxisType = null;
 
+	private SerieCbRenderer seriesCbRenderer;
+
 	public DiagramFrame(SimulationCollection collection, final Settings settings, DiagramConfiguration config, final String name, final Sysintegration sys) {
 		this.settings = settings;
 		this.collection = collection;
@@ -103,12 +105,12 @@ public class DiagramFrame extends JFrame {
 		setLayout(new BorderLayout());
 
 		cbX = new JComboBox();
-		cbX.addItem("Zeit");
+		cbX.addItem(SerieCbRenderer.TIME_ENTRY);
 		for (SimulationSerie s : this.collection) {
 			cbX.addItem(s);
 		}
-
-		cbX.setRenderer(new SerieCbRenderer(sys));
+		this.seriesCbRenderer = new SerieCbRenderer(sys);
+		cbX.setRenderer(this.seriesCbRenderer);
 
 		cbX.addItemListener(new ItemListener() {
 
@@ -187,11 +189,15 @@ public class DiagramFrame extends JFrame {
 		new WindowPositionSaver(this, 800, 480);
 	}
 
+	public SerieCbRenderer getSeriesCbRenderer() {
+		return seriesCbRenderer;
+	}
+
 	protected void updateSimulationSeries() {
 		System.out.println("updateSimulationSeries()");
 		if (xAxisType == null || !xAxisType.equals(cbX.getSelectedItem())) {
 			xAxisType = cbX.getSelectedItem();
-			
+
 			XYSeriesCollection col = createSeriesCollection();
 			this.plot.setDataset(col);
 		}
@@ -202,9 +208,9 @@ public class DiagramFrame extends JFrame {
 
 		if (xAxisType != null && xAxisType instanceof SimulationSerie) {
 			SimulationSerie xSerie = (SimulationSerie) xAxisType;
-			
-			System.out.println("xSerie = "+xSerie.getName());
-			
+
+			System.out.println("xSerie = " + xSerie.getName());
+
 			int id = 0;
 
 			boolean countMatches = true;
@@ -233,8 +239,10 @@ public class DiagramFrame extends JFrame {
 
 			if (!countMatches) {
 				// TODO was machen mit dieser Meldung?
-//				Messagebox.showInfo(this, "Datenpunkte", "<html>Nicht alle Datenreihen enhielten gleich viele Punkte wie die Datenreihe der X-Achse.<br>"
-//						+ "Alle nicht übereinstimmenden Reihen wurden ausgeblendet.</html>");
+				// Messagebox.showInfo(this, "Datenpunkte",
+				// "<html>Nicht alle Datenreihen enhielten gleich viele Punkte wie die Datenreihe der X-Achse.<br>"
+				// +
+				// "Alle nicht übereinstimmenden Reihen wurden ausgeblendet.</html>");
 			}
 		} else {
 			int id = 0;

@@ -21,9 +21,11 @@ import javax.swing.SpinnerNumberModel;
 
 import org.jdesktop.swingx.action.TargetableAction;
 
+import butti.javalibs.clipboard.ImageSelection;
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.diagram.DiagramFrame;
+import ch.zhaw.simulation.diagram.SerieCbRenderer;
 import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.dialog.snapshot.ImageExportable;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
@@ -154,6 +156,15 @@ public class ResultViewerDialog extends JDialog {
 
 		this.toolbar.addSeparator();
 
+		toolbar.add(new ToolbarAction("In die Zwischenablage kopieren (Rastergrafik)", "diagram/edit-copy") {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				copyToClipboard();
+			}
+		});
+		this.toolbar.addSeparator();
+
 		this.toolbar.add(new ToolbarAction("Dichte als XY Diagramm anzeigen, horizontal", "diagram/diagram_horizontal") {
 
 			@Override
@@ -222,7 +233,7 @@ public class ResultViewerDialog extends JDialog {
 
 		DiagramConfiguration config = new DiagramConfiguration();
 		DiagramFrame diagram = new DiagramFrame(collection, settings, config, name, sysintegration);
-		diagram.setVisible(true);
+		showConfigureDiagram(diagram, "Y");
 	}
 
 	protected void showDiagramHorizontal() {
@@ -269,7 +280,33 @@ public class ResultViewerDialog extends JDialog {
 
 		DiagramConfiguration config = new DiagramConfiguration();
 		DiagramFrame diagram = new DiagramFrame(collection, settings, config, name, sysintegration);
+
+		showConfigureDiagram(diagram, "X");
+	}
+
+	private void showConfigureDiagram(DiagramFrame diagram, String direction) {
+		SerieCbRenderer renderer = diagram.getSeriesCbRenderer();
+		renderer.setTimeText(direction + "-Richtung");
+		renderer.setTimeIcon(null);
+
 		diagram.setVisible(true);
+	}
+
+	private BufferedImage takeScreenshot() {
+		int width = view.getWidth();
+		int height = view.getHeight();
+
+		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D g = img.createGraphics();
+		view.paint(g);
+		g.dispose();
+
+		return img;
+	}
+
+	protected void copyToClipboard() {
+		ImageSelection.copyImageToClipboard(takeScreenshot());
 	}
 
 	protected void exportImage() {
@@ -282,6 +319,7 @@ public class ResultViewerDialog extends JDialog {
 
 			@Override
 			public void exportToClipboard(boolean onlySelection) {
+				copyToClipboard();
 			}
 
 			@Override
@@ -290,21 +328,13 @@ public class ResultViewerDialog extends JDialog {
 				int height = view.getHeight();
 
 				if ("PNG".equals(format)) {
-					BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-					Graphics2D g = img.createGraphics();
-
-					view.paint(g);
-
-					g.dispose();
+					BufferedImage img = takeScreenshot();
 					ImageIO.write(img, "PNG", file);
 				} else {
 					VectorExport ex = new VectorExport(new FileOutputStream(file), new Dimension(width, height), format);
 
 					Graphics2D g = ex.getGraphics();
-
 					view.paint(g);
-
 					ex.close();
 				}
 			}
