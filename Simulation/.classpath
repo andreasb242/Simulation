@@ -10,8 +10,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Dynasys"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Madonna"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
@@ -20,8 +18,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin.Intern"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationDiagram"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/XYResultViewer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/NetbeansDirchooser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

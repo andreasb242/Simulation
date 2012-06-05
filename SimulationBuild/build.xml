@@ -1,5 +1,17 @@
+<!--
+
+Simulation (AB)² ANT Buildfile
+
+The Dependencies of the projects have to be entered here also as depenedencies!
+
+BJavalibs has to be build with his own antfile bevore this,
+and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
+(only nesseccary if BJavalibs has been changed)
+
+ -->
 <project name="Simulation" basedir="." default="complete">
-	<property name="build" location="build" />
+	<property name="build" location="build/tmp" />
+	<property name="distrib" location="build/distrib" />
 	<tstamp>
 		<format property="buildtime" pattern="dd-MMM-yy HH:mm:ss" />
 	</tstamp>
@@ -12,275 +24,316 @@
 
 	<target name="init" depends="clean">
 		<mkdir dir="${build}" />
-		<mkdir dir="${build}/distrib" />
-		<mkdir dir="${build}/distrib/lib" />
 
-		<copy todir="${build}/distrib/lib">
+		<mkdir dir="${distrib}" />
+		<mkdir dir="${distrib}/lib" />
+
+		<copy todir="${distrib}/lib">
 			<fileset dir="../ExternLibraries/lib/">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
-		<mkdir dir="${build}/distrib/plugin" />
-		<mkdir dir="${build}/distrib/plugin/simulation" />
-		<mkdir dir="${build}/distrib/plugin/import" />
-		<mkdir dir="${build}/distrib/config" />
+		<mkdir dir="${distrib}/plugin" />
+		<mkdir dir="${distrib}/plugin/simulation" />
+		<mkdir dir="${distrib}/plugin/import" />
+		<mkdir dir="${distrib}/config" />
 	</target>
 
-	<target name="complete" depends="init">
-		<ant antfile="../Model/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/Model" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/Model">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
+	<!-- All Projects, in Alphabetical order! -->
 
-
-		<ant antfile="../Plugin/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/Plugin_" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/Plugin_">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-		<ant antfile="../ImportFilter/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/ImportFilter" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/ImportFilter">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-		<ant antfile="../ImportFilter.Dynasys/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/ImportFilter.Dynasys" />
-		</ant>
-		<copy todir="${build}/distrib/plugin/import">
-			<fileset dir="${build}/ImportFilter.Dynasys">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-		
-		<ant antfile="../ImportFilter.Madonna/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/ImportFilter.Madonna" />
-		</ant>
-		<copy todir="${build}/distrib/plugin/import">
-			<fileset dir="${build}/ImportFilter.Madonna">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-		<ant antfile="../Sysintegration/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/Sysintegration" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/Sysintegration">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-		<ant antfile="../HtmlEditor/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/HtmlEditor" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/HtmlEditor">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-		
-		<ant antfile="../SimulationJepLib-2.4.1/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/SimulationJepLib-2.4.1" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/SimulationJepLib-2.4.1">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-		<ant antfile="../NetbeansDirchooser/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/NetbeansDirchooser/build.xml" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/NetbeansDirchooser/build.xml">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-		<ant antfile="../SimulationSidebar/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/SimulationSidebar" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/SimulationSidebar">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-		<ant antfile="../SimulationPlugin/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/SimulationPlugin" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/SimulationPlugin">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-	
+	<target name="AppDefinition" depends="BJavalibs,Model,Plugin,SimulationPlugin">
 		<ant antfile="../AppDefinition/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
+			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/AppDefinition" />
 		</ant>
-		<copy todir="${build}/distrib/lib">
+		<copy todir="${distrib}/lib">
 			<fileset dir="${build}/AppDefinition">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
+	</target>
 
+	<!-- this task is to keep the complete dependency list, for later use -->
+	<target name="BJavalibs" depends="">
+	</target>
 
-		<ant antfile="../VectorExport/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/AppDefinition" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/AppDefinition">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
-        <ant antfile="../ImageExport/build.xml" target="jar" useNativeBasedir="true">
-            <property name="lib" value="${build}/distrib/lib" />
-            <property name="build" value="${build}/ImageExport" />
-        </ant>
-        <copy todir="${build}/distrib/lib">
-            <fileset dir="${build}/ImageExport">
-                <include name="*.jar" />
-            </fileset>
-        </copy>
-
-
+	<target name="Editor" depends="AppDefinition,BJavalibs,HtmlEditor,ImageExport,Model,Plugin,SimulationJepLib-2.4.1,SimulationPlugin,SimulationSidebar,Sysintegration,VectorExport">
 		<ant antfile="../Editor/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
+			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Editor" />
 		</ant>
-		<copy todir="${build}/distrib/lib">
+		<copy todir="${distrib}/lib">
 			<fileset dir="${build}/Editor">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
+	</target>
 
-
-		<ant antfile="../Editor.XY/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/Editor.XY" />
-		</ant>
-		<copy todir="${build}/distrib/lib">
-			<fileset dir="${build}/Editor.XY">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-
-
+	<target name="Editor.Flow" depends="AppDefinition,BJavalibs,Editor,Model,SimulationJepLib-2.4.1,SimulationSidebar,Sysintegration">
 		<ant antfile="../Editor.Flow/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
+			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Editor.Flow" />
 		</ant>
-		<copy todir="${build}/distrib/lib">
+		<copy todir="${distrib}/lib">
 			<fileset dir="${build}/Editor.Flow">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
+	</target>
 
-        <ant antfile="../OnscreenKeyboard/build.xml" target="jar" useNativeBasedir="true">
-            <property name="lib" value="${build}/distrib/lib" />
-            <property name="build" value="${build}/OnscreenKeyboard" />
-        </ant>
-        <copy todir="${build}/distrib/lib">
-            <fileset dir="${build}/OnscreenKeyboard">
-                <include name="*.jar" />
-            </fileset>
-        </copy>
-
-        <ant antfile="../SimulationDiagram/build.xml" target="jar" useNativeBasedir="true">
-            <property name="lib" value="${build}/distrib/lib" />
-            <property name="build" value="${build}/SimulationDiagram" />
-        </ant>
-        <copy todir="${build}/distrib/lib">
-            <fileset dir="${build}/SimulationDiagram">
-                <include name="*.jar" />
-            </fileset>
-        </copy>
-
-
-		<ant antfile="../SimulationPlugin.MatlabOctave/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
-			<property name="build" value="${build}/SimulationPlugin.MatlabOctave" />
+	<target name="Editor.XY" depends="AppDefinition,BJavalibs,Editor,Model,SimulationJepLib-2.4.1,SimulationSidebar,Sysintegration">
+		<ant antfile="../Editor.XY/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/Editor.XY" />
 		</ant>
-		<copy todir="${build}/distrib/plugin/simulation">
-			<fileset dir="${build}/SimulationPlugin.MatlabOctave">
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/Editor.XY">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
+	</target>
 
+	<target name="HtmlEditor" depends="BJavalibs,Sysintegration">
+		<ant antfile="../HtmlEditor/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/HtmlEditor" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/HtmlEditor">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
 
-        <ant antfile="../XYResultViewer/build.xml" target="jar" useNativeBasedir="true">
-            <property name="lib" value="${build}/distrib/lib" />
-            <property name="build" value="${build}/XYResultViewer" />
-        </ant>
-        <copy todir="${build}/distrib/lib">
-            <fileset dir="${build}/XYResultViewer">
-                <include name="*.jar" />
-            </fileset>
-        </copy>
+	<target name="ImageExport" depends="BJavalibs,Sysintegration">
+		<ant antfile="../ImageExport/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/ImageExport" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/ImageExport">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
 
+	<target name="ImportFilter" depends="BJavalibs,Model,Plugin">
+		<ant antfile="../ImportFilter/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/ImportFilter" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/ImportFilter">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
 
+	<target name="ImportFilter.Dynasys" depends="BJavalibs,ImportFilter,Model,Plugin">
+		<ant antfile="../ImportFilter.Dynasys/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/ImportFilter.Dynasys" />
+		</ant>
+		<copy todir="${distrib}/plugin/import">
+			<fileset dir="${build}/ImportFilter.Dynasys">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="ImportFilter.Madonna" depends="AppDefinition,BJavalibs,ImportFilter,Model,Plugin">
+		<ant antfile="../ImportFilter.Madonna/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/ImportFilter.Madonna" />
+		</ant>
+		<copy todir="${distrib}/plugin/import">
+			<fileset dir="${build}/ImportFilter.Madonna">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="Model" depends="BJavalibs">
+		<ant antfile="../Model/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/Model" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/Model">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="NetbeansDirchooser" depends="">
+		<ant antfile="../NetbeansDirchooser/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/NetbeansDirchooser/build.xml" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/NetbeansDirchooser/build.xml">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="OnscreenKeyboard" depends="BJavalibs">
+		<ant antfile="../OnscreenKeyboard/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/OnscreenKeyboard" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/OnscreenKeyboard">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="Plugin" depends="">
+		<ant antfile="../Plugin/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/Plugin_" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/Plugin_">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="Simulation" depends="AppDefinition,BJavalibs,Editor,Editor.Flow,Editor.XY,ImageExport,ImportFilter,ImportFilter.Dynasys,ImportFilter.Madonna,Model,NetbeansDirchooser,OnscreenKeyboard,Plugin,SimulationDiagram,SimulationJepLib-2.4.1,SimulationPlugin,SimulationPlugin.MatlabOctave,SimulationPlugin.Intern,Sysintegration,XYResultViewer">
 		<ant antfile="../Simulation/build.xml" target="jar" useNativeBasedir="true">
-			<property name="lib" value="${build}/distrib/lib" />
+			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Simulation" />
 		</ant>
-		<copy todir="${build}/distrib">
+		<copy todir="${distrib}">
 			<fileset dir="${build}/Simulation">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
+	</target>
+
+	<target name="SimulationDiagram" depends="BJavalibs,Editor,Editor.Flow,ImageExport,Model,OnscreenKeyboard,SimulationPlugin,Sysintegration,VectorExport">
+		<ant antfile="../SimulationDiagram/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/SimulationDiagram" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/SimulationDiagram">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="SimulationJepLib-2.4.1" depends="Model">
+		<ant antfile="../SimulationJepLib-2.4.1/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/SimulationJepLib-2.4.1" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/SimulationJepLib-2.4.1">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="SimulationPlugin" depends="BJavalibs,Model,Plugin,SimulationJepLib-2.4.1,SimulationSidebar">
+		<ant antfile="../SimulationPlugin/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/SimulationPlugin" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/SimulationPlugin">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="SimulationPlugin.Intern" depends="BJavalibs,Model,Plugin,SimulationJepLib-2.4.1,SimulationPlugin,SimulationSidebar">
+		<ant antfile="../SimulationPlugin.Intern/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/SimulationPlugin.Intern" />
+		</ant>
+		<copy todir="${distrib}/plugin/simulation">
+			<fileset dir="${build}/SimulationPlugin.Intern">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="SimulationPlugin.MatlabOctave" depends="BJavalibs,Model,Plugin,SimulationJepLib-2.4.1,SimulationPlugin,SimulationSidebar,Sysintegration">
+		<ant antfile="../SimulationPlugin.MatlabOctave/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/SimulationPlugin.MatlabOctave" />
+		</ant>
+		<copy todir="${distrib}/plugin/simulation">
+			<fileset dir="${build}/SimulationPlugin.MatlabOctave">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="SimulationSidebar" depends="">
+		<ant antfile="../SimulationSidebar/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/SimulationSidebar" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/SimulationSidebar">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="Sysintegration" depends="BJavalibs">
+		<ant antfile="../Sysintegration/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/Sysintegration" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/Sysintegration">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="VectorExport" depends="AppDefinition">
+		<ant antfile="../VectorExport/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/AppDefinition" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/AppDefinition">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="XYResultViewer" depends="BJavalibs,Editor,Editor.XY,ImageExport,Model,SimulationDiagram,SimulationPlugin,Sysintegration,VectorExport">
+		<ant antfile="../XYResultViewer/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/XYResultViewer" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/XYResultViewer">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
 
 
-		<copy todir="${build}/distrib/config">
+	<!-- The build entry point -->
+	<target name="complete" depends="init,Simulation">
+		<!-- copy configuration file -->
+		<copy todir="${distrib}/config">
 			<fileset dir="../Simulation/config">
 				<include name="config.properties" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build}/distrib">
-			<fileset dir="../Simulation/">
-				<include name="help/**/*" />
-			</fileset>
-		</copy>
-
-		<copy todir="${build}/distrib">
+		<!-- wrapper for windows -->
+		<copy todir="${distrib}">
 			<fileset dir="windows/launch4j">
 				<include name="Simulation.exe" />
 			</fileset>

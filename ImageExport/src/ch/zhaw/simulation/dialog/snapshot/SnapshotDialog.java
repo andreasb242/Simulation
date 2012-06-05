@@ -28,7 +28,7 @@ import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.ButtonFactory;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.gui.messagebox.Messagebox;
-import ch.zhaw.simulation.filechooser.TxtDirChooser;
+import ch.zhaw.simulation.filechoosertextfield.FilechooserTextfield;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmark;
@@ -43,7 +43,7 @@ public class SnapshotDialog extends BDialog {
 	private JTextField txtName = new JTextField(20);
 	private JComboBox cbSavePath;
 
-	private TxtDirChooser dirChooser;
+	private FilechooserTextfield dirChooser;
 
 	private JCheckBox cbSelection = new JCheckBox("Nur Selektion");
 
@@ -68,7 +68,7 @@ public class SnapshotDialog extends BDialog {
 			cbSelection.setVisible(false);
 		}
 
-		dirChooser = new TxtDirChooser(this, false);
+		dirChooser = new FilechooserTextfield(this, sys, null, true, false, false);
 
 		gbm = new GridBagManager(this);
 
@@ -242,7 +242,7 @@ public class SnapshotDialog extends BDialog {
 		String lastPath = settings.getSetting("snapshot.path");
 		for (int i = 0; i < cbSavePath.getItemCount(); i++) {
 			Bookmark b = (Bookmark) cbSavePath.getItemAt(i);
-			if(b.getPath().equals(lastPath)) {
+			if (b.getPath().equals(lastPath)) {
 				cbSavePath.setSelectedIndex(i);
 				break;
 			}

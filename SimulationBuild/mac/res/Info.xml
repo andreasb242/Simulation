@@ -26,11 +26,11 @@
 	<key>CFBundleIconFile</key>
 	<string>Simulation.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>butti.Simulation</string>
+	<string>ch.zhaw.Simulation</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Simulation</string>
+	<string>(AB)²Simulation</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -48,7 +48,7 @@
 		<key>JVMVersion</key>
 		<string>1.6+</string>
 		<key>MainClass</key>
-		<string>startup.SimulationMain</string>
+		<string>ch.zhaw.simulation.startup.SimulationMain</string>
 		<key>Properties</key>
 		<dict>
 			<key>apple.awt.brushMetalLook</key>

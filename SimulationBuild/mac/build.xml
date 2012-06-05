@@ -10,7 +10,8 @@
             Builds the Mac OS X App
     </description>
 
-	<property name="tmp" value="appTmp" />
+	<property name="tmp" location="appTmp" />
+	<property name="distrib" location="../build/distrib" />
 
 	<target name="clean">
 		<delete dir="${tmp}" />
@@ -31,29 +32,39 @@
          ================================= -->
 	<target name="pack" depends="init" description="Builds the Mac OS X App">
 		<copy file="res/Simulation" todir="${tmp}/Simulation.app/Contents/MacOS" />
-		<chmod file="${tmp}/Simulation.app/Contents/MacOS/Simulation" perm="+x"/>
-		
+		<chmod file="${tmp}/Simulation.app/Contents/MacOS/Simulation" perm="+x" />
+
 		<copy file="res/Simulation.icns" todir="${tmp}/Simulation.app/Contents/Resources" />
 		<copy file="res/SimulationFile.icns" todir="${tmp}/Simulation.app/Contents/Resources" />
 
 		<exec executable="php">
 			<arg value="createInfo.plist.php" />
 			<arg value="${tmp}/Simulation.app/Contents/info.plist" />
+			<arg value="${distrib}/lib" />
 		</exec>
 
 		<copy todir="${tmp}/Simulation.app/Contents/Resources/Java/lib">
-			<fileset dir="../../lib">
+			<fileset dir="${distrib}/lib">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 
-		<copy file="../${build}/Simulation.jar" todir="${tmp}/Simulation.app/Contents/Resources/Java/" />
-		
-		<mkdir dir="../${distrib}/mac" />
-		
+		<copy file="${distrib}/Simulation.jar" todir="${tmp}/Simulation.app/Contents/Resources/Java/" />
+
+		<copy file="${distrib}/config/config.properties" todir="${tmp}/Simulation.app/Contents/Resources/config" />
+
+		<copy todir="${tmp}/Simulation.app/Contents/Resources/plugin">
+			<fileset dir="${distrib}/plugin/">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+
+			
+		<mkdir dir="${distrib}/mac" />
+
 		<exec executable="zip" dir="${tmp}">
 			<arg value="-r" />
-			<arg value="../../${distrib}/mac/Simulation.zip" />
+			<arg value="${distrib}/mac/Simulation.zip" />
 			<arg value="Simulation.app" />
 		</exec>
 

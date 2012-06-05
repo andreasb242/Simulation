@@ -6,7 +6,7 @@ $n = file_get_contents('res/Info.xml');
 
 $cp = '';
 
-$libdir = '../../lib/';
+$libdir = $_SERVER['argv'][2];
 
 if (is_dir($libdir)) {
 	if ($dh = opendir($libdir)) {
@@ -25,4 +25,3 @@ $n = str_replace('{CLASSPATH}', substr($cp, 1), $n);
 
 file_put_contents($_SERVER['argv'][1], $n);
 
-?>

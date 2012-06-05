@@ -9,10 +9,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SimulationSidebar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/VectorExport"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationSidebar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

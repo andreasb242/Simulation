@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
 import butti.javalibs.errorhandler.Errorhandler;
@@ -18,7 +17,7 @@ public class Sysintegration {
 
 	protected Bookmarks bookmarks;
 	protected SysMenuShortcuts sysMenuShortcuts;
-	
+
 	private Vector<SysintegrationEventlistener> eventlistener = new Vector<SysintegrationEventlistener>();
 
 	/**
@@ -131,7 +130,7 @@ public class Sysintegration {
 		return null;
 	}
 
-	public File showOpenDialog(JFrame parent, FileFilter filefilter, String lastSavePath) {
+	public File showOpenDialog(Window parent, FileFilter filefilter, String lastSavePath) {
 		JFileChooser chooser = new JFileChooser(lastSavePath);
 		chooser.setFileFilter(filefilter);
 		if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
@@ -139,17 +138,17 @@ public class Sysintegration {
 		}
 		return null;
 	}
-	
+
 	public void addListener(SysintegrationEventlistener l) {
 		eventlistener.add(l);
 	}
-	
+
 	public void removeListener(SysintegrationEventlistener l) {
 		eventlistener.remove(l);
 	}
-	
+
 	protected void fireEvent(EventType type, String param) {
-		for(SysintegrationEventlistener l : this.eventlistener) {
+		for (SysintegrationEventlistener l : this.eventlistener) {
 			l.sysEvent(type, param);
 		}
 	}

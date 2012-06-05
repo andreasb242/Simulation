@@ -5,16 +5,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileFilter;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.util.OS;
-import ch.zhaw.simulation.filechooser.ExecDirChooser;
-import ch.zhaw.simulation.filechooser.TxtDirChooser;
+import ch.zhaw.simulation.filechoosertextfield.FilechooserTextfield;
 import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
 import ch.zhaw.simulation.plugin.matlab.MatlabTool;
+import ch.zhaw.simulation.sysintegration.Sysintegration;
+import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 
 public class SettingsGui extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -24,11 +31,23 @@ public class SettingsGui extends JPanel {
 	private DefaultComboBoxModel toolModel = new DefaultComboBoxModel();
 	private JComboBox cbTool = new JComboBox(toolModel);
 
-	private TxtDirChooser txtWorkpath;
-	private ExecDirChooser execMatlabPath;
-	private ExecDirChooser execOctavePath;
-	private ExecDirChooser execScilabPath;
+	private FilechooserTextfield txtWorkpath;
+	private FilechooserTextfield execMatlabPath;
+	private FilechooserTextfield execOctavePath;
+	private FilechooserTextfield execScilabPath;
 	private JCheckBox cbGenerate;
+
+	private FileFilter filter = new FileFilter() {
+		@Override
+		public String getDescription() {
+			return "Executable files";
+		}
+
+		@Override
+		public boolean accept(File f) {
+			return true;
+		}
+	};
 
 	public SettingsGui(final Settings settings, Window parent) {
 		String defaultPath;
@@ -59,8 +78,10 @@ public class SettingsGui extends JPanel {
 			}
 		});
 
+		Sysintegration sys = SysintegrationFactory.getSysintegration();
+
 		/*** Workpath ***/
-		txtWorkpath = new TxtDirChooser(parent, false);
+		txtWorkpath = new FilechooserTextfield(parent, sys, null, true, false, true);
 
 		gbm.setX(0).setY(2).setWeightY(0).setWeightX(0).setComp(new JLabel("Workpath"));
 		gbm.setX(1).setY(2).setWeightY(0).setComp(txtWorkpath);
@@ -78,7 +99,7 @@ public class SettingsGui extends JPanel {
 		});
 
 		/*** Matlab Path ***/
-		execMatlabPath = new ExecDirChooser(parent, false);
+		execMatlabPath = new FilechooserTextfield(parent, sys, filter, false, false, true);
 
 		gbm.setX(0).setY(4).setWeightY(0).setWeightX(0).setComp(new JLabel("Matlab Path"));
 		gbm.setX(1).setY(4).setWeightY(0).setComp(execMatlabPath);
@@ -102,7 +123,7 @@ public class SettingsGui extends JPanel {
 		});
 
 		/*** Octave Path ***/
-		execOctavePath = new ExecDirChooser(parent, false);
+		execOctavePath = new FilechooserTextfield(parent, sys, filter, false, false, true);
 
 		gbm.setX(0).setY(6).setWeightY(0).setWeightX(0).setComp(new JLabel("Octave Path"));
 		gbm.setX(1).setY(6).setWeightY(0).setComp(execOctavePath);
@@ -126,7 +147,7 @@ public class SettingsGui extends JPanel {
 		});
 
 		/*** Scilab Path ***/
-		execScilabPath = new ExecDirChooser(parent, false);
+		execScilabPath = new FilechooserTextfield(parent, sys, filter, false, false, true);
 
 		gbm.setX(0).setY(8).setWeightY(0).setWeightX(0).setComp(new JLabel("Scilab Path"));
 		gbm.setX(1).setY(8).setWeightY(0).setComp(execScilabPath);
@@ -151,11 +172,9 @@ public class SettingsGui extends JPanel {
 
 		/*** Just generate ***/
 		boolean selected = settings.isSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
-		cbGenerate = new JCheckBox("<html>Simulationsfiles werden nur generiert,<br>" +
-				"und können dann von Hand ausgeführt werden.<br>" +
-				"Alle Dateien werden im Ordner «Workpath» abgelegt.<br>" +
-				"Resultate können in diesen Ordner gelegt werden und dann mit<br>" +
-				"<b>Simulation / Lade letzte Resultate</b> angezeigt werden.</html>", selected);
+		cbGenerate = new JCheckBox("<html>Simulationsfiles werden nur generiert,<br>" + "und können dann von Hand ausgeführt werden.<br>"
+				+ "Alle Dateien werden im Ordner «Workpath» abgelegt.<br>" + "Resultate können in diesen Ordner gelegt werden und dann mit<br>"
+				+ "<b>Simulation / Lade letzte Resultate</b> angezeigt werden.</html>", selected);
 
 		gbm.setX(0).setY(9).setWeightY(0).setWeightX(0).setComp(new JLabel("Just generate"));
 		gbm.setX(1).setY(9).setWeightY(0).setComp(cbGenerate);

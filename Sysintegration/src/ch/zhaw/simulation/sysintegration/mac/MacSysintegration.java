@@ -3,6 +3,7 @@ package ch.zhaw.simulation.sysintegration.mac;
 import java.awt.FileDialog;
 import java.awt.Window;
 import java.io.File;
+import java.io.FileFilter;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,7 +25,7 @@ public class MacSysintegration extends Sysintegration {
 	protected void initSysMenuShortcuts() {
 		this.sysMenuShortcuts = new SysMenuShortcutsMacOSX();
 	}
-	
+
 	@Override
 	protected void initBookmarks() {
 		this.bookmarks = new MacOsXBookmarks();
@@ -49,13 +50,14 @@ public class MacSysintegration extends Sysintegration {
 		}
 
 		// TODO mac os x
-//		control.getModel().addListener(new SimulationAdapter() {
-//
-//			@Override
-//			public void dataSaved(boolean saved) {
-//				control.getParent().getRootPane().putClientProperty("Window.documentModified", saved);
-//			}
-//		});
+		// control.getModel().addListener(new SimulationAdapter() {
+		//
+		// @Override
+		// public void dataSaved(boolean saved) {
+		// control.getParent().getRootPane().putClientProperty("Window.documentModified",
+		// saved);
+		// }
+		// });
 
 	}
 
@@ -140,4 +142,39 @@ public class MacSysintegration extends Sysintegration {
 		}
 	}
 
+	private File showOpenDialog(Window parent, String lastSavePath, FileDialog dlg) {
+		dlg.setDirectory(lastSavePath);
+		dlg.setVisible(true);
+		String fn = dlg.getFile();
+		if (fn == null) {
+			return null;
+		} else {
+			return new File(fn);
+		}
+	}
+
+	public File showOpenDialog(Window parent, FileFilter filefilter, String lastSavePath) {
+		if (parent == null) {
+			return showOpenDialog((JDialog) null, filefilter, lastSavePath);
+		} else if (parent instanceof JFrame) {
+			return showOpenDialog((JFrame) parent, filefilter, lastSavePath);
+		} else if (parent instanceof JDialog) {
+			return showOpenDialog((JDialog) parent, filefilter, lastSavePath);
+		} else {
+			Errorhandler.logError(new Exception("typeof parent != JFrame && != JDialog"), "parent: " + parent.getClass());
+			return showOpenDialog((JDialog) null, filefilter, lastSavePath);
+		}
+	}
+
+	public File showOpenDialog(JFrame parent, String lastSavePath) {
+		FileDialog dlg = new FileDialog(parent, "Datei öffnen", FileDialog.LOAD);
+
+		return showOpenDialog(parent, lastSavePath, dlg);
+	}
+
+	public File showOpenDialog(JDialog parent, String lastSavePath) {
+		FileDialog dlg = new FileDialog(parent, "Datei öffnen", FileDialog.LOAD);
+
+		return showOpenDialog(parent, lastSavePath, dlg);
+	}
 }
