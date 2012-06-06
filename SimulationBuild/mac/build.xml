@@ -31,11 +31,14 @@
           target: pack              
          ================================= -->
 	<target name="pack" depends="init" description="Builds the Mac OS X App">
-		<copy file="res/Simulation" todir="${tmp}/Simulation.app/Contents/MacOS" />
-		<chmod file="${tmp}/Simulation.app/Contents/MacOS/Simulation" perm="+x" />
+
+		<copy file="res/JavaApplicationStub" todir="${tmp}/Simulation.app/Contents/MacOS" />
+		<chmod file="${tmp}/Simulation.app/Contents/MacOS/JavaApplicationStub" perm="+x" />
 
 		<copy file="res/Simulation.icns" todir="${tmp}/Simulation.app/Contents/Resources" />
 		<copy file="res/SimulationFile.icns" todir="${tmp}/Simulation.app/Contents/Resources" />
+
+		<copy file="res/PkgInfo" todir="${tmp}/Simulation.app/Contents" />
 
 		<exec executable="php">
 			<arg value="createInfo.plist.php" />
@@ -50,6 +53,8 @@
 		</copy>
 
 		<copy file="${distrib}/Simulation.jar" todir="${tmp}/Simulation.app/Contents/Resources/Java/" />
+
+		<copy file="res/splash.png" todir="${tmp}/Simulation.app/Contents/Resources/Java/" />
 
 		<copy file="${distrib}/config/config.properties" todir="${tmp}/Simulation.app/Contents/Resources/config" />
 

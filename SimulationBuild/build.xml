@@ -336,6 +336,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		<copy todir="${distrib}">
 			<fileset dir="linux">
 				<include name="Simulation.sh" />
+				<include name="splash.png" />
 			</fileset>
 		</copy>
 

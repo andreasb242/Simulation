@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<string>true</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>de_CH</string>
 	<key>CFBundleDocumentTypes</key>
@@ -20,13 +22,11 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>Simulation</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
+	<string>JavaApplicationStub</string>
 	<key>CFBundleIconFile</key>
 	<string>Simulation.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>ch.zhaw.Simulation</string>
+	<string>ch.zhaw.simulation.startup.SimulationMain</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -41,6 +41,10 @@
 	<string>0.1</string>
 	<key>Java</key>
 	<dict>
+		<key>SplashFile</key>
+		<string>$JAVAROOT/splash.png</string>
+		<key>VMOptions</key>
+		<string>-Xms32m -Xmx1024m</string>
 		<key>WorkingDirectory</key>
 		<string>$APP_PACKAGE/Contents/Resources</string>
 		<key>ClassPath</key>

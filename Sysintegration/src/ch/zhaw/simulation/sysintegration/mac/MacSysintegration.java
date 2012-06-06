@@ -51,20 +51,36 @@ public class MacSysintegration extends Sysintegration {
 	}
 
 	public boolean osXquit() {
-		fireEvent(EventType.EXIT, null);
+		try {
+			fireEvent(EventType.EXIT, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	public void osXabout() {
-		fireEvent(EventType.ABOUT, null);
+		try {
+			fireEvent(EventType.ABOUT, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void osXpreferences() {
-		fireEvent(EventType.PREFERENCES, null);
+		try {
+			fireEvent(EventType.PREFERENCES, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void osXLoadFile(String path) {
-		fireEvent(EventType.OPEN, path);
+		try {
+			fireEvent(EventType.OPEN, path);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
