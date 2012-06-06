@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URL;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -18,6 +18,9 @@ public class IconLoader {
 	 * Icons zwischenspeichern
 	 */
 	private static HashMap<String, ImageIcon> icons = new HashMap<String, ImageIcon>();
+
+	// TODO DEBUG
+	private static final boolean autoconvertSvgToPng = true;
 
 	public static ImageIcon getIcon(String file) {
 		return getIcon(file, 16);
@@ -36,22 +39,20 @@ public class IconLoader {
 		} catch (Exception e) {
 			System.err.println("icon «" + path + "» not found!");
 
-			// Try to convert SVG with Inkscape
-			img = convertSvgToPng(file, size);
-
-			if (img == null) {
-				// Default red image
-
-				BufferedImage bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
-				Graphics g = bi.getGraphics();
-
-				g.setColor(Color.RED);
-
-				g.fillRect(0, 0, size, size);
-				g.dispose();
-				img = new ImageIcon(bi);
-
+			if (autoconvertSvgToPng) {
+				convertSvgToPng(file, size);
 			}
+
+			// convert -size 320x85 xc:transparent -font Bookman-DemiItalic
+
+			BufferedImage bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+			Graphics g = bi.getGraphics();
+
+			g.setColor(Color.RED);
+
+			g.fillRect(0, 0, size, size);
+			g.dispose();
+			img = new ImageIcon(bi);
 		}
 
 		icons.put(path, img);
@@ -66,27 +67,10 @@ public class IconLoader {
 	 *            The file
 	 * @param size
 	 *            The size in px
-	 * @return
 	 */
-	private static ImageIcon convertSvgToPng(String file, int size) {
-		URL loc = IconLoader.class.getProtectionDomain().getCodeSource().getLocation();
-
-		String path = loc.getPath();
-
-		if (path.endsWith("/")) {
-			path = path.substring(0, path.length() - 1);
-		}
-
-		if (path.endsWith(".jar") || !path.endsWith("/bin")) {
-			System.err.println("Could not convert missing image file: «" + file + "», size = " + size);
-			return null;
-		}
-
-		// remove /bin and add src for Eclipse
-		path = path.substring(0, path.length() - 3);
-
-		String svgFolder = path + "src/ch/zhaw/simulation/icon/svg/";
-		String pngFolder = path + "src/ch/zhaw/simulation/icon/png/";
+	private static void convertSvgToPng(String file, int size) {
+		String svgFolder = "/home/andreas/git/SimulationBA/Sysintegration/src/ch/zhaw/simulation/icon/svg/";
+		String pngFolder = "/home/andreas/git/SimulationBA/Sysintegration/src/ch/zhaw/simulation/icon/png/";
 
 		System.err.println("converting image...");
 
@@ -103,26 +87,16 @@ public class IconLoader {
 
 		if (!sourceFile.exists()) {
 			System.err.println("Image file «" + sourceFile.getAbsolutePath() + "» missing!");
-			return null;
+			return;
 		}
 
-		String pngImageFile = pngFolder + size + "/" + file + ".png";
-
-		String[] cmdarray = new String[] { "inkscape", "--export-width", "" + size, "--export-height", "" + size, "--export-png", pngImageFile,
-				sourceFile.getAbsolutePath() };
+		String[] cmdarray = new String[] { "inkscape", "--export-width", "" + size, "--export-height", "" + size, "--export-png",
+				pngFolder + size + "/" + file + ".png", sourceFile.getAbsolutePath() };
 		try {
-			Process proc = Runtime.getRuntime().exec(cmdarray);
-			int returnCode = proc.waitFor();
-
-			if (returnCode != 0) {
-				System.err.println("Could not convert missing image, inkscape returned error code: " + returnCode);
-			} else {
-				return new ImageIcon(ImageIO.read(new File(pngImageFile)));
-			}
-		} catch (Exception e) {
+			Runtime.getRuntime().exec(cmdarray);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	public static ImageIcon getIconShadow(String file, int size) {
