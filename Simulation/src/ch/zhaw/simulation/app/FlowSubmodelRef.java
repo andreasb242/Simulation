@@ -19,6 +19,11 @@ public class FlowSubmodelRef {
 		app.addListener(control);
 		win.init(control);
 		win.addListener(control);
+		
+		if(win.getSize().getWidth() < 100) {
+			win.setSize(640, 480);
+			win.setLocationRelativeTo(app.getMainFrame());
+		}
 	}
 
 	public FlowWindow getWin() {
