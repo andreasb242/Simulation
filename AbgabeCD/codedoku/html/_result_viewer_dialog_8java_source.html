@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/XYResultViewer/src/ch/zhaw/simulation/xyviewer/ResultViewerDialog.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_result_viewer_dialog_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/XYResultViewer/src/ch/zhaw/simulation/xyviewer/ResultViewerDialog.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.xyviewer;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.BorderLayout;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.Dimension;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.awt.Graphics2D;
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.awt.event.ItemEvent;
+<a name="l00008"></a>00008 <span class="keyword">import</span> java.awt.image.BufferedImage;
+<a name="l00009"></a>00009 <span class="keyword">import</span> java.io.File;
+<a name="l00010"></a>00010 <span class="keyword">import</span> java.io.FileOutputStream;
+<a name="l00011"></a>00011 <span class="keyword">import</span> java.io.IOException;
+<a name="l00012"></a>00012 <span class="keyword">import</span> java.util.Vector;
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="keyword">import</span> javax.imageio.ImageIO;
+<a name="l00015"></a>00015 <span class="keyword">import</span> javax.swing.JDialog;
+<a name="l00016"></a>00016 <span class="keyword">import</span> javax.swing.JFrame;
+<a name="l00017"></a>00017 <span class="keyword">import</span> javax.swing.JLabel;
+<a name="l00018"></a>00018 <span class="keyword">import</span> javax.swing.JScrollPane;
+<a name="l00019"></a>00019 <span class="keyword">import</span> javax.swing.JSpinner;
+<a name="l00020"></a>00020 <span class="keyword">import</span> javax.swing.SpinnerNumberModel;
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="keyword">import</span> org.jdesktop.swingx.action.TargetableAction;
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="keyword">import</span> butti.javalibs.clipboard.ImageSelection;
+<a name="l00025"></a>00025 <span class="keyword">import</span> butti.javalibs.config.Settings;
+<a name="l00026"></a>00026 <span class="keyword">import</span> butti.javalibs.gui.messagebox.Messagebox;
+<a name="l00027"></a>00027 <span class="keyword">import</span> ch.zhaw.simulation.diagram.DiagramFrame;
+<a name="l00028"></a>00028 <span class="keyword">import</span> ch.zhaw.simulation.diagram.SerieCbRenderer;
+<a name="l00029"></a>00029 <span class="keyword">import</span> ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
+<a name="l00030"></a>00030 <span class="keyword">import</span> ch.zhaw.simulation.dialog.snapshot.ImageExportable;
+<a name="l00031"></a>00031 <span class="keyword">import</span> ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
+<a name="l00032"></a>00032 <span class="keyword">import</span> ch.zhaw.simulation.icon.IconLoader;
+<a name="l00033"></a>00033 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.SimulationCollection;
+<a name="l00034"></a>00034 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.SimulationSerie;
+<a name="l00035"></a>00035 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.XYDensityRaw;
+<a name="l00036"></a>00036 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.XYResultList;
+<a name="l00037"></a>00037 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.Sysintegration;
+<a name="l00038"></a>00038 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.Toolbar;
+<a name="l00039"></a>00039 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
+<a name="l00040"></a>00040 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
+<a name="l00041"></a>00041 <span class="keyword">import</span> ch.zhaw.simulation.vector.VectorExport;
+<a name="l00042"></a>00042 
+<a name="l00043"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_result_viewer_dialog.html">00043</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_result_viewer_dialog.html">ResultViewerDialog</a> <span class="keyword">extends</span> JDialog {
+<a name="l00044"></a>00044     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_position_model.html">PositionModel</a> model;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_x_y_viewer_control_panel.html">XYViewerControlPanel</a> positionControl;
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_x_y_viewer.html">XYViewer</a> view;
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1sysintegration_1_1_sysintegration.html">Sysintegration</a> sysintegration;
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054     <span class="keyword">private</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1sysintegration_1_1_toolbar.html">Toolbar</a> toolbar;
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     <span class="keyword">private</span> TargetableAction logButton;
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058     <span class="keyword">private</span> JFrame parent;
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="keyword">private</span> <a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html">Settings</a> settings;
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062     <span class="keyword">private</span> String name;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> MAX_LINE_COUNT = 20;
+<a name="l00065"></a>00065     <span class="keyword">private</span> JSpinner spinnerLineCount = <span class="keyword">new</span> JSpinner(<span class="keyword">new</span> SpinnerNumberModel(5, 1, MAX_LINE_COUNT, 1));
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_result_list.html">XYResultList</a> resultList;
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_result_viewer_dialog.html">ResultViewerDialog</a>(String name, JFrame parent, <a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html">Settings</a> settings, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1sysintegration_1_1_sysintegration.html">Sysintegration</a> sysintegration, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_result_list.html">XYResultList</a> resultList,
+<a name="l00070"></a>00070             Vector&lt;XYDensityRaw&gt; rawList) {
+<a name="l00071"></a>00071         super(parent);
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073         <span class="keywordflow">if</span> (name != null) {
+<a name="l00074"></a>00074             setTitle(name + <span class="stringliteral">&quot; - (AB)² Simulation&quot;</span>);
+<a name="l00075"></a>00075         } <span class="keywordflow">else</span> {
+<a name="l00076"></a>00076             setTitle(<span class="stringliteral">&quot;(AB)² Simulation&quot;</span>);
+<a name="l00077"></a>00077         }
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079         this.parent = parent;
+<a name="l00080"></a>00080         this.settings = settings;
+<a name="l00081"></a>00081         this.sysintegration = sysintegration;
+<a name="l00082"></a>00082         this.name = name;
+<a name="l00083"></a>00083         this.resultList = resultList;
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085         this.model = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_position_model.html">PositionModel</a>(resultList.getStepCount());
+<a name="l00086"></a>00086         this.sysintegration = sysintegration;
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090         setLayout(<span class="keyword">new</span> BorderLayout());
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092         this.view = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_x_y_viewer.html">XYViewer</a>(resultList, rawList, this.model);
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094         this.positionControl = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_x_y_viewer_control_panel.html">XYViewerControlPanel</a>(this.model, settings);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_x_y_viewer_sidebar.html">XYViewerSidebar</a> sidebar = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_x_y_viewer_sidebar.html">XYViewerSidebar</a>(<span class="keyword">this</span>, rawList);
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098         add(<span class="keyword">new</span> JScrollPane(view), BorderLayout.CENTER);
+<a name="l00099"></a>00099         add(positionControl, BorderLayout.SOUTH);
+<a name="l00100"></a>00100         add(sidebar, BorderLayout.WEST);
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102         initToolbar();
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104         model.firePosition(0);
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106         <span class="keywordtype">int</span> count = (int) settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(<span class="stringliteral">&quot;xyviewer.diagramlinecount&quot;</span>, 5);
+<a name="l00107"></a>00107         <span class="keywordflow">if</span> (0 &lt; count &amp;&amp; count &gt;= MAX_LINE_COUNT) {
+<a name="l00108"></a>00108             spinnerLineCount.setValue(count);
+<a name="l00109"></a>00109         }
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111         pack();
+<a name="l00112"></a>00112         setLocationRelativeTo(null);
+<a name="l00113"></a>00113     }
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115     <span class="keyword">private</span> <span class="keywordtype">void</span> initToolbar() {
+<a name="l00116"></a>00116         <span class="comment">// Mac Toolbar implementation not working as expected:</span>
+<a name="l00117"></a>00117         <span class="comment">// this.toolbar = this.sysintegration.createToolbar(32);</span>
+<a name="l00118"></a>00118         this.toolbar = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1sysintegration_1_1gui_1_1_default_toolbar.html">DefaultToolbar</a>(32);
+<a name="l00119"></a>00119         
+<a name="l00120"></a>00120         add(this.toolbar.getComponent(), BorderLayout.NORTH);
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122         this.logButton = <span class="keyword">new</span> TargetableAction(<span class="stringliteral">&quot;Dichte logarithmisch darstellen&quot;</span>, <span class="stringliteral">&quot;diagram/log-x&quot;</span>, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1icon_1_1_icon_loader.html">IconLoader</a>.getIcon(<span class="stringliteral">&quot;diagram/log-x&quot;</span>,
+<a name="l00123"></a>00123                 <span class="keyword">this</span>.toolbar.getDefaultIconSize())) {
+<a name="l00124"></a>00124             <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00125"></a>00125             {
+<a name="l00126"></a>00126                 setStateAction(<span class="keyword">true</span>);
+<a name="l00127"></a>00127             }
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129             @Override
+<a name="l00130"></a>00130             <span class="keyword">public</span> <span class="keywordtype">void</span> itemStateChanged(ItemEvent evt) {
+<a name="l00131"></a>00131                 <span class="keywordtype">boolean</span> log = evt.getStateChange() == ItemEvent.SELECTED;
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_density_raw.html">XYDensityRaw</a> density = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_result_viewer_dialog.html">ResultViewerDialog</a>.this.view.getSelectedDensity();
+<a name="l00134"></a>00134                 density.setLogView(log);
+<a name="l00135"></a>00135                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1xyviewer_1_1_result_viewer_dialog.html">ResultViewerDialog</a>.this.view.repaintDensity();
+<a name="l00136"></a>00136             }
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138         };
+<a name="l00139"></a>00139         this.toolbar.addToogleAction(logButton);
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141         this.toolbar.addSeparator();
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143         this.toolbar.add(<span class="keyword">new</span> ToolbarAction(<span class="stringliteral">&quot;Speichern als Bild&quot;</span>, <span class="stringliteral">&quot;diagram/screenshot&quot;</span>) {
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145             @Override
+<a name="l00146"></a>00146             <span class="keyword">protected</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00147"></a>00147                 exportImage();
+<a name="l00148"></a>00148             }
+<a name="l00149"></a>00149         });
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151         <span class="comment">// TODO: Save images, to a folder, convert them with ffmpeg to a movie</span>
+<a name="l00152"></a>00152         <span class="comment">// this.toolbar.add(new ToolbarAction(&quot;Speichern als Film&quot;,</span>
+<a name="l00153"></a>00153         <span class="comment">// &quot;diagram/video&quot;) {</span>
+<a name="l00154"></a>00154         <span class="comment">//</span>
+<a name="l00155"></a>00155         <span class="comment">// @Override</span>
+<a name="l00156"></a>00156         <span class="comment">// protected void actionPerformed(ActionEvent e) {</span>
+<a name="l00157"></a>00157         <span class="comment">// System.out.println(&quot;Film&quot;);</span>
+<a name="l00158"></a>00158         <span class="comment">// }</span>
+<a name="l00159"></a>00159         <span class="comment">// });</span>
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161         this.toolbar.addSeparator();
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163         toolbar.add(<span class="keyword">new</span> ToolbarAction(<span class="stringliteral">&quot;In die Zwischenablage kopieren (Rastergrafik)&quot;</span>, <span class="stringliteral">&quot;diagram/edit-copy&quot;</span>) {
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165             @Override
+<a name="l00166"></a>00166             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00167"></a>00167                 copyToClipboard();
+<a name="l00168"></a>00168             }
+<a name="l00169"></a>00169         });
+<a name="l00170"></a>00170         this.toolbar.addSeparator();
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172         this.toolbar.add(<span class="keyword">new</span> ToolbarAction(<span class="stringliteral">&quot;Dichte als XY Diagramm anzeigen, horizontal&quot;</span>, <span class="stringliteral">&quot;diagram/diagram_horizontal&quot;</span>) {
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174             @Override
+<a name="l00175"></a>00175             <span class="keyword">protected</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00176"></a>00176                 showDiagramHorizontal();
+<a name="l00177"></a>00177             }
+<a name="l00178"></a>00178         });
+<a name="l00179"></a>00179         this.toolbar.add(<span class="keyword">new</span> ToolbarAction(<span class="stringliteral">&quot;Dichte als XY Diagramm anzeigen, vertikal&quot;</span>, <span class="stringliteral">&quot;diagram/diagram_vertical&quot;</span>) {
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181             @Override
+<a name="l00182"></a>00182             <span class="keyword">protected</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00183"></a>00183                 showDiagramVertical();
+<a name="l00184"></a>00184             }
+<a name="l00185"></a>00185         });
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187         this.toolbar.add(spinnerLineCount);
+<a name="l00188"></a>00188         this.toolbar.add(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Linien im Diagramm anzeigen&quot;</span>));
+<a name="l00189"></a>00189 
+<a name="l00190"></a>00190     }
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192     <span class="keyword">private</span> <span class="keywordtype">void</span> saveLastSliderValue() {
+<a name="l00193"></a>00193         settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#aae2917da9a2e93b96247ec7a30e9d019">setSetting</a>(<span class="stringliteral">&quot;xyviewer.diagramlinecount&quot;</span>, (Integer) spinnerLineCount.getValue());
+<a name="l00194"></a>00194     }
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196     <span class="keyword">protected</span> <span class="keywordtype">void</span> showDiagramVertical() {
+<a name="l00197"></a>00197         saveLastSliderValue();
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_density_raw.html">XYDensityRaw</a> density = this.view.getSelectedDensity();
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201         <span class="keywordflow">if</span> (density == null) {
+<a name="l00202"></a>00202             <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1messagebox_1_1_messagebox.html">Messagebox</a>.showError(<span class="keyword">this</span>, <span class="stringliteral">&quot;Keine Daten&quot;</span>, <span class="stringliteral">&quot;Keine Dichte gewählt. Bitte wählen Sie zuerst eine Dichte.&quot;</span>);
+<a name="l00203"></a>00203             <span class="keywordflow">return</span>;
+<a name="l00204"></a>00204         }
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206         <span class="keywordtype">int</span> width = resultList.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_result_list.html#ab3522c8c5480207546b27661dd086cc6">getModelSize</a>().width;
+<a name="l00207"></a>00207         <span class="keywordtype">int</span> height = resultList.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_result_list.html#ab3522c8c5480207546b27661dd086cc6">getModelSize</a>().height;
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> collection = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a>(0, height);
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211         <span class="keywordtype">int</span> count = (Integer) spinnerLineCount.getValue();
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213         <span class="keywordtype">int</span> dt = width / count;
+<a name="l00214"></a>00214         <span class="keywordtype">int</span> x = dt / 2;
+<a name="l00215"></a>00215         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; count; i++) {
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_serie.html">SimulationSerie</a> s = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_serie.html">SimulationSerie</a>(<span class="stringliteral">&quot;x = &quot;</span> + x, null);
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> y = 0; y &lt; height; y++) {
+<a name="l00220"></a>00220                 s.add(y, density.getMatrixValue(x, y));
+<a name="l00221"></a>00221             }
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223             collection.addSerie(s);
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225             x += dt;
+<a name="l00226"></a>00226             <span class="keywordflow">if</span> (x &gt;= width) {
+<a name="l00227"></a>00227                 x = width - 1;
+<a name="l00228"></a>00228             }
+<a name="l00229"></a>00229         }
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231         String name;
+<a name="l00232"></a>00232         <span class="keywordflow">if</span> (this.name != null) {
+<a name="l00233"></a>00233             name = this.name + <span class="stringliteral">&quot; - vertikal&quot;</span>;
+<a name="l00234"></a>00234         } <span class="keywordflow">else</span> {
+<a name="l00235"></a>00235             name = <span class="stringliteral">&quot;vertikal&quot;</span>;
+<a name="l00236"></a>00236         }
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1persist_1_1_diagram_configuration.html">DiagramConfiguration</a> config = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1persist_1_1_diagram_configuration.html">DiagramConfiguration</a>();
+<a name="l00239"></a>00239         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1_diagram_frame.html">DiagramFrame</a> diagram = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1_diagram_frame.html">DiagramFrame</a>(collection, settings, config, name, sysintegration);
+<a name="l00240"></a>00240         showConfigureDiagram(diagram, <span class="stringliteral">&quot;Y&quot;</span>);
+<a name="l00241"></a>00241     }
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243     <span class="keyword">protected</span> <span class="keywordtype">void</span> showDiagramHorizontal() {
+<a name="l00244"></a>00244         saveLastSliderValue();
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_density_raw.html">XYDensityRaw</a> density = this.view.getSelectedDensity();
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248         <span class="keywordflow">if</span> (density == null) {
+<a name="l00249"></a>00249             <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1messagebox_1_1_messagebox.html">Messagebox</a>.showError(<span class="keyword">this</span>, <span class="stringliteral">&quot;Keine Daten&quot;</span>, <span class="stringliteral">&quot;Keine Dichte gewählt. Bitte wählen Sie zuerst eine Dichte.&quot;</span>);
+<a name="l00250"></a>00250             <span class="keywordflow">return</span>;
+<a name="l00251"></a>00251         }
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253         <span class="keywordtype">int</span> width = resultList.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_result_list.html#ab3522c8c5480207546b27661dd086cc6">getModelSize</a>().width;
+<a name="l00254"></a>00254         <span class="keywordtype">int</span> height = resultList.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_result_list.html#ab3522c8c5480207546b27661dd086cc6">getModelSize</a>().height;
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> collection = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a>(0, width);
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258         <span class="keywordtype">int</span> count = (Integer) spinnerLineCount.getValue();
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260         <span class="keywordtype">int</span> dt = height / count;
+<a name="l00261"></a>00261         <span class="keywordtype">int</span> y = dt / 2;
+<a name="l00262"></a>00262         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; count; i++) {
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_serie.html">SimulationSerie</a> s = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_serie.html">SimulationSerie</a>(<span class="stringliteral">&quot;y = &quot;</span> + y, null);
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> x = 0; x &lt; width; x++) {
+<a name="l00267"></a>00267                 s.add(x, density.getMatrixValue(x, y));
+<a name="l00268"></a>00268             }
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270             collection.addSerie(s);
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272             y += dt;
+<a name="l00273"></a>00273             <span class="keywordflow">if</span> (y &gt;= height) {
+<a name="l00274"></a>00274                 y = height - 1;
+<a name="l00275"></a>00275             }
+<a name="l00276"></a>00276         }
+<a name="l00277"></a>00277 
+<a name="l00278"></a>00278         String name;
+<a name="l00279"></a>00279         <span class="keywordflow">if</span> (this.name != null) {
+<a name="l00280"></a>00280             name = this.name + <span class="stringliteral">&quot; - horizontal&quot;</span>;
+<a name="l00281"></a>00281         } <span class="keywordflow">else</span> {
+<a name="l00282"></a>00282             name = <span class="stringliteral">&quot;horizontal&quot;</span>;
+<a name="l00283"></a>00283         }
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1persist_1_1_diagram_configuration.html">DiagramConfiguration</a> config = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1persist_1_1_diagram_configuration.html">DiagramConfiguration</a>();
+<a name="l00286"></a>00286         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1_diagram_frame.html">DiagramFrame</a> diagram = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1_diagram_frame.html">DiagramFrame</a>(collection, settings, config, name, sysintegration);
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288         showConfigureDiagram(diagram, <span class="stringliteral">&quot;X&quot;</span>);
+<a name="l00289"></a>00289     }
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291     <span class="keyword">private</span> <span class="keywordtype">void</span> showConfigureDiagram(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1_diagram_frame.html">DiagramFrame</a> diagram, String direction) {
+<a name="l00292"></a>00292         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1_serie_cb_renderer.html">SerieCbRenderer</a> renderer = diagram.getSeriesCbRenderer();
+<a name="l00293"></a>00293         renderer.setTimeText(direction + <span class="stringliteral">&quot;-Richtung&quot;</span>);
+<a name="l00294"></a>00294         renderer.setTimeIcon(null);
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296         diagram.setVisible(<span class="keyword">true</span>);
+<a name="l00297"></a>00297     }
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299     <span class="keyword">private</span> BufferedImage takeScreenshot() {
+<a name="l00300"></a>00300         <span class="keywordtype">int</span> width = view.getWidth();
+<a name="l00301"></a>00301         <span class="keywordtype">int</span> height = view.getHeight();
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303         BufferedImage img = <span class="keyword">new</span> BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305         Graphics2D g = img.createGraphics();
+<a name="l00306"></a>00306         view.paint(g);
+<a name="l00307"></a>00307         g.dispose();
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309         <span class="keywordflow">return</span> img;
+<a name="l00310"></a>00310     }
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312     <span class="keyword">protected</span> <span class="keywordtype">void</span> copyToClipboard() {
+<a name="l00313"></a>00313         <a class="code" href="classbutti_1_1javalibs_1_1clipboard_1_1_image_selection.html">ImageSelection</a>.copyImageToClipboard(takeScreenshot());
+<a name="l00314"></a>00314     }
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     <span class="keyword">protected</span> <span class="keywordtype">void</span> exportImage() {
+<a name="l00317"></a>00317         <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1dialog_1_1snapshot_1_1_image_exportable.html">ImageExportable</a> export = <span class="keyword">new</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1dialog_1_1snapshot_1_1_image_exportable.html">ImageExportable</a>() {
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319             @Override
+<a name="l00320"></a>00320             <span class="keyword">public</span> <span class="keywordtype">boolean</span> supportsSelection() {
+<a name="l00321"></a>00321                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00322"></a>00322             }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324             @Override
+<a name="l00325"></a>00325             <span class="keyword">public</span> <span class="keywordtype">void</span> exportToClipboard(<span class="keywordtype">boolean</span> onlySelection) {
+<a name="l00326"></a>00326                 copyToClipboard();
+<a name="l00327"></a>00327             }
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329             @Override
+<a name="l00330"></a>00330             <span class="keyword">public</span> <span class="keywordtype">void</span> export(<span class="keywordtype">boolean</span> onlySelection, String format, File file) <span class="keywordflow">throws</span> IOException {
+<a name="l00331"></a>00331                 <span class="keywordtype">int</span> width = view.getWidth();
+<a name="l00332"></a>00332                 <span class="keywordtype">int</span> height = view.getHeight();
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334                 <span class="keywordflow">if</span> (<span class="stringliteral">&quot;PNG&quot;</span>.equals(format)) {
+<a name="l00335"></a>00335                     BufferedImage img = takeScreenshot();
+<a name="l00336"></a>00336                     ImageIO.write(img, <span class="stringliteral">&quot;PNG&quot;</span>, file);
+<a name="l00337"></a>00337                 } <span class="keywordflow">else</span> {
+<a name="l00338"></a>00338                     <a class="code" href="classch_1_1zhaw_1_1simulation_1_1vector_1_1_vector_export.html">VectorExport</a> ex = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1vector_1_1_vector_export.html">VectorExport</a>(<span class="keyword">new</span> FileOutputStream(file), <span class="keyword">new</span> Dimension(width, height), format);
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340                     Graphics2D g = ex.getGraphics();
+<a name="l00341"></a>00341                     view.paint(g);
+<a name="l00342"></a>00342                     ex.close();
+<a name="l00343"></a>00343                 }
+<a name="l00344"></a>00344             }
+<a name="l00345"></a>00345         };
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1snapshot_1_1_snapshot_dialog.html">SnapshotDialog</a> dlg = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1snapshot_1_1_snapshot_dialog.html">SnapshotDialog</a>(this.parent, this.settings, this.sysintegration, export, name);
+<a name="l00348"></a>00348         dlg.setVisible(<span class="keyword">true</span>);
+<a name="l00349"></a>00349     }
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351     @Override
+<a name="l00352"></a>00352     <span class="keyword">public</span> <span class="keywordtype">void</span> dispose() {
+<a name="l00353"></a>00353         this.positionControl.dispose();
+<a name="l00354"></a>00354         this.view.dispose();
+<a name="l00355"></a>00355 
+<a name="l00356"></a>00356         super.dispose();
+<a name="l00357"></a>00357     }
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359     <span class="keyword">public</span> <span class="keywordtype">void</span> setSelectedDensity(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_x_y_density_raw.html">XYDensityRaw</a> raw) {
+<a name="l00360"></a>00360         this.view.setSelectedDensity(raw);
+<a name="l00361"></a>00361         <span class="keywordflow">if</span> (raw != null) {
+<a name="l00362"></a>00362             this.logButton.setSelected(raw.isLogView());
+<a name="l00363"></a>00363         }
+<a name="l00364"></a>00364     }
+<a name="l00365"></a>00365 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>ResultViewerDialog.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Model/src/ch/zhaw/simulation/model/element/AbstractNamedSimulationData.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_abstract_named_simulation_data_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Model/src/ch/zhaw/simulation/model/element/AbstractNamedSimulationData.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.model.element;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> ch.zhaw.simulation.model.NamedFormulaData;
+<a name="l00004"></a>00004 <span class="keyword">import</span> ch.zhaw.simulation.model.SimulationAttachment;
+<a name="l00005"></a>00005 
+<a name="l00016"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">00016</a> <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> <span class="keyword">extends</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> implements Comparable&lt;AbstractNamedSimulationData&gt;, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html">NamedFormulaData</a> {
+<a name="l00020"></a>00020     <span class="keyword">private</span> String name;
+<a name="l00021"></a>00021 
+<a name="l00025"></a>00025     <span class="keyword">private</span> String formula = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00026"></a>00026 
+<a name="l00030"></a>00030     <span class="keyword">private</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html#a6e86b45edbc29a8104c09fad6d8c5b97">Status</a> staus = <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html#a6e86b45edbc29a8104c09fad6d8c5b97">Status</a>.NOT_PARSED;
+<a name="l00031"></a>00031 
+<a name="l00035"></a>00035     <span class="keyword">private</span> String statusText;
+<a name="l00036"></a>00036 
+<a name="l00040"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#acdd53763d5916ef2d2c840a270c8785a">00040</a>     <span class="keyword">public</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_simulation_attachment.html">SimulationAttachment</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#acdd53763d5916ef2d2c840a270c8785a">attachment</a>;
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y) {
+<a name="l00043"></a>00043         super(x, y);
+<a name="l00044"></a>00044     }
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     @Override
+<a name="l00047"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ab1664391b07ad75cb2dc2e7b9f73de91">00047</a>     <span class="keyword">public</span> String <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ab1664391b07ad75cb2dc2e7b9f73de91">getName</a>() {
+<a name="l00048"></a>00048         <span class="keywordflow">return</span> name;
+<a name="l00049"></a>00049     }
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     @Override
+<a name="l00052"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#acd6606cd47c449d8eaf43b7681e16803">00052</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#acd6606cd47c449d8eaf43b7681e16803">setName</a>(String name) {
+<a name="l00053"></a>00053         this.name = name;
+<a name="l00054"></a>00054     }
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     @Override
+<a name="l00057"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ae3d5d338a5ce18bd9df65ab54eebbafe">00057</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ae3d5d338a5ce18bd9df65ab54eebbafe">setFormula</a>(String formula) {
+<a name="l00058"></a>00058         <span class="keywordflow">if</span> (formula == null) {
+<a name="l00059"></a>00059             <span class="keywordflow">throw</span> <span class="keyword">new</span> NullPointerException(<span class="stringliteral">&quot;formula == null&quot;</span>);
+<a name="l00060"></a>00060         }
+<a name="l00061"></a>00061         this.formula = formula;
+<a name="l00062"></a>00062         this.staus = <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html#a6e86b45edbc29a8104c09fad6d8c5b97">Status</a>.NOT_PARSED;
+<a name="l00063"></a>00063         this.statusText = null;
+<a name="l00064"></a>00064     }
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     @Override
+<a name="l00067"></a>00067     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ae3d5d338a5ce18bd9df65ab54eebbafe">setFormula</a>(String formula, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html#a6e86b45edbc29a8104c09fad6d8c5b97">Status</a> status, String statusText) {
+<a name="l00068"></a>00068         <span class="keywordflow">if</span> (formula == null) {
+<a name="l00069"></a>00069             <span class="keywordflow">throw</span> <span class="keyword">new</span> NullPointerException(<span class="stringliteral">&quot;formula == null&quot;</span>);
+<a name="l00070"></a>00070         }
+<a name="l00071"></a>00071         this.formula = formula;
+<a name="l00072"></a>00072         this.staus = status;
+<a name="l00073"></a>00073         this.statusText = statusText;
+<a name="l00074"></a>00074     }
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076     @Override
+<a name="l00077"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ada60ba87068cc542f90871b74719d08d">00077</a>     <span class="keyword">public</span> String <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ada60ba87068cc542f90871b74719d08d">getFormula</a>() {
+<a name="l00078"></a>00078         <span class="keywordflow">return</span> formula;
+<a name="l00079"></a>00079     }
+<a name="l00080"></a>00080 
+<a name="l00089"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ab8686a4ad52b48b0884994272cec2c2b">00089</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ab8686a4ad52b48b0884994272cec2c2b">setStaus</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html#a6e86b45edbc29a8104c09fad6d8c5b97">Status</a> staus, String statusText) {
+<a name="l00090"></a>00090         this.staus = staus;
+<a name="l00091"></a>00091         this.statusText = statusText;
+<a name="l00092"></a>00092     }
+<a name="l00093"></a>00093 
+<a name="l00097"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ae2dbd24e80224504fb3c7a1c143b0664">00097</a>     <span class="keyword">public</span> String <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ae2dbd24e80224504fb3c7a1c143b0664">getStatusText</a>() {
+<a name="l00098"></a>00098         <span class="keywordflow">return</span> statusText;
+<a name="l00099"></a>00099     }
+<a name="l00100"></a>00100 
+<a name="l00104"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#a95194975d4b55f0247eb8efac17f5239">00104</a>     <span class="keyword">public</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html#a6e86b45edbc29a8104c09fad6d8c5b97">Status</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#a95194975d4b55f0247eb8efac17f5239">getStaus</a>() {
+<a name="l00105"></a>00105         <span class="keywordflow">return</span> staus;
+<a name="l00106"></a>00106     }
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108     @Override
+<a name="l00109"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ae5c44f30d9d5010b1e7cd325c245fbff">00109</a>     <span class="keyword">public</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1_named_formula_data.html">NamedFormulaData</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ae5c44f30d9d5010b1e7cd325c245fbff">getRealNamedFormulaData</a>() {
+<a name="l00110"></a>00110         <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00111"></a>00111     }
+<a name="l00112"></a>00112 
+<a name="l00121"></a>00121     <span class="keyword">public</span> <span class="keyword">abstract</span> String <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#aae3b6cf6013892da33119ce72c10b8c5">getDefaultName</a>();
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123     @Override
+<a name="l00124"></a>00124     <span class="keyword">public</span> <span class="keywordtype">int</span> compareTo(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> o) {
+<a name="l00125"></a>00125         <span class="keywordflow">return</span> name.compareTo(o.name);
+<a name="l00126"></a>00126     }
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128     @Override
+<a name="l00129"></a>00129     <span class="keyword">public</span> String toString() {
+<a name="l00130"></a>00130         <span class="keywordflow">return</span> getClass().getName() + <span class="stringliteral">&quot;: &quot;</span> + <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ab1664391b07ad75cb2dc2e7b9f73de91">getName</a>();
+<a name="l00131"></a>00131     }
+<a name="l00132"></a>00132 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>AbstractNamedSimulationData.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

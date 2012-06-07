@@ -1,0 +1,512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/xjep/SimplificationVisitor.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_simplification_visitor_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/xjep/SimplificationVisitor.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>org.lsmp.djep.xjep;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> org.nfunk.jep.ASTFunNode;
+<a name="l00004"></a>00004 <span class="keyword">import</span> org.nfunk.jep.Node;
+<a name="l00005"></a>00005 <span class="keyword">import</span> org.nfunk.jep.Operator;
+<a name="l00006"></a>00006 <span class="keyword">import</span> org.nfunk.jep.OperatorSet;
+<a name="l00007"></a>00007 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00008"></a>00008 
+<a name="l00034"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html">00034</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html">SimplificationVisitor</a> <span class="keyword">extends</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_do_nothing_visitor.html">DoNothingVisitor</a> {
+<a name="l00035"></a>00035     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html">NodeFactory</a> nf;
+<a name="l00036"></a>00036     <span class="keyword">private</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator_set.html">OperatorSet</a> opSet;
+<a name="l00037"></a>00037     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html">TreeUtils</a> tu;
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html">SimplificationVisitor</a>() {
+<a name="l00040"></a>00040     }
+<a name="l00041"></a>00041 
+<a name="l00043"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ab30679ccf538374aa8604a97c8a29164">00043</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ab30679ccf538374aa8604a97c8a29164">simplify</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_jep.html">XJep</a> xjep) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>, IllegalArgumentException {
+<a name="l00044"></a>00044         nf = xjep.getNodeFactory();
+<a name="l00045"></a>00045         opSet = xjep.getOperatorSet();
+<a name="l00046"></a>00046         tu = xjep.getTreeUtils();
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048         <span class="keywordflow">if</span> (node == null)
+<a name="l00049"></a>00049             <span class="keywordflow">return</span> null;
+<a name="l00050"></a>00050         <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> res = (<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>) node.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#a2ee859a14c62e2ad54379029f078ace3">jjtAccept</a>(<span class="keyword">this</span>, null);
+<a name="l00051"></a>00051         <span class="keywordflow">return</span> res;
+<a name="l00052"></a>00052     }
+<a name="l00053"></a>00053 
+<a name="l00055"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">00055</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> lhs, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> rhs) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00056"></a>00056         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> res = nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(op, lhs, rhs);
+<a name="l00057"></a>00057         <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> res2 = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a0b7556a359efb0381293a57e08bdf3b3">simplifyOp</a>(res, <span class="keyword">new</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] { lhs, rhs });
+<a name="l00058"></a>00058         <span class="keywordflow">return</span> res2;
+<a name="l00059"></a>00059     }
+<a name="l00060"></a>00060 
+<a name="l00073"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#afaddec7cf3984b04bae863a3a8ebd469">00073</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#afaddec7cf3984b04bae863a3a8ebd469">simplifyTripple</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> lhs, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> rhs) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> rootOp;
+<a name="l00076"></a>00076         <span class="keywordflow">if</span> (op.isComposite())
+<a name="l00077"></a>00077             rootOp = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) op.getRootOp();
+<a name="l00078"></a>00078         <span class="keywordflow">else</span>
+<a name="l00079"></a>00079             rootOp = op;
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081         <span class="keywordflow">if</span> (op.isCommutative() &amp;&amp; tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(rhs)) {
+<a name="l00082"></a>00082             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(op, rhs, lhs);
+<a name="l00083"></a>00083         }
+<a name="l00084"></a>00084         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(lhs) &amp;&amp; tu.isBinaryOperator(rhs)) {
+<a name="l00085"></a>00085             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> rhsChild1 = rhs.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#a84bc1d2e023089a0c2242a38f46b2a34">jjtGetChild</a>(0);
+<a name="l00086"></a>00086             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> rhsChild2 = rhs.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#a84bc1d2e023089a0c2242a38f46b2a34">jjtGetChild</a>(1);
+<a name="l00087"></a>00087             <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> rhsOp = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) ((<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a>) rhs).getOperator();
+<a name="l00088"></a>00088             <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> rhsRoot;
+<a name="l00089"></a>00089             <span class="keywordflow">if</span> (rhsOp.isComposite())
+<a name="l00090"></a>00090                 rhsRoot = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) rhsOp.getRootOp();
+<a name="l00091"></a>00091             <span class="keywordflow">else</span>
+<a name="l00092"></a>00092                 rhsRoot = rhsOp;
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(rhsChild1)) {
+<a name="l00095"></a>00095                 <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> op2 = rootOp;
+<a name="l00096"></a>00096                 <span class="keywordflow">if</span> (op == rhsOp)
+<a name="l00097"></a>00097                     op2 = rootOp;
+<a name="l00098"></a>00098                 <span class="keywordflow">else</span>
+<a name="l00099"></a>00099                     op2 = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) rootOp.getBinaryInverseOp();
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101                 <span class="comment">// 2 + ~( 3 + ~x ) -&gt; (2+~3) + ~~x</span>
+<a name="l00102"></a>00102                 <span class="keywordflow">if</span> (rootOp == rhsRoot &amp;&amp; rootOp.isAssociative()) {
+<a name="l00103"></a>00103                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(op2, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op, lhs, rhsChild1), rhsChild2);
+<a name="l00104"></a>00104                     <span class="keywordflow">return</span> newnode;
+<a name="l00105"></a>00105                 }
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107                 <span class="keywordflow">if</span> (op.isDistributiveOver(rhsRoot)) <span class="comment">// 2 * (3 + ~x) -&gt; (2 * 3) +</span>
+<a name="l00108"></a>00108                 <span class="comment">// ~(2 @ x)</span>
+<a name="l00109"></a>00109                 {
+<a name="l00110"></a>00110                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(rhsOp, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op, lhs, rhsChild1), <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(op, lhs, rhsChild2));
+<a name="l00111"></a>00111                     <span class="keywordflow">return</span> newnode;
+<a name="l00112"></a>00112                 }
+<a name="l00113"></a>00113             }
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(rhsChild2)) {
+<a name="l00116"></a>00116                 <span class="comment">// 2 + ~( x + ~3 ) -&gt; (2 + ~~3) + ~x</span>
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118                 <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op2 = rootOp;
+<a name="l00119"></a>00119                 <span class="keywordflow">if</span> (op == rhsOp)
+<a name="l00120"></a>00120                     op2 = rootOp;
+<a name="l00121"></a>00121                 <span class="keywordflow">else</span>
+<a name="l00122"></a>00122                     op2 = rootOp.getBinaryInverseOp();
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124                 <span class="keywordflow">if</span> (rootOp == rhsRoot &amp;&amp; rootOp.isCommutative() &amp;&amp; rootOp.isAssociative()) {
+<a name="l00125"></a>00125                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(op, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op2, lhs, rhsChild2), rhsChild1);
+<a name="l00126"></a>00126                     <span class="keywordflow">return</span> newnode;
+<a name="l00127"></a>00127                 }
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129                 <span class="comment">// 2 * (x + ~3) -&gt; (2 * x) + ~(2 * 3)</span>
+<a name="l00130"></a>00130                 <span class="keywordflow">if</span> (op.isDistributiveOver(rhsRoot)) {
+<a name="l00131"></a>00131                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(rhsOp, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(op, lhs, rhsChild1), nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op, lhs, rhsChild2));
+<a name="l00132"></a>00132                     <span class="keywordflow">return</span> newnode;
+<a name="l00133"></a>00133                 }
+<a name="l00134"></a>00134             }
+<a name="l00135"></a>00135         }
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137         <span class="keywordflow">if</span> (tu.isBinaryOperator(lhs) &amp;&amp; tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(rhs)) {
+<a name="l00138"></a>00138             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> lhsChild1 = lhs.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#a84bc1d2e023089a0c2242a38f46b2a34">jjtGetChild</a>(0);
+<a name="l00139"></a>00139             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> lhsChild2 = lhs.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#a84bc1d2e023089a0c2242a38f46b2a34">jjtGetChild</a>(1);
+<a name="l00140"></a>00140             <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> lhsOp = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) ((<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a>) lhs).getOperator();
+<a name="l00141"></a>00141             <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> lhsRoot;
+<a name="l00142"></a>00142             <span class="keywordflow">if</span> (lhsOp.isComposite())
+<a name="l00143"></a>00143                 lhsRoot = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) lhsOp.getRootOp();
+<a name="l00144"></a>00144             <span class="keywordflow">else</span>
+<a name="l00145"></a>00145                 lhsRoot = lhsOp;
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(lhsChild1)) {
+<a name="l00148"></a>00148                 <span class="comment">// (2 + ~x) + ~3 -&gt; (2 + ~3) + ~x</span>
+<a name="l00149"></a>00149                 <span class="keywordflow">if</span> (rootOp == lhsRoot &amp;&amp; rootOp.isAssociative() &amp;&amp; rootOp.isCommutative()) {
+<a name="l00150"></a>00150                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(lhsOp, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op, lhsChild1, rhs), lhsChild2);
+<a name="l00151"></a>00151                     <span class="keywordflow">return</span> newnode;
+<a name="l00152"></a>00152                 }
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154                 <span class="comment">// (2 + ~x) * 3 --&gt; (2*3) +~ (x*3)</span>
+<a name="l00155"></a>00155                 <span class="keywordflow">if</span> (op.isDistributiveOver(lhsRoot)) {
+<a name="l00156"></a>00156                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(lhsOp, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op, lhsChild1, rhs), <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(op, lhsChild2, rhs));
+<a name="l00157"></a>00157                     <span class="keywordflow">return</span> newnode;
+<a name="l00158"></a>00158                 }
+<a name="l00159"></a>00159             }
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(lhsChild2)) {
+<a name="l00162"></a>00162                 <span class="comment">// (x + ~2) + !3 -&gt; x + (~2 + !3) -&gt; x + ~(2+~!3)</span>
+<a name="l00163"></a>00163                 <span class="comment">// (x*2)*3 -&gt; x*(2*3), (x/2)*3 -&gt; x/(2/3)</span>
+<a name="l00164"></a>00164                 <span class="comment">// (x*2)/3 -&gt; x*(2/3), (x/2)/3 -&gt; x/(2*3)</span>
+<a name="l00165"></a>00165                 <span class="keywordflow">if</span> (rootOp == lhsRoot &amp;&amp; rootOp.isAssociative()) {
+<a name="l00166"></a>00166                     <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op2 = rootOp;
+<a name="l00167"></a>00167                     <span class="keywordflow">if</span> (op == lhsOp)
+<a name="l00168"></a>00168                         op2 = rootOp;
+<a name="l00169"></a>00169                     <span class="keywordflow">else</span>
+<a name="l00170"></a>00170                         op2 = rootOp.getBinaryInverseOp();
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(lhsOp, lhsChild1, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op2, lhsChild2, rhs));
+<a name="l00173"></a>00173                     <span class="keywordflow">return</span> newnode;
+<a name="l00174"></a>00174                 }
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176                 <span class="comment">// (x + ~2) * 3 -&gt; (x*3) + ~(2*3)</span>
+<a name="l00177"></a>00177                 <span class="keywordflow">if</span> (op.isDistributiveOver(lhsRoot)) {
+<a name="l00178"></a>00178                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(lhsOp, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(op, lhsChild1, rhs), nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op, lhsChild2, rhs));
+<a name="l00179"></a>00179                     <span class="keywordflow">return</span> newnode;
+<a name="l00180"></a>00180                 }
+<a name="l00181"></a>00181             }
+<a name="l00182"></a>00182         }
+<a name="l00183"></a>00183         <span class="keywordflow">return</span> null;
+<a name="l00184"></a>00184     }
+<a name="l00185"></a>00185 
+<a name="l00198"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a5ef82d98216ea67f1b8c5f7cf533eee0">00198</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a5ef82d98216ea67f1b8c5f7cf533eee0">simplifyAdd</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> lhs, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> rhs) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00199"></a>00199         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(lhs)) { <span class="comment">// Inf + Inf -&gt; NaN</span>
+<a name="l00200"></a>00200             <span class="comment">// TODO_YEP not correct for signed infinity</span>
+<a name="l00201"></a>00201             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(rhs))
+<a name="l00202"></a>00202                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getNAN());
+<a name="l00203"></a>00203             <span class="comment">// Inf + x -&gt; Inf</span>
+<a name="l00204"></a>00204             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00205"></a>00205         }
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207         <span class="comment">// x + Inf -&gt; Inf</span>
+<a name="l00208"></a>00208         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(rhs))
+<a name="l00209"></a>00209             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211         <span class="comment">// 0+x -&gt; x</span>
+<a name="l00212"></a>00212         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(lhs))
+<a name="l00213"></a>00213             <span class="keywordflow">return</span> rhs;
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215         <span class="comment">// x + 0 -&gt; x</span>
+<a name="l00216"></a>00216         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(rhs))
+<a name="l00217"></a>00217             <span class="keywordflow">return</span> lhs;
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219         <span class="comment">// -3 + x -&gt; x - 3</span>
+<a name="l00220"></a>00220         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#aad8e6cd589766a3b2b652760c86e17b2">isNegative</a>(lhs)) {
+<a name="l00221"></a>00221             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(opSet.getSubtract(), rhs, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(opSet.getUMinus(), lhs));
+<a name="l00222"></a>00222             <span class="keywordflow">return</span> newnode;
+<a name="l00223"></a>00223         }
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225         <span class="comment">// x + -3 -&gt; x - 3</span>
+<a name="l00226"></a>00226         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#aad8e6cd589766a3b2b652760c86e17b2">isNegative</a>(rhs)) {
+<a name="l00227"></a>00227             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(opSet.getSubtract(), lhs, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(opSet.getUMinus(), rhs));
+<a name="l00228"></a>00228             <span class="keywordflow">return</span> newnode;
+<a name="l00229"></a>00229         }
+<a name="l00230"></a>00230         <span class="keywordflow">return</span> null;
+<a name="l00231"></a>00231     }
+<a name="l00232"></a>00232 
+<a name="l00250"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a60a7ddae529897c5c4d09efc0edad301">00250</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a60a7ddae529897c5c4d09efc0edad301">simplifySubtract</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> lhs, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> rhs) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00251"></a>00251         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(lhs)) {
+<a name="l00252"></a>00252             <span class="comment">// Inf + Inf -&gt; NaN</span>
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254             <span class="comment">// TODO_YEP not correct for signed infinity</span>
+<a name="l00255"></a>00255             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(rhs))
+<a name="l00256"></a>00256                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getNAN());
+<a name="l00257"></a>00257             <span class="comment">// Inf + x -&gt; Inf</span>
+<a name="l00258"></a>00258             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00259"></a>00259         }
+<a name="l00260"></a>00260         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(rhs)) <span class="comment">// x + Inf -&gt; Inf</span>
+<a name="l00261"></a>00261             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(rhs)) <span class="comment">// x - 0 -&gt; x</span>
+<a name="l00264"></a>00264             <span class="keywordflow">return</span> lhs;
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266         <span class="comment">// 0 - x -&gt; -(x)</span>
+<a name="l00267"></a>00267         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(lhs)) {
+<a name="l00268"></a>00268             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(opSet.getUMinus(), rhs);
+<a name="l00269"></a>00269         }
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271         <span class="comment">// x - (-2) -&gt; x + 2</span>
+<a name="l00272"></a>00272         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#aad8e6cd589766a3b2b652760c86e17b2">isNegative</a>(rhs)) {
+<a name="l00273"></a>00273             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(opSet.getAdd(), lhs, nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(opSet.getUMinus(), rhs));
+<a name="l00274"></a>00274             <span class="keywordflow">return</span> newnode;
+<a name="l00275"></a>00275         }
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a3a76d4269f36a8d457895c59488505d2">getOperator</a>(rhs) == opSet.getUMinus()) {
+<a name="l00278"></a>00278             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a823880ab87e93bb1d670647827fdf842">simplifyBuiltOperatorNode</a>(opSet.getAdd(), lhs, rhs.jjtGetChild(0));
+<a name="l00279"></a>00279             <span class="keywordflow">return</span> newnode;
+<a name="l00280"></a>00280         }
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282         <span class="keywordflow">return</span> null;
+<a name="l00283"></a>00283     }
+<a name="l00284"></a>00284 
+<a name="l00301"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ad139a8a61a0c34dfd15f8baff82484d6">00301</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ad139a8a61a0c34dfd15f8baff82484d6">simplifyMultiply</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child1, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00302"></a>00302         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child1)) { <span class="comment">// 0*Inf -&gt; NaN</span>
+<a name="l00303"></a>00303             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(child2))
+<a name="l00304"></a>00304                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getNAN());
+<a name="l00305"></a>00305             <span class="comment">// 0*x -&gt; 0</span>
+<a name="l00306"></a>00306             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getZERO());
+<a name="l00307"></a>00307         }
+<a name="l00308"></a>00308         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child2)) { <span class="comment">// Inf*0 -&gt; NaN</span>
+<a name="l00309"></a>00309             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(child1))
+<a name="l00310"></a>00310                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getNAN());
+<a name="l00311"></a>00311             <span class="comment">// 0 * x -&gt; 0</span>
+<a name="l00312"></a>00312             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getZERO());
+<a name="l00313"></a>00313         }
+<a name="l00314"></a>00314         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(child1)) <span class="comment">// Inf * x -&gt; Inf</span>
+<a name="l00315"></a>00315             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00316"></a>00316         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(child2)) <span class="comment">// x * Inf -&gt; Inf</span>
+<a name="l00317"></a>00317             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#adc95b36629ade1de02b93a9767614c9b">isOne</a>(child1)) <span class="comment">// 1*x -&gt; x</span>
+<a name="l00320"></a>00320             <span class="keywordflow">return</span> child2;
+<a name="l00321"></a>00321         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#adc95b36629ade1de02b93a9767614c9b">isOne</a>(child2)) <span class="comment">// x*1 -&gt; x</span>
+<a name="l00322"></a>00322             <span class="keywordflow">return</span> child1;
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a21eee007ec9cd103367458fca9935411">isMinusOne</a>(child1)) <span class="comment">// -1*x -&gt; -x</span>
+<a name="l00325"></a>00325         {
+<a name="l00326"></a>00326             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(opSet.getUMinus(), child2);
+<a name="l00327"></a>00327             <span class="keywordflow">return</span> newnode;
+<a name="l00328"></a>00328         }
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a21eee007ec9cd103367458fca9935411">isMinusOne</a>(child2)) <span class="comment">// x*-1 -&gt; -x</span>
+<a name="l00331"></a>00331         {
+<a name="l00332"></a>00332             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> newnode = nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(opSet.getUMinus(), child1);
+<a name="l00333"></a>00333             <span class="keywordflow">return</span> newnode;
+<a name="l00334"></a>00334         }
+<a name="l00335"></a>00335         <span class="keywordflow">return</span> null;
+<a name="l00336"></a>00336         <span class="comment">// return nf.buildOperatorNode(((ASTOpNode)</span>
+<a name="l00337"></a>00337         <span class="comment">// node).getOperator(),child1,child2);</span>
+<a name="l00338"></a>00338         <span class="comment">// return tu.buildMultiply(child1,child2);</span>
+<a name="l00339"></a>00339     }
+<a name="l00340"></a>00340 
+<a name="l00362"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ab0085e9010feba3071e7d1dcedaead4e">00362</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ab0085e9010feba3071e7d1dcedaead4e">simplifyDivide</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child1, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00363"></a>00363         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child2)) {
+<a name="l00364"></a>00364             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child1)) <span class="comment">// 0/0 -&gt; NaN</span>
+<a name="l00365"></a>00365                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getNAN());
+<a name="l00366"></a>00366             <span class="comment">// x/0 -&gt; Inf</span>
+<a name="l00367"></a>00367             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00368"></a>00368         }
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child1)) { <span class="comment">// 0/x -&gt; 0</span>
+<a name="l00371"></a>00371             <span class="keywordflow">return</span> child1;
+<a name="l00372"></a>00372         }
+<a name="l00373"></a>00373         <span class="comment">// if(tu.isOne(child1)) // 1/x -&gt; 1/x</span>
+<a name="l00374"></a>00374         <span class="comment">// return child2;</span>
+<a name="l00375"></a>00375         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#adc95b36629ade1de02b93a9767614c9b">isOne</a>(child2)) <span class="comment">// x/1 -&gt; x</span>
+<a name="l00376"></a>00376             <span class="keywordflow">return</span> child1;
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(child1)) <span class="comment">// Inf / x -&gt; Inf</span>
+<a name="l00379"></a>00379             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getPositiveInfinity());
+<a name="l00380"></a>00380         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a7de63884fe511a256212399de5bbdb82">isInfinity</a>(child2)) <span class="comment">// x / Inf -&gt; 0</span>
+<a name="l00381"></a>00381             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getZERO());
+<a name="l00382"></a>00382         <span class="keywordflow">return</span> null;
+<a name="l00383"></a>00383         <span class="comment">// return nf.buildOperatorNode(((ASTOpNode)</span>
+<a name="l00384"></a>00384         <span class="comment">// node).getOperator(),child1,child2);</span>
+<a name="l00385"></a>00385         <span class="comment">// return opSet.buildDivideNode(child1,child2);</span>
+<a name="l00386"></a>00386     }
+<a name="l00387"></a>00387 
+<a name="l00399"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#aa951c64029cfd001da18317b20550f90">00399</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#aa951c64029cfd001da18317b20550f90">simplifyPower</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child1, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00400"></a>00400         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child1)) {
+<a name="l00401"></a>00401             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child2)) <span class="comment">// 0^0 -&gt; NaN</span>
+<a name="l00402"></a>00402                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getNAN());
+<a name="l00403"></a>00403             <span class="comment">// 0^x -&gt; 0</span>
+<a name="l00404"></a>00404             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getZERO());
+<a name="l00405"></a>00405         }
+<a name="l00406"></a>00406         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a1296ecd9fd89a368c9429d3c366a9668">isZero</a>(child2)) <span class="comment">// x^0 -&gt; 1</span>
+<a name="l00407"></a>00407             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getONE());
+<a name="l00408"></a>00408         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#adc95b36629ade1de02b93a9767614c9b">isOne</a>(child1)) <span class="comment">// 1^x -&gt; 1</span>
+<a name="l00409"></a>00409             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getONE());
+<a name="l00410"></a>00410         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#adc95b36629ade1de02b93a9767614c9b">isOne</a>(child2)) <span class="comment">// x^1 -&gt; x</span>
+<a name="l00411"></a>00411             <span class="keywordflow">return</span> child1;
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413         <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(child2) &amp;&amp; tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a3a76d4269f36a8d457895c59488505d2">getOperator</a>(child1) == opSet.getPower()) {
+<a name="l00414"></a>00414             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(child1.jjtGetChild(1))) {
+<a name="l00415"></a>00415                 <span class="comment">/* (x^3)^4 -&gt; x^(3*4) */</span>
+<a name="l00416"></a>00416                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(opSet.getPower(), child1.jjtGetChild(0), nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(opSet.getMultiply(), child1.jjtGetChild(1), child2));
+<a name="l00417"></a>00417             }
+<a name="l00418"></a>00418         }
+<a name="l00419"></a>00419         <span class="keywordflow">return</span> null;
+<a name="l00420"></a>00420         <span class="comment">// return nf.buildOperatorNode(((ASTOpNode)</span>
+<a name="l00421"></a>00421         <span class="comment">// node).getOperator(),child1,child2);</span>
+<a name="l00422"></a>00422         <span class="comment">// return tu.buildPower(child1,child2);</span>
+<a name="l00423"></a>00423     }
+<a name="l00424"></a>00424 
+<a name="l00426"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a0b7556a359efb0381293a57e08bdf3b3">00426</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a0b7556a359efb0381293a57e08bdf3b3">simplifyOp</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> node, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> children[]) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00427"></a>00427         <span class="keywordtype">boolean</span> allConst = <span class="keyword">true</span>;
+<a name="l00428"></a>00428         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> op = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) node.getOperator();
+<a name="l00429"></a>00429         <span class="comment">// TODO_YEP a bit of a hack to prevent lists of constants being converted</span>
+<a name="l00430"></a>00430         <span class="comment">// what happens is that for [[1,2],[3,4]] the dimension is not passed</span>
+<a name="l00431"></a>00431         <span class="comment">// into buildConstantNode so list is treated as [1,2,3,4]</span>
+<a name="l00432"></a>00432         <span class="comment">// Ideally there would be a special simplification rule for List</span>
+<a name="l00433"></a>00433         <span class="keywordflow">if</span> (op.getPFMC() instanceof org.nfunk.jep.function.List)
+<a name="l00434"></a>00434             <span class="keywordflow">return</span> node;
+<a name="l00435"></a>00435         <span class="keywordtype">int</span> nchild = children.length;
+<a name="l00436"></a>00436         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nchild; ++i) {
+<a name="l00437"></a>00437             <span class="keywordflow">if</span> (!tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(children[i]))
+<a name="l00438"></a>00438                 allConst = <span class="keyword">false</span>;
+<a name="l00439"></a>00439             <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a2b54eb9a7b4d72d75cd6a828cd723428">isNaN</a>(children[i]))
+<a name="l00440"></a>00440                 <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(tu.getNAN());
+<a name="l00441"></a>00441         }
+<a name="l00442"></a>00442         <span class="keywordflow">if</span> (allConst)
+<a name="l00443"></a>00443             <span class="keywordflow">return</span> nf.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op, children);
+<a name="l00444"></a>00444 
+<a name="l00445"></a>00445         <span class="keywordflow">if</span> (nchild == 1) {
+<a name="l00446"></a>00446             <span class="keywordflow">if</span> (tu.isUnaryOperator(children[0]) &amp;&amp; op == tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a3a76d4269f36a8d457895c59488505d2">getOperator</a>(children[0])) {
+<a name="l00447"></a>00447                 <span class="keywordflow">if</span> (op.isSelfInverse())
+<a name="l00448"></a>00448                     <span class="keywordflow">return</span> children[0].jjtGetChild(0);
+<a name="l00449"></a>00449             }
+<a name="l00450"></a>00450         }
+<a name="l00451"></a>00451         <span class="keywordflow">if</span> (nchild == 2) {
+<a name="l00452"></a>00452             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> res = null;
+<a name="l00453"></a>00453             <span class="keywordflow">if</span> (opSet.getAdd() == op)
+<a name="l00454"></a>00454                 res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a5ef82d98216ea67f1b8c5f7cf533eee0">simplifyAdd</a>(children[0], children[1]);
+<a name="l00455"></a>00455             <span class="keywordflow">if</span> (opSet.getSubtract() == op)
+<a name="l00456"></a>00456                 res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a60a7ddae529897c5c4d09efc0edad301">simplifySubtract</a>(children[0], children[1]);
+<a name="l00457"></a>00457             <span class="keywordflow">if</span> (opSet.getMultiply() == op)
+<a name="l00458"></a>00458                 res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ad139a8a61a0c34dfd15f8baff82484d6">simplifyMultiply</a>(children[0], children[1]);
+<a name="l00459"></a>00459             <span class="keywordflow">if</span> (opSet.getDivide() == op)
+<a name="l00460"></a>00460                 res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#ab0085e9010feba3071e7d1dcedaead4e">simplifyDivide</a>(children[0], children[1]);
+<a name="l00461"></a>00461             <span class="keywordflow">if</span> (opSet.getPower() == op)
+<a name="l00462"></a>00462                 res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#aa951c64029cfd001da18317b20550f90">simplifyPower</a>(children[0], children[1]);
+<a name="l00463"></a>00463             <span class="keywordflow">if</span> (res != null) {
+<a name="l00464"></a>00464                 <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(res))
+<a name="l00465"></a>00465                     <span class="keywordflow">return</span> res;
+<a name="l00466"></a>00466                 <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#ab97833c2112cb497962c4e579e03f675">isOperator</a>(res)) {
+<a name="l00467"></a>00467                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> res2 = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a0b7556a359efb0381293a57e08bdf3b3">simplifyOp</a>((<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a>) res, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html">TreeUtils</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a93f69a8ce1a0877bb50303b1e716e2ee">getChildrenAsArray</a>(res));
+<a name="l00468"></a>00468                     <span class="keywordflow">return</span> res2;
+<a name="l00469"></a>00469                 }
+<a name="l00470"></a>00470                 <span class="keywordflow">return</span> res;
+<a name="l00471"></a>00471             }
+<a name="l00472"></a>00472             res = this.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#afaddec7cf3984b04bae863a3a8ebd469">simplifyTripple</a>(op, children[0], children[1]);
+<a name="l00473"></a>00473             <span class="keywordflow">if</span> (res != null) {
+<a name="l00474"></a>00474                 <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a5a9c23b401bb81d65e6f26e0804c307c">isConstant</a>(res))
+<a name="l00475"></a>00475                     <span class="keywordflow">return</span> res;
+<a name="l00476"></a>00476                 <span class="keywordflow">if</span> (tu.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#ab97833c2112cb497962c4e579e03f675">isOperator</a>(res)) {
+<a name="l00477"></a>00477                     <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> res2 = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a0b7556a359efb0381293a57e08bdf3b3">simplifyOp</a>((<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a>) res, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html">TreeUtils</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#a93f69a8ce1a0877bb50303b1e716e2ee">getChildrenAsArray</a>(res));
+<a name="l00478"></a>00478                     <span class="keywordflow">return</span> res2;
+<a name="l00479"></a>00479                 }
+<a name="l00480"></a>00480                 <span class="keywordflow">return</span> res;
+<a name="l00481"></a>00481             }
+<a name="l00482"></a>00482         }
+<a name="l00483"></a>00483         <span class="keywordflow">return</span> node;
+<a name="l00484"></a>00484     }
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486     <span class="keyword">public</span> Object visit(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> node, Object data) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00487"></a>00487         <span class="keywordtype">int</span> nchild = node.jjtGetNumChildren();
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489         <span class="keywordflow">if</span> (node.isOperator()) {
+<a name="l00490"></a>00490             <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> op = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a>) node.getOperator();
+<a name="l00491"></a>00491             <span class="keywordflow">if</span> ((op.isBinary() &amp;&amp; nchild != 2) || (op.isUnary() &amp;&amp; nchild != 1))
+<a name="l00492"></a>00492                 <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Wrong number of children for &quot;</span> + nchild + <span class="stringliteral">&quot; for operator &quot;</span> + op.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a853ed2fd586918430ba629afa6a2609b">getName</a>());
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> children[] = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_do_nothing_visitor.html#a625b44fc64c64617db7d5f33af8b57d8">acceptChildrenAsArray</a>(node, data);
+<a name="l00495"></a>00495             <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html">TreeUtils</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_tree_utils.html#aef4304c32226ab80086408386c7bae58">copyChildrenIfNeeded</a>(node, children);
+<a name="l00496"></a>00496 
+<a name="l00497"></a>00497             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_simplification_visitor.html#a0b7556a359efb0381293a57e08bdf3b3">simplifyOp</a>(node, children);
+<a name="l00498"></a>00498             <span class="keywordflow">if</span> (res == null)
+<a name="l00499"></a>00499                 <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;null res from simp op&quot;</span>);
+<a name="l00500"></a>00500             <span class="keywordflow">return</span> res;
+<a name="l00501"></a>00501         }
+<a name="l00502"></a>00502 
+<a name="l00503"></a>00503         Node children[] = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_do_nothing_visitor.html#a625b44fc64c64617db7d5f33af8b57d8">acceptChildrenAsArray</a>(node, data);
+<a name="l00504"></a>00504 
+<a name="l00505"></a>00505         <span class="keywordtype">boolean</span> allConst = <span class="keyword">true</span>;
+<a name="l00506"></a>00506         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nchild; ++i) {
+<a name="l00507"></a>00507             <span class="keywordflow">if</span> (!tu.isConstant(children[i]))
+<a name="l00508"></a>00508                 allConst = <span class="keyword">false</span>;
+<a name="l00509"></a>00509             <span class="keywordflow">if</span> (tu.isNaN(children[i]))
+<a name="l00510"></a>00510                 <span class="keywordflow">return</span> nf.buildConstantNode(tu.getNAN());
+<a name="l00511"></a>00511         }
+<a name="l00512"></a>00512         <span class="keywordflow">if</span> (allConst)
+<a name="l00513"></a>00513             <span class="keywordflow">return</span> nf.buildConstantNode(node.getPFMC(), children);
+<a name="l00514"></a>00514 
+<a name="l00515"></a>00515         <span class="keywordflow">return</span> TreeUtils.copyChildrenIfNeeded(node, children);
+<a name="l00516"></a>00516 
+<a name="l00517"></a>00517     }
+<a name="l00518"></a>00518 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>SimplificationVisitor.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

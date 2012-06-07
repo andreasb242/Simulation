@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Editor/src/ch/zhaw/simulation/editor/view/AbstractEditorView.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_abstract_editor_view_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Editor/src/ch/zhaw/simulation/editor/view/AbstractEditorView.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.editor.view;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.AlphaComposite;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.Color;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.awt.Component;
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.awt.Graphics;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.awt.Graphics2D;
+<a name="l00008"></a>00008 <span class="keyword">import</span> java.awt.Rectangle;
+<a name="l00009"></a>00009 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00010"></a>00010 <span class="keyword">import</span> java.awt.event.ActionListener;
+<a name="l00011"></a>00011 <span class="keyword">import</span> java.awt.event.KeyAdapter;
+<a name="l00012"></a>00012 <span class="keyword">import</span> java.awt.event.KeyEvent;
+<a name="l00013"></a>00013 <span class="keyword">import</span> java.awt.event.KeyListener;
+<a name="l00014"></a>00014 <span class="keyword">import</span> java.awt.event.MouseAdapter;
+<a name="l00015"></a>00015 <span class="keyword">import</span> java.awt.event.MouseEvent;
+<a name="l00016"></a>00016 <span class="keyword">import</span> java.util.HashMap;
+<a name="l00017"></a>00017 <span class="keyword">import</span> java.util.Vector;
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="keyword">import</span> javax.swing.JComponent;
+<a name="l00020"></a>00020 <span class="keyword">import</span> javax.swing.JPanel;
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="keyword">import</span> butti.javalibs.util.DrawHelper;
+<a name="l00023"></a>00023 <span class="keyword">import</span> ch.zhaw.simulation.clipboard.ClipboardHandler;
+<a name="l00024"></a>00024 <span class="keyword">import</span> ch.zhaw.simulation.clipboard.TransferableFactory;
+<a name="l00025"></a>00025 <span class="keyword">import</span> ch.zhaw.simulation.editor.control.AbstractEditorControl;
+<a name="l00026"></a>00026 <span class="keyword">import</span> ch.zhaw.simulation.editor.elements.AbstractDataView;
+<a name="l00027"></a>00027 <span class="keyword">import</span> ch.zhaw.simulation.editor.elements.global.GlobalView;
+<a name="l00028"></a>00028 <span class="keyword">import</span> ch.zhaw.simulation.editor.imgexport.ImageExport;
+<a name="l00029"></a>00029 <span class="keyword">import</span> ch.zhaw.simulation.editor.layout.SimulationLayout;
+<a name="l00030"></a>00030 <span class="keyword">import</span> ch.zhaw.simulation.model.SimulationType;
+<a name="l00031"></a>00031 <span class="keyword">import</span> ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+<a name="l00032"></a>00032 <span class="keyword">import</span> ch.zhaw.simulation.model.element.AbstractSimulationData;
+<a name="l00033"></a>00033 <span class="keyword">import</span> ch.zhaw.simulation.model.element.SimulationGlobalData;
+<a name="l00034"></a>00034 <span class="keyword">import</span> ch.zhaw.simulation.model.element.TextData;
+<a name="l00035"></a>00035 <span class="keyword">import</span> ch.zhaw.simulation.model.listener.SimulationListener;
+<a name="l00036"></a>00036 <span class="keyword">import</span> ch.zhaw.simulation.model.selection.SelectableElement;
+<a name="l00037"></a>00037 <span class="keyword">import</span> ch.zhaw.simulation.model.selection.SelectionListener;
+<a name="l00038"></a>00038 <span class="keyword">import</span> ch.zhaw.simulation.model.selection.SelectionModel;
+<a name="l00039"></a>00039 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.GuiConfig;
+<a name="l00040"></a>00040 <span class="keyword">import</span> ch.zhaw.simulation.undo.UndoHandler;
+<a name="l00041"></a>00041 
+<a name="l00042"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html">00042</a> <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class </span>AbstractEditorView&lt;C <span class="keyword">extends</span> AbstractEditorControl&lt;?&gt;&gt; extends JPanel implements <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1listener_1_1_simulation_listener.html">SimulationListener</a>, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_listener.html">SelectionListener</a> {
+<a name="l00043"></a>00043     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00044"></a>00044 
+<a name="l00048"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a56b7f612f700eacb10f3d46e4f11b757">00048</a>     <span class="keyword">protected</span> C <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a56b7f612f700eacb10f3d46e4f11b757">control</a>;
+<a name="l00049"></a>00049 
+<a name="l00053"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a92ad6eb8fe718d0721ad25cb9bce65c2">00053</a>     <span class="keyword">protected</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html">SelectionModel</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a92ad6eb8fe718d0721ad25cb9bce65c2">selectionModel</a>;
+<a name="l00054"></a>00054 
+<a name="l00058"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a67246cf898fba3b1b705a53b02c91e1c">00058</a>     <span class="keyword">protected</span> <span class="keywordtype">boolean</span> showSelection = <span class="keyword">false</span>;
+<a name="l00059"></a>00059 
+<a name="l00063"></a>00063     <span class="keyword">private</span> HashMap&lt;Character, ActionListener&gt; keyShortcuts = <span class="keyword">new</span> HashMap&lt;Character, ActionListener&gt;();
+<a name="l00064"></a>00064 
+<a name="l00068"></a>00068     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1_undo_handler.html">UndoHandler</a> undoHandler = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1_undo_handler.html">UndoHandler</a>();
+<a name="l00069"></a>00069 
+<a name="l00073"></a>00073     <span class="keyword">private</span> ClipboardHandler&lt;C&gt; clipboard;
+<a name="l00074"></a>00074 
+<a name="l00078"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#afd97b7f4ff10f142da8ac621e30be0ae">00078</a>     <span class="keyword">protected</span> KeyListener keyListener = <span class="keyword">new</span> KeyAdapter() {
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080         @Override
+<a name="l00081"></a>00081         <span class="keyword">public</span> <span class="keywordtype">void</span> keyPressed(KeyEvent e) {
+<a name="l00082"></a>00082             <span class="keywordflow">if</span> (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+<a name="l00083"></a>00083                 <span class="keywordflow">if</span> (showSelection) {
+<a name="l00084"></a>00084                     showSelection = <span class="keyword">false</span>;
+<a name="l00085"></a>00085                     selectionModel.clearTmpSelection();
+<a name="l00086"></a>00086                     repaint();
+<a name="l00087"></a>00087                 } <span class="keywordflow">else</span> {
+<a name="l00088"></a>00088                     selectionModel.clearSelection();
+<a name="l00089"></a>00089                 }
+<a name="l00090"></a>00090             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+<a name="l00091"></a>00091                 control.deleteSelected();
+<a name="l00092"></a>00092                 e.consume();
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094             } <span class="keywordflow">else</span> {
+<a name="l00095"></a>00095                 ActionListener listener = keyShortcuts.get(e.getKeyChar());
+<a name="l00096"></a>00096                 <span class="keywordflow">if</span> (listener != null) {
+<a name="l00097"></a>00097                     listener.actionPerformed(null);
+<a name="l00098"></a>00098                 }
+<a name="l00099"></a>00099             }
+<a name="l00100"></a>00100         }
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     };
+<a name="l00103"></a>00103 
+<a name="l00107"></a>00107     <span class="keyword">private</span> <span class="keywordtype">int</span> sX = 0;
+<a name="l00108"></a>00108     <span class="keyword">private</span> <span class="keywordtype">int</span> sY = 0;
+<a name="l00109"></a>00109     <span class="keyword">private</span> <span class="keywordtype">int</span> sWidth = 0;
+<a name="l00110"></a>00110     <span class="keyword">private</span> <span class="keywordtype">int</span> sHeight = 0;
+<a name="l00111"></a>00111 
+<a name="l00115"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a1cc2f3a0a73cb1212b1beb1ba25e2cf5">00115</a>     <span class="keyword">protected</span> MouseAdapter selectionListener = <span class="keyword">new</span> MouseAdapter() {
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117         @Override
+<a name="l00118"></a>00118         <span class="keyword">public</span> <span class="keywordtype">void</span> mouseClicked(MouseEvent e) {
+<a name="l00119"></a>00119             <span class="keywordflow">if</span> (!checkSelection(e)) {
+<a name="l00120"></a>00120                 selectionModel.clearSelection();
+<a name="l00121"></a>00121             }
+<a name="l00122"></a>00122         }
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124         @Override
+<a name="l00125"></a>00125         <span class="keyword">public</span> <span class="keywordtype">void</span> mousePressed(MouseEvent e) {
+<a name="l00126"></a>00126             sX = (int) e.getPoint().getX();
+<a name="l00127"></a>00127             sY = (int) e.getPoint().getY();
+<a name="l00128"></a>00128             showSelection = <span class="keyword">true</span>;
+<a name="l00129"></a>00129             requestFocus();
+<a name="l00130"></a>00130         }
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132         @Override
+<a name="l00133"></a>00133         <span class="keyword">public</span> <span class="keywordtype">void</span> mouseReleased(MouseEvent e) {
+<a name="l00134"></a>00134             showSelection = <span class="keyword">false</span>;
+<a name="l00135"></a>00135             sWidth = 0;
+<a name="l00136"></a>00136             sHeight = 0;
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138             selectionModel.acceptTmpSelection();
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140             repaint();
+<a name="l00141"></a>00141         }
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143         @Override
+<a name="l00144"></a>00144         <span class="keyword">public</span> <span class="keywordtype">void</span> mouseDragged(MouseEvent e) {
+<a name="l00145"></a>00145             sWidth = (int) e.getPoint().getX() - sX;
+<a name="l00146"></a>00146             sHeight = (int) e.getPoint().getY() - sY;
+<a name="l00147"></a>00147             updateTempSelection();
+<a name="l00148"></a>00148             repaint();
+<a name="l00149"></a>00149         }
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151     };
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153     <span class="keyword">public</span> AbstractEditorView(C control, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1clipboard_1_1_transferable_factory.html">TransferableFactory</a> factory) {
+<a name="l00154"></a>00154         this.control = control;
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156         <span class="keywordflow">if</span> (control == null) {
+<a name="l00157"></a>00157             <span class="keywordflow">throw</span> <span class="keyword">new</span> NullPointerException(<span class="stringliteral">&quot;control == null&quot;</span>);
+<a name="l00158"></a>00158         }
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160         setLayout(<span class="keyword">new</span> SimulationLayout());
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162         clipboard = <span class="keyword">new</span> ClipboardHandler&lt;C&gt;(control, factory);
+<a name="l00163"></a>00163         selectionModel = control.getSelectionModel();
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165         setBackground(Color.WHITE);
+<a name="l00166"></a>00166         setFocusable(<span class="keyword">true</span>);
+<a name="l00167"></a>00167         setOpaque(<span class="keyword">false</span>);
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169         initKeyhandler();
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171         initComponent();
+<a name="l00172"></a>00172     }
+<a name="l00173"></a>00173 
+<a name="l00177"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#ae5f5707f856f2f9fc9d66bab87d3219e">00177</a>     <span class="keyword">protected</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#ae5f5707f856f2f9fc9d66bab87d3219e">initKeyhandler</a>() {
+<a name="l00178"></a>00178         registerKeyShortcut(<span class="charliteral">&#39;g&#39;</span>, <span class="keyword">new</span> ActionListener() {
+<a name="l00179"></a>00179             @Override
+<a name="l00180"></a>00180             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00181"></a>00181                 control.addGlobal();
+<a name="l00182"></a>00182             }
+<a name="l00183"></a>00183         });
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185         registerKeyShortcut(<span class="charliteral">&#39;t&#39;</span>, <span class="keyword">new</span> ActionListener() {
+<a name="l00186"></a>00186             @Override
+<a name="l00187"></a>00187             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00188"></a>00188                 control.addText();
+<a name="l00189"></a>00189             }
+<a name="l00190"></a>00190         });
+<a name="l00191"></a>00191     }
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193     <span class="keyword">private</span> <span class="keywordtype">void</span> initComponent() {
+<a name="l00194"></a>00194         addModellistener();
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196         addKeyListener(keyListener);
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198         addMouseMotionListener(selectionListener);
+<a name="l00199"></a>00199         addMouseListener(selectionListener);
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201         selectionModel.addSelectionListener(<span class="keyword">this</span>);
+<a name="l00202"></a>00202     }
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204     @Override
+<a name="l00205"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a8a9eac27e2fcc253e943f031e770b0d2">00205</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a8a9eac27e2fcc253e943f031e770b0d2">selectionChanged</a>() {
+<a name="l00206"></a>00206         showArrowDrag();
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208         bringSelectedObjectsToFront();
+<a name="l00209"></a>00209     }
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211     <span class="keyword">protected</span> <span class="keywordtype">void</span> bringSelectedObjectsToFront() {
+<a name="l00212"></a>00212         <span class="keywordflow">for</span> (SelectableElement&lt;?&gt; se : selectionModel.getSelected()) {
+<a name="l00213"></a>00213             JComponent comp = (JComponent) se;
+<a name="l00214"></a>00214             setComponentZOrder(comp, 0);
+<a name="l00215"></a>00215         }
+<a name="l00216"></a>00216     }
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218     @Override
+<a name="l00219"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a9c85a00a2fa09165f7752a348d66ed84">00219</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a9c85a00a2fa09165f7752a348d66ed84">selectionMoved</a>(<span class="keywordtype">int</span> dX, <span class="keywordtype">int</span> dY) {
+<a name="l00220"></a>00220         showArrowDrag();
+<a name="l00221"></a>00221     }
+<a name="l00222"></a>00222 
+<a name="l00226"></a>00226     <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keywordtype">void</span> loadDataFromModel();
+<a name="l00227"></a>00227 
+<a name="l00231"></a>00231     <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keywordtype">void</span> addModellistener();
+<a name="l00232"></a>00232 
+<a name="l00236"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a02f50aacf0d5390b8ce26f746c2db844">00236</a>     <span class="keyword">protected</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a02f50aacf0d5390b8ce26f746c2db844">showArrowDrag</a>() {
+<a name="l00237"></a>00237     }
+<a name="l00238"></a>00238 
+<a name="l00247"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#aae2d92eb62ab2e78b119087c22ad3335">00247</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#aae2d92eb62ab2e78b119087c22ad3335">registerKeyShortcut</a>(<span class="keywordtype">char</span> key, ActionListener action) {
+<a name="l00248"></a>00248         keyShortcuts.put(key, action);
+<a name="l00249"></a>00249     }
+<a name="l00250"></a>00250 
+<a name="l00254"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#aad941edeb0113bebfa6afeb45a3c7a9f">00254</a>     <span class="keyword">public</span> C <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#aad941edeb0113bebfa6afeb45a3c7a9f">getControl</a>() {
+<a name="l00255"></a>00255         <span class="keywordflow">return</span> control;
+<a name="l00256"></a>00256     }
+<a name="l00257"></a>00257 
+<a name="l00261"></a>00261     <span class="keyword">public</span> <span class="keyword">abstract</span> SimulationType getSimulationType();
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263     <span class="keyword">public</span> Rectangle getSelectionRange() {
+<a name="l00264"></a>00264         <span class="keywordtype">int</span> x = sX;
+<a name="l00265"></a>00265         <span class="keywordtype">int</span> y = sY;
+<a name="l00266"></a>00266         <span class="keywordtype">int</span> w = sWidth;
+<a name="l00267"></a>00267         <span class="keywordtype">int</span> h = sHeight;
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269         x = Math.max(0, x);
+<a name="l00270"></a>00270         y = Math.max(0, y);
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272         <span class="keywordflow">if</span> (sWidth &lt; 0) {
+<a name="l00273"></a>00273             x += sWidth;
+<a name="l00274"></a>00274             w = -sWidth;
+<a name="l00275"></a>00275         }
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277         <span class="keywordflow">if</span> (sHeight &lt; 0) {
+<a name="l00278"></a>00278             y += sHeight;
+<a name="l00279"></a>00279             h = -sHeight;
+<a name="l00280"></a>00280         }
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282         <span class="keywordflow">return</span> <span class="keyword">new</span> Rectangle(x, y, w, h);
+<a name="l00283"></a>00283     }
+<a name="l00284"></a>00284 
+<a name="l00291"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a9a362c0b4e65263a102c74d5efc63b0f">00291</a>     <span class="keyword">protected</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a9a362c0b4e65263a102c74d5efc63b0f">paintSelection</a>(Graphics2D g) {
+<a name="l00292"></a>00292         <span class="comment">// Selektion zeichnen</span>
+<a name="l00293"></a>00293         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1sysintegration_1_1_gui_config.html">GuiConfig</a> cfg = control.getSysintegration().getGuiConfig();
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, cfg.getSelectionAlpha()));
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297         g.setColor(cfg.getSelectionForegroundColor());
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299         Rectangle selectionRange = getSelectionRange();
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301         <span class="keywordtype">int</span> x = (int) selectionRange.getX();
+<a name="l00302"></a>00302         <span class="keywordtype">int</span> y = (int) selectionRange.getY();
+<a name="l00303"></a>00303         <span class="keywordtype">int</span> w = (int) selectionRange.getWidth();
+<a name="l00304"></a>00304         <span class="keywordtype">int</span> h = (int) selectionRange.getHeight();
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306         g.fillRect(x, y, w, h);
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308         g.setColor(cfg.getSelectionColor());
+<a name="l00309"></a>00309         g.drawRect(x, y, w, h);
+<a name="l00310"></a>00310     }
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312     @Override
+<a name="l00313"></a>00313     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> paint(Graphics g1) {
+<a name="l00314"></a>00314         Graphics2D g = (Graphics2D) g1;
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316         g.setColor(Color.WHITE);
+<a name="l00317"></a>00317         g.fillRect(0, 0, getWidth(), getHeight());
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319         <a class="code" href="classbutti_1_1javalibs_1_1util_1_1_draw_helper.html">DrawHelper</a>.antialisingOn(g);
+<a name="l00320"></a>00320 
+<a name="l00321"></a>00321         paintEditor(g);
+<a name="l00322"></a>00322     }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324     <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keywordtype">void</span> paintEditor(Graphics2D g);
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326     <span class="keyword">private</span> <span class="keywordtype">void</span> updateTempSelection() {
+<a name="l00327"></a>00327         Vector&lt;SelectableElement&lt;?&gt;&gt; tmp = <span class="keyword">new</span> Vector&lt;SelectableElement&lt;?&gt;&gt;();
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329         <span class="keywordflow">for</span> (Component c : getComponents()) {
+<a name="l00330"></a>00330             <span class="keywordflow">if</span> (c instanceof SelectableElement) {
+<a name="l00331"></a>00331                 <span class="keywordflow">if</span> (isInSelection(c)) {
+<a name="l00332"></a>00332                     tmp.add((SelectableElement&lt;?&gt;) c);
+<a name="l00333"></a>00333                 }
+<a name="l00334"></a>00334             }
+<a name="l00335"></a>00335         }
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337         selectionModel.setTmpSelection(tmp);
+<a name="l00338"></a>00338     }
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340     <span class="keyword">protected</span> <span class="keywordtype">void</span> paintElements(Graphics2D g) {
+<a name="l00341"></a>00341         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = getComponentCount() - 1; i &gt;= 0; i--) {
+<a name="l00342"></a>00342             Component c = getComponent(i);
+<a name="l00343"></a>00343             <span class="keywordflow">if</span> (c instanceof SelectableElement) {
+<a name="l00344"></a>00344                 paintSubComponent(g, c);
+<a name="l00345"></a>00345             } <span class="keywordflow">else</span> {
+<a name="l00346"></a>00346                 <span class="keywordflow">if</span> (c.isVisible()) {
+<a name="l00347"></a>00347                     Graphics cg = g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+<a name="l00348"></a>00348                     c.paint(cg);
+<a name="l00349"></a>00349                 }
+<a name="l00350"></a>00350             }
+<a name="l00351"></a>00351         }
+<a name="l00352"></a>00352     }
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354     <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keywordtype">void</span> paintSubComponent(Graphics2D g, Component c);
+<a name="l00355"></a>00355 
+<a name="l00361"></a>00361     <span class="keyword">private</span> <span class="keywordtype">boolean</span> isInSelection(Component c) {
+<a name="l00362"></a>00362         <span class="keywordflow">return</span> isInSelection(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+<a name="l00363"></a>00363     }
+<a name="l00364"></a>00364 
+<a name="l00370"></a>00370     <span class="keyword">private</span> <span class="keywordtype">boolean</span> isInSelection(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h) {
+<a name="l00371"></a>00371         Rectangle selectionRange = getSelectionRange();
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373         <span class="keywordtype">int</span> sX = (int) selectionRange.getX();
+<a name="l00374"></a>00374         <span class="keywordtype">int</span> sY = (int) selectionRange.getY();
+<a name="l00375"></a>00375         <span class="keywordtype">int</span> sW = (int) selectionRange.getWidth();
+<a name="l00376"></a>00376         <span class="keywordtype">int</span> sH = (int) selectionRange.getHeight();
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378         <span class="keywordtype">int</span> hw = w / 2;
+<a name="l00379"></a>00379         <span class="keywordtype">int</span> hh = h / 2;
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381         <span class="keywordtype">int</span> ex = x + w;
+<a name="l00382"></a>00382         <span class="keywordtype">int</span> ey = y + h;
+<a name="l00383"></a>00383 
+<a name="l00384"></a>00384         <span class="comment">// obere bzw. linke Hälfe selektiert</span>
+<a name="l00385"></a>00385         <span class="keywordflow">if</span> (x + hw &gt;= sX &amp;&amp; y + hh &gt;= sY &amp;&amp; ex &lt;= sX + sW &amp;&amp; ey &lt;= sY + sH) {
+<a name="l00386"></a>00386             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00387"></a>00387         }
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389         <span class="comment">// Untere bzw. rechte Hälfte selektiert</span>
+<a name="l00390"></a>00390         <span class="keywordflow">if</span> (x &gt;= sX &amp;&amp; y &gt;= sY &amp;&amp; ex - hw &lt;= sX + sW &amp;&amp; ey - hh &lt;= sY + sH) {
+<a name="l00391"></a>00391             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00392"></a>00392         }
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00395"></a>00395     }
+<a name="l00396"></a>00396 
+<a name="l00404"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a1983eabbb2d2c86bafe4be682ebcf946">00404</a>     <span class="keyword">public</span> AbstractDataView&lt;?&gt; <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a1983eabbb2d2c86bafe4be682ebcf946">findGuiComponent</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> b) {
+<a name="l00405"></a>00405         <span class="keywordflow">for</span> (Component c : getComponents()) {
+<a name="l00406"></a>00406             <span class="keywordflow">if</span> (c instanceof AbstractDataView&lt;?&gt;) {
+<a name="l00407"></a>00407                 AbstractDataView&lt;?&gt; e = (AbstractDataView&lt;?&gt;) c;
+<a name="l00408"></a>00408 
+<a name="l00409"></a>00409                 <span class="keywordflow">if</span> (e.getData() == b) {
+<a name="l00410"></a>00410                     <span class="keywordflow">return</span> e;
+<a name="l00411"></a>00411                 }
+<a name="l00412"></a>00412             }
+<a name="l00413"></a>00413         }
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415         <span class="keywordflow">return</span> null;
+<a name="l00416"></a>00416     }
+<a name="l00417"></a>00417 
+<a name="l00426"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a8be5168b19af0ec8a559fbf0cebd9355">00426</a>     <span class="keyword">public</span> SelectableElement&lt;?&gt; <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a8be5168b19af0ec8a559fbf0cebd9355">findGuiComponentForObj</a>(Object o) {
+<a name="l00427"></a>00427         <span class="keywordflow">if</span> (!(o instanceof <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a>)) {
+<a name="l00428"></a>00428             <span class="keywordflow">throw</span> <span class="keyword">new</span> RuntimeException(<span class="stringliteral">&quot;o is not instanceof AbstractSimulationData&quot;</span>);
+<a name="l00429"></a>00429         }
+<a name="l00430"></a>00430         <span class="keywordflow">return</span> findGuiComponent((AbstractSimulationData) o);
+<a name="l00431"></a>00431     }
+<a name="l00432"></a>00432 
+<a name="l00433"></a>00433     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1_undo_handler.html">UndoHandler</a> getUndoHandler() {
+<a name="l00434"></a>00434         <span class="keywordflow">return</span> undoHandler;
+<a name="l00435"></a>00435     }
+<a name="l00436"></a>00436 
+<a name="l00437"></a>00437     <span class="keyword">public</span> ClipboardHandler&lt;C&gt; getClipboard() {
+<a name="l00438"></a>00438         <span class="keywordflow">return</span> clipboard;
+<a name="l00439"></a>00439     }
+<a name="l00440"></a>00440 
+<a name="l00448"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a740a9339132fe2e88069e2ecbaeae7ad">00448</a>     <span class="keyword">protected</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a740a9339132fe2e88069e2ecbaeae7ad">checkSelection</a>(MouseEvent e) {
+<a name="l00449"></a>00449         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00450"></a>00450     }
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452     <span class="keyword">public</span> AbstractDataView&lt;?&gt; getElementAt(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y) {
+<a name="l00453"></a>00453         <span class="keywordflow">for</span> (Component comp : getComponents()) {
+<a name="l00454"></a>00454             <span class="keywordflow">if</span> (comp instanceof AbstractDataView&lt;?&gt; &amp;&amp; comp.getBounds().contains(x, y)) {
+<a name="l00455"></a>00455                 <span class="keywordflow">return</span> (AbstractDataView&lt;?&gt;) comp;
+<a name="l00456"></a>00456             }
+<a name="l00457"></a>00457         }
+<a name="l00458"></a>00458         <span class="keywordflow">return</span> null;
+<a name="l00459"></a>00459     }
+<a name="l00460"></a>00460 
+<a name="l00461"></a>00461     <span class="keyword">public</span> <span class="keywordtype">void</span> selectElement(AbstractSimulationData o) {
+<a name="l00462"></a>00462         selectionModel.clearSelection();
+<a name="l00463"></a>00463 
+<a name="l00464"></a>00464         <span class="keywordflow">for</span> (Component c : getComponents()) {
+<a name="l00465"></a>00465             <span class="keywordflow">if</span> (c instanceof AbstractDataView&lt;?&gt;) {
+<a name="l00466"></a>00466                 AbstractDataView&lt;?&gt; e = ((AbstractDataView&lt;?&gt;) c);
+<a name="l00467"></a>00467                 AbstractSimulationData d = e.getData();
+<a name="l00468"></a>00468                 <span class="keywordflow">if</span> (d.equals(o)) {
+<a name="l00469"></a>00469                     selectionModel.setSelected(e);
+<a name="l00470"></a>00470                     <span class="keywordflow">break</span>;
+<a name="l00471"></a>00471                 }
+<a name="l00472"></a>00472             }
+<a name="l00473"></a>00473         }
+<a name="l00474"></a>00474 
+<a name="l00475"></a>00475     }
+<a name="l00476"></a>00476 
+<a name="l00480"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a1124400324d6bf0c80ebe19e04901095">00480</a>     <span class="keyword">protected</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a1124400324d6bf0c80ebe19e04901095">dataAddedImpl</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> o) {
+<a name="l00481"></a>00481         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00482"></a>00482     }
+<a name="l00483"></a>00483 
+<a name="l00484"></a>00484     @Override
+<a name="l00485"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a69f0853fcfe74f263adb1611b76333cb">00485</a>     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a69f0853fcfe74f263adb1611b76333cb">dataAdded</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> o) {
+<a name="l00486"></a>00486         <span class="keywordflow">if</span> (dataAddedImpl(o)) {
+<a name="l00487"></a>00487             <span class="comment">// nothing to do here</span>
+<a name="l00488"></a>00488         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (o instanceof <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_simulation_global_data.html">SimulationGlobalData</a>) {
+<a name="l00489"></a>00489             add(<span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1elements_1_1global_1_1_global_view.html">GlobalView</a>(o.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html#aae3e0f0c06238c9ba56cf1d716e0f5d4">getWidth</a>(), control, (SimulationGlobalData) o));
+<a name="l00490"></a>00490         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (o instanceof <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_text_data.html">TextData</a>) {
+<a name="l00491"></a>00491             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_text_view.html">TextView</a> view = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_text_view.html">TextView</a>(control, (TextData) o);
+<a name="l00492"></a>00492             add(view);
+<a name="l00493"></a>00493             view.paintText();
+<a name="l00494"></a>00494         } <span class="keywordflow">else</span> {
+<a name="l00495"></a>00495             <span class="keywordflow">throw</span> <span class="keyword">new</span> RuntimeException(<span class="stringliteral">&quot;Unknown SimulationObject: &quot;</span> + o.getClass().getName());
+<a name="l00496"></a>00496         }
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498         revalidate();
+<a name="l00499"></a>00499     }
+<a name="l00500"></a>00500 
+<a name="l00501"></a>00501     @Override
+<a name="l00502"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a570f4751f6e0633330d5a23909f112dc">00502</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a570f4751f6e0633330d5a23909f112dc">dataRemoved</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> o) {
+<a name="l00503"></a>00503         AbstractDataView&lt;?&gt; c = findGuiComponent(o);
+<a name="l00504"></a>00504         <span class="keywordflow">if</span> (c != null) {
+<a name="l00505"></a>00505             <span class="keyword">remove</span>(c);
+<a name="l00506"></a>00506             repaint();
+<a name="l00507"></a>00507             c.dispose();
+<a name="l00508"></a>00508         }
+<a name="l00509"></a>00509     }
+<a name="l00510"></a>00510 
+<a name="l00511"></a>00511     @Override
+<a name="l00512"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a4b41be18fc480f3812c5884115ae36b1">00512</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a4b41be18fc480f3812c5884115ae36b1">dataChanged</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> o) {
+<a name="l00513"></a>00513         revalidate();
+<a name="l00514"></a>00514 
+<a name="l00515"></a>00515         AbstractDataView&lt;?&gt; c = findGuiComponent(o);
+<a name="l00516"></a>00516         <span class="keywordflow">if</span> (c == null) {
+<a name="l00517"></a>00517             repaint();
+<a name="l00518"></a>00518             <span class="keywordflow">return</span>;
+<a name="l00519"></a>00519         }
+<a name="l00520"></a>00520 
+<a name="l00521"></a>00521         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> d = c.getData();
+<a name="l00522"></a>00522         <span class="keywordflow">if</span> (d instanceof <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> &amp;&amp; c instanceof GuiDataTextElement&lt;?&gt;) {
+<a name="l00523"></a>00523             String text = ((<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a>) d).getStatusText();
+<a name="l00524"></a>00524             ((GuiDataTextElement&lt;?&gt;) c).setStatus(text);
+<a name="l00525"></a>00525         }
+<a name="l00526"></a>00526     }
+<a name="l00527"></a>00527 
+<a name="l00528"></a>00528     @Override
+<a name="l00529"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a49e7d88301c2e97aa686b2a2b047e010">00529</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a49e7d88301c2e97aa686b2a2b047e010">dataSaved</a>(<span class="keywordtype">boolean</span> saved) {
+<a name="l00530"></a>00530     }
+<a name="l00531"></a>00531 
+<a name="l00532"></a>00532     @Override
+<a name="l00533"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a957f32f5e1e71d505a97f54ccbf8689c">00533</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1editor_1_1view_1_1_abstract_editor_view_3_01_c_01extends_01_abs832f4af76212e6a37f160f0481f15212.html#a957f32f5e1e71d505a97f54ccbf8689c">clearData</a>() {
+<a name="l00534"></a>00534         removeAll();
+<a name="l00535"></a>00535     }
+<a name="l00536"></a>00536 
+<a name="l00537"></a>00537     <span class="keyword">public</span> <span class="keywordtype">void</span> dispose() {
+<a name="l00538"></a>00538         <span class="keywordflow">if</span> (getControl() != null &amp;&amp; getControl().getModel() != null) {
+<a name="l00539"></a>00539             getControl().getModel().removeListener(<span class="keyword">this</span>);
+<a name="l00540"></a>00540         }
+<a name="l00541"></a>00541         selectionModel.removeSelectionListener(<span class="keyword">this</span>);
+<a name="l00542"></a>00542     }
+<a name="l00543"></a>00543 
+<a name="l00544"></a>00544     <span class="keyword">public</span> <span class="keywordtype">void</span> visitElements(ImageExport export, <span class="keywordtype">boolean</span> onlySelection, <span class="keywordtype">boolean</span> exportHelperPoints) {
+<a name="l00545"></a>00545         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; getComponentCount(); i++) {
+<a name="l00546"></a>00546             Component c = getComponent(i);
+<a name="l00547"></a>00547             <span class="keywordflow">if</span> (!exportHelperPoints &amp;&amp; <span class="stringliteral">&quot;BezierHelperPoint&quot;</span>.equals(c.getClass().getSimpleName())) {
+<a name="l00548"></a>00548                 <span class="keywordflow">continue</span>;
+<a name="l00549"></a>00549             }
+<a name="l00550"></a>00550 
+<a name="l00551"></a>00551             <span class="keywordflow">if</span> (<span class="stringliteral">&quot;ArrowDragView&quot;</span>.equals(c.getClass().getSimpleName())) {
+<a name="l00552"></a>00552                 <span class="keywordflow">continue</span>;
+<a name="l00553"></a>00553             }
+<a name="l00554"></a>00554 
+<a name="l00555"></a>00555             export.draw(c);
+<a name="l00556"></a>00556         }
+<a name="l00557"></a>00557     }
+<a name="l00558"></a>00558 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>AbstractEditorView.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

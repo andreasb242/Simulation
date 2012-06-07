@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<string>true</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>de_CH</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFile</key>
+			<string>SimulationFile.icns</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>simz</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>simz</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>JavaApplicationStub</string>
+	<key>CFBundleIconFile</key>
+	<string>Simulation.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>ch.zhaw.simulation.startup.SimulationMain</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>(AB)² Simulation</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.1</string>
+	<key>Java</key>
+	<dict>
+		<key>SplashFile</key>
+		<string>$APP_PACKAGE/../splash.png</string>
+		<key>VMOptions</key>
+		<string>-Xms32m -Xmx1024m</string>
+		<key>WorkingDirectory</key>
+		<string>$APP_PACKAGE/../</string>
+		<key>New item</key>
+		<string></string>
+		<key>ClassPath</key>
+		<string>$APP_PACKAGE/../lib/freehep-util-2.0.2.jar:$APP_PACKAGE/../lib/freehep-graphicsio-ps-2.1.1.jar:$APP_PACKAGE/../lib/SimulationJepLib-2.4.1.jar:$APP_PACKAGE/../lib/SimulationSidebar.jar:$APP_PACKAGE/../lib/Editor.jar:$APP_PACKAGE/../lib/NetbeansDirchooser.jar:$APP_PACKAGE/../lib/HtmlEditor.jar:$APP_PACKAGE/../lib/ImportFilter.jar:$APP_PACKAGE/../lib/freehep-graphicsio-emf-2.1.1.jar:$APP_PACKAGE/../lib/freehep-graphicsio-2.1.1.jar:$APP_PACKAGE/../lib/Plugin.jar:$APP_PACKAGE/../lib/SimulationDiagram.jar:$APP_PACKAGE/../lib/VectorExport.jar:$APP_PACKAGE/../lib/jxlayer-3.0.4-sources.jar:$APP_PACKAGE/../lib/AppDefinition.jar:$APP_PACKAGE/../lib/XYResultViewer.jar:$APP_PACKAGE/../lib/EditorXY.jar:$APP_PACKAGE/../lib/jcommon-1.0.17.jar:$APP_PACKAGE/../lib/freehep-graphics2d-2.1.1.jar:$APP_PACKAGE/../lib/B-Lib.jar:$APP_PACKAGE/../lib/Model.jar:$APP_PACKAGE/../lib/SimulationPlugin.jar:$APP_PACKAGE/../lib/freehep-xml-2.1.1.jar:$APP_PACKAGE/../lib/EditorFlow.jar:$APP_PACKAGE/../lib/freehep-io-2.0.2.jar:$APP_PACKAGE/../lib/jfreechart-1.0.14.jar:$APP_PACKAGE/../lib/swingx-1.6.jar:$APP_PACKAGE/../lib/Sysintegration.jar:$APP_PACKAGE/../lib/jxlayer-3.0.4.jar:$APP_PACKAGE/../lib/OnscreenKeyboard.jar:$APP_PACKAGE/../lib/freehep-graphicsio-svg-2.1.1.jar:$APP_PACKAGE/../lib/ImageExport.jar:$APP_PACKAGE/../Simulation.jar</string>
+		<key>JVMVersion</key>
+		<string>1.6+</string>
+		<key>MainClass</key>
+		<string>ch.zhaw.simulation.startup.SimulationMain</string>
+		<key>Properties</key>
+		<dict>
+			<key>apple.awt.brushMetalLook</key>
+			<string>true</string>
+			<key>apple.laf.useScreenMenuBar</key>
+			<string>true</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

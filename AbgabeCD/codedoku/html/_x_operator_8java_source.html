@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/xjep/XOperator.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_x_operator_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/xjep/XOperator.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 03-Aug-2003</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.xjep;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> org.nfunk.jep.Operator;
+<a name="l00007"></a>00007 <span class="keyword">import</span> org.nfunk.jep.function.PostfixMathCommandI;
+<a name="l00008"></a>00008 
+<a name="l00032"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">00032</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html">XOperator</a> <span class="keyword">extends</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> {
+<a name="l00034"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#ae68340cb6607d0637686d3bad68db97c">00034</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#ae68340cb6607d0637686d3bad68db97c">NO_ARGS</a> = 0;
+<a name="l00036"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#af637493df18dc1e3c323eafe63767555">00036</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#af637493df18dc1e3c323eafe63767555">UNARY</a> = 1;
+<a name="l00038"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a49eb2c92960c40d9295185ec72af242a">00038</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a49eb2c92960c40d9295185ec72af242a">BINARY</a> = 2;
+<a name="l00040"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a3801599476b5466bb1c0d9bf510746df">00040</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a3801599476b5466bb1c0d9bf510746df">NARY</a> = 3;
+<a name="l00042"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#ac52b59cf75104c393639d23a991f2030">00042</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#ac52b59cf75104c393639d23a991f2030">LEFT</a> = 4;
+<a name="l00044"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a2a617d3bf3a35759dc2b48b84d27a756">00044</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a2a617d3bf3a35759dc2b48b84d27a756">RIGHT</a> = 8;
+<a name="l00046"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a6a546cd16bfd9a37d7863d7a0fd93d2f">00046</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a6a546cd16bfd9a37d7863d7a0fd93d2f">ASSOCIATIVE</a> = 16;
+<a name="l00048"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#aed8a756451c3aaaf94a0b307e0ecf324">00048</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#aed8a756451c3aaaf94a0b307e0ecf324">COMMUTATIVE</a> = 32;
+<a name="l00050"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#acd15631f8b09dc4fff7f9a50d0431c55">00050</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#acd15631f8b09dc4fff7f9a50d0431c55">REFLEXIVE</a> = 64;
+<a name="l00052"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a92b4206e86d719d40d30f8c15ba3cb64">00052</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a92b4206e86d719d40d30f8c15ba3cb64">SYMMETRIC</a> = 128;
+<a name="l00054"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a9d9d62aa9c4455165bb693fa756d0921">00054</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a9d9d62aa9c4455165bb693fa756d0921">TRANSITIVE</a> = 256;
+<a name="l00056"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#aef36b9fd75075c039daf4a85be387da4">00056</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#aef36b9fd75075c039daf4a85be387da4">EQUIVILENCE</a> = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a9d9d62aa9c4455165bb693fa756d0921">TRANSITIVE</a> + <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#acd15631f8b09dc4fff7f9a50d0431c55">REFLEXIVE</a> + <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a92b4206e86d719d40d30f8c15ba3cb64">SYMMETRIC</a>;
+<a name="l00058"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a025265a69c53848463e39a7356c06d06">00058</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a025265a69c53848463e39a7356c06d06">PREFIX</a> = 512;
+<a name="l00063"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a315fc376d86feaefc0f8ee1fbf787e06">00063</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a315fc376d86feaefc0f8ee1fbf787e06">SUFIX</a> = 1024;
+<a name="l00065"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a2eadc10e83472b428d9cd5f06db5ceaf">00065</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a2eadc10e83472b428d9cd5f06db5ceaf">SELF_INVERSE</a> = 2048;
+<a name="l00067"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a6951a5136f4293c3e0333dc3662b4def">00067</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a6951a5136f4293c3e0333dc3662b4def">COMPOSITE</a> = 4096;
+<a name="l00073"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#af3e99c98d2b01ba8b8371fe75f9f0bb6">00073</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#af3e99c98d2b01ba8b8371fe75f9f0bb6">USE_BINDING_FOR_PRINT</a> = 8192;
+<a name="l00075"></a>00075     <span class="keyword">private</span> <span class="keywordtype">int</span> flags;
+<a name="l00076"></a>00076 
+<a name="l00087"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a45552b7effe7d8032a3fbd1539d79587">00087</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a45552b7effe7d8032a3fbd1539d79587">XOperator</a>(String name, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command_i.html">PostfixMathCommandI</a> pfmc, <span class="keywordtype">int</span> flags) {
+<a name="l00088"></a>00088         super(name, pfmc);
+<a name="l00089"></a>00089         this.flags = flags;
+<a name="l00090"></a>00090     }
+<a name="l00091"></a>00091 
+<a name="l00100"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a898ed9d8bfb6b68f779c1c8450691c9b">00100</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a898ed9d8bfb6b68f779c1c8450691c9b">XOperator</a>(String name, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command_i.html">PostfixMathCommandI</a> pfmc, <span class="keywordtype">int</span> flags, <span class="keywordtype">int</span> precedence) {
+<a name="l00101"></a>00101         <span class="keyword">this</span>(name, pfmc, flags);
+<a name="l00102"></a>00102         this.precedence = precedence;
+<a name="l00103"></a>00103     }
+<a name="l00104"></a>00104 
+<a name="l00118"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a23893553ec4a218d08ceccc11c994e23">00118</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a23893553ec4a218d08ceccc11c994e23">XOperator</a>(String name, String symbol, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command_i.html">PostfixMathCommandI</a> pfmc, <span class="keywordtype">int</span> flags) {
+<a name="l00119"></a>00119         super(name, symbol, pfmc);
+<a name="l00120"></a>00120         this.flags = flags;
+<a name="l00121"></a>00121     }
+<a name="l00122"></a>00122 
+<a name="l00131"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a02edac689a67a04dcbff40076f282fa9">00131</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a02edac689a67a04dcbff40076f282fa9">XOperator</a>(String name, String symbol, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command_i.html">PostfixMathCommandI</a> pfmc, <span class="keywordtype">int</span> flags, <span class="keywordtype">int</span> precedence) {
+<a name="l00132"></a>00132         super(name, symbol, pfmc);
+<a name="l00133"></a>00133         this.precedence = precedence;
+<a name="l00134"></a>00134         this.flags = flags;
+<a name="l00135"></a>00135     }
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a45552b7effe7d8032a3fbd1539d79587">XOperator</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <span class="keywordtype">int</span> flags, <span class="keywordtype">int</span> precedence) {
+<a name="l00138"></a>00138         <span class="keyword">this</span>(op.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a853ed2fd586918430ba629afa6a2609b">getName</a>(), op.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a15b22afe89c9a585df0e495659178bc0">getSymbol</a>(), op.getPFMC(), flags, precedence);
+<a name="l00139"></a>00139     }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a45552b7effe7d8032a3fbd1539d79587">XOperator</a>(Operator op, <span class="keywordtype">int</span> flags) {
+<a name="l00142"></a>00142         <span class="keyword">this</span>(op.getName(), op.getSymbol(), op.getPFMC(), flags);
+<a name="l00143"></a>00143     }
+<a name="l00144"></a>00144 
+<a name="l00149"></a>00149     <span class="keyword">private</span> <span class="keywordtype">int</span> precedence = -1;
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">int</span> getPrecedence() {
+<a name="l00152"></a>00152         <span class="keywordflow">return</span> precedence;
+<a name="l00153"></a>00153     }
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155     <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keywordtype">void</span> setPrecedence(<span class="keywordtype">int</span> i) {
+<a name="l00156"></a>00156         precedence = i;
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158 
+<a name="l00160"></a>00160     <span class="keyword">private</span> Operator distribOver[] = <span class="keyword">new</span> Operator[0];
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162     <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keywordtype">void</span> setDistributiveOver(Operator op) {
+<a name="l00163"></a>00163         <span class="keywordtype">int</span> len = distribOver.length;
+<a name="l00164"></a>00164         Operator temp[] = <span class="keyword">new</span> Operator[len + 1];
+<a name="l00165"></a>00165         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; len; ++i)
+<a name="l00166"></a>00166             temp[i] = distribOver[i];
+<a name="l00167"></a>00167         temp[len] = op;
+<a name="l00168"></a>00168         distribOver = temp;
+<a name="l00169"></a>00169     }
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171     <span class="keyword">public</span> <span class="keywordtype">boolean</span> isDistributiveOver(Operator op) {
+<a name="l00172"></a>00172         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; distribOver.length; ++i)
+<a name="l00173"></a>00173             <span class="keywordflow">if</span> (op == distribOver[i])
+<a name="l00174"></a>00174                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00175"></a>00175         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00176"></a>00176     }
+<a name="l00177"></a>00177 
+<a name="l00182"></a>00182     <span class="keyword">private</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#adb2cf38f1f28f2404321c58f25ee69ca">Operator</a> rootOperator = null;
+<a name="l00183"></a>00183     <span class="keyword">private</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#adb2cf38f1f28f2404321c58f25ee69ca">Operator</a> inverseOperator = null;
+<a name="l00184"></a>00184     <span class="keyword">private</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#adb2cf38f1f28f2404321c58f25ee69ca">Operator</a> binaryInverseOperator = null;
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186     <span class="keyword">protected</span> <span class="keywordtype">void</span> setRootOp(Operator root) {
+<a name="l00187"></a>00187         rootOperator = root;
+<a name="l00188"></a>00188     }
+<a name="l00189"></a>00189 
+<a name="l00190"></a>00190     <span class="keyword">protected</span> <span class="keywordtype">void</span> setInverseOp(Operator inv) {
+<a name="l00191"></a>00191         inverseOperator = inv;
+<a name="l00192"></a>00192     }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194     <span class="keyword">protected</span> <span class="keywordtype">void</span> setBinaryInverseOp(Operator inv) {
+<a name="l00195"></a>00195         binaryInverseOperator = inv;
+<a name="l00196"></a>00196     }
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#adb2cf38f1f28f2404321c58f25ee69ca">Operator</a> getRootOp() {
+<a name="l00199"></a>00199         <span class="keywordflow">return</span> rootOperator;
+<a name="l00200"></a>00200     }
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#adb2cf38f1f28f2404321c58f25ee69ca">Operator</a> getInverseOp() {
+<a name="l00203"></a>00203         <span class="keywordflow">return</span> inverseOperator;
+<a name="l00204"></a>00204     }
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#adb2cf38f1f28f2404321c58f25ee69ca">Operator</a> getBinaryInverseOp() {
+<a name="l00207"></a>00207         <span class="keywordflow">return</span> binaryInverseOperator;
+<a name="l00208"></a>00208     }
+<a name="l00209"></a>00209 
+<a name="l00214"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a67b6dad9e0a5e4e079109ad43dfab5ac">00214</a>     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a67b6dad9e0a5e4e079109ad43dfab5ac">getBinding</a>() {
+<a name="l00215"></a>00215         <span class="keywordflow">return</span> (flags &amp; (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#ac52b59cf75104c393639d23a991f2030">LEFT</a> | <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a2a617d3bf3a35759dc2b48b84d27a756">RIGHT</a>));
+<a name="l00216"></a>00216     }
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isAssociative() {
+<a name="l00219"></a>00219         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a6a546cd16bfd9a37d7863d7a0fd93d2f">ASSOCIATIVE</a>) == ASSOCIATIVE);
+<a name="l00220"></a>00220     }
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isCommutative() {
+<a name="l00223"></a>00223         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#aed8a756451c3aaaf94a0b307e0ecf324">COMMUTATIVE</a>) == COMMUTATIVE);
+<a name="l00224"></a>00224     }
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isBinary() {
+<a name="l00227"></a>00227         <span class="keywordflow">return</span> ((flags &amp; 3) == <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a49eb2c92960c40d9295185ec72af242a">BINARY</a>);
+<a name="l00228"></a>00228     }
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isUnary() {
+<a name="l00231"></a>00231         <span class="keywordflow">return</span> ((flags &amp; 3) == <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#af637493df18dc1e3c323eafe63767555">UNARY</a>);
+<a name="l00232"></a>00232     }
+<a name="l00233"></a>00233 
+<a name="l00234"></a>00234     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isNary() {
+<a name="l00235"></a>00235         <span class="keywordflow">return</span> ((flags &amp; 3) == <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a3801599476b5466bb1c0d9bf510746df">NARY</a>);
+<a name="l00236"></a>00236     }
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">int</span> numArgs() {
+<a name="l00239"></a>00239         <span class="keywordflow">return</span> (flags &amp; 3);
+<a name="l00240"></a>00240     }
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isTransitive() {
+<a name="l00243"></a>00243         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a9d9d62aa9c4455165bb693fa756d0921">TRANSITIVE</a>) == TRANSITIVE);
+<a name="l00244"></a>00244     }
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isSymmetric() {
+<a name="l00247"></a>00247         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a92b4206e86d719d40d30f8c15ba3cb64">SYMMETRIC</a>) == SYMMETRIC);
+<a name="l00248"></a>00248     }
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isReflexive() {
+<a name="l00251"></a>00251         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#acd15631f8b09dc4fff7f9a50d0431c55">REFLEXIVE</a>) == REFLEXIVE);
+<a name="l00252"></a>00252     }
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isEquivilence() {
+<a name="l00255"></a>00255         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#aef36b9fd75075c039daf4a85be387da4">EQUIVILENCE</a>) == EQUIVILENCE);
+<a name="l00256"></a>00256     }
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isPrefix() {
+<a name="l00259"></a>00259         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a025265a69c53848463e39a7356c06d06">PREFIX</a>) == PREFIX);
+<a name="l00260"></a>00260     }
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isSufix() {
+<a name="l00263"></a>00263         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a315fc376d86feaefc0f8ee1fbf787e06">SUFIX</a>) == SUFIX);
+<a name="l00264"></a>00264     }
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isComposite() {
+<a name="l00267"></a>00267         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a6951a5136f4293c3e0333dc3662b4def">COMPOSITE</a>) == COMPOSITE);
+<a name="l00268"></a>00268     }
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isSelfInverse() {
+<a name="l00271"></a>00271         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a2eadc10e83472b428d9cd5f06db5ceaf">SELF_INVERSE</a>) == SELF_INVERSE);
+<a name="l00272"></a>00272     }
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> useBindingForPrint() {
+<a name="l00275"></a>00275         <span class="keywordflow">return</span> ((flags &amp; <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#af3e99c98d2b01ba8b8371fe75f9f0bb6">USE_BINDING_FOR_PRINT</a>) == USE_BINDING_FOR_PRINT);
+<a name="l00276"></a>00276     }
+<a name="l00277"></a>00277 
+<a name="l00280"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a0e0ca8ea272db866d5f5717144f718b4">00280</a>     <span class="keyword">public</span> String <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a0e0ca8ea272db866d5f5717144f718b4">toFullString</a>() {
+<a name="l00281"></a>00281         StringBuffer sb = <span class="keyword">new</span> StringBuffer();
+<a name="l00282"></a>00282         sb.append(<span class="stringliteral">&quot;Operator: \&quot;&quot;</span> + <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a15b22afe89c9a585df0e495659178bc0">getSymbol</a>() + <span class="stringliteral">&quot;\&quot;&quot;</span>);
+<a name="l00283"></a>00283         <span class="keywordflow">if</span> (!<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a853ed2fd586918430ba629afa6a2609b">getName</a>().equals(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a15b22afe89c9a585df0e495659178bc0">getSymbol</a>()))
+<a name="l00284"></a>00284             sb.append(<span class="stringliteral">&quot; &quot;</span> + <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a853ed2fd586918430ba629afa6a2609b">getName</a>());
+<a name="l00285"></a>00285         <span class="keywordflow">switch</span> (numArgs()) {
+<a name="l00286"></a>00286         <span class="keywordflow">case</span> 0:
+<a name="l00287"></a>00287             sb.append(<span class="stringliteral">&quot; no arguments,&quot;</span>);
+<a name="l00288"></a>00288             <span class="keywordflow">break</span>;
+<a name="l00289"></a>00289         <span class="keywordflow">case</span> 1:
+<a name="l00290"></a>00290             sb.append(<span class="stringliteral">&quot; unary,&quot;</span>);
+<a name="l00291"></a>00291             <span class="keywordflow">break</span>;
+<a name="l00292"></a>00292         <span class="keywordflow">case</span> 2:
+<a name="l00293"></a>00293             sb.append(<span class="stringliteral">&quot; binary,&quot;</span>);
+<a name="l00294"></a>00294             <span class="keywordflow">break</span>;
+<a name="l00295"></a>00295         <span class="keywordflow">case</span> 3:
+<a name="l00296"></a>00296             sb.append(<span class="stringliteral">&quot; variable number of arguments,&quot;</span>);
+<a name="l00297"></a>00297             <span class="keywordflow">break</span>;
+<a name="l00298"></a>00298         }
+<a name="l00299"></a>00299         <span class="keywordflow">if</span> (isPrefix() &amp;&amp; isSufix())
+<a name="l00300"></a>00300             sb.append(<span class="stringliteral">&quot; trifix,&quot;</span>);
+<a name="l00301"></a>00301         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isPrefix())
+<a name="l00302"></a>00302             sb.append(<span class="stringliteral">&quot; prefix,&quot;</span>);
+<a name="l00303"></a>00303         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isSufix())
+<a name="l00304"></a>00304             sb.append(<span class="stringliteral">&quot; sufix,&quot;</span>);
+<a name="l00305"></a>00305         <span class="keywordflow">else</span>
+<a name="l00306"></a>00306             sb.append(<span class="stringliteral">&quot; infix,&quot;</span>);
+<a name="l00307"></a>00307         <span class="keywordflow">if</span> (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a67b6dad9e0a5e4e079109ad43dfab5ac">getBinding</a>() == <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#ac52b59cf75104c393639d23a991f2030">LEFT</a>)
+<a name="l00308"></a>00308             sb.append(<span class="stringliteral">&quot; left binding,&quot;</span>);
+<a name="l00309"></a>00309         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a67b6dad9e0a5e4e079109ad43dfab5ac">getBinding</a>() == <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_operator.html#a2a617d3bf3a35759dc2b48b84d27a756">RIGHT</a>)
+<a name="l00310"></a>00310             sb.append(<span class="stringliteral">&quot; right binding,&quot;</span>);
+<a name="l00311"></a>00311         <span class="keywordflow">if</span> (isAssociative())
+<a name="l00312"></a>00312             sb.append(<span class="stringliteral">&quot; associative,&quot;</span>);
+<a name="l00313"></a>00313         <span class="keywordflow">if</span> (isCommutative())
+<a name="l00314"></a>00314             sb.append(<span class="stringliteral">&quot; commutative,&quot;</span>);
+<a name="l00315"></a>00315         sb.append(<span class="stringliteral">&quot; precedence &quot;</span> + getPrecedence() + <span class="stringliteral">&quot;,&quot;</span>);
+<a name="l00316"></a>00316         <span class="keywordflow">if</span> (isEquivilence())
+<a name="l00317"></a>00317             sb.append(<span class="stringliteral">&quot; equivilence relation,&quot;</span>);
+<a name="l00318"></a>00318         <span class="keywordflow">else</span> {
+<a name="l00319"></a>00319             <span class="keywordflow">if</span> (isReflexive())
+<a name="l00320"></a>00320                 sb.append(<span class="stringliteral">&quot; reflexive,&quot;</span>);
+<a name="l00321"></a>00321             <span class="keywordflow">if</span> (isSymmetric())
+<a name="l00322"></a>00322                 sb.append(<span class="stringliteral">&quot; symmetric,&quot;</span>);
+<a name="l00323"></a>00323             <span class="keywordflow">if</span> (isTransitive())
+<a name="l00324"></a>00324                 sb.append(<span class="stringliteral">&quot; transitive,&quot;</span>);
+<a name="l00325"></a>00325         }
+<a name="l00326"></a>00326         sb.setCharAt(sb.length() - 1, <span class="charliteral">&#39;.&#39;</span>);
+<a name="l00327"></a>00327         <span class="keywordflow">return</span> sb.toString();
+<a name="l00328"></a>00328     }
+<a name="l00329"></a>00329 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>XOperator.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

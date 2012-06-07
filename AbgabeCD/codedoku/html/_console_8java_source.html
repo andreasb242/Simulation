@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Simulation/src/ch/zhaw/simulation/math/console/Console.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_console_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Simulation/src/ch/zhaw/simulation/math/console/Console.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"></span>
+<a name="l00003"></a>00003 <span class="comment"> JEP 2.4.1, Extensions 1.1.1</span>
+<a name="l00004"></a>00004 <span class="comment">      April 30 2007</span>
+<a name="l00005"></a>00005 <span class="comment">      (c) Copyright 2007, Nathan Funk and Richard Morris</span>
+<a name="l00006"></a>00006 <span class="comment">      See LICENSE-*.txt for license information.</span>
+<a name="l00007"></a>00007 <span class="comment"></span>
+<a name="l00008"></a>00008 <span class="comment"> *****************************************************************************/</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="comment">/*****************************************************************************</span>
+<a name="l00011"></a>00011 <span class="comment"></span>
+<a name="l00012"></a>00012 <span class="comment"> JEP - Java Math Expression Parser 2.24</span>
+<a name="l00013"></a>00013 <span class="comment"> December 30 2002</span>
+<a name="l00014"></a>00014 <span class="comment"> (c) Copyright 2002, Nathan Funk</span>
+<a name="l00015"></a>00015 <span class="comment"> See LICENSE.txt for license information.</span>
+<a name="l00016"></a>00016 <span class="comment"></span>
+<a name="l00017"></a>00017 <span class="comment"> *****************************************************************************/</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="keyword">package </span>ch.zhaw.simulation.math.console;
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="keyword">import</span> java.awt.BorderLayout;
+<a name="l00023"></a>00023 <span class="keyword">import</span> java.awt.event.KeyEvent;
+<a name="l00024"></a>00024 <span class="keyword">import</span> java.awt.event.KeyListener;
+<a name="l00025"></a>00025 <span class="keyword">import</span> java.util.Enumeration;
+<a name="l00026"></a>00026 <span class="keyword">import</span> java.util.StringTokenizer;
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="keyword">import</span> javax.swing.JFrame;
+<a name="l00029"></a>00029 <span class="keyword">import</span> javax.swing.JScrollPane;
+<a name="l00030"></a>00030 <span class="keyword">import</span> javax.swing.JTextArea;
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="keyword">import</span> org.nfunk.jep.FunctionTable;
+<a name="l00033"></a>00033 <span class="keyword">import</span> org.nfunk.jep.JEP;
+<a name="l00034"></a>00034 <span class="keyword">import</span> org.nfunk.jep.Node;
+<a name="l00035"></a>00035 <span class="keyword">import</span> org.nfunk.jep.Operator;
+<a name="l00036"></a>00036 <span class="keyword">import</span> org.nfunk.jep.OperatorSet;
+<a name="l00037"></a>00037 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00038"></a>00038 <span class="keyword">import</span> org.nfunk.jep.SymbolTable;
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="keyword">import</span> ch.zhaw.simulation.icon.IconLoader;
+<a name="l00041"></a>00041 
+<a name="l00080"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html">00080</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html">Console</a> <span class="keyword">extends</span> JFrame implements KeyListener {
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00083"></a>00083 
+<a name="l00085"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">00085</a>     <span class="keyword">protected</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html">JEP</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>;
+<a name="l00086"></a>00086 
+<a name="l00088"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">00088</a>     <span class="keyword">protected</span> JTextArea <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a> = null;
+<a name="l00089"></a>00089 
+<a name="l00091"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a8678640e1c2654cb21bd02cf2eb13b6b">00091</a>     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a8678640e1c2654cb21bd02cf2eb13b6b">Console</a>() {
+<a name="l00092"></a>00092         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+<a name="l00093"></a>00093         setTitle(<span class="stringliteral">&quot;Mathekonsole&quot;</span>);
+<a name="l00094"></a>00094         setIconImage(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1icon_1_1_icon_loader.html">IconLoader</a>.getIcon(<span class="stringliteral">&quot;math&quot;</span>, 128).getImage());
+<a name="l00095"></a>00095         
+<a name="l00096"></a>00096         
+<a name="l00097"></a>00097         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#adf4d1d5f108958eee7773af91400604a">initialise</a>();
+<a name="l00098"></a>00098         this.setLayout(<span class="keyword">new</span> BorderLayout(1, 1));
+<a name="l00099"></a>00099         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a> = <span class="keyword">new</span> JTextArea(<span class="stringliteral">&quot;&quot;</span>, 30, 40);
+<a name="l00100"></a>00100         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a>.setEditable(<span class="keyword">true</span>);
+<a name="l00101"></a>00101         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a>.addKeyListener(<span class="keyword">this</span>);
+<a name="l00102"></a>00102         add(<span class="keyword">new</span> JScrollPane(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a>), BorderLayout.CENTER);
+<a name="l00103"></a>00103         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#af8568811d469759d76188553d9c2b667">printIntroText</a>();
+<a name="l00104"></a>00104         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a9a5d71a0c91a6d2c0b6ea8b0c0f40ef1">print</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4186ebfd28a8b58ea0bfe264d7959209">getPrompt</a>());
+<a name="l00105"></a>00105         
+<a name="l00106"></a>00106         pack();
+<a name="l00107"></a>00107         setLocationRelativeTo(null);
+<a name="l00108"></a>00108     }
+<a name="l00109"></a>00109 
+<a name="l00126"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a0d10339212d8c682316554cf74b49d29">00126</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a0d10339212d8c682316554cf74b49d29">processCommand</a>(String command) {
+<a name="l00127"></a>00127         <span class="keywordflow">if</span> (command.equals(<span class="stringliteral">&quot;quit&quot;</span>) || command.equals(<span class="stringliteral">&quot;exit&quot;</span>))
+<a name="l00128"></a>00128             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130         <span class="keywordflow">if</span> (command.equals(<span class="stringliteral">&quot;help&quot;</span>)) {
+<a name="l00131"></a>00131             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a548d9a7bda009d28ba0248200d570fce">printHelp</a>();
+<a name="l00132"></a>00132             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00133"></a>00133         }
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135         <span class="keywordflow">if</span> (command.equals(<span class="stringliteral">&quot;functions&quot;</span>)) {
+<a name="l00136"></a>00136             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a6b55bd70845257ade4272156ec8b5903">printFuns</a>();
+<a name="l00137"></a>00137             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00138"></a>00138         }
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140         <span class="keywordflow">if</span> (command.equals(<span class="stringliteral">&quot;operators&quot;</span>)) {
+<a name="l00141"></a>00141             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#af163ed857ab8c6d160b13d59e2add1d5">printOps</a>();
+<a name="l00142"></a>00142             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00143"></a>00143         }
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145         <span class="keywordflow">if</span> (command.equals(<span class="stringliteral">&quot;variables&quot;</span>)) {
+<a name="l00146"></a>00146             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4b4e50f6353b93632360582b7a59a0fb">printVars</a>();
+<a name="l00147"></a>00147             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00148"></a>00148         }
+<a name="l00149"></a>00149         <span class="keywordflow">if</span> (!<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a7862beeec1d76c31c29142daaa5d631b">testSpecialCommands</a>(command))
+<a name="l00150"></a>00150             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152         <span class="keywordflow">try</span> {
+<a name="l00153"></a>00153             <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> n = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a3c321f3fea079f421d012e1e828e86d0">parse</a>(command);
+<a name="l00154"></a>00154             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a651cfc044b2f997c56b9b04e54bb256a">processEquation</a>(n);
+<a name="l00155"></a>00155         } <span class="keywordflow">catch</span> (Exception e) {
+<a name="l00156"></a>00156             <span class="keywordflow">return</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5eb13c3b9703d158ad6f76337ef04372">handleError</a>(e);
+<a name="l00157"></a>00157         }
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00160"></a>00160     }
+<a name="l00161"></a>00161 
+<a name="l00163"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#adf4d1d5f108958eee7773af91400604a">00163</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#adf4d1d5f108958eee7773af91400604a">initialise</a>() {
+<a name="l00164"></a>00164         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a> = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html">JEP</a>();
+<a name="l00165"></a>00165         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#ad0551d41376a2e3c1b3c48a3b7ed1d0b">addStandardConstants</a>();
+<a name="l00166"></a>00166         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a2819add2a2a5533ca5ba54c27958e8eb">addStandardFunctions</a>();
+<a name="l00167"></a>00167         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#ac444014c843f634e5efe4d4c6054707b">addComplex</a>();
+<a name="l00168"></a>00168         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a7d37746841d81446820238d6080fcb70">setAllowUndeclared</a>(<span class="keyword">true</span>);
+<a name="l00169"></a>00169         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a096cb12e6d14ef727fcf5f19fb0be8d2">setAllowAssignment</a>(<span class="keyword">true</span>);
+<a name="l00170"></a>00170         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aacd5999499d2104385345a4e0db36247">setImplicitMul</a>(<span class="keyword">true</span>);
+<a name="l00171"></a>00171     }
+<a name="l00172"></a>00172 
+<a name="l00182"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a651cfc044b2f997c56b9b04e54bb256a">00182</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a651cfc044b2f997c56b9b04e54bb256a">processEquation</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00183"></a>00183         Object res = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a6d7656c5a89f9029ac02e56af0e1c489">evaluate</a>(node);
+<a name="l00184"></a>00184         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(res);
+<a name="l00185"></a>00185     }
+<a name="l00186"></a>00186 
+<a name="l00188"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4186ebfd28a8b58ea0bfe264d7959209">00188</a>     <span class="keyword">public</span> String <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4186ebfd28a8b58ea0bfe264d7959209">getPrompt</a>() {
+<a name="l00189"></a>00189         <span class="keywordflow">return</span> <span class="stringliteral">&quot;JEP &gt; &quot;</span>;
+<a name="l00190"></a>00190     }
+<a name="l00191"></a>00191 
+<a name="l00196"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a8c42ff6a004502f685a4a63d198133f8">00196</a>     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a8c42ff6a004502f685a4a63d198133f8">printStdHelp</a>() {
+<a name="l00197"></a>00197         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a> == null)
+<a name="l00198"></a>00198             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;Type &#39;quit&#39; or &#39;exit&#39; to quit, &#39;help&#39; for help.&quot;</span>);
+<a name="l00199"></a>00199         <span class="keywordflow">else</span>
+<a name="l00200"></a>00200             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;Type &#39;help&#39; for help.&quot;</span>);
+<a name="l00201"></a>00201     }
+<a name="l00202"></a>00202 
+<a name="l00204"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a548d9a7bda009d28ba0248200d570fce">00204</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a548d9a7bda009d28ba0248200d570fce">printHelp</a>() {
+<a name="l00205"></a>00205         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a8c42ff6a004502f685a4a63d198133f8">printStdHelp</a>();
+<a name="l00206"></a>00206         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;&#39;functions&#39; lists defined functions&quot;</span>);
+<a name="l00207"></a>00207         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;&#39;operators&#39; lists defined operators&quot;</span>);
+<a name="l00208"></a>00208         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;&#39;variables&#39; lists variables and constants&quot;</span>);
+<a name="l00209"></a>00209     }
+<a name="l00210"></a>00210 
+<a name="l00212"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#af8568811d469759d76188553d9c2b667">00212</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#af8568811d469759d76188553d9c2b667">printIntroText</a>() {
+<a name="l00213"></a>00213         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;JEP Console.&quot;</span>);
+<a name="l00214"></a>00214         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a8c42ff6a004502f685a4a63d198133f8">printStdHelp</a>();
+<a name="l00215"></a>00215     }
+<a name="l00216"></a>00216 
+<a name="l00218"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a6b55bd70845257ade4272156ec8b5903">00218</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a6b55bd70845257ade4272156ec8b5903">printFuns</a>() {
+<a name="l00219"></a>00219         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_function_table.html">FunctionTable</a> ft = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aeac39ec4a216211cd86f1e02993efe8d">getFunctionTable</a>();
+<a name="l00220"></a>00220         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;Known functions:&quot;</span>);
+<a name="l00221"></a>00221         <span class="keywordflow">for</span> (Enumeration&lt;?&gt; loop = ft.keys(); loop.hasMoreElements();) {
+<a name="l00222"></a>00222             String s = (String) loop.nextElement();
+<a name="l00223"></a>00223             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;\t&quot;</span> + s);
+<a name="l00224"></a>00224         }
+<a name="l00225"></a>00225     }
+<a name="l00226"></a>00226 
+<a name="l00228"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#af163ed857ab8c6d160b13d59e2add1d5">00228</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#af163ed857ab8c6d160b13d59e2add1d5">printOps</a>() {
+<a name="l00229"></a>00229         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator_set.html">OperatorSet</a> opset = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#afb1728c81ee9e027c2f45d7facb680c6">getOperatorSet</a>();
+<a name="l00230"></a>00230         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> ops[] = opset.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator_set.html#ae4a0327748a6e5b6c802bc81c592956e">getOperators</a>();
+<a name="l00231"></a>00231         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;Known operators:&quot;</span>);
+<a name="l00232"></a>00232         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; ops.length; ++i)
+<a name="l00233"></a>00233             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;\t&quot;</span> + ops[i].toString());
+<a name="l00234"></a>00234     }
+<a name="l00235"></a>00235 
+<a name="l00237"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4b4e50f6353b93632360582b7a59a0fb">00237</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4b4e50f6353b93632360582b7a59a0fb">printVars</a>() {
+<a name="l00238"></a>00238         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_symbol_table.html">SymbolTable</a> st = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3fbfbec890e6f5f41fa129f0689db668">j</a>.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a775e45334fe3d8c8981395ad35de2bf5">getSymbolTable</a>();
+<a name="l00239"></a>00239         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;Variables:&quot;</span>);
+<a name="l00240"></a>00240         <span class="keywordflow">for</span> (Enumeration&lt;?&gt; loop = st.keys(); loop.hasMoreElements();) {
+<a name="l00241"></a>00241             String s = (String) loop.nextElement();
+<a name="l00242"></a>00242             Object val = st.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_symbol_table.html#af09e17ac4ecbec9cb5afdef754a6d553">getValue</a>(s);
+<a name="l00243"></a>00243             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;\t&quot;</span> + s + <span class="stringliteral">&quot;\t&quot;</span> + val);
+<a name="l00244"></a>00244         }
+<a name="l00245"></a>00245     }
+<a name="l00246"></a>00246 
+<a name="l00264"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a7862beeec1d76c31c29142daaa5d631b">00264</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a7862beeec1d76c31c29142daaa5d631b">testSpecialCommands</a>(String command) {
+<a name="l00265"></a>00265         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00266"></a>00266     }
+<a name="l00267"></a>00267 
+<a name="l00275"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5eb13c3b9703d158ad6f76337ef04372">00275</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5eb13c3b9703d158ad6f76337ef04372">handleError</a>(Exception e) {
+<a name="l00276"></a>00276         <span class="keywordflow">if</span> (e instanceof <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>) {
+<a name="l00277"></a>00277             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;Parse Error: &quot;</span> + e.getMessage());
+<a name="l00278"></a>00278         } <span class="keywordflow">else</span>
+<a name="l00279"></a>00279             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(<span class="stringliteral">&quot;Error: &quot;</span> + e.getClass().getName() + <span class="stringliteral">&quot; &quot;</span> + e.getMessage());
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00282"></a>00282     }
+<a name="l00283"></a>00283 
+<a name="l00291"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ae4ce9840804f58f17111ea72eba86207">00291</a>     <span class="keyword">public</span> String[] <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ae4ce9840804f58f17111ea72eba86207">split</a>(String s) {
+<a name="l00292"></a>00292         StringTokenizer st = <span class="keyword">new</span> StringTokenizer(s);
+<a name="l00293"></a>00293         <span class="keywordtype">int</span> tokCount = st.countTokens();
+<a name="l00294"></a>00294         String res[] = <span class="keyword">new</span> String[tokCount];
+<a name="l00295"></a>00295         <span class="keywordtype">int</span> pos = 0;
+<a name="l00296"></a>00296         <span class="keywordflow">while</span> (st.hasMoreTokens()) {
+<a name="l00297"></a>00297             res[pos++] = st.nextToken();
+<a name="l00298"></a>00298         }
+<a name="l00299"></a>00299         <span class="keywordflow">return</span> res;
+<a name="l00300"></a>00300     }
+<a name="l00301"></a>00301 
+<a name="l00307"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a9a5d71a0c91a6d2c0b6ea8b0c0f40ef1">00307</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a9a5d71a0c91a6d2c0b6ea8b0c0f40ef1">print</a>(Object o) {
+<a name="l00308"></a>00308         String s = null;
+<a name="l00309"></a>00309         <span class="keywordflow">if</span> (o == null)
+<a name="l00310"></a>00310             s = <span class="stringliteral">&quot;null&quot;</span>;
+<a name="l00311"></a>00311         <span class="keywordflow">else</span>
+<a name="l00312"></a>00312             s = o.toString();
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a> != null)
+<a name="l00315"></a>00315             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a>.append(s);
+<a name="l00316"></a>00316         <span class="keywordflow">else</span>
+<a name="l00317"></a>00317             System.out.print(s);
+<a name="l00318"></a>00318     }
+<a name="l00319"></a>00319 
+<a name="l00324"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">00324</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#ac999a49d0839b70005411468aea44213">println</a>(Object o) {
+<a name="l00325"></a>00325         String s = null;
+<a name="l00326"></a>00326         <span class="keywordflow">if</span> (o == null)
+<a name="l00327"></a>00327             s = <span class="stringliteral">&quot;null&quot;</span>;
+<a name="l00328"></a>00328         <span class="keywordflow">else</span>
+<a name="l00329"></a>00329             s = o.toString();
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a> != null)
+<a name="l00332"></a>00332             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a>.append(s + <span class="stringliteral">&quot;\n&quot;</span>);
+<a name="l00333"></a>00333         <span class="keywordflow">else</span>
+<a name="l00334"></a>00334             System.out.println(s);
+<a name="l00335"></a>00335     }
+<a name="l00336"></a>00336 
+<a name="l00340"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3bc8f927d6c6fba2e3f2acabe73ad9e4">00340</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a3bc8f927d6c6fba2e3f2acabe73ad9e4">keyReleased</a>(KeyEvent event) {
+<a name="l00341"></a>00341         <span class="keywordtype">int</span> code = <span class="keyword">event</span>.getKeyCode();
+<a name="l00342"></a>00342         <span class="keywordflow">if</span> (code == KeyEvent.VK_ENTER) {
+<a name="l00343"></a>00343             <span class="keywordtype">int</span> cpos = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a>.getCaretPosition();
+<a name="l00344"></a>00344             String alltext = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a5df8cf14dfc243740ddee05d0af4f7de">ta</a>.getText();
+<a name="l00345"></a>00345             String before = alltext.substring(0, cpos - 1);
+<a name="l00346"></a>00346             <span class="keywordtype">int</span> startOfLine = before.lastIndexOf(<span class="charliteral">&#39;\n&#39;</span>);
+<a name="l00347"></a>00347             <span class="keywordflow">if</span> (startOfLine &gt; 0)
+<a name="l00348"></a>00348                 before = before.substring(startOfLine + 1);
+<a name="l00349"></a>00349             String prompt = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4186ebfd28a8b58ea0bfe264d7959209">getPrompt</a>();
+<a name="l00350"></a>00350             String line = null;
+<a name="l00351"></a>00351             <span class="keywordflow">if</span> (before.startsWith(prompt)) {
+<a name="l00352"></a>00352                 line = before.substring(prompt.length());
+<a name="l00353"></a>00353                 this.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a0d10339212d8c682316554cf74b49d29">processCommand</a>(line);
+<a name="l00354"></a>00354             }
+<a name="l00355"></a>00355             <span class="comment">// System.out.println(&quot;line (&quot;+line+&quot;)&quot;);</span>
+<a name="l00356"></a>00356             <span class="comment">// if(!flag) this.exit();</span>
+<a name="l00357"></a>00357             this.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a9a5d71a0c91a6d2c0b6ea8b0c0f40ef1">print</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1console_1_1_console.html#a4186ebfd28a8b58ea0bfe264d7959209">getPrompt</a>());
+<a name="l00358"></a>00358         }
+<a name="l00359"></a>00359     }
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361     <span class="keyword">public</span> <span class="keywordtype">void</span> keyPressed(KeyEvent arg0) {
+<a name="l00362"></a>00362     }
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364     <span class="keyword">public</span> <span class="keywordtype">void</span> keyTyped(KeyEvent arg0) {
+<a name="l00365"></a>00365     }
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367     <span class="keyword">public</span> String getAppletInfo() {
+<a name="l00368"></a>00368         <span class="keywordflow">return</span> <span class="stringliteral">&quot;Jep Console applet\n&quot;</span> + <span class="stringliteral">&quot;R Morris Mar 2005\n&quot;</span>
+<a name="l00369"></a>00369                 + <span class="stringliteral">&quot;See http://www.singsurf.org/djep/&quot;</span>;
+<a name="l00370"></a>00370     }
+<a name="l00371"></a>00371 
+<a name="l00372"></a>00372 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>Console.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

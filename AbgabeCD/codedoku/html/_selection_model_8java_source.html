@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Model/src/ch/zhaw/simulation/model/selection/SelectionModel.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_selection_model_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Model/src/ch/zhaw/simulation/model/selection/SelectionModel.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.model.selection;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.util.Vector;
+<a name="l00004"></a>00004 
+<a name="l00011"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html">00011</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html">SelectionModel</a> {
+<a name="l00015"></a>00015     <span class="keyword">private</span> Vector&lt;SelectableElement&lt;?&gt;&gt; selected = <span class="keyword">new</span> Vector&lt;SelectableElement&lt;?&gt;&gt;();
+<a name="l00016"></a>00016 
+<a name="l00021"></a>00021     <span class="keyword">private</span> Vector&lt;SelectableElement&lt;?&gt;&gt; tmpSelection = <span class="keyword">new</span> Vector&lt;SelectableElement&lt;?&gt;&gt;();
+<a name="l00022"></a>00022 
+<a name="l00026"></a>00026     <span class="keyword">private</span> Vector&lt;SelectionListener&gt; listener = <span class="keyword">new</span> Vector&lt;SelectionListener&gt;();
+<a name="l00027"></a>00027 
+<a name="l00032"></a>00032     <span class="keyword">private</span> Vector&lt;SelectableElement&lt;?&gt;&gt; dependentElement = <span class="keyword">new</span> Vector&lt;SelectableElement&lt;?&gt;&gt;();
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html">SelectionModel</a>() {
+<a name="l00035"></a>00035     }
+<a name="l00036"></a>00036 
+<a name="l00043"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#acc5d000b10998deb6c4f02ce42646563">00043</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#acc5d000b10998deb6c4f02ce42646563">setSelected</a>(SelectableElement&lt;?&gt;[] elements) {
+<a name="l00044"></a>00044         selected.clear();
+<a name="l00045"></a>00045         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">addSelectedInt</a>(elements);
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047         tmpSelection.clear();
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00050"></a>00050     }
+<a name="l00051"></a>00051 
+<a name="l00058"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#aee620c6c3655ddb14034faa30ae9d03d">00058</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#aee620c6c3655ddb14034faa30ae9d03d">setSelected</a>(SelectableElement&lt;?&gt; e) {
+<a name="l00059"></a>00059         selected.clear();
+<a name="l00060"></a>00060         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">addSelectedInt</a>(e);
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062         tmpSelection.clear();
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00065"></a>00065     }
+<a name="l00066"></a>00066 
+<a name="l00073"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a3a045559336c370d61e9103f006c9fc9">00073</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a3a045559336c370d61e9103f006c9fc9">isDependentElement</a>(SelectableElement&lt;?&gt; e) {
+<a name="l00074"></a>00074         <span class="keywordflow">return</span> dependentElement.contains(e);
+<a name="l00075"></a>00075     }
+<a name="l00076"></a>00076 
+<a name="l00080"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a169c584df4cb348c16370e0345fdec39">00080</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a169c584df4cb348c16370e0345fdec39">setDependentElement</a>(Vector&lt;SelectableElement&lt;?&gt;&gt; elements) {
+<a name="l00081"></a>00081         dependentElement.clear();
+<a name="l00082"></a>00082         dependentElement.addAll(elements);
+<a name="l00083"></a>00083     }
+<a name="l00084"></a>00084 
+<a name="l00088"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a5829ca8dbd81fc8fa1043ddeeebcead5">00088</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a5829ca8dbd81fc8fa1043ddeeebcead5">clearDependentElement</a>() {
+<a name="l00089"></a>00089         dependentElement.clear();
+<a name="l00090"></a>00090     }
+<a name="l00091"></a>00091 
+<a name="l00098"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">00098</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">addSelectedInt</a>(SelectableElement&lt;?&gt;[] elements) {
+<a name="l00099"></a>00099         <span class="keywordflow">for</span> (SelectableElement&lt;?&gt; e : elements) {
+<a name="l00100"></a>00100             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">addSelectedInt</a>(e);
+<a name="l00101"></a>00101         }
+<a name="l00102"></a>00102     }
+<a name="l00103"></a>00103 
+<a name="l00110"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae8703799ad5f257c8660be3712ee7bfc">00110</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae8703799ad5f257c8660be3712ee7bfc">addSelectedInt</a>(SelectableElement&lt;?&gt; e) {
+<a name="l00111"></a>00111         <span class="keywordflow">if</span> (selected.contains(e)) {
+<a name="l00112"></a>00112             <span class="keywordflow">return</span>;
+<a name="l00113"></a>00113         }
+<a name="l00114"></a>00114         selected.add(e);
+<a name="l00115"></a>00115     }
+<a name="l00116"></a>00116 
+<a name="l00120"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ad87565d385d9cdee2dde02d6f285e2f7">00120</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ad87565d385d9cdee2dde02d6f285e2f7">addSelected</a>(SelectableElement&lt;?&gt;[] elements) {
+<a name="l00121"></a>00121         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">addSelectedInt</a>(elements);
+<a name="l00122"></a>00122         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00123"></a>00123     }
+<a name="l00124"></a>00124 
+<a name="l00128"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae39fa9be5eceeab62a9418ab158cee00">00128</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae39fa9be5eceeab62a9418ab158cee00">addSelected</a>(SelectableElement&lt;?&gt; e) {
+<a name="l00129"></a>00129         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">addSelectedInt</a>(e);
+<a name="l00130"></a>00130         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00131"></a>00131     }
+<a name="l00132"></a>00132 
+<a name="l00136"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a22d480404455169b60bcdff132ee8387">00136</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a22d480404455169b60bcdff132ee8387">setTmpSelection</a>(Vector&lt;SelectableElement&lt;?&gt;&gt; tmp) {
+<a name="l00137"></a>00137         tmpSelection.clear();
+<a name="l00138"></a>00138         <span class="keywordflow">for</span> (SelectableElement&lt;?&gt; e : tmp) {
+<a name="l00139"></a>00139             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab738222a5376807ec123269032f09827">addTmpSelection</a>(e);
+<a name="l00140"></a>00140         }
+<a name="l00141"></a>00141         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00142"></a>00142     }
+<a name="l00143"></a>00143 
+<a name="l00147"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a7944331cbebd3b083b10b6db846900f9">00147</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a7944331cbebd3b083b10b6db846900f9">setTmpSelection</a>(SelectableElement&lt;?&gt; elem) {
+<a name="l00148"></a>00148         tmpSelection.clear();
+<a name="l00149"></a>00149         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab738222a5376807ec123269032f09827">addTmpSelection</a>(elem);
+<a name="l00150"></a>00150         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00151"></a>00151     }
+<a name="l00152"></a>00152 
+<a name="l00156"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab738222a5376807ec123269032f09827">00156</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab738222a5376807ec123269032f09827">addTmpSelection</a>(SelectableElement&lt;?&gt; elem) {
+<a name="l00157"></a>00157         <span class="keywordflow">if</span> (!selected.contains(elem)) {
+<a name="l00158"></a>00158             tmpSelection.add(elem);
+<a name="l00159"></a>00159         }
+<a name="l00160"></a>00160     }
+<a name="l00161"></a>00161 
+<a name="l00165"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a4fa2b1eb319f2060adf2f620b77f882e">00165</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a4fa2b1eb319f2060adf2f620b77f882e">acceptTmpSelection</a>() {
+<a name="l00166"></a>00166         <span class="keywordflow">for</span> (SelectableElement&lt;?&gt; e : tmpSelection) {
+<a name="l00167"></a>00167             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a43785c62ed32c7f6948a4a00e5c74d3d">addSelectedInt</a>(e);
+<a name="l00168"></a>00168         }
+<a name="l00169"></a>00169         tmpSelection.clear();
+<a name="l00170"></a>00170         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00171"></a>00171     }
+<a name="l00172"></a>00172 
+<a name="l00176"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#af8aebbd87a96122955aece832564bc25">00176</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#af8aebbd87a96122955aece832564bc25">removeSelected</a>(SelectableElement&lt;?&gt; e) {
+<a name="l00177"></a>00177         selected.remove(e);
+<a name="l00178"></a>00178         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00179"></a>00179     }
+<a name="l00180"></a>00180 
+<a name="l00184"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a365fb115f5a79a31fadbb1c5a6cf27a3">00184</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a365fb115f5a79a31fadbb1c5a6cf27a3">removeSelected</a>(SelectableElement&lt;?&gt;[] elements) {
+<a name="l00185"></a>00185         <span class="keywordflow">for</span> (SelectableElement&lt;?&gt; e : elements) {
+<a name="l00186"></a>00186             selected.remove(e);
+<a name="l00187"></a>00187         }
+<a name="l00188"></a>00188         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00189"></a>00189     }
+<a name="l00190"></a>00190 
+<a name="l00196"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae10823d0c7cb28ef3d05d1f5f055f071">00196</a>     <span class="keyword">public</span> SelectableElement&lt;?&gt; <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae10823d0c7cb28ef3d05d1f5f055f071">getSingleSelectedElement</a>() {
+<a name="l00197"></a>00197         <span class="keywordflow">if</span> (selected.size() == 1) {
+<a name="l00198"></a>00198             <span class="keywordflow">return</span> selected.get(0);
+<a name="l00199"></a>00199         }
+<a name="l00200"></a>00200         <span class="keywordflow">return</span> null;
+<a name="l00201"></a>00201     }
+<a name="l00202"></a>00202 
+<a name="l00208"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab9a08fc5efa5dbf41ff5b2fb70b1f6c1">00208</a>     <span class="keyword">public</span> SelectableElement&lt;?&gt;[] <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab9a08fc5efa5dbf41ff5b2fb70b1f6c1">getSelected</a>() {
+<a name="l00209"></a>00209         Vector&lt;SelectableElement&lt;?&gt;&gt; all = <span class="keyword">new</span> Vector&lt;SelectableElement&lt;?&gt;&gt;();
+<a name="l00210"></a>00210         all.addAll(selected);
+<a name="l00211"></a>00211         all.addAll(tmpSelection);
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213         <span class="keywordflow">return</span> all.toArray(<span class="keyword">new</span> SelectableElement[] {});
+<a name="l00214"></a>00214     }
+<a name="l00215"></a>00215 
+<a name="l00223"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a3757bd89664cb36e8d6aca3e3c50208a">00223</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a3757bd89664cb36e8d6aca3e3c50208a">isSelected</a>(SelectableElement&lt;?&gt; e) {
+<a name="l00224"></a>00224         <span class="keywordflow">return</span> selected.contains(e) || tmpSelection.contains(e);
+<a name="l00225"></a>00225     }
+<a name="l00226"></a>00226 
+<a name="l00230"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a15f0a195105a83561499c57f92cb68de">00230</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a15f0a195105a83561499c57f92cb68de">addSelectionListener</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_listener.html">SelectionListener</a> l) {
+<a name="l00231"></a>00231         listener.add(l);
+<a name="l00232"></a>00232     }
+<a name="l00233"></a>00233 
+<a name="l00237"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ac7c571dd22cd94e3ebb475ef8d3c1b23">00237</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ac7c571dd22cd94e3ebb475ef8d3c1b23">removeSelectionListener</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_listener.html">SelectionListener</a> l) {
+<a name="l00238"></a>00238         listener.remove(l);
+<a name="l00239"></a>00239     }
+<a name="l00240"></a>00240 
+<a name="l00244"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">00244</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>() {
+<a name="l00245"></a>00245         <span class="keywordflow">for</span> (<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_listener.html">SelectionListener</a> l : listener) {
+<a name="l00246"></a>00246             l.selectionChanged();
+<a name="l00247"></a>00247         }
+<a name="l00248"></a>00248     }
+<a name="l00249"></a>00249 
+<a name="l00258"></a>00258     <span class="keyword">private</span> <span class="keywordtype">void</span> fireSelectionMoved(<span class="keywordtype">int</span> dX, <span class="keywordtype">int</span> dY) {
+<a name="l00259"></a>00259         <span class="keywordflow">for</span> (<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_listener.html">SelectionListener</a> l : listener) {
+<a name="l00260"></a>00260             l.selectionMoved(dX, dY);
+<a name="l00261"></a>00261         }
+<a name="l00262"></a>00262     }
+<a name="l00263"></a>00263 
+<a name="l00272"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a4671452d474a537394efec7a30a6a477">00272</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a4671452d474a537394efec7a30a6a477">move</a>(<span class="keywordtype">int</span> dX, <span class="keywordtype">int</span> dY) {
+<a name="l00273"></a>00273         <span class="keywordtype">int</span> moveLeft = -dX;
+<a name="l00274"></a>00274         <span class="keywordtype">int</span> moveTop = -dY;
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276         <span class="keywordflow">for</span> (SelectableElement&lt;?&gt; el : <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab9a08fc5efa5dbf41ff5b2fb70b1f6c1">getSelected</a>()) {
+<a name="l00277"></a>00277             moveLeft = Math.min(moveLeft, el.getX());
+<a name="l00278"></a>00278             moveTop = Math.min(moveTop, el.getY());
+<a name="l00279"></a>00279         }
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281         <span class="keywordflow">for</span> (SelectableElement&lt;?&gt; el : <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab9a08fc5efa5dbf41ff5b2fb70b1f6c1">getSelected</a>()) {
+<a name="l00282"></a>00282             el.moveElement(-moveLeft, -moveTop);
+<a name="l00283"></a>00283         }
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285         fireSelectionMoved(dX, dY);
+<a name="l00286"></a>00286     }
+<a name="l00287"></a>00287 
+<a name="l00291"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae734e27bb52461424ccea630423bf1f5">00291</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ae734e27bb52461424ccea630423bf1f5">clearSelection</a>() {
+<a name="l00292"></a>00292         tmpSelection.clear();
+<a name="l00293"></a>00293         selected.clear();
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00296"></a>00296     }
+<a name="l00297"></a>00297 
+<a name="l00301"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a731b53be7751e1880f890db7cd6e53b0">00301</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a731b53be7751e1880f890db7cd6e53b0">clearTmpSelection</a>() {
+<a name="l00302"></a>00302         tmpSelection.clear();
+<a name="l00303"></a>00303         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a27f099c5eae075cb81502df0c8efc5c3">fireSelectionChanged</a>();
+<a name="l00304"></a>00304     }
+<a name="l00305"></a>00305 
+<a name="l00311"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a3e16a1b50b1867ae122ba4322ff08a47">00311</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#a3e16a1b50b1867ae122ba4322ff08a47">hasSelected</a>() {
+<a name="l00312"></a>00312         <span class="keywordflow">return</span> tmpSelection.size() != 0 || selected.size() != 0;
+<a name="l00313"></a>00313     }
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>SelectionModel.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

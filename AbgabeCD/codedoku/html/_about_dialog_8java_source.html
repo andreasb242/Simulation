@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Simulation/src/ch/zhaw/simulation/dialog/aboutdlg/AboutDialog.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_about_dialog_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Simulation/src/ch/zhaw/simulation/dialog/aboutdlg/AboutDialog.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.dialog.aboutdlg;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.BorderLayout;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.Insets;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> javax.swing.JFrame;
+<a name="l00007"></a>00007 <span class="keyword">import</span> javax.swing.JLabel;
+<a name="l00008"></a>00008 <span class="keyword">import</span> javax.swing.JPanel;
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="keyword">import</span> butti.javalibs.controls.TitleLabel;
+<a name="l00011"></a>00011 <span class="keyword">import</span> butti.javalibs.gui.BDialog;
+<a name="l00012"></a>00012 <span class="keyword">import</span> butti.javalibs.gui.GridBagManager;
+<a name="l00013"></a>00013 <span class="keyword">import</span> ch.zhaw.simulation.util.gui.GradientPanel;
+<a name="l00014"></a>00014 
+<a name="l00020"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html">00020</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html">AboutDialog</a> <span class="keyword">extends</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_b_dialog.html">BDialog</a> {
+<a name="l00021"></a>00021     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023     <span class="keyword">private</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a> gbm;
+<a name="l00024"></a>00024     <span class="keyword">private</span> <span class="keywordtype">int</span> yCoord = 12;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html">AboutDialog</a>(JFrame parent) {
+<a name="l00027"></a>00027         super(parent);
+<a name="l00028"></a>00028         setTitle(<span class="stringliteral">&quot;Info über (AB)² Simulation&quot;</span>);
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030         JPanel headerPanel = <span class="keyword">new</span> JPanel(<span class="keyword">new</span> BorderLayout());
+<a name="l00031"></a>00031         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_header.html">AboutHeader</a> header = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_header.html">AboutHeader</a>();
+<a name="l00032"></a>00032         headerPanel.add(header, BorderLayout.NORTH);
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034         add(headerPanel, BorderLayout.NORTH);
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1util_1_1gui_1_1_gradient_panel.html">GradientPanel</a> panel = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1util_1_1gui_1_1_gradient_panel.html">GradientPanel</a>();
+<a name="l00037"></a>00037         add(panel, BorderLayout.CENTER);
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039         gbm = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a>(panel);
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041         JLabel lbSave = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a>(<span class="stringliteral">&quot;Speicher&quot;</span>);
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(6).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(lbSave);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045         String usedMem = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html#a36f3284b1dfebbfb5d77b267be7b58be">formatMemoryUsage</a>(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047         String allocMem = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html#a36f3284b1dfebbfb5d77b267be7b58be">formatMemoryUsage</a>(Runtime.getRuntime().totalMemory());
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049         String totalMem = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html#a36f3284b1dfebbfb5d77b267be7b58be">formatMemoryUsage</a>(Runtime.getRuntime().maxMemory());
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a285feb6c93201c804d851acfc4c661b2">setInsets</a>(<span class="keyword">new</span> Insets(5, 24, 5, 5)).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(7).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Benutzt:&quot;</span>));
+<a name="l00052"></a>00052         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(7).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(usedMem));
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a285feb6c93201c804d851acfc4c661b2">setInsets</a>(<span class="keyword">new</span> Insets(5, 24, 5, 5)).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(8).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Reserviert:&quot;</span>));
+<a name="l00055"></a>00055         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(8).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(allocMem));
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a285feb6c93201c804d851acfc4c661b2">setInsets</a>(<span class="keyword">new</span> Insets(5, 24, 5, 5)).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(9).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Max. verfügbar:&quot;</span>));
+<a name="l00058"></a>00058         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(9).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(totalMem));
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060         JLabel lbLib = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a>(<span class="stringliteral">&quot;Verwendete Libraries&quot;</span>);
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(11).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a285feb6c93201c804d851acfc4c661b2">setInsets</a>(<span class="keyword">new</span> Insets(30, 5, 5, 5)).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(lbLib);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064         addLib(<span class="stringliteral">&quot;SwingX&quot;</span>, <span class="stringliteral">&quot;http://swinglabs.org/&quot;</span>);
+<a name="l00065"></a>00065         addLib(<span class="stringliteral">&quot;JXLayer&quot;</span>, <span class="stringliteral">&quot;http://http://java.net/projects/jxlayer&quot;</span>);
+<a name="l00066"></a>00066         addLib(<span class="stringliteral">&quot;Jep Java - Math Expression Parser&quot;</span>, <span class="stringliteral">&quot;http://sourceforge.net/projects/jep/&quot;</span>);
+<a name="l00067"></a>00067         addLib(<span class="stringliteral">&quot;Dirchooser from Netbeans Project&quot;</span>, <span class="stringliteral">&quot;http://netbeans.org/&quot;</span>);
+<a name="l00068"></a>00068         addLib(<span class="stringliteral">&quot;JFreeChart&quot;</span>, <span class="stringliteral">&quot;http://www.jfree.org/&quot;</span>);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070         JLabel lbIcons = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a>(<span class="stringliteral">&quot;Verwendete Icons&quot;</span>);
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(100).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a285feb6c93201c804d851acfc4c661b2">setInsets</a>(<span class="keyword">new</span> Insets(30, 5, 5, 5)).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(lbIcons);
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074         yCoord = 101;
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076         addLib(<span class="stringliteral">&quot;Faenza&quot;</span>, <span class="stringliteral">&quot;http://tiheum.deviantart.com/art/Faenza-Icons-173323228&quot;</span>);
+<a name="l00077"></a>00077         addLib(<span class="stringliteral">&quot;Humanity (Ubuntu / Canonical)&quot;</span>, <span class="stringliteral">&quot;https://launchpad.net/humanity&quot;</span>);
+<a name="l00078"></a>00078         addLib(<span class="stringliteral">&quot;Icons wurden teilweise angepasst.&quot;</span>, null);
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080         pack();
+<a name="l00081"></a>00081         setLocationRelativeTo(parent);
+<a name="l00082"></a>00082     }
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084     <span class="keyword">private</span> <span class="keywordtype">void</span> addLib(String name, String url) {
+<a name="l00085"></a>00085         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a285feb6c93201c804d851acfc4c661b2">setInsets</a>(<span class="keyword">new</span> Insets(5, 24, 5, 5)).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(yCoord).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(name));
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087         <span class="keywordflow">if</span> (url != null) {
+<a name="l00088"></a>00088             gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(yCoord++).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_url_label.html">UrlLabel</a>(url));
+<a name="l00089"></a>00089         }
+<a name="l00090"></a>00090     }
+<a name="l00091"></a>00091 
+<a name="l00099"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html#a36f3284b1dfebbfb5d77b267be7b58be">00099</a>     <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classch_1_1zhaw_1_1simulation_1_1dialog_1_1aboutdlg_1_1_about_dialog.html#a36f3284b1dfebbfb5d77b267be7b58be">formatMemoryUsage</a>(<span class="keywordtype">long</span> m) {
+<a name="l00100"></a>00100         <span class="keywordflow">if</span> (m &gt; 1024 * 1024) {
+<a name="l00101"></a>00101             <span class="keywordflow">return</span> (m / 1024 / 1024) + <span class="stringliteral">&quot;MB&quot;</span>;
+<a name="l00102"></a>00102         }
+<a name="l00103"></a>00103         <span class="keywordflow">if</span> (m &gt; 1024) {
+<a name="l00104"></a>00104             <span class="keywordflow">return</span> (m / 1024) + <span class="stringliteral">&quot;KB&quot;</span>;
+<a name="l00105"></a>00105         }
+<a name="l00106"></a>00106         <span class="keywordflow">return</span> m + <span class="stringliteral">&quot;B&quot;</span>;
+<a name="l00107"></a>00107     }
+<a name="l00108"></a>00108 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>AboutDialog.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/xjep/NodeFactory.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_node_factory_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/xjep/NodeFactory.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 16-Nov-2003</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.xjep;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> org.nfunk.jep.ASTConstant;
+<a name="l00007"></a>00007 <span class="keyword">import</span> org.nfunk.jep.ASTFunNode;
+<a name="l00008"></a>00008 <span class="keyword">import</span> org.nfunk.jep.ASTVarNode;
+<a name="l00009"></a>00009 <span class="keyword">import</span> org.nfunk.jep.Node;
+<a name="l00010"></a>00010 <span class="keyword">import</span> org.nfunk.jep.Operator;
+<a name="l00011"></a>00011 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00012"></a>00012 <span class="keyword">import</span> org.nfunk.jep.ParserTreeConstants;
+<a name="l00013"></a>00013 <span class="keyword">import</span> org.nfunk.jep.Variable;
+<a name="l00014"></a>00014 <span class="keyword">import</span> org.nfunk.jep.function.PostfixMathCommandI;
+<a name="l00015"></a>00015 
+<a name="l00024"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html">00024</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html">NodeFactory</a> {
+<a name="l00025"></a>00025     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_jep.html">XJep</a> xj;
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html">NodeFactory</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_jep.html">XJep</a> xj) {
+<a name="l00028"></a>00028         this.xj = xj;
+<a name="l00029"></a>00029     }
+<a name="l00030"></a>00030 
+<a name="l00039"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a8b827207aca689877821f35eb5ce931c">00039</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a8b827207aca689877821f35eb5ce931c">copyChildren</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> children[]) {
+<a name="l00040"></a>00040         <span class="keywordtype">int</span> nchild = children.length;
+<a name="l00041"></a>00041         node.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#a037c1dee72d377ce435c1d2a43bb3ce1">jjtOpen</a>();
+<a name="l00042"></a>00042         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nchild; ++i) {
+<a name="l00043"></a>00043             children[i].<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#a99c4d709e518f390a4c7279475eaa61d">jjtSetParent</a>(node);
+<a name="l00044"></a>00044             node.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#ad660eb06ab4aaa9112bab181d1c4ea74">jjtAddChild</a>(children[i], i);
+<a name="l00045"></a>00045         }
+<a name="l00046"></a>00046         node.<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html#afd05e005e23230fbc3089fa32d805e56">jjtClose</a>();
+<a name="l00047"></a>00047     }
+<a name="l00048"></a>00048 
+<a name="l00055"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">00055</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(Object value) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00056"></a>00056         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> node = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_parser_tree_constants.html">ParserTreeConstants</a>.JJTCONSTANT);
+<a name="l00057"></a>00057         node.setValue(value);
+<a name="l00058"></a>00058         <span class="keywordflow">return</span> node;
+<a name="l00059"></a>00059     }
+<a name="l00060"></a>00060 
+<a name="l00066"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a13957024809217bcb6c817156817736e">00066</a>     <span class="keyword">protected</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a13957024809217bcb6c817156817736e">buildConstantNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00067"></a>00067         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(node.getValue());
+<a name="l00068"></a>00068     }
+<a name="l00069"></a>00069 
+<a name="l00074"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a93ad6cb7624558ff09042e11150885c6">00074</a>     <span class="keyword">protected</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a93ad6cb7624558ff09042e11150885c6">buildConstantNode</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command_i.html">PostfixMathCommandI</a> pfmc, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> children[]) <span class="keywordflow">throws</span> IllegalArgumentException, <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00075"></a>00075         <span class="comment">/*</span>
+<a name="l00076"></a>00076 <span class="comment">         * Stack stack = new Stack(); for(int i=0;i&lt;children.length;++i) {</span>
+<a name="l00077"></a>00077 <span class="comment">         * if(!(children[i] instanceof ASTConstant)) throw new</span>
+<a name="l00078"></a>00078 <span class="comment">         * ParseException(&quot;buildConstantNode: arguments must all be constant nodes&quot;</span>
+<a name="l00079"></a>00079 <span class="comment">         * ); stack.push(((ASTConstant) children[i]).getValue()); }</span>
+<a name="l00080"></a>00080 <span class="comment">         * pfmc.setCurNumberOfParameters(children.length); pfmc.run(stack);</span>
+<a name="l00081"></a>00081 <span class="comment">         * return buildConstantNode(stack.pop());</span>
+<a name="l00082"></a>00082 <span class="comment">         */</span>
+<a name="l00083"></a>00083         Object val = xj.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#af1aed1ac73a5f7f1a1111b6b37af1d10">getEvaluatorVisitor</a>().<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_evaluator_visitor.html#a035fd153f96ae00f8ff301aa3fd72cb4">eval</a>(pfmc, children);
+<a name="l00084"></a>00084         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(val);
+<a name="l00085"></a>00085     }
+<a name="l00086"></a>00086 
+<a name="l00091"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a962c414d94e23278c856336681f5bf6a">00091</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a962c414d94e23278c856336681f5bf6a">buildConstantNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> children[]) <span class="keywordflow">throws</span> IllegalArgumentException, <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00092"></a>00092         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op.getPFMC(), children);
+<a name="l00093"></a>00093     }
+<a name="l00094"></a>00094 
+<a name="l00099"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a7f0681b308a662e957a4f01a3f8692b6">00099</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a7f0681b308a662e957a4f01a3f8692b6">buildConstantNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child1, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child2) <span class="keywordflow">throws</span> IllegalArgumentException, <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00100"></a>00100         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op.getPFMC(), <span class="keyword">new</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] { child1, child2 });
+<a name="l00101"></a>00101     }
+<a name="l00102"></a>00102 
+<a name="l00107"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab20c41f62933756f40033389c2d0912d">00107</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab20c41f62933756f40033389c2d0912d">buildConstantNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child1) <span class="keywordflow">throws</span> IllegalArgumentException, <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00108"></a>00108         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aeac8d5efee31ecfe9cfc1d6554bbfb40">buildConstantNode</a>(op.getPFMC(), <span class="keyword">new</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] { child1 });
+<a name="l00109"></a>00109     }
+<a name="l00110"></a>00110 
+<a name="l00116"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ae9e7d1f3d0d9dd09471785a32ac1f3a4">00116</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_var_node.html">ASTVarNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ae9e7d1f3d0d9dd09471785a32ac1f3a4">buildVariableNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_var_node.html">ASTVarNode</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00117"></a>00117         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ae9e7d1f3d0d9dd09471785a32ac1f3a4">buildVariableNode</a>(node.getVar());
+<a name="l00118"></a>00118     }
+<a name="l00119"></a>00119 
+<a name="l00126"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a103ccfdb2820dd185b4c6517c83ba8d4">00126</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_var_node.html">ASTVarNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a103ccfdb2820dd185b4c6517c83ba8d4">buildVariableNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html">Variable</a> var) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00127"></a>00127         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_var_node.html">ASTVarNode</a> node = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_var_node.html">ASTVarNode</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_parser_tree_constants.html">ParserTreeConstants</a>.JJTVARNODE);
+<a name="l00128"></a>00128         node.setVar(var);
+<a name="l00129"></a>00129         <span class="keywordflow">return</span> node;
+<a name="l00130"></a>00130     }
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_var_node.html">ASTVarNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ae9e7d1f3d0d9dd09471785a32ac1f3a4">buildVariableNode</a>(String name, <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html">Variable</a> value) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00133"></a>00133         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ae9e7d1f3d0d9dd09471785a32ac1f3a4">buildVariableNode</a>(xj.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a775e45334fe3d8c8981395ad35de2bf5">getSymbolTable</a>().<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_symbol_table.html#a294f6090d94f17a545c98a447d5b91ec">addVariable</a>(name, value));
+<a name="l00134"></a>00134     }
+<a name="l00135"></a>00135 
+<a name="l00147"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">00147</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] arguments) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00148"></a>00148         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> res = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_parser_tree_constants.html">ParserTreeConstants</a>.JJTFUNNODE);
+<a name="l00149"></a>00149         res.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html#aff7a901618673e88cc3d413ab7f34222">setOperator</a>(op);
+<a name="l00150"></a>00150         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a8b827207aca689877821f35eb5ce931c">copyChildren</a>(res, arguments);
+<a name="l00151"></a>00151         <span class="keywordflow">return</span> res;
+<a name="l00152"></a>00152     }
+<a name="l00153"></a>00153 
+<a name="l00167"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a228f29b8e6031ae42fa20262d19dde36">00167</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a228f29b8e6031ae42fa20262d19dde36">buildFunctionNode</a>(String name, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command_i.html">PostfixMathCommandI</a> pfmc, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] arguments) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00168"></a>00168         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> res = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_parser_tree_constants.html">ParserTreeConstants</a>.JJTFUNNODE);
+<a name="l00169"></a>00169         res.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html#a8ad0638b7194fbf08b649b68f57ac398">setFunction</a>(name, pfmc);
+<a name="l00170"></a>00170         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a8b827207aca689877821f35eb5ce931c">copyChildren</a>(res, arguments);
+<a name="l00171"></a>00171         <span class="keywordflow">return</span> res;
+<a name="l00172"></a>00172     }
+<a name="l00173"></a>00173 
+<a name="l00178"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aea812b4934fd7fc79ce591c99e55b1f3">00178</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#aea812b4934fd7fc79ce591c99e55b1f3">buildUnfinishedOperatorNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op) {
+<a name="l00179"></a>00179         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> res = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_parser_tree_constants.html">ParserTreeConstants</a>.JJTFUNNODE);
+<a name="l00180"></a>00180         res.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html#aff7a901618673e88cc3d413ab7f34222">setOperator</a>(op);
+<a name="l00181"></a>00181         <span class="keywordflow">return</span> res;
+<a name="l00182"></a>00182     }
+<a name="l00183"></a>00183 
+<a name="l00190"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a2621a11adfd958242a45d43c93e75b9d">00190</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a2621a11adfd958242a45d43c93e75b9d">buildOperatorNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> child) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00191"></a>00191         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(op, <span class="keyword">new</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] { child });
+<a name="l00192"></a>00192     }
+<a name="l00193"></a>00193 
+<a name="l00200"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a4c94a31b0f290043b4dace3ddc52bef1">00200</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a4c94a31b0f290043b4dace3ddc52bef1">buildOperatorNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> op, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> lhs, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> rhs) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00201"></a>00201         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(op, <span class="keyword">new</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] { lhs, rhs });
+<a name="l00202"></a>00202     }
+<a name="l00203"></a>00203 
+<a name="l00215"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a35f0b4e978db5b72ecb68649100387ac">00215</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a35f0b4e978db5b72ecb68649100387ac">buildFunctionNode</a>(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_fun_node.html">ASTFunNode</a> node, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a>[] arguments) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00216"></a>00216         <span class="keywordflow">if</span> (node.getOperator() != null)
+<a name="l00217"></a>00217             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#ab7c6eee50fc90fa1d245ef822fddff1a">buildOperatorNode</a>(node.getOperator(), arguments);
+<a name="l00218"></a>00218         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html#a228f29b8e6031ae42fa20262d19dde36">buildFunctionNode</a>(node.getName(), node.getPFMC(), arguments);
+<a name="l00219"></a>00219     }
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>NodeFactory.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

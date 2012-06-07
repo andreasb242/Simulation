@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/NetbeansDirchooser/src/org/openide/util/TaskListener.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_task_listener_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/NetbeansDirchooser/src/org/openide/util/TaskListener.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.</span>
+<a name="l00003"></a>00003 <span class="comment"> *</span>
+<a name="l00004"></a>00004 <span class="comment"> * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.</span>
+<a name="l00005"></a>00005 <span class="comment"> *</span>
+<a name="l00006"></a>00006 <span class="comment"> * Oracle and Java are registered trademarks of Oracle and/or its affiliates.</span>
+<a name="l00007"></a>00007 <span class="comment"> * Other names may be trademarks of their respective owners.</span>
+<a name="l00008"></a>00008 <span class="comment"> *</span>
+<a name="l00009"></a>00009 <span class="comment"> * The contents of this file are subject to the terms of either the GNU</span>
+<a name="l00010"></a>00010 <span class="comment"> * General Public License Version 2 only (&quot;GPL&quot;) or the Common</span>
+<a name="l00011"></a>00011 <span class="comment"> * Development and Distribution License(&quot;CDDL&quot;) (collectively, the</span>
+<a name="l00012"></a>00012 <span class="comment"> * &quot;License&quot;). You may not use this file except in compliance with the</span>
+<a name="l00013"></a>00013 <span class="comment"> * License. You can obtain a copy of the License at</span>
+<a name="l00014"></a>00014 <span class="comment"> * http://www.netbeans.org/cddl-gplv2.html</span>
+<a name="l00015"></a>00015 <span class="comment"> * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the</span>
+<a name="l00016"></a>00016 <span class="comment"> * specific language governing permissions and limitations under the</span>
+<a name="l00017"></a>00017 <span class="comment"> * License.  When distributing the software, include this License Header</span>
+<a name="l00018"></a>00018 <span class="comment"> * Notice in each file and include the License file at</span>
+<a name="l00019"></a>00019 <span class="comment"> * nbbuild/licenses/CDDL-GPL-2-CP.  Oracle designates this</span>
+<a name="l00020"></a>00020 <span class="comment"> * particular file as subject to the &quot;Classpath&quot; exception as provided</span>
+<a name="l00021"></a>00021 <span class="comment"> * by Oracle in the GPL Version 2 section of the License file that</span>
+<a name="l00022"></a>00022 <span class="comment"> * accompanied this code. If applicable, add the following below the</span>
+<a name="l00023"></a>00023 <span class="comment"> * License Header, with the fields enclosed by brackets [] replaced by</span>
+<a name="l00024"></a>00024 <span class="comment"> * your own identifying information:</span>
+<a name="l00025"></a>00025 <span class="comment"> * &quot;Portions Copyrighted [year] [name of copyright owner]&quot;</span>
+<a name="l00026"></a>00026 <span class="comment"> *</span>
+<a name="l00027"></a>00027 <span class="comment"> * Contributor(s):</span>
+<a name="l00028"></a>00028 <span class="comment"> *</span>
+<a name="l00029"></a>00029 <span class="comment"> * The Original Software is NetBeans. The Initial Developer of the Original</span>
+<a name="l00030"></a>00030 <span class="comment"> * Software is Sun Microsystems, Inc. Portions Copyright 1997-2006 Sun</span>
+<a name="l00031"></a>00031 <span class="comment"> * Microsystems, Inc. All Rights Reserved.</span>
+<a name="l00032"></a>00032 <span class="comment"> *</span>
+<a name="l00033"></a>00033 <span class="comment"> * If you wish your version of this file to be governed by only the CDDL</span>
+<a name="l00034"></a>00034 <span class="comment"> * or only the GPL Version 2, indicate your decision by adding</span>
+<a name="l00035"></a>00035 <span class="comment"> * &quot;[Contributor] elects to include this software in this distribution</span>
+<a name="l00036"></a>00036 <span class="comment"> * under the [CDDL or GPL Version 2] license.&quot; If you do not indicate a</span>
+<a name="l00037"></a>00037 <span class="comment"> * single choice of license, a recipient has the option to distribute</span>
+<a name="l00038"></a>00038 <span class="comment"> * your version of this file under either the CDDL, the GPL Version 2 or</span>
+<a name="l00039"></a>00039 <span class="comment"> * to extend the choice of license to its licensees as provided above.</span>
+<a name="l00040"></a>00040 <span class="comment"> * However, if you add GPL Version 2 code and therefore, elected the GPL</span>
+<a name="l00041"></a>00041 <span class="comment"> * Version 2 license, then the option applies only if the new code is</span>
+<a name="l00042"></a>00042 <span class="comment"> * made subject to such option by the copyright holder.</span>
+<a name="l00043"></a>00043 <span class="comment"> */</span>
+<a name="l00044"></a>00044 <span class="keyword">package </span>org.openide.util;
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 <span class="keyword">import</span> java.util.EventListener;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 
+<a name="l00054"></a><a class="code" href="interfaceorg_1_1openide_1_1util_1_1_task_listener.html">00054</a> <span class="keyword">public</span> interface <a class="code" href="interfaceorg_1_1openide_1_1util_1_1_task_listener.html">TaskListener</a> extends EventListener {
+<a name="l00058"></a>00058     <span class="keyword">public</span> <span class="keywordtype">void</span> taskFinished(<a class="code" href="classorg_1_1openide_1_1util_1_1_task.html">Task</a> task);
+<a name="l00059"></a>00059 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>TaskListener.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

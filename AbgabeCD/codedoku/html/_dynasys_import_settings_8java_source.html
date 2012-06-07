@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/ImportFilter.Dynasys/src/ch/zhaw/simulation/inexport/gui/settings/DynasysImportSettings.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_dynasys_import_settings_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/ImportFilter.Dynasys/src/ch/zhaw/simulation/inexport/gui/settings/DynasysImportSettings.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.inexport.gui.settings;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.Component;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.Font;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.awt.GridBagConstraints;
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.awt.event.ActionListener;
+<a name="l00008"></a>00008 <span class="keyword">import</span> java.awt.event.FocusAdapter;
+<a name="l00009"></a>00009 <span class="keyword">import</span> java.awt.event.FocusEvent;
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="keyword">import</span> javax.swing.JButton;
+<a name="l00012"></a>00012 <span class="keyword">import</span> javax.swing.JCheckBox;
+<a name="l00013"></a>00013 <span class="keyword">import</span> javax.swing.JLabel;
+<a name="l00014"></a>00014 <span class="keyword">import</span> javax.swing.JPanel;
+<a name="l00015"></a>00015 <span class="keyword">import</span> javax.swing.JSpinner;
+<a name="l00016"></a>00016 <span class="keyword">import</span> javax.swing.SpinnerNumberModel;
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="keyword">import</span> butti.javalibs.config.Settings;
+<a name="l00019"></a>00019 <span class="keyword">import</span> butti.javalibs.gui.GridBagManager;
+<a name="l00020"></a>00020 <span class="keyword">import</span> ch.zhaw.simulation.inexport.dynasys.DynasysModel;
+<a name="l00021"></a>00021 
+<a name="l00027"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1inexport_1_1gui_1_1settings_1_1_dynasys_import_settings.html">00027</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1inexport_1_1gui_1_1settings_1_1_dynasys_import_settings.html">DynasysImportSettings</a> <span class="keyword">extends</span> JPanel {
+<a name="l00028"></a>00028     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     <span class="keyword">private</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a> gbm;
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     <span class="keyword">private</span> JSpinner txtScale = <span class="keyword">new</span> JSpinner(<span class="keyword">new</span> SpinnerNumberModel(1.0, 0.5, 5.0, 0.1));
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     <span class="keyword">private</span> JCheckBox cbAlign = <span class="keyword">new</span> JCheckBox(<span class="stringliteral">&quot;Dokument automatisch neu ausrichten&quot;</span>);
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036     <span class="keyword">private</span> JSpinner paddingTop = <span class="keyword">new</span> JSpinner(<span class="keyword">new</span> SpinnerNumberModel(10, 0, 100, 1));
+<a name="l00037"></a>00037     <span class="keyword">private</span> JSpinner paddingLeft = <span class="keyword">new</span> JSpinner(<span class="keyword">new</span> SpinnerNumberModel(10, 0, 100, 1));
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     <span class="keyword">private</span> JSpinner flowpointMove = <span class="keyword">new</span> JSpinner(<span class="keyword">new</span> SpinnerNumberModel(10, -50, 50, 1));
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041     <span class="keyword">private</span> Component lbPaddingTop;
+<a name="l00042"></a>00042     <span class="keyword">private</span> Component lbPaddingLeft;
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1inexport_1_1dynasys_1_1_dynasys_model.html">DynasysModel</a> model;
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1inexport_1_1gui_1_1settings_1_1_dynasys_import_settings.html">DynasysImportSettings</a>(<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html">Settings</a> settings) {
+<a name="l00047"></a>00047         gbm = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a>(<span class="keyword">this</span>);
+<a name="l00048"></a>00048         model = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1inexport_1_1dynasys_1_1_dynasys_model.html">DynasysModel</a>(settings);
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Skalierungsfaktor&quot;</span>));
+<a name="l00051"></a>00051         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(txtScale);
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0)
+<a name="l00054"></a>00054                 .<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(2)
+<a name="l00055"></a>00055                 .<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(1)
+<a name="l00056"></a>00056                 .<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0)
+<a name="l00057"></a>00057                 .<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(
+<a name="l00058"></a>00058                         getInfolabel(<span class="stringliteral">&quot;&lt;html&gt;Dynasys Symbole sind viel kleiner als unsere,&lt;br&gt;daher kann das ganze Dokument skaliert werden,&lt;br&gt;um es ordnungsgemäss darzustellen.&lt;/html&gt;&quot;</span>));
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(3).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Flusssymbol verschieben (Y)&quot;</span>));
+<a name="l00061"></a>00061         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(3).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(flowpointMove);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063         cbAlign.setFont(cbAlign.getFont().deriveFont(Font.BOLD));
+<a name="l00064"></a>00064         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(10).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(cbAlign);
+<a name="l00065"></a>00065         lbPaddingTop = gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(11).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Abstand oben&quot;</span>));
+<a name="l00066"></a>00066         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(11).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(paddingTop);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068         lbPaddingLeft = gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(12).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Abstand links&quot;</span>));
+<a name="l00069"></a>00069         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(12).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(paddingLeft);
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071         JButton reset = <span class="keyword">new</span> JButton(<span class="stringliteral">&quot;Zurücksetzten&quot;</span>);
+<a name="l00072"></a>00072         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(20).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#ad537cd6be8bd24614e93de0b3ccd3f99">setFill</a>(GridBagConstraints.NONE).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aff0b311f374cbeb31fb9a4424569d03b">setAnchor</a>(GridBagConstraints.LINE_END).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(reset);
+<a name="l00073"></a>00073         reset.addActionListener(<span class="keyword">new</span> ActionListener() {
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075             @Override
+<a name="l00076"></a>00076             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00077"></a>00077                 model.reset();
+<a name="l00078"></a>00078                 readDataFromModel();
+<a name="l00079"></a>00079             }
+<a name="l00080"></a>00080         });
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082         initData();
+<a name="l00083"></a>00083         readDataFromModel();
+<a name="l00084"></a>00084     }
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086     <span class="keyword">private</span> <span class="keywordtype">void</span> initData() {
+<a name="l00087"></a>00087         txtScale.addFocusListener(<span class="keyword">new</span> FocusAdapter() {
+<a name="l00088"></a>00088             @Override
+<a name="l00089"></a>00089             <span class="keyword">public</span> <span class="keywordtype">void</span> focusLost(FocusEvent e) {
+<a name="l00090"></a>00090                 model.setScaleFactor((Double) txtScale.getValue());
+<a name="l00091"></a>00091             }
+<a name="l00092"></a>00092         });
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094         cbAlign.addActionListener(<span class="keyword">new</span> ActionListener() {
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096             @Override
+<a name="l00097"></a>00097             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00098"></a>00098                 realignStateChanged();
+<a name="l00099"></a>00099             }
+<a name="l00100"></a>00100         });
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102         paddingLeft.addFocusListener(<span class="keyword">new</span> FocusAdapter() {
+<a name="l00103"></a>00103             @Override
+<a name="l00104"></a>00104             <span class="keyword">public</span> <span class="keywordtype">void</span> focusLost(FocusEvent e) {
+<a name="l00105"></a>00105                 model.setPaddingLeft((Integer) paddingLeft.getValue());
+<a name="l00106"></a>00106             }
+<a name="l00107"></a>00107         });
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109         paddingTop.addFocusListener(<span class="keyword">new</span> FocusAdapter() {
+<a name="l00110"></a>00110             @Override
+<a name="l00111"></a>00111             <span class="keyword">public</span> <span class="keywordtype">void</span> focusLost(FocusEvent e) {
+<a name="l00112"></a>00112                 model.setPaddingTop((Integer) paddingTop.getValue());
+<a name="l00113"></a>00113             }
+<a name="l00114"></a>00114         });
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116         flowpointMove.addFocusListener(<span class="keyword">new</span> FocusAdapter() {
+<a name="l00117"></a>00117             @Override
+<a name="l00118"></a>00118             <span class="keyword">public</span> <span class="keywordtype">void</span> focusLost(FocusEvent e) {
+<a name="l00119"></a>00119                 model.setFlowPointMove((Integer) flowpointMove.getValue());
+<a name="l00120"></a>00120             }
+<a name="l00121"></a>00121         });
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123     }
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125     <span class="keyword">private</span> <span class="keywordtype">void</span> readDataFromModel() {
+<a name="l00126"></a>00126         txtScale.setValue(model.getScaleFactor());
+<a name="l00127"></a>00127         cbAlign.setSelected(model.isRealign());
+<a name="l00128"></a>00128         paddingTop.setValue(model.getPaddingTop());
+<a name="l00129"></a>00129         paddingLeft.setValue(model.getPaddingLeft());
+<a name="l00130"></a>00130         flowpointMove.setValue(model.getFlowPointMove());
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132         realignStateChanged();
+<a name="l00133"></a>00133     }
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     <span class="keyword">protected</span> <span class="keywordtype">void</span> realignStateChanged() {
+<a name="l00136"></a>00136         <span class="keywordtype">boolean</span> b = cbAlign.isSelected();
+<a name="l00137"></a>00137         model.setRealign(b);
+<a name="l00138"></a>00138         lbPaddingLeft.setEnabled(b);
+<a name="l00139"></a>00139         lbPaddingTop.setEnabled(b);
+<a name="l00140"></a>00140         paddingLeft.setEnabled(b);
+<a name="l00141"></a>00141         paddingTop.setEnabled(b);
+<a name="l00142"></a>00142     }
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144     <span class="keyword">private</span> JLabel getInfolabel(String text) {
+<a name="l00145"></a>00145         JLabel lb = <span class="keyword">new</span> JLabel(text);
+<a name="l00146"></a>00146         lb.setFont(lb.getFont().deriveFont(Font.ITALIC));
+<a name="l00147"></a>00147         <span class="keywordflow">return</span> lb;
+<a name="l00148"></a>00148     }
+<a name="l00149"></a>00149 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>DynasysImportSettings.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

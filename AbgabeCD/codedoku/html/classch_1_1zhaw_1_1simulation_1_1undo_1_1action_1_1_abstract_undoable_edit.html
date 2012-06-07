@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: ch.zhaw.simulation.undo.action.AbstractUndoableEdit Klassenreferenz</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Klassen</span></a></li>
+      <li><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Auflistung&#160;der&#160;Klassen</span></a></li>
+      <li><a href="classes.html"><span>Klassen-Verzeichnis</span></a></li>
+      <li><a href="hierarchy.html"><span>Klassenhierarchie</span></a></li>
+      <li><a href="functions.html"><span>Klassen-Elemente</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Öffentliche Methoden</a> &#124;
+<a href="#pro-attribs">Geschützte Attribute</a>  </div>
+  <div class="headertitle">
+<h1>ch.zhaw.simulation.undo.action.AbstractUndoableEdit Klassenreferenz</h1>  </div>
+</div>
+<div class="contents">
+<!-- doxytag: class="ch::zhaw::simulation::undo::action::AbstractUndoableEdit" --><!-- doxytag: inherits="javax::swing::undo::UndoableEdit" -->
+<p>Abgeleitet von javax::swing::undo::UndoableEdit.</p>
+
+<p>Basisklasse für <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_add_named_simulation_undo_action.html">ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_add_connector_undo_action.html">ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_delete_undo_action.html">ch.zhaw.simulation.undo.action.flow.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_formula_change_undo_action.html">ch.zhaw.simulation.undo.action.FormulaChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_layout_undo_action.html">ch.zhaw.simulation.undo.action.LayoutUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_name_change_undo_action.html">ch.zhaw.simulation.undo.action.NameChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_position_undo_action.html">ch.zhaw.simulation.undo.action.PositionUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_resize_undo_action.html">ch.zhaw.simulation.undo.action.ResizeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_text_edit_undo_action.html">ch.zhaw.simulation.undo.action.TextEditUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_change_density_undo_action.html">ch.zhaw.simulation.undo.action.xy.ChangeDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_create_density_undo_action.html">ch.zhaw.simulation.undo.action.xy.CreateDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_density_undo_action.html">ch.zhaw.simulation.undo.action.xy.DeleteDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_undo_action.html">ch.zhaw.simulation.undo.action.xy.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_assign_undo_action.html">ch.zhaw.simulation.undo.action.xy.SubModelAssignUndoAction</a> und <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_create_undo_action.html">ch.zhaw.simulation.undo.action.xy.SubModelCreateUndoAction</a>.</p>
+
+<p><a href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit-members.html">Aufstellung aller Elemente</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-methods"></a>
+Öffentliche Methoden</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#a14747e7828f8f40ecc841ca2f500ccb2">AbstractUndoableEdit</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aaebfee7150764e055303cb8d2b960485">die</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#afaeca31d799effcf750079b002d5a527">undo</a> ()  throws CannotUndoException </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#ae26494b37809ae66ba29cbc211895403">canUndo</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#af69a47bfc38ee33b0b12c1032b70be6c">redo</a> ()  throws CannotRedoException </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aee657bc7104c0b8a2a727910e3ba85f4">canRedo</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#a5bc98ba937aad232d1601d7470af1145">addEdit</a> (UndoableEdit anEdit)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aa82ca6f510ef3a9090e3bfe50d650cd7">replaceEdit</a> (UndoableEdit anEdit)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aa6f4dd0cfbd4b9e60a2996275d3bffa2">isSignificant</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#a90e6f80e506124b247507f6d3d76c629">getPresentationName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">abstract String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#ab46f9b41fceca4c933ba56430f39c890">getUndoPresentationName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">abstract String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#a147b4539a66957f20b027b21a19298c5">getRedoPresentationName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#af41868953c84f2dc728dbffaf36b257e">toString</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pro-attribs"></a>
+Geschützte Attribute</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aea86b12c60d343e69e8f2646741b9ce0">hasBeenDone</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#afd225c19790b789248bde1aba9135cff">alive</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Ausführliche Beschreibung</h2>
+<div class="textblock"><p>An abstract implementation of <code>UndoableEdit</code>, implementing simple responses to all boolean methods in that interface.</p>
+<dl class="version"><dt><b>Version:</b></dt><dd>1.31 04/07/06 </dd></dl>
+<dl class="author"><dt><b>Autor:</b></dt><dd>Ray Ryan </dd></dl>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00014">14</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+</div><hr/><h2>Beschreibung der Konstruktoren und Destruktoren</h2>
+<a class="anchor" id="a14747e7828f8f40ecc841ca2f500ccb2"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::AbstractUndoableEdit" ref="a14747e7828f8f40ecc841ca2f500ccb2" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ch.zhaw.simulation.undo.action.AbstractUndoableEdit.AbstractUndoableEdit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates an <code><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html">AbstractUndoableEdit</a></code> which defaults <code>hasBeenDone</code> and <code>alive</code> to <code>true</code>. </p>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00031">31</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Dokumentation der Elementfunktionen</h2>
+<a class="anchor" id="a5bc98ba937aad232d1601d7470af1145"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::addEdit" ref="a5bc98ba937aad232d1601d7470af1145" args="(UndoableEdit anEdit)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean ch.zhaw.simulation.undo.action.AbstractUndoableEdit.addEdit </td>
+          <td>(</td>
+          <td class="paramtype">UndoableEdit&#160;</td>
+          <td class="paramname"><em>anEdit</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>This default implementation returns false.</p>
+<dl><dt><b>Parameter:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">anEdit</td><td>the edit to be added </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>false</dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd>UndoableEdit.addEdit </dd></dl>
+
+<p>Erneute Implementation in <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_formula_change_undo_action.html#aef93b6d9f313ce8d7d6fff7a0ffe5e7f">ch.zhaw.simulation.undo.action.FormulaChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_move_undo_action.html#a5e003d0ac6d6d40c5607f48241d081cd">ch.zhaw.simulation.undo.action.MoveUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_name_change_undo_action.html#a7ce6fe351cf94ac7441f8f4c2220ebe2">ch.zhaw.simulation.undo.action.NameChangeUndoAction</a> und <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_resize_undo_action.html#ac7bb34da3f66a48c692ac1610d035e64">ch.zhaw.simulation.undo.action.ResizeUndoAction</a>.</p>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00124">124</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee657bc7104c0b8a2a727910e3ba85f4"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::canRedo" ref="aee657bc7104c0b8a2a727910e3ba85f4" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean ch.zhaw.simulation.undo.action.AbstractUndoableEdit.canRedo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns <code>true</code> if this edit is <code>alive</code> and <code>hasBeenDone</code> is <code>false</code>.</p>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd><code>true</code> if this edit is <code>alive</code> and <code>hasBeenDone</code> is <code>false</code> </dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aaebfee7150764e055303cb8d2b960485">die</a> </dd>
+<dd>
+<a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#afaeca31d799effcf750079b002d5a527">undo</a> </dd>
+<dd>
+<a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#af69a47bfc38ee33b0b12c1032b70be6c">redo</a> </dd></dl>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00111">111</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae26494b37809ae66ba29cbc211895403"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::canUndo" ref="ae26494b37809ae66ba29cbc211895403" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean ch.zhaw.simulation.undo.action.AbstractUndoableEdit.canUndo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns true if this edit is <code>alive</code> and <code>hasBeenDone</code> is <code>true</code>.</p>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>true if this edit is <code>alive</code> and <code>hasBeenDone</code> is <code>true</code></dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aaebfee7150764e055303cb8d2b960485">die</a> </dd>
+<dd>
+<a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#afaeca31d799effcf750079b002d5a527">undo</a> </dd>
+<dd>
+<a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#af69a47bfc38ee33b0b12c1032b70be6c">redo</a> </dd></dl>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00080">80</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaebfee7150764e055303cb8d2b960485"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::die" ref="aaebfee7150764e055303cb8d2b960485" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ch.zhaw.simulation.undo.action.AbstractUndoableEdit.die </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sets <code>alive</code> to false. Note that this is a one way operation; dead edits cannot be resurrected. Sending <code>undo</code> or <code>redo</code> to a dead edit results in an exception being thrown.</p>
+<p>Typically an edit is killed when it is consolidated by another edit's <code>addEdit</code> or <code>replaceEdit</code> method, or when it is dequeued from an <code>UndoManager</code>. </p>
+
+<p>Erneute Implementation in <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_add_named_simulation_undo_action.html#ab5e6c3143c07b30abefa60f027a97b00">ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_text_edit_undo_action.html#aebcac0f88c7609b945a921a91d8edf43">ch.zhaw.simulation.undo.action.TextEditUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_add_connector_undo_action.html#afa008d1fe27f3ea199806b072620638f">ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_delete_undo_action.html#a051823f903d6f7896eba555aa26c2898">ch.zhaw.simulation.undo.action.flow.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_create_density_undo_action.html#a742a98de36a9d4407dadd22056105e5c">ch.zhaw.simulation.undo.action.xy.CreateDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_density_undo_action.html#a065d0536502d5bd980caa398a317d1d3">ch.zhaw.simulation.undo.action.xy.DeleteDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_undo_action.html#a5b841c19c5098664de617a1b38bcd901">ch.zhaw.simulation.undo.action.xy.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_assign_undo_action.html#abfeeb476d260ca821791dc0e8fca79cd">ch.zhaw.simulation.undo.action.xy.SubModelAssignUndoAction</a> und <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_create_undo_action.html#a7b560f25c0c348d1439aa8582089cdfc">ch.zhaw.simulation.undo.action.xy.SubModelCreateUndoAction</a>.</p>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00048">48</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a90e6f80e506124b247507f6d3d76c629"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::getPresentationName" ref="a90e6f80e506124b247507f6d3d76c629" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String ch.zhaw.simulation.undo.action.AbstractUndoableEdit.getPresentationName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>This default implementation returns "". Used by <code>getUndoPresentationName</code> and <code>getRedoPresentationName</code> to construct the strings they return. Subclasses should override to return an appropriate description of the operation this edit represents.</p>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>the empty string ""</dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#ab46f9b41fceca4c933ba56430f39c890">getUndoPresentationName</a> </dd>
+<dd>
+<a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#a147b4539a66957f20b027b21a19298c5">getRedoPresentationName</a> </dd></dl>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00163">163</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a147b4539a66957f20b027b21a19298c5"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::getRedoPresentationName" ref="a147b4539a66957f20b027b21a19298c5" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract String ch.zhaw.simulation.undo.action.AbstractUndoableEdit.getRedoPresentationName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Retreives the value from the defaults table with key <code>AbstractUndoableEdit.redoText</code> and returns that value followed by a space, followed by <code>getPresentationName</code>. If <code>getPresentationName</code> returns "", then the defaults value is returned alone.</p>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>the value from the defaults table with key <code>AbstractUndoableEdit.redoText</code>, followed by a space, followed by <code>getPresentationName</code> unless <code>getPresentationName</code> is "" in which case, the defaults value is returned alone. </dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#a90e6f80e506124b247507f6d3d76c629">getPresentationName</a> </dd></dl>
+
+<p>Implementiert in <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_add_named_simulation_undo_action.html#a1c36761ad2a6583cba91c3b8ae2f3bd3">ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_formula_change_undo_action.html#a6bbec0ec3b6556dbbee4800155c4241c">ch.zhaw.simulation.undo.action.FormulaChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_layout_undo_action.html#ab8a7c61652c86f7fa60363f3c2339f69">ch.zhaw.simulation.undo.action.LayoutUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_move_undo_action.html#aeca2e67c33442918cd1ff7d0e5612404">ch.zhaw.simulation.undo.action.MoveUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_name_change_undo_action.html#a38d73eb1a68a9d15264303f6e215cb4c">ch.zhaw.simulation.undo.action.NameChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_resize_undo_action.html#aeeb98846e153d879428c6b0d49b6f53c">ch.zhaw.simulation.undo.action.ResizeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_text_edit_undo_action.html#a02e70140c841782488fc636c4c52faa2">ch.zhaw.simulation.undo.action.TextEditUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_add_connector_undo_action.html#a5fa9efa088848d648e8da47b52a7364f">ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_delete_undo_action.html#af90241b7be0b72fa7a63e6de55d379de">ch.zhaw.simulation.undo.action.flow.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_change_density_undo_action.html#a905c44e4de77fda27087fa3a2da5c1e7">ch.zhaw.simulation.undo.action.xy.ChangeDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_create_density_undo_action.html#acb758a5009a1260b430e653c12f74c09">ch.zhaw.simulation.undo.action.xy.CreateDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_density_undo_action.html#a577736341524b2367938c3b02ba3584b">ch.zhaw.simulation.undo.action.xy.DeleteDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_undo_action.html#a15cff0fba8318594dc02cb1b1bfcae6e">ch.zhaw.simulation.undo.action.xy.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_assign_undo_action.html#ae32cdc1c5ffcc366d6864f5247321d38">ch.zhaw.simulation.undo.action.xy.SubModelAssignUndoAction</a> und <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_create_undo_action.html#a3a6450d7e71dd1499dcb2911a5d3c045">ch.zhaw.simulation.undo.action.xy.SubModelCreateUndoAction</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab46f9b41fceca4c933ba56430f39c890"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::getUndoPresentationName" ref="ab46f9b41fceca4c933ba56430f39c890" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract String ch.zhaw.simulation.undo.action.AbstractUndoableEdit.getUndoPresentationName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Retreives the value from the defaults table with key <code>AbstractUndoableEdit.undoText</code> and returns that value followed by a space, followed by <code>getPresentationName</code>. If <code>getPresentationName</code> returns "", then the defaults value is returned alone.</p>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>the value from the defaults table with key <code>AbstractUndoableEdit.undoText</code>, followed by a space, followed by <code>getPresentationName</code> unless <code>getPresentationName</code> is "" in which case, the defaults value is returned alone. </dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#a90e6f80e506124b247507f6d3d76c629">getPresentationName</a> </dd></dl>
+
+<p>Implementiert in <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_add_named_simulation_undo_action.html#a9b024696bb291a1e9fa81943e21b77dd">ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_formula_change_undo_action.html#a1afc2539f3c984eb677bff50c9174b10">ch.zhaw.simulation.undo.action.FormulaChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_layout_undo_action.html#ab25db729c23bc43cea807f8f1704009c">ch.zhaw.simulation.undo.action.LayoutUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_move_undo_action.html#a32f4fe5fc997f161641eb0341c76190c">ch.zhaw.simulation.undo.action.MoveUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_name_change_undo_action.html#a92cd88064b154b0fb92c9b307701657d">ch.zhaw.simulation.undo.action.NameChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_resize_undo_action.html#a07b0f6b784113713d3743404b1c450c5">ch.zhaw.simulation.undo.action.ResizeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_text_edit_undo_action.html#aa07a4f0bb79cc1b818211471ca88b52e">ch.zhaw.simulation.undo.action.TextEditUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_add_connector_undo_action.html#ac64df908983157de460bbe25b14253c5">ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_delete_undo_action.html#adbb3ac9d54a473d2eb41661adb0a8933">ch.zhaw.simulation.undo.action.flow.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_change_density_undo_action.html#a969fd3a6595138f4900a24c36290456e">ch.zhaw.simulation.undo.action.xy.ChangeDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_create_density_undo_action.html#a3f038bec0a63da6bafc0457e94809278">ch.zhaw.simulation.undo.action.xy.CreateDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_density_undo_action.html#ab4a76d2e8775709dcb21f7ce5d3cc800">ch.zhaw.simulation.undo.action.xy.DeleteDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_undo_action.html#a3bc9801ca8fc0497bae56ae767b9987c">ch.zhaw.simulation.undo.action.xy.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_assign_undo_action.html#a29c4b1e6bbacdd6f76a0b6060fd2c90a">ch.zhaw.simulation.undo.action.xy.SubModelAssignUndoAction</a> und <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_create_undo_action.html#a63c5aa608eb32983775d52eecf631d8e">ch.zhaw.simulation.undo.action.xy.SubModelCreateUndoAction</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa6f4dd0cfbd4b9e60a2996275d3bffa2"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::isSignificant" ref="aa6f4dd0cfbd4b9e60a2996275d3bffa2" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean ch.zhaw.simulation.undo.action.AbstractUndoableEdit.isSignificant </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>This default implementation returns true.</p>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>true </dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd>UndoableEdit.isSignificant </dd></dl>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00147">147</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af69a47bfc38ee33b0b12c1032b70be6c"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::redo" ref="af69a47bfc38ee33b0b12c1032b70be6c" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ch.zhaw.simulation.undo.action.AbstractUndoableEdit.redo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td>  throws CannotRedoException </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Throws <code>CannotRedoException</code> if <code>canRedo</code> returns false. Sets <code>hasBeenDone</code> to <code>true</code>. Subclasses should override to redo the operation represented by this edit. Override should begin with a call to super.</p>
+<dl><dt><b>Ausnahmebehandlung:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">CannotRedoException</td><td>if <code>canRedo</code> returns <code>false</code> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aee657bc7104c0b8a2a727910e3ba85f4">canRedo</a> </dd></dl>
+
+<p>Erneute Implementation in <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_add_named_simulation_undo_action.html#a2df6abf3afd93e718123a0d47be3fc25">ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_formula_change_undo_action.html#ad16d1b3ae14b351248ffb4ba16972732">ch.zhaw.simulation.undo.action.FormulaChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_layout_undo_action.html#a83acc07a2d5abf6690b92f7f6f2a103e">ch.zhaw.simulation.undo.action.LayoutUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_move_undo_action.html#ae30b88b24f09e450c072c799882defe4">ch.zhaw.simulation.undo.action.MoveUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_name_change_undo_action.html#aa2090984b508303a28e6bb9885bc57c7">ch.zhaw.simulation.undo.action.NameChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_resize_undo_action.html#a2f7a849d719833e599fd6ff20579bb18">ch.zhaw.simulation.undo.action.ResizeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_text_edit_undo_action.html#ae675d18af226902c49c5d30b010c772d">ch.zhaw.simulation.undo.action.TextEditUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_add_connector_undo_action.html#ab5a6335bb5fc2d52ea310f74387dad2e">ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_delete_undo_action.html#a8857029c59d33414a4630e23380457ef">ch.zhaw.simulation.undo.action.flow.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_change_density_undo_action.html#a3539aaf128daaaade4aaf0e09df93fcb">ch.zhaw.simulation.undo.action.xy.ChangeDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_create_density_undo_action.html#a8c7f82e2150190a3eacbb4c0a2707770">ch.zhaw.simulation.undo.action.xy.CreateDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_density_undo_action.html#aa762377525ba9a5b7f306ba60b32e289">ch.zhaw.simulation.undo.action.xy.DeleteDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_undo_action.html#ab0c578c7d56ea74d00371dc33abff5ee">ch.zhaw.simulation.undo.action.xy.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_assign_undo_action.html#a63e60db74142c102105844b1acb9f6c5">ch.zhaw.simulation.undo.action.xy.SubModelAssignUndoAction</a> und <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_create_undo_action.html#a2e6d01680dc6d4eef30265a3fbdea78f">ch.zhaw.simulation.undo.action.xy.SubModelCreateUndoAction</a>.</p>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00094">94</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa82ca6f510ef3a9090e3bfe50d650cd7"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::replaceEdit" ref="aa82ca6f510ef3a9090e3bfe50d650cd7" args="(UndoableEdit anEdit)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean ch.zhaw.simulation.undo.action.AbstractUndoableEdit.replaceEdit </td>
+          <td>(</td>
+          <td class="paramtype">UndoableEdit&#160;</td>
+          <td class="paramname"><em>anEdit</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>This default implementation returns false.</p>
+<dl><dt><b>Parameter:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">anEdit</td><td>the edit to replace </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>false</dd></dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd>UndoableEdit.replaceEdit </dd></dl>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00137">137</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af41868953c84f2dc728dbffaf36b257e"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::toString" ref="af41868953c84f2dc728dbffaf36b257e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String ch.zhaw.simulation.undo.action.AbstractUndoableEdit.toString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns a string that displays and identifies this object's properties.</p>
+<dl class="return"><dt><b>Rückgabe:</b></dt><dd>a String representation of this object </dd></dl>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00204">204</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afaeca31d799effcf750079b002d5a527"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::undo" ref="afaeca31d799effcf750079b002d5a527" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ch.zhaw.simulation.undo.action.AbstractUndoableEdit.undo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td>  throws CannotUndoException </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Throws <code>CannotUndoException</code> if <code>canUndo</code> returns <code>false</code>. Sets <code>hasBeenDone</code> to <code>false</code>. Subclasses should override to undo the operation represented by this edit. Override should begin with a call to super.</p>
+<dl><dt><b>Ausnahmebehandlung:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">CannotUndoException</td><td>if <code>canUndo</code> returns <code>false</code> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>Siehe auch:</b></dt><dd><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#ae26494b37809ae66ba29cbc211895403">canUndo</a> </dd></dl>
+
+<p>Erneute Implementation in <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_add_named_simulation_undo_action.html#a846ae5f06204467c69d96d149a0a4f57">ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_formula_change_undo_action.html#a7d5d0f9bd4b9b238ef3f7b262af4bfa6">ch.zhaw.simulation.undo.action.FormulaChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_layout_undo_action.html#a32edff23eba3bb156ed4f86877dbe349">ch.zhaw.simulation.undo.action.LayoutUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_move_undo_action.html#a8cf9794db3bed1db5949d76b80c79214">ch.zhaw.simulation.undo.action.MoveUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_name_change_undo_action.html#a477ee42dce56ea4677ed3787ab78e81f">ch.zhaw.simulation.undo.action.NameChangeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_resize_undo_action.html#af5e9afd364642cf0e19a6ba6a8f742c1">ch.zhaw.simulation.undo.action.ResizeUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_text_edit_undo_action.html#adf3c638764246271c735d88bd60d2de5">ch.zhaw.simulation.undo.action.TextEditUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_add_connector_undo_action.html#a776e6507e28c62c11c1980cf8aac8c38">ch.zhaw.simulation.undo.action.flow.AddConnectorUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1flow_1_1_delete_undo_action.html#aee8e9cd2a1a7da55c67cf8390bf4ca34">ch.zhaw.simulation.undo.action.flow.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_change_density_undo_action.html#a6efc8e562e2f70c13d13ab9e25bd96e6">ch.zhaw.simulation.undo.action.xy.ChangeDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_create_density_undo_action.html#a3129d3cbbcc8699996ec954952164dbe">ch.zhaw.simulation.undo.action.xy.CreateDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_density_undo_action.html#afd5fd414b767bd0e191a87f7389c17de">ch.zhaw.simulation.undo.action.xy.DeleteDensityUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_delete_undo_action.html#ac908c5acbf2e7810bd027c295d205e95">ch.zhaw.simulation.undo.action.xy.DeleteUndoAction</a>, <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_assign_undo_action.html#a4df1751d3889d317aed032fbe1265f31">ch.zhaw.simulation.undo.action.xy.SubModelAssignUndoAction</a> und <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1xy_1_1_sub_model_create_undo_action.html#aece1601279e38f51395ed0943bb7960f">ch.zhaw.simulation.undo.action.xy.SubModelCreateUndoAction</a>.</p>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00062">62</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Dokumentation der Datenelemente</h2>
+<a class="anchor" id="afd225c19790b789248bde1aba9135cff"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::alive" ref="afd225c19790b789248bde1aba9135cff" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#afd225c19790b789248bde1aba9135cff">ch.zhaw.simulation.undo.action.AbstractUndoableEdit.alive</a><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>True if this edit has not received <code>die</code>; defaults to <code>true</code>. </p>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00025">25</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aea86b12c60d343e69e8f2646741b9ce0"></a><!-- doxytag: member="ch::zhaw::simulation::undo::action::AbstractUndoableEdit::hasBeenDone" ref="aea86b12c60d343e69e8f2646741b9ce0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean <a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html#aea86b12c60d343e69e8f2646741b9ce0">ch.zhaw.simulation.undo.action.AbstractUndoableEdit.hasBeenDone</a><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Defaults to true; becomes false if this edit is undone, true again if it is redone. </p>
+
+<p>Definiert in Zeile <a class="el" href="_abstract_undoable_edit_8java_source.html#l00019">19</a> der Datei <a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a>.</p>
+
+</div>
+</div>
+<hr/>Die Dokumentation für diese Klasse wurde erzeugt aufgrund der Datei:<ul>
+<li>/home/andreas/git/SimulationBA/Editor/src/ch/zhaw/simulation/undo/action/<a class="el" href="_abstract_undoable_edit_8java_source.html">AbstractUndoableEdit.java</a></li>
+</ul>
+</div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>ch</b>      </li>
+      <li class="navelem"><b>zhaw</b>      </li>
+      <li class="navelem"><b>simulation</b>      </li>
+      <li class="navelem"><b>undo</b>      </li>
+      <li class="navelem"><b>action</b>      </li>
+      <li class="navelem"><a class="el" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1action_1_1_abstract_undoable_edit.html">AbstractUndoableEdit</a>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:18 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/vectorJep/values/Scaler.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_scaler_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/vectorJep/values/Scaler.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 04-Nov-2003</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.vectorJep.values;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> org.lsmp.djep.vectorJep.Dimensions;
+<a name="l00007"></a>00007 <span class="keyword">import</span> org.nfunk.jep.type.Complex;
+<a name="l00008"></a>00008 
+<a name="l00017"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">00017</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a> <span class="keyword">extends</span> Number implements <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> {
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 336717881577257953L;
+<a name="l00020"></a>00020     <span class="keyword">private</span> Object value;
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022     <span class="keyword">protected</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a>() {
+<a name="l00023"></a>00023         value = <span class="keyword">new</span> Double(0.0);
+<a name="l00024"></a>00024     }
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a>(Object o) {
+<a name="l00027"></a>00027         value = o;
+<a name="l00028"></a>00028     }
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> getInstance(Object o) {
+<a name="l00031"></a>00031         <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a>(o);
+<a name="l00032"></a>00032     }
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     @Override
+<a name="l00035"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a852556b9bd3594418ec77b50421323b5">00035</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a852556b9bd3594418ec77b50421323b5">getDim</a>() {
+<a name="l00036"></a>00036         <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.ONE;
+<a name="l00037"></a>00037     }
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     @Override
+<a name="l00040"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a4a406de1610f688fde49a4c4f50af273">00040</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a4a406de1610f688fde49a4c4f50af273">getNumEles</a>() {
+<a name="l00041"></a>00041         <span class="keywordflow">return</span> 1;
+<a name="l00042"></a>00042     }
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     @Override
+<a name="l00045"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a086980f5f2577dea1346e8f859f9ca00">00045</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a086980f5f2577dea1346e8f859f9ca00">setEle</a>(<span class="keywordtype">int</span> i, Object value) {
+<a name="l00046"></a>00046         <span class="keywordflow">if</span> (value != null)
+<a name="l00047"></a>00047             this.value = value;
+<a name="l00048"></a>00048     }
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     @Override
+<a name="l00051"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a8e66d375e108940d8b24149c99e81109">00051</a>     <span class="keyword">public</span> Object <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a8e66d375e108940d8b24149c99e81109">getEle</a>(<span class="keywordtype">int</span> i) {
+<a name="l00052"></a>00052         <span class="keywordflow">return</span> value;
+<a name="l00053"></a>00053     }
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055     @Override
+<a name="l00056"></a>00056     <span class="keyword">public</span> String toString() {
+<a name="l00057"></a>00057         <span class="keywordflow">return</span> value.toString();
+<a name="l00058"></a>00058     }
+<a name="l00059"></a>00059 
+<a name="l00061"></a>00061     @Override
+<a name="l00062"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#adcadd488230a585d59b7414285feb9aa">00062</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#adcadd488230a585d59b7414285feb9aa">setEles</a>(<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> val) {
+<a name="l00063"></a>00063         <span class="keywordflow">if</span> (!(val.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#a01fe4a3e0f4c894f8c18a8f61afa7890">getDim</a>().<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aba085a83e48bd9d60a9817e5f66691cf">equals</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.ONE))) {
+<a name="l00064"></a>00064             <span class="keywordflow">return</span>;
+<a name="l00065"></a>00065         }
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067         value = val.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#acd8206bf6bdcd246734f29b0e814a6a1">getEle</a>(0);
+<a name="l00068"></a>00068     }
+<a name="l00069"></a>00069 
+<a name="l00071"></a>00071     @Override
+<a name="l00072"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a950feb4b3640a074ad100adafbed0ade">00072</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a950feb4b3640a074ad100adafbed0ade">intValue</a>() {
+<a name="l00073"></a>00073         <span class="keywordflow">if</span> (value instanceof <a class="code" href="classorg_1_1nfunk_1_1jep_1_1type_1_1_complex.html">Complex</a>) {
+<a name="l00074"></a>00074             <span class="keywordflow">return</span> ((Complex) value).intValue();
+<a name="l00075"></a>00075         }
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077         <span class="keywordflow">if</span> (value instanceof Boolean) {
+<a name="l00078"></a>00078             <span class="keywordflow">return</span> ((Boolean) value).booleanValue() ? 1 : 0;
+<a name="l00079"></a>00079         }
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081         <span class="comment">// throws a cast exception if not a number</span>
+<a name="l00082"></a>00082         <span class="keywordflow">return</span> ((Number) value).intValue();
+<a name="l00083"></a>00083     }
+<a name="l00084"></a>00084 
+<a name="l00086"></a>00086     @Override
+<a name="l00087"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#aa041ee02528e9df0b8458faa47b64526">00087</a>     <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#aa041ee02528e9df0b8458faa47b64526">longValue</a>() {
+<a name="l00088"></a>00088         <span class="keywordflow">if</span> (value instanceof <a class="code" href="classorg_1_1nfunk_1_1jep_1_1type_1_1_complex.html">Complex</a>) {
+<a name="l00089"></a>00089             <span class="keywordflow">return</span> ((Complex) value).longValue();
+<a name="l00090"></a>00090         }
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092         <span class="keywordflow">if</span> (value instanceof Boolean) {
+<a name="l00093"></a>00093             <span class="keywordflow">return</span> ((Boolean) value).booleanValue() ? 1l : 0l;
+<a name="l00094"></a>00094         }
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096         <span class="comment">// throws a cast exception if not a number</span>
+<a name="l00097"></a>00097         <span class="keywordflow">return</span> ((Number) value).longValue();
+<a name="l00098"></a>00098     }
+<a name="l00099"></a>00099 
+<a name="l00101"></a>00101     @Override
+<a name="l00102"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#ad18bee15c7058dac574202a48c184db9">00102</a>     <span class="keyword">public</span> <span class="keywordtype">float</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#ad18bee15c7058dac574202a48c184db9">floatValue</a>() {
+<a name="l00103"></a>00103         <span class="keywordflow">if</span> (value instanceof <a class="code" href="classorg_1_1nfunk_1_1jep_1_1type_1_1_complex.html">Complex</a>) {
+<a name="l00104"></a>00104             <span class="keywordflow">return</span> ((Complex) value).floatValue();
+<a name="l00105"></a>00105         }
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107         <span class="keywordflow">if</span> (value instanceof Boolean) {
+<a name="l00108"></a>00108             <span class="keywordflow">return</span> ((Boolean) value).booleanValue() ? 1f : 0f;
+<a name="l00109"></a>00109         }
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111         <span class="comment">// throws a cast exception if not a number</span>
+<a name="l00112"></a>00112         <span class="keywordflow">return</span> ((Number) value).floatValue();
+<a name="l00113"></a>00113     }
+<a name="l00114"></a>00114 
+<a name="l00116"></a>00116     @Override
+<a name="l00117"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a3dc29fa9e179f524cecb67e5b12a6a38">00117</a>     <span class="keyword">public</span> <span class="keywordtype">double</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a3dc29fa9e179f524cecb67e5b12a6a38">doubleValue</a>() {
+<a name="l00118"></a>00118         <span class="keywordflow">if</span> (value instanceof <a class="code" href="classorg_1_1nfunk_1_1jep_1_1type_1_1_complex.html">Complex</a>) {
+<a name="l00119"></a>00119             <span class="keywordflow">return</span> ((Complex) value).doubleValue();
+<a name="l00120"></a>00120         }
+<a name="l00121"></a>00121         <span class="keywordflow">if</span> (value instanceof Boolean) {
+<a name="l00122"></a>00122             <span class="keywordflow">return</span> ((Boolean) value).booleanValue() ? 1d : 0d;
+<a name="l00123"></a>00123         }
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125         <span class="comment">// throws a cast exception if not a number</span>
+<a name="l00126"></a>00126         <span class="keywordflow">return</span> ((Number) value).doubleValue();
+<a name="l00127"></a>00127     }
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129     @Override
+<a name="l00130"></a>00130     <span class="keyword">public</span> <span class="keywordtype">boolean</span> equals(Object obj) {
+<a name="l00131"></a>00131         <span class="keywordflow">if</span> (!(obj instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a>))
+<a name="l00132"></a>00132             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134         Scaler s = (Scaler) obj;
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136         <span class="keywordflow">if</span> (!s.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a852556b9bd3594418ec77b50421323b5">getDim</a>().<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aba085a83e48bd9d60a9817e5f66691cf">equals</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a852556b9bd3594418ec77b50421323b5">getDim</a>())) {
+<a name="l00137"></a>00137             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00138"></a>00138         }
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140         <span class="keywordflow">if</span> (!value.equals(s.value)) {
+<a name="l00141"></a>00141             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00142"></a>00142         }
+<a name="l00143"></a>00143         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00144"></a>00144     }
+<a name="l00145"></a>00145 
+<a name="l00150"></a>00150     @Override
+<a name="l00151"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a22f55d54d159662030d74fa4de1b304a">00151</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a22f55d54d159662030d74fa4de1b304a">hashCode</a>() {
+<a name="l00152"></a>00152         <span class="keywordtype">int</span> result = 17;
+<a name="l00153"></a>00153         result = 37 * result + value.hashCode();
+<a name="l00154"></a>00154         <span class="keywordflow">return</span> result;
+<a name="l00155"></a>00155     }
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157     @Override
+<a name="l00158"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a09327a26e2810052bfc4ff28f9f2af57">00158</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html#a09327a26e2810052bfc4ff28f9f2af57">copy</a>() {
+<a name="l00159"></a>00159         <span class="keywordflow">return</span> <span class="keyword">new</span> Scaler(value);
+<a name="l00160"></a>00160     }
+<a name="l00161"></a>00161 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>Scaler.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

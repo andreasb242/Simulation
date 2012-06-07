@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/sjep/PolynomialCreator.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_polynomial_creator_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/sjep/PolynomialCreator.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 14-Dec-2004</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.sjep;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> org.lsmp.djep.xjep.DoNothingVisitor;
+<a name="l00007"></a>00007 <span class="keyword">import</span> org.lsmp.djep.xjep.NodeFactory;
+<a name="l00008"></a>00008 <span class="keyword">import</span> org.lsmp.djep.xjep.XJep;
+<a name="l00009"></a>00009 <span class="keyword">import</span> org.lsmp.djep.xjep.XOperator;
+<a name="l00010"></a>00010 <span class="keyword">import</span> org.lsmp.djep.xjep.XVariable;
+<a name="l00011"></a>00011 <span class="keyword">import</span> org.nfunk.jep.ASTConstant;
+<a name="l00012"></a>00012 <span class="keyword">import</span> org.nfunk.jep.ASTFunNode;
+<a name="l00013"></a>00013 <span class="keyword">import</span> org.nfunk.jep.ASTVarNode;
+<a name="l00014"></a>00014 <span class="keyword">import</span> org.nfunk.jep.Node;
+<a name="l00015"></a>00015 <span class="keyword">import</span> org.nfunk.jep.OperatorSet;
+<a name="l00016"></a>00016 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00017"></a>00017 <span class="keyword">import</span> org.nfunk.jep.function.Add;
+<a name="l00018"></a>00018 <span class="keyword">import</span> org.nfunk.jep.function.Divide;
+<a name="l00019"></a>00019 <span class="keyword">import</span> org.nfunk.jep.function.Multiply;
+<a name="l00020"></a>00020 <span class="keyword">import</span> org.nfunk.jep.function.Power;
+<a name="l00021"></a>00021 <span class="keyword">import</span> org.nfunk.jep.function.Subtract;
+<a name="l00022"></a>00022 <span class="keyword">import</span> org.nfunk.jep.function.UMinus;
+<a name="l00023"></a>00023 <span class="keyword">import</span> org.nfunk.jep.type.Complex;
+<a name="l00024"></a>00024 
+<a name="l00080"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html">00080</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html">PolynomialCreator</a> <span class="keyword">extends</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_do_nothing_visitor.html">DoNothingVisitor</a> {
+<a name="l00081"></a>00081     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_jep.html">XJep</a> jep;
+<a name="l00082"></a>00082     Object zero, one, minusOne, infinity, nan, two;
+<a name="l00083"></a>00083     <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a> zeroConstant, oneConstant, minusOneConstant, infConstant, nanConstant, twoConstant;
+<a name="l00084"></a>00084     <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator_set.html">OperatorSet</a> os;
+<a name="l00085"></a>00085     <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_node_factory.html">NodeFactory</a> nf;
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html">PolynomialCreator</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_jep.html">XJep</a> j) {
+<a name="l00088"></a>00088         jep = j;
+<a name="l00089"></a>00089         os = j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#afb1728c81ee9e027c2f45d7facb680c6">getOperatorSet</a>();
+<a name="l00090"></a>00090         nf = j.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_jep.html#af3767e81edf205da8e0fcb7055e179d3">getNodeFactory</a>();
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092         zero = j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a612f94ce7640767c6cbe570aee6bb8f3">getNumberFactory</a>().getZero();
+<a name="l00093"></a>00093         one = j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a612f94ce7640767c6cbe570aee6bb8f3">getNumberFactory</a>().getOne();
+<a name="l00094"></a>00094         minusOne = j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a612f94ce7640767c6cbe570aee6bb8f3">getNumberFactory</a>().getMinusOne();
+<a name="l00095"></a>00095         two = j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a612f94ce7640767c6cbe570aee6bb8f3">getNumberFactory</a>().getTwo();
+<a name="l00096"></a>00096         <span class="keywordflow">try</span> {
+<a name="l00097"></a>00097             infinity = div(one, zero);
+<a name="l00098"></a>00098             nan = div(zero, zero);
+<a name="l00099"></a>00099         } <span class="keywordflow">catch</span> (<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> e) {
+<a name="l00100"></a>00100             infinity = <span class="keyword">new</span> Double(Double.POSITIVE_INFINITY);
+<a name="l00101"></a>00101             nan = <span class="keyword">new</span> Double(Double.NaN);
+<a name="l00102"></a>00102         }
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104         zeroConstant = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a>(<span class="keyword">this</span>, zero);
+<a name="l00105"></a>00105         oneConstant = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a>(<span class="keyword">this</span>, one);
+<a name="l00106"></a>00106         twoConstant = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a>(<span class="keyword">this</span>, two);
+<a name="l00107"></a>00107         minusOneConstant = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a>(<span class="keyword">this</span>, minusOne);
+<a name="l00108"></a>00108         infConstant = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a>(<span class="keyword">this</span>, infinity);
+<a name="l00109"></a>00109         nanConstant = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a>(<span class="keyword">this</span>, nan);
+<a name="l00110"></a>00110     }
+<a name="l00111"></a>00111 
+<a name="l00121"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">00121</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">createPoly</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00122"></a>00122         <span class="keywordflow">return</span> (<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a>) node.jjtAccept(<span class="keyword">this</span>, null);
+<a name="l00123"></a>00123     }
+<a name="l00124"></a>00124 
+<a name="l00133"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#a8ba94b199dffd57f928ed150ba10a0e5">00133</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#a8ba94b199dffd57f928ed150ba10a0e5">simplify</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00134"></a>00134         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> poly = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">createPoly</a>(node);
+<a name="l00135"></a>00135         <span class="keywordflow">return</span> poly.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#add61ce8e24d26a537c378e0d81c69e84">toNode</a>();
+<a name="l00136"></a>00136     }
+<a name="l00137"></a>00137 
+<a name="l00148"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#aea08ae36dda0f33690dbdb5b99792b75">00148</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#aea08ae36dda0f33690dbdb5b99792b75">expand</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00149"></a>00149         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> poly = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">createPoly</a>(node);
+<a name="l00150"></a>00150         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#aea08ae36dda0f33690dbdb5b99792b75">expand</a> = poly.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#a4d2d70ba2598c28b1e24aecde96deee3">expand</a>();
+<a name="l00151"></a>00151         <span class="keywordflow">return</span> expand.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#add61ce8e24d26a537c378e0d81c69e84">toNode</a>();
+<a name="l00152"></a>00152     }
+<a name="l00153"></a>00153 
+<a name="l00163"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#adeab6b9dd86f29218bfdd6caa98c9d77">00163</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#adeab6b9dd86f29218bfdd6caa98c9d77">compare</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node1, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00164"></a>00164         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> poly1 = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">createPoly</a>(node1);
+<a name="l00165"></a>00165         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> exp1 = poly1.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#a4d2d70ba2598c28b1e24aecde96deee3">expand</a>();
+<a name="l00166"></a>00166         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> poly2 = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">createPoly</a>(node2);
+<a name="l00167"></a>00167         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> exp2 = poly2.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#a4d2d70ba2598c28b1e24aecde96deee3">expand</a>();
+<a name="l00168"></a>00168         <span class="keywordflow">return</span> exp1.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#a512a563cacebbe0499efc090adb4000f">compareTo</a>(exp2);
+<a name="l00169"></a>00169     }
+<a name="l00170"></a>00170 
+<a name="l00181"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#a807524daab7a2c9858e5dcfc8cfda454">00181</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#a807524daab7a2c9858e5dcfc8cfda454">equals</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node1, <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00182"></a>00182         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> poly1 = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">createPoly</a>(node1);
+<a name="l00183"></a>00183         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> exp1 = poly1.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#a4d2d70ba2598c28b1e24aecde96deee3">expand</a>();
+<a name="l00184"></a>00184         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> poly2 = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_polynomial_creator.html#ab382746f7b01a5654168fc6543ab33bb">createPoly</a>(node2);
+<a name="l00185"></a>00185         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html">PNodeI</a> exp2 = poly2.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#a4d2d70ba2598c28b1e24aecde96deee3">expand</a>();
+<a name="l00186"></a>00186         <span class="keywordflow">return</span> exp1.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_node_i.html#a5842921db70ccd2cddae023b2b27f7de">equals</a>(exp2);
+<a name="l00187"></a>00187     }
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189     <span class="keyword">public</span> Object visit(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_a_s_t_constant.html">ASTConstant</a> node, Object data) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191         <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html">PConstant</a>(<span class="keyword">this</span>, node.getValue());
+<a name="l00192"></a>00192     }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194     <span class="keyword">public</span> Object visit(ASTVarNode node, Object data) <span class="keywordflow">throws</span> ParseException {
+<a name="l00195"></a>00195         <span class="keywordflow">return</span> <span class="keyword">new</span> PVariable(<span class="keyword">this</span>, (XVariable) node.getVar());
+<a name="l00196"></a>00196     }
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198     <span class="keyword">public</span> Object visit(ASTFunNode node, Object data) <span class="keywordflow">throws</span> ParseException {
+<a name="l00199"></a>00199         <span class="keywordtype">int</span> nChild = node.jjtGetNumChildren();
+<a name="l00200"></a>00200         PNodeI args[] = <span class="keyword">new</span> PNodeI[nChild];
+<a name="l00201"></a>00201         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nChild; ++i) {
+<a name="l00202"></a>00202             args[i] = (PNodeI) node.jjtGetChild(i).jjtAccept(<span class="keyword">this</span>, data);
+<a name="l00203"></a>00203         }
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205         <span class="comment">/*</span>
+<a name="l00206"></a>00206 <span class="comment">         * jep.println(node); for(int i=0;i&lt;nChild;++i)</span>
+<a name="l00207"></a>00207 <span class="comment">         * System.out.println(&quot;\t&quot;+args[i].toString());</span>
+<a name="l00208"></a>00208 <span class="comment">         */</span>
+<a name="l00209"></a>00209         XOperator op = (XOperator) node.getOperator();
+<a name="l00210"></a>00210         <span class="keywordflow">if</span> (op == os.getAdd()) {
+<a name="l00211"></a>00211             PNodeI res = args[0];
+<a name="l00212"></a>00212             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; nChild; ++i)
+<a name="l00213"></a>00213                 res = res.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1sjep_1_1_p_constant.html#affef54af8bb80a185622bd103919330f">add</a>(args[i]);
+<a name="l00214"></a>00214             <span class="keywordflow">return</span> res;
+<a name="l00215"></a>00215         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (op == os.getSubtract()) {
+<a name="l00216"></a>00216             <span class="keywordflow">if</span> (args.length != 2)
+<a name="l00217"></a>00217                 <span class="keywordflow">throw</span> <span class="keyword">new</span> ParseException(<span class="stringliteral">&quot;Subtract must have two args it has &quot;</span> + args.length);
+<a name="l00218"></a>00218             <span class="keywordflow">return</span> args[0].sub(args[1]);
+<a name="l00219"></a>00219         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (op == os.getUMinus()) {
+<a name="l00220"></a>00220             PNodeI res = args[0];
+<a name="l00221"></a>00221             <span class="keywordflow">return</span> res.negate();
+<a name="l00222"></a>00222         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (op == os.getMultiply()) {
+<a name="l00223"></a>00223             PNodeI res = args[0];
+<a name="l00224"></a>00224             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; nChild; ++i)
+<a name="l00225"></a>00225                 res = res.mul(args[i]);
+<a name="l00226"></a>00226             <span class="keywordflow">return</span> res;
+<a name="l00227"></a>00227         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (op == os.getDivide()) {
+<a name="l00228"></a>00228             <span class="keywordflow">if</span> (args.length != 2)
+<a name="l00229"></a>00229                 <span class="keywordflow">throw</span> <span class="keyword">new</span> ParseException(<span class="stringliteral">&quot;Divide must have two args it has &quot;</span> + args.length);
+<a name="l00230"></a>00230             <span class="keywordflow">return</span> args[0].div(args[1]);
+<a name="l00231"></a>00231         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (op == os.getPower()) {
+<a name="l00232"></a>00232             <span class="keywordflow">if</span> (args.length != 2)
+<a name="l00233"></a>00233                 <span class="keywordflow">throw</span> <span class="keyword">new</span> ParseException(<span class="stringliteral">&quot;Power must have two args it has &quot;</span> + args.length);
+<a name="l00234"></a>00234             <span class="keywordflow">return</span> args[0].pow(args[1]);
+<a name="l00235"></a>00235         }
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237         <span class="keywordtype">boolean</span> allConst = <span class="keyword">true</span>;
+<a name="l00238"></a>00238         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; args.length; ++i)
+<a name="l00239"></a>00239             <span class="keywordflow">if</span> (!(args[i] instanceof PConstant)) {
+<a name="l00240"></a>00240                 allConst = <span class="keyword">false</span>;
+<a name="l00241"></a>00241                 <span class="keywordflow">break</span>;
+<a name="l00242"></a>00242             }
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244         <span class="keywordflow">if</span> (allConst) {
+<a name="l00245"></a>00245             Node newNodes[] = <span class="keyword">new</span> Node[args.length];
+<a name="l00246"></a>00246             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; args.length; ++i)
+<a name="l00247"></a>00247                 newNodes[i] = args[i].toNode();
+<a name="l00248"></a>00248             Node topNode;
+<a name="l00249"></a>00249             <span class="keywordflow">if</span> (op != null)
+<a name="l00250"></a>00250                 topNode = nf.buildOperatorNode(op, newNodes);
+<a name="l00251"></a>00251             <span class="keywordflow">else</span>
+<a name="l00252"></a>00252                 topNode = nf.buildFunctionNode(node.getName(), node.getPFMC(), newNodes);
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254             Object val;
+<a name="l00255"></a>00255             <span class="keywordflow">try</span> {
+<a name="l00256"></a>00256                 val = jep.evaluate(topNode);
+<a name="l00257"></a>00257             } <span class="keywordflow">catch</span> (Exception e) {
+<a name="l00258"></a>00258                 <span class="keywordflow">throw</span> <span class="keyword">new</span> ParseException(e.getMessage());
+<a name="l00259"></a>00259             }
+<a name="l00260"></a>00260             <span class="keywordflow">return</span> <span class="keyword">new</span> PConstant(<span class="keyword">this</span>, val);
+<a name="l00261"></a>00261         }
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263         <span class="keywordflow">if</span> (op != null)
+<a name="l00264"></a>00264             <span class="keywordflow">return</span> <span class="keyword">new</span> POperator(<span class="keyword">this</span>, op, args);
+<a name="l00265"></a>00265         <span class="keywordflow">return</span> <span class="keyword">new</span> PFunction(<span class="keyword">this</span>, node.getName(), node.getPFMC(), args);
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267         <span class="comment">// throw new</span>
+<a name="l00268"></a>00268         <span class="comment">// ParseException(&quot;Polynomial: Sorry don&#39;t know how to convert &quot;+node.getName());</span>
+<a name="l00269"></a>00269     }
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271     Object add(Object a, Object b) <span class="keywordflow">throws</span> ParseException {
+<a name="l00272"></a>00272         <span class="keywordflow">return</span> ((Add) os.getAdd().getPFMC()).add(a, b);
+<a name="l00273"></a>00273     }
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275     Object sub(Object a, Object b) <span class="keywordflow">throws</span> ParseException {
+<a name="l00276"></a>00276         <span class="keywordflow">return</span> ((Subtract) os.getSubtract().getPFMC()).sub(a, b);
+<a name="l00277"></a>00277     }
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279     Object mul(Object a, Object b) <span class="keywordflow">throws</span> ParseException {
+<a name="l00280"></a>00280         <span class="keywordflow">return</span> ((Multiply) os.getMultiply().getPFMC()).mul(a, b);
+<a name="l00281"></a>00281     }
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283     Object div(Object a, Object b) <span class="keywordflow">throws</span> ParseException {
+<a name="l00284"></a>00284         <span class="keywordflow">return</span> ((Divide) os.getDivide().getPFMC()).div(a, b);
+<a name="l00285"></a>00285     }
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287     Object intToValue(<span class="keywordtype">int</span> i) {
+<a name="l00288"></a>00288         <span class="keywordflow">return</span> <span class="keyword">new</span> Double(i);
+<a name="l00289"></a>00289     }
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291     Object <span class="keyword">raise</span>(Object a, Object b) <span class="keywordflow">throws</span> ParseException {
+<a name="l00292"></a>00292         <span class="keywordflow">return</span> ((Power) os.getPower().getPFMC()).power(a, b);
+<a name="l00293"></a>00293     }
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295     Object neg(Object val) <span class="keywordflow">throws</span> ParseException {
+<a name="l00296"></a>00296         <span class="keywordflow">return</span> ((UMinus) os.getUMinus().getPFMC()).umin(val);
+<a name="l00297"></a>00297     }
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299     @SuppressWarnings(<span class="stringliteral">&quot;unchecked&quot;</span>)
+<a name="l00300"></a>00300     int cmp(Object a, Object b) throws ParseException {
+<a name="l00301"></a>00301         <span class="keywordflow">if</span> (a.equals(b))
+<a name="l00302"></a>00302             <span class="keywordflow">return</span> 0;
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304         <span class="keywordflow">if</span> (a instanceof Complex) {
+<a name="l00305"></a>00305             Complex ca = (Complex) a;
+<a name="l00306"></a>00306             <span class="keywordtype">double</span> ax = ca.re(), ay = ca.im();
+<a name="l00307"></a>00307             <span class="keywordflow">if</span> (b instanceof Complex) {
+<a name="l00308"></a>00308                 Complex cb = (Complex) b;
+<a name="l00309"></a>00309                 <span class="keywordtype">double</span> bx = cb.re(), by = cb.im();
+<a name="l00310"></a>00310                 <span class="keywordflow">if</span> (ax == bx) {
+<a name="l00311"></a>00311                     <span class="keywordflow">if</span> (ay == by)
+<a name="l00312"></a>00312                         <span class="keywordflow">return</span> 0;
+<a name="l00313"></a>00313                     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ay &lt; by)
+<a name="l00314"></a>00314                         <span class="keywordflow">return</span> -1;
+<a name="l00315"></a>00315                     <span class="keywordflow">else</span>
+<a name="l00316"></a>00316                         <span class="keywordflow">return</span> 0;
+<a name="l00317"></a>00317                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ax &lt; bx)
+<a name="l00318"></a>00318                     <span class="keywordflow">return</span> -1;
+<a name="l00319"></a>00319                 <span class="keywordflow">else</span>
+<a name="l00320"></a>00320                     <span class="keywordflow">return</span> 1;
+<a name="l00321"></a>00321             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (b instanceof Number) {
+<a name="l00322"></a>00322                 <span class="keywordtype">double</span> bx = ((Number) b).doubleValue(), by = 0.0;
+<a name="l00323"></a>00323                 <span class="keywordflow">if</span> (ax == bx) {
+<a name="l00324"></a>00324                     <span class="keywordflow">if</span> (ay == by)
+<a name="l00325"></a>00325                         <span class="keywordflow">return</span> 0;
+<a name="l00326"></a>00326                     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ay &lt; by)
+<a name="l00327"></a>00327                         <span class="keywordflow">return</span> -1;
+<a name="l00328"></a>00328                     <span class="keywordflow">else</span>
+<a name="l00329"></a>00329                         <span class="keywordflow">return</span> 0;
+<a name="l00330"></a>00330                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ax &lt; bx)
+<a name="l00331"></a>00331                     <span class="keywordflow">return</span> -1;
+<a name="l00332"></a>00332                 <span class="keywordflow">else</span>
+<a name="l00333"></a>00333                     <span class="keywordflow">return</span> 1;
+<a name="l00334"></a>00334             }
+<a name="l00335"></a>00335             <span class="keywordflow">throw</span> <span class="keyword">new</span> ParseException(<span class="stringliteral">&quot;Don&#39;t know how to compare a Complex with &quot;</span> + b + <span class="stringliteral">&quot; (&quot;</span> + b.getClass().getName() + <span class="stringliteral">&quot;)&quot;</span>);
+<a name="l00336"></a>00336         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (a instanceof Number) {
+<a name="l00337"></a>00337             <span class="keywordflow">if</span> (b instanceof Complex) {
+<a name="l00338"></a>00338                 <span class="keywordtype">double</span> ax = ((Number) a).doubleValue(), ay = 0.0;
+<a name="l00339"></a>00339                 Complex cb = (Complex) b;
+<a name="l00340"></a>00340                 <span class="keywordtype">double</span> bx = cb.re(), by = cb.im();
+<a name="l00341"></a>00341                 <span class="keywordflow">if</span> (ax == bx) {
+<a name="l00342"></a>00342                     <span class="keywordflow">if</span> (ay == by)
+<a name="l00343"></a>00343                         <span class="keywordflow">return</span> 0;
+<a name="l00344"></a>00344                     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ay &lt; by)
+<a name="l00345"></a>00345                         <span class="keywordflow">return</span> -1;
+<a name="l00346"></a>00346                     <span class="keywordflow">else</span>
+<a name="l00347"></a>00347                         <span class="keywordflow">return</span> 0;
+<a name="l00348"></a>00348                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ax &lt; bx)
+<a name="l00349"></a>00349                     <span class="keywordflow">return</span> -1;
+<a name="l00350"></a>00350                 <span class="keywordflow">else</span>
+<a name="l00351"></a>00351                     <span class="keywordflow">return</span> 1;
+<a name="l00352"></a>00352             }
+<a name="l00353"></a>00353         }
+<a name="l00354"></a>00354         <span class="keywordflow">if</span> (a instanceof Comparable&lt;?&gt; &amp;&amp; a.getClass().equals(b.getClass()))
+<a name="l00355"></a>00355             <span class="keywordflow">return</span> ((Comparable&lt;Object&gt;) a).compareTo(b);
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357         <span class="keywordflow">if</span> ((a instanceof Number) &amp;&amp; (b instanceof Number)) {
+<a name="l00358"></a>00358             <span class="keywordtype">double</span> ax = ((Number) a).doubleValue();
+<a name="l00359"></a>00359             <span class="keywordtype">double</span> bx = ((Number) b).doubleValue();
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361             <span class="keywordflow">if</span> (ax == bx)
+<a name="l00362"></a>00362                 <span class="keywordflow">return</span> 0;
+<a name="l00363"></a>00363             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ax &lt; bx)
+<a name="l00364"></a>00364                 <span class="keywordflow">return</span> -1;
+<a name="l00365"></a>00365             <span class="keywordflow">else</span>
+<a name="l00366"></a>00366                 <span class="keywordflow">return</span> 1;
+<a name="l00367"></a>00367         }
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369         <span class="keywordflow">if</span> (a instanceof Comparable) {
+<a name="l00370"></a>00370             <span class="keywordflow">return</span> ((Comparable&lt;Object&gt;) a).compareTo(b);
+<a name="l00371"></a>00371         }
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373         <span class="keywordflow">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="stringliteral">&quot;Sorry don&#39;t know how to compare &quot;</span> + a + <span class="stringliteral">&quot; (&quot;</span> + a.getClass().getName() + <span class="stringliteral">&quot;) and &quot;</span> + b + <span class="stringliteral">&quot; (&quot;</span>
+<a name="l00374"></a>00374                 + b.getClass().getName() + <span class="stringliteral">&quot;)&quot;</span>);
+<a name="l00375"></a>00375     }
+<a name="l00376"></a>00376 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>PolynomialCreator.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

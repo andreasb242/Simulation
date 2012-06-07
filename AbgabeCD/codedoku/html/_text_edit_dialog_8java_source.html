@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/Javalibs/Gui/BJavalibs/BJavalibs/src/butti/javalibs/gui/TextEditDialog.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_text_edit_dialog_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/Javalibs/Gui/BJavalibs/BJavalibs/src/butti/javalibs/gui/TextEditDialog.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>butti.javalibs.gui;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.Color;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.GridBagConstraints;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.awt.Window;
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.awt.event.ActionListener;
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="keyword">import</span> javax.swing.JButton;
+<a name="l00010"></a>00010 <span class="keyword">import</span> javax.swing.JLabel;
+<a name="l00011"></a>00011 <span class="keyword">import</span> javax.swing.JTextField;
+<a name="l00012"></a>00012 <span class="keyword">import</span> javax.swing.event.DocumentEvent;
+<a name="l00013"></a>00013 <span class="keyword">import</span> javax.swing.event.DocumentListener;
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="keyword">import</span> butti.javalibs.controls.TitleLabel;
+<a name="l00016"></a>00016 
+<a name="l00017"></a><a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html">00017</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html">TextEditDialog</a> <span class="keyword">extends</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_b_dialog.html">BDialog</a> {
+<a name="l00018"></a>00018     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020     <span class="keyword">private</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a> gbm;
+<a name="l00021"></a>00021     <span class="keyword">private</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a> lbDescription = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a>(<span class="stringliteral">&quot;Description&quot;</span>);
+<a name="l00022"></a>00022     <span class="keyword">private</span> JTextField txtText = <span class="keyword">new</span> JTextField();
+<a name="l00023"></a>00023     <span class="keyword">private</span> JLabel lbError = <span class="keyword">new</span> JLabel(<span class="stringliteral">&quot; &quot;</span>);
+<a name="l00024"></a>00024     <span class="keyword">private</span> String text = null;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026     <span class="keyword">private</span> Color defaultTextBackground;
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028     <span class="keyword">public</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html">TextEditDialog</a>(String description, <a class="code" href="interfacebutti_1_1javalibs_1_1gui_1_1_text_edit_dialog_1_1_text_checker.html">TextChecker</a> checker) {
+<a name="l00029"></a>00029         <span class="keyword">this</span>(null, description, checker);
+<a name="l00030"></a>00030     }
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     <span class="keyword">public</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html">TextEditDialog</a>(Window win, String description, <span class="keyword">final</span> <a class="code" href="interfacebutti_1_1javalibs_1_1gui_1_1_text_edit_dialog_1_1_text_checker.html">TextChecker</a> checker) {
+<a name="l00033"></a>00033         super(win);
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+<a name="l00036"></a>00036         setModal(<span class="keyword">true</span>);
+<a name="l00037"></a>00037         
+<a name="l00038"></a>00038         setDescription(description);
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040         gbm = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a>(<span class="keyword">this</span>);
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(3).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(lbDescription);
+<a name="l00043"></a>00043         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(3).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(txtText);
+<a name="l00044"></a>00044         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(3).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(lbError);
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046         JButton btCancel = <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_button_factory.html">ButtonFactory</a>.createButton(<span class="stringliteral">&quot;Abbrechne&quot;</span>, <span class="keyword">false</span>);
+<a name="l00047"></a>00047         btCancel.addActionListener(<span class="keyword">new</span> ActionListener() {
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049             @Override
+<a name="l00050"></a>00050             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00051"></a>00051                 dispose();
+<a name="l00052"></a>00052             }
+<a name="l00053"></a>00053         });
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(10).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> JLabel());<span class="comment">// dummy</span>
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(10).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#ad537cd6be8bd24614e93de0b3ccd3f99">setFill</a>(GridBagConstraints.NONE).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa503d502bce38ce1b3c7b28bcd540818">setWeightX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(btCancel);
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059         JButton btOK = <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_button_factory.html">ButtonFactory</a>.createButton(<span class="stringliteral">&quot;Speichern&quot;</span>, <span class="keyword">true</span>);
+<a name="l00060"></a>00060         btOK.addActionListener(<span class="keyword">new</span> ActionListener() {
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062             @Override
+<a name="l00063"></a>00063             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00064"></a>00064                 text = txtText.getText();
+<a name="l00065"></a>00065                 dispose();
+<a name="l00066"></a>00066             }
+<a name="l00067"></a>00067         });
+<a name="l00068"></a>00068         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(10).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#ad537cd6be8bd24614e93de0b3ccd3f99">setFill</a>(GridBagConstraints.NONE).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa503d502bce38ce1b3c7b28bcd540818">setWeightX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(btOK);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070         txtText.getDocument().addDocumentListener(<span class="keyword">new</span> DocumentListener() {
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072             @Override
+<a name="l00073"></a>00073             <span class="keyword">public</span> <span class="keywordtype">void</span> removeUpdate(DocumentEvent e) {
+<a name="l00074"></a>00074                 checkText();
+<a name="l00075"></a>00075             }
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077             @Override
+<a name="l00078"></a>00078             <span class="keyword">public</span> <span class="keywordtype">void</span> insertUpdate(DocumentEvent e) {
+<a name="l00079"></a>00079                 checkText();
+<a name="l00080"></a>00080             }
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082             @Override
+<a name="l00083"></a>00083             <span class="keyword">public</span> <span class="keywordtype">void</span> changedUpdate(DocumentEvent e) {
+<a name="l00084"></a>00084                 checkText();
+<a name="l00085"></a>00085             }
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087             <span class="keyword">private</span> <span class="keywordtype">void</span> checkText() {
+<a name="l00088"></a>00088                 String txt = txtText.getText();
+<a name="l00089"></a>00089                 <span class="keywordflow">if</span> (checker.isValidText(txt)) {
+<a name="l00090"></a>00090                     lbError.setText(<span class="stringliteral">&quot; &quot;</span>);
+<a name="l00091"></a>00091                     txtText.setBackground(defaultTextBackground);
+<a name="l00092"></a>00092                 } <span class="keywordflow">else</span> {
+<a name="l00093"></a>00093                     lbError.setText(checker.getErrorDescription());
+<a name="l00094"></a>00094                     txtText.setBackground(<span class="keyword">new</span> Color(0xFF9B9B));
+<a name="l00095"></a>00095                 }
+<a name="l00096"></a>00096             }
+<a name="l00097"></a>00097         });
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099         defaultTextBackground = txtText.getBackground();
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101         pack();
+<a name="l00102"></a>00102         setLocationRelativeTo(win);
+<a name="l00103"></a>00103     }
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     <span class="keyword">public</span> <span class="keywordtype">void</span> setText(String text) {
+<a name="l00106"></a>00106         this.txtText.setText(text);
+<a name="l00107"></a>00107     }
+<a name="l00108"></a>00108 
+<a name="l00112"></a><a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html#a738c1547f6566d59f42b2ef8569dcb2a">00112</a>     <span class="keyword">public</span> String <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html#a738c1547f6566d59f42b2ef8569dcb2a">getText</a>() {
+<a name="l00113"></a>00113         <span class="keywordflow">return</span> text;
+<a name="l00114"></a>00114     }
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116     <span class="keyword">public</span> <span class="keywordtype">void</span> setDescription(String description) {
+<a name="l00117"></a>00117         lbDescription.setText(description);
+<a name="l00118"></a>00118     }
+<a name="l00119"></a>00119 
+<a name="l00120"></a><a class="code" href="interfacebutti_1_1javalibs_1_1gui_1_1_text_edit_dialog_1_1_text_checker.html">00120</a>     <span class="keyword">public</span> interface <a class="code" href="interfacebutti_1_1javalibs_1_1gui_1_1_text_edit_dialog_1_1_text_checker.html">TextChecker</a> {
+<a name="l00121"></a>00121         <span class="keyword">public</span> <span class="keywordtype">boolean</span> isValidText(String text);
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123         <span class="keyword">public</span> String getErrorDescription();
+<a name="l00124"></a>00124     }
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> main(String[] args) {
+<a name="l00127"></a>00127         <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html">TextEditDialog</a> dlg = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_text_edit_dialog.html">TextEditDialog</a>(<span class="stringliteral">&quot;test&quot;</span>, <span class="keyword">new</span> <a class="code" href="interfacebutti_1_1javalibs_1_1gui_1_1_text_edit_dialog_1_1_text_checker.html">TextChecker</a>() {
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129             @Override
+<a name="l00130"></a>00130             <span class="keyword">public</span> <span class="keywordtype">boolean</span> isValidText(String text) {
+<a name="l00131"></a>00131                 <span class="keywordflow">if</span> (<span class="stringliteral">&quot;test&quot;</span>.equals(text)) {
+<a name="l00132"></a>00132                     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00133"></a>00133                 }
+<a name="l00134"></a>00134                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00135"></a>00135             }
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137             @Override
+<a name="l00138"></a>00138             <span class="keyword">public</span> String getErrorDescription() {
+<a name="l00139"></a>00139                 <span class="keywordflow">return</span> <span class="stringliteral">&quot;Fehler #123&quot;</span>;
+<a name="l00140"></a>00140             }
+<a name="l00141"></a>00141         });
+<a name="l00142"></a>00142         dlg.setTitle(<span class="stringliteral">&quot;Bla&quot;</span>);
+<a name="l00143"></a>00143         dlg.setVisible(<span class="keyword">true</span>);
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145         System.exit(0);
+<a name="l00146"></a>00146     }
+<a name="l00147"></a>00147 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>TextEditDialog.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

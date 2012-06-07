@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/matrixJep/MatrixJep.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_matrix_jep_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/matrixJep/MatrixJep.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 19-Dec-2003</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.matrixJep;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> org.lsmp.djep.djep.DJep;
+<a name="l00007"></a>00007 <span class="keyword">import</span> org.lsmp.djep.djep.DSymbolTable;
+<a name="l00008"></a>00008 <span class="keyword">import</span> org.lsmp.djep.djep.diffRules.MultiplyDiffRule;
+<a name="l00009"></a>00009 <span class="keyword">import</span> org.lsmp.djep.djep.diffRules.PassThroughDiffRule;
+<a name="l00010"></a>00010 <span class="keyword">import</span> org.lsmp.djep.matrixJep.function.MDiff;
+<a name="l00011"></a>00011 <span class="keyword">import</span> org.lsmp.djep.matrixJep.function.MIf;
+<a name="l00012"></a>00012 <span class="keyword">import</span> org.lsmp.djep.matrixJep.function.MMap;
+<a name="l00013"></a>00013 <span class="keyword">import</span> org.lsmp.djep.matrixJep.function.MSum;
+<a name="l00014"></a>00014 <span class="keyword">import</span> org.lsmp.djep.matrixJep.nodeTypes.MatrixNodeI;
+<a name="l00015"></a>00015 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.Determinant;
+<a name="l00016"></a>00016 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.Diagonal;
+<a name="l00017"></a>00017 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.GetDiagonal;
+<a name="l00018"></a>00018 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.Length;
+<a name="l00019"></a>00019 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.Size;
+<a name="l00020"></a>00020 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.Trace;
+<a name="l00021"></a>00021 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.Transpose;
+<a name="l00022"></a>00022 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.VEle;
+<a name="l00023"></a>00023 <span class="keyword">import</span> org.lsmp.djep.vectorJep.function.VSum;
+<a name="l00024"></a>00024 <span class="keyword">import</span> org.lsmp.djep.vectorJep.values.Scaler;
+<a name="l00025"></a>00025 <span class="keyword">import</span> org.lsmp.djep.xjep.PrintVisitor;
+<a name="l00026"></a>00026 <span class="keyword">import</span> org.nfunk.jep.Node;
+<a name="l00027"></a>00027 <span class="keyword">import</span> org.nfunk.jep.Operator;
+<a name="l00028"></a>00028 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00029"></a>00029 <span class="keyword">import</span> org.nfunk.jep.ParserConstants;
+<a name="l00030"></a>00030 <span class="keyword">import</span> org.nfunk.jep.function.Power;
+<a name="l00031"></a>00031 
+<a name="l00038"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html">00038</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html">MatrixJep</a> <span class="keyword">extends</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_jep.html">DJep</a> {
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_preprocessor.html">MatrixPreprocessor</a> dec = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_preprocessor.html">MatrixPreprocessor</a>();
+<a name="l00041"></a>00041     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_variable_factory.html">MatrixVariableFactory</a> mvf = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_variable_factory.html">MatrixVariableFactory</a>();
+<a name="l00042"></a>00042     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_evaluator.html">MatrixEvaluator</a> mev = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_evaluator.html">MatrixEvaluator</a>();
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html">MatrixJep</a>() {
+<a name="l00045"></a>00045         super();
+<a name="l00046"></a>00046         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_jep.html#a75df9c8b06cb09b26b2ead6183cf0064">nf</a> = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_node_factory.html">MatrixNodeFactory</a>(<span class="keyword">this</span>);
+<a name="l00047"></a>00047         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a3ff8715da8f6b8c097387d310e0dfbf9">symTab</a> = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_symbol_table.html">DSymbolTable</a>(mvf);
+<a name="l00048"></a>00048         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aceaba77afee11ea768238e9405b6a41c">opSet</a> = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_operator_set.html">MatrixOperatorSet</a>();
+<a name="l00049"></a>00049         this.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#acff6cb4e089ff872a36723dc5a78bd4b">parser</a>.setInitialTokenManagerState(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_parser_constants.html">ParserConstants</a>.NO_DOT_IN_IDENTIFIERS);
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> tens = ((<a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_operator_set.html">MatrixOperatorSet</a>) <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aceaba77afee11ea768238e9405b6a41c">opSet</a>).getMList();
+<a name="l00052"></a>00052         pv.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_print_visitor.html#aae93108aade1af2a70e1b0e5b5d26732">addSpecialRule</a>(tens, (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_print_visitor.html">PrintVisitor</a>.PrintRulesI) tens.getPFMC());
+<a name="l00053"></a>00053         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> eleAccess = ((<a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_operator_set.html">MatrixOperatorSet</a>) <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aceaba77afee11ea768238e9405b6a41c">opSet</a>).getElement();
+<a name="l00054"></a>00054         pv.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_print_visitor.html#aae93108aade1af2a70e1b0e5b5d26732">addSpecialRule</a>(eleAccess, (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_print_visitor.html">PrintVisitor</a>.PrintRulesI) eleAccess.getPFMC());
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_jep.html#aec17ec612581530298e0be9b7953a527">addDiffRule</a>(<span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1diff_rules_1_1_pass_through_diff_rule.html">PassThroughDiffRule</a>(tens.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a853ed2fd586918430ba629afa6a2609b">getName</a>(), tens.getPFMC()));
+<a name="l00057"></a>00057         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> cross = ((<a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_operator_set.html">MatrixOperatorSet</a>) <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aceaba77afee11ea768238e9405b6a41c">opSet</a>).getCross();
+<a name="l00058"></a>00058         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_jep.html#aec17ec612581530298e0be9b7953a527">addDiffRule</a>(<span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1diff_rules_1_1_multiply_diff_rule.html">MultiplyDiffRule</a>(cross.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a853ed2fd586918430ba629afa6a2609b">getName</a>(), cross));
+<a name="l00059"></a>00059         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html">Operator</a> dot = ((<a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_operator_set.html">MatrixOperatorSet</a>) <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aceaba77afee11ea768238e9405b6a41c">opSet</a>).getDot();
+<a name="l00060"></a>00060         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_jep.html#aec17ec612581530298e0be9b7953a527">addDiffRule</a>(<span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1diff_rules_1_1_multiply_diff_rule.html">MultiplyDiffRule</a>(dot.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_operator.html#a853ed2fd586918430ba629afa6a2609b">getName</a>(), dot));
+<a name="l00061"></a>00061     }
+<a name="l00062"></a>00062 
+<a name="l00063"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#a66f54a00cc6f38a3e3026e9535e4a45a">00063</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#a66f54a00cc6f38a3e3026e9535e4a45a">addStandardFunctions</a>() {
+<a name="l00064"></a>00064         super.addStandardFunctions();
+<a name="l00065"></a>00065         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;pow&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_power.html">Power</a>());
+<a name="l00066"></a>00066         this.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aeac39ec4a216211cd86f1e02993efe8d">getFunctionTable</a>().remove(<span class="stringliteral">&quot;if&quot;</span>);
+<a name="l00067"></a>00067         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;if&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1function_1_1_m_if.html">MIf</a>());
+<a name="l00068"></a>00068         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;ele&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_v_ele.html">VEle</a>());
+<a name="l00069"></a>00069         this.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aeac39ec4a216211cd86f1e02993efe8d">getFunctionTable</a>().remove(<span class="stringliteral">&quot;diff&quot;</span>);
+<a name="l00070"></a>00070         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;diff&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1function_1_1_m_diff.html">MDiff</a>());
+<a name="l00071"></a>00071         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;len&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_length.html">Length</a>());
+<a name="l00072"></a>00072         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;size&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_size.html">Size</a>());
+<a name="l00073"></a>00073         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;diag&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_diagonal.html">Diagonal</a>());
+<a name="l00074"></a>00074         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;getdiag&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_get_diagonal.html">GetDiagonal</a>());
+<a name="l00075"></a>00075         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;trans&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_transpose.html">Transpose</a>());
+<a name="l00076"></a>00076         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;det&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_determinant.html">Determinant</a>());
+<a name="l00077"></a>00077         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;trace&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_trace.html">Trace</a>());
+<a name="l00078"></a>00078         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;vsum&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_v_sum.html">VSum</a>());
+<a name="l00079"></a>00079         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;Map&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1function_1_1_m_map.html">MMap</a>());
+<a name="l00080"></a>00080         this.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aeac39ec4a216211cd86f1e02993efe8d">getFunctionTable</a>().remove(<span class="stringliteral">&quot;Sum&quot;</span>);
+<a name="l00081"></a>00081         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a826dd9aa34dc2267cbc48c11b0b8b4d7">addFunction</a>(<span class="stringliteral">&quot;Sum&quot;</span>, <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1function_1_1_m_sum.html">MSum</a>(<span class="keyword">this</span>));
+<a name="l00082"></a>00082     }
+<a name="l00083"></a>00083 
+<a name="l00088"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#ab5ff4f67a0c157c54311f37ae41b551d">00088</a>     <span class="keyword">public</span> Object <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#ab5ff4f67a0c157c54311f37ae41b551d">evaluate</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00089"></a>00089         Object res = mev.evaluate((<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1node_types_1_1_matrix_node_i.html">MatrixNodeI</a>) node, <span class="keyword">this</span>);
+<a name="l00090"></a>00090         <span class="keywordflow">if</span> (res instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a>)
+<a name="l00091"></a>00091             <span class="keywordflow">return</span> ((Scaler) res).<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#acd8206bf6bdcd246734f29b0e814a6a1">getEle</a>(0);
+<a name="l00092"></a>00092         <span class="keywordflow">return</span> res;
+<a name="l00093"></a>00093     }
+<a name="l00094"></a>00094 
+<a name="l00096"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#aade1141005e9a5881baaceb2d9ce8b7a">00096</a>     <span class="keyword">public</span> Object <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#aade1141005e9a5881baaceb2d9ce8b7a">evaluateRaw</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00097"></a>00097         Object res = mev.evaluate((<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1node_types_1_1_matrix_node_i.html">MatrixNodeI</a>) node, <span class="keyword">this</span>);
+<a name="l00098"></a>00098         <span class="keywordflow">return</span> res;
+<a name="l00099"></a>00099     }
+<a name="l00100"></a>00100 
+<a name="l00105"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#a293b15bc646c4e15b7d8bcf23305a852">00105</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#a293b15bc646c4e15b7d8bcf23305a852">preprocess</a>(<a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> node) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00106"></a>00106         <span class="keywordflow">return</span> dec.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_preprocessor.html#ac4f27af426fd225b93e3a355bfa9f3c1">preprocess</a>(node, <span class="keyword">this</span>);
+<a name="l00107"></a>00107     }
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109     <span class="comment">/*</span>
+<a name="l00110"></a>00110 <span class="comment">     * (non-Javadoc)</span>
+<a name="l00111"></a>00111 <span class="comment">     * </span>
+<a name="l00112"></a>00112 <span class="comment">     * @see org.nfunk.jep.JEP#getValueAsObject()</span>
+<a name="l00113"></a>00113 <span class="comment">     */</span>
+<a name="l00114"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#a36b0cc225aa78e5f0d659ac4be7771e0">00114</a>     <span class="keyword">public</span> Object <a class="code" href="classorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1_matrix_jep.html#a36b0cc225aa78e5f0d659ac4be7771e0">getValueAsObject</a>() {
+<a name="l00115"></a>00115         <span class="keywordflow">try</span> {
+<a name="l00116"></a>00116             Object res = mev.evaluate((<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1matrix_jep_1_1node_types_1_1_matrix_node_i.html">MatrixNodeI</a>) <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#ad5ed1c04d79d778ba0b7da9879eaf448">getTopNode</a>(), <span class="keyword">this</span>);
+<a name="l00117"></a>00117             <span class="keywordflow">if</span> (res instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a>)
+<a name="l00118"></a>00118                 <span class="keywordflow">return</span> ((Scaler) res).<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#acd8206bf6bdcd246734f29b0e814a6a1">getEle</a>(0);
+<a name="l00119"></a>00119             <span class="keywordflow">return</span> res;
+<a name="l00120"></a>00120         } <span class="keywordflow">catch</span> (Exception e) {
+<a name="l00121"></a>00121             this.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#acceb5dba84bc897d29527aee0ae49496">errorList</a>.addElement(<span class="stringliteral">&quot;Error during evaluation:&quot;</span>);
+<a name="l00122"></a>00122             this.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#acceb5dba84bc897d29527aee0ae49496">errorList</a>.addElement(e.getMessage());
+<a name="l00123"></a>00123             <span class="keywordflow">return</span> null;
+<a name="l00124"></a>00124         }
+<a name="l00125"></a>00125     }
+<a name="l00126"></a>00126 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>MatrixJep.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

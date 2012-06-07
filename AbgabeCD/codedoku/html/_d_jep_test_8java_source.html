@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/unittests/org/nfunk/jep/DJepTest.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_d_jep_test_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/unittests/org/nfunk/jep/DJepTest.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 22-Apr-2005</span>
+<a name="l00003"></a>00003 <span class="comment"> *</span>
+<a name="l00004"></a>00004 <span class="comment"> * See LICENSE.txt for license information.</span>
+<a name="l00005"></a>00005 <span class="comment"> */</span>
+<a name="l00006"></a>00006 <span class="keyword">package </span>org.nfunk.jep;
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="keyword">import</span> junit.framework.Test;
+<a name="l00009"></a>00009 <span class="keyword">import</span> junit.framework.TestResult;
+<a name="l00010"></a>00010 <span class="keyword">import</span> junit.framework.TestSuite;
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="keyword">import</span> org.lsmp.djep.djep.DJep;
+<a name="l00013"></a>00013 <span class="keyword">import</span> org.lsmp.djep.djep.DSymbolTable;
+<a name="l00014"></a>00014 <span class="keyword">import</span> org.nfunk.jep.Node;
+<a name="l00015"></a>00015 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00016"></a>00016 
+<a name="l00020"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html">00020</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html">DJepTest</a> <span class="keyword">extends</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_x_jep_test.html">XJepTest</a> {
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022     <span class="keyword">public</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html">DJepTest</a>(String name) {
+<a name="l00023"></a>00023         super(name);
+<a name="l00024"></a>00024     }
+<a name="l00025"></a>00025 
+<a name="l00026"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html#a7f63cb04cdb5a9305ec8d2bde1d670a4">00026</a>     <span class="keyword">public</span> <span class="keyword">static</span> Test <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html#a7f63cb04cdb5a9305ec8d2bde1d670a4">suite</a>() {
+<a name="l00027"></a>00027         <span class="keywordflow">return</span> <span class="keyword">new</span> TestSuite(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html">DJepTest</a>.class);
+<a name="l00028"></a>00028     }
+<a name="l00029"></a>00029 
+<a name="l00030"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html#a45c2297a8f7665b7fb1d3f3ea0082c6e">00030</a>     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html#a45c2297a8f7665b7fb1d3f3ea0082c6e">main</a>(String[] args) {
+<a name="l00031"></a>00031         TestSuite <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html#a7f63cb04cdb5a9305ec8d2bde1d670a4">suite</a> = <span class="keyword">new</span> TestSuite(<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html">DJepTest</a>.class);
+<a name="l00032"></a>00032         suite.run(<span class="keyword">new</span> TestResult());
+<a name="l00033"></a>00033     }
+<a name="l00034"></a>00034 
+<a name="l00035"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html#a96ba3a2f0df4eff8cadae4eceab25e0b">00035</a>     <span class="keyword">protected</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_d_jep_test.html#a96ba3a2f0df4eff8cadae4eceab25e0b">setUp</a>() {
+<a name="l00036"></a>00036         j = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_jep.html">DJep</a>();
+<a name="l00037"></a>00037         j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#ad0551d41376a2e3c1b3c48a3b7ed1d0b">addStandardConstants</a>();
+<a name="l00038"></a>00038         j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a2819add2a2a5533ca5ba54c27958e8eb">addStandardFunctions</a>();
+<a name="l00039"></a>00039         j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#ac444014c843f634e5efe4d4c6054707b">addComplex</a>();
+<a name="l00040"></a>00040         <span class="comment">// j.setTraverse(true);</span>
+<a name="l00041"></a>00041         j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a096cb12e6d14ef727fcf5f19fb0be8d2">setAllowAssignment</a>(<span class="keyword">true</span>);
+<a name="l00042"></a>00042         j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#a7d37746841d81446820238d6080fcb70">setAllowUndeclared</a>(<span class="keyword">true</span>);
+<a name="l00043"></a>00043         j.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_j_e_p.html#aacd5999499d2104385345a4e0db36247">setImplicitMul</a>(<span class="keyword">true</span>);
+<a name="l00044"></a>00044         ((<a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_jep.html">DJep</a>) j).addStandardDiffRules();
+<a name="l00045"></a>00045     }
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047     <span class="keyword">public</span> <span class="keywordtype">void</span> testDiff() throws <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00048"></a>00048         System.out.println(<span class="stringliteral">&quot;\nTesting assignment&quot;</span>);
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050         simplifyTest(<span class="stringliteral">&quot;diff(x^2,x)&quot;</span>, <span class="stringliteral">&quot;2 x&quot;</span>);
+<a name="l00051"></a>00051         simplifyTest(<span class="stringliteral">&quot;diff(x^3,x)&quot;</span>, <span class="stringliteral">&quot;3 x^2&quot;</span>);
+<a name="l00052"></a>00052         simplifyTest(<span class="stringliteral">&quot;diff(x,x)&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>);
+<a name="l00053"></a>00053         simplifyTest(<span class="stringliteral">&quot;diff(1,x)&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);
+<a name="l00054"></a>00054         simplifyTest(<span class="stringliteral">&quot;diff(x^2+x+1,x)&quot;</span>, <span class="stringliteral">&quot;2 x+1&quot;</span>);
+<a name="l00055"></a>00055         simplifyTest(<span class="stringliteral">&quot;diff((x+x^2)*(x+x^3),x)&quot;</span>, <span class="stringliteral">&quot;(1+2*x)*(x+x^3)+(x+x^2)*(1+3*x^2)&quot;</span>);
+<a name="l00056"></a>00056         simplifyTest(<span class="stringliteral">&quot;diff((x+x^2)/(x+x^3),x)&quot;</span>, <span class="stringliteral">&quot;((1+2*x)*(x+x^3)-(x+x^2)*(1+3*x^2))/((x+x^3)*(x+x^3))&quot;</span>);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058         simplifyTest(<span class="stringliteral">&quot;diff(y^x,x)&quot;</span>, <span class="stringliteral">&quot;y^x*ln(y)&quot;</span>);
+<a name="l00059"></a>00059         simplifyTest(<span class="stringliteral">&quot;diff(e^x,x)&quot;</span>, <span class="stringliteral">&quot;e^x*ln(e)&quot;</span>);
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061         simplifyTest(<span class="stringliteral">&quot;diff(sin(x),x)&quot;</span>, <span class="stringliteral">&quot;cos(x)&quot;</span>);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063         simplifyTest(<span class="stringliteral">&quot;diff((x+1)^2,x)&quot;</span>, <span class="stringliteral">&quot;2+2*x&quot;</span>);
+<a name="l00064"></a>00064         simplifyTest(<span class="stringliteral">&quot;diff((x+y)^2,x)&quot;</span>, <span class="stringliteral">&quot;2*(x+y)&quot;</span>);
+<a name="l00065"></a>00065         simplifyTest(<span class="stringliteral">&quot;diff((x+x^2)^3,x)&quot;</span>, <span class="stringliteral">&quot;3*(x+x^2)^2*(1+2*x)&quot;</span>);
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067         simplifyTest(<span class="stringliteral">&quot;diff(sin(x+1),x)&quot;</span>, <span class="stringliteral">&quot;cos(x+1)&quot;</span>);
+<a name="l00068"></a>00068         simplifyTest(<span class="stringliteral">&quot;diff(sin(x+x^2),x)&quot;</span>, <span class="stringliteral">&quot;cos(x+x^2)*(1+2*x)&quot;</span>);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070         simplifyTest(<span class="stringliteral">&quot;diff(cos(x),x)&quot;</span>, <span class="stringliteral">&quot;-sin(x)&quot;</span>);
+<a name="l00071"></a>00071         simplifyTest(<span class="stringliteral">&quot;diff(tan(x),x)&quot;</span>, <span class="stringliteral">&quot;1/((cos(x))^2)&quot;</span>);
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073         simplifyTest(<span class="stringliteral">&quot;diff(sec(x),x)&quot;</span>, <span class="stringliteral">&quot;sec(x)*tan(x)&quot;</span>);
+<a name="l00074"></a>00074         simplifyTest(<span class="stringliteral">&quot;diff(cosec(x),x)&quot;</span>, <span class="stringliteral">&quot;-cosec(x) * cot(x)&quot;</span>);
+<a name="l00075"></a>00075         simplifyTest(<span class="stringliteral">&quot;diff(cot(x),x)&quot;</span>, <span class="stringliteral">&quot;-(cosec(x))^2&quot;</span>);
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077         simplifyTest(<span class="stringliteral">&quot;diff(sec(x),x)&quot;</span>, <span class="stringliteral">&quot;sec(x) * tan(x)&quot;</span>);
+<a name="l00078"></a>00078         simplifyTest(<span class="stringliteral">&quot;diff(cosec(x),x)&quot;</span>, <span class="stringliteral">&quot;-cosec(x) * cot(x)&quot;</span>);
+<a name="l00079"></a>00079         simplifyTest(<span class="stringliteral">&quot;diff(cot(x),x)&quot;</span>, <span class="stringliteral">&quot;-(cosec(x))^2&quot;</span>);
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081         simplifyTest(<span class="stringliteral">&quot;diff(asin(x),x)&quot;</span>, <span class="stringliteral">&quot;1/(sqrt(1-x^2))&quot;</span>);
+<a name="l00082"></a>00082         simplifyTest(<span class="stringliteral">&quot;diff(acos(x),x)&quot;</span>, <span class="stringliteral">&quot;-1/(sqrt(1-x^2))&quot;</span>);
+<a name="l00083"></a>00083         simplifyTest(<span class="stringliteral">&quot;diff(atan(x),x)&quot;</span>, <span class="stringliteral">&quot;1/(1+x^2)&quot;</span>);
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085         simplifyTest(<span class="stringliteral">&quot;diff(sinh(x),x)&quot;</span>, <span class="stringliteral">&quot;cosh(x)&quot;</span>);
+<a name="l00086"></a>00086         simplifyTest(<span class="stringliteral">&quot;diff(cosh(x),x)&quot;</span>, <span class="stringliteral">&quot;sinh(x)&quot;</span>);
+<a name="l00087"></a>00087         simplifyTest(<span class="stringliteral">&quot;diff(tanh(x),x)&quot;</span>, <span class="stringliteral">&quot;1-(tanh(x))^2&quot;</span>);
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089         simplifyTest(<span class="stringliteral">&quot;diff(asinh(x),x)&quot;</span>, <span class="stringliteral">&quot;1/(sqrt(1+x^2))&quot;</span>);
+<a name="l00090"></a>00090         simplifyTest(<span class="stringliteral">&quot;diff(acosh(x),x)&quot;</span>, <span class="stringliteral">&quot;1/(sqrt(x^2-1))&quot;</span>);
+<a name="l00091"></a>00091         simplifyTest(<span class="stringliteral">&quot;diff(atanh(x),x)&quot;</span>, <span class="stringliteral">&quot;1/(1-x^2)&quot;</span>);
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093         simplifyTest(<span class="stringliteral">&quot;diff(sqrt(x),x)&quot;</span>, <span class="stringliteral">&quot;1/(2 (sqrt(x)))&quot;</span>);
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095         simplifyTest(<span class="stringliteral">&quot;diff(exp(x),x)&quot;</span>, <span class="stringliteral">&quot;exp(x)&quot;</span>);
+<a name="l00096"></a>00096         simplifyTest(<span class="stringliteral">&quot;diff(ln(x),x)&quot;</span>, <span class="stringliteral">&quot;1/x&quot;</span>);
+<a name="l00097"></a>00097         simplifyTest(<span class="stringliteral">&quot;diff(log(x),x)&quot;</span>, <span class="stringliteral">&quot;(1/ln(10)) /x&quot;</span>);
+<a name="l00098"></a>00098         simplifyTest(<span class="stringliteral">&quot;diff(abs(x),x)&quot;</span>, <span class="stringliteral">&quot;abs(x)/x&quot;</span>);
+<a name="l00099"></a>00099         simplifyTest(<span class="stringliteral">&quot;diff(atan2(y,x),x)&quot;</span>, <span class="stringliteral">&quot;y/(y^2+x^2)&quot;</span>);
+<a name="l00100"></a>00100         simplifyTest(<span class="stringliteral">&quot;diff(atan2(y,x),y)&quot;</span>, <span class="stringliteral">&quot;-x/(y^2+x^2)&quot;</span>);
+<a name="l00101"></a>00101         simplifyTest(<span class="stringliteral">&quot;diff(mod(x,y),x)&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>);
+<a name="l00102"></a>00102         simplifyTest(<span class="stringliteral">&quot;diff(mod(x,y),y)&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);
+<a name="l00103"></a>00103         simplifyTest(<span class="stringliteral">&quot;diff(sum(x,x^2,x^3),x)&quot;</span>, <span class="stringliteral">&quot;sum(1,2 x,3 x^2)&quot;</span>);
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;sum&quot;));</span>
+<a name="l00106"></a>00106         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;re&quot;));</span>
+<a name="l00107"></a>00107         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;im&quot;));</span>
+<a name="l00108"></a>00108         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;rand&quot;));</span>
+<a name="l00109"></a>00109         <span class="comment">//      </span>
+<a name="l00110"></a>00110         <span class="comment">// MacroFunction complex = new MacroFunction(&quot;complex&quot;,2,&quot;x+i*y&quot;,xjep);</span>
+<a name="l00111"></a>00111         <span class="comment">// xjep.addFunction(&quot;complex&quot;,complex);</span>
+<a name="l00112"></a>00112         <span class="comment">// addDiffRule(new MacroFunctionDiffRules(this,complex));</span>
+<a name="l00113"></a>00113         <span class="comment">//      </span>
+<a name="l00114"></a>00114         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;\&quot;&lt;\&quot;&quot;,new</span>
+<a name="l00115"></a>00115         <span class="comment">// Comparative(0)));</span>
+<a name="l00116"></a>00116         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;\&quot;&gt;\&quot;&quot;,new</span>
+<a name="l00117"></a>00117         <span class="comment">// Comparative(1)));</span>
+<a name="l00118"></a>00118         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;\&quot;&lt;=\&quot;&quot;,new</span>
+<a name="l00119"></a>00119         <span class="comment">// Comparative(2)));</span>
+<a name="l00120"></a>00120         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;\&quot;&gt;=\&quot;&quot;,new</span>
+<a name="l00121"></a>00121         <span class="comment">// Comparative(3)));</span>
+<a name="l00122"></a>00122         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;\&quot;!=\&quot;&quot;,new</span>
+<a name="l00123"></a>00123         <span class="comment">// Comparative(4)));</span>
+<a name="l00124"></a>00124         <span class="comment">// addDiffRule(new PassThroughDiffRule(this,&quot;\&quot;==\&quot;&quot;,new</span>
+<a name="l00125"></a>00125         <span class="comment">// Comparative(5)));</span>
+<a name="l00126"></a>00126     }
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128     <span class="keyword">public</span> <span class="keywordtype">void</span> testAssignDiff() throws Exception {
+<a name="l00129"></a>00129         System.out.println(<span class="stringliteral">&quot;\nTesting assignment and diff&quot;</span>);
+<a name="l00130"></a>00130         simplifyTestString(<span class="stringliteral">&quot;y=x^5&quot;</span>, <span class="stringliteral">&quot;y=x^5.0&quot;</span>);
+<a name="l00131"></a>00131         simplifyTestString(<span class="stringliteral">&quot;z=diff(y,x)&quot;</span>, <span class="stringliteral">&quot;z=5.0*x^4.0&quot;</span>);
+<a name="l00132"></a>00132         Node n1 = ((DSymbolTable) j.getSymbolTable()).getPartialDeriv(<span class="stringliteral">&quot;y&quot;</span>, <span class="keyword">new</span> String[] { <span class="stringliteral">&quot;x&quot;</span> }).getEquation();
+<a name="l00133"></a>00133         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_jep_test.html#aa59ee5b33fa6a67aec1d1f085d7246c6">myAssertEquals</a>(<span class="stringliteral">&quot;dy/dx&quot;</span>, ((DJep) j).toString(n1), <span class="stringliteral">&quot;5.0*x^4.0&quot;</span>);
+<a name="l00134"></a>00134         simplifyTestString(<span class="stringliteral">&quot;w=diff(z,x)&quot;</span>, <span class="stringliteral">&quot;w=20.0*x^3.0&quot;</span>);
+<a name="l00135"></a>00135         Node n2 = ((DSymbolTable) j.getSymbolTable()).getPartialDeriv(<span class="stringliteral">&quot;y&quot;</span>, <span class="keyword">new</span> String[] { <span class="stringliteral">&quot;x&quot;</span>, <span class="stringliteral">&quot;x&quot;</span> }).getEquation();
+<a name="l00136"></a>00136         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_jep_test.html#aa59ee5b33fa6a67aec1d1f085d7246c6">myAssertEquals</a>(<span class="stringliteral">&quot;d^2y/dxdx&quot;</span>, ((DJep) j).toString(n2), <span class="stringliteral">&quot;20.0*x^3.0&quot;</span>);
+<a name="l00137"></a>00137         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_jep_test.html#aa1a73853fec73d667a898b9be5eb1c4a">valueTest</a>(<span class="stringliteral">&quot;x=2&quot;</span>, 2);
+<a name="l00138"></a>00138         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_jep_test.html#aa1a73853fec73d667a898b9be5eb1c4a">valueTest</a>(<span class="stringliteral">&quot;y&quot;</span>, 32); <span class="comment">// x^5</span>
+<a name="l00139"></a>00139         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_jep_test.html#aa1a73853fec73d667a898b9be5eb1c4a">valueTest</a>(<span class="stringliteral">&quot;z&quot;</span>, 80); <span class="comment">// 5 x^4</span>
+<a name="l00140"></a>00140         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_jep_test.html#aa1a73853fec73d667a898b9be5eb1c4a">valueTest</a>(<span class="stringliteral">&quot;w&quot;</span>, 160); <span class="comment">// 20 x^3</span>
+<a name="l00141"></a>00141         simplifyTestString(<span class="stringliteral">&quot;diff(ln(y),x)&quot;</span>, <span class="stringliteral">&quot;(1.0/y)*5.0*x^4.0&quot;</span>);
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143     }
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145     <span class="keyword">public</span> <span class="keywordtype">void</span> testChainedVaraibles() throws Exception {
+<a name="l00146"></a>00146         simplifyTestString(<span class="stringliteral">&quot;x=5&quot;</span>, <span class="stringliteral">&quot;x=5.0&quot;</span>);
+<a name="l00147"></a>00147         simplifyTestString(<span class="stringliteral">&quot;y=x&quot;</span>, <span class="stringliteral">&quot;y=x&quot;</span>);
+<a name="l00148"></a>00148         simplifyTestString(<span class="stringliteral">&quot;z=y&quot;</span>, <span class="stringliteral">&quot;z=y&quot;</span>);
+<a name="l00149"></a>00149         simplifyTestString(<span class="stringliteral">&quot;w=diff(z,x)&quot;</span>, <span class="stringliteral">&quot;w=1.0&quot;</span>);
+<a name="l00150"></a>00150     }
+<a name="l00151"></a>00151 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>DJepTest.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

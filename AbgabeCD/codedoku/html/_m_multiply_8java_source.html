@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/vectorJep/function/MMultiply.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_m_multiply_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/vectorJep/function/MMultiply.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 27-Jul-2003</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.vectorJep.function;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.util.Stack;
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="keyword">import</span> org.lsmp.djep.vectorJep.Dimensions;
+<a name="l00009"></a>00009 <span class="keyword">import</span> org.lsmp.djep.vectorJep.values.MVector;
+<a name="l00010"></a>00010 <span class="keyword">import</span> org.lsmp.djep.vectorJep.values.Matrix;
+<a name="l00011"></a>00011 <span class="keyword">import</span> org.lsmp.djep.vectorJep.values.MatrixValueI;
+<a name="l00012"></a>00012 <span class="keyword">import</span> org.lsmp.djep.vectorJep.values.Scaler;
+<a name="l00013"></a>00013 <span class="keyword">import</span> org.lsmp.djep.vectorJep.values.Tensor;
+<a name="l00014"></a>00014 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00015"></a>00015 <span class="keyword">import</span> org.nfunk.jep.function.Add;
+<a name="l00016"></a>00016 <span class="keyword">import</span> org.nfunk.jep.function.Multiply;
+<a name="l00017"></a>00017 <span class="keyword">import</span> org.nfunk.jep.function.Subtract;
+<a name="l00018"></a>00018 
+<a name="l00027"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html">00027</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html">MMultiply</a> <span class="keyword">extends</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_multiply.html">Multiply</a> implements <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_binary_operator_i.html">BinaryOperatorI</a> {
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029     <span class="keyword">protected</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_add.html">Add</a> add = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_add.html">Add</a>();
+<a name="l00030"></a>00030     <span class="keyword">protected</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_subtract.html">Subtract</a> sub = <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_subtract.html">Subtract</a>();
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html">MMultiply</a>() {
+<a name="l00033"></a>00033         <span class="comment">// add = (Add) Operator.OP_ADD.getPFMC();</span>
+<a name="l00034"></a>00034         <span class="comment">// sub = (Subtract) Operator.OP_SUBTRACT.getPFMC();</span>
+<a name="l00035"></a>00035         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command.html#aa2673e3b6ca295ae0a97c8d99d7adbf1">numberOfParameters</a> = 2;
+<a name="l00036"></a>00036     }
+<a name="l00037"></a>00037 
+<a name="l00041"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#aac768b2bb3dc031d9fef50aa872171a8">00041</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#aac768b2bb3dc031d9fef50aa872171a8">run</a>(Stack&lt;Object&gt; stack) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00042"></a>00042         <a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_postfix_math_command.html#aafa2df937d075af8a74cea31429b931b">checkStack</a>(stack); <span class="comment">// check the stack</span>
+<a name="l00043"></a>00043         <span class="comment">// if(this.curNumberOfParameters!=2) throw new</span>
+<a name="l00044"></a>00044         <span class="comment">// ParseException(&quot;Multiply: should have two children its got &quot;+stack.size());</span>
+<a name="l00045"></a>00045         Object param2 = stack.pop();
+<a name="l00046"></a>00046         Object param1 = stack.pop();
+<a name="l00047"></a>00047         Object product = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a83adb18424c6fa063d6751b5fd08cc2c">mul</a>(param1, param2);
+<a name="l00048"></a>00048         stack.push(product);
+<a name="l00049"></a>00049         <span class="keywordflow">return</span>;
+<a name="l00050"></a>00050     }
+<a name="l00051"></a>00051 
+<a name="l00056"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a83adb18424c6fa063d6751b5fd08cc2c">00056</a>     <span class="keyword">public</span> Object <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a83adb18424c6fa063d6751b5fd08cc2c">mul</a>(Object param1, Object param2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00057"></a>00057         <span class="keywordflow">if</span> (param1 instanceof <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> &amp;&amp; param2 instanceof <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a>) {
+<a name="l00058"></a>00058             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a83adb18424c6fa063d6751b5fd08cc2c">mul</a>((MatrixValueI) param1, (MatrixValueI) param2);
+<a name="l00059"></a>00059         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param1 instanceof MatrixValueI) {
+<a name="l00060"></a>00060             MatrixValueI l = (MatrixValueI) param1;
+<a name="l00061"></a>00061             MatrixValueI res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_tensor.html">Tensor</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_tensor.html#a4d72920f572c88772c53deae18128d45">getInstance</a>(l.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#a01fe4a3e0f4c894f8c18a8f61afa7890">getDim</a>());
+<a name="l00062"></a>00062             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; res.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#aba17608448b612c429a362fa379c0d80">getNumEles</a>(); ++i)
+<a name="l00063"></a>00063                 res.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#aa12da005c7ffcc1fb52e1d5164b1bf4f">setEle</a>(i, super.mul(l.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#acd8206bf6bdcd246734f29b0e814a6a1">getEle</a>(i), param2));
+<a name="l00064"></a>00064             <span class="keywordflow">return</span> res;
+<a name="l00065"></a>00065         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param2 instanceof MatrixValueI) {
+<a name="l00066"></a>00066             MatrixValueI r = (MatrixValueI) param2;
+<a name="l00067"></a>00067             MatrixValueI res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_tensor.html">Tensor</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_tensor.html#a4d72920f572c88772c53deae18128d45">getInstance</a>(r.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#a01fe4a3e0f4c894f8c18a8f61afa7890">getDim</a>());
+<a name="l00068"></a>00068             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; res.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#aba17608448b612c429a362fa379c0d80">getNumEles</a>(); ++i)
+<a name="l00069"></a>00069                 res.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#aa12da005c7ffcc1fb52e1d5164b1bf4f">setEle</a>(i, super.mul(param1, r.<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html#acd8206bf6bdcd246734f29b0e814a6a1">getEle</a>(i)));
+<a name="l00070"></a>00070             <span class="keywordflow">return</span> res;
+<a name="l00071"></a>00071         }
+<a name="l00072"></a>00072         <span class="keywordflow">return</span> super.mul(param1, param2);
+<a name="l00073"></a>00073     }
+<a name="l00074"></a>00074 
+<a name="l00079"></a>00079     <span class="keyword">private</span> Object <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a83adb18424c6fa063d6751b5fd08cc2c">mul</a>(<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> param1, <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> param2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00080"></a>00080         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> dims = this.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a3d2e65f135aa4d7c2598e44f4897e937">calcDim</a>(param1.getDim(), param2.getDim());
+<a name="l00081"></a>00081         <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> res = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_tensor.html">Tensor</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_tensor.html#a4d72920f572c88772c53deae18128d45">getInstance</a>(dims);
+<a name="l00082"></a>00082         <span class="keywordflow">return</span> this.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#af74f65f388f21b17a0684775ed3032cc">calcValue</a>(res, param1, param2);
+<a name="l00083"></a>00083     }
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a3d2e65f135aa4d7c2598e44f4897e937">00085</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a3d2e65f135aa4d7c2598e44f4897e937">calcDim</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> l, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> r) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00086"></a>00086         <span class="keywordtype">int</span> lrank = l.rank();
+<a name="l00087"></a>00087         <span class="keywordtype">int</span> rrank = r.rank();
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089         <span class="keywordflow">switch</span> (lrank) {
+<a name="l00090"></a>00090         <span class="keywordflow">case</span> 0: <span class="comment">// Scaler res</span>
+<a name="l00091"></a>00091             <span class="keywordflow">return</span> r;
+<a name="l00092"></a>00092         <span class="keywordflow">case</span> 1: <span class="comment">// Vector * ?</span>
+<a name="l00093"></a>00093             <span class="keywordflow">switch</span> (rrank) {
+<a name="l00094"></a>00094             <span class="keywordflow">case</span> 0: <span class="comment">// Vector * Scaler -&gt; Vector</span>
+<a name="l00095"></a>00095                 <span class="keywordflow">return</span> l;
+<a name="l00096"></a>00096             <span class="keywordflow">case</span> 1: <span class="comment">// Vector * Vector -&gt; Matrix</span>
+<a name="l00097"></a>00097                 <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">valueOf</a>(l.getFirstDim(), r.getFirstDim());
+<a name="l00098"></a>00098             <span class="keywordflow">case</span> 2: <span class="comment">// Vector * Matrix -&gt; Vector</span>
+<a name="l00099"></a>00099                 <span class="keywordflow">if</span> (l.getLastDim() == r.getFirstDim())
+<a name="l00100"></a>00100                     <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">valueOf</a>(r.getLastDim());
+<a name="l00101"></a>00101                 <span class="keywordflow">break</span>;
+<a name="l00102"></a>00102             <span class="keywordflow">default</span>: <span class="comment">// Tensor res</span>
+<a name="l00103"></a>00103                 <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Sorry I don&#39;t know how to multiply a vector by a tensor&quot;</span>);
+<a name="l00104"></a>00104             }
+<a name="l00105"></a>00105             <span class="keywordflow">break</span>;
+<a name="l00106"></a>00106         <span class="keywordflow">case</span> 2: <span class="comment">// Matrix * ?</span>
+<a name="l00107"></a>00107             <span class="keywordflow">switch</span> (rrank) {
+<a name="l00108"></a>00108             <span class="keywordflow">case</span> 0: <span class="comment">// Matrix * Scaler -&gt; Matrix</span>
+<a name="l00109"></a>00109                 <span class="keywordflow">return</span> l;
+<a name="l00110"></a>00110             <span class="keywordflow">case</span> 1: <span class="comment">// Matrix * Vector -&gt; Vector</span>
+<a name="l00111"></a>00111                 <span class="keywordflow">if</span> (l.getLastDim() == r.getFirstDim())
+<a name="l00112"></a>00112                     <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">valueOf</a>(l.getFirstDim());
+<a name="l00113"></a>00113                 <span class="keywordflow">break</span>;
+<a name="l00114"></a>00114             <span class="keywordflow">case</span> 2: <span class="comment">// Matrix * Matrix -&gt; Matrix</span>
+<a name="l00115"></a>00115                 <span class="keywordflow">if</span> (l.getLastDim() == r.getFirstDim())
+<a name="l00116"></a>00116                     <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">valueOf</a>(l.getFirstDim(), r.getLastDim());
+<a name="l00117"></a>00117                 <span class="keywordflow">break</span>;
+<a name="l00118"></a>00118             <span class="keywordflow">default</span>: <span class="comment">// Tensor res</span>
+<a name="l00119"></a>00119                 <span class="comment">// throw new</span>
+<a name="l00120"></a>00120                 <span class="comment">// ParseException(&quot;Sorry I don&#39;t know how to multiply a matrix by a tensor&quot;);</span>
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122             }
+<a name="l00123"></a>00123             <span class="keywordflow">break</span>;
+<a name="l00124"></a>00124         <span class="keywordflow">default</span>: <span class="comment">// Tensor res</span>
+<a name="l00125"></a>00125             <span class="keywordflow">switch</span> (rrank) {
+<a name="l00126"></a>00126             <span class="keywordflow">case</span> 0: <span class="comment">// Scaler res</span>
+<a name="l00127"></a>00127                 <span class="keywordflow">return</span> l;
+<a name="l00128"></a>00128                 <span class="comment">// case 1: // Vector res</span>
+<a name="l00129"></a>00129                 <span class="comment">// throw new</span>
+<a name="l00130"></a>00130                 <span class="comment">// ParseException(&quot;Sorry I don&#39;t know how to multiply a tensor by a vector&quot;);</span>
+<a name="l00131"></a>00131                 <span class="comment">// case 2: // Matrix res</span>
+<a name="l00132"></a>00132                 <span class="comment">// throw new</span>
+<a name="l00133"></a>00133                 <span class="comment">// ParseException(&quot;Sorry I don&#39;t know how to multiply a tensor by a matrix&quot;);</span>
+<a name="l00134"></a>00134                 <span class="comment">// default: // Tensor res</span>
+<a name="l00135"></a>00135                 <span class="comment">// throw new</span>
+<a name="l00136"></a>00136                 <span class="comment">// ParseException(&quot;Sorry I don&#39;t know how to multiply a tensor by a tensor&quot;);</span>
+<a name="l00137"></a>00137             }
+<a name="l00138"></a>00138         }
+<a name="l00139"></a>00139         <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Dimensions for multiply do not match: &quot;</span> + l + <span class="stringliteral">&quot; &quot;</span> + r);
+<a name="l00140"></a>00140     }
+<a name="l00141"></a>00141 
+<a name="l00142"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#af74f65f388f21b17a0684775ed3032cc">00142</a>     <span class="keyword">public</span> <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#af74f65f388f21b17a0684775ed3032cc">calcValue</a>(<a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> res, <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> param1, <a class="code" href="interfaceorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix_value_i.html">MatrixValueI</a> param2) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00143"></a>00143         <span class="keywordflow">if</span> (param1 instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_scaler.html">Scaler</a>) {
+<a name="l00144"></a>00144             <span class="keywordflow">if</span> (param2 instanceof Scaler) { <span class="comment">// Scaler * Scaler -&gt; Scaler</span>
+<a name="l00145"></a>00145                 res.setEle(0, super.mul(param1.getEle(0), param2.getEle(0)));
+<a name="l00146"></a>00146             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param2 instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html">MVector</a>) {
+<a name="l00147"></a>00147                 <span class="comment">// Scaler * Vector -&gt; Vector</span>
+<a name="l00148"></a>00148                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; param2.getDim().getFirstDim(); ++i)
+<a name="l00149"></a>00149                     res.setEle(i, super.mul(param1.getEle(0), param2.getEle(i)));
+<a name="l00150"></a>00150             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param2 instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html">Matrix</a>) <span class="comment">// Scaler * Matrix -&gt; Matrix</span>
+<a name="l00151"></a>00151             {
+<a name="l00152"></a>00152                 Matrix r = (Matrix) param2;
+<a name="l00153"></a>00153                 Matrix mres = (Matrix) res;
+<a name="l00154"></a>00154                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; r.getNumRows(); ++i)
+<a name="l00155"></a>00155                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; r.getNumCols(); ++j)
+<a name="l00156"></a>00156                         mres.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a050fa1c8de27d20bdeb3e0b3da4931b6">setEle</a>(i, j, super.mul(param1.getEle(0), r.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a61a752f621737fcbc80614ef66d8a76f">getEle</a>(i, j)));
+<a name="l00157"></a>00157             } <span class="keywordflow">else</span> { <span class="comment">// Tensor res</span>
+<a name="l00158"></a>00158                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; param2.getDim().numEles(); ++i)
+<a name="l00159"></a>00159                     res.setEle(i, super.mul(param1.getEle(0), param2.getEle(i)));
+<a name="l00160"></a>00160             }
+<a name="l00161"></a>00161         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param1 instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html">MVector</a>) {
+<a name="l00162"></a>00162             <span class="keywordflow">if</span> (param2 instanceof Scaler) <span class="comment">// Vector * Scaler -&gt; Vector</span>
+<a name="l00163"></a>00163             {
+<a name="l00164"></a>00164                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; param1.getDim().getFirstDim(); ++i)
+<a name="l00165"></a>00165                     res.setEle(i, super.mul(param1.getEle(i), param2.getEle(0)));
+<a name="l00166"></a>00166             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param2 instanceof MVector) <span class="comment">// Vector * Vector -&gt; Matrix</span>
+<a name="l00167"></a>00167             {
+<a name="l00168"></a>00168                 <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html">Matrix</a> mat = (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html">Matrix</a>) res;
+<a name="l00169"></a>00169                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; param1.getDim().getFirstDim(); ++i)
+<a name="l00170"></a>00170                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; param2.getDim().getFirstDim(); ++j)
+<a name="l00171"></a>00171                         mat.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a050fa1c8de27d20bdeb3e0b3da4931b6">setEle</a>(i, j, super.mul(param1.getEle(i), param2.getEle(j)));
+<a name="l00172"></a>00172             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param2 instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html">Matrix</a>) <span class="comment">// Vector * Matrix -&gt; Vector</span>
+<a name="l00173"></a>00173             {
+<a name="l00174"></a>00174                 MVector lhs = (MVector) param1;
+<a name="l00175"></a>00175                 Matrix rhs = (Matrix) param2;
+<a name="l00176"></a>00176                 <span class="keywordflow">if</span> (lhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#ac406cd469ddd1fa4a33817f352ce1158">getNumEles</a>() != rhs.getNumRows())
+<a name="l00177"></a>00177                     <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Multiply Matrix , Vector: Miss match in sizes (&quot;</span> + lhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#ac406cd469ddd1fa4a33817f352ce1158">getNumEles</a>() + <span class="stringliteral">&quot;,&quot;</span> + rhs.getNumRows() + <span class="stringliteral">&quot;)!&quot;</span>);
+<a name="l00178"></a>00178                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; rhs.getNumCols(); ++i) {
+<a name="l00179"></a>00179                     Object val = super.mul(lhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#a9d8790eebd0b18c4368afb00ca2b83a9">getEle</a>(0), rhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a61a752f621737fcbc80614ef66d8a76f">getEle</a>(0, i));
+<a name="l00180"></a>00180                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 1; j &lt; rhs.getNumRows(); ++j)
+<a name="l00181"></a>00181                         val = add.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_add.html#a20fb959c8cb9b81243291d0862368e4f">add</a>(val, super.mul(lhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#a9d8790eebd0b18c4368afb00ca2b83a9">getEle</a>(j), rhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a61a752f621737fcbc80614ef66d8a76f">getEle</a>(j, i)));
+<a name="l00182"></a>00182                     res.setEle(i, val);
+<a name="l00183"></a>00183                 }
+<a name="l00184"></a>00184             } <span class="keywordflow">else</span> {
+<a name="l00185"></a>00185                 <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Sorry I don&#39;t know how to multiply a vector by a tensor&quot;</span>);
+<a name="l00186"></a>00186             }
+<a name="l00187"></a>00187         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param1 instanceof <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html">Matrix</a>) {
+<a name="l00188"></a>00188             <span class="keywordflow">if</span> (param2 instanceof Scaler) <span class="comment">// Matrix * Scaler -&gt; Matrix</span>
+<a name="l00189"></a>00189             {
+<a name="l00190"></a>00190                 Matrix l = (Matrix) param1;
+<a name="l00191"></a>00191                 Matrix mres = (Matrix) res;
+<a name="l00192"></a>00192                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; l.getNumRows(); ++i)
+<a name="l00193"></a>00193                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; l.getNumCols(); ++j)
+<a name="l00194"></a>00194                         mres.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a050fa1c8de27d20bdeb3e0b3da4931b6">setEle</a>(i, j, super.mul(l.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a61a752f621737fcbc80614ef66d8a76f">getEle</a>(i, j), param2.getEle(0)));
+<a name="l00195"></a>00195             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param2 instanceof MVector) <span class="comment">// Matrix * Vector -&gt; Vector</span>
+<a name="l00196"></a>00196             {
+<a name="l00197"></a>00197                 Matrix lhs = (Matrix) param1;
+<a name="l00198"></a>00198                 MVector rhs = (MVector) param2;
+<a name="l00199"></a>00199                 <span class="keywordflow">if</span> (lhs.getNumCols() != rhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#ac406cd469ddd1fa4a33817f352ce1158">getNumEles</a>())
+<a name="l00200"></a>00200                     <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Mat * Vec: Miss match in sizes (&quot;</span> + lhs.getNumCols() + <span class="stringliteral">&quot;,&quot;</span> + rhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#ac406cd469ddd1fa4a33817f352ce1158">getNumEles</a>() + <span class="stringliteral">&quot;) when trying to add vectors!&quot;</span>);
+<a name="l00201"></a>00201                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; lhs.getNumRows(); ++i) {
+<a name="l00202"></a>00202                     Object val = super.mul(lhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a61a752f621737fcbc80614ef66d8a76f">getEle</a>(i, 0), rhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#a9d8790eebd0b18c4368afb00ca2b83a9">getEle</a>(0));
+<a name="l00203"></a>00203                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 1; j &lt; lhs.getNumCols(); ++j)
+<a name="l00204"></a>00204                         val = add.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_add.html#a20fb959c8cb9b81243291d0862368e4f">add</a>(val, super.mul(lhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_matrix.html#a61a752f621737fcbc80614ef66d8a76f">getEle</a>(i, j), rhs.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1values_1_1_m_vector.html#a9d8790eebd0b18c4368afb00ca2b83a9">getEle</a>(j)));
+<a name="l00205"></a>00205                     res.setEle(i, val);
+<a name="l00206"></a>00206                 }
+<a name="l00207"></a>00207             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param2 instanceof Matrix) <span class="comment">// Matrix * Matrix -&gt; Matrix</span>
+<a name="l00208"></a>00208             {
+<a name="l00209"></a>00209                 Matrix lhs = (Matrix) param1;
+<a name="l00210"></a>00210                 Matrix rhs = (Matrix) param2;
+<a name="l00211"></a>00211                 Matrix mres = (Matrix) res;
+<a name="l00212"></a>00212                 <span class="keywordflow">if</span> (lhs.getNumCols() != rhs.getNumRows())
+<a name="l00213"></a>00213                     <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Multiply matrix,matrix: Miss match in number of dims (&quot;</span> + lhs.getNumCols() + <span class="stringliteral">&quot;,&quot;</span> + rhs.getNumRows() + <span class="stringliteral">&quot;)!&quot;</span>);
+<a name="l00214"></a>00214                 <span class="keywordtype">int</span> lnr = lhs.getNumRows();
+<a name="l00215"></a>00215                 <span class="keywordtype">int</span> lnc = lhs.getNumCols();
+<a name="l00216"></a>00216                 <span class="keywordtype">int</span> rnc = rhs.getNumCols();
+<a name="l00217"></a>00217                 Object ldata[][] = lhs.getEles();
+<a name="l00218"></a>00218                 Object rdata[][] = rhs.getEles();
+<a name="l00219"></a>00219                 Object resdata[][] = mres.getEles();
+<a name="l00220"></a>00220                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; lnr; ++i)
+<a name="l00221"></a>00221                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; rnc; ++j) {
+<a name="l00222"></a>00222                         Object val = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a83adb18424c6fa063d6751b5fd08cc2c">mul</a>(ldata[i][0], rdata[0][j]);
+<a name="l00223"></a>00223                         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 1; k &lt; lnc; ++k)
+<a name="l00224"></a>00224                             val = add.<a class="code" href="classorg_1_1nfunk_1_1jep_1_1function_1_1_add.html#a20fb959c8cb9b81243291d0862368e4f">add</a>(val, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1function_1_1_m_multiply.html#a83adb18424c6fa063d6751b5fd08cc2c">mul</a>(ldata[i][k], rdata[k][j]));
+<a name="l00225"></a>00225                         resdata[i][j] = val;
+<a name="l00226"></a>00226                     }
+<a name="l00227"></a>00227             } <span class="keywordflow">else</span>
+<a name="l00228"></a>00228                 <span class="comment">// Tensor res</span>
+<a name="l00229"></a>00229                 <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Sorry I don&#39;t know how to multiply a matrix by a tensor&quot;</span>);
+<a name="l00230"></a>00230         } <span class="keywordflow">else</span> {
+<a name="l00231"></a>00231             <span class="keywordflow">if</span> (param2 instanceof Scaler) {
+<a name="l00232"></a>00232                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; param1.getDim().numEles(); ++i)
+<a name="l00233"></a>00233                     res.setEle(i, super.mul(param1.getEle(i), param2.getEle(0)));
+<a name="l00234"></a>00234             } <span class="keywordflow">else</span>
+<a name="l00235"></a>00235                 <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>(<span class="stringliteral">&quot;Sorry I don&#39;t know how to multiply a tensor by a vector&quot;</span>);
+<a name="l00236"></a>00236         }
+<a name="l00237"></a>00237         <span class="keywordflow">return</span> res;
+<a name="l00238"></a>00238     }
+<a name="l00239"></a>00239 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>MMultiply.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

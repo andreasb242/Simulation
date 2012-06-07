@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/djep/PartialDerivative.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_partial_derivative_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/djep/PartialDerivative.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 29-Oct-2003</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.djep;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.util.Observable;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.util.Observer;
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="keyword">import</span> org.lsmp.djep.xjep.XVariable;
+<a name="l00010"></a>00010 <span class="keyword">import</span> org.nfunk.jep.Node;
+<a name="l00011"></a>00011 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00012"></a>00012 
+<a name="l00018"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html">00018</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html">PartialDerivative</a> <span class="keyword">extends</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_variable.html">XVariable</a> implements Observer {
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_variable.html">DVariable</a> root;
+<a name="l00021"></a>00021     <span class="keyword">private</span> String dnames[] = null;
+<a name="l00022"></a>00022     <span class="keyword">private</span> String printString;
+<a name="l00023"></a>00023 
+<a name="l00028"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#a783add521dd9e296daeea66a7030afce">00028</a>     <span class="keyword">protected</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#a783add521dd9e296daeea66a7030afce">PartialDerivative</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_variable.html">DVariable</a> var, String derivnames[]) {
+<a name="l00029"></a>00029         super(var.getName());
+<a name="l00030"></a>00030         root = var;
+<a name="l00031"></a>00031         dnames = derivnames;
+<a name="l00032"></a>00032         printString = <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_variable.html">DVariable</a>.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_variable.html#a54b6d1626a1e7e8f9c3216f5c0c70409">makeDerivString</a>(root.getName(), derivnames);
+<a name="l00033"></a>00033         root.addObserver(<span class="keyword">this</span>);
+<a name="l00034"></a>00034     }
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036     <span class="keyword">protected</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#a783add521dd9e296daeea66a7030afce">PartialDerivative</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_variable.html">DVariable</a> var, String derivnames[], <a class="code" href="interfaceorg_1_1nfunk_1_1jep_1_1_node.html">Node</a> deriv) {
+<a name="l00037"></a>00037         <span class="keyword">this</span>(var, derivnames);
+<a name="l00038"></a>00038         <span class="comment">/*</span>
+<a name="l00039"></a>00039 <span class="comment">         * TODO_YEP could be a little cleverer just have a partial derivative which</span>
+<a name="l00040"></a>00040 <span class="comment">         * is a constant dy/dx = 1 don&#39;t use an equation, instead use a value.</span>
+<a name="l00041"></a>00041 <span class="comment">         * </span>
+<a name="l00042"></a>00042 <span class="comment">         * if(deriv instanceof ASTConstant) {</span>
+<a name="l00043"></a>00043 <span class="comment">         * System.out.println(&quot;Warning constant derivative &quot;</span>
+<a name="l00044"></a>00044 <span class="comment">         * +printString+&quot;=&quot;+((ASTConstant) deriv).getValue());</span>
+<a name="l00045"></a>00045 <span class="comment">         * this.setValue(((ASTConstant) deriv).getValue()); } else</span>
+<a name="l00046"></a>00046 <span class="comment">         */</span>
+<a name="l00047"></a>00047         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1xjep_1_1_x_variable.html#a1a4955aad0d24c8f81dfce183f00da90">setEquation</a>(deriv);
+<a name="l00048"></a>00048     }
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     <span class="keyword">public</span> String getName() {
+<a name="l00051"></a>00051         <span class="keywordflow">return</span> printString;
+<a name="l00052"></a>00052     }
+<a name="l00053"></a>00053 
+<a name="l00058"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#ada4fec1e7dd7246e579926a52c129643">00058</a>     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_variable.html">DVariable</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#ada4fec1e7dd7246e579926a52c129643">getRoot</a>() {
+<a name="l00059"></a>00059         <span class="keywordflow">return</span> root;
+<a name="l00060"></a>00060     }
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062     <span class="keyword">public</span> String[] getDnames() {
+<a name="l00063"></a>00063         <span class="keywordflow">return</span> dnames;
+<a name="l00064"></a>00064     }
+<a name="l00065"></a>00065 
+<a name="l00066"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#a89842ce5c3750ed85218b48f42b95f83">00066</a>     <span class="keyword">public</span> String <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#a89842ce5c3750ed85218b48f42b95f83">toString</a>() {
+<a name="l00067"></a>00067         <span class="keywordflow">return</span> printString;
+<a name="l00068"></a>00068     }
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070     <span class="keyword">public</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html">PartialDerivative</a> findDerivative(String dname, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_d_jep.html">DJep</a> jep) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a> {
+<a name="l00071"></a>00071         <span class="keywordflow">return</span> root.findDerivative(<span class="keyword">this</span>, dname, jep);
+<a name="l00072"></a>00072     }
+<a name="l00073"></a>00073 
+<a name="l00080"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#a78d29372d6b5e8cc1c4844b6e2f84614">00080</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1djep_1_1_partial_derivative.html#a78d29372d6b5e8cc1c4844b6e2f84614">update</a>(Observable arg0, Object arg1) {
+<a name="l00081"></a>00081         <span class="keywordflow">if</span> (root.equals(arg0)) {
+<a name="l00082"></a>00082             <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#ade3024656dc38340344a4ce65d0abe6f">setValidValue</a>(<span class="keyword">false</span>);
+<a name="l00083"></a>00083         }
+<a name="l00084"></a>00084     }
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>PartialDerivative.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

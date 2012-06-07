@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Editor/src/ch/zhaw/simulation/menu/AbstractMenubar.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_abstract_menubar_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Editor/src/ch/zhaw/simulation/menu/AbstractMenubar.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.menu;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.event.ActionListener;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> javax.swing.JCheckBoxMenuItem;
+<a name="l00007"></a>00007 <span class="keyword">import</span> javax.swing.JMenu;
+<a name="l00008"></a>00008 <span class="keyword">import</span> javax.swing.JMenuBar;
+<a name="l00009"></a>00009 <span class="keyword">import</span> javax.swing.JMenuItem;
+<a name="l00010"></a>00010 <span class="keyword">import</span> javax.swing.KeyStroke;
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="keyword">import</span> ch.zhaw.simulation.clipboard.ClipboardInterface;
+<a name="l00013"></a>00013 <span class="keyword">import</span> ch.zhaw.simulation.clipboard.ClipboardListener;
+<a name="l00014"></a>00014 <span class="keyword">import</span> ch.zhaw.simulation.icon.IconLoader;
+<a name="l00015"></a>00015 <span class="keyword">import</span> ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+<a name="l00016"></a>00016 <span class="keyword">import</span> ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
+<a name="l00017"></a>00017 <span class="keyword">import</span> ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
+<a name="l00018"></a>00018 <span class="keyword">import</span> ch.zhaw.simulation.model.SimulationType;
+<a name="l00019"></a>00019 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.SysMenuShortcuts;
+<a name="l00020"></a>00020 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.Sysintegration;
+<a name="l00021"></a>00021 <span class="keyword">import</span> ch.zhaw.simulation.undo.UndoHandler;
+<a name="l00022"></a>00022 <span class="keyword">import</span> ch.zhaw.simulation.undo.UndoListener;
+<a name="l00023"></a>00023 
+<a name="l00029"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html">00029</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html">AbstractMenubar</a> <span class="keyword">extends</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menutoolbar_1_1actions_1_1_menu_toolbar_action_handler.html">MenuToolbarActionHandler</a> implements <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1undo_1_1_undo_listener.html">UndoListener</a> {
+<a name="l00033"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">00033</a>     <span class="keyword">protected</span> JMenuBar <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">mb</a> = <span class="keyword">new</span> JMenuBar();
+<a name="l00034"></a>00034 
+<a name="l00038"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">00038</a>     <span class="keyword">protected</span> JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>;
+<a name="l00039"></a>00039 
+<a name="l00043"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae100cea7928e265035f15d5ce67df3c6">00043</a>     <span class="keyword">protected</span> JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae100cea7928e265035f15d5ce67df3c6">mView</a>;
+<a name="l00044"></a>00044 
+<a name="l00048"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">00048</a>     <span class="keyword">protected</span> JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>;
+<a name="l00049"></a>00049 
+<a name="l00053"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">00053</a>     <span class="keyword">protected</span> JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">mSimulation</a>;
+<a name="l00054"></a>00054 
+<a name="l00058"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a4dc16a1629d65201d8473169f988b205">00058</a>     <span class="keyword">protected</span> JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a4dc16a1629d65201d8473169f988b205">mHelp</a>;
+<a name="l00059"></a>00059 
+<a name="l00063"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">00063</a>     <span class="keyword">protected</span> JMenuItem <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a>;
+<a name="l00064"></a>00064 
+<a name="l00068"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">00068</a>     <span class="keyword">protected</span> JMenuItem <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a>;
+<a name="l00069"></a>00069 
+<a name="l00073"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">00073</a>     <span class="keyword">protected</span> JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a> = <span class="keyword">new</span> JMenu(<span class="stringliteral">&quot;Layout&quot;</span>);
+<a name="l00074"></a>00074 
+<a name="l00078"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#acde1fcd460399f3c97e435b71254868b">00078</a>     <span class="keyword">protected</span> JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#acde1fcd460399f3c97e435b71254868b">recentMenu</a>;
+<a name="l00079"></a>00079 
+<a name="l00083"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">00083</a>     <span class="keyword">protected</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1sysintegration_1_1_sys_menu_shortcuts.html">SysMenuShortcuts</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>;
+<a name="l00084"></a>00084 
+<a name="l00088"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">00088</a>     <span class="keyword">protected</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1_undo_handler.html">UndoHandler</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>;
+<a name="l00089"></a>00089 
+<a name="l00094"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">00094</a>     <span class="keyword">protected</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>;
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096     <span class="keyword">protected</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1clipboard_1_1_clipboard_interface.html">ClipboardInterface</a> clipboard;
+<a name="l00097"></a>00097     <span class="keyword">protected</span> JCheckBoxMenuItem sidebar;
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099     <span class="keyword">private</span> String otherTypeName;
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101     <span class="keyword">private</span> SimulationType otherType;
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html">AbstractMenubar</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1sysintegration_1_1_sysintegration.html">Sysintegration</a> sysintegration, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1undo_1_1_undo_handler.html">UndoHandler</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1clipboard_1_1_clipboard_interface.html">ClipboardInterface</a> clipboard, String otherTypeName, SimulationType otherType) {
+<a name="l00104"></a>00104         this.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a> = sysintegration.getMenu();
+<a name="l00105"></a>00105         this.um = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>;
+<a name="l00106"></a>00106         this.clipboard = clipboard;
+<a name="l00107"></a>00107         this.otherTypeName = otherTypeName;
+<a name="l00108"></a>00108         this.otherType = otherType;
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110         <span class="keywordflow">if</span> (um == null) {
+<a name="l00111"></a>00111             <span class="keywordflow">throw</span> <span class="keyword">new</span> NullPointerException(<span class="stringliteral">&quot;um == null&quot;</span>);
+<a name="l00112"></a>00112         }
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114         <span class="keywordflow">if</span> (this.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a> == null) {
+<a name="l00115"></a>00115             <span class="keywordflow">throw</span> <span class="keyword">new</span> NullPointerException(<span class="stringliteral">&quot;this.sysmenu == null&quot;</span>);
+<a name="l00116"></a>00116         }
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118         <span class="keywordflow">if</span> (clipboard == null) {
+<a name="l00119"></a>00119             <span class="keywordflow">throw</span> <span class="keyword">new</span> NullPointerException(<span class="stringliteral">&quot;clipboard == null&quot;</span>);
+<a name="l00120"></a>00120         }
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122     }
+<a name="l00123"></a>00123 
+<a name="l00133"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a1260310480b69e3f61ca56de13344509">00133</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a1260310480b69e3f61ca56de13344509">initMenusToolbar</a>(JMenu <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#acde1fcd460399f3c97e435b71254868b">recentMenu</a>, <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>) {
+<a name="l00134"></a>00134         this.recentMenu = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#acde1fcd460399f3c97e435b71254868b">recentMenu</a>;
+<a name="l00135"></a>00135         this.mainMenu = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>;
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137         initFileMenu();
+<a name="l00138"></a>00138         initEditMenu();
+<a name="l00139"></a>00139         initViewMenu();
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141         initSimulationMenu();
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143         initHelpMenu();
+<a name="l00144"></a>00144     }
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146     <span class="keyword">protected</span> <span class="keywordtype">void</span> initSimulationMenu() {
+<a name="l00147"></a>00147         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">mSimulation</a> = <span class="keyword">new</span> JMenu(<span class="stringliteral">&quot;Simulation&quot;</span>);
+<a name="l00148"></a>00148         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">mSimulation</a>.setMnemonic(<span class="charliteral">&#39;S&#39;</span>);
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>) {
+<a name="l00151"></a>00151             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">mSimulation</a>, <span class="stringliteral">&quot;Zeitsimulation&quot;</span>, <span class="stringliteral">&quot;start-simulation&quot;</span>, MenuToolbarActionType.START_SIMULATION, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getSimulationSimulation());
+<a name="l00152"></a>00152             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">mSimulation</a>, <span class="stringliteral">&quot;Lade letzte Resultate&quot;</span>, <span class="stringliteral">&quot;load-recent-results&quot;</span>, MenuToolbarActionType.LOAD_RESULTS, null);
+<a name="l00153"></a>00153         }
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155         addAdditionalSimulation();
+<a name="l00156"></a>00156         addMathConsole();
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159     <span class="keyword">protected</span> <span class="keywordtype">void</span> addAdditionalSimulation() {
+<a name="l00160"></a>00160     }
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162     <span class="keyword">protected</span> <span class="keywordtype">void</span> addMathConsole() {
+<a name="l00163"></a>00163         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">mSimulation</a>, <span class="stringliteral">&quot;Mathekonsole&quot;</span>, <span class="stringliteral">&quot;math&quot;</span>, MenuToolbarActionType.SHOW_MATH_CONSOLE, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getSimulationMathconsole());
+<a name="l00164"></a>00164         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">mb</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ff94ba23f7331f0b2a2c62edad04762">mSimulation</a>);
+<a name="l00165"></a>00165     }
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167     <span class="keyword">protected</span> <span class="keywordtype">void</span> initViewMenu() {
+<a name="l00168"></a>00168         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae100cea7928e265035f15d5ce67df3c6">mView</a> = <span class="keyword">new</span> JMenu(<span class="stringliteral">&quot;Ansicht&quot;</span>);
+<a name="l00169"></a>00169         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae100cea7928e265035f15d5ce67df3c6">mView</a>.setMnemonic(<span class="charliteral">&#39;A&#39;</span>);
+<a name="l00170"></a>00170         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>) {
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172             JMenu laf = <span class="keyword">new</span> JMenu(<span class="stringliteral">&quot;Look &amp; Feel&quot;</span>);
+<a name="l00173"></a>00173             laf.setIcon(IconLoader.getIcon(<span class="stringliteral">&quot;style&quot;</span>));
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175             addMenuItem(laf, <span class="stringliteral">&quot;System LAF&quot;</span>, <span class="stringliteral">&quot;system&quot;</span>, <span class="keyword">new</span> ActionListener() {
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177                 @Override
+<a name="l00178"></a>00178                 <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00179"></a>00179                     setLookAndFeel(<span class="stringliteral">&quot;sys&quot;</span>);
+<a name="l00180"></a>00180                 }
+<a name="l00181"></a>00181             }, null);
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183             addMenuItem(laf, <span class="stringliteral">&quot;Nimbus&quot;</span>, <span class="stringliteral">&quot;Java-Logo&quot;</span>, <span class="keyword">new</span> ActionListener() {
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185                 @Override
+<a name="l00186"></a>00186                 <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00187"></a>00187                     setLookAndFeel(<span class="stringliteral">&quot;nimbus&quot;</span>);
+<a name="l00188"></a>00188                 }
+<a name="l00189"></a>00189             }, null);
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191             addMenuItem(laf, <span class="stringliteral">&quot;Java LAF&quot;</span>, <span class="stringliteral">&quot;Java-Logo&quot;</span>, <span class="keyword">new</span> ActionListener() {
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193                 @Override
+<a name="l00194"></a>00194                 <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00195"></a>00195                     setLookAndFeel(<span class="stringliteral">&quot;java&quot;</span>);
+<a name="l00196"></a>00196                 }
+<a name="l00197"></a>00197             }, null);
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae100cea7928e265035f15d5ce67df3c6">mView</a>.add(laf);
+<a name="l00200"></a>00200         }
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202         this.sidebar = <span class="keyword">new</span> JCheckBoxMenuItem(<span class="stringliteral">&quot;Seitenleiste&quot;</span>);
+<a name="l00203"></a>00203         this.sidebar.setSelected(<span class="keyword">true</span>);
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205         sidebar.addActionListener(<span class="keyword">new</span> ActionListener() {
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207             @Override
+<a name="l00208"></a>00208             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00209"></a>00209                 fireMenuActionPerformed(<span class="keyword">new</span> MenuToolbarAction(MenuToolbarActionType.SHOW_SIDEBAR, sidebar.isSelected()));
+<a name="l00210"></a>00210             }
+<a name="l00211"></a>00211         });
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213         sidebar.setAccelerator(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getViewSidebar());
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae100cea7928e265035f15d5ce67df3c6">mView</a>.add(sidebar);
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">mb</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae100cea7928e265035f15d5ce67df3c6">mView</a>);
+<a name="l00218"></a>00218     }
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220     <span class="keyword">protected</span> <span class="keywordtype">void</span> setLookAndFeel(String lookAndFeel) {
+<a name="l00221"></a>00221         fireMenuActionPerformed(<span class="keyword">new</span> MenuToolbarAction(MenuToolbarActionType.LOOK_AND_FEEL_CHANGED, lookAndFeel));
+<a name="l00222"></a>00222     }
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224     <span class="keyword">protected</span> <span class="keywordtype">void</span> initHelpMenu() {
+<a name="l00225"></a>00225         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a4dc16a1629d65201d8473169f988b205">mHelp</a> = <span class="keyword">new</span> JMenu(<span class="stringliteral">&quot;Hilfe&quot;</span>);
+<a name="l00226"></a>00226         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a4dc16a1629d65201d8473169f988b205">mHelp</a>.setMnemonic(<span class="charliteral">&#39;H&#39;</span>);
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a4dc16a1629d65201d8473169f988b205">mHelp</a>, <span class="stringliteral">&quot;Hilfe&quot;</span>, <span class="stringliteral">&quot;help&quot;</span>, MenuToolbarActionType.HELP, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getHelpHelp());
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a4dc16a1629d65201d8473169f988b205">mHelp</a>, <span class="stringliteral">&quot;Über&quot;</span>, <span class="stringliteral">&quot;help-about&quot;</span>, MenuToolbarActionType.ABOUT, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getHelpAbout());
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">mb</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a4dc16a1629d65201d8473169f988b205">mHelp</a>);
+<a name="l00233"></a>00233     }
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235     @Override
+<a name="l00236"></a>00236     <span class="keyword">public</span> <span class="keywordtype">void</span> undoRedoUpdated() {
+<a name="l00237"></a>00237         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a>.setEnabled(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>.canUndo());
+<a name="l00238"></a>00238         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a>.setEnabled(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>.canRedo());
+<a name="l00239"></a>00239 
+<a name="l00240"></a>00240         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>.canUndo()) {
+<a name="l00241"></a>00241             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a>.setText(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>.getUndoPresentationName());
+<a name="l00242"></a>00242         } <span class="keywordflow">else</span> {
+<a name="l00243"></a>00243             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a>.setText(<span class="stringliteral">&quot;Rückgängig&quot;</span>);
+<a name="l00244"></a>00244         }
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>.canRedo()) {
+<a name="l00247"></a>00247             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a>.setText(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#aac6ff37c59ee278e5107ce6defbc4c6a">um</a>.getRedoPresentationName());
+<a name="l00248"></a>00248         } <span class="keywordflow">else</span> {
+<a name="l00249"></a>00249             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a>.setText(<span class="stringliteral">&quot;Widerherstellen&quot;</span>);
+<a name="l00250"></a>00250         }
+<a name="l00251"></a>00251     }
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253     <span class="keyword">protected</span> <span class="keywordtype">void</span> initEditMenu() {
+<a name="l00254"></a>00254         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a> = <span class="keyword">new</span> JMenu(<span class="stringliteral">&quot;Bearbeiten&quot;</span>);
+<a name="l00255"></a>00255         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>.setMnemonic(<span class="charliteral">&#39;B&#39;</span>);
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a> = <span class="keyword">new</span> JMenuItem(<span class="stringliteral">&quot;Rückgängig&quot;</span>, IconLoader.getIcon(<span class="stringliteral">&quot;edit-redo&quot;</span>));
+<a name="l00258"></a>00258         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a>.setAccelerator(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditUndo());
+<a name="l00259"></a>00259         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a>.addActionListener(<span class="keyword">new</span> ActionListener() {
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261             @Override
+<a name="l00262"></a>00262             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00263"></a>00263                 fireMenuActionPerformed(<span class="keyword">new</span> MenuToolbarAction(MenuToolbarActionType.UNDO));
+<a name="l00264"></a>00264             }
+<a name="l00265"></a>00265         });
+<a name="l00266"></a>00266         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#af330697389c4efa2fb2db6bb4d8bfb46">mUndo</a>);
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a> = <span class="keyword">new</span> JMenuItem(<span class="stringliteral">&quot;Widerherstellen&quot;</span>, IconLoader.getIcon(<span class="stringliteral">&quot;edit-undo&quot;</span>));
+<a name="l00269"></a>00269         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a>.setAccelerator(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditRedo());
+<a name="l00270"></a>00270         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a>.addActionListener(<span class="keyword">new</span> ActionListener() {
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272             @Override
+<a name="l00273"></a>00273             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00274"></a>00274                 fireMenuActionPerformed(<span class="keyword">new</span> MenuToolbarAction(MenuToolbarActionType.REDO));
+<a name="l00275"></a>00275             }
+<a name="l00276"></a>00276         });
+<a name="l00277"></a>00277         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad347e31346104fdcf6dd96002c756e10">mRedo</a>);
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279         undoRedoUpdated();
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281         <span class="keyword">final</span> JMenuItem mCut = addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>, <span class="stringliteral">&quot;Ausschneiden&quot;</span>, <span class="stringliteral">&quot;edit-cut&quot;</span>, MenuToolbarActionType.CUT, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditCut());
+<a name="l00282"></a>00282         <span class="keyword">final</span> JMenuItem mCopy = addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>, <span class="stringliteral">&quot;Kopieren&quot;</span>, <span class="stringliteral">&quot;editcopy&quot;</span>, MenuToolbarActionType.COPY, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditCopy());
+<a name="l00283"></a>00283         <span class="keyword">final</span> JMenuItem mPaste = addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>, <span class="stringliteral">&quot;Einfügen&quot;</span>, <span class="stringliteral">&quot;editpaste&quot;</span>, MenuToolbarActionType.PASTE, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditPaste());
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285         mCopy.setEnabled(<span class="keyword">false</span>);
+<a name="l00286"></a>00286         mPaste.setEnabled(<span class="keyword">false</span>);
+<a name="l00287"></a>00287         mCut.setEnabled(<span class="keyword">false</span>);
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289         clipboard.addListener(<span class="keyword">new</span> ClipboardListener() {
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291             @Override
+<a name="l00292"></a>00292             <span class="keyword">public</span> <span class="keywordtype">void</span> pasteEnabled(<span class="keywordtype">boolean</span> enabled) {
+<a name="l00293"></a>00293                 mPaste.setEnabled(enabled);
+<a name="l00294"></a>00294             }
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296             @Override
+<a name="l00297"></a>00297             <span class="keyword">public</span> <span class="keywordtype">void</span> cutCopyEnabled(<span class="keywordtype">boolean</span> enabled) {
+<a name="l00298"></a>00298                 mCut.setEnabled(enabled);
+<a name="l00299"></a>00299                 mCopy.setEnabled(enabled);
+<a name="l00300"></a>00300             }
+<a name="l00301"></a>00301         });
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>.addSeparator();
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>, <span class="stringliteral">&quot;Alles markieren&quot;</span>, <span class="stringliteral">&quot;edit-select-all&quot;</span>, MenuToolbarActionType.SELECT_ALL, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditSelectAll());
+<a name="l00306"></a>00306         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>, <span class="stringliteral">&quot;Löschen&quot;</span>, <span class="stringliteral">&quot;edit-delete&quot;</span>, MenuToolbarActionType.DELETE_SELECTION, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditDelete());
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>.setIcon(IconLoader.getIcon(<span class="stringliteral">&quot;alignCenterVertical&quot;</span>));
+<a name="l00309"></a>00309         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>);
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311         initLayoutMenu();
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>) {
+<a name="l00314"></a>00314             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>, <span class="stringliteral">&quot;Einstellungen&quot;</span>, <span class="stringliteral">&quot;preferences&quot;</span>, MenuToolbarActionType.SETTINGS, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getEditSettings());
+<a name="l00315"></a>00315         }
+<a name="l00316"></a>00316         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">mb</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a42735fde3bfd2fdcb8a24899fa20d181">mEdit</a>);
+<a name="l00317"></a>00317     }
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319     <span class="keyword">protected</span> <span class="keywordtype">void</span> initLayoutMenu() {
+<a name="l00320"></a>00320         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>, <span class="stringliteral">&quot;Unten ausrichten&quot;</span>, <span class="stringliteral">&quot;alignBottom&quot;</span>, MenuToolbarActionType.LAYOUT_BOTTOM, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getLayoutBottom());
+<a name="l00321"></a>00321         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>, <span class="stringliteral">&quot;Oben ausrichten&quot;</span>, <span class="stringliteral">&quot;alignTop&quot;</span>, MenuToolbarActionType.LAYOUT_TOP, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getLayoutTop());
+<a name="l00322"></a>00322         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>, <span class="stringliteral">&quot;Links ausrichten&quot;</span>, <span class="stringliteral">&quot;alignLeft&quot;</span>, MenuToolbarActionType.LAYOUT_LEFT, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getLayoutLeft());
+<a name="l00323"></a>00323         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>, <span class="stringliteral">&quot;Rechts ausrichten&quot;</span>, <span class="stringliteral">&quot;alignRight&quot;</span>, MenuToolbarActionType.LAYOUT_RIGHT, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getLayoutRight());
+<a name="l00324"></a>00324         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>, <span class="stringliteral">&quot;Horizontal zentrieren&quot;</span>, <span class="stringliteral">&quot;alignCenterHorizontal&quot;</span>, MenuToolbarActionType.LAYOUT_CENTER_HORIZONTAL,
+<a name="l00325"></a>00325                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getLayoutCenterHorizontal());
+<a name="l00326"></a>00326         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a107321dc2281d62b26d5f33b642219e1">mLayout</a>, <span class="stringliteral">&quot;Vertikal zentrieren&quot;</span>, <span class="stringliteral">&quot;alignCenterVertical&quot;</span>, MenuToolbarActionType.LAYOUT_CENTER_VERTICAL, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getLayoutCenterVertical());
+<a name="l00327"></a>00327     }
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329     <span class="keyword">protected</span> <span class="keywordtype">void</span> initFileMenu() {
+<a name="l00330"></a>00330         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a> = <span class="keyword">new</span> JMenu(<span class="stringliteral">&quot;Datei&quot;</span>);
+<a name="l00331"></a>00331         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>.setMnemonic(<span class="charliteral">&#39;D&#39;</span>);
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>) {
+<a name="l00334"></a>00334             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Neu&quot;</span>, <span class="stringliteral">&quot;file-new&quot;</span>, MenuToolbarActionType.NEW_FILE, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getFileNew());
+<a name="l00335"></a>00335 
+<a name="l00336"></a>00336             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Neu - &quot;</span> + otherTypeName, <span class="stringliteral">&quot;file-new&quot;</span>, <span class="keyword">new</span> ActionListener() {
+<a name="l00337"></a>00337                 @Override
+<a name="l00338"></a>00338                 <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00339"></a>00339                     fireMenuActionPerformed(<span class="keyword">new</span> MenuToolbarAction(MenuToolbarActionType.NEW_FILE, otherType));
+<a name="l00340"></a>00340                 }
+<a name="l00341"></a>00341             }, null);
+<a name="l00342"></a>00342 
+<a name="l00343"></a>00343             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>.addSeparator();
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Öffnen&quot;</span>, <span class="stringliteral">&quot;open&quot;</span>, MenuToolbarActionType.OPEN_FILE, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getFileOpen());
+<a name="l00346"></a>00346             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#acde1fcd460399f3c97e435b71254868b">recentMenu</a>);
+<a name="l00347"></a>00347             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>.addSeparator();
+<a name="l00348"></a>00348 
+<a name="l00349"></a>00349             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Speichern&quot;</span>, <span class="stringliteral">&quot;save&quot;</span>, MenuToolbarActionType.SAVE, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getFileSave());
+<a name="l00350"></a>00350             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Speichern unter&quot;</span>, <span class="stringliteral">&quot;save-as&quot;</span>, MenuToolbarActionType.SAVE_AS, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getFileSaveAs());
+<a name="l00351"></a>00351             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>.addSeparator();
+<a name="l00352"></a>00352         }
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354         addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Speichern als Bild&quot;</span>, <span class="stringliteral">&quot;photos&quot;</span>, MenuToolbarActionType.SNAPSHOT, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getFileTakeSnapshot());
+<a name="l00355"></a>00355         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>.addSeparator();
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357         <span class="keywordflow">if</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a8ec30fe3b63ffa63e8c2934feabfbb27">mainMenu</a>) {
+<a name="l00358"></a>00358             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Beenden&quot;</span>, <span class="stringliteral">&quot;exit&quot;</span>, MenuToolbarActionType.EXIT, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getFileExitApplication());
+<a name="l00359"></a>00359         } <span class="keywordflow">else</span> {
+<a name="l00360"></a>00360             addMenuItem(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>, <span class="stringliteral">&quot;Schliessen&quot;</span>, <span class="stringliteral">&quot;exit&quot;</span>, MenuToolbarActionType.CLOSE, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ae202f88dea93c40fb486c29ab29fe436">sysmenu</a>.getFileClose());
+<a name="l00361"></a>00361         }
+<a name="l00362"></a>00362         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">mb</a>.add(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#a05c1d30d18458cf9f5c7ba18a6b88117">mFile</a>);
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364     }
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366     <span class="keyword">protected</span> JMenuItem addMenuItem(JMenu menu, String name, String icon, <span class="keyword">final</span> MenuToolbarActionType action, KeyStroke keyStroke) {
+<a name="l00367"></a>00367         <span class="keywordflow">return</span> addMenuItem(menu, name, icon, <span class="keyword">new</span> ActionListener() {
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369             @Override
+<a name="l00370"></a>00370             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00371"></a>00371                 fireMenuActionPerformed(<span class="keyword">new</span> MenuToolbarAction(action));
+<a name="l00372"></a>00372             }
+<a name="l00373"></a>00373         }, keyStroke);
+<a name="l00374"></a>00374     }
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376     <span class="keyword">protected</span> JMenuItem addMenuItem(JMenu menu, String name, String icon, <span class="keyword">final</span> ActionListener listener, KeyStroke keyStroke) {
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378         JMenuItem it = <span class="keyword">new</span> JMenuItem(name, IconLoader.getIcon(icon));
+<a name="l00379"></a>00379         it.addActionListener(listener);
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381         <span class="keywordflow">if</span> (keyStroke != null) {
+<a name="l00382"></a>00382             it.setAccelerator(keyStroke);
+<a name="l00383"></a>00383         }
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385         menu.add(it);
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387         <span class="keywordflow">return</span> it;
+<a name="l00388"></a>00388     }
+<a name="l00389"></a>00389 
+<a name="l00390"></a>00390     <span class="keyword">public</span> JMenuBar getMenubar() {
+<a name="l00391"></a>00391         <span class="keywordflow">return</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1menu_1_1_abstract_menubar.html#ad48e61657680e440d3ac3e737370704a">mb</a>;
+<a name="l00392"></a>00392     }
+<a name="l00393"></a>00393 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>AbstractMenubar.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

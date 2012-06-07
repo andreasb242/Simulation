@@ -340,6 +340,8 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 			</fileset>
 		</copy>
 
+		<chmod file="${distrib}/Simulation.sh" perm="+x" />
+
 		<!-- wrapper for windows -->
 		<copy todir="${distrib}">
 			<fileset dir="windows/launch4j">

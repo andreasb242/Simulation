@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/nfunk/jep/Variable.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_variable_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/nfunk/jep/Variable.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*****************************************************************************</span>
+<a name="l00002"></a>00002 <span class="comment"></span>
+<a name="l00003"></a>00003 <span class="comment"> JEP 2.4.1, Extensions 1.1.1</span>
+<a name="l00004"></a>00004 <span class="comment">      April 30 2007</span>
+<a name="l00005"></a>00005 <span class="comment">      (c) Copyright 2007, Nathan Funk and Richard Morris</span>
+<a name="l00006"></a>00006 <span class="comment">      See LICENSE-*.txt for license information.</span>
+<a name="l00007"></a>00007 <span class="comment"></span>
+<a name="l00008"></a>00008 <span class="comment"> *****************************************************************************/</span>
+<a name="l00009"></a>00009 <span class="comment">/* @author rich</span>
+<a name="l00010"></a>00010 <span class="comment"> * Created on 18-Nov-2003</span>
+<a name="l00011"></a>00011 <span class="comment"> */</span>
+<a name="l00012"></a>00012 <span class="keyword">package </span>org.nfunk.jep;
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="keyword">import</span> java.util.Observable;
+<a name="l00015"></a>00015 
+<a name="l00028"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html">00028</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html">Variable</a> <span class="keyword">extends</span> Observable {
+<a name="l00029"></a>00029     <span class="keyword">protected</span> String name;
+<a name="l00030"></a>00030     <span class="keyword">private</span> Object value;
+<a name="l00031"></a>00031     <span class="keyword">private</span> <span class="keywordtype">boolean</span> isConstant = <span class="keyword">false</span>;
+<a name="l00032"></a>00032     <span class="keyword">private</span> <span class="keywordtype">boolean</span> validValue = <span class="keyword">false</span>;
+<a name="l00033"></a>00033 
+<a name="l00039"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#a4e218f362998cc5dbe7460a4fdc27ad4">00039</a>     <span class="keyword">protected</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#a4e218f362998cc5dbe7460a4fdc27ad4">Variable</a>(String name) {
+<a name="l00040"></a>00040         this.name = name;
+<a name="l00041"></a>00041         this.value = null;
+<a name="l00042"></a>00042         validValue = <span class="keyword">false</span>;
+<a name="l00043"></a>00043     }
+<a name="l00044"></a>00044 
+<a name="l00050"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#a80ae485b09b9c1d1ca229c7e6e372519">00050</a>     <span class="keyword">protected</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#a80ae485b09b9c1d1ca229c7e6e372519">Variable</a>(String name, Object value) {
+<a name="l00051"></a>00051         this.name = name;
+<a name="l00052"></a>00052         this.value = value;
+<a name="l00053"></a>00053         validValue = (value != null);
+<a name="l00054"></a>00054     }
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     <span class="keyword">public</span> String getName() {
+<a name="l00057"></a>00057         <span class="keywordflow">return</span> name;
+<a name="l00058"></a>00058     }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="comment">// private void setName(String string) {name = string; }</span>
+<a name="l00061"></a>00061     <span class="keyword">public</span> <span class="keywordtype">boolean</span> isConstant() {
+<a name="l00062"></a>00062         <span class="keywordflow">return</span> this.isConstant;
+<a name="l00063"></a>00063     }
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065     <span class="keyword">public</span> <span class="keywordtype">void</span> setIsConstant(<span class="keywordtype">boolean</span> b) {
+<a name="l00066"></a>00066         this.isConstant = b;
+<a name="l00067"></a>00067     }
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069     <span class="keyword">public</span> Object getValue() {
+<a name="l00070"></a>00070         <span class="keywordflow">return</span> value;
+<a name="l00071"></a>00071     }
+<a name="l00072"></a>00072 
+<a name="l00074"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#ae23686217f7d28f8b37c2a796f6cc8c5">00074</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#ae23686217f7d28f8b37c2a796f6cc8c5">hasValidValue</a>() {
+<a name="l00075"></a>00075         <span class="keywordflow">return</span> validValue;
+<a name="l00076"></a>00076     }
+<a name="l00077"></a>00077 
+<a name="l00079"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#ade3024656dc38340344a4ce65d0abe6f">00079</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#ade3024656dc38340344a4ce65d0abe6f">setValidValue</a>(<span class="keywordtype">boolean</span> val) {
+<a name="l00080"></a>00080         <span class="keywordflow">if</span> (isConstant())
+<a name="l00081"></a>00081             <span class="keywordflow">return</span>;
+<a name="l00082"></a>00082         validValue = val;
+<a name="l00083"></a>00083     }
+<a name="l00084"></a>00084 
+<a name="l00096"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#aa50594f6f4a17c4890191476501d061d">00096</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#aa50594f6f4a17c4890191476501d061d">setValue</a>(Object <span class="keywordtype">object</span>) {
+<a name="l00097"></a>00097         <span class="keywordflow">if</span> (!<a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#aa2c488011dbd4a4055a93058ef3eefb4">setValueRaw</a>(<span class="keywordtype">object</span>))
+<a name="l00098"></a>00098             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00099"></a>00099         setChanged();
+<a name="l00100"></a>00100         notifyObservers(<span class="keywordtype">object</span>);
+<a name="l00101"></a>00101         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00102"></a>00102     }
+<a name="l00103"></a>00103 
+<a name="l00113"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#aa2c488011dbd4a4055a93058ef3eefb4">00113</a>     <span class="keyword">protected</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#aa2c488011dbd4a4055a93058ef3eefb4">setValueRaw</a>(Object <span class="keywordtype">object</span>) {
+<a name="l00114"></a>00114         <span class="keywordflow">if</span> (isConstant)
+<a name="l00115"></a>00115             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00116"></a>00116         validValue = <span class="keyword">true</span>;
+<a name="l00117"></a>00117         value = object;
+<a name="l00118"></a>00118         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00119"></a>00119     }
+<a name="l00120"></a>00120 
+<a name="l00134"></a><a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#a6d4d7b6b82b45cc8ba702ce44ba96955">00134</a>     <span class="keyword">public</span> String <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_variable.html#a6d4d7b6b82b45cc8ba702ce44ba96955">toString</a>() {
+<a name="l00135"></a>00135         <span class="keywordflow">if</span> (!validValue || value == null)
+<a name="l00136"></a>00136             <span class="keywordflow">return</span> name + <span class="stringliteral">&quot;: null&quot;</span>;
+<a name="l00137"></a>00137         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isConstant)
+<a name="l00138"></a>00138             <span class="keywordflow">return</span> name + <span class="stringliteral">&quot;: &quot;</span> + value.toString() + <span class="stringliteral">&quot; (Constant)&quot;</span>;
+<a name="l00139"></a>00139         <span class="keywordflow">else</span>
+<a name="l00140"></a>00140             <span class="keywordflow">return</span> name + <span class="stringliteral">&quot;: &quot;</span> + value.toString();
+<a name="l00141"></a>00141     }
+<a name="l00142"></a>00142 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>Variable.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

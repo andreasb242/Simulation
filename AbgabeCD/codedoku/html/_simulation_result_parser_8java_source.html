@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/SimulationResultParser.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_simulation_result_parser_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/SimulationResultParser.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.plugin.matlab;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.io.BufferedReader;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.io.File;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.io.FileNotFoundException;
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.io.FileReader;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.io.IOException;
+<a name="l00008"></a>00008 <span class="keyword">import</span> java.util.Vector;
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="keyword">import</span> butti.javalibs.errorhandler.Errorhandler;
+<a name="l00011"></a>00011 <span class="keyword">import</span> ch.zhaw.simulation.model.SimulationDocument;
+<a name="l00012"></a>00012 <span class="keyword">import</span> ch.zhaw.simulation.model.SimulationType;
+<a name="l00013"></a>00013 <span class="keyword">import</span> ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+<a name="l00014"></a>00014 <span class="keyword">import</span> ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+<a name="l00015"></a>00015 <span class="keyword">import</span> ch.zhaw.simulation.model.flow.element.SimulationContainerData;
+<a name="l00016"></a>00016 <span class="keyword">import</span> ch.zhaw.simulation.model.flow.element.SimulationParameterData;
+<a name="l00017"></a>00017 <span class="keyword">import</span> ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+<a name="l00018"></a>00018 <span class="keyword">import</span> ch.zhaw.simulation.model.xy.MesoData;
+<a name="l00019"></a>00019 <span class="keyword">import</span> ch.zhaw.simulation.plugin.StandardParameter;
+<a name="l00020"></a>00020 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.SimulationCollection;
+<a name="l00021"></a>00021 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.SimulationSerie;
+<a name="l00022"></a>00022 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.SimulationSerie.SerieSource;
+<a name="l00023"></a>00023 
+<a name="l00027"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_simulation_result_parser.html">00027</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_simulation_result_parser.html">SimulationResultParser</a> {
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029     <span class="keyword">private</span> Vector&lt;FileEntry&gt; filenames;
+<a name="l00030"></a>00030     <span class="keyword">private</span> <span class="keywordtype">double</span> start;
+<a name="l00031"></a>00031     <span class="keyword">private</span> <span class="keywordtype">double</span> end;
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class </span>FileEntry {
+<a name="l00034"></a>00034         <span class="keyword">private</span> String name;
+<a name="l00035"></a>00035         <span class="keyword">private</span> SerieSource serieSource;
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037         <span class="keyword">public</span> FileEntry(String name) {
+<a name="l00038"></a>00038             <span class="keyword">this</span>(name, null);
+<a name="l00039"></a>00039         }
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041         <span class="keyword">public</span> FileEntry(String name, SerieSource serieSource) {
+<a name="l00042"></a>00042             this.name = name;
+<a name="l00043"></a>00043             this.serieSource = serieSource;
+<a name="l00044"></a>00044         }
+<a name="l00045"></a>00045     }
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_simulation_result_parser.html">SimulationResultParser</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_simulation_document.html">SimulationDocument</a> doc, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1simulation_1_1_simulation_configuration.html">SimulationConfiguration</a> config) {
+<a name="l00048"></a>00048         Vector&lt;AbstractNamedSimulationData&gt; dataVector = <span class="keyword">new</span> Vector&lt;AbstractNamedSimulationData&gt;();
+<a name="l00049"></a>00049         filenames = <span class="keyword">new</span> Vector&lt;FileEntry&gt;();
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051         start = config.getParameter(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_standard_parameter.html">StandardParameter</a>.START, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_standard_parameter.html">StandardParameter</a>.DEFAULT_START);
+<a name="l00052"></a>00052         end = config.getParameter(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_standard_parameter.html">StandardParameter</a>.END, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_standard_parameter.html">StandardParameter</a>.DEFAULT_END);
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054         <span class="keywordflow">if</span> (doc.getType() == SimulationType.FLOW_SIMULATION) {
+<a name="l00055"></a>00055             <span class="comment">// Add containers to parser-list</span>
+<a name="l00056"></a>00056             dataVector.addAll(doc.getFlowModel().getSimulationContainer());
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058             <span class="comment">// Add parameters to parser-list</span>
+<a name="l00059"></a>00059             dataVector.addAll(doc.getFlowModel().getSimulationParameter());
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061             <span class="comment">// Add valves (part of connectors) to parser-list</span>
+<a name="l00062"></a>00062             <span class="keywordflow">for</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1flow_1_1connection_1_1_flow_connector_data.html">FlowConnectorData</a> c : doc.getFlowModel().getFlowConnectors()) {
+<a name="l00063"></a>00063                 dataVector.add(c.getValve());
+<a name="l00064"></a>00064             }
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066             <span class="keywordflow">for</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> data : dataVector) {
+<a name="l00067"></a>00067                 filenames.add(<span class="keyword">new</span> FileEntry(data.getName(), SerieSource.forSimulationObject(data)));
+<a name="l00068"></a>00068             }
+<a name="l00069"></a>00069         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (doc.getType() == SimulationType.XY_MODEL) {
+<a name="l00070"></a>00070             String prefix;
+<a name="l00071"></a>00071             <span class="keywordflow">for</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1xy_1_1_meso_data.html">MesoData</a> meso : doc.getXyModel().getMeso()) {
+<a name="l00072"></a>00072                 prefix = meso.getName() + <span class="stringliteral">&quot;.submodel.&quot;</span>;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074                 filenames.add(<span class="keyword">new</span> FileEntry(meso.getName() + <span class="stringliteral">&quot;.position.exact.x&quot;</span>));
+<a name="l00075"></a>00075                 filenames.add(<span class="keyword">new</span> FileEntry(meso.getName() + <span class="stringliteral">&quot;.position.exact.y&quot;</span>));
+<a name="l00076"></a>00076                 filenames.add(<span class="keyword">new</span> FileEntry(meso.getName() + <span class="stringliteral">&quot;.position.approx.x&quot;</span>));
+<a name="l00077"></a>00077                 filenames.add(<span class="keyword">new</span> FileEntry(meso.getName() + <span class="stringliteral">&quot;.position.approx.y&quot;</span>));
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079                 <span class="comment">// 1) add container</span>
+<a name="l00080"></a>00080                 <span class="keywordflow">for</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1flow_1_1element_1_1_simulation_container_data.html">SimulationContainerData</a> container : meso.getSubmodel().getModel().getSimulationContainer()) {
+<a name="l00081"></a>00081                     filenames.add(<span class="keyword">new</span> FileEntry(prefix + container.getName(), SerieSource.CONTAINER));
+<a name="l00082"></a>00082                 }
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084                 <span class="comment">// 2) add parameter</span>
+<a name="l00085"></a>00085                 <span class="keywordflow">for</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1flow_1_1element_1_1_simulation_parameter_data.html">SimulationParameterData</a> parameter : meso.getSubmodel().getModel().getSimulationParameter()) {
+<a name="l00086"></a>00086                     filenames.add(<span class="keyword">new</span> FileEntry(prefix + parameter.getName(), SerieSource.PARAMETER));
+<a name="l00087"></a>00087                 }
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089                 <span class="comment">// 3) add connector</span>
+<a name="l00090"></a>00090                 <span class="keywordflow">for</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1flow_1_1connection_1_1_flow_connector_data.html">FlowConnectorData</a> connector : meso.getSubmodel().getModel().getFlowConnectors()) {
+<a name="l00091"></a>00091                     filenames.add(<span class="keyword">new</span> FileEntry(prefix + connector.getValve().getName(), SerieSource.FLOW));
+<a name="l00092"></a>00092                 }
+<a name="l00093"></a>00093             }
+<a name="l00094"></a>00094         }
+<a name="l00095"></a>00095     }
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> parse(String workpath) {
+<a name="l00098"></a>00098         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> collection;
+<a name="l00099"></a>00099         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_serie.html">SimulationSerie</a> serie;
+<a name="l00100"></a>00100         String line;
+<a name="l00101"></a>00101         String cell[];
+<a name="l00102"></a>00102         BufferedReader reader;
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104         collection = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a>(start, end);
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106         <span class="keywordflow">for</span> (FileEntry file : filenames) {
+<a name="l00107"></a>00107             <span class="keywordflow">try</span> {
+<a name="l00108"></a>00108                 serie = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_serie.html">SimulationSerie</a>(file.name, file.serieSource);
+<a name="l00109"></a>00109                 reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(<span class="keyword">new</span> File(workpath + File.separator + <span class="stringliteral">&quot;data_&quot;</span> + file.name + <span class="stringliteral">&quot;.txt&quot;</span>)));
+<a name="l00110"></a>00110                 <span class="comment">// go through every line in a file</span>
+<a name="l00111"></a>00111                 <span class="keywordflow">while</span> ((line = reader.readLine()) != null) {
+<a name="l00112"></a>00112                     <span class="comment">// Tab-split line in two parts</span>
+<a name="l00113"></a>00113                     cell = line.split(<span class="stringliteral">&quot;\\t&quot;</span>);
+<a name="l00114"></a>00114                     <span class="keywordflow">if</span> (cell.length &gt;= 2) {
+<a name="l00115"></a>00115                         <span class="comment">// Add new entry (time/value) to serie</span>
+<a name="l00116"></a>00116                         serie.add(Double.valueOf(cell[0]).doubleValue(), Double.valueOf(cell[1]).doubleValue());
+<a name="l00117"></a>00117                     }
+<a name="l00118"></a>00118                 }
+<a name="l00119"></a>00119                 collection.addSerie(serie);
+<a name="l00120"></a>00120             } <span class="keywordflow">catch</span> (FileNotFoundException e) {
+<a name="l00121"></a>00121                 <a class="code" href="classbutti_1_1javalibs_1_1errorhandler_1_1_errorhandler.html">Errorhandler</a>.<a class="code" href="classbutti_1_1javalibs_1_1errorhandler_1_1_errorhandler.html#aad2fca6907643e5ef8d019180e1698bd">logError</a>(e, e.getMessage());
+<a name="l00122"></a>00122             } <span class="keywordflow">catch</span> (IOException e) {
+<a name="l00123"></a>00123                 <a class="code" href="classbutti_1_1javalibs_1_1errorhandler_1_1_errorhandler.html">Errorhandler</a>.<a class="code" href="classbutti_1_1javalibs_1_1errorhandler_1_1_errorhandler.html#aad2fca6907643e5ef8d019180e1698bd">logError</a>(e, e.getMessage());
+<a name="l00124"></a>00124             }
+<a name="l00125"></a>00125         }
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127         <span class="keywordflow">return</span> collection;
+<a name="l00128"></a>00128     }
+<a name="l00129"></a>00129 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>SimulationResultParser.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

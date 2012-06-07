@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabCompatiblePlugin.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_matlab_compatible_plugin_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/MatlabCompatiblePlugin.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.plugin.matlab;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.event.ActionListener;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.io.File;
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.io.IOException;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.util.Vector;
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="keyword">import</span> javax.swing.JPanel;
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="keyword">import</span> butti.javalibs.config.Settings;
+<a name="l00012"></a>00012 <span class="keyword">import</span> butti.javalibs.util.OS;
+<a name="l00013"></a>00013 <span class="keyword">import</span> ch.zhaw.simulation.math.exception.SimulationModelException;
+<a name="l00014"></a>00014 <span class="keyword">import</span> ch.zhaw.simulation.model.SimulationDocument;
+<a name="l00015"></a>00015 <span class="keyword">import</span> ch.zhaw.simulation.model.SimulationType;
+<a name="l00016"></a>00016 <span class="keyword">import</span> ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+<a name="l00017"></a>00017 <span class="keyword">import</span> ch.zhaw.simulation.plugin.ExecutionListener;
+<a name="l00018"></a>00018 <span class="keyword">import</span> ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
+<a name="l00019"></a>00019 <span class="keyword">import</span> ch.zhaw.simulation.plugin.PluginDataProvider;
+<a name="l00020"></a>00020 <span class="keyword">import</span> ch.zhaw.simulation.plugin.SimulationPlugin;
+<a name="l00021"></a>00021 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.SimulationCollection;
+<a name="l00022"></a>00022 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.XYDensityRaw;
+<a name="l00023"></a>00023 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.codegen.AbstractCodeGenerator;
+<a name="l00024"></a>00024 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.dirwatcher.DirectoryWatcher;
+<a name="l00025"></a>00025 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.gui.SettingsGui;
+<a name="l00026"></a>00026 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.optimizer.FlowModelOptimizer;
+<a name="l00027"></a>00027 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.optimizer.ModelOptimizer;
+<a name="l00028"></a>00028 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.optimizer.XYModelOptimizer;
+<a name="l00029"></a>00029 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.sidebar.MatlabConfigurationSidebar;
+<a name="l00030"></a>00030 <span class="keyword">import</span> ch.zhaw.simulation.plugin.matlab.util.OutputReaderThread;
+<a name="l00031"></a>00031 <span class="keyword">import</span> ch.zhaw.simulation.plugin.sidebar.DefaultConfigurationSidebar;
+<a name="l00032"></a>00032 
+<a name="l00033"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html">00033</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html">MatlabCompatiblePlugin</a> <span class="keyword">implements</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_simulation_plugin.html">SimulationPlugin</a> {
+<a name="l00034"></a>00034     <span class="keyword">private</span> <a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html">Settings</a> settings;
+<a name="l00035"></a>00035     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1sidebar_1_1_matlab_configuration_sidebar.html">MatlabConfigurationSidebar</a> sidebar;
+<a name="l00036"></a>00036     <span class="keyword">private</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1optimizer_1_1_model_optimizer.html">ModelOptimizer</a> optimizer;
+<a name="l00037"></a>00037     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1simulation_1_1_simulation_configuration.html">SimulationConfiguration</a> config;
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     <span class="keyword">protected</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_plugin_data_provider.html">PluginDataProvider</a> provider;
+<a name="l00040"></a>00040     <span class="keyword">protected</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1dirwatcher_1_1_directory_watcher.html">DirectoryWatcher</a> watcher;
+<a name="l00041"></a>00041     <span class="keyword">protected</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_finish_listener.html">MatlabFinishListener</a> finishListener;
+<a name="l00042"></a>00042     <span class="keyword">protected</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_progress_listener.html">MatlabProgressListener</a> progressListener;
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     <span class="keyword">private</span> Process process;
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html">MatlabCompatiblePlugin</a>() {
+<a name="l00047"></a>00047     }
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049     @Override
+<a name="l00050"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#af87312a1ca94b1e2b0de3122bdd23a8e">00050</a>     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1sidebar_1_1_default_configuration_sidebar.html">DefaultConfigurationSidebar</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#af87312a1ca94b1e2b0de3122bdd23a8e">getConfigurationSidebar</a>(SimulationType type) {
+<a name="l00051"></a>00051         <span class="keywordflow">if</span> (sidebar.getType() != type) {
+<a name="l00052"></a>00052             this.sidebar.unload();
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054             this.sidebar = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1sidebar_1_1_matlab_configuration_sidebar.html">MatlabConfigurationSidebar</a>(this.config, this.provider.getSimulationType());
+<a name="l00055"></a>00055             this.sidebar.load();
+<a name="l00056"></a>00056         }
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058         <span class="keywordflow">return</span> sidebar;
+<a name="l00059"></a>00059     }
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061     @Override
+<a name="l00062"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#aa3086a48e4e1c79be9e659d2a1e7db02">00062</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#aa3086a48e4e1c79be9e659d2a1e7db02">init</a>(<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html">Settings</a> settings, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1simulation_1_1_simulation_configuration.html">SimulationConfiguration</a> config, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_plugin_data_provider.html">PluginDataProvider</a> provider) {
+<a name="l00063"></a>00063         this.settings = settings;
+<a name="l00064"></a>00064         this.config = config;
+<a name="l00065"></a>00065         this.provider = provider;
+<a name="l00066"></a>00066         this.sidebar = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1sidebar_1_1_matlab_configuration_sidebar.html">MatlabConfigurationSidebar</a>(this.config, this.provider.getSimulationType());
+<a name="l00067"></a>00067         this.watcher = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1dirwatcher_1_1_directory_watcher.html">DirectoryWatcher</a>(1000);
+<a name="l00068"></a>00068         this.finishListener = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_finish_listener.html">MatlabFinishListener</a>(<span class="keyword">this</span>);
+<a name="l00069"></a>00069         this.progressListener = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_progress_listener.html">MatlabProgressListener</a>(<span class="keyword">this</span>);
+<a name="l00070"></a>00070         this.watcher.addResourceListener(this.finishListener);
+<a name="l00071"></a>00071         this.watcher.addResourceListener(this.progressListener);
+<a name="l00072"></a>00072     }
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074     @Override
+<a name="l00075"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#abba21d7eb053400c8e2f9d5f93993047">00075</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#abba21d7eb053400c8e2f9d5f93993047">load</a>() throws Exception {
+<a name="l00076"></a>00076         this.sidebar.load();
+<a name="l00077"></a>00077         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00078"></a>00078     }
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080     @Override
+<a name="l00081"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#ab3b17677464dc1d4057ba34978771999">00081</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#ab3b17677464dc1d4057ba34978771999">unload</a>() {
+<a name="l00082"></a>00082         this.sidebar.unload();
+<a name="l00083"></a>00083     }
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085     @Override
+<a name="l00086"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#aea77551c7dbeb6a6479bb0f645220584">00086</a>     <span class="keyword">public</span> JPanel <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#aea77551c7dbeb6a6479bb0f645220584">getSettingsPanel</a>() {
+<a name="l00087"></a>00087         <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1gui_1_1_settings_gui.html">SettingsGui</a>(this.settings, provider.getParent());
+<a name="l00088"></a>00088     }
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     @Override
+<a name="l00091"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#ada2eff372c0c97a43b491a887f30d88c">00091</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#ada2eff372c0c97a43b491a887f30d88c">checkDocument</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_simulation_document.html">SimulationDocument</a> doc) <span class="keywordflow">throws</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1math_1_1exception_1_1_simulation_model_exception.html">SimulationModelException</a> {
+<a name="l00092"></a>00092         <span class="keywordflow">if</span> (doc.getType() == SimulationType.FLOW_SIMULATION) {
+<a name="l00093"></a>00093             optimizer = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1optimizer_1_1_flow_model_optimizer.html">FlowModelOptimizer</a>(doc.getFlowModel());
+<a name="l00094"></a>00094         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (doc.getType() == SimulationType.XY_MODEL) {
+<a name="l00095"></a>00095             optimizer = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1optimizer_1_1_x_y_model_optimizer.html">XYModelOptimizer</a>(doc.getXyModel());
+<a name="l00096"></a>00096         }
+<a name="l00097"></a>00097         optimizer.optimize();
+<a name="l00098"></a>00098     }
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     @Override
+<a name="l00101"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#a42ff797cabe6ccc0fe16578a884b8afa">00101</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#a42ff797cabe6ccc0fe16578a884b8afa">executeSimulation</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_simulation_document.html">SimulationDocument</a> doc) <span class="keywordflow">throws</span> Exception {
+<a name="l00102"></a>00102         String workpath = settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.WORKPATH, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.DEFAULT_WORKPATH);
+<a name="l00103"></a>00103         String filename = null;
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_abstract_code_generator.html">AbstractCodeGenerator</a> codeGenerator = sidebar.getSelectedNumericMethod().getCodeGenerator();
+<a name="l00106"></a>00106         <span class="keywordtype">boolean</span> justGenerate = settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#aa161edc3fc3afa1613614a03ccf89dfd">isSetting</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.JUST_GENERATE, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.DEFAULT_JUST_GENERATE);
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108         File f = <span class="keyword">new</span> File(workpath);
+<a name="l00109"></a>00109         <span class="keywordflow">if</span> (!f.exists()) {
+<a name="l00110"></a>00110             f.mkdirs();
+<a name="l00111"></a>00111         }
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113         <span class="keywordflow">if</span> (!f.isDirectory()) {
+<a name="l00114"></a>00114             <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&quot;Workpath «&quot;</span> + workpath + <span class="stringliteral">&quot;» is not a Folder / does not exists, and could not be created&quot;</span>);
+<a name="l00115"></a>00115         }
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117         <span class="keywordflow">try</span> {
+<a name="l00118"></a>00118             finishListener.updateWorkpath(workpath);
+<a name="l00119"></a>00119             <span class="keywordflow">if</span> (justGenerate == <span class="keyword">false</span>) {
+<a name="l00120"></a>00120                 watcher.start(workpath);
+<a name="l00121"></a>00121             }
+<a name="l00122"></a>00122             provider.getExecutionListener().<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_execution_listener.html#a367de629236632d0f85d602e2820a1ba">executionStarted</a>(<span class="stringliteral">&quot;Simulation läuft...&quot;</span>);
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124             codeGenerator.setWorkingFolder(workpath);
+<a name="l00125"></a>00125             codeGenerator.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_abstract_code_generator.html#a9452dab7f0238a7b91e37244a2d4c5a2">generateSimulation</a>(doc);
+<a name="l00126"></a>00126             filename = codeGenerator.getGeneratedFile();
+<a name="l00127"></a>00127             startApplication(workpath, filename);
+<a name="l00128"></a>00128         } <span class="keywordflow">catch</span> (IOException e) {
+<a name="l00129"></a>00129             watcher.stop();
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131             <span class="keywordflow">if</span> (e.getMessage() != null &amp;&amp; e.getMessage().startsWith(<span class="stringliteral">&quot;Cannot run program&quot;</span>)) {
+<a name="l00132"></a>00132                 String tool = settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.TOOL, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.DEFAULT_TOOL);
+<a name="l00133"></a>00133                 String message = <span class="stringliteral">&quot;&lt;html&gt;&lt;b&gt;«&quot;</span> + tool + <span class="stringliteral">&quot;» konnte nicht ausgeführt werden.&lt;/b&gt;&lt;br&gt;&quot;</span>
+<a name="l00134"></a>00134                         + <span class="stringliteral">&quot;Kontrollieren Sie die Einstellungen unter Bearbeiten / Einstellungen / Matlab Compatible Simulator&lt;br&gt;&lt;br&gt;&quot;</span>
+<a name="l00135"></a>00135                         + <span class="stringliteral">&quot;Wenn Sie weder Matlab noch Octave installiert haben wählen als Simulationsplugin «Interne Simulation»&lt;/html&gt;&quot;</span>;
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137                 provider.getExecutionListener().<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_execution_listener.html#a02fecd189784990ca3e356f99f9c1caa">executionFinished</a>(message, FinishState.ERROR);
+<a name="l00138"></a>00138                 <span class="keywordflow">return</span>;
+<a name="l00139"></a>00139             }
+<a name="l00140"></a>00140             <span class="keywordflow">throw</span> e;
+<a name="l00141"></a>00141         } <span class="keywordflow">catch</span> (IllegalArgumentException e) {
+<a name="l00142"></a>00142             e.printStackTrace();
+<a name="l00143"></a>00143             watcher.stop();
+<a name="l00144"></a>00144             provider.getExecutionListener().<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_execution_listener.html#a02fecd189784990ca3e356f99f9c1caa">executionFinished</a>(e.getMessage(), FinishState.ERROR);
+<a name="l00145"></a>00145         }
+<a name="l00146"></a>00146     }
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148     @Override
+<a name="l00149"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#aa8203260e38983e7474d717451c00999">00149</a>     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#aa8203260e38983e7474d717451c00999">getSimulationResults</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_simulation_document.html">SimulationDocument</a> doc) {
+<a name="l00150"></a>00150         <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_simulation_result_parser.html">SimulationResultParser</a>(doc, config).parse(settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.WORKPATH, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.DEFAULT_WORKPATH));
+<a name="l00151"></a>00151     }
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153     @Override
+<a name="l00154"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#a264db914b98d420eb1fcb8600d3f9425">00154</a>     <span class="keyword">public</span> Vector&lt;XYDensityRaw&gt; <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#a264db914b98d420eb1fcb8600d3f9425">getXYResults</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_simulation_document.html">SimulationDocument</a> doc) {
+<a name="l00155"></a>00155         <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_x_y_density_parser.html">XYDensityParser</a>(doc.getXyModel()).parse(settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.WORKPATH, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.DEFAULT_WORKPATH));
+<a name="l00156"></a>00156     }
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158     <span class="keyword">protected</span> <span class="keywordtype">void</span> startApplication(String dir, String filename) <span class="keywordflow">throws</span> IllegalArgumentException, IOException {
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160         <span class="keywordtype">boolean</span> justGenerate = settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#aa161edc3fc3afa1613614a03ccf89dfd">isSetting</a>(<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.JUST_GENERATE, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_parameter.html">MatlabParameter</a>.DEFAULT_JUST_GENERATE);
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162         <span class="keywordflow">if</span> (justGenerate) {
+<a name="l00163"></a>00163             provider.getExecutionListener().<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_execution_listener.html#a02fecd189784990ca3e356f99f9c1caa">executionFinished</a>(null, FinishState.SURRENDER);
+<a name="l00164"></a>00164         } <span class="keywordflow">else</span> {
+<a name="l00165"></a>00165             String tool = settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(MatlabParameter.TOOL, MatlabParameter.DEFAULT_TOOL);
+<a name="l00166"></a>00166             MatlabTool t = MatlabTool.fromString(tool);
+<a name="l00167"></a>00167             String executable = null;
+<a name="l00168"></a>00168             String arguments = null;
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170             <span class="keywordflow">if</span> (t == MatlabTool.MATLAB) {
+<a name="l00171"></a>00171                 executable = settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(MatlabParameter.EXEC_MATLAB_PATH, MatlabParameter.DEFAULT_EXEC_MATLAB_PATH);
+<a name="l00172"></a>00172                 arguments = <span class="stringliteral">&quot;-nosplash -nodesktop -minimize -wait -sd &quot;</span> + dir + <span class="stringliteral">&quot; -r &quot;</span> + filename;
+<a name="l00173"></a>00173             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (t == MatlabTool.OCTAVE) {
+<a name="l00174"></a>00174                 executable = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, MatlabParameter.DEFAULT_EXEC_OCTAVE_PATH);
+<a name="l00175"></a>00175                 <span class="keywordflow">if</span> (OS.getOs() == OS.WINDOWS) {
+<a name="l00176"></a>00176                     <span class="keywordflow">if</span> (!dir.endsWith(<span class="stringliteral">&quot;\\&quot;</span>)) {
+<a name="l00177"></a>00177                         dir = dir + <span class="stringliteral">&quot;\\&quot;</span>;
+<a name="l00178"></a>00178                     }
+<a name="l00179"></a>00179                     arguments = <span class="stringliteral">&quot;--no-line-editing --silent --path &quot;</span> + dir + <span class="stringliteral">&quot; --exec-path &quot;</span> + dir + <span class="stringliteral">&quot; &quot;</span> + dir + filename + <span class="stringliteral">&quot;.m&quot;</span>;
+<a name="l00180"></a>00180                 } <span class="keywordflow">else</span> {
+<a name="l00181"></a>00181                     arguments = <span class="stringliteral">&quot;--no-line-editing --exec-path &quot;</span> + dir + <span class="stringliteral">&quot; &quot;</span> + filename + <span class="stringliteral">&quot;.m&quot;</span>;
+<a name="l00182"></a>00182                 }
+<a name="l00183"></a>00183             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (t == MatlabTool.SCILAB) {
+<a name="l00184"></a>00184                 executable = settings.getSetting(MatlabParameter.EXEC_SCILAB_PATH, MatlabParameter.DEFAULT_EXEC_SCILAB_PATH);
+<a name="l00185"></a>00185                 arguments = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00186"></a>00186             } <span class="keywordflow">else</span> {
+<a name="l00187"></a>00187                 <span class="keywordflow">throw</span> <span class="keyword">new</span> IllegalArgumentException();
+<a name="l00188"></a>00188             }
+<a name="l00189"></a>00189 
+<a name="l00190"></a>00190             System.out.println(<span class="stringliteral">&quot;MatlabCompatiblePlugin: &quot;</span> + executable + <span class="stringliteral">&quot; &quot;</span> + arguments);
+<a name="l00191"></a>00191             this.process = Runtime.getRuntime().exec(executable + <span class="stringliteral">&quot; &quot;</span> + arguments);
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193             ActionListener errorListener = <span class="keyword">new</span> ActionListener() {
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195                 @Override
+<a name="l00196"></a>00196                 <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00197"></a>00197                     watcher.stop();
+<a name="l00198"></a>00198                     provider.getExecutionListener().executionFinished(e.getActionCommand(), ExecutionListener.FinishState.ERROR);
+<a name="l00199"></a>00199                 }
+<a name="l00200"></a>00200             };
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202             OutputReaderThread stdout = <span class="keyword">new</span> OutputReaderThread(<span class="stringliteral">&quot;[&quot;</span> + t + <span class="stringliteral">&quot;] &quot;</span>, process.getInputStream(), System.out);
+<a name="l00203"></a>00203             OutputReaderThread stderr = <span class="keyword">new</span> OutputReaderThread(<span class="stringliteral">&quot;[&quot;</span> + t + <span class="stringliteral">&quot;] &quot;</span>, process.getErrorStream(), System.err);
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205             stdout.addListener(errorListener);
+<a name="l00206"></a>00206             stderr.addListener(errorListener);
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208             stdout.start();
+<a name="l00209"></a>00209             stderr.start();
+<a name="l00210"></a>00210         }
+<a name="l00211"></a>00211     }
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213     @Override
+<a name="l00214"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#a8e70c35ba704b06f7fcb23729b2b9228">00214</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1_matlab_compatible_plugin.html#a8e70c35ba704b06f7fcb23729b2b9228">cancelSimulation</a>() {
+<a name="l00215"></a>00215         provider.getExecutionListener().<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_execution_listener.html#af357a5e9d3a5fcf20cef139ad896d204">setExecutionMessage</a>(<span class="stringliteral">&quot;Wird abgebrochen...&quot;</span>);
+<a name="l00216"></a>00216         watcher.stop();
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218         <span class="keywordflow">try</span> {
+<a name="l00219"></a>00219             <span class="keywordflow">if</span> (this.process != null) {
+<a name="l00220"></a>00220                 this.process.destroy();
+<a name="l00221"></a>00221                 <span class="keywordtype">int</span> retCode = this.process.waitFor();
+<a name="l00222"></a>00222                 System.out.println(<span class="stringliteral">&quot;Process exited with: &quot;</span> + retCode);
+<a name="l00223"></a>00223             }
+<a name="l00224"></a>00224         } <span class="keywordflow">catch</span> (InterruptedException e) {
+<a name="l00225"></a>00225             e.printStackTrace();
+<a name="l00226"></a>00226         } <span class="keywordflow">finally</span> {
+<a name="l00227"></a>00227             provider.getExecutionListener().<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1plugin_1_1_execution_listener.html#a02fecd189784990ca3e356f99f9c1caa">executionFinished</a>(null, FinishState.CANCELED);
+<a name="l00228"></a>00228         }
+<a name="l00229"></a>00229     }
+<a name="l00230"></a>00230 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>MatlabCompatiblePlugin.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

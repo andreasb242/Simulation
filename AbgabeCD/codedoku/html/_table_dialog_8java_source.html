@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationDiagram/src/ch/zhaw/simulation/diagram/tableview/TableDialog.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_table_dialog_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationDiagram/src/ch/zhaw/simulation/diagram/tableview/TableDialog.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.diagram.tableview;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.BorderLayout;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.Window;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.awt.event.WindowAdapter;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.awt.event.WindowEvent;
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="keyword">import</span> javax.swing.JLabel;
+<a name="l00010"></a>00010 <span class="keyword">import</span> javax.swing.JScrollPane;
+<a name="l00011"></a>00011 <span class="keyword">import</span> javax.swing.JSpinner;
+<a name="l00012"></a>00012 <span class="keyword">import</span> javax.swing.JTable;
+<a name="l00013"></a>00013 <span class="keyword">import</span> javax.swing.SpinnerNumberModel;
+<a name="l00014"></a>00014 <span class="keyword">import</span> javax.swing.event.ChangeEvent;
+<a name="l00015"></a>00015 <span class="keyword">import</span> javax.swing.event.ChangeListener;
+<a name="l00016"></a>00016 <span class="keyword">import</span> javax.swing.event.ListSelectionEvent;
+<a name="l00017"></a>00017 <span class="keyword">import</span> javax.swing.event.ListSelectionListener;
+<a name="l00018"></a>00018 <span class="keyword">import</span> javax.swing.table.TableColumn;
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="keyword">import</span> butti.javalibs.clipboard.JTableCopyAdapter;
+<a name="l00021"></a>00021 <span class="keyword">import</span> butti.javalibs.config.Settings;
+<a name="l00022"></a>00022 <span class="keyword">import</span> butti.javalibs.config.WindowPositionSaver;
+<a name="l00023"></a>00023 <span class="keyword">import</span> butti.javalibs.gui.BDialog;
+<a name="l00024"></a>00024 <span class="keyword">import</span> ch.zhaw.simulation.diagram.csv.CSVSaver;
+<a name="l00025"></a>00025 <span class="keyword">import</span> ch.zhaw.simulation.plugin.data.SimulationCollection;
+<a name="l00026"></a>00026 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.Toolbar;
+<a name="l00027"></a>00027 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
+<a name="l00028"></a>00028 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
+<a name="l00029"></a>00029 <span class="keyword">import</span> ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
+<a name="l00030"></a>00030 
+<a name="l00031"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_table_dialog.html">00031</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_table_dialog.html">TableDialog</a> <span class="keyword">extends</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_b_dialog.html">BDialog</a> {
+<a name="l00032"></a>00032     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_simulation_table_model.html">SimulationTableModel</a> model;
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_table_renderer.html">TableRenderer</a> renderer = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_table_renderer.html">TableRenderer</a>();
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038     <span class="keyword">private</span> JTable table;
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040     <span class="keyword">private</span> <a class="code" href="classbutti_1_1javalibs_1_1clipboard_1_1_j_table_copy_adapter.html">JTableCopyAdapter</a> copyAdapter;
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042     <span class="keyword">private</span> JSpinner precision = <span class="keyword">new</span> JSpinner(<span class="keyword">new</span> SpinnerNumberModel(2, 0, 10, 1));
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     <span class="keyword">private</span> <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1sysintegration_1_1_toolbar_1_1_toolbar_button.html">ToolbarButton</a> tbCopy;
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <span class="keyword">private</span> <a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html">Settings</a> settings;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     <span class="keyword">private</span> Window parent;
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> series;
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052     <span class="keyword">private</span> ListSelectionListener listener = <span class="keyword">new</span> ListSelectionListener() {
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054         @Override
+<a name="l00055"></a>00055         <span class="keyword">public</span> <span class="keywordtype">void</span> valueChanged(ListSelectionEvent e) {
+<a name="l00056"></a>00056             <span class="keywordtype">int</span>[] rowsselected = table.getSelectedRows();
+<a name="l00057"></a>00057             <span class="keywordtype">int</span>[] colsselected = table.getSelectedColumns();
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059             <span class="keywordflow">if</span> (rowsselected.length &lt; 1 || colsselected.length &lt; 1) {
+<a name="l00060"></a>00060                 tbCopy.setEnabled(<span class="keyword">false</span>);
+<a name="l00061"></a>00061             } <span class="keywordflow">else</span> {
+<a name="l00062"></a>00062                 tbCopy.setEnabled(<span class="keyword">true</span>);
+<a name="l00063"></a>00063             }
+<a name="l00064"></a>00064         }
+<a name="l00065"></a>00065     };
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_table_dialog.html">TableDialog</a>(Window parent, <span class="keyword">final</span> <a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html">Settings</a> settings, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> series) {
+<a name="l00068"></a>00068         super(parent);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070         this.parent = parent;
+<a name="l00071"></a>00071         this.settings = settings;
+<a name="l00072"></a>00072         this.series = series;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076         setTitle(<span class="stringliteral">&quot;Simulationsdaten&quot;</span>);
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078         model = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_simulation_table_model.html">SimulationTableModel</a>(series);
+<a name="l00079"></a>00079         table = <span class="keyword">new</span> JTable(model);
+<a name="l00080"></a>00080         table.setColumnSelectionAllowed(<span class="keyword">true</span>);
+<a name="l00081"></a>00081         table.getSelectionModel().addListSelectionListener(listener);
+<a name="l00082"></a>00082         table.getColumnModel().getSelectionModel().addListSelectionListener(listener);
+<a name="l00083"></a>00083         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+<a name="l00084"></a>00084         updateRenderer();
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086         setLayout(<span class="keyword">new</span> BorderLayout());
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088         add(<span class="keyword">new</span> JScrollPane(table), BorderLayout.CENTER);
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090         copyAdapter = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1clipboard_1_1_j_table_copy_adapter.html">JTableCopyAdapter</a>(table);
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092         initToolbar();
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094         precision.setValue((<span class="keywordtype">int</span>) settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#a0510cafa7c4c9aeb622fb128219fd404">getSetting</a>(<span class="stringliteral">&quot;table.precision&quot;</span>, 2.0));
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096         addWindowListener(<span class="keyword">new</span> WindowAdapter() {
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098             @Override
+<a name="l00099"></a>00099             <span class="keyword">public</span> <span class="keywordtype">void</span> windowClosing(WindowEvent e) {
+<a name="l00100"></a>00100                 settings.<a class="code" href="interfacebutti_1_1javalibs_1_1config_1_1_settings.html#aae2917da9a2e93b96247ec7a30e9d019">setSetting</a>(<span class="stringliteral">&quot;table.precision&quot;</span>, (Integer) precision.getValue());
+<a name="l00101"></a>00101             }
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103         });
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105         <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1config_1_1_window_position_saver.html">WindowPositionSaver</a>(<span class="keyword">this</span>);
+<a name="l00106"></a>00106     }
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108     <span class="keyword">private</span> <span class="keywordtype">void</span> initToolbar() {
+<a name="l00109"></a>00109         <span class="comment">// Mac Toolbar implementation not working as expected:</span>
+<a name="l00110"></a>00110         <span class="comment">// Toolbar toolbar =</span>
+<a name="l00111"></a>00111         <span class="comment">// SysintegrationFactory.getSysintegration().createToolbar(32);</span>
+<a name="l00112"></a>00112         <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1sysintegration_1_1_toolbar.html">Toolbar</a> toolbar = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1sysintegration_1_1gui_1_1_default_toolbar.html">DefaultToolbar</a>(32);
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114         tbCopy = toolbar.add(<span class="keyword">new</span> ToolbarAction(<span class="stringliteral">&quot;Kopieren&quot;</span>, <span class="stringliteral">&quot;diagram/edit-copy&quot;</span>) {
+<a name="l00115"></a>00115             @Override
+<a name="l00116"></a>00116             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00117"></a>00117                 copyAdapter.copy();
+<a name="l00118"></a>00118             }
+<a name="l00119"></a>00119         });
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121         tbCopy.setEnabled(<span class="keyword">false</span>);
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123         toolbar.addSeparator();
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125         toolbar.add(<span class="keyword">new</span> ToolbarAction(<span class="stringliteral">&quot;Speichern&quot;</span>, <span class="stringliteral">&quot;diagram/save&quot;</span>) {
+<a name="l00126"></a>00126             @Override
+<a name="l00127"></a>00127             <span class="keyword">public</span> <span class="keywordtype">void</span> actionPerformed(ActionEvent e) {
+<a name="l00128"></a>00128                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1csv_1_1_c_s_v_saver.html">CSVSaver</a> saver = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1csv_1_1_c_s_v_saver.html">CSVSaver</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1tableview_1_1_table_dialog.html">TableDialog</a>.this.parent, settings, series);
+<a name="l00129"></a>00129                 saver.save();
+<a name="l00130"></a>00130             }
+<a name="l00131"></a>00131         });
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133         toolbar.addSeparator();
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135         toolbar.add(<span class="keyword">new</span> JLabel(<span class="stringliteral">&quot;Dezimalstellen:&quot;</span>));
+<a name="l00136"></a>00136         toolbar.add(precision);
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138         precision.addChangeListener(<span class="keyword">new</span> ChangeListener() {
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140             @Override
+<a name="l00141"></a>00141             <span class="keyword">public</span> <span class="keywordtype">void</span> stateChanged(ChangeEvent e) {
+<a name="l00142"></a>00142                 <span class="keywordtype">int</span> v = (Integer) precision.getValue();
+<a name="l00143"></a>00143                 renderer.setPrecision(v);
+<a name="l00144"></a>00144                 table.repaint();
+<a name="l00145"></a>00145             }
+<a name="l00146"></a>00146         });
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148         add(toolbar.getComponent(), BorderLayout.NORTH);
+<a name="l00149"></a>00149     }
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151     <span class="keyword">private</span> <span class="keywordtype">void</span> updateRenderer() {
+<a name="l00152"></a>00152         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; table.getColumnCount(); i++) {
+<a name="l00153"></a>00153             TableColumn c = table.getColumnModel().getColumn(i);
+<a name="l00154"></a>00154             c.setCellRenderer(renderer);
+<a name="l00155"></a>00155         }
+<a name="l00156"></a>00156     }
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158     <span class="keyword">public</span> <span class="keywordtype">void</span> setData(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1data_1_1_simulation_collection.html">SimulationCollection</a> series) {
+<a name="l00159"></a>00159         model.setSeries(series);
+<a name="l00160"></a>00160         updateRenderer();
+<a name="l00161"></a>00161     }
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>TableDialog.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

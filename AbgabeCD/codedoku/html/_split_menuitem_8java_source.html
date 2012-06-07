@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/Javalibs/Gui/BJavalibs/BJavalibs/src/butti/javalibs/gui/splitmenuitem/SplitMenuitem.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_split_menuitem_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/Javalibs/Gui/BJavalibs/BJavalibs/src/butti/javalibs/gui/splitmenuitem/SplitMenuitem.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>butti.javalibs.gui.splitmenuitem;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.event.ActionEvent;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.util.Vector;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> javax.swing.AbstractButton;
+<a name="l00007"></a>00007 <span class="keyword">import</span> javax.swing.Action;
+<a name="l00008"></a>00008 <span class="keyword">import</span> javax.swing.JComponent;
+<a name="l00009"></a>00009 <span class="keyword">import</span> javax.swing.UIDefaults;
+<a name="l00010"></a>00010 <span class="keyword">import</span> javax.swing.UIManager;
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="keyword">import</span> butti.javalibs.gui.splitmenuitem.ui.BaseSplitMenuitemUI;
+<a name="l00013"></a>00013 <span class="keyword">import</span> butti.javalibs.gui.splitmenuitem.ui.SplitMenuItemUI;
+<a name="l00014"></a>00014 
+<a name="l00015"></a><a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html">00015</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html">SplitMenuitem</a> <span class="keyword">extends</span> AbstractButton {
+<a name="l00016"></a>00016     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00017"></a>00017 
+<a name="l00021"></a>00021     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String uiClassID = <span class="stringliteral">&quot;SplitMenuItemUI&quot;</span>;
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ADDITIONAL_ACTION_CHANGED = <span class="stringliteral">&quot;additionalAction&quot;</span>;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025     <span class="keyword">private</span> Vector&lt;Action&gt; additionalActions = <span class="keyword">new</span> Vector&lt;Action&gt;();
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027     <span class="keyword">static</span> {
+<a name="l00028"></a>00028         <span class="comment">// look and feel change is currently not supported, because it anyway</span>
+<a name="l00029"></a>00029         <span class="comment">// don&#39;t work with all components</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031         String lnf = UIManager.getLookAndFeel().getClass().getName();
+<a name="l00032"></a>00032         <span class="keywordflow">if</span> (<span class="stringliteral">&quot;com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel&quot;</span>.equals(lnf)) {
+<a name="l00033"></a>00033             UIManager.put(uiClassID, <span class="stringliteral">&quot;butti.javalibs.gui.splitmenuitem.ui.NimbusSplitMenuitemUI&quot;</span>);          
+<a name="l00034"></a>00034         } <span class="keywordflow">else</span> {
+<a name="l00035"></a>00035             UIManager.put(uiClassID, <span class="stringliteral">&quot;butti.javalibs.gui.splitmenuitem.ui.BaseSplitMenuitemUI&quot;</span>);
+<a name="l00036"></a>00036         }
+<a name="l00037"></a>00037     }
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     <span class="keyword">public</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html">SplitMenuitem</a>(String text) {
+<a name="l00040"></a>00040         setText(text);
+<a name="l00041"></a>00041         updateUI();
+<a name="l00042"></a>00042         doLayout();
+<a name="l00043"></a>00043     }
+<a name="l00044"></a>00044 
+<a name="l00051"></a><a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html#a4ebbcea209dd8b7d5eb45254f52a7de3">00051</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html#a4ebbcea209dd8b7d5eb45254f52a7de3">setUI</a>(<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1ui_1_1_split_menu_item_u_i.html">SplitMenuItemUI</a> ui) {
+<a name="l00052"></a>00052         super.setUI(ui);
+<a name="l00053"></a>00053     }
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055     @Override
+<a name="l00056"></a>00056     <span class="keyword">public</span> <span class="keywordtype">void</span> updateUI() {
+<a name="l00057"></a>00057         <span class="keywordflow">if</span> (UIManager.get(<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html#a9d085f43f539f9278267ba2596e91a92">getUIClassID</a>()) != null) {
+<a name="l00058"></a>00058             <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html#a4ebbcea209dd8b7d5eb45254f52a7de3">setUI</a>((<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1ui_1_1_split_menu_item_u_i.html">SplitMenuItemUI</a>) UIManager.getUI(<span class="keyword">this</span>));
+<a name="l00059"></a>00059         } <span class="keywordflow">else</span> {
+<a name="l00060"></a>00060             <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html#a4ebbcea209dd8b7d5eb45254f52a7de3">setUI</a>(<span class="keyword">new</span> BaseSplitMenuitemUI());
+<a name="l00061"></a>00061         }
+<a name="l00062"></a>00062     }
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064     @Override
+<a name="l00065"></a>00065     <span class="keyword">public</span> SplitMenuItemUI getUI() {
+<a name="l00066"></a>00066         <span class="keywordflow">return</span> (SplitMenuItemUI) ui;
+<a name="l00067"></a>00067     }
+<a name="l00068"></a>00068 
+<a name="l00078"></a>00078     @Override
+<a name="l00079"></a><a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html#a9d085f43f539f9278267ba2596e91a92">00079</a>     <span class="keyword">public</span> String <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1splitmenuitem_1_1_split_menuitem.html#a9d085f43f539f9278267ba2596e91a92">getUIClassID</a>() {
+<a name="l00080"></a>00080         <span class="keywordflow">return</span> uiClassID;
+<a name="l00081"></a>00081     }
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083     <span class="keyword">public</span> <span class="keywordtype">void</span> firePressed() {
+<a name="l00084"></a>00084         createActionListener().actionPerformed(<span class="keyword">new</span> ActionEvent(<span class="keyword">this</span>, 0, <span class="stringliteral">&quot;pressed&quot;</span>));
+<a name="l00085"></a>00085     }
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087     <span class="keyword">public</span> <span class="keywordtype">void</span> addAction(Action additionalAction) {
+<a name="l00088"></a>00088         additionalActions.add(additionalAction);
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090         firePropertyChange(ADDITIONAL_ACTION_CHANGED, additionalAction, null);
+<a name="l00091"></a>00091     }
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093     <span class="keyword">public</span> <span class="keywordtype">void</span> removeAction(Action additionalAction) {
+<a name="l00094"></a>00094         additionalActions.remove(additionalAction);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096         firePropertyChange(ADDITIONAL_ACTION_CHANGED, null, additionalAction);
+<a name="l00097"></a>00097     }
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099     <span class="keyword">public</span> Vector&lt;Action&gt; getAdditionalActions() {
+<a name="l00100"></a>00100         <span class="keywordflow">return</span> additionalActions;
+<a name="l00101"></a>00101     }
+<a name="l00102"></a>00102 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>SplitMenuitem.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

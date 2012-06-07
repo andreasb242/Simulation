@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Editor.XY/src/ch/zhaw/simulation/densitydraw/AbstractDensityView.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_abstract_density_view_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Editor.XY/src/ch/zhaw/simulation/densitydraw/AbstractDensityView.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.densitydraw;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.image.BufferedImage;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.util.Vector;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> javax.swing.SwingUtilities;
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="keyword">import</span> org.nfunk.jep.ParseException;
+<a name="l00009"></a>00009 
+<a name="l00013"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">00013</a> <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a> <span class="keyword">extends</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_density_renderer.html">DensityRenderer</a> {
+<a name="l00014"></a>00014     <span class="keyword">private</span> BufferedImage img;
+<a name="l00015"></a>00015     <span class="keyword">private</span> BufferedImage imgOther;
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017     <span class="keyword">private</span> Thread updateThread;
+<a name="l00018"></a>00018     <span class="keyword">private</span> <span class="keywordtype">boolean</span> cancelUpdate = <span class="keyword">false</span>;
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020     <span class="keyword">private</span> <span class="keywordtype">double</span> values[][];
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022     <span class="keyword">private</span> Vector&lt;DensityListener&gt; listener = <span class="keyword">new</span> Vector&lt;DensityListener&gt;();
+<a name="l00023"></a>00023     <span class="keyword">private</span> <span class="keywordtype">double</span> maxMinus;
+<a name="l00024"></a>00024     <span class="keyword">private</span> <span class="keywordtype">double</span> maxPlus;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a>(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height) {
+<a name="l00027"></a>00027         setSize(width, height);
+<a name="l00028"></a>00028     }
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     <span class="keyword">public</span> <span class="keywordtype">void</span> updateImageAsynchron() {
+<a name="l00031"></a>00031         <span class="keywordflow">try</span> {
+<a name="l00032"></a>00032             <span class="comment">// Check if there are valid data available</span>
+<a name="l00033"></a>00033             valueFor(0, 0);
+<a name="l00034"></a>00034         } <span class="keywordflow">catch</span> (Exception e) {
+<a name="l00035"></a>00035             fireActionFailed(e);
+<a name="l00036"></a>00036             <span class="keywordflow">return</span>;
+<a name="l00037"></a>00037         }
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039         <span class="keyword">synchronized</span> (<span class="keyword">this</span>) {
+<a name="l00040"></a>00040             <span class="keywordflow">if</span> (updateThread != null) {
+<a name="l00041"></a>00041                 cancelUpdate = <span class="keyword">true</span>;
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043                 <span class="comment">// wait for the last thread finished</span>
+<a name="l00044"></a>00044                 <span class="keywordflow">try</span> {
+<a name="l00045"></a>00045                     this.wait();
+<a name="l00046"></a>00046                 } <span class="keywordflow">catch</span> (InterruptedException e) {
+<a name="l00047"></a>00047                     e.printStackTrace();
+<a name="l00048"></a>00048                 }
+<a name="l00049"></a>00049             }
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051             cancelUpdate = <span class="keyword">false</span>;
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053             updateThread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() {
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055                 @Override
+<a name="l00056"></a>00056                 <span class="keyword">public</span> <span class="keywordtype">void</span> run() {
+<a name="l00057"></a>00057                     <span class="keywordflow">try</span> {
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059                         <span class="keyword">final</span> RenderResult result = renderImage();
+<a name="l00060"></a>00060                         <span class="keywordflow">if</span> (result != null) {
+<a name="l00061"></a>00061                             <span class="keyword">synchronized</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a>.this) {
+<a name="l00062"></a>00062                                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a>.this.imgOther = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a>.this.img;
+<a name="l00063"></a>00063                                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a>.this.img = result.img;
+<a name="l00064"></a>00064                             }
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066                             SwingUtilities.invokeLater(<span class="keyword">new</span> Runnable() {
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068                                 @Override
+<a name="l00069"></a>00069                                 <span class="keyword">public</span> <span class="keywordtype">void</span> run() {
+<a name="l00070"></a>00070                                     fireDataUpdated(result.min, result.max);
+<a name="l00071"></a>00071                                 }
+<a name="l00072"></a>00072                             });
+<a name="l00073"></a>00073                         }
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075                         updateThread = null;
+<a name="l00076"></a>00076                         <span class="keyword">synchronized</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a>.this) {
+<a name="l00077"></a>00077                             <span class="comment">// notify the waiting thread</span>
+<a name="l00078"></a>00078                             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html">AbstractDensityView</a>.this.notifyAll();
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080                         }
+<a name="l00081"></a>00081                     } <span class="keywordflow">catch</span> (<span class="keyword">final</span> Exception e) {
+<a name="l00082"></a>00082                         SwingUtilities.invokeLater(<span class="keyword">new</span> Runnable() {
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084                             @Override
+<a name="l00085"></a>00085                             <span class="keyword">public</span> <span class="keywordtype">void</span> run() {
+<a name="l00086"></a>00086                                 fireActionFailed(e);
+<a name="l00087"></a>00087                             }
+<a name="l00088"></a>00088                         });
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090                         System.out.println(<span class="stringliteral">&quot;DensityDraw: &quot;</span> + e.getMessage());
+<a name="l00091"></a>00091                     }
+<a name="l00092"></a>00092                 }
+<a name="l00093"></a>00093             });
+<a name="l00094"></a>00094             updateThread.start();
+<a name="l00095"></a>00095         }
+<a name="l00096"></a>00096     }
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098     @Override
+<a name="l00099"></a>00099     <span class="keyword">protected</span> <span class="keywordtype">double</span> getMaxMinus() {
+<a name="l00100"></a>00100         <span class="keywordflow">return</span> this.maxMinus;
+<a name="l00101"></a>00101     }
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     @Override
+<a name="l00104"></a>00104     <span class="keyword">protected</span> <span class="keywordtype">double</span> getMaxPlus() {
+<a name="l00105"></a>00105         <span class="keywordflow">return</span> this.maxPlus;
+<a name="l00106"></a>00106     }
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108     <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keywordtype">double</span> valueFor(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y) <span class="keywordflow">throws</span> <a class="code" href="classorg_1_1nfunk_1_1jep_1_1_parse_exception.html">ParseException</a>;
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110     @Override
+<a name="l00111"></a>00111     <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keywordtype">double</span> getValueFor(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y) <span class="keywordflow">throws</span> Exception {
+<a name="l00112"></a>00112         <span class="keywordflow">return</span> this.values[y][x];
+<a name="l00113"></a>00113     }
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115     <span class="keyword">private</span> RenderResult renderImage() <span class="keywordflow">throws</span> Exception {
+<a name="l00116"></a>00116         <span class="keywordtype">long</span> startTime = System.currentTimeMillis();
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118         this.maxMinus = Double.MAX_VALUE;
+<a name="l00119"></a>00119         this.maxPlus = Double.MIN_VALUE;
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121         <span class="keywordtype">int</span> heigth = getSize().height;
+<a name="l00122"></a>00122         <span class="keywordtype">int</span> width = getSize().width;
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124         <span class="keywordflow">if</span> (values == null || values.length != heigth || values[0].length != width) {
+<a name="l00125"></a>00125             values = <span class="keyword">new</span> <span class="keywordtype">double</span>[heigth][width];
+<a name="l00126"></a>00126         }
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> y = 0; y &lt; heigth; y++) {
+<a name="l00129"></a>00129             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> x = 0; x &lt; width &amp;&amp; !cancelUpdate; x++) {
+<a name="l00130"></a>00130                 <span class="keywordtype">double</span> v = valueFor(x, y);
+<a name="l00131"></a>00131                 <span class="keywordflow">if</span> (v &lt; maxMinus) {
+<a name="l00132"></a>00132                     maxMinus = v;
+<a name="l00133"></a>00133                 }
+<a name="l00134"></a>00134                 <span class="keywordflow">if</span> (v &gt; maxPlus) {
+<a name="l00135"></a>00135                     maxPlus = v;
+<a name="l00136"></a>00136                 }
+<a name="l00137"></a>00137                 values[y][x] = v;
+<a name="l00138"></a>00138             }
+<a name="l00139"></a>00139         }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141         <span class="keywordflow">if</span> (cancelUpdate == <span class="keyword">true</span>) {
+<a name="l00142"></a>00142             <span class="keywordflow">return</span> null;
+<a name="l00143"></a>00143         }
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145         BufferedImage img = null;
+<a name="l00146"></a>00146         <span class="keywordflow">if</span> (imgOther != null) {
+<a name="l00147"></a>00147             img = imgOther;
+<a name="l00148"></a>00148         }
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150         img = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_density_renderer.html#a1a4cdff26f5ff7a208e6c1f6a70acad1">drawDensity</a>(img);
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152         <span class="keywordflow">if</span> (cancelUpdate == <span class="keyword">true</span>) {
+<a name="l00153"></a>00153             <span class="keywordflow">return</span> null;
+<a name="l00154"></a>00154         }
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156         <span class="keywordtype">long</span> estimatedTime = System.currentTimeMillis() - startTime;
+<a name="l00157"></a>00157         System.out.println(<span class="stringliteral">&quot;-&gt;DensityDraw duration: &quot;</span> + estimatedTime + <span class="stringliteral">&quot;ms&quot;</span>);
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159         <span class="keywordflow">return</span> <span class="keyword">new</span> RenderResult(img, this.maxMinus, this.maxPlus);
+<a name="l00160"></a>00160     }
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class </span>RenderResult {
+<a name="l00163"></a>00163         BufferedImage img;
+<a name="l00164"></a>00164         <span class="keywordtype">double</span> min;
+<a name="l00165"></a>00165         <span class="keywordtype">double</span> max;
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167         <span class="keyword">public</span> RenderResult(BufferedImage img, <span class="keywordtype">double</span> min, <span class="keywordtype">double</span> max) {
+<a name="l00168"></a>00168             this.img = img;
+<a name="l00169"></a>00169             this.min = min;
+<a name="l00170"></a>00170             this.max = max;
+<a name="l00171"></a>00171         }
+<a name="l00172"></a>00172     }
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174     <span class="keyword">public</span> BufferedImage getImage() {
+<a name="l00175"></a>00175         <span class="keyword">synchronized</span> (<span class="keyword">this</span>) {
+<a name="l00176"></a>00176             <span class="keywordflow">return</span> img;
+<a name="l00177"></a>00177         }
+<a name="l00178"></a>00178     }
+<a name="l00179"></a>00179 
+<a name="l00183"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html#a7c0c1ec75a0ce041c1d94d21af7b1b54">00183</a>     <span class="keyword">protected</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1densitydraw_1_1_abstract_density_view.html#a7c0c1ec75a0ce041c1d94d21af7b1b54">fireNoActionPerformed</a>() {
+<a name="l00184"></a>00184         <span class="keywordflow">for</span> (<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1densitydraw_1_1_density_listener.html">DensityListener</a> l : this.listener) {
+<a name="l00185"></a>00185             l.noActionPerfomed();
+<a name="l00186"></a>00186         }
+<a name="l00187"></a>00187     }
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189     <span class="keyword">protected</span> <span class="keywordtype">void</span> fireActionFailed(Exception reason) {
+<a name="l00190"></a>00190         <span class="keywordflow">for</span> (<a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1densitydraw_1_1_density_listener.html">DensityListener</a> l : this.listener) {
+<a name="l00191"></a>00191             l.actionFailed(reason);
+<a name="l00192"></a>00192         }
+<a name="l00193"></a>00193     }
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195     <span class="keyword">protected</span> <span class="keywordtype">void</span> fireDataUpdated(<span class="keywordtype">double</span> min, <span class="keywordtype">double</span> max) {
+<a name="l00196"></a>00196         <span class="keywordflow">for</span> (DensityListener l : this.listener) {
+<a name="l00197"></a>00197             l.dataUpdated(min, max);
+<a name="l00198"></a>00198         }
+<a name="l00199"></a>00199     }
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201     <span class="keyword">public</span> <span class="keywordtype">void</span> addListener(DensityListener l) {
+<a name="l00202"></a>00202         listener.add(l);
+<a name="l00203"></a>00203     }
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205     <span class="keyword">public</span> <span class="keywordtype">void</span> removeListener(DensityListener l) {
+<a name="l00206"></a>00206         listener.remove(l);
+<a name="l00207"></a>00207     }
+<a name="l00208"></a>00208 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>AbstractDensityView.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

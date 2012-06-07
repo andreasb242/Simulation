@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationDiagram/src/ch/zhaw/simulation/diagram/export/ByteArrayBuffer.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_byte_array_buffer_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationDiagram/src/ch/zhaw/simulation/diagram/export/ByteArrayBuffer.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.</span>
+<a name="l00003"></a>00003 <span class="comment"> * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.</span>
+<a name="l00004"></a>00004 <span class="comment"> *</span>
+<a name="l00005"></a>00005 <span class="comment"> * This code is free software; you can redistribute it and/or modify it</span>
+<a name="l00006"></a>00006 <span class="comment"> * under the terms of the GNU General Public License version 2 only, as</span>
+<a name="l00007"></a>00007 <span class="comment"> * published by the Free Software Foundation.  Oracle designates this</span>
+<a name="l00008"></a>00008 <span class="comment"> * particular file as subject to the &quot;Classpath&quot; exception as provided</span>
+<a name="l00009"></a>00009 <span class="comment"> * by Oracle in the LICENSE file that accompanied this code.</span>
+<a name="l00010"></a>00010 <span class="comment"> *</span>
+<a name="l00011"></a>00011 <span class="comment"> * This code is distributed in the hope that it will be useful, but WITHOUT</span>
+<a name="l00012"></a>00012 <span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or</span>
+<a name="l00013"></a>00013 <span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License</span>
+<a name="l00014"></a>00014 <span class="comment"> * version 2 for more details (a copy is included in the LICENSE file that</span>
+<a name="l00015"></a>00015 <span class="comment"> * accompanied this code).</span>
+<a name="l00016"></a>00016 <span class="comment"> *</span>
+<a name="l00017"></a>00017 <span class="comment"> * You should have received a copy of the GNU General Public License version</span>
+<a name="l00018"></a>00018 <span class="comment"> * 2 along with this work; if not, write to the Free Software Foundation,</span>
+<a name="l00019"></a>00019 <span class="comment"> * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.</span>
+<a name="l00020"></a>00020 <span class="comment"> *</span>
+<a name="l00021"></a>00021 <span class="comment"> * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA</span>
+<a name="l00022"></a>00022 <span class="comment"> * or visit www.oracle.com if you need additional information or have any</span>
+<a name="l00023"></a>00023 <span class="comment"> * questions.</span>
+<a name="l00024"></a>00024 <span class="comment"> */</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="keyword">package </span>ch.zhaw.simulation.diagram.export;
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="keyword">import</span> java.io.ByteArrayInputStream;
+<a name="l00029"></a>00029 <span class="keyword">import</span> java.io.ByteArrayOutputStream;
+<a name="l00030"></a>00030 <span class="keyword">import</span> java.io.IOException;
+<a name="l00031"></a>00031 <span class="keyword">import</span> java.io.InputStream;
+<a name="l00032"></a>00032 <span class="keyword">import</span> java.io.OutputStream;
+<a name="l00033"></a>00033 
+<a name="l00052"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html">00052</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html">ByteArrayBuffer</a> <span class="keyword">extends</span> OutputStream {
+<a name="l00056"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">00056</a>     <span class="keyword">protected</span> byte[] <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>;
+<a name="l00057"></a>00057 
+<a name="l00061"></a>00061     <span class="keyword">private</span> <span class="keywordtype">int</span> count;
+<a name="l00062"></a>00062 
+<a name="l00067"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a28d1ea920a446048427aeac4760281e4">00067</a>     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a28d1ea920a446048427aeac4760281e4">ByteArrayBuffer</a>() {
+<a name="l00068"></a>00068         <span class="keyword">this</span>(32);
+<a name="l00069"></a>00069     }
+<a name="l00070"></a>00070 
+<a name="l00078"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a78543c50ea9f10f49184e9ba79fb8f65">00078</a>     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a78543c50ea9f10f49184e9ba79fb8f65">ByteArrayBuffer</a>(<span class="keywordtype">int</span> size) {
+<a name="l00079"></a>00079         <span class="keywordflow">if</span> (size &lt;= 0)
+<a name="l00080"></a>00080             <span class="keywordflow">throw</span> <span class="keyword">new</span> IllegalArgumentException();
+<a name="l00081"></a>00081         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a> = <span class="keyword">new</span> byte[size];
+<a name="l00082"></a>00082     }
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a28d1ea920a446048427aeac4760281e4">ByteArrayBuffer</a>(byte[] data) {
+<a name="l00085"></a>00085         <span class="keyword">this</span>(data,data.length);
+<a name="l00086"></a>00086     }
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a28d1ea920a446048427aeac4760281e4">ByteArrayBuffer</a>(byte[] data, <span class="keywordtype">int</span> length) {
+<a name="l00089"></a>00089         this.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a> = data;
+<a name="l00090"></a>00090         this.count = length;
+<a name="l00091"></a>00091     }
+<a name="l00092"></a>00092 
+<a name="l00100"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a9f7455416632bfb08a33918864fe835e">00100</a>     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a9f7455416632bfb08a33918864fe835e">write</a>(InputStream in) <span class="keywordflow">throws</span> IOException {
+<a name="l00101"></a>00101         <span class="keywordflow">while</span>(<span class="keyword">true</span>) {
+<a name="l00102"></a>00102             <span class="keywordtype">int</span> cap = <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>.length-count;     <span class="comment">// the remaining buffer space</span>
+<a name="l00103"></a>00103             <span class="keywordtype">int</span> sz = in.read(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>,count,cap);
+<a name="l00104"></a>00104             <span class="keywordflow">if</span>(sz&lt;0)    <span class="keywordflow">return</span>;     <span class="comment">// hit EOS</span>
+<a name="l00105"></a>00105             count += sz;
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108             <span class="keywordflow">if</span>(cap==sz)
+<a name="l00109"></a>00109                 ensureCapacity(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>.length*2);   <span class="comment">// buffer filled up.</span>
+<a name="l00110"></a>00110         }
+<a name="l00111"></a>00111     }
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a9f7455416632bfb08a33918864fe835e">write</a>(<span class="keywordtype">int</span> b) {
+<a name="l00114"></a>00114         <span class="keywordtype">int</span> newcount = count + 1;
+<a name="l00115"></a>00115         ensureCapacity(newcount);
+<a name="l00116"></a>00116         <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>[count] = (byte) b;
+<a name="l00117"></a>00117         count = newcount;
+<a name="l00118"></a>00118     }
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a9f7455416632bfb08a33918864fe835e">write</a>(byte b[], <span class="keywordtype">int</span> off, <span class="keywordtype">int</span> len) {
+<a name="l00121"></a>00121         <span class="keywordtype">int</span> newcount = count + len;
+<a name="l00122"></a>00122         ensureCapacity(newcount);
+<a name="l00123"></a>00123         System.arraycopy(b, off, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>, count, len);
+<a name="l00124"></a>00124         count = newcount;
+<a name="l00125"></a>00125     }
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127     <span class="keyword">private</span> <span class="keywordtype">void</span> ensureCapacity(<span class="keywordtype">int</span> newcount) {
+<a name="l00128"></a>00128         <span class="keywordflow">if</span> (newcount &gt; <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>.length) {
+<a name="l00129"></a>00129             byte newbuf[] = <span class="keyword">new</span> byte[Math.max(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>.length &lt;&lt; 1, newcount)];
+<a name="l00130"></a>00130             System.arraycopy(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>, 0, newbuf, 0, count);
+<a name="l00131"></a>00131             <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a> = newbuf;
+<a name="l00132"></a>00132         }
+<a name="l00133"></a>00133     }
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> writeTo(OutputStream out) <span class="keywordflow">throws</span> IOException {
+<a name="l00136"></a>00136         out.write(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>, 0, count);
+<a name="l00137"></a>00137     }
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">void</span> reset() {
+<a name="l00140"></a>00140         count = 0;
+<a name="l00141"></a>00141     }
+<a name="l00142"></a>00142 
+<a name="l00153"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#ad2e45feb2d3abc49ee73bcaa1cbc39c1">00153</a>     <span class="keyword">public</span> <span class="keyword">final</span> byte[] <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#ad2e45feb2d3abc49ee73bcaa1cbc39c1">toByteArray</a>() {
+<a name="l00154"></a>00154         byte newbuf[] = <span class="keyword">new</span> byte[count];
+<a name="l00155"></a>00155         System.arraycopy(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>, 0, newbuf, 0, count);
+<a name="l00156"></a>00156         <span class="keywordflow">return</span> newbuf;
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159     <span class="keyword">public</span> <span class="keyword">final</span> <span class="keywordtype">int</span> size() {
+<a name="l00160"></a>00160         <span class="keywordflow">return</span> count;
+<a name="l00161"></a>00161     }
+<a name="l00162"></a>00162 
+<a name="l00169"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#ad32e69e4d1df0c1fcbfb449d1860d52b">00169</a>     <span class="keyword">public</span> <span class="keyword">final</span> byte[] <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#ad32e69e4d1df0c1fcbfb449d1860d52b">getRawData</a>() {
+<a name="l00170"></a>00170         <span class="keywordflow">return</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>;
+<a name="l00171"></a>00171     }
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173     <span class="keyword">public</span> <span class="keywordtype">void</span> close() throws IOException {
+<a name="l00174"></a>00174     }
+<a name="l00175"></a>00175 
+<a name="l00179"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a9724646a924fe2bd6e52599858662be4">00179</a>     <span class="keyword">public</span> <span class="keyword">final</span> InputStream <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a9724646a924fe2bd6e52599858662be4">newInputStream</a>() {
+<a name="l00180"></a>00180         <span class="keywordflow">return</span> <span class="keyword">new</span> ByteArrayInputStream(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>,0,count);
+<a name="l00181"></a>00181     }
+<a name="l00182"></a>00182 
+<a name="l00186"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a359f966d6fd7274a3f479f9c239c78ef">00186</a>     <span class="keyword">public</span> <span class="keyword">final</span> InputStream <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a359f966d6fd7274a3f479f9c239c78ef">newInputStream</a>(<span class="keywordtype">int</span> start, <span class="keywordtype">int</span> length) {
+<a name="l00187"></a>00187         <span class="keywordflow">return</span> <span class="keyword">new</span> ByteArrayInputStream(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>,start,length);
+<a name="l00188"></a>00188     }
+<a name="l00189"></a>00189 
+<a name="l00197"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a28c2496738e9dea2c56bd85c7f829e30">00197</a>     <span class="keyword">public</span> String <a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#a28c2496738e9dea2c56bd85c7f829e30">toString</a>() {
+<a name="l00198"></a>00198         <span class="keywordflow">return</span> <span class="keyword">new</span> String(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1diagram_1_1export_1_1_byte_array_buffer.html#aabf364dd48f941e2690899e98f8d26db">buf</a>, 0, count);
+<a name="l00199"></a>00199     }
+<a name="l00200"></a>00200 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>ByteArrayBuffer.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

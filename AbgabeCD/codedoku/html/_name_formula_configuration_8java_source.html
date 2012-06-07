@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/Editor/src/ch/zhaw/simulation/window/sidebar/NameFormulaConfiguration.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_name_formula_configuration_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/Editor/src/ch/zhaw/simulation/window/sidebar/NameFormulaConfiguration.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.window.sidebar;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.awt.Color;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.awt.event.MouseAdapter;
+<a name="l00005"></a>00005 <span class="keyword">import</span> java.awt.event.MouseEvent;
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="keyword">import</span> javax.swing.JButton;
+<a name="l00008"></a>00008 <span class="keyword">import</span> javax.swing.JLabel;
+<a name="l00009"></a>00009 <span class="keyword">import</span> javax.swing.JTextField;
+<a name="l00010"></a>00010 <span class="keyword">import</span> javax.swing.event.DocumentEvent;
+<a name="l00011"></a>00011 <span class="keyword">import</span> javax.swing.event.DocumentListener;
+<a name="l00012"></a>00012 <span class="keyword">import</span> javax.swing.text.JTextComponent;
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="keyword">import</span> org.jdesktop.swingx.JXTaskPane;
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="keyword">import</span> butti.javalibs.controls.TitleLabel;
+<a name="l00017"></a>00017 <span class="keyword">import</span> butti.javalibs.gui.GridBagManager;
+<a name="l00018"></a>00018 <span class="keyword">import</span> ch.zhaw.simulation.editor.elements.AbstractDataView;
+<a name="l00019"></a>00019 <span class="keyword">import</span> ch.zhaw.simulation.frame.sidebar.SidebarPosition;
+<a name="l00020"></a>00020 <span class="keyword">import</span> ch.zhaw.simulation.icon.IconLoader;
+<a name="l00021"></a>00021 <span class="keyword">import</span> ch.zhaw.simulation.model.AbstractSimulationModel;
+<a name="l00022"></a>00022 <span class="keyword">import</span> ch.zhaw.simulation.model.InvalidNameException;
+<a name="l00023"></a>00023 <span class="keyword">import</span> ch.zhaw.simulation.model.NameChecker;
+<a name="l00024"></a>00024 <span class="keyword">import</span> ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+<a name="l00025"></a>00025 <span class="keyword">import</span> ch.zhaw.simulation.model.element.AbstractSimulationData;
+<a name="l00026"></a>00026 <span class="keyword">import</span> ch.zhaw.simulation.model.element.TextData;
+<a name="l00027"></a>00027 <span class="keyword">import</span> ch.zhaw.simulation.model.selection.SelectableElement;
+<a name="l00028"></a>00028 <span class="keyword">import</span> ch.zhaw.simulation.model.selection.SelectionListener;
+<a name="l00029"></a>00029 <span class="keyword">import</span> ch.zhaw.simulation.model.selection.SelectionModel;
+<a name="l00030"></a>00030 
+<a name="l00031"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html">00031</a> <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html">NameFormulaConfiguration</a> <span class="keyword">extends</span> JXTaskPane implements <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_listener.html">SelectionListener</a>, <a class="code" href="interfacech_1_1zhaw_1_1simulation_1_1frame_1_1sidebar_1_1_sidebar_position.html">SidebarPosition</a> {
+<a name="l00032"></a>00032     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     <span class="keyword">private</span> JTextField txtName = <span class="keyword">new</span> JTextField();
+<a name="l00035"></a>00035     <span class="keyword">private</span> JLabel lbNameError = <span class="keyword">new</span> JLabel();
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037     <span class="keyword">protected</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a> lbValue;
+<a name="l00038"></a>00038     <span class="keyword">protected</span> JButton btEdit;
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_name_checker.html">NameChecker</a> nameChecker = <span class="keyword">new</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_name_checker.html">NameChecker</a>();
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042     <span class="keyword">protected</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> data;
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     <span class="keyword">protected</span> AbstractSimulationModel&lt;?&gt; model;
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <span class="keyword">protected</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a> gbm;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     <span class="keyword">private</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html">SelectionModel</a> selectionModel;
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html">NameFormulaConfiguration</a>(AbstractSimulationModel&lt;?&gt; model, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html">SelectionModel</a> selectionModel) {
+<a name="l00051"></a>00051         this.model = model;
+<a name="l00052"></a>00052         this.selectionModel = selectionModel;
+<a name="l00053"></a>00053         setTitle(<span class="stringliteral">&quot;Eigenschaften&quot;</span>);
+<a name="l00054"></a>00054         setSpecial(<span class="keyword">true</span>);
+<a name="l00055"></a>00055         gbm = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html">GridBagManager</a>(<span class="keyword">this</span>);
+<a name="l00056"></a>00056         
+<a name="l00057"></a>00057         lbNameError.setVisible(<span class="keyword">false</span>);
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(10).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa503d502bce38ce1b3c7b28bcd540818">setWeightX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(<span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a>(<span class="stringliteral">&quot;Name&quot;</span>));
+<a name="l00060"></a>00060         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(10).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(txtName);
+<a name="l00061"></a>00061         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1dbfceea5de3787ee75be5b0b02b141a">setWidth</a>(2).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(11).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(lbNameError);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063         txtName.getDocument().addDocumentListener(<span class="keyword">new</span> DocumentListener() {
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065             @Override
+<a name="l00066"></a>00066             <span class="keyword">public</span> <span class="keywordtype">void</span> removeUpdate(DocumentEvent e) {
+<a name="l00067"></a>00067                 dataChanged();
+<a name="l00068"></a>00068             }
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070             @Override
+<a name="l00071"></a>00071             <span class="keyword">public</span> <span class="keywordtype">void</span> insertUpdate(DocumentEvent e) {
+<a name="l00072"></a>00072                 dataChanged();
+<a name="l00073"></a>00073             }
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075             @Override
+<a name="l00076"></a>00076             <span class="keyword">public</span> <span class="keywordtype">void</span> changedUpdate(DocumentEvent e) {
+<a name="l00077"></a>00077                 dataChanged();
+<a name="l00078"></a>00078             }
+<a name="l00079"></a>00079         });
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081         this.lbValue = <span class="keyword">new</span> <a class="code" href="classbutti_1_1javalibs_1_1controls_1_1_title_label.html">TitleLabel</a>(<span class="stringliteral">&quot;Wert&quot;</span>);
+<a name="l00082"></a>00082         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(1000).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(lbValue);
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084         btEdit = <span class="keyword">new</span> JButton(<span class="stringliteral">&quot;bearbeiten&quot;</span>, <a class="code" href="classch_1_1zhaw_1_1simulation_1_1icon_1_1_icon_loader.html">IconLoader</a>.getIcon(<span class="stringliteral">&quot;text-editor&quot;</span>, 24));
+<a name="l00085"></a>00085         gbm.<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#aa473cd1a522a44cbde6bb87914963527">setX</a>(1).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a7372d83e19dfd9d0a2cbe57964d7419d">setY</a>(1000).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a9ae2047d9c1326a66c435e7a4b37757f">setWeightY</a>(0).<a class="code" href="classbutti_1_1javalibs_1_1gui_1_1_grid_bag_manager.html#a1c5d8d1aad6caccd1e9df7e240ba89cb">setComp</a>(btEdit);
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087         btEdit.addMouseListener(<span class="keyword">new</span> MouseAdapter() {
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089             @Override
+<a name="l00090"></a>00090             <span class="keyword">public</span> <span class="keywordtype">void</span> mousePressed(MouseEvent e) {
+<a name="l00091"></a>00091                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#a69fdfa65e6967460e29adebe0edf712e">showFormulaEditor</a>(getData());
+<a name="l00092"></a>00092             }
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094         });
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096         setVisible(<span class="keyword">false</span>);
+<a name="l00097"></a>00097     }
+<a name="l00098"></a>00098     
+<a name="l00103"></a>00103     <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#a69fdfa65e6967460e29adebe0edf712e">showFormulaEditor</a>(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> data);
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     <span class="keyword">protected</span> <span class="keywordtype">void</span> addAdditionalDataListener(JTextComponent txt) {
+<a name="l00106"></a>00106         txt.getDocument().addDocumentListener(<span class="keyword">new</span> DocumentListener() {
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108             @Override
+<a name="l00109"></a>00109             <span class="keyword">public</span> <span class="keywordtype">void</span> removeUpdate(DocumentEvent e) {
+<a name="l00110"></a>00110                 <span class="keywordflow">if</span> (data == null) {
+<a name="l00111"></a>00111                     <span class="keywordflow">return</span>;
+<a name="l00112"></a>00112                 }
+<a name="l00113"></a>00113                 additionalDataChanged(data);
+<a name="l00114"></a>00114             }
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116             @Override
+<a name="l00117"></a>00117             <span class="keyword">public</span> <span class="keywordtype">void</span> insertUpdate(DocumentEvent e) {
+<a name="l00118"></a>00118                 <span class="keywordflow">if</span> (data == null) {
+<a name="l00119"></a>00119                     <span class="keywordflow">return</span>;
+<a name="l00120"></a>00120                 }
+<a name="l00121"></a>00121                 additionalDataChanged(data);
+<a name="l00122"></a>00122             }
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124             @Override
+<a name="l00125"></a>00125             <span class="keyword">public</span> <span class="keywordtype">void</span> changedUpdate(DocumentEvent e) {
+<a name="l00126"></a>00126                 <span class="keywordflow">if</span> (data == null) {
+<a name="l00127"></a>00127                     <span class="keywordflow">return</span>;
+<a name="l00128"></a>00128                 }
+<a name="l00129"></a>00129                 additionalDataChanged(data);
+<a name="l00130"></a>00130             }
+<a name="l00131"></a>00131         });
+<a name="l00132"></a>00132     }
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134     <span class="keyword">protected</span> <span class="keywordtype">void</span> additionalDataChanged(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> data) {
+<a name="l00135"></a>00135         model.fireObjectChanged(data);
+<a name="l00136"></a>00136     }
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     <span class="keyword">private</span> <span class="keywordtype">void</span> dataChanged() {
+<a name="l00139"></a>00139         <span class="keywordflow">if</span> (data == null) {
+<a name="l00140"></a>00140             <span class="keywordflow">return</span>;
+<a name="l00141"></a>00141         }
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143         <span class="keywordflow">try</span> {
+<a name="l00144"></a>00144             nameChecker.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_name_checker.html#a75d48805aff1b8add342a68849623127">checkName</a>(txtName.getText());
+<a name="l00145"></a>00145             data.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#acd6606cd47c449d8eaf43b7681e16803">setName</a>(txtName.getText());
+<a name="l00146"></a>00146             txtName.setForeground(Color.BLACK);
+<a name="l00147"></a>00147             model.fireObjectChanged(data);
+<a name="l00148"></a>00148             lbNameError.setVisible(<span class="keyword">false</span>);
+<a name="l00149"></a>00149             
+<a name="l00150"></a>00150         } <span class="keywordflow">catch</span> (<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1_invalid_name_exception.html">InvalidNameException</a> e) {
+<a name="l00151"></a>00151             txtName.setForeground(Color.RED);
+<a name="l00152"></a>00152             lbNameError.setVisible(<span class="keyword">true</span>);
+<a name="l00153"></a>00153             lbNameError.setText(e.getMessage());
+<a name="l00154"></a>00154         }
+<a name="l00155"></a>00155     }
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> getData() {
+<a name="l00158"></a>00158         <span class="keywordflow">return</span> data;
+<a name="l00159"></a>00159     }
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161     <span class="keyword">public</span> <span class="keywordtype">void</span> setSelected(<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> data) {
+<a name="l00162"></a>00162         this.data = data;
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164         txtName.setText(data.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html#ab1664391b07ad75cb2dc2e7b9f73de91">getName</a>());
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166         setVisible(<span class="keyword">true</span>);
+<a name="l00167"></a>00167     }
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169     <span class="keyword">public</span> <span class="keywordtype">void</span> noneSelected() {
+<a name="l00170"></a>00170         data = null;
+<a name="l00171"></a>00171         setVisible(<span class="keyword">false</span>);
+<a name="l00172"></a>00172     }
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174     @Override
+<a name="l00175"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#a198a40eabebf347efabd31fcd053cda3">00175</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#a198a40eabebf347efabd31fcd053cda3">selectionChanged</a>() {
+<a name="l00176"></a>00176         SelectableElement&lt;?&gt;[] selected = selectionModel.<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1selection_1_1_selection_model.html#ab9a08fc5efa5dbf41ff5b2fb70b1f6c1">getSelected</a>();
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178         <span class="keywordflow">if</span> (selected.length == 1) {
+<a name="l00179"></a>00179             SelectableElement&lt;?&gt; s = selected[0];
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181             <span class="keywordflow">if</span> (s instanceof AbstractDataView) {
+<a name="l00182"></a>00182                 <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_simulation_data.html">AbstractSimulationData</a> data = ((AbstractDataView&lt;?&gt;) s).getData();
+<a name="l00183"></a>00183                 <span class="keywordflow">if</span> (data instanceof <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a> &amp;&amp; !(data instanceof <a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_text_data.html">TextData</a>)) {
+<a name="l00184"></a>00184                     setSelected((<a class="code" href="classch_1_1zhaw_1_1simulation_1_1model_1_1element_1_1_abstract_named_simulation_data.html">AbstractNamedSimulationData</a>) data);
+<a name="l00185"></a>00185                 }
+<a name="l00186"></a>00186                 <span class="keywordflow">return</span>;
+<a name="l00187"></a>00187             }
+<a name="l00188"></a>00188         }
+<a name="l00189"></a>00189 
+<a name="l00190"></a>00190         noneSelected();
+<a name="l00191"></a>00191     }
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193     @Override
+<a name="l00194"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#ad86e7911667f3102edcc55a37cdb5826">00194</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#ad86e7911667f3102edcc55a37cdb5826">selectionMoved</a>(<span class="keywordtype">int</span> dX, <span class="keywordtype">int</span> dY) {
+<a name="l00195"></a>00195     }
+<a name="l00196"></a>00196     
+<a name="l00197"></a>00197     @Override
+<a name="l00198"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#ab6656a2a3233979606279029dd5ce3a8">00198</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1window_1_1sidebar_1_1_name_formula_configuration.html#ab6656a2a3233979606279029dd5ce3a8">getSidebarPosition</a>() {
+<a name="l00199"></a>00199         <span class="keywordflow">return</span> 0;
+<a name="l00200"></a>00200     }
+<a name="l00201"></a>00201 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>NameFormulaConfiguration.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:14 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

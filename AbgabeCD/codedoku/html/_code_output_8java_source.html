@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/codegen/CodeOutput.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_code_output_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationPlugin.MatlabOctave/src/ch/zhaw/simulation/plugin/matlab/codegen/CodeOutput.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>ch.zhaw.simulation.plugin.matlab.codegen;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> java.io.OutputStream;
+<a name="l00004"></a>00004 <span class="keyword">import</span> java.io.PrintStream;
+<a name="l00005"></a>00005 
+<a name="l00011"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html">00011</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html">CodeOutput</a> {
+<a name="l00012"></a>00012 
+<a name="l00016"></a>00016     <span class="keyword">private</span> <span class="keywordtype">int</span> maxLineLenght = 80;
+<a name="l00017"></a>00017 
+<a name="l00021"></a>00021     <span class="keyword">private</span> PrintStream out;
+<a name="l00022"></a>00022 
+<a name="l00026"></a>00026     <span class="keyword">private</span> <span class="keywordtype">int</span> indent = 0;
+<a name="l00027"></a>00027     
+<a name="l00034"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a0ca72f27d33846e6ddc3ab6aa80e1c34">00034</a>     <span class="keyword">public</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a0ca72f27d33846e6ddc3ab6aa80e1c34">CodeOutput</a>(OutputStream out) {
+<a name="l00035"></a>00035         this.out = <span class="keyword">new</span> PrintStream(out);
+<a name="l00036"></a>00036     }
+<a name="l00037"></a>00037 
+<a name="l00044"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a97efff5b4b8e8e411e1ebaa9c6481555">00044</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a97efff5b4b8e8e411e1ebaa9c6481555">printSection</a>(String section) {
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046         printIndentation();
+<a name="l00047"></a>00047         out.print(<span class="stringliteral">&quot;%% &quot;</span>);
+<a name="l00048"></a>00048         printWrapAround(section);
+<a name="l00049"></a>00049         out.println();
+<a name="l00050"></a>00050     }
+<a name="l00051"></a>00051 
+<a name="l00058"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a3dd9a7dc73b3669b0246869f31137652">00058</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a3dd9a7dc73b3669b0246869f31137652">printComment</a>(String comment) {
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060         printIndentation();
+<a name="l00061"></a>00061         out.print(<span class="stringliteral">&quot;% &quot;</span>);
+<a name="l00062"></a>00062         printWrapAround(comment);
+<a name="l00063"></a>00063         out.println();
+<a name="l00064"></a>00064     }
+<a name="l00065"></a>00065     
+<a name="l00066"></a>00066     <span class="keyword">private</span> <span class="keywordtype">void</span> printWrapAround(String comment) {
+<a name="l00067"></a>00067         <span class="keywordtype">int</span> len = 2;
+<a name="l00068"></a>00068         String[] words = comment.split(<span class="stringliteral">&quot; &quot;</span>);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; words.length; i++) {
+<a name="l00071"></a>00071             String s = words[i];
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073             len += s.length();
+<a name="l00074"></a>00074             out.print(s);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076             <span class="comment">// if there are another words</span>
+<a name="l00077"></a>00077             <span class="keywordflow">if</span> (i &lt; words.length - 1) {
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079                 <span class="keywordflow">if</span> (len &gt;= this.maxLineLenght) {
+<a name="l00080"></a>00080                     out.println();
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082                     printIndentation();
+<a name="l00083"></a>00083                     out.print(<span class="stringliteral">&quot;% &quot;</span>);
+<a name="l00084"></a>00084                     len = 2;
+<a name="l00085"></a>00085                 } <span class="keywordflow">else</span> {
+<a name="l00086"></a>00086                     out.print(<span class="stringliteral">&quot; &quot;</span>);
+<a name="l00087"></a>00087                 }
+<a name="l00088"></a>00088             }
+<a name="l00089"></a>00089         }
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091     }
+<a name="l00092"></a>00092 
+<a name="l00096"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a5c22db17ea4ca721fe9148a1ac44ffe4">00096</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a5c22db17ea4ca721fe9148a1ac44ffe4">newline</a>() {
+<a name="l00097"></a>00097         out.println();
+<a name="l00098"></a>00098     }
+<a name="l00099"></a>00099 
+<a name="l00108"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a6386a31dd11f04d8a2a7336505a4c225">00108</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a6386a31dd11f04d8a2a7336505a4c225">printVariable</a>(String var, <span class="keywordtype">double</span> value) {
+<a name="l00109"></a>00109         printIndentation();
+<a name="l00110"></a>00110         out.println(var + <span class="stringliteral">&quot; = &quot;</span> + value + <span class="stringliteral">&quot;;&quot;</span>);
+<a name="l00111"></a>00111     }
+<a name="l00112"></a>00112 
+<a name="l00121"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#af178a358a8cd445f13f2328f038aad0f">00121</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#af178a358a8cd445f13f2328f038aad0f">printVariable</a>(String var, String value) {
+<a name="l00122"></a>00122         printIndentation();
+<a name="l00123"></a>00123         out.println(var + <span class="stringliteral">&quot; = &quot;</span> + value + <span class="stringliteral">&quot;;&quot;</span>);
+<a name="l00124"></a>00124     }
+<a name="l00125"></a>00125 
+<a name="l00132"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a99a4e43fe2d3be6e6126423e8ef8def6">00132</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a99a4e43fe2d3be6e6126423e8ef8def6">println</a>(String line) {
+<a name="l00133"></a>00133         printIndentation();
+<a name="l00134"></a>00134         out.println(line);
+<a name="l00135"></a>00135     }
+<a name="l00136"></a>00136 
+<a name="l00140"></a>00140     <span class="keyword">private</span> <span class="keywordtype">void</span> printIndentation() {
+<a name="l00141"></a>00141         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; this.indent; i++) {
+<a name="l00142"></a>00142             out.print(<span class="stringliteral">&quot;\t&quot;</span>);
+<a name="l00143"></a>00143         }
+<a name="l00144"></a>00144     }
+<a name="l00145"></a>00145     
+<a name="l00146"></a>00146     <span class="keyword">public</span> <span class="keywordtype">void</span> indent() {
+<a name="l00147"></a>00147         indent++;
+<a name="l00148"></a>00148     }
+<a name="l00149"></a>00149     
+<a name="l00150"></a>00150     <span class="keyword">public</span> <span class="keywordtype">void</span> detent() {
+<a name="l00151"></a>00151         indent--;
+<a name="l00152"></a>00152     }
+<a name="l00153"></a>00153     
+<a name="l00154"></a>00154     <span class="keyword">public</span> <span class="keywordtype">int</span> getMaxLineLenght() {
+<a name="l00155"></a>00155         <span class="keywordflow">return</span> maxLineLenght;
+<a name="l00156"></a>00156     }
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158     <span class="keyword">public</span> <span class="keywordtype">void</span> setMaxLineLenght(<span class="keywordtype">int</span> maxLineLenght) {
+<a name="l00159"></a>00159         this.maxLineLenght = maxLineLenght;
+<a name="l00160"></a>00160     }
+<a name="l00161"></a>00161 
+<a name="l00165"></a><a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a3b8afa58fe4c9c720d98deacdbeab3b1">00165</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classch_1_1zhaw_1_1simulation_1_1plugin_1_1matlab_1_1codegen_1_1_code_output.html#a3b8afa58fe4c9c720d98deacdbeab3b1">close</a>() {
+<a name="l00166"></a>00166         this.out.close();
+<a name="l00167"></a>00167     }
+<a name="l00168"></a>00168 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>CodeOutput.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:16 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

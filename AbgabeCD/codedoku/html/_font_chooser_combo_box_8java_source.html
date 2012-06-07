@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/Javalibs/Gui/BJavalibs/BJavalibs/src/butti/fontchooser/FontChooserComboBox.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_font_chooser_combo_box_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/Javalibs/Gui/BJavalibs/BJavalibs/src/butti/fontchooser/FontChooserComboBox.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="keyword">package </span>butti.fontchooser;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> <span class="keyword">static</span> java.lang.Math.max;
+<a name="l00004"></a>00004 <span class="keyword">import</span> <span class="keyword">static</span> java.lang.Math.min;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">import</span> java.awt.BorderLayout;
+<a name="l00007"></a>00007 <span class="keyword">import</span> java.awt.Component;
+<a name="l00008"></a>00008 <span class="keyword">import</span> java.awt.Dimension;
+<a name="l00009"></a>00009 <span class="keyword">import</span> java.awt.FlowLayout;
+<a name="l00010"></a>00010 <span class="keyword">import</span> java.awt.Font;
+<a name="l00011"></a>00011 <span class="keyword">import</span> java.awt.GraphicsEnvironment;
+<a name="l00012"></a>00012 <span class="keyword">import</span> java.awt.event.ItemEvent;
+<a name="l00013"></a>00013 <span class="keyword">import</span> java.awt.event.ItemListener;
+<a name="l00014"></a>00014 <span class="keyword">import</span> java.util.Arrays;
+<a name="l00015"></a>00015 <span class="keyword">import</span> java.util.HashMap;
+<a name="l00016"></a>00016 <span class="keyword">import</span> java.util.LinkedList;
+<a name="l00017"></a>00017 <span class="keyword">import</span> java.util.List;
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="keyword">import</span> javax.swing.JComboBox;
+<a name="l00020"></a>00020 <span class="keyword">import</span> javax.swing.JLabel;
+<a name="l00021"></a>00021 <span class="keyword">import</span> javax.swing.JList;
+<a name="l00022"></a>00022 <span class="keyword">import</span> javax.swing.JPanel;
+<a name="l00023"></a>00023 <span class="keyword">import</span> javax.swing.JSeparator;
+<a name="l00024"></a>00024 <span class="keyword">import</span> javax.swing.JTextField;
+<a name="l00025"></a>00025 <span class="keyword">import</span> javax.swing.ListCellRenderer;
+<a name="l00026"></a>00026 <span class="keyword">import</span> javax.swing.plaf.basic.BasicComboBoxEditor;
+<a name="l00027"></a>00027 <span class="keyword">import</span> javax.swing.text.AttributeSet;
+<a name="l00028"></a>00028 <span class="keyword">import</span> javax.swing.text.BadLocationException;
+<a name="l00029"></a>00029 <span class="keyword">import</span> javax.swing.text.Caret;
+<a name="l00030"></a>00030 <span class="keyword">import</span> javax.swing.text.PlainDocument;
+<a name="l00031"></a>00031 
+<a name="l00049"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html">00049</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html">FontChooserComboBox</a> <span class="keyword">extends</span> JComboBox implements ItemListener {
+<a name="l00050"></a>00050     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052     <span class="keyword">private</span> <span class="keywordtype">int</span> previewFontSize;
+<a name="l00053"></a>00053     <span class="keyword">private</span> String previewString = <span class="stringliteral">&quot;AaBbCc&quot;</span>;
+<a name="l00054"></a>00054     <span class="keyword">private</span> <span class="keywordtype">int</span> recentFontsCount = 5;
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     <span class="keyword">private</span> List&lt;String&gt; fontNames;
+<a name="l00057"></a>00057     <span class="keyword">private</span> HashMap&lt;String, Item&gt; itemsCache = <span class="keyword">new</span> HashMap&lt;String, Item&gt;();
+<a name="l00058"></a>00058     <span class="keyword">private</span> LinkedList&lt;String&gt; recentFontNames;
+<a name="l00059"></a>00059     <span class="keyword">private</span> HashMap&lt;String, Item&gt; recentItemsCache = <span class="keyword">new</span> HashMap&lt;String, Item&gt;();
+<a name="l00060"></a>00060 
+<a name="l00064"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#aaa4e4ceb854c23aacfa9cba282a75b48">00064</a>     <span class="keyword">public</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#aaa4e4ceb854c23aacfa9cba282a75b48">FontChooserComboBox</a>() {
+<a name="l00065"></a>00065         <span class="comment">// load available font names</span>
+<a name="l00066"></a>00066         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+<a name="l00067"></a>00067         String[] fontNames = ge.getAvailableFontFamilyNames();
+<a name="l00068"></a>00068         Arrays.sort(fontNames);
+<a name="l00069"></a>00069         this.fontNames = Arrays.asList(fontNames);
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071         <span class="comment">// recent fonts</span>
+<a name="l00072"></a>00072         recentFontNames = <span class="keyword">new</span> LinkedList&lt;String&gt;();
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074         <span class="comment">// fill combo box</span>
+<a name="l00075"></a>00075         JLabel label = <span class="keyword">new</span> JLabel();
+<a name="l00076"></a>00076         this.previewFontSize = label.getFont().getSize();
+<a name="l00077"></a>00077         updateList(null);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079         <span class="comment">// set editor and item components</span>
+<a name="l00080"></a>00080         this.setEditable(<span class="keyword">true</span>);
+<a name="l00081"></a>00081         
+<a name="l00082"></a>00082         this.setEditor(<span class="keyword">new</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor.html">FontChooserComboBoxEditor</a>());
+<a name="l00083"></a>00083         this.setRenderer(<span class="keyword">new</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_renderer.html">FontChooserComboBoxRenderer</a>());
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085         <span class="comment">// listen to own item changes</span>
+<a name="l00086"></a>00086         this.addItemListener(<span class="keyword">this</span>);
+<a name="l00087"></a>00087     }
+<a name="l00088"></a>00088 
+<a name="l00092"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#ab303b50b56450503e6a756e08c11d718">00092</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#ab303b50b56450503e6a756e08c11d718">getPreviewFontSize</a>() {
+<a name="l00093"></a>00093         <span class="keywordflow">return</span> previewFontSize;
+<a name="l00094"></a>00094     }
+<a name="l00095"></a>00095 
+<a name="l00099"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a01dc90b86167b76ed88d1ee3c93f54c0">00099</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a01dc90b86167b76ed88d1ee3c93f54c0">setPreviewFontSize</a>(<span class="keywordtype">int</span> previewFontSize) {
+<a name="l00100"></a>00100         this.previewFontSize = previewFontSize;
+<a name="l00101"></a>00101         updateList(<a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a4aebadc21e9179d6427a9e6267b6931d">getSelectedFontName</a>());
+<a name="l00102"></a>00102     }
+<a name="l00103"></a>00103 
+<a name="l00107"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#aba1cbb1b736c23aaa5ed8bd5b4434343">00107</a>     <span class="keyword">public</span> String <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#aba1cbb1b736c23aaa5ed8bd5b4434343">getPreviewString</a>() {
+<a name="l00108"></a>00108         <span class="keywordflow">return</span> previewString;
+<a name="l00109"></a>00109     }
+<a name="l00110"></a>00110 
+<a name="l00115"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#ad5a7177ad8fc7a54d3178681df5f6fd2">00115</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#ad5a7177ad8fc7a54d3178681df5f6fd2">setPreviewString</a>(String previewString) {
+<a name="l00116"></a>00116         this.previewString = (previewString != null &amp;&amp; previewString.length() &gt; 0 ? previewString : null);
+<a name="l00117"></a>00117         updateList(<a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a4aebadc21e9179d6427a9e6267b6931d">getSelectedFontName</a>());
+<a name="l00118"></a>00118     }
+<a name="l00119"></a>00119 
+<a name="l00123"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a22c63fe478a2a62e8c65c370e9a6ada1">00123</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a22c63fe478a2a62e8c65c370e9a6ada1">getRecentFontsCount</a>() {
+<a name="l00124"></a>00124         <span class="keywordflow">return</span> recentFontsCount;
+<a name="l00125"></a>00125     }
+<a name="l00126"></a>00126 
+<a name="l00131"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a6fe9029690413656dcdb7efb3d72ee90">00131</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a6fe9029690413656dcdb7efb3d72ee90">setRecentFontsCount</a>(<span class="keywordtype">int</span> recentFontsCount) {
+<a name="l00132"></a>00132         this.recentFontsCount = recentFontsCount;
+<a name="l00133"></a>00133         <span class="keywordtype">boolean</span> listChanged = <span class="keyword">false</span>;
+<a name="l00134"></a>00134         <span class="keywordflow">while</span> (recentFontNames.size() &gt; recentFontsCount) {
+<a name="l00135"></a>00135             recentFontNames.removeLast();
+<a name="l00136"></a>00136             listChanged = <span class="keyword">true</span>;
+<a name="l00137"></a>00137         }
+<a name="l00138"></a>00138         <span class="keywordflow">if</span> (listChanged) {
+<a name="l00139"></a>00139             updateList(<a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a4aebadc21e9179d6427a9e6267b6931d">getSelectedFontName</a>());
+<a name="l00140"></a>00140         }
+<a name="l00141"></a>00141     }
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143     <span class="keyword">public</span> <span class="keywordtype">void</span> itemStateChanged(ItemEvent e) {
+<a name="l00144"></a>00144         <span class="comment">// remember current font in list of recent fonts</span>
+<a name="l00145"></a>00145         String fontName = <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a4aebadc21e9179d6427a9e6267b6931d">getSelectedFontName</a>();
+<a name="l00146"></a>00146         <span class="keywordflow">if</span> (fontName != null &amp;&amp; recentFontsCount &gt; 0 &amp;&amp; !(recentFontNames.size() &gt; 0 &amp;&amp; (recentFontNames.getFirst().equals(fontName)))) {
+<a name="l00147"></a>00147             <span class="comment">// remove occurrence in list</span>
+<a name="l00148"></a>00148             recentFontNames.remove(fontName);
+<a name="l00149"></a>00149             <span class="comment">// add at first position</span>
+<a name="l00150"></a>00150             recentFontNames.addFirst(fontName);
+<a name="l00151"></a>00151             <span class="comment">// trim list</span>
+<a name="l00152"></a>00152             <span class="keywordflow">if</span> (recentFontNames.size() &gt; recentFontsCount) {
+<a name="l00153"></a>00153                 recentFontNames.removeLast();
+<a name="l00154"></a>00154             }
+<a name="l00155"></a>00155             updateList(fontName);
+<a name="l00156"></a>00156         }
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159     <span class="keyword">private</span> <span class="keywordtype">void</span> updateList(String selectedFontName) {
+<a name="l00160"></a>00160         <span class="comment">// list items</span>
+<a name="l00161"></a>00161         removeAllItems();
+<a name="l00162"></a>00162         itemsCache.clear();
+<a name="l00163"></a>00163         recentItemsCache.clear();
+<a name="l00164"></a>00164         <span class="comment">// recent fonts</span>
+<a name="l00165"></a>00165         <span class="keywordflow">if</span> (recentFontNames.size() &gt; 0) {
+<a name="l00166"></a>00166             <span class="keywordflow">for</span> (String recentFontName : recentFontNames) {
+<a name="l00167"></a>00167                 Item item = <span class="keyword">new</span> Item(recentFontName);
+<a name="l00168"></a>00168                 addItem(item);
+<a name="l00169"></a>00169                 recentItemsCache.put(recentFontName, item);
+<a name="l00170"></a>00170             }
+<a name="l00171"></a>00171             addItem(<span class="keyword">new</span> Item(null)); <span class="comment">// separator</span>
+<a name="l00172"></a>00172         }
+<a name="l00173"></a>00173         <span class="comment">// regular items</span>
+<a name="l00174"></a>00174         <span class="keywordflow">for</span> (String fontName : fontNames) {
+<a name="l00175"></a>00175             Item item = <span class="keyword">new</span> Item(fontName);
+<a name="l00176"></a>00176             addItem(item);
+<a name="l00177"></a>00177             itemsCache.put(fontName, item);
+<a name="l00178"></a>00178         }
+<a name="l00179"></a>00179         <span class="comment">// reselect item</span>
+<a name="l00180"></a>00180         <span class="keywordflow">if</span> (selectedFontName != null) {
+<a name="l00181"></a>00181             <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a57065ae3a598d52f22464558eb5bdc77">setSelectedItem</a>(selectedFontName);
+<a name="l00182"></a>00182         }
+<a name="l00183"></a>00183     }
+<a name="l00184"></a>00184 
+<a name="l00188"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a4aebadc21e9179d6427a9e6267b6931d">00188</a>     <span class="keyword">public</span> String <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a4aebadc21e9179d6427a9e6267b6931d">getSelectedFontName</a>() {
+<a name="l00189"></a>00189         <span class="keywordflow">if</span> (this.getSelectedItem() != null) {
+<a name="l00190"></a>00190             <span class="keywordflow">return</span> ((<a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_item.html">Item</a>) this.getSelectedItem()).font.getFontName();
+<a name="l00191"></a>00191         } <span class="keywordflow">else</span> {
+<a name="l00192"></a>00192             <span class="keywordflow">return</span> null;
+<a name="l00193"></a>00193         }
+<a name="l00194"></a>00194     }
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196     @Override
+<a name="l00197"></a>00197     <span class="keyword">public</span> Dimension getPreferredSize() {
+<a name="l00198"></a>00198         <span class="comment">// default height: like a normal combo box</span>
+<a name="l00199"></a>00199         <span class="keywordflow">return</span> <span class="keyword">new</span> Dimension(super.getPreferredSize().width, <span class="keyword">new</span> JComboBox().getPreferredSize().height);
+<a name="l00200"></a>00200     }
+<a name="l00201"></a>00201 
+<a name="l00206"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a57065ae3a598d52f22464558eb5bdc77">00206</a>     <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a57065ae3a598d52f22464558eb5bdc77">setSelectedItem</a>(String fontName) {
+<a name="l00207"></a>00207         <span class="comment">// if a string is given, find the corresponding font, otherwise do</span>
+<a name="l00208"></a>00208         <span class="comment">// nothing</span>
+<a name="l00209"></a>00209         <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_item.html">Item</a> item = recentItemsCache.get(fontName); <span class="comment">// first in recent items</span>
+<a name="l00210"></a>00210         <span class="keywordflow">if</span> (item == null) {
+<a name="l00211"></a>00211             item = itemsCache.get(fontName); <span class="comment">// then in regular items</span>
+<a name="l00212"></a>00212         }
+<a name="l00213"></a>00213         <span class="keywordflow">if</span> (item != null) {
+<a name="l00214"></a>00214             <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a57065ae3a598d52f22464558eb5bdc77">setSelectedItem</a>(item);
+<a name="l00215"></a>00215         }
+<a name="l00216"></a>00216     }
+<a name="l00217"></a>00217 
+<a name="l00224"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor.html">00224</a>     <span class="keyword">class </span><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor.html">FontChooserComboBoxEditor</a> <span class="keyword">extends</span> BasicComboBoxEditor {
+<a name="l00225"></a>00225 
+<a name="l00234"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor_1_1_auto_completion_document.html">00234</a>         <span class="keyword">class </span><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor_1_1_auto_completion_document.html">AutoCompletionDocument</a> <span class="keyword">extends</span> PlainDocument {
+<a name="l00235"></a>00235             <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237             <span class="keyword">private</span> JTextField textField = <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor.html">FontChooserComboBoxEditor</a>.this.editor;
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239             @Override
+<a name="l00240"></a>00240             <span class="keyword">public</span> <span class="keywordtype">void</span> replace(<span class="keywordtype">int</span> i, <span class="keywordtype">int</span> j, String s, AttributeSet attributeset) <span class="keywordflow">throws</span> BadLocationException {
+<a name="l00241"></a>00241                 super.remove(i, j);
+<a name="l00242"></a>00242                 insertString(i, s, attributeset);
+<a name="l00243"></a>00243             }
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245             @Override
+<a name="l00246"></a>00246             <span class="keyword">public</span> <span class="keywordtype">void</span> insertString(<span class="keywordtype">int</span> i, String s, AttributeSet attributeset) <span class="keywordflow">throws</span> BadLocationException {
+<a name="l00247"></a>00247                 <span class="keywordflow">if</span> (s != null &amp;&amp; !<span class="stringliteral">&quot;&quot;</span>.equals(s)) {
+<a name="l00248"></a>00248                     String s1 = getText(0, i);
+<a name="l00249"></a>00249                     String s2 = getMatch(s1 + s);
+<a name="l00250"></a>00250                     <span class="keywordtype">int</span> j = (i + s.length()) - 1;
+<a name="l00251"></a>00251                     <span class="keywordflow">if</span> (s2 == null) {
+<a name="l00252"></a>00252                         s2 = getMatch(s1);
+<a name="l00253"></a>00253                         j--;
+<a name="l00254"></a>00254                     }
+<a name="l00255"></a>00255                     <span class="keywordflow">if</span> (s2 != null)
+<a name="l00256"></a>00256                         <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html">FontChooserComboBox</a>.this.<a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a57065ae3a598d52f22464558eb5bdc77">setSelectedItem</a>(s2);
+<a name="l00257"></a>00257                     super.remove(0, getLength());
+<a name="l00258"></a>00258                     super.insertString(0, s2, attributeset);
+<a name="l00259"></a>00259                     textField.setSelectionStart(j + 1);
+<a name="l00260"></a>00260                     textField.setSelectionEnd(getLength());
+<a name="l00261"></a>00261                 }
+<a name="l00262"></a>00262             }
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264             @Override
+<a name="l00265"></a>00265             <span class="keyword">public</span> <span class="keywordtype">void</span> <span class="keyword">remove</span>(<span class="keywordtype">int</span> i, <span class="keywordtype">int</span> j) <span class="keywordflow">throws</span> BadLocationException {
+<a name="l00266"></a>00266                 <span class="keywordtype">int</span> k = textField.getSelectionStart();
+<a name="l00267"></a>00267                 <span class="keywordflow">if</span> (k &gt; 0)
+<a name="l00268"></a>00268                     k--;
+<a name="l00269"></a>00269                 String s = getMatch(getText(0, k));
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271                 super.remove(0, getLength());
+<a name="l00272"></a>00272                 super.insertString(0, s, null);
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274                 <span class="keywordflow">if</span> (s != null)
+<a name="l00275"></a>00275                     <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html">FontChooserComboBox</a>.this.<a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box.html#a57065ae3a598d52f22464558eb5bdc77">setSelectedItem</a>(s);
+<a name="l00276"></a>00276                 <span class="keywordflow">try</span> {
+<a name="l00277"></a>00277                     textField.setSelectionStart(k);
+<a name="l00278"></a>00278                     textField.setSelectionEnd(getLength());
+<a name="l00279"></a>00279                 } <span class="keywordflow">catch</span> (Exception exception) {
+<a name="l00280"></a>00280                 }
+<a name="l00281"></a>00281             }
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283         }
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285         <span class="keyword">private</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor.html">FontChooserComboBoxEditor</a>() {
+<a name="l00286"></a>00286             editor.setDocument(<span class="keyword">new</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_editor_1_1_auto_completion_document.html">AutoCompletionDocument</a>());
+<a name="l00287"></a>00287             
+<a name="l00288"></a>00288             <span class="comment">// Needed to draw corretly on Synth Look &amp; Feel</span>
+<a name="l00289"></a>00289             editor.setName(<span class="stringliteral">&quot;ComboBox.textField&quot;</span>);
+<a name="l00290"></a>00290             
+<a name="l00291"></a>00291             <span class="keywordflow">if</span> (fontNames.size() &gt; 0) {
+<a name="l00292"></a>00292                 editor.setText(fontNames.get(0).toString());
+<a name="l00293"></a>00293             }
+<a name="l00294"></a>00294         }
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296         <span class="keyword">private</span> String getMatch(String input) {
+<a name="l00297"></a>00297             <span class="keywordflow">for</span> (String fontName : fontNames) {
+<a name="l00298"></a>00298                 <span class="keywordflow">if</span> (fontName.toLowerCase().startsWith(input.toLowerCase()))
+<a name="l00299"></a>00299                     <span class="keywordflow">return</span> fontName;
+<a name="l00300"></a>00300             }
+<a name="l00301"></a>00301             <span class="keywordflow">return</span> null;
+<a name="l00302"></a>00302         }
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304         <span class="keyword">public</span> <span class="keywordtype">void</span> replaceSelection(String s) {
+<a name="l00305"></a>00305             AutoCompletionDocument doc = (AutoCompletionDocument) editor.getDocument();
+<a name="l00306"></a>00306             <span class="keywordflow">try</span> {
+<a name="l00307"></a>00307                 Caret caret = editor.getCaret();
+<a name="l00308"></a>00308                 <span class="keywordtype">int</span> i = min(caret.getDot(), caret.getMark());
+<a name="l00309"></a>00309                 <span class="keywordtype">int</span> j = max(caret.getDot(), caret.getMark());
+<a name="l00310"></a>00310                 doc.replace(i, j - i, s, null);
+<a name="l00311"></a>00311             } <span class="keywordflow">catch</span> (BadLocationException ex) {
+<a name="l00312"></a>00312             }
+<a name="l00313"></a>00313         }
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315     }
+<a name="l00316"></a>00316 
+<a name="l00322"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_renderer.html">00322</a>     <span class="keyword">class </span><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_font_chooser_combo_box_renderer.html">FontChooserComboBoxRenderer</a> <span class="keyword">implements</span> ListCellRenderer {
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324         <span class="keyword">public</span> Component getListCellRendererComponent(JList list, Object value, <span class="keywordtype">int</span> index, <span class="keywordtype">boolean</span> isSelected, <span class="keywordtype">boolean</span> cellHasFocus) {
+<a name="l00325"></a>00325             <span class="comment">// extract the component from the item&#39;s value</span>
+<a name="l00326"></a>00326             <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_item.html">Item</a> item = (<a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_item.html">Item</a>) value;
+<a name="l00327"></a>00327             <span class="keywordtype">boolean</span> s = (isSelected &amp;&amp; !item.isSeparator);
+<a name="l00328"></a>00328             item.setBackground(s ? list.getSelectionBackground() : list.getBackground());
+<a name="l00329"></a>00329             item.setForeground(s ? list.getSelectionForeground() : list.getForeground());
+<a name="l00330"></a>00330             <span class="keywordflow">return</span> item;
+<a name="l00331"></a>00331         }
+<a name="l00332"></a>00332     }
+<a name="l00333"></a>00333 
+<a name="l00339"></a><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_item.html">00339</a>     <span class="keyword">class </span><a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_item.html">Item</a> <span class="keyword">extends</span> JPanel {
+<a name="l00340"></a>00340         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1L;
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342         <span class="keyword">private</span> <span class="keyword">final</span> Font font;
+<a name="l00343"></a>00343         <span class="keyword">private</span> <span class="keyword">final</span> <span class="keywordtype">boolean</span> isSeparator;
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345         <span class="keyword">private</span> <a class="code" href="classbutti_1_1fontchooser_1_1_font_chooser_combo_box_1_1_item.html">Item</a>(String fontName) {
+<a name="l00346"></a>00346             <span class="keywordflow">if</span> (fontName != null) {
+<a name="l00347"></a>00347                 this.font = <span class="keyword">new</span> Font(fontName, Font.PLAIN, previewFontSize);
+<a name="l00348"></a>00348                 this.isSeparator = <span class="keyword">false</span>;
+<a name="l00349"></a>00349             } <span class="keywordflow">else</span> {
+<a name="l00350"></a>00350                 this.font = null;
+<a name="l00351"></a>00351                 this.isSeparator = <span class="keyword">true</span>;
+<a name="l00352"></a>00352             }
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354             this.setOpaque(<span class="keyword">true</span>);
+<a name="l00355"></a>00355 
+<a name="l00356"></a>00356             <span class="keywordflow">if</span> (!isSeparator) {
+<a name="l00357"></a>00357                 this.setLayout(<span class="keyword">new</span> FlowLayout(FlowLayout.LEFT));
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359                 <span class="comment">// font name in default font</span>
+<a name="l00360"></a>00360                 JLabel labelHelp = <span class="keyword">new</span> JLabel(font.getName());
+<a name="l00361"></a>00361                 this.add(labelHelp);
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363                 <span class="comment">// preview string in this font</span>
+<a name="l00364"></a>00364                 <span class="keywordflow">if</span> (previewString != null) {
+<a name="l00365"></a>00365                     <span class="comment">// show only supported characters</span>
+<a name="l00366"></a>00366                     StringBuilder thisPreview = <span class="keyword">new</span> StringBuilder();
+<a name="l00367"></a>00367                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; previewString.length(); i++) {
+<a name="l00368"></a>00368                         <span class="keywordtype">char</span> c = previewString.charAt(i);
+<a name="l00369"></a>00369                         <span class="keywordflow">if</span> (font.canDisplay(c)) {
+<a name="l00370"></a>00370                             thisPreview.append(c);
+<a name="l00371"></a>00371                         }
+<a name="l00372"></a>00372                     }
+<a name="l00373"></a>00373                     JLabel labelFont = <span class="keyword">new</span> JLabel(thisPreview.toString());
+<a name="l00374"></a>00374                     labelFont.setFont(font);
+<a name="l00375"></a>00375                     this.add(labelFont);
+<a name="l00376"></a>00376                 }
+<a name="l00377"></a>00377             } <span class="keywordflow">else</span> {
+<a name="l00378"></a>00378                 <span class="comment">// separator</span>
+<a name="l00379"></a>00379                 this.setLayout(<span class="keyword">new</span> BorderLayout());
+<a name="l00380"></a>00380                 this.add(<span class="keyword">new</span> JSeparator(JSeparator.HORIZONTAL), BorderLayout.CENTER);
+<a name="l00381"></a>00381             }
+<a name="l00382"></a>00382         }
+<a name="l00383"></a>00383 
+<a name="l00384"></a>00384         @Override
+<a name="l00385"></a>00385         <span class="keyword">public</span> String toString() {
+<a name="l00386"></a>00386             <span class="keywordflow">if</span> (font != null) {
+<a name="l00387"></a>00387                 <span class="keywordflow">return</span> font.getFamily();
+<a name="l00388"></a>00388             } <span class="keywordflow">else</span> {
+<a name="l00389"></a>00389                 <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00390"></a>00390             }
+<a name="l00391"></a>00391         }
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393     }
+<a name="l00394"></a>00394 
+<a name="l00395"></a>00395 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>FontChooserComboBox.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:13 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>

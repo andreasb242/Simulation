@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>(AB)² Simulation: /home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/vectorJep/Dimensions.java Quellcode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Erzeugt von Doxygen 1.7.3 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+--></script>
+<div id="top">
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="simulation.png"></td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">(AB)² Simulation</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="namespaces.html"><span>Pakete</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Suchen" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('_dimensions_8java.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<h1>/home/andreas/git/SimulationBA/SimulationJepLib-2.4.1/src/org/lsmp/djep/vectorJep/Dimensions.java</h1>  </div>
+</div>
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* @author rich</span>
+<a name="l00002"></a>00002 <span class="comment"> * Created on 25-Oct-2003</span>
+<a name="l00003"></a>00003 <span class="comment"> */</span>
+<a name="l00004"></a>00004 <span class="keyword">package </span>org.lsmp.djep.vectorJep;
+<a name="l00005"></a>00005 
+<a name="l00012"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">00012</a> <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> {
+<a name="l00013"></a>00013     <span class="keyword">private</span> <span class="keywordtype">int</span> dims[];
+<a name="l00014"></a>00014     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> UNKNOWN = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(-1);
+<a name="l00015"></a>00015     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> ONE = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(1);
+<a name="l00016"></a>00016     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> TWO = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(2);
+<a name="l00017"></a>00017     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> THREE = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(3);
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>() {
+<a name="l00020"></a>00020     }
+<a name="l00021"></a>00021 
+<a name="l00023"></a>00023     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(<span class="keywordtype">int</span> d) {
+<a name="l00024"></a>00024         dims = <span class="keyword">new</span> <span class="keywordtype">int</span>[] { d };
+<a name="l00025"></a>00025     }
+<a name="l00026"></a>00026 
+<a name="l00028"></a>00028     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(<span class="keywordtype">int</span> d1, <span class="keywordtype">int</span> d2) {
+<a name="l00029"></a>00029         dims = <span class="keyword">new</span> <span class="keywordtype">int</span>[] { d1, d2 };
+<a name="l00030"></a>00030     }
+<a name="l00031"></a>00031 
+<a name="l00033"></a>00033     <span class="keyword">private</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(<span class="keywordtype">int</span> d[]) {
+<a name="l00034"></a>00034         dims = <span class="keyword">new</span> <span class="keywordtype">int</span>[d.length];
+<a name="l00035"></a>00035         System.arraycopy(d, 0, dims, 0, d.length);
+<a name="l00036"></a>00036     }
+<a name="l00037"></a>00037 
+<a name="l00042"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">00042</a>     <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">valueOf</a>(<span class="keywordtype">int</span> d) {
+<a name="l00043"></a>00043         <span class="keywordflow">switch</span> (d) {
+<a name="l00044"></a>00044         <span class="keywordflow">case</span> 1:
+<a name="l00045"></a>00045             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.ONE;
+<a name="l00046"></a>00046         <span class="keywordflow">case</span> 2:
+<a name="l00047"></a>00047             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.TWO;
+<a name="l00048"></a>00048         <span class="keywordflow">case</span> 3:
+<a name="l00049"></a>00049             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>.THREE;
+<a name="l00050"></a>00050         <span class="keywordflow">default</span>:
+<a name="l00051"></a>00051             <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(d);
+<a name="l00052"></a>00052         }
+<a name="l00053"></a>00053     }
+<a name="l00054"></a>00054 
+<a name="l00056"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a626cba75d1eb0c692f6bcb18a194bc97">00056</a>     <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a626cba75d1eb0c692f6bcb18a194bc97">valueOf</a>(<span class="keywordtype">int</span> rows, <span class="keywordtype">int</span> cols) {
+<a name="l00057"></a>00057         <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(rows, cols);
+<a name="l00058"></a>00058     }
+<a name="l00059"></a>00059 
+<a name="l00061"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a358ba9ae1d774e5c319f3217b78f719b">00061</a>     <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a358ba9ae1d774e5c319f3217b78f719b">valueOf</a>(<span class="keywordtype">int</span> d, <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> inDim) {
+<a name="l00062"></a>00062         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> res = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>();
+<a name="l00063"></a>00063         res.dims = <span class="keyword">new</span> <span class="keywordtype">int</span>[inDim.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a580535ab964ecff2ddbe44690928fa56">rank</a>() + 1];
+<a name="l00064"></a>00064         res.dims[0] = d;
+<a name="l00065"></a>00065         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; inDim.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a580535ab964ecff2ddbe44690928fa56">rank</a>(); ++i)
+<a name="l00066"></a>00066             res.dims[i + 1] = inDim.dims[i];
+<a name="l00067"></a>00067         <span class="keywordflow">return</span> res;
+<a name="l00068"></a>00068     }
+<a name="l00069"></a>00069 
+<a name="l00071"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a95fb7cc9575586dee0998d5968053b64">00071</a>     <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a95fb7cc9575586dee0998d5968053b64">valueOf</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> inDim, <span class="keywordtype">int</span> d) {
+<a name="l00072"></a>00072         <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> res = <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>();
+<a name="l00073"></a>00073         res.dims = <span class="keyword">new</span> <span class="keywordtype">int</span>[inDim.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a580535ab964ecff2ddbe44690928fa56">rank</a>() + 1];
+<a name="l00074"></a>00074         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; inDim.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a580535ab964ecff2ddbe44690928fa56">rank</a>(); ++i)
+<a name="l00075"></a>00075             res.dims[i] = inDim.dims[i];
+<a name="l00076"></a>00076         res.dims[inDim.<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a580535ab964ecff2ddbe44690928fa56">rank</a>() + 1] = d;
+<a name="l00077"></a>00077         <span class="keywordflow">return</span> res;
+<a name="l00078"></a>00078     }
+<a name="l00079"></a>00079 
+<a name="l00081"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#ab678f084cfed4dca45bd6004ce73007e">00081</a>     <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#ab678f084cfed4dca45bd6004ce73007e">valueOf</a>(<span class="keywordtype">int</span> dims[]) {
+<a name="l00082"></a>00082         <span class="keywordflow">if</span> (dims.length == 1)
+<a name="l00083"></a>00083             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">valueOf</a>(dims[0]);
+<a name="l00084"></a>00084         <span class="keywordflow">if</span> (dims.length == 2)
+<a name="l00085"></a>00085             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3ba8124edeb1ff64e3392d098b8f4e08">valueOf</a>(dims[0], dims[1]);
+<a name="l00086"></a>00086         <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a>(dims);
+<a name="l00087"></a>00087     }
+<a name="l00088"></a>00088 
+<a name="l00093"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a7a5aa49798d2e39bbf7ba542fe00f8a9">00093</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a7a5aa49798d2e39bbf7ba542fe00f8a9">getFirstDim</a>() {
+<a name="l00094"></a>00094         <span class="keywordflow">return</span> dims[0];
+<a name="l00095"></a>00095     }
+<a name="l00096"></a>00096 
+<a name="l00101"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aa17d8697c0c1c1391a744b3fd70ec3f1">00101</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aa17d8697c0c1c1391a744b3fd70ec3f1">getLastDim</a>() {
+<a name="l00102"></a>00102         <span class="keywordflow">return</span> dims[dims.length - 1];
+<a name="l00103"></a>00103     }
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     <span class="keyword">public</span> <span class="keywordtype">int</span> getIthDim(<span class="keywordtype">int</span> i) {
+<a name="l00106"></a>00106         <span class="keywordflow">return</span> dims[i];
+<a name="l00107"></a>00107     }
+<a name="l00108"></a>00108 
+<a name="l00110"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a042b670eac2b52c2f9836ce2c0208855">00110</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a042b670eac2b52c2f9836ce2c0208855">is0D</a>() {
+<a name="l00111"></a>00111         <span class="keywordflow">return</span> dims.length == 1 &amp;&amp; dims[0] == 1;
+<a name="l00112"></a>00112     }
+<a name="l00113"></a>00113 
+<a name="l00115"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#ad9b3cb9be3da6b41e56fbdad35c40261">00115</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#ad9b3cb9be3da6b41e56fbdad35c40261">is1D</a>() {
+<a name="l00116"></a>00116         <span class="keywordflow">return</span> dims.length == 1 &amp;&amp; dims[0] != 1;
+<a name="l00117"></a>00117     }
+<a name="l00118"></a>00118 
+<a name="l00120"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a644975ea12d6a68d8c84bfa2085cea95">00120</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a644975ea12d6a68d8c84bfa2085cea95">is2D</a>() {
+<a name="l00121"></a>00121         <span class="keywordflow">return</span> dims.length == 2;
+<a name="l00122"></a>00122     }
+<a name="l00123"></a>00123 
+<a name="l00127"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3f35bd99e5212cf8c9a093037fe182cc">00127</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a3f35bd99e5212cf8c9a093037fe182cc">numEles</a>() {
+<a name="l00128"></a>00128         <span class="keywordtype">int</span> res = 1;
+<a name="l00129"></a>00129         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; dims.length; ++i)
+<a name="l00130"></a>00130             res *= dims[i];
+<a name="l00131"></a>00131         <span class="keywordflow">return</span> res;
+<a name="l00132"></a>00132     }
+<a name="l00133"></a>00133 
+<a name="l00135"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a580535ab964ecff2ddbe44690928fa56">00135</a>     <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a580535ab964ecff2ddbe44690928fa56">rank</a>() {
+<a name="l00136"></a>00136         <span class="keywordflow">if</span> (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a042b670eac2b52c2f9836ce2c0208855">is0D</a>())
+<a name="l00137"></a>00137             <span class="keywordflow">return</span> 0;
+<a name="l00138"></a>00138         <span class="keywordflow">return</span> dims.length;
+<a name="l00139"></a>00139     }
+<a name="l00140"></a>00140 
+<a name="l00144"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a54efea1568d32a21a208175304ba8baa">00144</a>     <span class="keyword">public</span> String <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a54efea1568d32a21a208175304ba8baa">toString</a>() {
+<a name="l00145"></a>00145         <span class="keywordflow">if</span> (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#a042b670eac2b52c2f9836ce2c0208855">is0D</a>())
+<a name="l00146"></a>00146             <span class="keywordflow">return</span> String.valueOf(dims[0]);
+<a name="l00147"></a>00147         <span class="keywordflow">if</span> (<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#ad9b3cb9be3da6b41e56fbdad35c40261">is1D</a>())
+<a name="l00148"></a>00148             <span class="keywordflow">return</span> String.valueOf(dims[0]);
+<a name="l00149"></a>00149         StringBuffer sb = <span class="keyword">new</span> StringBuffer(<span class="stringliteral">&quot;[&quot;</span> + dims[0]);
+<a name="l00150"></a>00150         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; dims.length; ++i)
+<a name="l00151"></a>00151             sb.append(<span class="stringliteral">&quot;,&quot;</span> + dims[i]);
+<a name="l00152"></a>00152         sb.append(<span class="stringliteral">&quot;]&quot;</span>);
+<a name="l00153"></a>00153         <span class="keywordflow">return</span> sb.toString();
+<a name="l00154"></a>00154     }
+<a name="l00155"></a>00155 
+<a name="l00157"></a><a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aba085a83e48bd9d60a9817e5f66691cf">00157</a>     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aba085a83e48bd9d60a9817e5f66691cf">equals</a>(<a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html">Dimensions</a> dims2) {
+<a name="l00158"></a>00158         <span class="keywordflow">if</span> (dims2 == null)
+<a name="l00159"></a>00159             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00160"></a>00160         <span class="keywordflow">if</span> (dims.length != dims2.dims.length)
+<a name="l00161"></a>00161             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00162"></a>00162         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; dims.length; ++i) {
+<a name="l00163"></a>00163             <span class="keywordflow">if</span> (dims[i] != dims2.dims[i])
+<a name="l00164"></a>00164                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00165"></a>00165         }
+<a name="l00166"></a>00166         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00167"></a>00167     }
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169     @Override
+<a name="l00170"></a>00170     <span class="keyword">public</span> <span class="keywordtype">int</span> hashCode() {
+<a name="l00171"></a>00171         <span class="keywordtype">int</span> res = 17;
+<a name="l00172"></a>00172         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; dims.length; ++i)
+<a name="l00173"></a>00173             res = 37 * res + dims[i];
+<a name="l00174"></a>00174         <span class="keywordflow">return</span> res;
+<a name="l00175"></a>00175     }
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177     @Override
+<a name="l00178"></a>00178     <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aba085a83e48bd9d60a9817e5f66691cf">equals</a>(Object arg) {
+<a name="l00179"></a>00179         <span class="keywordflow">if</span> (arg == null)
+<a name="l00180"></a>00180             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00181"></a>00181         <span class="keywordflow">if</span> (arg instanceof Dimensions)
+<a name="l00182"></a>00182             <span class="keywordflow">return</span> <a class="code" href="classorg_1_1lsmp_1_1djep_1_1vector_jep_1_1_dimensions.html#aba085a83e48bd9d60a9817e5f66691cf">equals</a>((Dimensions) arg);
+<a name="l00183"></a>00183         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00184"></a>00184     }
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186 }
+</pre></div></div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>Dimensions.java</b>      </li>
+      <li class="footer">Erzeugt am Thu Jun 7 2012 22:12:15 für (AB)² Simulation von&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </li>
+    </ul>
+  </div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Alle</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klassen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namensbereiche</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funktionen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variablen</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Aufzählungen</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+
+</body>
+</html>
