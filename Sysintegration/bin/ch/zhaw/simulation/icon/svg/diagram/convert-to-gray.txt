@@ -1,0 +1,1 @@
+inkscape -f video.svg --verb=org.inkscape.color.grayscale --verb=FileSave --verb=FileClose

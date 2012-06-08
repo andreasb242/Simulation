@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48"
+   height="48"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47pre4 r22446"
+   sodipodi:docname="globals.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="29.916518"
+     inkscape:cy="39.611755"
+     inkscape:document-units="px"
+     inkscape:current-layer="text2816"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="949"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1004.3622)">
+    <g
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:KacstFarsi;-inkscape-font-specification:KacstFarsi Medium"
+       id="text2816">
+      <g
+         style="font-size:60px;font-weight:normal;fill:#000000;font-family:Bitstream Vera Sans"
+         id="text2814">
+        <path
+           d="m 37.416992,1022.3788 c -0.08597,-2.8359 -0.759145,-4.8841 -2.019531,-6.1445 -1.260445,-1.2748 -3.25849,-1.9121 -5.994141,-1.9122 -3.322936,10e-5 -5.979835,1.1316 -7.970703,3.3946 -1.990899,2.2487 -3.458996,5.8008 -4.404297,10.6562 -0.930999,4.8125 -0.873708,8.3575 0.171875,10.6348 1.045561,2.263 3.143866,3.3945 6.294922,3.3945 1.203106,0 2.341777,-0.136 3.416016,-0.4082 1.088519,-0.2721 2.112607,-0.6803 3.072265,-1.2246 l 1.697266,-8.8086 -3.867187,0 0.515625,-2.5781 11.558593,0 -2.40625,12.3105 c -2.621122,1.1172 -5.184922,1.948 -7.691406,2.4922 -2.506532,0.5443 -5.01304,0.8164 -7.519531,0.8164 -5.500011,0 -9.531908,-1.4824 -12.095703,-4.4472 -2.563804,-2.9649 -3.3444022,-7.0254 -2.3417972,-12.1817 1.0026013,-5.1705 3.3658802,-9.2382 7.0898442,-12.2031 3.723945,-2.9648 8.33592,-4.4472 13.835937,-4.4473 2.291642,1e-4 4.497369,0.2292 6.617188,0.6875 2.134083,0.4584 4.232388,1.1531 6.294921,2.084 l -1.52539,7.8848 -2.728516,0"
+           style="font-size:44px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:DejaVu Serif;-inkscape-font-specification:DejaVu Serif Bold Italic"
+           id="path2816" />
+      </g>
+    </g>
+  </g>
+</svg>
