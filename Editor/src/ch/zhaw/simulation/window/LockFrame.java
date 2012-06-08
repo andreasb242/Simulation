@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.window;
 
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -99,7 +100,7 @@ public class LockFrame extends JFrame {
 
 		gbm.setX(1).setY(1).setFill(GridBagConstraints.NONE).setComp(lock);
 
-		gbm.setX(0).setY(0).setWidth(3).setHeight(3).setComp(layer);
+		gbm.setX(0).setInsets(new Insets(0, 0, 0, 0)).setY(0).setWidth(3).setHeight(3).setComp(layer);
 	}
 
 	protected void cancelAction() {
