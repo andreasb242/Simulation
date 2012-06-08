@@ -36,6 +36,7 @@ public class SimulationStarter {
 		}
 
 		if (OS.isMacOSX()) {
+			System.setProperty("apple.awt.brushMetalLook", "true");
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
 			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "(AB)² Simulation");
 		}
