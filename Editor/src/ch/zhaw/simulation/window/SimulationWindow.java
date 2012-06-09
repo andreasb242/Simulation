@@ -1,13 +1,17 @@
 package ch.zhaw.simulation.window;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.util.OS;
 
 import butti.javalibs.gui.messagebox.Messagebox;
 import butti.plugin.PluginDescription;
@@ -84,6 +88,8 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 
 	protected ConfigurationSidebarPanel<?, ?> configurationSidebar;
 
+	private JPanel pConentents = new JPanel();
+	
 	/**
 	 * @param mainWindow
 	 *            If this is the main application window
@@ -95,8 +101,15 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
 
 		getPanel().setLayout(new BorderLayout());
-		getPanel().add(sidebar.getPanel(), BorderLayout.EAST);
+		getPanel().add(pConentents, BorderLayout.CENTER);
 
+		pConentents.setLayout(new BorderLayout());
+		pConentents.add(sidebar.getPanel(), BorderLayout.EAST);
+		
+		if (OS.isMacOSX()) {
+			pConentents.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(0x515151)));
+		}
+		
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -128,8 +141,13 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		view.getUndoHandler().addUndoListener(toolbar);
 		view.getClipboard().addListener(toolbar);
 
+		JScrollPane pCenter = new JScrollPane(view);
+		if (OS.isMacOSX()) {
+			pCenter.setBorder(null);
+		}
+
 		getPanel().add(toolbar.getToolbar(), BorderLayout.NORTH);
-		getPanel().add(new JScrollPane(view), BorderLayout.CENTER);
+		pConentents.add(pCenter, BorderLayout.CENTER);
 		getPanel().add(view.getControl().getStatus().getStatusBar(), BorderLayout.SOUTH);
 
 		initSidebar(sidebar);
@@ -269,7 +287,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		PluginDescription<SimulationPlugin> pluginDescription = manager.getSelectedPluginDescription();
 		if (pluginDescription == null) {
 			Messagebox.showWarning(this, "Simulation", "Plugin «" + pluginName + "» konnte nicht selektiert werden!");
-			
+
 			return;
 		}
 

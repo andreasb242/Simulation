@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
+import org.jdesktop.swingx.util.OS;
 
 /**
  * The sidebar of our editor
@@ -35,6 +36,10 @@ public class FrameSidebar {
 		};
 		JScrollPane sp = new JScrollPane(bar);
 		panel.add(sp);
+		
+		if (OS.isMacOSX()) {
+			sp.setBorder(null);
+		}
 	}
 
 	public JPanel getPanel() {
