@@ -9,3 +9,31 @@
 
 ## user specific files
 settings.ini
+
+## Eclipse bin directories
+AppDefinition/bin/*
+Editor/bin/*
+Editor.Flow/bin/*
+Editor.XY/bin/*
+ExternLibraries/bin/*
+HtmlEditor/bin/*
+ImageExport/bin/*
+ImportFilter/bin/*
+ImportFilter.Dynasys/bin/*
+ImportFilter.Madonna/bin/*
+Model/bin/*
+NetbeansDirchooser/bin/*
+OnscreenKeyboard/bin/*
+Plugin/bin/*
+Simulation/bin/*
+SimulationBuild/bin/*
+SimulationDiagram/bin/*
+SimulationJepLib-2.4.1/bin/*
+SimulationPlugin/bin/*
+SimulationPlugin.Intern/bin/*
+SimulationPlugin.MatlabOctave/bin/*
+SimulationSidebar/bin/*
+SimulationTest/bin/*
+Sysintegration/bin/*
+VectorExport/bin/*
+XYResultViewer/bin/*
