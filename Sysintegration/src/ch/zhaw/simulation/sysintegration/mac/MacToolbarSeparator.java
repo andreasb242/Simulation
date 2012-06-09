@@ -8,6 +8,6 @@ public class MacToolbarSeparator extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public MacToolbarSeparator() {
-		setPreferredSize(new Dimension(30, 20));
+		setPreferredSize(new Dimension(1, 20));
 	}
 }

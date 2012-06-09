@@ -34,13 +34,18 @@ public class MacToolbarLayoutManager implements LayoutManager {
 			seperatorSpace = (parent.getWidth() - usedSpace) / seperaterCount;
 		}
 
+		if (seperatorSpace < 0) {
+			seperatorSpace = 0;
+		}
+
 		Insets insets = parent.getInsets();
+
 		Dimension size = parent.getSize();
-		int height = size.height - insets.top - insets.bottom - 2 * PADDING;
+		int height = size.height - insets.top - insets.bottom;
 		int width = insets.left;
 		for (Component m : parent.getComponents()) {
 			if (m.isVisible()) {
-				m.setBounds(width + PADDING, insets.top + PADDING, m.getPreferredSize().width, height);
+				m.setBounds(width, insets.top, m.getPreferredSize().width, height);
 				width += m.getSize().width + PADDING;
 				if (m instanceof MacToolbarSeparator) {
 					width += seperatorSpace;
@@ -65,7 +70,7 @@ public class MacToolbarLayoutManager implements LayoutManager {
 			}
 		}
 		pref.width += insets.left + insets.right;
-		pref.height += insets.top + insets.bottom + 2 * PADDING;
+		pref.height += insets.top + insets.bottom;
 		return pref;
 	}
 

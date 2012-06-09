@@ -187,7 +187,7 @@ public class MacSysintegration extends Sysintegration {
 	@Override
 	public LookAndFeelMenu createLookAndFeelMenu() {
 		/**
-		 * On Mac OS X we use alway the native look & feel
+		 * On Mac OS X we use always the native look & feel
 		 */
 		return null;
 	}

@@ -39,21 +39,24 @@ public class SimulationStarter {
 			System.setProperty("apple.awt.brushMetalLook", "true");
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
 			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "(AB)² Simulation");
-		}
 
-		try {
-			if ("metal".equals(lookAndFeel)) {
-				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			} else if ("nimbus".equals(lookAndFeel)) {
+			// the Look & Feel is already set on Mac OS X
+			// We don't allow to change it
+		} else {
+			try {
+				if ("metal".equals(lookAndFeel)) {
+					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+				} else if ("nimbus".equals(lookAndFeel)) {
 
-				// ca. 100ms faster than only setLookAndFeel
-				System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-			} else {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					// ca. 100ms faster than only setLookAndFeel
+					System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+					UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+				} else {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				}
+			} catch (Exception e) {
+				Errorhandler.logError(e);
 			}
-		} catch (Exception e) {
-			Errorhandler.logError(e);
 		}
 
 		SwingUtilities.invokeLater(new Runnable() {

@@ -206,15 +206,15 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 		btRedo.setEnabled(this.undo.canRedo());
 
 		if (this.undo.canUndo()) {
-			btUndo.setText(this.undo.getUndoPresentationName());
+			btUndo.setToolTipText(this.undo.getUndoPresentationName());
 		} else {
-			btUndo.setText("Rückgängig");
+			btUndo.setToolTipText("Rückgängig");
 		}
 
 		if (this.undo.canRedo()) {
-			btRedo.setText(this.undo.getRedoPresentationName());
+			btRedo.setToolTipText(this.undo.getRedoPresentationName());
 		} else {
-			btRedo.setText("Widerherstellen");
+			btRedo.setToolTipText("Widerherstellen");
 		}
 	}
 
