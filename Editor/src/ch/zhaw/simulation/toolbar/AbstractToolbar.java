@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 
 import butti.javalibs.util.DrawHelper;
@@ -22,7 +23,6 @@ import ch.zhaw.simulation.sysintegration.GuiConfig;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
-import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.undo.UndoListener;
 
@@ -34,13 +34,13 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 	 * If this is the toolbar of the main window or of an additional window
 	 */
 	protected boolean mainToolbar;
-	
-	private ToolbarButton clipboardCut;
-	private ToolbarButton clipboarCopy;
-	private ToolbarButton clipboarPaste;
+
+	private JButton clipboardCut;
+	private JButton clipboarCopy;
+	private JButton clipboarPaste;
 	private UndoHandler undo;
-	private ToolbarButton btUndo;
-	private ToolbarButton btRedo;
+	private JButton btUndo;
+	private JButton btRedo;
 
 	/**
 	 * 

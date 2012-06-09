@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
+import javax.swing.JToggleButton;
 
 import org.jdesktop.swingx.action.TargetableAction;
 
@@ -15,7 +17,7 @@ import ch.zhaw.simulation.icon.IconLoader;
 public interface Toolbar {
 	public JComponent getComponent();
 
-	public ToolbarButton add(ToolbarAction action);
+	public JButton add(ToolbarAction action);
 
 	public void addSeparator();
 
@@ -65,21 +67,11 @@ public interface Toolbar {
 		}
 	}
 
-	public interface ToolbarButton {
-		public void setEnabled(boolean enabled);
-
-		public void setText(String text);
-
-		public void setIcon(Icon icon);
-
-		public JComponent getComponent();
-	}
-
 	public void add(JComponent component);
 
-	public ToolbarButton add(Action action);
+	public JButton add(Action action);
 
-	public ToolbarButton addToogleAction(TargetableAction action);
+	public JToggleButton addToogleAction(TargetableAction action);
 
 	int getDefaultIconSize();
 }

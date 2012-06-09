@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -25,7 +26,6 @@ import ch.zhaw.simulation.diagram.csv.CSVSaver;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
-import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
 import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 
 public class TableDialog extends BDialog {
@@ -41,7 +41,7 @@ public class TableDialog extends BDialog {
 
 	private JSpinner precision = new JSpinner(new SpinnerNumberModel(2, 0, 10, 1));
 
-	private ToolbarButton tbCopy;
+	private JButton tbCopy;
 
 	private Settings settings;
 

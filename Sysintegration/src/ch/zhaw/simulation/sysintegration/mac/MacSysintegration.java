@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.messagebox.Messagebox;
+import ch.zhaw.simulation.sysintegration.LookAndFeelMenu;
 import ch.zhaw.simulation.sysintegration.SimFileFilter;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener.EventType;
@@ -181,5 +182,13 @@ public class MacSysintegration extends Sysintegration {
 		FileDialog dlg = new FileDialog(parent, "Datei öffnen", FileDialog.LOAD);
 
 		return showOpenDialog(parent, lastSavePath, dlg);
+	}
+
+	@Override
+	public LookAndFeelMenu createLookAndFeelMenu() {
+		/**
+		 * On Mac OS X we use alway the native look & feel
+		 */
+		return null;
 	}
 }

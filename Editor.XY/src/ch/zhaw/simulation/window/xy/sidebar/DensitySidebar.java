@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,6 +19,7 @@ import org.jdesktop.swingx.VerticalLayout;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.messagebox.Messagebox;
+import butti.javalibs.listener.ListenerList;
 import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.densitydraw.DensityLegendView;
 import ch.zhaw.simulation.editor.density.DensityListModel;
@@ -43,7 +43,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	private DensityEditorDialog densityEditor;
 
 	private DensityData lastSelected = null;
-	protected Vector<ActionListener> listenerList = new Vector<ActionListener>();
+	protected ListenerList listenerList = new ListenerList();
 
 	private DensityLegendView legendView;
 
@@ -163,9 +163,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 			@Override
 			public void densityChanged(DensityData d) {
 				if (d == lastSelected) {
-					for (ActionListener l : listenerList) {
-						l.actionPerformed(null);
-					}
+					listenerList.actionPerformed(null);
 				}
 			}
 		});
@@ -205,9 +203,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	}
 
 	private void fireDensityChanged() {
-		for (ActionListener l : listenerList) {
-			l.actionPerformed(null);
-		}
+		listenerList.actionPerformed(null);
 	}
 
 	public DensityData getSelected() {
@@ -224,10 +220,10 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 	}
 
 	public void addActionListener(ActionListener l) {
-		listenerList.add(l);
+		listenerList.addListener(l);
 	}
 
 	public void removeActionListener(ActionListener l) {
-		listenerList.remove(l);
+		listenerList.removeListener(l);
 	}
 }

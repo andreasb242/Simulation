@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.xy.SubModelSelectionListener;
@@ -13,13 +14,12 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
-import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarButton;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 
 public class XYToolbar extends AbstractToolbar implements SubModelSelectionListener {
 
 	private MesoImage mesoimg;
-	private ToolbarButton mesoToolbarAction;
+	private JButton mesoToolbarAction;
 
 	public XYToolbar(Sysintegration sys, boolean mainToolbar) {
 		super(sys, mainToolbar);

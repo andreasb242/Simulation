@@ -16,6 +16,7 @@ import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.sysintegration.LookAndFeelMenu;
 import ch.zhaw.simulation.sysintegration.SysMenuShortcuts;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.undo.UndoHandler;
@@ -100,8 +101,11 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 	private SimulationType otherType;
 
+	private Sysintegration sys;
+
 	public AbstractMenubar(Sysintegration sysintegration, UndoHandler um, ClipboardInterface clipboard, String otherTypeName, SimulationType otherType) {
 		this.sysmenu = sysintegration.getMenu();
+		this.sys = sysintegration;
 		this.um = um;
 		this.clipboard = clipboard;
 		this.otherTypeName = otherTypeName;
@@ -168,35 +172,17 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		mView = new JMenu("Ansicht");
 		mView.setMnemonic('A');
 		if (mainMenu) {
+			LookAndFeelMenu laf = sys.createLookAndFeelMenu();
+			if (laf != null) {
+				mView.add(laf);
+				laf.addActionListener(new ActionListener() {
 
-			JMenu laf = new JMenu("Look & Feel");
-			laf.setIcon(IconLoader.getIcon("style"));
-
-			addMenuItem(laf, "System LAF", "system", new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					setLookAndFeel("sys");
-				}
-			}, null);
-
-			addMenuItem(laf, "Nimbus", "Java-Logo", new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					setLookAndFeel("nimbus");
-				}
-			}, null);
-
-			addMenuItem(laf, "Java LAF", "Java-Logo", new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					setLookAndFeel("java");
-				}
-			}, null);
-
-			mView.add(laf);
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						setLookAndFeel(e.getActionCommand());
+					}
+				});
+			}
 		}
 
 		this.sidebar = new JCheckBoxMenuItem("Seitenleiste");

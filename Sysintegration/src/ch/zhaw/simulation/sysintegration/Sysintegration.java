@@ -153,4 +153,8 @@ public class Sysintegration {
 		}
 	}
 
+	public LookAndFeelMenu createLookAndFeelMenu() {
+		return new LookAndFeelMenu();
+	}
+
 }

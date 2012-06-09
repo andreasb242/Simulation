@@ -8,7 +8,6 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -16,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
+import butti.javalibs.listener.ListenerList;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class FilechooserTextfield extends JPanel {
@@ -24,7 +24,7 @@ public class FilechooserTextfield extends JPanel {
 	private JTextField txtPath = new JTextField();
 	private JButton btSelect = new JButton("...");
 
-	private Vector<ActionListener> changelistener = new Vector<ActionListener>();
+	private ListenerList changelistener = new ListenerList();
 
 	/**
 	 * @param parent
@@ -112,17 +112,16 @@ public class FilechooserTextfield extends JPanel {
 	}
 
 	public void addChangeListener(ActionListener l) {
-		changelistener.add(l);
+		changelistener.addListener(l);
 	}
 
 	public void removeChangeListener(ActionListener l) {
-		changelistener.remove(l);
+		changelistener.removeListener(l);
 	}
 
 	private void firePathChanged(String path) {
-		for (ActionListener l : changelistener) {
-			l.actionPerformed(new ActionEvent(this, 1, path));
-		}
+		ActionEvent e = new ActionEvent(this, 1, path);
+		this.changelistener.actionPerformed(e);
 	}
 
 }
