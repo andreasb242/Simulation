@@ -65,33 +65,6 @@ public class WindowUtils {
 	}
 
 	/**
-	 * Creates and installs a {@link WindowFocusListener} on the given
-	 * {@link Window} which calls the {@code Window}'s {@code repaint()} method
-	 * on focus state changes.
-	 * 
-	 * @param window
-	 *            the {@code Window} to repaint on focus state changes.
-	 * @return the listener installed.
-	 * @deprecated use the more targeted
-	 *             {@link WindowUtils#installJComponentRepainterOnWindowFocusChanged(JComponent)}
-	 *             method.
-	 */
-	@Deprecated
-	public static WindowFocusListener createAndInstallRepaintWindowFocusListener(Window window) {
-		WindowFocusListener windowFocusListener = new WindowFocusListener() {
-			public void windowGainedFocus(WindowEvent e) {
-				e.getWindow().repaint();
-			}
-
-			public void windowLostFocus(WindowEvent e) {
-				e.getWindow().repaint();
-			}
-		};
-		window.addWindowFocusListener(windowFocusListener);
-		return windowFocusListener;
-	}
-
-	/**
 	 * {@code true} if the given {@link Component}'s has a parent {@link Window}
 	 * (i.e. it's not null) and that {@link Window} is currently active
 	 * (focused).
@@ -168,7 +141,7 @@ public class WindowUtils {
 	 * version of the given {@link WindowFocusListener} when the given
 	 * {@link JComponent}'s parent changes.
 	 */
-	private static AncestorListener createAncestorListener(JComponent component, final WindowFocusListener windowListener) {
+	public static AncestorListener createAncestorListener(JComponent component, final WindowFocusListener windowListener) {
 		final WeakReference<JComponent> weakReference = new WeakReference<JComponent>(component);
 		return new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
