@@ -16,6 +16,7 @@ import javax.swing.undo.UndoManager;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.VerticalLayout;
+import org.jdesktop.swingx.util.OS;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.messagebox.Messagebox;
@@ -74,7 +75,14 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		});
 
 		JPanel p = new JPanel();
-		p.setLayout(new FlowLayout());
+
+		if (OS.isMacOSX()) {
+			p.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		} else {
+			p.setLayout(new FlowLayout());
+		}
+
+		p.setOpaque(false);
 		add(p);
 
 		JButton btCreate = new JButton("[+]");
@@ -109,6 +117,10 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 			}
 		});
 
+		// Attributes, used by Look & Feel (currently only Mac OS X)
+		btCreate.putClientProperty("JButton.buttonType", "segmentedTextured");
+		btCreate.putClientProperty("JButton.segmentPosition", "first");
+
 		p.add(btCreate);
 
 		JButton btDelete = new JButton("[-]");
@@ -125,6 +137,9 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 			}
 		});
 
+		// Attributes, used by Look & Feel (currently only Mac OS X)
+		btDelete.putClientProperty("JButton.buttonType", "segmentedTextured");
+		btDelete.putClientProperty("JButton.segmentPosition", "middle");
 		p.add(btDelete);
 
 		JButton btEdit = new JButton(IconLoader.getIcon("edit"));
@@ -156,6 +171,9 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 			}
 		});
 
+		// Attributes, used by Look & Feel (currently only Mac OS X)
+		btEdit.putClientProperty("JButton.buttonType", "segmentedTextured");
+		btEdit.putClientProperty("JButton.segmentPosition", "last");
 		p.add(btEdit);
 
 		model.addListener(new XYSimulationAdapter() {
