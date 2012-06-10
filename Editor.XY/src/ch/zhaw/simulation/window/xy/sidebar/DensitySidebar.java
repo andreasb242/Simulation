@@ -77,7 +77,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 		p.setLayout(new FlowLayout());
 		add(p);
 
-		JButton btCreate = new JButton("[+]");
+		JButton btCreate = new JButton(IconLoader.getIcon("addItem"));
 		btCreate.addActionListener(new ActionListener() {
 
 			int id = 1;
@@ -111,7 +111,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 
 		p.add(btCreate);
 
-		JButton btDelete = new JButton("[-]");
+		JButton btDelete = new JButton(IconLoader.getIcon("removeItem"));
 
 		btDelete.addActionListener(new ActionListener() {
 
@@ -151,7 +151,7 @@ public class DensitySidebar extends JXTaskPane implements SidebarPosition {
 					}
 
 				} else {
-					Messagebox.showWarning(parent, "Kein Eintrag gwählt", "Bitte wählen / erstellen Sie zuerst einen Eintrag mit dem [+]");
+					Messagebox.showWarning(parent, "Kein Eintrag gewählt", "Bitte wählen / erstellen Sie zuerst einen Eintrag mit dem [+]");
 				}
 			}
 		});
