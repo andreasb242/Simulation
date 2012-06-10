@@ -31,7 +31,7 @@ public class DensityEditorDialog extends BDialog {
 				editor.unselecet();
 			}
 		});
-		
+
 		pack();
 		setLocationRelativeTo(parent);
 		setModal(true);

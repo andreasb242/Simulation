@@ -40,6 +40,13 @@ public class SimulationStarter {
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
 			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "(AB)² Simulation");
 
+			try {
+				
+				UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			// the Look & Feel is already set on Mac OS X
 			// We don't allow to change it
 		} else {
