@@ -51,7 +51,7 @@ public class EditorPanel extends JPanel {
 
 		editor = new FormulaEditorPanel(sys, model, vars, false);
 
-		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name!!"));
+		gbm.setX(0).setY(0).setWeightY(0).setWeightX(0).setComp(new JLabel("Name"));
 		gbm.setX(0).setY(2).setWeightY(0).setWeightX(0).setComp(new JLabel("Beschreibung"));
 
 		gbm.setX(1).setY(0).setWeightY(0).setComp(txtName);

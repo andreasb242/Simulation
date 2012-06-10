@@ -48,7 +48,9 @@ import com.explodingpixels.widgets.WindowUtils;
 public class GlossyTaskPaneUI extends BasicTaskPaneUI {
 	private WindowFocusListener focusListener = new WindowFocusListener() {
 		public void windowGainedFocus(WindowEvent e) {
-			setColor(UIManager.getColor("TaskPaneContainer.background").getRGB());
+			if (UIManager.getColor("TaskPaneContainer.background") != null) {
+				setColor(UIManager.getColor("TaskPaneContainer.background").getRGB());
+			}
 		}
 
 		private void setColor(int rgb) {
@@ -56,7 +58,9 @@ public class GlossyTaskPaneUI extends BasicTaskPaneUI {
 		}
 
 		public void windowLostFocus(WindowEvent e) {
-			setColor(UIManager.getColor("TaskPaneContainer.background.inactive").getRGB());
+			if (UIManager.getColor("TaskPaneContainer.background.inactive") != null) {
+				setColor(UIManager.getColor("TaskPaneContainer.background.inactive").getRGB());
+			}
 		}
 	};
 	private AncestorListener ancestorListener;
