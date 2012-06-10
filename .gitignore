@@ -10,6 +10,9 @@
 ## user specific files
 settings.ini
 
+## And Build directory
+SimulationBuild/build
+
 ## Eclipse bin directories
 AppDefinition/bin/*
 Editor/bin/*

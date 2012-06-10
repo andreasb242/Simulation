@@ -18,7 +18,6 @@
 
 package ch.zhaw.simulation.math.console;
 
-
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -74,7 +73,7 @@ import ch.zhaw.simulation.icon.IconLoader;
  * 	Console c = new DJepConsole();
  * 	c.run(args);
  * }
- *</pre>
+ * </pre>
  */
 
 public class Console extends JFrame implements KeyListener {
@@ -92,8 +91,7 @@ public class Console extends JFrame implements KeyListener {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("Mathekonsole");
 		setIconImage(IconLoader.getIcon("math", 128).getImage());
-		
-		
+
 		initialise();
 		this.setLayout(new BorderLayout(1, 1));
 		ta = new JTextArea("", 30, 40);
@@ -102,7 +100,7 @@ public class Console extends JFrame implements KeyListener {
 		add(new JScrollPane(ta), BorderLayout.CENTER);
 		printIntroText();
 		print(getPrompt());
-		
+
 		pack();
 		setLocationRelativeTo(null);
 	}
@@ -365,8 +363,7 @@ public class Console extends JFrame implements KeyListener {
 	}
 
 	public String getAppletInfo() {
-		return "Jep Console applet\n" + "R Morris Mar 2005\n"
-				+ "See http://www.singsurf.org/djep/";
+		return "Jep Console applet\n" + "R Morris Mar 2005\n" + "See http://www.singsurf.org/djep/";
 	}
 
 }
