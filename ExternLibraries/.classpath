@@ -6,5 +6,10 @@
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.17.jar" sourcepath="lib/jcommon-1.0.17-src.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.14.jar" sourcepath="lib/jfreechart-1.0.14-src.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/swingx-1.6.jar" sourcepath="lib/swingx-1.6-src.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/mac/quaqua-filechooser-only.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ExternLibraries/lib/mac"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,6 +7,9 @@
 *.class
 *.windowPos
 
+## IntelliJ local settings
+.idea/workspace.xml
+
 ## user specific files
 settings.ini
 

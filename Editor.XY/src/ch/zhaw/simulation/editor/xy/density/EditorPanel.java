@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.editor.xy.density;
 
 import java.awt.Color;
+import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -60,7 +61,7 @@ public class EditorPanel extends JPanel {
 
 		gbm.setX(1).setY(2).setWeightY(0).setComp(txtDescription);
 
-		gbm.setX(0).setWidth(2).setY(5).setComp(editor);
+		gbm.setX(0).setWidth(2).setY(5).setInsets(new Insets(0, 0, 0, 0)).setComp(editor);
 
 		FocusListener listener = new FocusAdapter() {
 
