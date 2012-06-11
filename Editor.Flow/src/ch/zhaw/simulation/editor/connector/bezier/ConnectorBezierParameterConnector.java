@@ -6,6 +6,7 @@ import java.awt.Point;
 import javax.swing.JComponent;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.util.ArrowDraw;
 import ch.zhaw.simulation.model.flow.BezierConnectorData;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
@@ -13,6 +14,7 @@ import ch.zhaw.simulation.sysintegration.GuiConfig;
 public class ConnectorBezierParameterConnector extends BezierConnector {
 
 	private GuiConfig guicfg;
+	private ArrowDraw arrowDraw = new ArrowDraw(20);
 
 	public ConnectorBezierParameterConnector(JComponent parent, BezierConnectorData connector, AbstractConnectorData<?> connectorconnectorData,
 			AbstractEditorControl<?> control) {
@@ -42,7 +44,7 @@ public class ConnectorBezierParameterConnector extends BezierConnector {
 				* Math.pow(u, 3);
 
 		g.setColor(guicfg.getConnectorLineColor(this.selected));
-		drawArrow(g, x2, y2, endPoint.x, endPoint.y);
+		arrowDraw.drawArrow(g, x2, y2, endPoint.x, endPoint.y);
 	}
 
 	@Override

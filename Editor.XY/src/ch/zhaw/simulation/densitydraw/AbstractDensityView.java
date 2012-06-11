@@ -9,6 +9,8 @@ import javax.swing.SwingUtilities;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
+
 /**
  * @author Andreas Butti
  */
@@ -24,9 +26,11 @@ public abstract class AbstractDensityView extends DensityRenderer {
 	private Vector<DensityListener> listener = new Vector<DensityListener>();
 	private double maxMinus;
 	private double maxPlus;
+	private SimulationXYModel model;
 
-	public AbstractDensityView(int width, int height) {
+	public AbstractDensityView(int width, int height, SimulationXYModel model) {
 		setSize(width, height);
+		this.model = model;
 	}
 
 	public void updateImageAsynchron() {
@@ -39,6 +43,10 @@ public abstract class AbstractDensityView extends DensityRenderer {
 		}
 
 		synchronized (this) {
+			if (!model.isShowDensityArrow() && !model.isShowDensityColor()) {
+				return;
+			}
+
 			if (updateThread != null) {
 				cancelUpdate = true;
 
@@ -57,7 +65,6 @@ public abstract class AbstractDensityView extends DensityRenderer {
 				@Override
 				public void run() {
 					try {
-
 						final RenderResult result = renderImage();
 						if (result != null) {
 							synchronized (AbstractDensityView.this) {
@@ -89,7 +96,8 @@ public abstract class AbstractDensityView extends DensityRenderer {
 							}
 						});
 
-						System.out.println("DensityDraw: " + e.getMessage());
+						System.err.println("DensityDraw: " + e.getMessage());
+						e.printStackTrace();
 					}
 				}
 			});
@@ -149,7 +157,13 @@ public abstract class AbstractDensityView extends DensityRenderer {
 			img = imgOther;
 		}
 
-		img = drawDensity(img);
+		if (model.isShowDensityColor()) {
+			img = drawDensityColor(img);
+		}
+
+		if (model.isShowDensityArrow()) {
+			img = drawArrows(img, model.isShowDensityArrow() && !model.isShowDensityColor());
+		}
 
 		if (cancelUpdate == true) {
 			return null;
@@ -174,11 +188,13 @@ public abstract class AbstractDensityView extends DensityRenderer {
 	}
 
 	public synchronized void draw(Graphics2D g, int x, int y, ImageObserver observer) {
-		g.drawImage(this.img, x, y, observer);
+		if (model.isShowDensityArrow() || model.isShowDensityColor()) {
+			g.drawImage(this.img, x, y, observer);
+		}
 	}
 
 	/**
-	 * Update was starte, but nothing was done
+	 * Update was started, but nothing was done
 	 */
 	protected void fireNoActionPerformed() {
 		for (DensityListener l : this.listener) {

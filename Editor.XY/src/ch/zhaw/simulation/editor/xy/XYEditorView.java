@@ -40,7 +40,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		SimulationXYModel m = control.getModel();
 		m.getSubmodels().addListener(this);
 
-		this.density = new FormulaDensityDraw(m.getWidth(), m.getHeight());
+		this.density = new FormulaDensityDraw(m.getWidth(), m.getHeight(), m);
 		this.density.addListener(new DensityListener() {
 
 			@Override
@@ -88,11 +88,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 
 	@Override
 	protected void paintEditor(Graphics2D g) {
-		SimulationXYModel model = getControl().getModel();
-
-		if (model.isShowDensityColor()) {
-			density.draw(g, 0, 0, this);
-		}
+		density.draw(g, 0, 0, this);
 
 		GuiConfig cfg = control.getSysintegration().getGuiConfig();
 		g.setColor(cfg.getRasterColor());

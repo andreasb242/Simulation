@@ -40,18 +40,24 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 
 	/**
 	 * If the grid is displayed or not
+	 * 
+	 * TODO !!!!!!!! SAVE
 	 */
-	private boolean isShowGrid = true;
+	private boolean isShowGrid = false;
 
 	/**
 	 * Visualize the density by color
+	 * 
+	 * TODO !!!!!!!! SAVE
 	 */
 	private boolean isShowDensityColor = true;
 
 	/**
 	 * Visualize the density by arrows
+	 * 
+	 * TODO !!!!!!!! SAVE
 	 */
-	private boolean isShowDensityArrow = false;
+	private boolean isShowDensityArrow = true;
 
 	/**
 	 * The Density

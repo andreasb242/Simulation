@@ -41,8 +41,8 @@ public class XYSizeDialog extends BDialog {
 	private JSpinner spGrid = new JSpinner(spModel);
 
 	private JRadioButton rColor = new JRadioButton("Farben");
-	private JRadioButton rArrows = new JRadioButton("Pfeile");
-	private JRadioButton rBoth = new JRadioButton("Farben und Pfeilen");
+	private JRadioButton rArrows = new JRadioButton("Pfeilen (Gradienten)");
+	private JRadioButton rBoth = new JRadioButton("Farben und Pfeilen (Gradienten)");
 
 	private SimulationXYModel model;
 

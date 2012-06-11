@@ -8,18 +8,24 @@ import org.nfunk.jep.ParseException;
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.densitydraw.AbstractDensityView;
 import ch.zhaw.simulation.math.Parser;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 public class FormulaDensityDraw extends AbstractDensityView {
 	private boolean noFormula = true;
 	private Parser parser = new Parser();
 	private boolean logarithmic = false;
 
-	public FormulaDensityDraw(int width, int height) {
-		super(width, height);
+	public FormulaDensityDraw(int width, int height, SimulationXYModel model) {
+		super(width, height, model);
 		parser.addVar("x", 0);
 		parser.addVar("y", 0);
 	}
 
+	@Override
+	protected void clearCache() {
+		/// TODO !!!!!! implement cache
+	}
+	
 	@Override
 	public void updateImageAsynchron() {
 		if (noFormula) {
@@ -58,6 +64,8 @@ public class FormulaDensityDraw extends AbstractDensityView {
 		} catch (ParseException e) {
 			Errorhandler.showError(e, "Formel Fehler");
 		}
+		
+		clearCache();
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 
 import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.control.flow.FlowEditorControl;
-import ch.zhaw.simulation.editor.connector.bezier.BezierConnector;
 import ch.zhaw.simulation.editor.elements.AbstractDataView;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
 import ch.zhaw.simulation.editor.elements.global.GlobalView;
@@ -21,6 +20,7 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
+import ch.zhaw.simulation.editor.util.ArrowDraw;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
@@ -44,6 +44,7 @@ public class AddConnectorUi {
 	private AbstractDataView<?> start;
 
 	private Point target;
+	private ArrowDraw arrowDraw = new ArrowDraw(20);
 
 	private MouseAdapter selectionMouseListener = new MouseAdapter() {
 		public void mouseDragged(MouseEvent e) {
@@ -331,7 +332,7 @@ public class AddConnectorUi {
 			int y1 = start.getY() + start.getHeight() / 2;
 
 			g.drawLine(x1, y1, target.x, target.y);
-			BezierConnector.drawArrow(g, x1, y1, target.x, target.y);
+			arrowDraw.drawArrow(g, x1, y1, target.x, target.y);
 		}
 	}
 
