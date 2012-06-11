@@ -56,11 +56,13 @@ public class XmlContentsSaver extends AbstractXmlSaver implements XmlContentsNam
 		Element xmlModel = createModelElement(root, XML_MODEL_TYPE_XY);
 
 		xmlModel.setAttribute(XML_MODEL_XY_GRID, "" + xyModel.getGrid());
+		xmlModel.setAttribute(XML_MODEL_XY_SHOW_GRID, "" + xyModel.isShowGrid());
+		xmlModel.setAttribute(XML_MODEL_XY_DENSITY_VIEW_TYPE, "" + xyModel.getDensityViewType());
 		xmlModel.setAttribute(XML_MODEL_XY_ZERO_X, "" + xyModel.getZero().x);
 		xmlModel.setAttribute(XML_MODEL_XY_ZERO_Y, "" + xyModel.getZero().y);
 		xmlModel.setAttribute(XML_MODEL_XY_WIDTH, "" + xyModel.getWidth());
 		xmlModel.setAttribute(XML_MODEL_XY_HEIGHT, "" + xyModel.getHeight());
-
+		
 		visitSimulationData(xmlModel, xyModel);
 
 		for (DensityData d : xyModel.getDensity()) {

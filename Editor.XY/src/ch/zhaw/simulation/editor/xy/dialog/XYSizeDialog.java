@@ -24,6 +24,7 @@ import butti.javalibs.gui.messagebox.Messagebox;
 import butti.javalibs.numerictextfield.NumericTextField;
 import ch.zhaw.simulation.editor.xy.XYDefaultSettingsHandler;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel.DensityViewMode;
 
 public class XYSizeDialog extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -163,9 +164,11 @@ public class XYSizeDialog extends BDialog {
 		cbShowGrid.setSelected(model.isShowGrid());
 		spGrid.setValue(model.getGrid());
 
-		if (model.isShowDensityArrow() && model.isShowDensityColor()) {
+		DensityViewMode type = model.getDensityViewType();
+
+		if (type == DensityViewMode.VIEW_BOTH) {
 			rBoth.setSelected(true);
-		} else if (model.isShowDensityArrow()) {
+		} else if (type == DensityViewMode.VIEW_ARROW) {
 			rArrows.setSelected(true);
 		} else {
 			rColor.setSelected(true);
@@ -187,14 +190,11 @@ public class XYSizeDialog extends BDialog {
 			model.setGrid((int) (Integer) spGrid.getValue());
 
 			if (rBoth.isSelected()) {
-				model.setShowDensityArrow(true);
-				model.setShowDensityColor(true);
+				model.setDensityViewType(DensityViewMode.VIEW_BOTH);
 			} else if (rArrows.isSelected()) {
-				model.setShowDensityArrow(true);
-				model.setShowDensityColor(false);
+				model.setDensityViewType(DensityViewMode.VIEW_ARROW);
 			} else if (rColor.isSelected()) {
-				model.setShowDensityArrow(false);
-				model.setShowDensityColor(true);
+				model.setDensityViewType(DensityViewMode.VIEW_COLOR);
 			}
 
 			model.fireSizeRasterChanged();

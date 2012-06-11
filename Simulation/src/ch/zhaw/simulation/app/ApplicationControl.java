@@ -798,6 +798,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	@Override
 	public void updateTitle() {
+		if(this.mainFrame == null) {
+			return;
+		}
+		
 		boolean saved = false;
 
 		if (documentName == null) {

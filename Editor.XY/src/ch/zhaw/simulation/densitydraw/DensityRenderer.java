@@ -124,6 +124,10 @@ public abstract class DensityRenderer {
 			for (int y = 0; y < h; y += arrowSize) {
 				ArrowArguments arrow = field.valueFor(x / arrowSize, y / arrowSize);
 
+				if (arrow == null) {
+					continue;
+				}
+
 				int ex = (int) (Math.cos(arrow.angle) * arrowSize * arrow.len);
 				int ey = (int) (Math.sin(arrow.angle) * arrowSize * arrow.len);
 
@@ -187,7 +191,13 @@ public abstract class DensityRenderer {
 
 			for (int x = 0; x < field.length; x++) {
 				for (int y = 0; y < field[0].length; y++) {
-					double v = field[x][y].len;
+					ArrowArguments arrow = field[x][y];
+
+					if (arrow == null) {
+						continue;
+					}
+
+					double v = arrow.len;
 					if (v < min) {
 						min = v;
 					}
@@ -203,7 +213,11 @@ public abstract class DensityRenderer {
 
 			for (int x = 0; x < field.length; x++) {
 				for (int y = 0; y < field[0].length; y++) {
-					field[x][y].len /= max;
+					ArrowArguments arrow = field[x][y];
+
+					if (arrow != null) {
+						arrow.len /= max;
+					}
 				}
 			}
 		}
@@ -226,6 +240,10 @@ public abstract class DensityRenderer {
 
 			double gradX = x1 - x0;
 			double gradY = y1 - y0;
+
+			if ((int) (x0 * 100000) == (int) (x1 * 100000) && (int) (y0 * 100000) == (int) (y1 * 100000)) {
+				return null;
+			}
 
 			return new ArrowArguments(Math.atan2(gradY, gradX), Math.hypot(gradX, gradY));
 		}

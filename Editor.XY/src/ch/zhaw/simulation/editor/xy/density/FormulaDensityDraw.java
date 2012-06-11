@@ -23,9 +23,9 @@ public class FormulaDensityDraw extends AbstractDensityView {
 
 	@Override
 	protected void clearCache() {
-		/// TODO !!!!!! implement cache
+		// / TODO !!!!!! implement cache
 	}
-	
+
 	@Override
 	public void updateImageAsynchron() {
 		if (noFormula) {
@@ -50,8 +50,19 @@ public class FormulaDensityDraw extends AbstractDensityView {
 		return parser.evaluate();
 	}
 
+	/**
+	 * 
+	 * @param formula
+	 *            if formula == "" no formula, if formula == null the view is
+	 *            update
+	 * @param logarithmic
+	 */
 	public void setFormula(String formula, boolean logarithmic) {
-		if (formula == null || "".equals(formula)) {
+		if (formula == null) {
+			return;
+		}
+
+		if ("".equals(formula)) {
 			noFormula = true;
 			return;
 		}
@@ -64,7 +75,7 @@ public class FormulaDensityDraw extends AbstractDensityView {
 		} catch (ParseException e) {
 			Errorhandler.showError(e, "Formel Fehler");
 		}
-		
+
 		clearCache();
 	}
 

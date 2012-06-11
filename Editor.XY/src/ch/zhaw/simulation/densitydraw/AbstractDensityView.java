@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel.DensityViewMode;
 
 /**
  * @author Andreas Butti
@@ -43,10 +44,6 @@ public abstract class AbstractDensityView extends DensityRenderer {
 		}
 
 		synchronized (this) {
-			if (!model.isShowDensityArrow() && !model.isShowDensityColor()) {
-				return;
-			}
-
 			if (updateThread != null) {
 				cancelUpdate = true;
 
@@ -157,12 +154,14 @@ public abstract class AbstractDensityView extends DensityRenderer {
 			img = imgOther;
 		}
 
-		if (model.isShowDensityColor()) {
+		DensityViewMode type = model.getDensityViewType();
+
+		if (type == DensityViewMode.VIEW_BOTH || type == DensityViewMode.VIEW_COLOR) {
 			img = drawDensityColor(img);
 		}
 
-		if (model.isShowDensityArrow()) {
-			img = drawArrows(img, model.isShowDensityArrow() && !model.isShowDensityColor());
+		if (type == DensityViewMode.VIEW_BOTH || type == DensityViewMode.VIEW_ARROW) {
+			img = drawArrows(img, type == DensityViewMode.VIEW_ARROW);
 		}
 
 		if (cancelUpdate == true) {
@@ -188,7 +187,7 @@ public abstract class AbstractDensityView extends DensityRenderer {
 	}
 
 	public synchronized void draw(Graphics2D g, int x, int y, ImageObserver observer) {
-		if (model.isShowDensityArrow() || model.isShowDensityColor()) {
+		if (this.img != null) {
 			g.drawImage(this.img, x, y, observer);
 		}
 	}

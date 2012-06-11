@@ -40,24 +40,17 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 
 	/**
 	 * If the grid is displayed or not
-	 * 
-	 * TODO !!!!!!!! SAVE
 	 */
-	private boolean isShowGrid = false;
+	private boolean isShowGrid = true;
+
+	public enum DensityViewMode {
+		VIEW_COLOR, VIEW_ARROW, VIEW_BOTH
+	}
 
 	/**
-	 * Visualize the density by color
-	 * 
-	 * TODO !!!!!!!! SAVE
+	 * Visualize the density by color / arrows
 	 */
-	private boolean isShowDensityColor = true;
-
-	/**
-	 * Visualize the density by arrows
-	 * 
-	 * TODO !!!!!!!! SAVE
-	 */
-	private boolean isShowDensityArrow = true;
+	private DensityViewMode densityViewType = DensityViewMode.VIEW_BOTH;
 
 	/**
 	 * The Density
@@ -77,7 +70,12 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	}
 
 	public void setWidth(int width) {
+		if (this.width == width) {
+			return;
+		}
+
 		this.width = width;
+		setChanged();
 	}
 
 	public int getHeight() {
@@ -85,7 +83,12 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	}
 
 	public void setHeight(int height) {
+		if (this.height == height) {
+			return;
+		}
+
 		this.height = height;
+		setChanged();
 	}
 
 	public int getGrid() {
@@ -93,7 +96,12 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	}
 
 	public void setGrid(int grid) {
+		if (this.grid == grid) {
+			return;
+		}
+
 		this.grid = grid;
+		setChanged();
 	}
 
 	public boolean isShowGrid() {
@@ -101,23 +109,25 @@ public class SimulationXYModel extends AbstractSimulationModel<XYSimulationListe
 	}
 
 	public void setShowGrid(boolean isShowGrid) {
+		if (this.isShowGrid == isShowGrid) {
+			return;
+		}
+
 		this.isShowGrid = isShowGrid;
+		setChanged();
 	}
 
-	public boolean isShowDensityArrow() {
-		return isShowDensityArrow;
+	public DensityViewMode getDensityViewType() {
+		return densityViewType;
 	}
 
-	public void setShowDensityArrow(boolean isShowDensityArrow) {
-		this.isShowDensityArrow = isShowDensityArrow;
-	}
+	public void setDensityViewType(DensityViewMode densityViewType) {
+		if (this.densityViewType == densityViewType) {
+			return;
+		}
 
-	public boolean isShowDensityColor() {
-		return isShowDensityColor;
-	}
-
-	public void setShowDensityColor(boolean isShowDensityColor) {
-		this.isShowDensityColor = isShowDensityColor;
+		this.densityViewType = densityViewType;
+		setChanged();
 	}
 
 	@Override
