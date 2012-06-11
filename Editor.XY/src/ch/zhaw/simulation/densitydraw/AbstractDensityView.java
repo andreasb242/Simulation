@@ -1,6 +1,8 @@
 package ch.zhaw.simulation.densitydraw;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.Vector;
 
 import javax.swing.SwingUtilities;
@@ -171,10 +173,8 @@ public abstract class AbstractDensityView extends DensityRenderer {
 		}
 	}
 
-	public BufferedImage getImage() {
-		synchronized (this) {
-			return img;
-		}
+	public synchronized void draw(Graphics2D g, int x, int y, ImageObserver observer) {
+		g.drawImage(this.img, x, y, observer);
 	}
 
 	/**

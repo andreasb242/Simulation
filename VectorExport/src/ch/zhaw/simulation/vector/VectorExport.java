@@ -12,7 +12,6 @@ import org.freehep.graphicsio.svg.SVGGraphics2D;
 
 public class VectorExport {
 
-	private static final String[] FORMATS = new String[] { "PS", "EMF", "SVG" };
 	private AbstractVectorGraphicsIO vg;
 	private Graphics2D g;
 
@@ -44,9 +43,4 @@ public class VectorExport {
 		this.vg.endExport();
 		this.vg.closeStream();
 	}
-
-	public static String[] getSupportedFormats() {
-		return FORMATS;
-	}
-
 }

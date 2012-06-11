@@ -6,12 +6,14 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+
+import javax.swing.JLabel;
 
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.densitydraw.AbstractDensityView;
 import ch.zhaw.simulation.densitydraw.DensityListener;
 import ch.zhaw.simulation.editor.elements.ViewComponent;
+import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.editor.layout.SimulationLayout;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.xy.density.FormulaDensityDraw;
@@ -89,8 +91,7 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 		SimulationXYModel model = getControl().getModel();
 
 		if (model.isShowDensityColor()) {
-			BufferedImage img = density.getImage();
-			g.drawImage(img, 0, 0, this);
+			density.draw(g, 0, 0, this);
 		}
 
 		GuiConfig cfg = control.getSysintegration().getGuiConfig();
@@ -218,9 +219,10 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	}
 
 	@Override
-	public void dispose() {
-		control.getModel().getSubmodels().removeListener(this);
-		super.dispose();
+	public void visitElements(ImageExport export, boolean onlySelection, boolean exportHelperPoints) {
+		this.density.draw(export.getGraphics(), 0, 0, new JLabel());
+
+		super.visitElements(export, onlySelection, exportHelperPoints);
 	}
 
 	@Override
@@ -245,4 +247,11 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	@Override
 	public void submodelChanged(SubModel model) {
 	}
+
+	@Override
+	public void dispose() {
+		control.getModel().getSubmodels().removeListener(this);
+		super.dispose();
+	}
+
 }

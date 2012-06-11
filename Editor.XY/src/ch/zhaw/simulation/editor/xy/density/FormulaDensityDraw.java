@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.editor.xy.density;
 
-import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.image.ImageObserver;
 
 import org.nfunk.jep.ParseException;
 
@@ -29,12 +30,10 @@ public class FormulaDensityDraw extends AbstractDensityView {
 	}
 
 	@Override
-	public BufferedImage getImage() {
-		if (noFormula) {
-			return null;
+	public synchronized void draw(Graphics2D g, int x, int y, ImageObserver observer) {
+		if (noFormula == false) {
+			super.draw(g, x, y, observer);
 		}
-
-		return super.getImage();
 	}
 
 	@Override
@@ -65,5 +64,4 @@ public class FormulaDensityDraw extends AbstractDensityView {
 	protected boolean isLogarithmic() {
 		return this.logarithmic;
 	}
-
 }
