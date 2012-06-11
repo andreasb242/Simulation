@@ -10,7 +10,6 @@
     <orderEntry type="jdk" jdkName="JavaSE-1.6" jdkType="JavaSDK" />
     <orderEntry type="module" module-name="BJavalibs" />
     <orderEntry type="module" module-name="Sysintegration" />
-    <orderEntry type="module" module-name="NetbeansDirchooser" />
   </component>
 </module>
 

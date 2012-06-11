@@ -23,13 +23,13 @@
     <orderEntry type="module" module-name="Model" />
     <orderEntry type="module" module-name="Plugin" />
     <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
-    <orderEntry type="module" module-name="NetbeansDirchooser" />
     <orderEntry type="module" module-name="SimulationPlugin.Intern" />
     <orderEntry type="module" module-name="SimulationDiagram" />
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="ImageExport" />
     <orderEntry type="module" module-name="DirChooser" />
     <orderEntry type="module" module-name="XYResultViewer" />
+    <orderEntry type="module" module-name="NetbeansDirchooser" />
   </component>
 </module>
 

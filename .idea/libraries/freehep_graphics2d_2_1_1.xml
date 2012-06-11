@@ -1,0 +1,39 @@
+<component name="libraryTable">
+  <library name="freehep-graphics2d-2.1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-graphics2d-2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-graphicsio-2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-graphicsio-emf-2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-graphicsio-ps-2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-graphicsio-svg-2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-io-2.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-util-2.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/freehep-xml-2.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-cgm/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-cgm/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphics2d/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphics2d/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-tests/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-tests/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-java/src/test/resources" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-java/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-java/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-svg/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-svg/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-emf/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-emf/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-swf/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-swf/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-ps/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-ps/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/src/main/examples" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-latex/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/VectorExport/lib/vectorgraphics-2.1.1-src.zip!/vectorgraphics-2.1.1/src/freehep-graphicsio-latex/src/main/java" />
+    </SOURCES>
+  </library>
+</component>
