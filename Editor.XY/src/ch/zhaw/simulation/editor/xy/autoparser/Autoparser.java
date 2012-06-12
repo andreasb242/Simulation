@@ -8,7 +8,6 @@ import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.math.exception.CompilerError;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.NamedFormulaData;
-import ch.zhaw.simulation.model.NamedFormulaData.Status;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.listener.XYSimulationAdapter;
@@ -44,60 +43,54 @@ public class Autoparser {
 		});
 	}
 
-	private Status parseMesoPart(Vector<AbstractNamedSimulationData> sources, NamedFormulaData d) {
-		try {
-			parser.checkCode(d.getFormula(), d, control.getModel(), sources, d.getName());
-			return AbstractNamedSimulationData.Status.SYNTAX_OK;
-		} catch (CompilerError e) {
-			return AbstractNamedSimulationData.Status.SYNTAX_ERROR;
-		} catch (SimulationModelException e) {
-			return AbstractNamedSimulationData.Status.SYNTAX_ERROR;
-		} catch (Exception e) {
-			Errorhandler.logError(e);
-			return AbstractNamedSimulationData.Status.SYNTAX_ERROR;
-		}
-	}
-
 	private void parse(AbstractNamedSimulationData o) {
 		if (!running) {
+
+			// TODO Debug
+			System.out.println("!running");
 			return;
 		}
+
+		if (o.getStatus() != AbstractNamedSimulationData.Status.NOT_PARSED) {
+			// TODO Debug
+			System.out.println("NOT_PARSED: " + o.getClass().getName() +" / "+o.getName() + " / "+ o.getStatus() );
+			return;
+		}
+		System.out.println("parse: " + o.getName());
 
 		if (o instanceof MesoData) {
 			MesoData d = (MesoData) o;
 
 			Vector<AbstractNamedSimulationData> sources = control.getModel().getSource(o);
-			Status s1 = parseMesoPart(sources, d.getDataX());
-			Status s2 = parseMesoPart(sources, d.getDataY());
+			checkCode(d.getDataX(), sources);
+			checkCode(d.getDataY(), sources);
 
-			if (s1 == AbstractNamedSimulationData.Status.SYNTAX_OK && s2 == AbstractNamedSimulationData.Status.SYNTAX_OK) {
-				o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_OK, null);
-			} else {
-				o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, null);
-			}
-			
-			control.getModel().fireObjectChanged(o);
+			control.getModel().fireObjectChangedAutoparser(d);
 			return;
 		}
 
-		if (o.getStaus() != AbstractNamedSimulationData.Status.NOT_PARSED) {
+		if (o.getStatus() != AbstractNamedSimulationData.Status.NOT_PARSED) {
 			return;
 		}
 
 		Vector<AbstractNamedSimulationData> sources = control.getModel().getSource(o);
+		checkCode(o, sources);
+
+		control.getModel().fireObjectChangedAutoparser(o);
+	}
+
+	private void checkCode(NamedFormulaData o, Vector<AbstractNamedSimulationData> sources) {
 		try {
 			parser.checkCode(o.getFormula(), o, control.getModel(), sources, o.getName());
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_OK, null);
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_OK, null);
 		} catch (CompilerError e) {
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (SimulationModelException e) {
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (Exception e) {
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 			Errorhandler.logError(e);
 		}
-
-		control.getModel().fireObjectChanged(o);
 	}
 
 	public void stop() {

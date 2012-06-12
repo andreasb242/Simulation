@@ -87,7 +87,7 @@ public class MesoData extends AbstractNamedSimulationData {
 	}
 
 	@Override
-	public void setStaus(Status staus, String statusText) {
+	public void setStatus(Status staus, String statusText) {
 		throw new RuntimeException("Do not call this method on MesoData");
 	}
 
@@ -105,7 +105,13 @@ public class MesoData extends AbstractNamedSimulationData {
 	}
 
 	@Override
-	public Status getStaus() {
+	public Status getStatus() {
+		if (this.dataX.getStatus() == Status.NOT_PARSED) {
+			return Status.NOT_PARSED;
+		} else if (this.dataY.getStatus() == Status.NOT_PARSED) {
+			return Status.NOT_PARSED;
+		}
+
 		if (this.submodel == null) {
 			return Status.SYNTAX_ERROR;
 		} else if (this.dataX.getStatus() != Status.SYNTAX_OK) {
@@ -127,7 +133,7 @@ public class MesoData extends AbstractNamedSimulationData {
 
 	public class MesoDataFormula implements NamedFormulaData {
 		private String formula = "";
-		private Status status;
+		private Status status = Status.NOT_PARSED;
 		private String statusText;
 		private String nameSuffix;
 
@@ -165,6 +171,12 @@ public class MesoData extends AbstractNamedSimulationData {
 			this.statusText = statusText;
 		}
 
+		@Override
+		public void setStatus(Status status, String statusText) {
+			this.status = status;
+			this.statusText = statusText;
+		}
+
 		public Status getStatus() {
 			return status;
 		}
@@ -182,5 +194,6 @@ public class MesoData extends AbstractNamedSimulationData {
 		public NamedFormulaData getRealNamedFormulaData() {
 			return MesoData.this;
 		}
+
 	};
 }

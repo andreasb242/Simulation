@@ -7,7 +7,7 @@ import ch.zhaw.simulation.model.SimulationAttachment;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
 
 /**
- * The Density startconfiguration
+ * The Density
  * 
  * @author Andreas Butti
  */
@@ -59,6 +59,10 @@ public class DensityData implements NamedFormulaData {
 		this.formula = formula;
 	}
 
+	@Override
+	public void setStatus(Status status, String statusText) {
+	}
+	
 	@Override
 	public void setUsedGlobals(Vector<SimulationGlobalData> usedGlobals) {
 	}

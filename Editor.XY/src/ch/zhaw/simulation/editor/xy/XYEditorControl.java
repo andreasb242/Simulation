@@ -74,7 +74,13 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			getDefaultSettings().load(model);
 		}
 
+		autoparser = new Autoparser(this);
+
 		model.getSubmodels().addListener(subModelListener);
+
+		doc.addListener(this);
+		
+		startAutoparser();
 	}
 
 	private XYDefaultSettingsHandler getDefaultSettings() {
@@ -98,7 +104,7 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 			} else if (el instanceof TextView) {
 				TextView txt = (TextView) el;
 				removedObjects.add(txt.getData());
-			
+
 			} else {
 				System.err.println("XYEditorControl::delete: could not delete " + el.getClass() + "\n" + el.toString());
 			}
@@ -256,7 +262,11 @@ public class XYEditorControl extends AbstractEditorControl<SimulationXYModel> {
 
 	@Override
 	public void dispose() {
+		this.doc.removeListener(this);
 		model.getSubmodels().removeListener(subModelListener);
+
+		this.autoparser.stop();
+		this.autoparser = null;
 
 		super.dispose();
 	}

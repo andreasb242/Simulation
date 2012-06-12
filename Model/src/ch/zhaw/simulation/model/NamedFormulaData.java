@@ -51,6 +51,16 @@ public interface NamedFormulaData {
 	void setFormula(String formula, Status status, String statusText);
 
 	/**
+	 * Sets the status
+	 * 
+	 * @param status
+	 *            The status of this formula
+	 * @param statusText
+	 *            The associated text
+	 */
+	public void setStatus(Status status, String statusText);
+	
+	/**
 	 * If this object references globals, this are saved here during parsing and
 	 * checking formula
 	 * 

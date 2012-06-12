@@ -54,7 +54,7 @@ public class Autoparser {
 			private void reparse(Object o) {
 				if (o instanceof AbstractNamedSimulationData) {
 					AbstractNamedSimulationData n = (AbstractNamedSimulationData) o;
-					n.setStaus(Status.NOT_PARSED, "");
+					n.setStatus(Status.NOT_PARSED, "");
 					parse(n);
 				}
 			}
@@ -81,20 +81,20 @@ public class Autoparser {
 			return;
 		}
 
-		if (o.getStaus() != AbstractNamedSimulationData.Status.NOT_PARSED) {
+		if (o.getStatus() != AbstractNamedSimulationData.Status.NOT_PARSED) {
 			return;
 		}
 
 		Vector<AbstractNamedSimulationData> sources = control.getModel().getSource(o);
 		try {
 			parser.checkCode(o.getFormula(), o, control.getModel(), sources, o.getName());
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_OK, null);
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_OK, null);
 		} catch (CompilerError e) {
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (SimulationModelException e) {
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 		} catch (Exception e) {
-			o.setStaus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
+			o.setStatus(AbstractNamedSimulationData.Status.SYNTAX_ERROR, e.getMessage());
 			Errorhandler.logError(e);
 		}
 

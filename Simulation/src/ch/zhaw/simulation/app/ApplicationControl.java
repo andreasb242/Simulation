@@ -354,10 +354,13 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		if (this.mainFrame != null) {
 			this.mainFrame.dispose();
 			this.mainFrame.removeListener(this.controller);
+			this.mainFrame = null;
 		}
+		
 		if (this.controller != null) {
 			this.controller.dispose();
 			this.removeListener(this.controller);
+			this.controller = null;
 		}
 
 		for (FlowSubmodelRef flow : this.submodels.values()) {
@@ -649,7 +652,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	public boolean exit() {
 		if (askSave() == true) {
 			this.sysintegration.removeListener(this);
-			
+
 			releaseOpenWindow();
 
 			doc.getSimulationConfiguration().removePluginChangeListener(simulationSettingsSaver);
@@ -798,10 +801,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	@Override
 	public void updateTitle() {
-		if(this.mainFrame == null) {
+		if (this.mainFrame == null) {
 			return;
 		}
-		
+
 		boolean saved = false;
 
 		if (documentName == null) {

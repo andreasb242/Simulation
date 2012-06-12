@@ -86,7 +86,7 @@ public abstract class AbstractNamedSimulationData extends AbstractSimulationData
 	 * @param statusText
 	 *            The associated text
 	 */
-	public void setStaus(Status staus, String statusText) {
+	public void setStatus(Status staus, String statusText) {
 		this.staus = staus;
 		this.statusText = statusText;
 	}
@@ -101,7 +101,7 @@ public abstract class AbstractNamedSimulationData extends AbstractSimulationData
 	/**
 	 * @return The status Text
 	 */
-	public Status getStaus() {
+	public Status getStatus() {
 		return staus;
 	}
 

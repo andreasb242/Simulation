@@ -302,13 +302,13 @@ public class Simulation {
 		}
 
 		for (SimulationContainerData d : model.getSimulationContainer()) {
-			if (d.getStaus() != AbstractNamedSimulationData.Status.SYNTAX_OK) {
+			if (d.getStatus() != AbstractNamedSimulationData.Status.SYNTAX_OK) {
 				return CheckState.ERROR;
 			}
 		}
 
 		for (FlowConnectorData c : model.getFlowConnectors()) {
-			if (c.getValve().getStaus() != AbstractNamedSimulationData.Status.SYNTAX_OK) {
+			if (c.getValve().getStatus() != AbstractNamedSimulationData.Status.SYNTAX_OK) {
 				return CheckState.ERROR;
 			}
 		}
