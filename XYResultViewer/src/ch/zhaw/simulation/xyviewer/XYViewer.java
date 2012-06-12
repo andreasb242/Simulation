@@ -46,6 +46,9 @@ public class XYViewer extends JComponent {
 	private BufferedImage densityImg;
 	private BufferedImage lastDensityImg;
 
+	private boolean showDensityColor = true;
+	private boolean showDensityArrow = true;
+
 	private DensityRenderer renderer = new DensityRenderer() {
 
 		@Override
@@ -187,10 +190,29 @@ public class XYViewer extends JComponent {
 		g2.dispose();
 	}
 
+	public void setShowDensityColor(boolean showDensityColor) {
+		this.showDensityColor = showDensityColor;
+	}
+
+	public void setShowDensityArrow(boolean showDensityArrow) {
+		this.showDensityArrow = showDensityArrow;
+	}
+
 	private void drawDensity(Graphics2D g) {
+		if (this.showDensityColor == false && this.showDensityArrow == false) {
+			return;
+		}
+
 		try {
 			if (densityImg == null) {
-				densityImg = renderer.drawDensityColor(lastDensityImg);
+				densityImg = lastDensityImg;
+				if (this.showDensityColor) {
+					densityImg = renderer.drawDensityColor(densityImg);
+				}
+				if (this.showDensityArrow) {
+					densityImg = renderer.drawArrows(densityImg, !this.showDensityColor);
+				}
+
 				lastDensityImg = densityImg;
 			}
 			g.drawImage(densityImg, 0, 0, null);

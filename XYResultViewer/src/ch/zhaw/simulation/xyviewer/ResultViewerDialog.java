@@ -69,6 +69,10 @@ public class ResultViewerDialog extends JDialog {
 
 	private XYResultList resultList;
 
+	private TargetableAction densityColor;
+
+	private TargetableAction densityArrow;
+
 	public ResultViewerDialog(String name, JFrame parent, Settings settings, Sysintegration sysintegration, XYResultList resultList,
 			Vector<XYDensityRaw> rawList) {
 		super(parent);
@@ -103,6 +107,10 @@ public class ResultViewerDialog extends JDialog {
 		add(sidebar, BorderLayout.WEST);
 
 		initToolbar();
+
+		if (rawList.size() > 0) {
+			setSelectedDensity(rawList.get(0));
+		}
 
 		model.firePosition(0);
 
@@ -186,8 +194,58 @@ public class ResultViewerDialog extends JDialog {
 		});
 
 		this.toolbar.add(spinnerLineCount);
-		this.toolbar.add(new JLabel("Linien im Diagramm anzeigen"));
+		this.toolbar.add(new JLabel("Linien"));
 
+		this.toolbar.addSeparator();
+
+		this.densityColor = new TargetableAction("Dichte farbig darstellen", "diagram/color", IconLoader.getIcon("diagram/color",
+				this.toolbar.getDefaultIconSize())) {
+			private static final long serialVersionUID = 1L;
+			{
+				setStateAction(true);
+			}
+
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				boolean densityColor = evt.getStateChange() == ItemEvent.SELECTED;
+
+				ResultViewerDialog.this.view.setShowDensityColor(densityColor);
+				ResultViewerDialog.this.view.repaintDensity();
+
+				settings.setSetting("resultviewer.density.showcolor", densityColor);
+
+			}
+
+		};
+		this.toolbar.addToogleAction(densityColor);
+
+		this.densityArrow = new TargetableAction("Dichte Gradientenpfeile", "diagram/arrow", IconLoader.getIcon("diagram/arrow",
+				this.toolbar.getDefaultIconSize())) {
+			private static final long serialVersionUID = 1L;
+			{
+				setStateAction(true);
+			}
+
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				boolean densityArrow = evt.getStateChange() == ItemEvent.SELECTED;
+
+				ResultViewerDialog.this.view.setShowDensityArrow(densityArrow);
+				ResultViewerDialog.this.view.repaintDensity();
+
+				settings.setSetting("resultviewer.density.showarrow", densityArrow);
+			}
+
+		};
+		this.toolbar.addToogleAction(densityArrow);
+
+		boolean showColor = settings.isSetting("resultviewer.density.showcolor", true);
+		this.densityColor.setSelected(showColor);
+		ResultViewerDialog.this.view.setShowDensityColor(showColor);
+
+		boolean showArrow = settings.isSetting("resultviewer.density.showarrow", true);
+		this.densityArrow.setSelected(showArrow);
+		ResultViewerDialog.this.view.setShowDensityArrow(showArrow);
 	}
 
 	protected void exportMovie() {
