@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Vector;
 
+import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import org.lsmp.djep.matrixJep.MatrixJep;
 import org.lsmp.djep.xjep.PrintVisitor;
 import org.nfunk.jep.ASTVarNode;
@@ -98,13 +99,17 @@ public class FlowModelAttachment implements SimulationAttachment {
 		// Testen ob alle abhängigen Objekte const sind
 		for (AssigmentPair a : assigment) {
 			if (a.isSysvar()) {
-				return;
+				continue;
 			}
 
 			if (a.getSimulationObject() instanceof SimulationContainerData) {
 				if (model.hasFlowConnectors((SimulationContainerData) a.getSimulationObject())) {
-					return;
+					continue;
 				}
+			}
+
+			if (a.getSimulationObject() instanceof SimulationDensityContainerData) {
+				continue;
 			}
 
 			FlowModelAttachment x = (FlowModelAttachment) a.getSimulationObject().attachment;

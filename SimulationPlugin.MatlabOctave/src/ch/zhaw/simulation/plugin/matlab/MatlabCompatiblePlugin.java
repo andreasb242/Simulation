@@ -89,11 +89,14 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 
 	@Override
 	public void checkDocument(SimulationDocument doc) throws SimulationModelException {
+		// Creates a ModelOptimizer (super-class)
 		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
 			optimizer = new FlowModelOptimizer(doc.getFlowModel());
 		} else if (doc.getType() == SimulationType.XY_MODEL) {
 			optimizer = new XYModelOptimizer(doc.getXyModel());
 		}
+
+		//  optimize this model
 		optimizer.optimize();
 	}
 
