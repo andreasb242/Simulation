@@ -7,12 +7,16 @@ import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.editor.xy.XYEditorView;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.xy.MesoData;
+import ch.zhaw.simulation.model.xy.MesoData.Derivative;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.model.xy.SubModel;
 
 public class XYClipboardData extends AbstractClipboardData<SimulationXYModel, XYEditorView> {
 
 	public static final String MESO_SUBMODEL = "meso.submodel";
+	public static final String MESO_DIRECTION_X = "meso.direction.x";
+	public static final String MESO_DIRECTION_Y = "meso.direction.y";
+	public static final String MESO_DERIVATIVE = "meso.derivative";
 
 	public XYClipboardData() {
 	}
@@ -43,6 +47,9 @@ public class XYClipboardData extends AbstractClipboardData<SimulationXYModel, XY
 		m.setName(d.getName());
 		m.setFormula(d.getFormula());
 		m.setSubmodel((SubModel) d.getAdditionalData().get(MESO_SUBMODEL));
+		m.getDataX().setFormula((String)d.getAdditionalData().get(MESO_DIRECTION_X));
+		m.getDataY().setFormula((String)d.getAdditionalData().get(MESO_DIRECTION_Y));
+		m.setDerivative((Derivative) d.getAdditionalData().get(MESO_DERIVATIVE));
 
 		model.addData(m);
 

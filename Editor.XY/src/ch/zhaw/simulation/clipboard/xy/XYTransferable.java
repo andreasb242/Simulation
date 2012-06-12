@@ -40,6 +40,9 @@ public class XYTransferable extends AbstractTransferable<XYClipboardData> {
 
 				TransferData t = new TransferData(m.getId(), m.getX(), m.getY(), Type.MesoCompartment, m.getName(), m.getFormula(), 0, 0, null);
 				t.getAdditionalData().put(XYClipboardData.MESO_SUBMODEL, m.getSubmodel());
+				t.getAdditionalData().put(XYClipboardData.MESO_DIRECTION_X, m.getDataX().getFormula());
+				t.getAdditionalData().put(XYClipboardData.MESO_DIRECTION_Y, m.getDataY().getFormula());
+				t.getAdditionalData().put(XYClipboardData.MESO_DERIVATIVE, m.getDerivative());
 
 				return t;
 			}

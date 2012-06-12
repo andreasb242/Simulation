@@ -18,7 +18,7 @@ public class TransferData {
 	private int source;
 	private int target;
 	private Point point;
-	
+
 	private HashMap<String, Object> additionalData = new HashMap<String, Object>();
 
 	public enum Type {
@@ -38,7 +38,7 @@ public class TransferData {
 
 		this.point = point;
 	}
-	
+
 	public HashMap<String, Object> getAdditionalData() {
 		return additionalData;
 	}
