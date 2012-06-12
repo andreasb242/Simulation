@@ -12,15 +12,11 @@
 	<!-- Add SimulationBuild/bin to your ant Home!-->
 	<taskdef name="infoplist" classname="ch.zhaw.simulation.ant.MacInfoPlist" />
 
-	<target name="build-ant-task">
-		<mkdir dir="build" />
-	</target>
-
 	<target name="clean">
 		<delete dir="${tmp}" />
 	</target>
 
-	<target name="init" depends="clean,build-ant-task">
+	<target name="init" depends="clean">
 		<mkdir dir="${tmp}" />
 		<mkdir dir="${tmp}/Simulation.app" />
 		<mkdir dir="${tmp}/Simulation.app/Contents" />
@@ -28,6 +24,7 @@
 		<mkdir dir="${tmp}/Simulation.app/Contents/Resources" />
 		<mkdir dir="${tmp}/Simulation.app/Contents/Resources/Java" />
 		<mkdir dir="${tmp}/Simulation.app/Contents/Resources/Java/lib" />
+		<mkdir dir="${tmp}/Simulation.app/Contents/Resources/Java/lib/mac" />
 	</target>
 
 
@@ -49,6 +46,12 @@
 		<copy todir="${tmp}/Simulation.app/Contents/Resources/Java/lib">
 			<fileset dir="${distrib}/lib">
 				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${tmp}/Simulation.app/Contents/Resources/Java/lib/mac">
+			<fileset dir="${distrib}/lib/mac">
+				<include name="*.jar" />
+				<include name="*.jnilib" />
 			</fileset>
 		</copy>
 

@@ -39,7 +39,6 @@ public class SimulationStarter {
 			System.setProperty("apple.awt.brushMetalLook", "true");
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
 			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "(AB)² Simulation");
-			System.setProperty("java.library.path", "./lib/mac");
 
 			try {
 				UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
