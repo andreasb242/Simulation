@@ -152,7 +152,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		// iterate over meso-comp.
 		for (MesoData  meso : xyModel.getMeso()) {
 			prefix = meso.getName() + ".submodel.";
-			visitor = new MatlabVisitor(prefix);
+			visitor = new MatlabVisitor(prefix, meso.getSubmodel());
 			out.printComment("init " + meso.getName());
 
 			// set x/y
@@ -160,6 +160,8 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 			out.println(meso.getName() + ".position.exact.y.value = " + meso.getYCenter() + ";");
 			out.println(meso.getName() + ".position.approx.x.value = uint32(" + meso.getName() + ".position.exact.x.value);");
 			out.println(meso.getName() + ".position.approx.y.value = uint32(" + meso.getName() + ".position.exact.y.value);");
+			out.println("position = " + meso.getName() + ".position.approx;");
+
 			variableList.add(meso.getName() + ".position.exact.x");
 			variableList.add(meso.getName() + ".position.exact.y");
 			variableList.add(meso.getName() + ".position.approx.x");
@@ -462,7 +464,7 @@ public class XYCodeGenerator extends AbstractCodeGenerator {
 		CodeOutput out;
 		MatlabVisitor visitor;
 
-		visitor = new MatlabVisitor(submodel.getName() + ".");
+		visitor = new MatlabVisitor(submodel.getName() + ".", submodel);
 
 		functionName = "xy_" + submodel.getName() +"_dy";
 		if (flowFunctionMap.containsValue(functionName) == false) {

@@ -19,6 +19,9 @@ import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.plugin.matlab.XYModelAttachment;
 
 /**
+ * This class optimizes an XY-model
+ *
+ *
  * @author: bachi
  */
 public class XYModelOptimizer implements ModelOptimizer {
@@ -53,6 +56,10 @@ public class XYModelOptimizer implements ModelOptimizer {
 		}
 	}
 
+	/**
+	 * Creates an attachment for every data (meso, global) in a xy-model
+	 * and assigns to this data.
+	 */
 	private void initModelForSimulation() {
 		for (AbstractSimulationData data : xyModel.getData()) {
 			if (data instanceof AbstractNamedSimulationData) {
@@ -68,14 +75,19 @@ public class XYModelOptimizer implements ModelOptimizer {
 
 		try {
 			System.out.println(namedData.getName());
+
+			// if its a meso...
 			if (namedData instanceof MesoData) {
 				mesoData = (MesoData) namedData;
 
+				// optimize movements / motions of a meso
 				attachment.optimizeDataX(parser.checkCode(mesoData.getDataX().getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
 				attachment.optimizeDataY(parser.checkCode(mesoData.getDataY().getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
 
-				// Optimize submodel
+				// optimize submodel of a meso
 				new FlowModelOptimizer(mesoData.getSubmodel().getModel()).optimize();
+
+			// ... if not, optimize normal (global)
 			} else {
                 attachment.optimize(parser.checkCode(namedData.getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
             }
