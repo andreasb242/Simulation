@@ -48,7 +48,9 @@
 		<key>WorkingDirectory</key>
 		<string>$APP_PACKAGE/Contents/Resources</string>
 		<key>ClassPath</key>
-		<string>{CLASSPATH}</string>
+		<array>
+{CLASSPATH}
+		</array>
 		<key>JVMVersion</key>
 		<string>1.6+</string>
 		<key>MainClass</key>

@@ -36,19 +36,17 @@ public class MacInfoPlist extends Task {
 
 		StringBuilder b = new StringBuilder();
 		for (String c : buildPath) {
-			b.append(":");
-			b.append(c);
+			b.append("\t\t\t<string>" + c + "</string>\n");
 		}
 
 		if (b.length() > 0) {
-			file = replace(file,"{CLASSPATH}", b.substring(1));
+			file = replace(file, "{CLASSPATH}", b.substring(1));
 		} else {
-			file = replace(file,"{CLASSPATH}", "");
+			file = replace(file, "{CLASSPATH}", "");
 		}
 
 		filePutContents(target, file);
 	}
-	
 
 	public static String replace(final String aInput, final String aOldPattern, final String aNewPattern) {
 		if (aOldPattern.equals("")) {
