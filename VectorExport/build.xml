@@ -1,4 +1,4 @@
-<project name="Plugin" basedir="." default="error">
+<project name="VectorExport" basedir="." default="error">
 	<target name="error">
 		<echo message="Build should be started with SimulationBuild/build.xml else build order is not correct" />
 	</target>
