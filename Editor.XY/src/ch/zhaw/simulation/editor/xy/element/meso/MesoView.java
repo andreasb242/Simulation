@@ -3,7 +3,6 @@ package ch.zhaw.simulation.editor.xy.element.meso;
 import java.awt.event.MouseEvent;
 
 import butti.javalibs.gui.messagebox.Messagebox;
-
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
 import ch.zhaw.simulation.editor.xy.XYEditorControl;
@@ -31,9 +30,9 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 		SubModel submodel = getData().getSubmodel();
 		if (submodel == null) {
 			Messagebox.showInfo(getControl().getParent(), "Kein Modell",
-					"Bitte ordnen Sie in der Sidebar dem Kompartment ein Modell zu, damit Sie dieses bearbeiten können");
-		} else {
-			getControl().getApp().openFlowEditor(submodel.getModel());
+					"<html><b>Bitte ordnen Sie in der Sidebar dem Kompartment ein Modell zu, damit Sie dieses bearbeiten können.</b><br><br>"
+							+ "Sie finden in der Toolbar direkt neben dem Meso Button ein kleiner Pfeil,<br>"
+							+ "dort können Sie Submodelle erstellen, wählen und verwalten." + "</html>");
 		}
 	}
 
