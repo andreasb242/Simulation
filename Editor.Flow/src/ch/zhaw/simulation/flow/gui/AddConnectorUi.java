@@ -184,7 +184,7 @@ public class AddConnectorUi {
 
 					control.setStatusTextInfo("Auf Container klicken, oder mit <ESC> abbrechen");
 					start = infinite;
-
+					addArcType = ArcType.FLOW;
 				}
 			}
 		};
@@ -269,7 +269,16 @@ public class AddConnectorUi {
 
 	private void setStartElement(AbstractDataView<?> start) {
 		this.start = start;
-		control.setStatusTextInfo("Endelement wählen");
+
+		if (addArcType == ArcType.SELECATABLE && !(start instanceof InfiniteSymbol || start instanceof ContainerView || start instanceof DensityContainerView)) {
+			addArcType = ArcType.PARAMETER;
+		}
+
+		if (addArcType == ArcType.PARAMETER) {
+			control.setStatusTextInfo("Endelement wählen");
+		} else {
+			control.setStatusTextInfo("Endelement wählen oder in leeren Bereich klicken für Unendlich");
+		}
 	}
 
 	protected void setEndElement(AbstractDataView<?> end) {

@@ -23,6 +23,8 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 
 	private FlowEditorControl control;
 
+	private JComponent parent;
+
 	private FlowSimulationAdapter listener = new FlowSimulationAdapter() {
 
 		@Override
@@ -32,8 +34,6 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 			}
 		};
 	};
-
-	private JComponent parent;
 
 	public ParameterConnectorUi(JComponent parent, ParameterConnectorData connector, FlowEditorControl control) {
 		this.control = control;
@@ -59,9 +59,7 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 		curve.dispose();
 
 		data = null;
-
 		control = null;
-
 		parent = null;
 	}
 
