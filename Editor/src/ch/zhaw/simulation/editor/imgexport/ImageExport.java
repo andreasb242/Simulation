@@ -17,7 +17,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import butti.javalibs.config.Settings;
-
 import ch.zhaw.simulation.dialog.snapshot.ImageExportable;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
@@ -33,6 +32,8 @@ public class ImageExport implements ClipboardOwner, ImageExportable {
 	public ImageExport(AbstractEditorControl<?> control) {
 		this.control = control;
 		Settings settings = control.getSettings();
+
+		// TODO in Settings anzeigen!
 		this.exportBezierHelperPoint = settings.isSetting("imageexport.exporthelperpoints", false);
 	}
 
@@ -93,10 +94,14 @@ public class ImageExport implements ClipboardOwner, ImageExportable {
 		}
 	}
 
+	public Graphics2D getGraphics() {
+		return g;
+	}
+	
 	public void draw(Paintable c) {
 		c.paint(g);
 	}
-
+	
 	public void draw(Component c) {
 		Rectangle b = c.getBounds();
 		Graphics sub = g.create(b.x, b.y, b.width, b.height);
@@ -114,8 +119,7 @@ public class ImageExport implements ClipboardOwner, ImageExportable {
 
 		// TODO: selektion implementieren
 		return false;
-		
-		//return true;
-	}
 
+		// return true;
+	}
 }

@@ -9,12 +9,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import butti.javalibs.util.DrawHelper;
-import ch.zhaw.simulation.editor.connector.bezier.BezierConnector;
 import ch.zhaw.simulation.editor.elements.GuiImage;
 import ch.zhaw.simulation.editor.flow.connector.flowarrow.FlowArrowImage;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
+import ch.zhaw.simulation.editor.util.ArrowDraw;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
@@ -23,6 +23,7 @@ import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
 
 public class FlowToolbar extends AbstractToolbar {
+	private static ArrowDraw arrowDraw = new ArrowDraw(20);
 
 	public FlowToolbar(Sysintegration sys, boolean mainToolbar) {
 		super(sys, mainToolbar);
@@ -45,7 +46,7 @@ public class FlowToolbar extends AbstractToolbar {
 		int y2 = 12;
 
 		g.drawLine(x1, y1, x2, y2);
-		BezierConnector.drawArrow(g, x1, y1, x2, y2);
+		arrowDraw.drawArrow(g, x1, y1, x2, y2);
 
 		return addShadow(img);
 	}

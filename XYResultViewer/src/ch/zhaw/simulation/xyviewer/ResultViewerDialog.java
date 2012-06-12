@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.action.TargetableAction;
 
@@ -28,6 +29,8 @@ import ch.zhaw.simulation.diagram.DiagramFrame;
 import ch.zhaw.simulation.diagram.SerieCbRenderer;
 import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.dialog.snapshot.ImageExportable;
+import ch.zhaw.simulation.dialog.snapshot.MovieExportDialog;
+import ch.zhaw.simulation.dialog.snapshot.MovieExportable;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
@@ -116,7 +119,7 @@ public class ResultViewerDialog extends JDialog {
 		// Mac Toolbar implementation not working as expected:
 		// this.toolbar = this.sysintegration.createToolbar(32);
 		this.toolbar = new DefaultToolbar(32);
-		
+
 		add(this.toolbar.getComponent(), BorderLayout.NORTH);
 
 		this.logButton = new TargetableAction("Dichte logarithmisch darstellen", "diagram/log-x", IconLoader.getIcon("diagram/log-x",
@@ -148,15 +151,13 @@ public class ResultViewerDialog extends JDialog {
 			}
 		});
 
-		// TODO: Save images, to a folder, convert them with ffmpeg to a movie
-		// this.toolbar.add(new ToolbarAction("Speichern als Film",
-		// "diagram/video") {
-		//
-		// @Override
-		// protected void actionPerformed(ActionEvent e) {
-		// System.out.println("Film");
-		// }
-		// });
+		this.toolbar.add(new ToolbarAction("Speichern als Film", "diagram/video") {
+
+			@Override
+			protected void actionPerformed(ActionEvent e) {
+				exportMovie();
+			}
+		});
 
 		this.toolbar.addSeparator();
 
@@ -187,6 +188,56 @@ public class ResultViewerDialog extends JDialog {
 		this.toolbar.add(spinnerLineCount);
 		this.toolbar.add(new JLabel("Linien im Diagramm anzeigen"));
 
+	}
+
+	protected void exportMovie() {
+		MovieExportable exportable = new MovieExportable() {
+
+			private int fps;
+
+			private Exception lastException;
+
+			{
+				this.fps = positionControl.getFps();
+			}
+
+			@Override
+			public int getCount() {
+				return model.getStepCount();
+			}
+
+			@Override
+			public void export(int pos, final File file) throws Exception {
+				model.firePosition(pos);
+
+				lastException = null;
+				SwingUtilities.invokeAndWait(new Runnable() {
+
+					@Override
+					public void run() {
+						try {
+							BufferedImage img = takeScreenshot();
+							ImageIO.write(img, "PNG", file);
+						} catch (Exception e) {
+							lastException = e;
+						}
+					}
+				});
+
+				if (lastException != null) {
+					throw lastException;
+				}
+			}
+
+			@Override
+			public int getFps() {
+				return this.fps;
+			}
+
+		};
+
+		MovieExportDialog dlg = new MovieExportDialog(this.parent, this.settings, exportable, this.sysintegration, name);
+		dlg.setVisible(true);
 	}
 
 	private void saveLastSliderValue() {

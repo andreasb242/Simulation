@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import butti.javalibs.config.Settings;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel.DensityViewMode;
 
 public class XYDefaultSettingsHandler {
 	private Settings settings;
@@ -26,10 +27,18 @@ public class XYDefaultSettingsHandler {
 		model.setShowGrid(this.settings.isSetting(PREFIX + "grid.visible", true));
 		model.setGrid((int) this.settings.getSetting(PREFIX + "grid.value", 20));
 
-		model.setShowDensityArrow(this.settings.isSetting(PREFIX + "density.showarrow", false));
-		model.setShowDensityColor(this.settings.isSetting(PREFIX + "density.showcolor", true));
+		String sType = this.settings.getSetting(PREFIX + "density.viewtype");
+		DensityViewMode type = DensityViewMode.VIEW_BOTH;
+		if (sType != null) {
+			type = DensityViewMode.valueOf(sType);
+			if (type == null) {
+				type = DensityViewMode.VIEW_BOTH;
+			}
+		}
+		model.setDensityViewType(type);
 
 		model.fireSizeRasterChanged();
+		model.setSaved();
 	}
 
 	public void save(SimulationXYModel model) {
@@ -41,8 +50,7 @@ public class XYDefaultSettingsHandler {
 		this.settings.setSetting(PREFIX + "grid.visible", model.isShowGrid());
 		this.settings.setSetting(PREFIX + "grid.value", model.getGrid());
 
-		this.settings.setSetting(PREFIX + "density.showarrow", model.isShowDensityArrow());
-		this.settings.setSetting(PREFIX + "density.showcolor", model.isShowDensityColor());
+		this.settings.setSetting(PREFIX + "density.viewtype", "" + model.getDensityViewType());
 	}
 
 }

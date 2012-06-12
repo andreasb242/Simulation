@@ -60,8 +60,7 @@ public class XYViewerControlPanel extends JPanel {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				int fps = (Integer) XYViewerControlPanel.this.spinFps.getValue();
-				XYViewerControlPanel.this.settings.setSetting("xyviewer.fps", fps);
+				XYViewerControlPanel.this.settings.setSetting("xyviewer.fps", getFps());
 			}
 		});
 
@@ -151,6 +150,10 @@ public class XYViewerControlPanel extends JPanel {
 
 	}
 
+	public int getFps() {
+		return (Integer) XYViewerControlPanel.this.spinFps.getValue();
+	}
+
 	protected void start() {
 		this.playPause.setIcon(IconLoader.getIcon("player/pause", 32));
 
@@ -158,7 +161,7 @@ public class XYViewerControlPanel extends JPanel {
 			this.model.positionStart();
 		}
 
-		int fps = (Integer) XYViewerControlPanel.this.spinFps.getValue();
+		int fps = getFps();
 		int period = 1000 / fps;
 
 		this.steptimer = new Timer();
@@ -185,4 +188,5 @@ public class XYViewerControlPanel extends JPanel {
 	public void dispose() {
 		model.removeListener(internPositionListener);
 	}
+
 }

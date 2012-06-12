@@ -5,19 +5,22 @@
                    
      Andreas Butti                                                                
      ====================================================================== -->
-<project name="Simulation" default="pack">
-	<description>
-            Builds the Mac OS X App
-    </description>
-
+<project name="Simulation Mac OS X" default="pack">
 	<property name="tmp" location="appTmp" />
 	<property name="distrib" location="../build/distrib" />
+
+	<!-- Add SimulationBuild/bin to your ant Home!-->
+	<taskdef name="infoplist" classname="ch.zhaw.simulation.ant.MacInfoPlist" />
+
+	<target name="build-ant-task">
+		<mkdir dir="build" />
+	</target>
 
 	<target name="clean">
 		<delete dir="${tmp}" />
 	</target>
 
-	<target name="init" depends="clean">
+	<target name="init" depends="clean,build-ant-task">
 		<mkdir dir="${tmp}" />
 		<mkdir dir="${tmp}/Simulation.app" />
 		<mkdir dir="${tmp}/Simulation.app/Contents" />
@@ -26,6 +29,7 @@
 		<mkdir dir="${tmp}/Simulation.app/Contents/Resources/Java" />
 		<mkdir dir="${tmp}/Simulation.app/Contents/Resources/Java/lib" />
 	</target>
+
 
 	<!-- ================================= 
           target: pack              
@@ -40,11 +44,7 @@
 
 		<copy file="res/PkgInfo" todir="${tmp}/Simulation.app/Contents" />
 
-		<exec executable="php">
-			<arg value="createInfo.plist.php" />
-			<arg value="${tmp}/Simulation.app/Contents/info.plist" />
-			<arg value="${distrib}/lib" />
-		</exec>
+		<infoplist input="res/Info.xml" additional="$JAVAROOT/Simulation.jar" basedir="${distrib}" buildpath="lib:lib/mac" targetbase="$JAVAROOT/lib/" target="${tmp}/Simulation.app/Contents/info.plist" />
 
 		<copy todir="${tmp}/Simulation.app/Contents/Resources/Java/lib">
 			<fileset dir="${distrib}/lib">
@@ -64,7 +64,7 @@
 			</fileset>
 		</copy>
 
-			
+
 		<mkdir dir="${distrib}/mac" />
 
 		<exec executable="zip" dir="${tmp}">

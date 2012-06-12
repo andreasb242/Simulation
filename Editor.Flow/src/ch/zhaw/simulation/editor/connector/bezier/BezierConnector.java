@@ -133,30 +133,6 @@ public abstract class BezierConnector {
 		g.draw(curve);
 	}
 
-	public static void drawArrow(Graphics2D g, double lastX1, double lastY1, double lastX2, double lastY2) {
-		double x = lastX1 - lastX2;
-		double y = lastY1 - lastY2;
-
-		double angle = Math.PI / 8;
-		double rad = Math.atan(x / y);
-
-		int arrowLength = 20;
-
-		if (y >= 0) {
-			arrowLength = -arrowLength;
-		}
-
-		x = Math.sin(rad - angle) * arrowLength;
-		y = Math.cos(rad - angle) * arrowLength;
-
-		g.drawLine((int) (lastX2 - x), (int) (lastY2 - y), (int) lastX2, (int) lastY2);
-
-		x = Math.sin(rad + angle) * arrowLength;
-		y = Math.cos(rad + angle) * arrowLength;
-
-		g.drawLine((int) (lastX2 - x), (int) (lastY2 - y), (int) lastX2, (int) lastY2);
-	}
-
 	public void paint(Graphics2D g) {
 		updateBezier();
 		DrawHelper.antialisingOn(g);

@@ -1,11 +1,16 @@
 package ch.zhaw.simulation.densitydraw;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.Vector;
 
 import javax.swing.SwingUtilities;
 
 import org.nfunk.jep.ParseException;
+
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel.DensityViewMode;
 
 /**
  * @author Andreas Butti
@@ -22,9 +27,11 @@ public abstract class AbstractDensityView extends DensityRenderer {
 	private Vector<DensityListener> listener = new Vector<DensityListener>();
 	private double maxMinus;
 	private double maxPlus;
+	private SimulationXYModel model;
 
-	public AbstractDensityView(int width, int height) {
+	public AbstractDensityView(int width, int height, SimulationXYModel model) {
 		setSize(width, height);
+		this.model = model;
 	}
 
 	public void updateImageAsynchron() {
@@ -55,7 +62,6 @@ public abstract class AbstractDensityView extends DensityRenderer {
 				@Override
 				public void run() {
 					try {
-
 						final RenderResult result = renderImage();
 						if (result != null) {
 							synchronized (AbstractDensityView.this) {
@@ -87,7 +93,8 @@ public abstract class AbstractDensityView extends DensityRenderer {
 							}
 						});
 
-						System.out.println("DensityDraw: " + e.getMessage());
+						System.err.println("DensityDraw: " + e.getMessage());
+						e.printStackTrace();
 					}
 				}
 			});
@@ -147,7 +154,15 @@ public abstract class AbstractDensityView extends DensityRenderer {
 			img = imgOther;
 		}
 
-		img = drawDensity(img);
+		DensityViewMode type = model.getDensityViewType();
+
+		if (type == DensityViewMode.VIEW_BOTH || type == DensityViewMode.VIEW_COLOR) {
+			img = drawDensityColor(img);
+		}
+
+		if (type == DensityViewMode.VIEW_BOTH || type == DensityViewMode.VIEW_ARROW) {
+			img = drawArrows(img, type == DensityViewMode.VIEW_ARROW);
+		}
 
 		if (cancelUpdate == true) {
 			return null;
@@ -171,14 +186,14 @@ public abstract class AbstractDensityView extends DensityRenderer {
 		}
 	}
 
-	public BufferedImage getImage() {
-		synchronized (this) {
-			return img;
+	public synchronized void draw(Graphics2D g, int x, int y, ImageObserver observer) {
+		if (this.img != null) {
+			g.drawImage(this.img, x, y, observer);
 		}
 	}
 
 	/**
-	 * Update was starte, but nothing was done
+	 * Update was started, but nothing was done
 	 */
 	protected void fireNoActionPerformed() {
 		for (DensityListener l : this.listener) {

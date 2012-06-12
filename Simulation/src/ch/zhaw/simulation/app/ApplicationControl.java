@@ -317,16 +317,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		String name = "Unbennant";
 		if (savehandler.getPath() != null) {
 			name = savehandler.getPath().getName();
-
-			int pos = name.lastIndexOf('.');
-			if (pos > 0) {
-				// remove .xxx
-				name = name.substring(0, pos);
-			}
 		}
 
-		ImageExport expor = new ImageExport(getController());
-		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), expor, name);
+		ImageExport export = new ImageExport(getController());
+		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), export, name);
 		dlg.setVisible(true);
 	}
 
@@ -773,6 +767,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 		case LOAD_RESULTS:
 			loadLastResults();
+			break;
 
 		default:
 			System.err.println("Unhandled event (ApplicationControl): " + action.getType() + " / " + action.getData());
@@ -803,6 +798,10 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 
 	@Override
 	public void updateTitle() {
+		if(this.mainFrame == null) {
+			return;
+		}
+		
 		boolean saved = false;
 
 		if (documentName == null) {

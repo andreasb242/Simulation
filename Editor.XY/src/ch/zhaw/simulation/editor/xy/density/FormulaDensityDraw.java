@@ -1,22 +1,29 @@
 package ch.zhaw.simulation.editor.xy.density;
 
-import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.image.ImageObserver;
 
 import org.nfunk.jep.ParseException;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.densitydraw.AbstractDensityView;
 import ch.zhaw.simulation.math.Parser;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
 public class FormulaDensityDraw extends AbstractDensityView {
 	private boolean noFormula = true;
 	private Parser parser = new Parser();
 	private boolean logarithmic = false;
 
-	public FormulaDensityDraw(int width, int height) {
-		super(width, height);
+	public FormulaDensityDraw(int width, int height, SimulationXYModel model) {
+		super(width, height, model);
 		parser.addVar("x", 0);
 		parser.addVar("y", 0);
+	}
+
+	@Override
+	protected void clearCache() {
+		// / TODO !!!!!! implement cache
 	}
 
 	@Override
@@ -29,12 +36,10 @@ public class FormulaDensityDraw extends AbstractDensityView {
 	}
 
 	@Override
-	public BufferedImage getImage() {
-		if (noFormula) {
-			return null;
+	public synchronized void draw(Graphics2D g, int x, int y, ImageObserver observer) {
+		if (noFormula == false) {
+			super.draw(g, x, y, observer);
 		}
-
-		return super.getImage();
 	}
 
 	@Override
@@ -45,8 +50,19 @@ public class FormulaDensityDraw extends AbstractDensityView {
 		return parser.evaluate();
 	}
 
+	/**
+	 * 
+	 * @param formula
+	 *            if formula == "" no formula, if formula == null the view is
+	 *            update
+	 * @param logarithmic
+	 */
 	public void setFormula(String formula, boolean logarithmic) {
-		if (formula == null || "".equals(formula)) {
+		if (formula == null) {
+			return;
+		}
+
+		if ("".equals(formula)) {
 			noFormula = true;
 			return;
 		}
@@ -59,11 +75,12 @@ public class FormulaDensityDraw extends AbstractDensityView {
 		} catch (ParseException e) {
 			Errorhandler.showError(e, "Formel Fehler");
 		}
+
+		clearCache();
 	}
 
 	@Override
 	protected boolean isLogarithmic() {
 		return this.logarithmic;
 	}
-
 }

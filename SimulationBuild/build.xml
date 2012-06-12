@@ -34,13 +34,21 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 			</fileset>
 		</copy>
 
+		<mkdir dir="${distrib}/lib/mac" />
+		<copy todir="${distrib}/lib/mac">
+			<fileset dir="../ExternLibraries/lib/mac">
+				<include name="*.jar" />
+				<include name="*.jnilib" />
+			</fileset>
+		</copy>
+
 		<mkdir dir="${distrib}/plugin" />
 		<mkdir dir="${distrib}/plugin/simulation" />
 		<mkdir dir="${distrib}/plugin/import" />
 		<mkdir dir="${distrib}/config" />
 	</target>
 
-	<!-- All Projects, in Alphabetical order! -->
+	<!-- All projects, in alphabetical order! -->
 
 	<target name="AppDefinition" depends="BJavalibs,Model,Plugin,SimulationPlugin">
 		<ant antfile="../AppDefinition/build.xml" target="jar" useNativeBasedir="true">
@@ -89,6 +97,18 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</ant>
 		<copy todir="${distrib}/lib">
 			<fileset dir="${build}/Editor.XY">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="ExternLibraries" depends="">
+		<ant antfile="../ExternLibraries/build.xml" target="jar" useNativeBasedir="true">
+			<property name="lib" value="${distrib}/lib" />
+			<property name="build" value="${build}/ExternLibraries" />
+		</ant>
+		<copy todir="${distrib}/lib">
+			<fileset dir="${build}/ExternLibraries">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
@@ -202,7 +222,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</copy>
 	</target>
 
-	<target name="Simulation" depends="AppDefinition,BJavalibs,Editor,Editor.Flow,Editor.XY,ImageExport,ImportFilter,ImportFilter.Dynasys,ImportFilter.Madonna,Model,NetbeansDirchooser,OnscreenKeyboard,Plugin,SimulationDiagram,SimulationJepLib-2.4.1,SimulationPlugin,SimulationPlugin.MatlabOctave,SimulationPlugin.Intern,Sysintegration,XYResultViewer">
+	<target name="Simulation" depends="AppDefinition,BJavalibs,Editor,Editor.Flow,Editor.XY,ExternLibraries,ImageExport,ImportFilter,ImportFilter.Dynasys,ImportFilter.Madonna,Model,NetbeansDirchooser,OnscreenKeyboard,Plugin,SimulationDiagram,SimulationJepLib-2.4.1,SimulationPlugin,SimulationPlugin.MatlabOctave,SimulationPlugin.Intern,Sysintegration,XYResultViewer">
 		<ant antfile="../Simulation/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Simulation" />

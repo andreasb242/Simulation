@@ -1,4 +1,4 @@
-<project name="Editor.Flow" basedir="." default="error">
+<project name="ExternLibraries" basedir="." default="error">
 	<target name="error">
 		<echo message="Build should be started with SimulationBuild/build.xml else build order is not correct" />
 	</target>
@@ -32,13 +32,14 @@
 				<include name="**/*.jpg" />
 				<include name="**/*.svg" />
 				<include name="**/*.html" />
+				<include name="**/*.ttf" />
 				<include name="**/*.properties" />
 			</fileset>
 		</copy>
 
 
 		<!-- Build the jar file -->
-		<jar basedir="${build}" destfile="${build}/EditorFlow.jar" />
+		<jar basedir="${build}" destfile="${build}/00_ExternLibraries.jar" />
 
 	</target>
 </project>

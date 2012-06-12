@@ -190,7 +190,7 @@ public class XYViewer extends JComponent {
 	private void drawDensity(Graphics2D g) {
 		try {
 			if (densityImg == null) {
-				densityImg = renderer.drawDensity(lastDensityImg);
+				densityImg = renderer.drawDensityColor(lastDensityImg);
 				lastDensityImg = densityImg;
 			}
 			g.drawImage(densityImg, 0, 0, null);

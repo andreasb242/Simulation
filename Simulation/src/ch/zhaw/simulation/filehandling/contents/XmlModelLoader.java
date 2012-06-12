@@ -26,6 +26,7 @@ import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.MesoData.Derivative;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.model.xy.SimulationXYModel.DensityViewMode;
 import ch.zhaw.simulation.model.xy.SubModel;
 import ch.zhaw.simulation.model.xy.SubModelList;
 
@@ -374,6 +375,17 @@ public class XmlModelLoader implements XmlContentsNames {
 		}
 
 		xyModel.setGrid(XmlHelper.getAttributeInt(root, XML_MODEL_XY_GRID));
+		xyModel.setShowGrid(XmlHelper.getAttributeBoolean(root, XML_MODEL_XY_SHOW_GRID));
+		String sType = XmlHelper.getAttribute(root, XML_MODEL_XY_DENSITY_VIEW_TYPE);
+		DensityViewMode type = DensityViewMode.VIEW_BOTH;
+		if (sType != null) {
+			type = DensityViewMode.valueOf(sType);
+			if (type == null) {
+				type = DensityViewMode.VIEW_BOTH;
+			}
+		}
+		
+		xyModel.setDensityViewType(type);
 
 		Point zero = new Point(XmlHelper.getAttributeInt(root, XML_MODEL_XY_ZERO_X), XmlHelper.getAttributeInt(root, XML_MODEL_XY_ZERO_Y));
 

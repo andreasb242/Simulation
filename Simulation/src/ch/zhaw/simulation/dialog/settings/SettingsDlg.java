@@ -21,6 +21,7 @@ import butti.javalibs.gui.BDialog;
 import butti.javalibs.gui.GridBagManager;
 import butti.plugin.PluginDescription;
 import ch.zhaw.simulation.app.ApplicationControl;
+import ch.zhaw.simulation.filechoosertextfield.FilechooserTextfield;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.inexport.ImportPlugin;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
@@ -32,7 +33,10 @@ public class SettingsDlg extends BDialog {
 	private HeaderPanel header = new HeaderPanel();
 
 	private JCheckBox cbAutoloadLastDocument = new JCheckBox("Letzte geöffnete Datei beim Start laden");
-	private JCheckBox cbShowAdvancedDiagramSettings = new JCheckBox("<html>Eweiterter Diagramm Einstellungen Dialog verwenden<br><i>(komplizierter, nicht empfohlen)</i></html>");
+	private JCheckBox cbShowAdvancedDiagramSettings = new JCheckBox(
+			"<html>Eweiterter Diagramm Einstellungen Dialog verwenden<br><i>(komplizierter, nicht empfohlen)</i></html>");
+
+	private FilechooserTextfield execFfmpegPath;
 
 	private JTabbedPane tabs = new JTabbedPane();
 
@@ -78,9 +82,22 @@ public class SettingsDlg extends BDialog {
 			}
 		}
 
+		execFfmpegPath = new FilechooserTextfield(this, app.getSysintegration(), null, false, false, true);
+		
 		initHeader();
 		initData();
 
+		pGeneral.add(new JLabel("ffmpeg Executable"));
+		pGeneral.add(execFfmpegPath);
+
+		execFfmpegPath.addChangeListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				settings.setSetting("ffmpegPath", execFfmpegPath.getPath());
+			}
+		});
+		
 		pack();
 		int w = getWidth();
 		if (w < 500) {
@@ -118,6 +135,9 @@ public class SettingsDlg extends BDialog {
 				settings.setSetting("extendedDiagramSettings", cbShowAdvancedDiagramSettings.isSelected());
 			}
 		});
+
+		String ffmpeg = settings.getSetting("ffmpegPath", "ffmpeg");
+		execFfmpegPath.setPath(ffmpeg);
 
 	}
 

@@ -4,12 +4,16 @@ public interface XmlContentsNames {
 	public static String XML_ROOT = "simulation";
 	
 	public static String XML_MODEL = "model";
+
+	public static String XML_MODEL_ATTRIBUTES = "attributes";
 	
 	public static String XML_MODEL_TYPE = "type";
 	public static String XML_MODEL_TYPE_FLOW = "flow";
 	public static String XML_MODEL_TYPE_XY = "xy";
 
 	public static String XML_MODEL_XY_GRID = "grid";
+	public static String XML_MODEL_XY_SHOW_GRID = "show-grid";
+	public static String XML_MODEL_XY_DENSITY_VIEW_TYPE = "densityViewType";
 	public static String XML_MODEL_XY_ZERO_X = "zerox";
 	public static String XML_MODEL_XY_ZERO_Y = "zeroy";
 	public static String XML_MODEL_XY_WIDTH = "width";
