@@ -12,6 +12,7 @@ import ch.zhaw.simulation.editor.flow.autoparser.Autoparser;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.BezierHelperPoint;
 import ch.zhaw.simulation.editor.flow.connector.parameterarrow.InfiniteSymbol;
 import ch.zhaw.simulation.editor.flow.elements.container.ContainerView;
+import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerView;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterView;
 import ch.zhaw.simulation.editor.flow.elements.valve.FlowValveElement;
 import ch.zhaw.simulation.editor.view.GuiDataTextElement;
@@ -100,7 +101,7 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		addConnectors(removedConnectors, removedInfinite, tmpRemovedConnectors);
 
 		for (SelectableElement<?> el : elements) {
-			if (el instanceof ParameterView || el instanceof ContainerView) {
+			if (el instanceof ParameterView || el instanceof ContainerView || el instanceof DensityContainerView) {
 				GuiDataTextElement<?> control = (GuiDataTextElement<?>) el;
 				AbstractNamedSimulationData data = (AbstractNamedSimulationData) control.getData();
 

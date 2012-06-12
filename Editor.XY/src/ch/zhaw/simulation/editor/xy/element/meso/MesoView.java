@@ -33,6 +33,8 @@ public class MesoView extends GuiDataTextElement<MesoData> {
 					"<html><b>Bitte ordnen Sie in der Sidebar dem Kompartment ein Modell zu, damit Sie dieses bearbeiten können.</b><br><br>"
 							+ "Sie finden in der Toolbar direkt neben dem Meso Button ein kleiner Pfeil,<br>"
 							+ "dort können Sie Submodelle erstellen, wählen und verwalten." + "</html>");
+		} else {
+			getControl().getApp().openFlowEditor(submodel.getModel());
 		}
 	}
 

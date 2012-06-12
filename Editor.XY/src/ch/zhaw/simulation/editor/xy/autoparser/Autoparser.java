@@ -45,18 +45,12 @@ public class Autoparser {
 
 	private void parse(AbstractNamedSimulationData o) {
 		if (!running) {
-
-			// TODO Debug
-			System.out.println("!running");
 			return;
 		}
 
 		if (o.getStatus() != AbstractNamedSimulationData.Status.NOT_PARSED) {
-			// TODO Debug
-			System.out.println("NOT_PARSED: " + o.getClass().getName() +" / "+o.getName() + " / "+ o.getStatus() );
 			return;
 		}
-		System.out.println("parse: " + o.getName());
 
 		if (o instanceof MesoData) {
 			MesoData d = (MesoData) o;
