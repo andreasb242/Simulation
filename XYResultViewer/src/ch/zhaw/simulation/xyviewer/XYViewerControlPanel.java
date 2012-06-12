@@ -17,6 +17,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.jdesktop.swingx.util.OS;
+
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
 import ch.zhaw.simulation.icon.IconLoader;
@@ -79,7 +81,7 @@ public class XYViewerControlPanel extends JPanel {
 		gbm.setX(0).setY(0).setWeightY(0).setWidth(20).setComp(slider);
 
 		this.playPause = new JButton(IconLoader.getIcon("player/play", 32));
-		playPause.setBackground(Color.BLACK);
+		initButton(playPause);
 
 		playPause.addActionListener(new ActionListener() {
 
@@ -92,7 +94,7 @@ public class XYViewerControlPanel extends JPanel {
 		gbm.setX(0).setY(1).setWeightX(0).setWeightY(0).setInsets(new Insets(5, 5, 5, 25)).setComp(playPause);
 
 		JButton prev = new JButton(IconLoader.getIcon("player/previous", 24));
-		prev.setBackground(Color.BLACK);
+		initButton(prev);
 
 		prev.addActionListener(new ActionListener() {
 
@@ -102,8 +104,9 @@ public class XYViewerControlPanel extends JPanel {
 			}
 		});
 
+
 		JButton next = new JButton(IconLoader.getIcon("player/next", 24));
-		next.setBackground(Color.BLACK);
+		initButton(next);
 
 		next.addActionListener(new ActionListener() {
 
@@ -113,7 +116,9 @@ public class XYViewerControlPanel extends JPanel {
 			}
 		});
 
+
 		JButton stop = new JButton(IconLoader.getIcon("player/stop", 24));
+		initButton(stop);
 
 		stop.addActionListener(new ActionListener() {
 
@@ -123,7 +128,6 @@ public class XYViewerControlPanel extends JPanel {
 			}
 		});
 
-		stop.setBackground(Color.BLACK);
 
 		gbm.setX(1).setY(1).setWeightX(0).setWeightY(0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setComp(prev);
 		gbm.setX(2).setY(1).setWeightX(0).setWeightY(0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setComp(stop);
@@ -133,7 +137,17 @@ public class XYViewerControlPanel extends JPanel {
 				.setAnchor(GridBagConstraints.CENTER).setComp(this.spinFps);
 		gbm.setX(5).setY(1).setWeightX(0).setWeightY(0).setInsets(new Insets(5, 5, 5, 25)).setFill(GridBagConstraints.NONE)
 				.setAnchor(GridBagConstraints.CENTER).setComp(new JLabel("fps"));
+		
+		
+		if (OS.isMacOSX()) {
+			setBackground(new Color(0xdde3eb));
+			setOpaque(true);
+		}
 
+	}
+
+	private void initButton(JButton button) {
+		button.setBackground(Color.BLACK);
 	}
 
 	protected void stop() {

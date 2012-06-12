@@ -45,7 +45,6 @@ import ch.zhaw.simulation.simplecharteditor.SimpleChartEditor;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
-import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 
 public class DiagramFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -87,9 +86,7 @@ public class DiagramFrame extends JFrame {
 
 		setIconImage(IconLoader.getIcon("simulation", 128).getImage());
 
-		// Mac Toolbar implementation not working as expected:
-		// toolBar = integration.createToolbar(32);
-		toolbar = new DefaultToolbar(32);
+		toolbar = sys.createToolbar(32);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 

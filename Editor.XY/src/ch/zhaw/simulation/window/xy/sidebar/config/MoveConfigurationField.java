@@ -169,6 +169,7 @@ public class MoveConfigurationField extends SingleConfigurationField {
 		pX.setLayout(new GridLayout(1, 0));
 		pX.add(lbX);
 		pX.add(stateX);
+		pX.setOpaque(false);
 		lbX.setFont(FontLoader.getFont());
 		stateX.setForeground(Color.RED);
 		leftGroup.addComponent(pX);
@@ -198,6 +199,7 @@ public class MoveConfigurationField extends SingleConfigurationField {
 		pY.setLayout(new GridLayout(1, 0));
 		pY.add(lbY);
 		pY.add(stateY);
+		pY.setOpaque(false);
 		lbY.setFont(FontLoader.getFont());
 		stateY.setForeground(Color.RED);
 

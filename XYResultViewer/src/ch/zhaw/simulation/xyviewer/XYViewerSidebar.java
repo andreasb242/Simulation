@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.xyviewer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
@@ -9,22 +10,27 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
+import org.jdesktop.swingx.util.OS;
 import org.jfree.ui.tabbedui.VerticalLayout;
 
 import butti.javalibs.controls.TitleLabel;
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 
-public class XYViewerSidebar extends JComponent {
+public class XYViewerSidebar extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public XYViewerSidebar(final ResultViewerDialog resultViewer, Vector<XYDensityRaw> rawList) {
 		setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		setLayout(new BorderLayout(5, 5));
+
+		if (OS.isMacOSX()) {
+			setBackground(new Color(0xdde3eb));
+			setOpaque(true);
+		}
 
 		add(new TitleLabel("Dichte:"), BorderLayout.NORTH);
 
@@ -49,6 +55,8 @@ public class XYViewerSidebar extends JComponent {
 			elements.nextElement().setSelected(true);
 		}
 
+		radioPanel.setOpaque(false);
+		
 		add(new JScrollPane(radioPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 	}
 }

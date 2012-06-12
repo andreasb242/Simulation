@@ -33,12 +33,14 @@ public class LogButton extends TargetableAction {
 	private NumberAxis axisLog;
 	private Direction direction;
 	private XYPlot plot;
+	private JFrame parent;
 
 	public LogButton(final JFrame parent, XYPlot plot, Toolbar toolbar, Direction direction) {
 		super("Logarithmisch (" + direction.name + ")", "diagram/log-" + direction.name, IconLoader.getIcon("diagram/log-" + direction.name,
 				toolbar.getDefaultIconSize()));
 		this.direction = direction;
 		this.plot = plot;
+		this.parent = parent;
 
 		NumberAxis currentAxis = getCurrentAxis();
 		
@@ -87,7 +89,7 @@ public class LogButton extends TargetableAction {
 		try {
 			setAxis(newAxis);
 		} catch (Exception e) {
-			Messagebox.showError(null, "(AB)² Simulation", e.getMessage());
+			Messagebox.showError(this.parent, "(AB)² Simulation", e.getMessage());
 			setAxis(currentAxis);
 		}
 	}

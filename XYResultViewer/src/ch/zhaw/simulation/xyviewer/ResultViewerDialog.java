@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.xyviewer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -12,15 +13,18 @@ import java.io.IOException;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.action.TargetableAction;
+import org.jdesktop.swingx.util.OS;
 
 import butti.javalibs.clipboard.ImageSelection;
 import butti.javalibs.config.Settings;
@@ -40,7 +44,6 @@ import ch.zhaw.simulation.plugin.data.XYResultList;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
-import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 import ch.zhaw.simulation.vector.VectorExport;
 
 public class ResultViewerDialog extends JDialog {
@@ -83,6 +86,9 @@ public class ResultViewerDialog extends JDialog {
 			setTitle("(AB)² Simulation");
 		}
 
+		// Mac OS X
+		getRootPane().putClientProperty("apple.awt.brushMetalLook", true);
+
 		this.parent = parent;
 		this.settings = settings;
 		this.sysintegration = sysintegration;
@@ -102,9 +108,21 @@ public class ResultViewerDialog extends JDialog {
 
 		XYViewerSidebar sidebar = new XYViewerSidebar(this, rawList);
 
-		add(new JScrollPane(view), BorderLayout.CENTER);
+		JScrollPane scrol = new JScrollPane(view);
+
+		JPanel pConentents = new JPanel();
+		pConentents.setLayout(new BorderLayout());
+
+		pConentents.add(sidebar, BorderLayout.WEST);
+		pConentents.add(scrol, BorderLayout.CENTER);
+
+		add(pConentents, BorderLayout.CENTER);
 		add(positionControl, BorderLayout.SOUTH);
-		add(sidebar, BorderLayout.WEST);
+
+		if (OS.isMacOSX()) {
+			scrol.setBorder(null);
+			pConentents.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(0x515151)));
+		}
 
 		initToolbar();
 
@@ -124,9 +142,7 @@ public class ResultViewerDialog extends JDialog {
 	}
 
 	private void initToolbar() {
-		// Mac Toolbar implementation not working as expected:
-		// this.toolbar = this.sysintegration.createToolbar(32);
-		this.toolbar = new DefaultToolbar(32);
+		this.toolbar = this.sysintegration.createToolbar(32);
 
 		add(this.toolbar.getComponent(), BorderLayout.NORTH);
 
