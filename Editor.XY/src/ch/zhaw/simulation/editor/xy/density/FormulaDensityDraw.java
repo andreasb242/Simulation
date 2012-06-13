@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.editor.xy.density;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.ImageObserver;
 
 import org.nfunk.jep.ParseException;
@@ -23,7 +24,7 @@ public class FormulaDensityDraw extends AbstractDensityView {
 
 	@Override
 	protected void clearCache() {
-		// / TODO !!!!!! implement cache
+		// / TODO implement cache
 	}
 
 	@Override
@@ -44,8 +45,10 @@ public class FormulaDensityDraw extends AbstractDensityView {
 
 	@Override
 	protected double valueFor(int x, int y) throws ParseException {
-		parser.setVar("x", x);
-		parser.setVar("y", y);
+		Point z = model.getZero();
+
+		parser.setVar("x", x - z.x);
+		parser.setVar("y", y - z.x);
 
 		return parser.evaluate();
 	}

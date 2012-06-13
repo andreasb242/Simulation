@@ -27,7 +27,7 @@ public abstract class AbstractDensityView extends DensityRenderer {
 	private Vector<DensityListener> listener = new Vector<DensityListener>();
 	private double maxMinus;
 	private double maxPlus;
-	private SimulationXYModel model;
+	protected SimulationXYModel model;
 
 	public AbstractDensityView(int width, int height, SimulationXYModel model) {
 		setSize(width, height);
