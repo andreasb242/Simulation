@@ -13,9 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileFilter;
 
 import butti.javalibs.listener.ListenerList;
+import ch.zhaw.simulation.sysintegration.SimFileFilter;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class FilechooserTextfield extends JPanel {
@@ -38,7 +38,7 @@ public class FilechooserTextfield extends JPanel {
 	 * @param showHidden
 	 *            Show hidden files / folders
 	 */
-	public FilechooserTextfield(final Window parent, final Sysintegration sys, final FileFilter filefilter, final boolean showOnlyFolders,
+	public FilechooserTextfield(final Window parent, final Sysintegration sys, final SimFileFilter filefilter, final boolean showOnlyFolders,
 			final boolean showHidden, boolean editable) {
 		setLayout(new LayoutManager() {
 

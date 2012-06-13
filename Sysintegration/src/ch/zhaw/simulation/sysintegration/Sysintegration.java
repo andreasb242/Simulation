@@ -4,19 +4,20 @@ import java.awt.Window;
 import java.io.File;
 import java.util.Vector;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-
 import butti.javalibs.errorhandler.Errorhandler;
-import butti.javalibs.gui.messagebox.Messagebox;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener.EventType;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmarks;
+import ch.zhaw.simulation.sysintegration.filechooser.AbstractFilechooser;
+import ch.zhaw.simulation.sysintegration.filechooser.FallbackFilechooser;
+import ch.zhaw.simulation.sysintegration.filechooser.Filechooser;
+import ch.zhaw.simulation.sysintegration.filechooser.SwingFilechooser;
 import ch.zhaw.simulation.sysintegration.gui.DefaultToolbar;
 
 public class Sysintegration {
 
 	protected Bookmarks bookmarks;
 	protected SysMenuShortcuts sysMenuShortcuts;
+	protected FallbackFilechooser filechooser;
 
 	private Vector<SysintegrationEventlistener> eventlistener = new Vector<SysintegrationEventlistener>();
 
@@ -29,6 +30,19 @@ public class Sysintegration {
 		initBookmarks();
 		initSysMenuShortcuts();
 		initGuiConfig();
+	}
+
+	protected AbstractFilechooser createFilechooser() {
+		return null;
+	}
+
+	public Filechooser getFilechooser() {
+		if (this.filechooser == null) {
+			AbstractFilechooser fc = createFilechooser();
+			this.filechooser = new FallbackFilechooser(fc, new SwingFilechooser());
+		}
+
+		return filechooser;
 	}
 
 	protected void initGuiConfig() {
@@ -62,81 +76,27 @@ public class Sysintegration {
 		return guiConfig;
 	}
 
-	public File checkFile(String file, Window parent, SimFileFilter filefilter, String lastSavePath) {
-		File f;
-		if (!file.endsWith(filefilter.getExtension())) {
-			f = new File(file + filefilter.getExtension());
-		} else {
-			f = new File(file);
-		}
-
-		if (f.exists()) {
-			Messagebox msg = new Messagebox(parent, "Überschreiben", "Soll die Datei \"" + f.getAbsolutePath() + "\" überschreiben werden?",
-					Messagebox.QUESTION);
-			msg.addButton("Speichern unter", 0);
-			msg.addButton("Abbrechen", 1);
-			msg.addButton("Überschreiben", 2, true);
-
-			int res = msg.display();
-			if (res == 0) {
-				f = showSaveDialog(parent, filefilter, lastSavePath);
-			} else if (res != 2) {
-				f = null;
-			}
-
-		}
-
-		return checkCanSave(f, parent, filefilter, lastSavePath);
-	}
-
-	protected File checkCanSave(File file, Window parent, SimFileFilter filefilter, String lastSavePath) {
-		boolean canWrite = true;
-
-		if (!file.exists()) {
-			try {
-				canWrite = file.createNewFile();
-
-				if (canWrite) {
-					canWrite = file.canWrite();
-				}
-			} catch (Exception e) {
-				Errorhandler.logError(e);
-				canWrite = false;
-			}
-		} else {
-			canWrite = file.canWrite();
-		}
-
-		if (!canWrite) {
-			Messagebox msg = new Messagebox(parent, "Schreibgeschützt", "Die Datei \"" + file.getAbsolutePath() + "\" ist schreibgeschützt.",
-					Messagebox.WARNING);
-			msg.addButton("Anderswo speichern", 0);
-			msg.addButton("Abbrechen", 1);
-
-			if (msg.display() == 0) {
-				return showSaveDialog(parent, filefilter, lastSavePath);
-			}
+	public File showSaveDialog(Window parent, SimFileFilter filefilter, String lastSavePath) {
+		Filechooser fc = getFilechooser();
+		try {
+			return fc.showSaveDialog(parent, filefilter, lastSavePath);
+		} catch (Exception e) {
+			// should not happen, because FallbackFilechooser should handle this
+			Errorhandler.showError(e, "Filechooser failed");
 			return null;
 		}
-		return file;
 	}
 
-	public File showSaveDialog(Window parent, SimFileFilter filefilter, String lastSavePath) {
-		JFileChooser chooser = new JFileChooser(lastSavePath);
-		chooser.setFileFilter(filefilter);
-		if (chooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
-			return checkFile(chooser.getSelectedFile().getAbsolutePath(), parent, filefilter, lastSavePath);
+	public File showOpenDialog(Window parent, SimFileFilter filefilter, String lastSavePath) {
+		Filechooser fc = getFilechooser();
+		try {
+			return fc.showOpenDialog(parent, filefilter, lastSavePath);
+		} catch (Exception e) {
+			// should not happen, because FallbackFilechooser should handle this
+			Errorhandler.showError(e, "Filechooser failed");
+			return null;
 		}
-		return null;
-	}
 
-	public File showOpenDialog(Window parent, FileFilter filefilter, String lastSavePath) {
-		JFileChooser chooser = new JFileChooser(lastSavePath);
-		chooser.setFileFilter(filefilter);
-		if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-			return chooser.getSelectedFile();
-		}
-		return null;
 	}
 
 	public void addListener(SysintegrationEventlistener l) {

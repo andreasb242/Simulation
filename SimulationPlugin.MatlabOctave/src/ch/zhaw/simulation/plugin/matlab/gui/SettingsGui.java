@@ -12,7 +12,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileFilter;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
@@ -20,6 +19,7 @@ import butti.javalibs.util.OS;
 import ch.zhaw.simulation.filechoosertextfield.FilechooserTextfield;
 import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
 import ch.zhaw.simulation.plugin.matlab.MatlabTool;
+import ch.zhaw.simulation.sysintegration.SimFileFilter;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 
@@ -37,7 +37,7 @@ public class SettingsGui extends JPanel {
 	private FilechooserTextfield execScilabPath;
 	private JCheckBox cbGenerate;
 
-	private FileFilter filter = new FileFilter() {
+	private SimFileFilter filter = new SimFileFilter() {
 		@Override
 		public String getDescription() {
 			return "Executable files";
@@ -46,6 +46,11 @@ public class SettingsGui extends JPanel {
 		@Override
 		public boolean accept(File f) {
 			return true;
+		}
+
+		@Override
+		public String getExtension() {
+			return null;
 		}
 	};
 
