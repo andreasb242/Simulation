@@ -100,7 +100,7 @@ public class MacInfoPlist extends Task {
 		});
 
 		for (String j : jars) {
-			buildPath.add(targetbase + "/" + j);
+			buildPath.add(targetbase + "/" + entry + "/" + j);
 		}
 	}
 

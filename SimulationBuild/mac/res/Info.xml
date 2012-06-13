@@ -57,6 +57,8 @@
 		<string>ch.zhaw.simulation.startup.SimulationMain</string>
 		<key>Properties</key>
 		<dict>
+			<key>java.library.path</key>
+			<string>$JAVAROOT/lib/mac</string>
 			<key>apple.awt.brushMetalLook</key>
 			<string>true</string>
 			<key>apple.laf.useScreenMenuBar</key>

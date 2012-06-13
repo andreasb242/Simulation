@@ -41,7 +41,7 @@
 
 		<copy file="res/PkgInfo" todir="${tmp}/Simulation.app/Contents" />
 
-		<infoplist input="res/Info.xml" additional="$JAVAROOT/Simulation.jar" basedir="${distrib}" buildpath="lib:lib/mac" targetbase="$JAVAROOT/lib" target="${tmp}/Simulation.app/Contents/info.plist" />
+		<infoplist input="res/Info.xml" additional="$JAVAROOT/Simulation.jar" basedir="${distrib}" buildpath="lib:lib/mac" targetbase="$JAVAROOT" target="${tmp}/Simulation.app/Contents/info.plist" />
 
 		<copy todir="${tmp}/Simulation.app/Contents/Resources/Java/lib">
 			<fileset dir="${distrib}/lib">
