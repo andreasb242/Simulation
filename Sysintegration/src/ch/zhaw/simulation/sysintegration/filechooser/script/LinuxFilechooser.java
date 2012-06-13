@@ -24,7 +24,7 @@ public class LinuxFilechooser extends ScriptFilechooser {
 				return null;
 			}
 			
-			return checkCanSave(new File(file), parent, filefilter, lastSavePath);
+			return checkFileSaveExists(file, parent, filefilter, lastSavePath);
 		} catch (Exception e) {
 			throw new FilechooserException(e);
 		}

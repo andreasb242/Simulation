@@ -46,6 +46,22 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		<mkdir dir="${distrib}/plugin/simulation" />
 		<mkdir dir="${distrib}/plugin/import" />
 		<mkdir dir="${distrib}/config" />
+		
+		<mkdir dir="${distrib}/filechooser" />
+		<mkdir dir="${distrib}/filechooser/linux" />
+		<copy todir="${distrib}/filechooser/linux">
+			<fileset dir="../Simulation/filechooser/linux">
+				<include name="*.py" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${distrib}/filechooser/windows" />
+		<copy todir="${distrib}/filechooser/windows">
+			<fileset dir="../Simulation/filechooser/windows">
+				<include name="*.exe" />
+			</fileset>
+		</copy>
+
 	</target>
 
 	<!-- All projects, in alphabetical order! -->
