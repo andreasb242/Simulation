@@ -110,6 +110,10 @@ public class AddConnectorUi {
 				return true;
 			}
 			for (AbstractConnectorData<?> c : control.getModel().getConnectors()) {
+				if (addArcType == ArcType.PARAMETER && c instanceof FlowConnectorData) {
+					continue;
+				}
+
 				if (c.getSource() == start.getData() || c.getTarget() == start.getData()) {
 					if (c.getSource() == elem.getData() || c.getTarget() == elem.getData()) {
 						return false;

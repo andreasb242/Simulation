@@ -198,10 +198,6 @@ public class Simulation {
 			calcSources(c.getValve());
 			dataObjects.add(c.getValve());
 		}
-
-		if (flowConnectors.size() == 0) {
-			throw new SimulationModelException(null, "Keine Flüsse vorhanden, es kann nichts simuliert werden!");
-		}
 	}
 
 	private void calcSources(AbstractNamedSimulationData s) {

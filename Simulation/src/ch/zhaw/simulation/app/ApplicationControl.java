@@ -33,14 +33,21 @@ import ch.zhaw.simulation.editor.xy.XYEditorControl;
 import ch.zhaw.simulation.filehandling.ImportPluginLoader;
 import ch.zhaw.simulation.filehandling.LoadSaveHandler;
 import ch.zhaw.simulation.math.console.MatrixConsole;
+import ch.zhaw.simulation.math.exception.FormulaStatusNotOkException;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menu.RecentMenu;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
+import ch.zhaw.simulation.model.NamedFormulaData.Status;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.flow.connection.AbstractConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
+import ch.zhaw.simulation.model.flow.connection.FlowValveData;
+import ch.zhaw.simulation.model.xy.SimulationXYModel;
 import ch.zhaw.simulation.plugin.ExecutionListener;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationManager;
@@ -48,6 +55,8 @@ import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.StandardParameter;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
 import ch.zhaw.simulation.plugin.data.XYDensityRaw;
+import ch.zhaw.simulation.plugin.data.XYResultChooser;
+import ch.zhaw.simulation.plugin.data.XYResultList;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener;
@@ -57,8 +66,6 @@ import ch.zhaw.simulation.window.SimulationWindow;
 import ch.zhaw.simulation.window.flow.FlowWindow;
 import ch.zhaw.simulation.window.xy.XYWindow;
 import ch.zhaw.simulation.xyviewer.ResultViewerDialog;
-import ch.zhaw.simulation.plugin.data.XYResultChooser;
-import ch.zhaw.simulation.plugin.data.XYResultList;
 
 public class ApplicationControl extends StatusHandler implements SimulationApplication, MenuActionListener, SysintegrationEventlistener {
 
@@ -356,7 +363,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			this.mainFrame.removeListener(this.controller);
 			this.mainFrame = null;
 		}
-		
+
 		if (this.controller != null) {
 			this.controller.dispose();
 			this.removeListener(this.controller);
@@ -460,14 +467,17 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		SimulationPlugin plugin = selectedPluginDescription.getPlugin();
 
 		try {
+			if (!checkDocuementErrors()) {
+				return;
+			}
+
 			plugin.checkDocument(doc);
 		} catch (SimulationModelException ex) {
-			Messagebox.showError(getMainFrame(), "Simulation nicht möglich", ex.getMessage());
-
 			Object obj = ex.getSimObject();
 			if (obj instanceof AbstractSimulationData) {
 				controller.getView().selectElement((AbstractSimulationData) obj);
 			}
+			Messagebox.showError(getMainFrame(), "Simulation nicht möglich", ex.getMessage());
 
 			ex.printStackTrace();
 			return;
@@ -481,6 +491,67 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Simulation fehlgeschlagen");
 		}
+	}
+
+	private boolean checkDocuementErrors() throws SimulationModelException {
+		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
+			return checkFlowModel(doc.getFlowModel());
+		} else if (doc.getType() == SimulationType.XY_MODEL) {
+			return checkXyModel(doc.getXyModel());
+		}
+
+		Messagebox.showError(getMainFrame(), "Modelfehler", "Modeltyp unbekannt. Dies ist ein Programmierfehler, kontaktieren Sie einen Entwickler.");
+
+		return false;
+	}
+
+	private boolean checkXyModel(SimulationXYModel model) throws SimulationModelException {
+		if (model.getDensity().size() == 0 && model.getData().length == 0) {
+			Messagebox.showError(getMainFrame(), "Modelfehler", "Das Modell enthält keine Daten.");
+			return false;
+		}
+
+		// for (DensityData d : model.getDensity()) {
+		// // TODO !!! Check density status!
+		// }
+
+		for (AbstractSimulationData d : model.getData()) {
+			if (d instanceof AbstractNamedSimulationData) {
+				AbstractNamedSimulationData data = (AbstractNamedSimulationData) d;
+				if (data.getStatus() != Status.SYNTAX_OK) {
+					throw new FormulaStatusNotOkException(data);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	private boolean checkFlowModel(SimulationFlowModel model) throws SimulationModelException {
+		if (model.getConnectors().length == 0 && model.getData().length == 0) {
+			Messagebox.showError(getMainFrame(), "Modelfehler", "Das Modell enthält keine Daten.");
+			return false;
+		}
+
+		for (AbstractSimulationData d : model.getData()) {
+			if (d instanceof AbstractNamedSimulationData) {
+				AbstractNamedSimulationData data = (AbstractNamedSimulationData) d;
+				if (data.getStatus() != Status.SYNTAX_OK) {
+					throw new FormulaStatusNotOkException(data);
+				}
+			}
+		}
+
+		for (AbstractConnectorData<?> c : model.getConnectors()) {
+			if (c instanceof FlowConnectorData) {
+				FlowValveData data = ((FlowConnectorData) c).getValve();
+				if (data.getStatus() != Status.SYNTAX_OK) {
+					throw new FormulaStatusNotOkException(data);
+				}
+			}
+		}
+
+		return true;
 	}
 
 	public void loadLastResults() {

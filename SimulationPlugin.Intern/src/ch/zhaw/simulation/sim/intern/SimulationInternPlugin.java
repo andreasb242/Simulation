@@ -83,6 +83,7 @@ public class SimulationInternPlugin implements SimulationPlugin {
 		} catch (Exception e) {
 			executionListener.executionFinished(e.getMessage(), FinishState.ERROR);
 			e.printStackTrace();
+			return;
 		}
 
 		sim.addPropertyChangeListener(new PropertyChangeListener() {

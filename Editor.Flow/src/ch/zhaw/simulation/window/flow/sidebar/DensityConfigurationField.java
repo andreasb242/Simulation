@@ -85,9 +85,6 @@ public class DensityConfigurationField extends SingleConfigurationField {
 		if (xyModel != null) {
 			densityModel = new DensityListModel(xyModel);
 			cbDensity.setModel(densityModel);
-			System.out.println("DensityConfigurationField::xyModel != null");
-		} else {
-			System.out.println("DensityConfigurationField::xyModel == null");
 		}
 	}
 }
