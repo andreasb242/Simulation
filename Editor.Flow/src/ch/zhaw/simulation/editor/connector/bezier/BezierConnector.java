@@ -73,8 +73,18 @@ public abstract class BezierConnector {
 		return movePoint;
 	}
 
-	public void setSelected(boolean selected) {
+	/**
+	 * 
+	 * @param selected
+	 *            if selected or not
+	 * @return true if the selection has changed, false if still the same
+	 */
+	public boolean setSelected(boolean selected) {
+		if (this.selected == selected) {
+			return false;
+		}
 		this.selected = selected;
+		return true;
 	}
 
 	public boolean isSelected() {

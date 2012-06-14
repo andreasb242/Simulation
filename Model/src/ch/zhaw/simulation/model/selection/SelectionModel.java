@@ -75,7 +75,7 @@ public class SelectionModel {
 	}
 
 	/**
-	 * Sets wich are the dependent objecs of this e.g. global
+	 * Sets which are the dependent objects of this e.g. global
 	 */
 	public void setDependentElement(Vector<SelectableElement<?>> elements) {
 		dependentElement.clear();

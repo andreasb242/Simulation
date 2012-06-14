@@ -31,7 +31,7 @@ public class FlowBezierConnector extends BezierConnector {
 
 		img = new FlowArrowImage(arrowSize, guicfg);
 	}
-
+	
 	@Override
 	protected void drawArrow(Graphics2D g) {
 		if (!this.showArrow) {

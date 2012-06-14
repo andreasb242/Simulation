@@ -32,7 +32,7 @@ public class FlowValveElement extends GuiDataTextElement<FlowValveData> {
 		FlowValveData p = connector.getValve();
 		setLocation(new Point(p.getX(), p.getY()));
 	}
-
+	
 	public FlowConnectorData getConnector() {
 		return connector;
 	}

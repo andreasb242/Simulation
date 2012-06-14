@@ -110,10 +110,10 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 		flowControl = null;
 		connector = null;
 		valve = null;
-		
+
 		connector1.dispose();
 		connector2.dispose();
-		
+
 		connector1 = null;
 		connector2 = null;
 	}
@@ -152,8 +152,11 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	@Override
 	public void selectionChanged() {
 		boolean selected = control.getSelectionModel().isSelected(valve);
-		connector1.setSelected(selected);
-		connector2.setSelected(selected);
+		boolean s1 = connector1.setSelected(selected);
+		boolean s2 = connector2.setSelected(selected);
+		if (s1 || s2) {
+			fireRepaint();
+		}
 	}
 
 	@Override
