@@ -72,6 +72,9 @@ Section "(AB)² Simulation (required)"
 	SetOutPath $INSTDIR\lib
 	File "${src}\lib\*"
 
+	SetOutPath $INSTDIR\filechooser\windows
+	File "${src}\filechooser\windows\*"
+
 	SetOutPath $INSTDIR\plugin\import
 	File "${src}\plugin\import\*"
 
