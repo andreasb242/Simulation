@@ -24,6 +24,9 @@ public class ClipboardHandler<C extends AbstractEditorControl<?>> implements Fla
 	private Vector<ClipboardListener> listener = new Vector<ClipboardListener>();
 	private TransferableFactory factory;
 
+	private int lastPasteId;
+	private int lastPasteCount;
+
 	public ClipboardHandler(C control, TransferableFactory factory) {
 		this.control = control;
 		this.factory = factory;
@@ -84,10 +87,35 @@ public class ClipboardHandler<C extends AbstractEditorControl<?>> implements Fla
 			ClipboardData transfer = (ClipboardData) contents.getTransferData(AbstractTransferable.SIMULATION_FLOWER);
 			if (!transfer.addToModel(control)) {
 				Messagebox.showWarning(control.getParent(), "Einfügen", "Elemente können hier nicht eingefügt werden");
+			} else {
+				int offset = control.getPasteOffset();
+
+				offset *= getMoveCount(transfer);
+
+				control.getSelectionModel().move(offset, offset);
 			}
 		} catch (Exception e) {
 			Errorhandler.showError(e, "Einfügen fehlgeschlagen!");
 		}
+	}
+
+	private int getMoveCount(ClipboardData transfer) {
+		int count;
+		
+		if (lastPasteId == transfer.getTransferableId()) {
+			count = lastPasteCount;
+			lastPasteCount++;
+		} else {
+			count = 0;
+			if (transfer.getEditorSourceId() == control.getEditorId()) {
+				count++;				
+			}
+
+			lastPasteCount = count + 1;
+			lastPasteId = transfer.getTransferableId();
+		}
+
+		return count;
 	}
 
 	public void cut() {

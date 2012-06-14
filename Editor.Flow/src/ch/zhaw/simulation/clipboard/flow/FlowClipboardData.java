@@ -28,7 +28,8 @@ public class FlowClipboardData extends AbstractClipboardData<SimulationFlowModel
 	private Vector<TransferData> flows = new Vector<TransferData>();
 	private Vector<TransferData> connectors = new Vector<TransferData>();
 
-	public FlowClipboardData() {
+	public FlowClipboardData(int editorSourceId) {
+		super(editorSourceId);
 	}
 
 	@Override

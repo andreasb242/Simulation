@@ -18,7 +18,8 @@ public class XYClipboardData extends AbstractClipboardData<SimulationXYModel, XY
 	public static final String MESO_DIRECTION_Y = "meso.direction.y";
 	public static final String MESO_DERIVATIVE = "meso.derivative";
 
-	public XYClipboardData() {
+	public XYClipboardData(int editorSourceId) {
+		super(editorSourceId);
 	}
 
 	@Override

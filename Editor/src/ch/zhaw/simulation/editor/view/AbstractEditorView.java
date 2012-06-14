@@ -541,10 +541,14 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		selectionModel.removeSelectionListener(this);
 	}
 
-	public void visitElements(ImageExport export, boolean onlySelection, boolean exportHelperPoints) {
+	public static boolean isBezierHelperPoint(Object c) {
+		return "BezierHelperPoint".equals(c.getClass().getSimpleName());
+	}
+
+	public void visitElements(ImageExport export, boolean exportHelperPoints) {
 		for (int i = 0; i < getComponentCount(); i++) {
 			Component c = getComponent(i);
-			if (!exportHelperPoints && "BezierHelperPoint".equals(c.getClass().getSimpleName())) {
+			if (!exportHelperPoints && isBezierHelperPoint(c)) {
 				continue;
 			}
 

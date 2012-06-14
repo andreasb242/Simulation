@@ -16,6 +16,7 @@ public class XYTransferable extends AbstractTransferable<XYClipboardData> {
 	protected SimulationXYModel model;
 
 	public XYTransferable(XYEditorControl control, SelectableElement<?>[] selected, SimulationXYModel model) {
+		super(control.getEditorId());
 		this.model = model;
 
 		if (model == null) {
@@ -50,8 +51,8 @@ public class XYTransferable extends AbstractTransferable<XYClipboardData> {
 	}
 
 	@Override
-	public void initClipboardData() {
-		data = new XYClipboardData();
+	public void initClipboardData(int editorSourceId) {
+		data = new XYClipboardData(editorSourceId);
 	}
 
 	@Override

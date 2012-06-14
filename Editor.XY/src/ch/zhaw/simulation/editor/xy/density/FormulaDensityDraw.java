@@ -11,6 +11,15 @@ import ch.zhaw.simulation.densitydraw.AbstractDensityView;
 import ch.zhaw.simulation.math.Parser;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
 
+/**
+ * A Formula Density view
+ * 
+ * May can be optimized with a cache if arrows and color is displayed all is
+ * calculated twice
+ * 
+ * @author Andreas Butti
+ * 
+ */
 public class FormulaDensityDraw extends AbstractDensityView {
 	private boolean noFormula = true;
 	private Parser parser = new Parser();
@@ -20,11 +29,6 @@ public class FormulaDensityDraw extends AbstractDensityView {
 		super(width, height, model);
 		parser.addVar("x", 0);
 		parser.addVar("y", 0);
-	}
-
-	@Override
-	protected void clearCache() {
-		// / TODO implement cache
 	}
 
 	@Override

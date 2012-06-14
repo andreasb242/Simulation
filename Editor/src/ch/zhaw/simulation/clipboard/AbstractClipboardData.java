@@ -2,6 +2,7 @@ package ch.zhaw.simulation.clipboard;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 import java.util.Vector;
 
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
@@ -41,7 +42,27 @@ public abstract class AbstractClipboardData<M extends AbstractSimulationModel<?>
 	 */
 	private Vector<TransferData> contents = new Vector<TransferData>();
 
-	public AbstractClipboardData() {
+	/**
+	 * ID to identify the Transferable
+	 */
+	private int editorSourceId;
+	private int transferableId;
+
+	public AbstractClipboardData(int editorSourceId) {
+		this.editorSourceId = editorSourceId;
+
+		Random generator = new Random();
+		this.transferableId = generator.nextInt();
+	}
+
+	@Override
+	public int getEditorSourceId() {
+		return editorSourceId;
+	}
+
+	@Override
+	public int getTransferableId() {
+		return transferableId;
 	}
 
 	public void addToModel(SelectionModel selectionModel, M model, V view) {

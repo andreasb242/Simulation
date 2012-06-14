@@ -4,10 +4,12 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
+import butti.javalibs.config.Config;
 import butti.javalibs.config.Settings;
 import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.app.SimulationApplication;
@@ -95,7 +97,15 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	 */
 	protected SimulationDocument doc;
 
+	/**
+	 * Listener for Simulation progress and state
+	 */
 	private SimulationListener simListener;
+
+	/**
+	 * Editor ID for copy & paste
+	 */
+	private int editorId;
 
 	/**
 	 * CTor
@@ -105,6 +115,13 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	 */
 	public AbstractEditorControl(JFrame parent, Settings settings, SimulationApplication app, SimulationDocument doc, M model) {
 		this.settings = settings;
+
+		Random generator = new Random();
+		this.editorId = generator.nextInt();
+		if (this.editorId == 0) {
+			this.editorId++;
+		}
+
 		if (settings == null) {
 			throw new NullPointerException("settings == null");
 		}
@@ -147,11 +164,18 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	}
 
 	/**
+	 * @return a uniq, random editor ID for copy & paste
+	 */
+	public int getEditorId() {
+		return editorId;
+	}
+
+	/**
 	 * Returns the paste offset, so each pasted elements are moved a little bit
 	 * more, so you see there are multiple elements
 	 */
 	public int getPasteOffset() {
-		return 10;
+		return Config.get("pasteOffset", 10);
 	}
 
 	/**

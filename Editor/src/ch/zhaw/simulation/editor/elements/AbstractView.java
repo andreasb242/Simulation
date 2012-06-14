@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
+import ch.zhaw.simulation.editor.imgexport.ImageExport;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionListener;
@@ -153,6 +154,10 @@ public abstract class AbstractView<T> extends JComponent implements SelectionLis
 	}
 
 	public boolean isSelected() {
+		if (getClientProperty(ImageExport.PROP_KEY_NOT_DRAW_SELECTION) != null) {
+			return false;
+		}
+
 		return selected;
 	}
 

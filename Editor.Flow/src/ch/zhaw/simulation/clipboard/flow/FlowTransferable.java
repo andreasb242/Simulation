@@ -24,6 +24,7 @@ public class FlowTransferable extends AbstractTransferable<FlowClipboardData> {
 	protected SimulationFlowModel model;
 
 	public FlowTransferable(FlowEditorControl control, SelectableElement<?>[] selected, SimulationFlowModel model) {
+		super(control.getEditorId());
 		this.model = model;
 
 		if (model == null) {
@@ -90,7 +91,7 @@ public class FlowTransferable extends AbstractTransferable<FlowClipboardData> {
 				return new TransferData(d.getId(), d.getX(), d.getY(), Type.Flow, d.getName(), d.getFormula(), source, target, null);
 			}
 		}, FlowValveData.class);
-		
+
 		// we don't need this, because FlowValveData handle this for us
 		registerTransformer(new TransferDataTransformer() {
 
@@ -113,8 +114,8 @@ public class FlowTransferable extends AbstractTransferable<FlowClipboardData> {
 	}
 
 	@Override
-	public void initClipboardData() {
-		data = new FlowClipboardData();
+	public void initClipboardData(int editorSourceId) {
+		data = new FlowClipboardData(editorSourceId);
 	}
 
 	@Override

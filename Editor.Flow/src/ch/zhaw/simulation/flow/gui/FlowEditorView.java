@@ -78,10 +78,10 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 		control.addDrawModusListener(this);
 
-		arrowDrag = new ArrowDragView(addConnectorUi, this);
+		this.arrowDrag = new ArrowDragView(addConnectorUi, this);
 
-		add(arrowDrag);
-		arrowDrag.setVisible(false);
+		add(this.arrowDrag);
+		this.arrowDrag.setVisible(false);
 
 		loadDataFromModel();
 	}
@@ -144,7 +144,19 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		if (selected.length == 1 && !drawModus) {
 			SelectableElement<?> s = selected[0];
 			if (s instanceof ContainerView || s instanceof FlowValveElement || s instanceof ParameterView) {
-				arrowDrag.setLocation(s.getX() + s.getWidth(), s.getY());
+				AbstractSimulationData data = (AbstractSimulationData) s.getData();
+
+				/*
+				 * If we access s.getX() and getY() we get zero, because they
+				 * return the position of the JComponent, which is set by the
+				 * layout manger, but if we e.g. copy & paste the layout manager
+				 * didn't place the components.
+				 * 
+				 * So we access the underlying model, which always contains the
+				 * right values
+				 */
+
+				arrowDrag.setLocation(data.getX() + data.getWidth(), data.getY());
 				arrowDrag.setVisible(true);
 				arrowDrag.setElement((AbstractDataView<?>) s);
 				return;
@@ -229,7 +241,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		return false;
 	}
 
-	public void visitElements(ImageExport export, boolean onlySelection, boolean exportHelperPoints) {
+	public void visitElements(ImageExport export, boolean exportHelperPoints) {
 		for (ConnectorUi c : connectors) {
 			if (c instanceof FlowConnectorUi) {
 				export.draw(c);
@@ -242,7 +254,7 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 			}
 		}
 
-		super.visitElements(export, onlySelection, exportHelperPoints);
+		super.visitElements(export, exportHelperPoints);
 	}
 
 	@Override

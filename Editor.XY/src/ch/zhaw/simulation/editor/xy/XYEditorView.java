@@ -215,10 +215,10 @@ public class XYEditorView extends AbstractEditorView<XYEditorControl> implements
 	}
 
 	@Override
-	public void visitElements(ImageExport export, boolean onlySelection, boolean exportHelperPoints) {
+	public void visitElements(ImageExport export, boolean exportHelperPoints) {
 		this.density.draw(export.getGraphics(), 0, 0, new JLabel());
 
-		super.visitElements(export, onlySelection, exportHelperPoints);
+		super.visitElements(export, exportHelperPoints);
 	}
 
 	@Override

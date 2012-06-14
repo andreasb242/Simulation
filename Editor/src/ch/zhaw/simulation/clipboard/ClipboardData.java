@@ -11,4 +11,8 @@ public interface ClipboardData {
 	 */
 	public boolean addToModel(AbstractEditorControl<?> control);
 
+	public int getEditorSourceId();
+
+	public int getTransferableId();
+
 }

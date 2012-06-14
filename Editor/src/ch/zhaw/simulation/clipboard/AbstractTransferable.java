@@ -43,8 +43,8 @@ public abstract class AbstractTransferable<T extends AbstractClipboardData<?, ?>
 	 * Creates a transferable object capable of transferring the specified
 	 * string in plain text format.
 	 */
-	public AbstractTransferable() {
-		initClipboardData();
+	public AbstractTransferable(int editorSourceId) {
+		initClipboardData(editorSourceId);
 
 		registerTransformer(new TransferDataTransformer() {
 
@@ -86,7 +86,7 @@ public abstract class AbstractTransferable<T extends AbstractClipboardData<?, ?>
 	/**
 	 * Initialies the clipboard Data element
 	 */
-	public abstract void initClipboardData();
+	public abstract void initClipboardData(int editorSourceId);
 
 	/**
 	 * Creates the real copy of the element
