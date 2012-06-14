@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 
-import javax.swing.JPanel;
-
+import butti.javalibs.config.Settings;
+import ch.zhaw.simulation.dialog.settings.SettingsPanel;
 import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.inexport.gui.settings.DynasysImportSettings;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
@@ -22,8 +22,6 @@ import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
 import ch.zhaw.simulation.model.flow.element.InfiniteData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
-
-import butti.javalibs.config.Settings;
 
 /**
  * Fileformat based on original Delphi source: http://code.google.com/p/dynasys/
@@ -533,7 +531,7 @@ public class DynasysImportPlugin extends BinaryImportPlugin {
 	}
 	
 	@Override
-	public JPanel getSettingsPanel() {
+	public SettingsPanel getSettingsPanel() {
 		return new DynasysImportSettings(this.settings);
 	}
 }

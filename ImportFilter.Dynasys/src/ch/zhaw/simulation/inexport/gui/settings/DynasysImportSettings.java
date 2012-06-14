@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,6 +15,7 @@ import javax.swing.SpinnerNumberModel;
 
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
+import ch.zhaw.simulation.dialog.settings.SettingsPanel;
 import ch.zhaw.simulation.inexport.dynasys.DynasysModel;
 
 /**
@@ -24,7 +23,7 @@ import ch.zhaw.simulation.inexport.dynasys.DynasysModel;
  * 
  * @author Andreas Butti
  */
-public class DynasysImportSettings extends JPanel {
+public class DynasysImportSettings extends JPanel implements SettingsPanel {
 	private static final long serialVersionUID = 1L;
 
 	private GridBagManager gbm;
@@ -55,7 +54,7 @@ public class DynasysImportSettings extends JPanel {
 				.setY(1)
 				.setWeightY(0)
 				.setComp(
-						getInfolabel("<html>Dynasys Symbole sind viel kleiner als unsere,<br>daher kann das ganze Dokument skaliert werden,<br>um es ordnungsgemäss darzustellen.</html>"));
+						getInfolabel("<html>Dynasys Symbole sind viel kleiner als die von (AB)²,<br>daher kann das ganze Dokument skaliert werden,<br>um es ordnungsgemäss darzustellen.</html>"));
 
 		gbm.setX(0).setY(3).setWeightY(0).setComp(new JLabel("Flusssymbol verschieben (Y)"));
 		gbm.setX(1).setY(3).setWeightY(0).setComp(flowpointMove);
@@ -84,13 +83,6 @@ public class DynasysImportSettings extends JPanel {
 	}
 
 	private void initData() {
-		txtScale.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				model.setScaleFactor((Double) txtScale.getValue());
-			}
-		});
-
 		cbAlign.addActionListener(new ActionListener() {
 
 			@Override
@@ -98,28 +90,6 @@ public class DynasysImportSettings extends JPanel {
 				realignStateChanged();
 			}
 		});
-
-		paddingLeft.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				model.setPaddingLeft((Integer) paddingLeft.getValue());
-			}
-		});
-
-		paddingTop.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				model.setPaddingTop((Integer) paddingTop.getValue());
-			}
-		});
-
-		flowpointMove.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				model.setFlowPointMove((Integer) flowpointMove.getValue());
-			}
-		});
-
 	}
 
 	private void readDataFromModel() {
@@ -145,5 +115,18 @@ public class DynasysImportSettings extends JPanel {
 		JLabel lb = new JLabel(text);
 		lb.setFont(lb.getFont().deriveFont(Font.ITALIC));
 		return lb;
+	}
+
+	@Override
+	public JPanel getContentsPanel() {
+		return this;
+	}
+
+	@Override
+	public void saveSettings() {
+		model.setScaleFactor((Double) txtScale.getValue());
+		model.setPaddingLeft((Integer) paddingLeft.getValue());
+		model.setPaddingTop((Integer) paddingTop.getValue());
+		model.setFlowPointMove((Integer) flowpointMove.getValue());
 	}
 }

@@ -4,13 +4,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
-import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
+import ch.zhaw.simulation.dialog.settings.SettingsPanel;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
@@ -20,6 +19,7 @@ import ch.zhaw.simulation.plugin.ExecutionListener.FinishState;
 import ch.zhaw.simulation.plugin.PluginDataProvider;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
+import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import ch.zhaw.simulation.plugin.sidebar.NotSupportedSidebar;
 import ch.zhaw.simulation.sim.intern.main.Simulation;
 import ch.zhaw.simulation.sim.intern.sidebar.InternSimulationSidebar;
@@ -51,7 +51,7 @@ public class SimulationInternPlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public JPanel getSettingsPanel() {
+	public SettingsPanel getSettingsPanel() {
 		return null;
 	}
 

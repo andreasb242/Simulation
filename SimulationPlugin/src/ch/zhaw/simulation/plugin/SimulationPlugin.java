@@ -1,19 +1,18 @@
 package ch.zhaw.simulation.plugin;
 
-import javax.swing.JPanel;
+import java.util.Vector;
 
-import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 import org.jdesktop.swingx.JXTaskPane;
 
 import butti.javalibs.config.Settings;
 import butti.plugin.definition.AbstractPlugin;
+import ch.zhaw.simulation.dialog.settings.SettingsPanel;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
 import ch.zhaw.simulation.plugin.data.SimulationCollection;
-
-import java.util.Vector;
+import ch.zhaw.simulation.plugin.data.XYDensityRaw;
 
 public interface SimulationPlugin extends AbstractPlugin {
 
@@ -24,7 +23,7 @@ public interface SimulationPlugin extends AbstractPlugin {
 	 * yet
 	 * 
 	 */
-	public JPanel getSettingsPanel();
+	public SettingsPanel getSettingsPanel();
 
 	/**
 	 * Gets the settings panel for this simulation, or <code>null</code> if none

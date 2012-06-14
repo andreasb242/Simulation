@@ -1,10 +1,6 @@
 package ch.zhaw.simulation.plugin.matlab.gui;
 
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 
 import javax.swing.DefaultComboBoxModel;
@@ -16,6 +12,7 @@ import javax.swing.JPanel;
 import butti.javalibs.config.Settings;
 import butti.javalibs.gui.GridBagManager;
 import butti.javalibs.util.OS;
+import ch.zhaw.simulation.dialog.settings.SettingsPanel;
 import ch.zhaw.simulation.filechoosertextfield.FilechooserTextfield;
 import ch.zhaw.simulation.plugin.matlab.MatlabParameter;
 import ch.zhaw.simulation.plugin.matlab.MatlabTool;
@@ -23,7 +20,7 @@ import ch.zhaw.simulation.sysintegration.SimFileFilter;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 
-public class SettingsGui extends JPanel {
+public class SettingsGui extends JPanel implements SettingsPanel {
 	private static final long serialVersionUID = 1L;
 
 	private GridBagManager gbm;
@@ -54,10 +51,14 @@ public class SettingsGui extends JPanel {
 		}
 	};
 
-	public SettingsGui(final Settings settings, Window parent) {
+	private Settings settings;
+
+	public SettingsGui(Settings settings, Window parent) {
 		String defaultPath;
 		String path;
 		MatlabTool matlabTool;
+
+		this.settings = settings;
 
 		gbm = new GridBagManager(this);
 
@@ -75,14 +76,6 @@ public class SettingsGui extends JPanel {
 			cbTool.setSelectedItem(matlabTool);
 		}
 
-		cbTool.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting(MatlabParameter.TOOL, cbTool.getSelectedItem().toString());
-			}
-		});
-
 		Sysintegration sys = SysintegrationFactory.getSysintegration();
 
 		/*** Workpath ***/
@@ -94,14 +87,6 @@ public class SettingsGui extends JPanel {
 		path = settings.getSetting(MatlabParameter.WORKPATH, MatlabParameter.DEFAULT_WORKPATH);
 
 		txtWorkpath.setPath(path);
-
-		txtWorkpath.addChangeListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting(MatlabParameter.WORKPATH, txtWorkpath.getPath());
-			}
-		});
 
 		/*** Matlab Path ***/
 		execMatlabPath = new FilechooserTextfield(parent, sys, filter, false, false, true);
@@ -119,14 +104,6 @@ public class SettingsGui extends JPanel {
 
 		execMatlabPath.setPath(path);
 
-		execMatlabPath.addChangeListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting(MatlabParameter.EXEC_MATLAB_PATH, execMatlabPath.getPath());
-			}
-		});
-
 		/*** Octave Path ***/
 		execOctavePath = new FilechooserTextfield(parent, sys, filter, false, false, true);
 
@@ -142,14 +119,6 @@ public class SettingsGui extends JPanel {
 		path = settings.getSetting(MatlabParameter.EXEC_OCTAVE_PATH, defaultPath);
 
 		execOctavePath.setPath(path);
-
-		execOctavePath.addChangeListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting(MatlabParameter.EXEC_OCTAVE_PATH, execOctavePath.getPath());
-			}
-		});
 
 		/*** Scilab Path ***/
 		execScilabPath = new FilechooserTextfield(parent, sys, filter, false, false, true);
@@ -167,14 +136,6 @@ public class SettingsGui extends JPanel {
 
 		execScilabPath.setPath(path);
 
-		execScilabPath.addChangeListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting(MatlabParameter.EXEC_SCILAB_PATH, execScilabPath.getPath());
-			}
-		});
-
 		/*** Just generate ***/
 		boolean selected = settings.isSetting(MatlabParameter.JUST_GENERATE, MatlabParameter.DEFAULT_JUST_GENERATE);
 		cbGenerate = new JCheckBox("<html>Simulationsfiles werden nur generiert,<br>" + "und können dann von Hand ausgeführt werden.<br>"
@@ -183,14 +144,20 @@ public class SettingsGui extends JPanel {
 
 		gbm.setX(0).setY(9).setWeightY(0).setWeightX(0).setComp(new JLabel("Just generate"));
 		gbm.setX(1).setY(9).setWeightY(0).setComp(cbGenerate);
+	}
 
-		cbGenerate.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				JCheckBox self = (JCheckBox) e.getItemSelectable();
-				settings.setSetting(MatlabParameter.JUST_GENERATE, self.isSelected());
-			}
-		});
+	@Override
+	public JPanel getContentsPanel() {
+		return this;
+	}
 
+	@Override
+	public void saveSettings() {
+		settings.setSetting(MatlabParameter.JUST_GENERATE, cbGenerate.isSelected());
+		settings.setSetting(MatlabParameter.TOOL, cbTool.getSelectedItem().toString());
+		settings.setSetting(MatlabParameter.WORKPATH, txtWorkpath.getPath());
+		settings.setSetting(MatlabParameter.EXEC_MATLAB_PATH, execMatlabPath.getPath());
+		settings.setSetting(MatlabParameter.EXEC_OCTAVE_PATH, execOctavePath.getPath());
+		settings.setSetting(MatlabParameter.EXEC_SCILAB_PATH, execScilabPath.getPath());
 	}
 }

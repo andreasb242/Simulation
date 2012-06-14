@@ -6,10 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
-import javax.swing.JPanel;
-
 import butti.javalibs.config.Settings;
 import butti.javalibs.util.OS;
+import ch.zhaw.simulation.dialog.settings.SettingsPanel;
 import ch.zhaw.simulation.math.exception.SimulationModelException;
 import ch.zhaw.simulation.model.SimulationDocument;
 import ch.zhaw.simulation.model.SimulationType;
@@ -83,7 +82,7 @@ public class MatlabCompatiblePlugin implements SimulationPlugin {
 	}
 
 	@Override
-	public JPanel getSettingsPanel() {
+	public SettingsPanel getSettingsPanel() {
 		return new SettingsGui(this.settings, provider.getParent());
 	}
 

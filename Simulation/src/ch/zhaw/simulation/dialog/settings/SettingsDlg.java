@@ -4,8 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -43,12 +44,19 @@ public class SettingsDlg extends BDialog {
 	private GridBagManager gbm;
 	private Settings settings;
 
+	private Vector<SettingsPanel> settingsPanels = new Vector<SettingsPanel>();
+
 	public SettingsDlg(ApplicationControl app) {
 		super(app.getMainFrame());
 		setTitle("Einstellungen");
 
 		this.settings = app.getSettings();
 
+		// START TRANSACTION
+		settings.startTransaction();
+		/////////////////////////////////////////////
+
+		
 		add(header, BorderLayout.NORTH);
 
 		GradientPanel panel = new GradientPanel();
@@ -67,37 +75,31 @@ public class SettingsDlg extends BDialog {
 		pGeneral.add(cbShowAdvancedDiagramSettings);
 
 		for (PluginDescription<ImportPlugin> pluginDescription : app.getImportPluginLoader().getPluginDescriptions()) {
-			JPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
+			SettingsPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
-				addTab(pluginDescription.getName(), settingsPanel);
+				settingsPanels.add(settingsPanel);
+				addTab(pluginDescription.getName(), settingsPanel.getContentsPanel());
 			}
 		}
 
 		for (PluginDescription<SimulationPlugin> pluginDescription : app.getManager().getPluginDescriptions()) {
-			JPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
+			SettingsPanel settingsPanel = pluginDescription.getPlugin().getSettingsPanel();
 
 			if (settingsPanel != null) {
-				addTab(pluginDescription.getName(), settingsPanel);
+				settingsPanels.add(settingsPanel);
+				addTab(pluginDescription.getName(), settingsPanel.getContentsPanel());
 			}
 		}
 
 		execFfmpegPath = new FilechooserTextfield(this, app.getSysintegration(), null, false, false, true);
-		
+
 		initHeader();
 		initData();
 
 		pGeneral.add(new JLabel("ffmpeg Executable"));
 		pGeneral.add(execFfmpegPath);
 
-		execFfmpegPath.addChangeListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("ffmpegPath", execFfmpegPath.getPath());
-			}
-		});
-		
 		pack();
 		int w = getWidth();
 		if (w < 500) {
@@ -105,7 +107,28 @@ public class SettingsDlg extends BDialog {
 		}
 		setSize(w, getHeight());
 
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				saveSettings();
+			}
+		});
+
 		setLocationRelativeTo(app.getMainFrame());
+	}
+
+	protected void saveSettings() {
+		settings.setSetting("autoloadLastDocument", cbAutoloadLastDocument.isSelected());
+		settings.setSetting("extendedDiagramSettings", cbShowAdvancedDiagramSettings.isSelected());
+		settings.setSetting("ffmpegPath", execFfmpegPath.getPath());
+
+		for (SettingsPanel s : settingsPanels) {
+			s.saveSettings();
+		}
+
+		// END TRANSACTION
+		settings.finishTransaction();
+		/////////////////////////////////////////////
 	}
 
 	private void addTab(String name, JPanel panel) {
@@ -119,26 +142,9 @@ public class SettingsDlg extends BDialog {
 
 	private void initData() {
 		cbAutoloadLastDocument.setSelected(settings.isSetting("autoloadLastDocument", false));
-		cbAutoloadLastDocument.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("autoloadLastDocument", cbAutoloadLastDocument.isSelected());
-			}
-		});
-
 		cbShowAdvancedDiagramSettings.setSelected(settings.isSetting("extendedDiagramSettings", false));
-		cbShowAdvancedDiagramSettings.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings.setSetting("extendedDiagramSettings", cbShowAdvancedDiagramSettings.isSelected());
-			}
-		});
-
 		String ffmpeg = settings.getSetting("ffmpegPath", "ffmpeg");
 		execFfmpegPath.setPath(ffmpeg);
-
 	}
 
 	private void initHeader() {
