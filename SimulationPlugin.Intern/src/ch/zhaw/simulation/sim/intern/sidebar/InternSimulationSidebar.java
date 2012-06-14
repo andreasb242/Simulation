@@ -24,7 +24,7 @@ public class InternSimulationSidebar extends DefaultConfigurationSidebar impleme
 	protected void initComponents() {
 		cbType = new JComboBox(new String[] { "Euler", "Runge-Kutta" });
 
-		add(new JLabel("Type"));
+		add(new JLabel("Numerisches Verfahren"));
 		add(cbType);
 		cbType.addActionListener(new ActionListener() {
 

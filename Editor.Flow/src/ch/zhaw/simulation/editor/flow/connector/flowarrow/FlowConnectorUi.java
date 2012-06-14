@@ -130,6 +130,20 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 	}
 
 	@Override
+	public void paint(Graphics2D g, boolean selected) {
+		boolean oldSelection1 = connector1.isSelected();
+		boolean oldSelection2 = connector2.isSelected();
+		connector1.setSelected(selected);
+		connector2.setSelected(selected);
+
+		connector1.paint(g);
+		connector2.paint(g);
+
+		connector1.setSelected(oldSelection1);
+		connector2.setSelected(oldSelection2);
+	}
+
+	@Override
 	public SelectableElement<?>[] getSelectableElements() {
 		return new SelectableElement[] { valve, connector1.getMovePoint(), connector2.getMovePoint() };
 	}

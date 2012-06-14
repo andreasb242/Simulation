@@ -19,12 +19,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import butti.javalibs.config.Config;
-import butti.javalibs.util.ExtendableRange;
 import ch.zhaw.simulation.dialog.snapshot.ImageExportable;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
-import ch.zhaw.simulation.model.selection.SelectableElement;
-import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.vector.VectorExport;
 
 public class ImageExport implements ClipboardOwner, ImageExportable {
@@ -46,30 +43,39 @@ public class ImageExport implements ClipboardOwner, ImageExportable {
 
 	private void calcSize(AbstractEditorView<?> v, boolean onlySelection) {
 		if (onlySelection) {
-			SelectionModel selection = this.control.getSelectionModel();
-			calcSizeSelection(selection);
+			calcSizeSelection(v);
 		} else {
 			this.width = v.getPreferredSize().width;
 			this.height = v.getPreferredSize().height;
 		}
 	}
 
-	private void calcSizeSelection(SelectionModel selection) {
-		ExtendableRange r = new ExtendableRange();
+	private void calcSizeSelection(AbstractEditorView<?> v) {
+		Rectangle size = v.calcSizeSelection(exportBezierHelperPoint);
 
-		for (SelectableElement<?> s : selection.getSelected()) {
-			if (!exportBezierHelperPoint && AbstractEditorView.isBezierHelperPoint(s)) {
-				continue;
-			}
+		int padding = Config.get("selectionCopyPadding", 20);
 
-			r.addRect(new Rectangle(s.getX(), s.getY(), s.getWidth(), s.getHeight()));
+		this.startX = size.x - padding;
+		if (this.startX < 0) {
+			this.startX = 0;
 		}
 
-		Rectangle size = r.getRect();
-		this.startX = size.x;
-		this.startY = size.y;
-		this.width = size.width;
-		this.height = size.height;
+		this.startY = size.y - padding;
+		if (this.startY < 0) {
+			this.startY = 0;
+		}
+
+		this.width = size.width + padding * 2;
+
+		if (this.width > v.getPreferredSize().width) {
+			this.width = v.getPreferredSize().width;
+		}
+
+		this.height = size.height + padding * 2;
+
+		if (this.height > v.getPreferredSize().height) {
+			this.height = v.getPreferredSize().height;
+		}
 	}
 
 	@Override
@@ -103,26 +109,8 @@ public class ImageExport implements ClipboardOwner, ImageExportable {
 	private void drawElementsToGraphics(AbstractEditorView<?> v, boolean onlySelection) {
 		if (onlySelection) {
 			this.g.setTransform(AffineTransform.getTranslateInstance(-startX, -startY));
-
-			SelectionModel selection = this.control.getSelectionModel();
-
-			for (SelectableElement<?> s : selection.getSelected()) {
-				if (!exportBezierHelperPoint && AbstractEditorView.isBezierHelperPoint(s)) {
-					continue;
-				}
-
-				if (s instanceof Component) {
-					draw((Component) s);
-				} else if (s instanceof Paintable) {
-					draw((Paintable) s);
-				} else {
-					System.err.println("ImageExport: could not export: " + s.getClass());
-				}
-			}
-
-		} else {
-			v.visitElements(this, exportBezierHelperPoint);
 		}
+		v.visitElements(this, exportBezierHelperPoint);
 		g.dispose();
 	}
 
@@ -157,12 +145,10 @@ public class ImageExport implements ClipboardOwner, ImageExportable {
 	}
 
 	public void draw(Paintable c) {
-		c.paint(g);
+		c.paint(g, false);
 	}
 
 	public void draw(Component c) {
-		/// TODO !!!!!!!!!!!!!!!!!!
-		
 		Rectangle b = c.getBounds();
 		Graphics sub = g.create(b.x, b.y, b.width, b.height);
 		if (c instanceof JComponent) {

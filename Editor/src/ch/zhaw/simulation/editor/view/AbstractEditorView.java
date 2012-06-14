@@ -20,6 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import butti.javalibs.util.DrawHelper;
+import butti.javalibs.util.ExtendableRange;
 import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
@@ -558,5 +559,20 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 
 			export.draw(c);
 		}
+	}
+
+	public Rectangle calcSizeSelection(boolean exportBezierHelperPoint) {
+		ExtendableRange r = new ExtendableRange();
+
+		SelectionModel selection = control.getSelectionModel();
+		for (SelectableElement<?> s : selection.getSelected()) {
+			if (!exportBezierHelperPoint && AbstractEditorView.isBezierHelperPoint(s)) {
+				continue;
+			}
+
+			r.addRect(new Rectangle(s.getX(), s.getY(), s.getWidth(), s.getHeight()));
+		}
+
+		return r.getRect();
 	}
 }

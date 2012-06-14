@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.dialog.aboutdlg;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
@@ -33,5 +34,7 @@ public class UrlLabel extends JLabel {
 			}
 
 		});
+
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 }

@@ -77,6 +77,16 @@ public class ParameterConnectorUi implements ConnectorUi, SelectionListener {
 	public void paint(Graphics2D g) {
 		curve.paint(g);
 	}
+	
+	@Override
+	public void paint(Graphics2D g, boolean selected) {
+		boolean oldSelection = curve.isSelected();
+		curve.setSelected(selected);
+		
+		curve.paint(g);
+		
+		curve.setSelected(oldSelection);
+	}
 
 	@Override
 	public void selectionChanged() {

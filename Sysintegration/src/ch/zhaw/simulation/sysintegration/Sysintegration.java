@@ -4,6 +4,7 @@ import java.awt.Window;
 import java.io.File;
 import java.util.Vector;
 
+import butti.javalibs.config.Config;
 import butti.javalibs.errorhandler.Errorhandler;
 import ch.zhaw.simulation.sysintegration.SysintegrationEventlistener.EventType;
 import ch.zhaw.simulation.sysintegration.bookmarks.Bookmarks;
@@ -17,7 +18,7 @@ public class Sysintegration {
 
 	protected Bookmarks bookmarks;
 	protected SysMenuShortcuts sysMenuShortcuts;
-	protected FallbackFilechooser filechooser;
+	protected Filechooser filechooser;
 
 	private Vector<SysintegrationEventlistener> eventlistener = new Vector<SysintegrationEventlistener>();
 
@@ -37,12 +38,22 @@ public class Sysintegration {
 	}
 
 	public Filechooser getFilechooser() {
-		if (this.filechooser == null) {
-			AbstractFilechooser fc = createFilechooser();
-			this.filechooser = new FallbackFilechooser(fc, new SwingFilechooser());
+		SwingFilechooser javaFilechooser = new SwingFilechooser();
+		if (Config.is("nativeFilechooserEnabled", true)) {
+			if (this.filechooser == null) {
+				AbstractFilechooser fc = createFilechooser();
+
+				if (fc == null) {
+					this.filechooser = javaFilechooser;
+				} else {
+					this.filechooser = new FallbackFilechooser(fc, javaFilechooser);
+				}
+			}
+		} else {
+			this.filechooser = javaFilechooser;
 		}
 
-		return filechooser;
+		return this.filechooser;
 	}
 
 	protected void initGuiConfig() {
