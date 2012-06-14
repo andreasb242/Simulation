@@ -42,11 +42,11 @@
 	<key>Java</key>
 	<dict>
 		<key>SplashFile</key>
-		<string>$JAVAROOT/splash.png</string>
+		<string>{SPLASH}</string>
 		<key>VMOptions</key>
 		<string>-Xms32m -Xmx1024m</string>
 		<key>WorkingDirectory</key>
-		<string>$APP_PACKAGE/Contents/Resources</string>
+		<string>{WORKINGDIRECTORY}</string>
 		<key>ClassPath</key>
 		<array>
 {CLASSPATH}
@@ -58,7 +58,7 @@
 		<key>Properties</key>
 		<dict>
 			<key>java.library.path</key>
-			<string>$JAVAROOT/lib/mac</string>
+			<string>{LIBPATH}</string>
 			<key>apple.awt.brushMetalLook</key>
 			<string>true</string>
 			<key>apple.laf.useScreenMenuBar</key>

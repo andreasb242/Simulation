@@ -20,6 +20,9 @@ public class MacInfoPlist extends Task {
 	private String target = "";
 	private String input = "";
 	private String additional = "";
+	private String workdir = "";
+	private String splash = "";
+	private String libpath = "";
 
 	public void execute() throws BuildException {
 		Vector<String> buildPath = new Vector<String>();
@@ -45,6 +48,11 @@ public class MacInfoPlist extends Task {
 			file = replace(file, "{CLASSPATH}", "");
 		}
 
+		file = replace(file, "{WORKINGDIRECTORY}", this.workdir);
+		file = replace(file, "{SPLASH}", this.splash);
+		file = replace(file, "{LIBPATH}", this.libpath);
+
+		
 		filePutContents(target, file);
 	}
 
@@ -154,5 +162,17 @@ public class MacInfoPlist extends Task {
 
 	public void setTarget(String target) {
 		this.target = target;
+	}
+	
+	public void setWorkdir(String workdir) {
+		this.workdir = workdir;
+	}
+	
+	public void setSplash(String splash) {
+		this.splash = splash;
+	}
+
+	public void setLibpath(String libpath) {
+		this.libpath = libpath;
 	}
 }
