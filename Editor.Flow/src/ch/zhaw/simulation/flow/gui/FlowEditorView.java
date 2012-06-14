@@ -3,7 +3,6 @@ package ch.zhaw.simulation.flow.gui;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -11,7 +10,6 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import butti.javalibs.util.ExtendableRange;
-
 import ch.zhaw.simulation.clipboard.AbstractTransferable;
 import ch.zhaw.simulation.clipboard.TransferableFactory;
 import ch.zhaw.simulation.clipboard.flow.FlowTransferable;
@@ -45,7 +43,6 @@ import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
 import ch.zhaw.simulation.model.selection.SelectableElement;
-import ch.zhaw.simulation.model.selection.SelectionModel;
 
 public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements FlowSimulationListener, DrawModusListener {
 	private static final long serialVersionUID = 1L;

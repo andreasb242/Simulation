@@ -87,7 +87,6 @@ public class TaskPaneAddon extends AbstractComponentAddon {
         defaults.add(JXTaskPane.uiClassID, "org.jdesktop.swingx.plaf.misc.GlossyTaskPaneUI");
     }
     
-    //TODO use safe methods
     defaults.add("TaskPane.foreground", UIManager.getColor("activeCaptionText"));
     defaults.add("TaskPane.background", MetalLookAndFeel.getControl());
     defaults.add("TaskPane.specialTitleBackground", MetalLookAndFeel.getPrimaryControl());

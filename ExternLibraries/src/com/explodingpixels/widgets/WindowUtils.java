@@ -80,24 +80,6 @@ public class WindowUtils {
 		return window != null && window.isFocused();
 	}
 
-	/**
-	 * Installs a {@link WindowFocusListener} on the given {@link JComponent}'s
-	 * parent {@link Window}. If the {@code JComponent} doesn't yet have a
-	 * parent, then the listener will be installed when the component is added
-	 * to a container.
-	 * 
-	 * @param component
-	 *            the component who's parent frame to listen to focus changes
-	 *            on.
-	 * @param focusListener
-	 *            the {@code WindowFocusListener} to notify when focus changes.
-	 */
-	public static void installWeakWindowFocusListener(JComponent component, WindowFocusListener focusListener) {
-		WindowFocusListener weakFocusListener = createWeakWindowFocusListener(focusListener);
-		AncestorListener ancestorListener = createAncestorListener(component, weakFocusListener);
-		component.addAncestorListener(ancestorListener);
-	}
-
 	private static WindowFocusListener createWeakWindowFocusListener(WindowFocusListener windowFocusListener) {
 		final WeakReference<WindowFocusListener> weakReference = new WeakReference<WindowFocusListener>(windowFocusListener);
 		return new WindowFocusListener() {
