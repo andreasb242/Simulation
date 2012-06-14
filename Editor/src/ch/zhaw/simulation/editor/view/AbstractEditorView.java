@@ -561,14 +561,25 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 		}
 	}
 
+	/**
+	 * Calculates the size of the selection, should my be overridde to handle
+	 * the bezier splines better
+	 */
 	public Rectangle calcSizeSelection(boolean exportBezierHelperPoint) {
 		ExtendableRange r = new ExtendableRange();
 
 		SelectionModel selection = control.getSelectionModel();
 		for (SelectableElement<?> s : selection.getSelected()) {
-			if (!exportBezierHelperPoint && AbstractEditorView.isBezierHelperPoint(s)) {
-				continue;
-			}
+			/*
+			 * Add the helper points always to the range, because the bounds of
+			 * the bezier splines are anyway to large, so there is no difference
+			 * to adding all helper points, except we don't have redundant code
+			 */
+
+			// if (!exportBezierHelperPoint &&
+			// AbstractEditorView.isBezierHelperPoint(s)) {
+			// continue;
+			// }
 
 			r.addRect(new Rectangle(s.getX(), s.getY(), s.getWidth(), s.getHeight()));
 		}

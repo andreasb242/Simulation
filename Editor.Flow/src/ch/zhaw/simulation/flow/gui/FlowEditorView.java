@@ -3,6 +3,7 @@ package ch.zhaw.simulation.flow.gui;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -44,6 +45,7 @@ import ch.zhaw.simulation.model.flow.element.SimulationDensityContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.listener.FlowSimulationListener;
 import ch.zhaw.simulation.model.selection.SelectableElement;
+import ch.zhaw.simulation.model.selection.SelectionModel;
 
 public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implements FlowSimulationListener, DrawModusListener {
 	private static final long serialVersionUID = 1L;
@@ -339,12 +341,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 	public SelectableElement<?>[] findGuiComponent(AbstractConnectorData<?> con) {
 		for (ConnectorUi c : connectors) {
-			if (c instanceof ConnectorUi) {
-				ConnectorUi pc = (ConnectorUi) c;
-
-				if (pc.getData() == con) {
-					return pc.getSelectableElements();
-				}
+			if (c.getData() == con) {
+				return c.getSelectableElements();
 			}
 		}
 
@@ -460,4 +458,5 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		}
 		return false;
 	}
+
 }

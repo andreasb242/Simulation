@@ -163,6 +163,13 @@ public class FlowConnectorUi implements ConnectorUi, SelectionListener {
 		parent.repaint(r.x - 50, r.y - 50, r.width + 100, r.height + 100);
 	}
 
+	public Rectangle getBounds() {
+		Rectangle bounds1 = connector1.getBounds();
+		Rectangle bounds2 = connector2.getBounds();
+
+		return bounds1.union(bounds2);
+	}
+
 	@Override
 	public void selectionChanged() {
 		boolean selected = control.getSelectionModel().isSelected(valve);

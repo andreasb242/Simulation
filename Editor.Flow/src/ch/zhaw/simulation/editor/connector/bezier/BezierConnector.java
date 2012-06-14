@@ -113,13 +113,7 @@ public abstract class BezierConnector {
 	 * Resizes the repaint range
 	 */
 	private void updateRange() {
-		Point startPoint = start.getPoint();
-		Point endPoint = end.getPoint();
-		Point middle = movePoint.getPoint();
-
-		range.addPoint(startPoint);
-		range.addPoint(endPoint);
-		range.addPoint(middle);
+		range.addRect(curve.getBounds());
 	}
 
 	public Rectangle getAndClearRepaintBounds() {
