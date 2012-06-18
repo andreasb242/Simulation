@@ -9,7 +9,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/BJavalibs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ExternLibraries"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationParser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Dynasys"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImportFilter.Madonna"/>

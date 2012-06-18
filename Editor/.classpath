@@ -7,7 +7,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SimulationJepLib-2.4.1"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationParser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/VectorExport"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>

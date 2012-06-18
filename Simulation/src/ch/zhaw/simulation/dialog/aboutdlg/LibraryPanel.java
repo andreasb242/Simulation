@@ -22,7 +22,7 @@ public class LibraryPanel extends JPanel {
 
 		addLib("SwingX", "http://swinglabs.org/");
 		addLib("JXLayer", "http://http://java.net/projects/jxlayer");
-		addLib("Jep Java - Math Expression Parser", "http://sourceforge.net/projects/jep/");
+		addLib("<html>Jep Java (angepasst)<br> - Math Expression Parser</html>", "http://sourceforge.net/projects/jep/");
 		addLib("Dirchooser from Netbeans Project", "http://netbeans.org/");
 		addLib("JFreeChart", "http://www.jfree.org/");
 		addLib("Mac Widgets (Codefragmente)", "http://explodingpixels.wordpress.com/2008/09/14/mac-widgets-for-java-091/");
