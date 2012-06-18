@@ -120,4 +120,8 @@ public class SysMenuShortcuts {
 	public KeyStroke getFormulaOverview() {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_I, getCommandModifier());
 	}
+
+	public KeyStroke getMathOverview() {
+		return KeyStroke.getKeyStroke(KeyEvent.VK_T, getCommandModifier());
+	}
 }

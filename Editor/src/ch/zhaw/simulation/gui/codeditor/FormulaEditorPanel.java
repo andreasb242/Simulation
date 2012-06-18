@@ -258,7 +258,7 @@ public class FormulaEditorPanel extends JPanel {
 		}
 
 		for (Function f : getFunctions()) {
-			text.addAutocomplete(new Autocomplete.AutocompleteWord(f.getDescription(), -1));
+			text.addAutocomplete(new Autocomplete.AutocompleteWord(f.getName() + "()", -1));
 		}
 
 		Vector<SimulationGlobalData> globalData = model.getGlobalsFor(data);

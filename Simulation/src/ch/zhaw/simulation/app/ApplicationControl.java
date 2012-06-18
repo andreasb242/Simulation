@@ -25,6 +25,7 @@ import ch.zhaw.simulation.control.flow.FlowEditorControl;
 import ch.zhaw.simulation.diagram.DiagramFrame;
 import ch.zhaw.simulation.diagram.persist.DiagramConfiguration;
 import ch.zhaw.simulation.dialog.aboutdlg.AboutDialog;
+import ch.zhaw.simulation.dialog.mathoverview.MathOverview;
 import ch.zhaw.simulation.dialog.settings.SettingsDlg;
 import ch.zhaw.simulation.dialog.snapshot.SnapshotDialog;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
@@ -843,10 +844,19 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			loadLastResults();
 			break;
 
+		case MATH_OVERVIEW:
+			showMathOverview();
+			break;
+
 		default:
 			System.err.println("Unhandled event (ApplicationControl): " + action.getType() + " / " + action.getData());
 
 		}
+	}
+
+	private void showMathOverview() {
+		MathOverview mo = new MathOverview(getMainFrame());
+		mo.setVisible(true);
 	}
 
 	@Override

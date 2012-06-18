@@ -116,6 +116,11 @@ public enum MenuToolbarActionType {
 	HELP,
 
 	/**
+	 * Shows all supported operations
+	 */
+	MATH_OVERVIEW,
+	
+	/**
 	 * The Look & Feel was changed, the new name is provided as string
 	 */
 	LOOK_AND_FEEL_CHANGED,

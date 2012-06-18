@@ -211,6 +211,8 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 		mHelp = new JMenu("Hilfe");
 		mHelp.setMnemonic('H');
 
+		addMenuItem(mHelp, "Matheüberblick", "math-overview", MenuToolbarActionType.MATH_OVERVIEW, sysmenu.getMathOverview());
+
 		addMenuItem(mHelp, "Hilfe", "help", MenuToolbarActionType.HELP, sysmenu.getHelpHelp());
 
 		addMenuItem(mHelp, "Über", "help-about", MenuToolbarActionType.ABOUT, sysmenu.getHelpAbout());

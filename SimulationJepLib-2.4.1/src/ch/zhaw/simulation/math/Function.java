@@ -15,10 +15,6 @@ public class Function {
 		return name;
 	}
 
-	public String getDescription() {
-		return getName() + "()";
-	}
-
 	public Class<? extends PostfixMathCommandI> getFunctionClass() {
 		return command.getClass();
 	}

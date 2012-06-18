@@ -421,6 +421,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		case ABOUT:
 		case START_SIMULATION:
 		case LOAD_RESULTS:
+		case MATH_OVERVIEW:
 		case SNAPSHOT:
 			this.app.menuActionPerformed(action);
 			break;

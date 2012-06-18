@@ -28,7 +28,6 @@ import ch.zhaw.simulation.model.simulation.PluginChangeListener;
 import ch.zhaw.simulation.plugin.SimulationManager;
 import ch.zhaw.simulation.plugin.SimulationPlugin;
 import ch.zhaw.simulation.toolbar.AbstractToolbar;
-import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.window.sidebar.SimulationConfigurationPanel;
 import ch.zhaw.simulation.window.sidebar.config.ConfigurationSidebarPanel;
 
@@ -57,11 +56,6 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	 * The sidebar
 	 */
 	private FrameSidebar sidebar = new FrameSidebar();
-
-	/**
-	 * Undo / Redo handler
-	 */
-	protected UndoHandler um = new UndoHandler();
 
 	/**
 	 * Used for layouting elements
@@ -139,6 +133,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 		this.toolbar.addListener(this);
 
 		view.getUndoHandler().addUndoListener(toolbar);
+		view.getUndoHandler().addUndoListener(menubar);
 		view.getClipboard().addListener(toolbar);
 
 		JScrollPane pCenter = new JScrollPane(view);
@@ -246,6 +241,7 @@ public abstract class SimulationWindow<M extends AbstractMenubar, T extends Abst
 	public void dispose() {
 		if (view != null) {
 			view.getUndoHandler().removeUndoListener(toolbar);
+			view.getUndoHandler().removeUndoListener(menubar);
 			view.getClipboard().removeListener(toolbar);
 		}
 

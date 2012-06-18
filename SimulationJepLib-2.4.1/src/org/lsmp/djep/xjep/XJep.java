@@ -140,7 +140,6 @@ public class XJep extends JEP {
 			ingrediant.addStandardFunctions();
 		} else
 			super.addStandardFunctions();
-		addFunction("eval", new Eval());
 		addFunction("Sum", new Sum(this));
 		addFunction("Product", new Product());
 		addFunction("Min", new Min());

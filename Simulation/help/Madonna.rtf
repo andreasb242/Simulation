@@ -1,0 +1,313 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fswiss\fprq2 Arial;}{\f1\fmodern\fprq1 Courier New;}{\f2\fmodern\fprq1\fcharset0 Courier New;}{\f3\fswiss\fcharset0 Arial;}}
+{\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+{\*\generator Msftedit 5.41.15.1515;}\viewkind4\uc1\pard\cf1\lang1033\ul\b\f0\fs28 EQUATION TYPES\par
+\cf0\ulnone\b0\f1\fs18\par
+\cf2\ul\b\f0\fs20 Integration Method\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2160\li2160\b METHOD name\b0\tab name = Euler, RK2, RK4, Auto, or Stiff\par
+\pard\par
+\cf2\ul\b\f0\fs20 Integration Parameters (Default Settings)\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2160\li2160\b STARTTIME = 0\b0\tab Initial time\par
+\b STOPTIME = 10\tab\b0 Final time\par
+\b DT = 0.02\b0\tab Integration time step (Euler, RK2, and RK4 methods only)\par
+\b DTMIN = 1.0e-6\b0\tab Minimum DT (Auto and Stiff methods only)\par
+\b DTMAX = 1.0\b0\tab Maximum DT (Auto and Stiff methods only)\par
+\b TOLERANCE = 0.01\tab\b0 Relative accuracy for Auto and Stiff integration methods\par
+\b DTOUT = 0\tab\b0 Output time interval (0 = store every step)\par
+\b ROOTTOL = 0.001\b0\tab Relative accuracy for built-in root finders\par
+\par
+\pard You can change the names of the above symbols and TIME by using the RENAME statement like this:\par
+\par
+\pard\fi-2880\li2880\b RENAME TIME = X\b0\par
+\b RENAME STARTTIME = Xo\b0\par
+\b RENAME STOPTIME = Xf\b0\par
+\pard\par
+\cf2\ul\b\f0\fs20 Initialization Equations\par
+\cf0\ulnone\b0\f1\fs18\par
+\b x(STARTTIME) = expression\par
+INIT x = expression\par
+INIT(x) = expression\par
+\par
+\cf2\ul\f0\fs20 Differential Equations\par
+\cf0\ulnone\b0\f1\fs18\par
+\b x' = expression\par
+d/dt(x) = expression\par
+FLOW x = expression\par
+x(t) = x(t - dt) + (expression) * dt\par
+x = x + dt * (expression)\par
+\b0\par
+You can define second-order (and higher) equations directly using the "prime" notation like this:\par
+\par
+\b x'' = expression\b0\par
+\par
+Berkeley Madonna internally translates this into a system of two first-order equations with variables named \b x'\b0  and \b x\b0 .  You can refer to these variables in equations just like other variables you define.  You must provide initializers for each of these variables.  For example, here is a third-order system:\par
+\par
+\b x''' = -2*x'' - 3*x' - x + 1\par
+init x'' = 2\par
+init x' = -1\par
+init x = 0\par
+\par
+\cf2\ul\f0\fs20 Difference Equations\par
+\cf0\ulnone\b0\f1\fs18\par
+\b x(t + dt) = expression\par
+NEXT x = expression\par
+\b0\par
+The value of x is replaced by the value of the expression on the right-hand side.  Therefore, to implement a typical finite difference equation where some value f(x) is added to the current value of x, you must write:\par
+\par
+\b x(t+dt) = x + f(x)\b0    or\par
+\b NEXT x = x + f(x)\b0\par
+\b\par
+\cf2\ul\f0\fs20 Limit Equations\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-1800\li1800\b LIMIT v >= c\b0\tab Constrains variable v to be >= c\par
+\b LIMIT v <= c\b0\tab Constrains variable v to be <= c\par
+\pard\par
+Note that c does not need to be a constant (it can vary over time).\par
+\par
+\cf2\ul\b\f0\fs20 Root Finder Equations\par
+\cf0\ulnone\b0\f1\fs18\par
+An initial root finder runs once during the initialization step.  You supply an initial guess, the expression whose root (zero) you want to find, and lower and upper limits for the independent variable:\par
+\par
+\pard\fi-1800\li1800\b GUESS x = ...\b0\tab Initial guess\par
+\b ROOTI x = f(x)\b0\tab Solve for f(x) = 0\par
+\b LIMIT x >= ...\b0\tab Lower limit for x\par
+\b LIMIT y <= ...\b0\tab Upper limit for x\par
+\pard\par
+A step root finder works like an initial root finder except that it runs not only during initialization but during each subsequent time step.  Step root finders are denoted with the ROOTS keyword instead of ROOTI.\par
+\par
+Multidimensional problems are defined by creating multiple ROOTI or ROOTS statements whose right-hand sides depend on each other's independent variables.  For example, to find x and y such that both f(x,y)=0 and g(x,y)=0, you would write the following:\par
+\par
+\b GUESS x = ...\par
+GUESS y = ...\par
+ROOTI x = f(x,y)\par
+ROOTI y = g(x,y)\par
+LIMIT x >= ...\par
+LIMIT x <= ...\par
+LIMIT y >= ...\par
+LIMIT y <= ...\par
+\b0\par
+\cf2\ul\b\f0\fs20 Discrete Equations\par
+\cf0\ulnone\b0\f1\fs18\par
+A variable can be defined as a conveyor, oven, or queue as follows:\par
+\par
+\b x = CONVEYOR(input, transit_time, capacity)\par
+x = OVEN(input, cook_time, fill_time, capacity)\par
+x = QUEUE(input1, input2, ..., inputN)\par
+\b0\par
+The capacity argument for conveyors and ovens is optional; if omitted, the conveyor or oven has unlimited capacity.  See the "How Do I Use Conveyors/Ovens/Queues" models (Help menu) for more information.\par
+\par
+\cf2\ul\b\f0\fs20 Display Command\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2520\li2520\b DISPLAY  a, b, ...\tab\b0 Display only symbols a, b, ... in lists\par
+\pard\par
+\cf2\ul\b\f0\fs20 Array Equations\par
+\cf0\ulnone\b0\f1\fs18\par
+One-dimensional arrays (vectors) are defined as follows:\par
+\par
+\pard\fi-2520\li2520\b y[1] = expression\b0\tab Define vector with 1 element (y[1])\par
+\b y[1..3] = expression\b0\tab Define vector with 3 elements (y[1], y[2], y[3])\par
+\pard\par
+Two-dimensional and three-dimensional arrays are similarly defined:\par
+\par
+\pard\fi-3240\li3240\b y[1,1] = expression\b0\tab Define 2D array with 1 element (1x1)\par
+\b y[1..2,1..2] = expression\b0\tab Define 2D array with 4 elements (2x2)\par
+\b y[1..3,1,1..4] = expression\b0\tab Define 3D array with 12 elements (3x1x4)\par
+\pard\par
+In array equations, i, j, and k represent the index(es) of the element being assigned.  For example:\par
+\par
+\b y[1..3] = k * f[i]\par
+\b0\par
+is equivalent to:\par
+\par
+\b y[1] = k * f[1]\par
+y[2] = k * f[2]\par
+y[3] = k * f[3]\par
+\b0\par
+and:\par
+\par
+\b y[1..2,1..3] = k * f[i] + g[j]\par
+\b0\par
+is equivalent to:\par
+\par
+\b y[1,1] = k * f[1] + g[1]\par
+y[1,2] = k * f[1] + g[2]\par
+y[1,3] = k * f[1] + g[3]\par
+y[2,1] = k * f[2] + g[1]\par
+y[2,2] = k * f[2] + g[2]\par
+y[2,3] = k * f[2] + g[3]\par
+\b0\par
+Arrays of differential and difference equations are defined by placing the brackets immediately following the variable name.  For example, the following equations define a set of three differential equations:\par
+\par
+\b INIT y[1] = 1\par
+INIT y[2] = 10\par
+INIT y[3] = 100\par
+d/dt(y[1]) = -0.1 * y[1]\par
+d/dt(y[2]) = -0.1 * y[2]\par
+d/dt(y[3]) = -0.1 * y[3]\par
+\b0\par
+These equations could be written more succinctly as follows:\par
+\par
+\b INIT y[1..3] = 10^(i-1)\par
+d/dt(y[1..3]) = -0.1 * y[i]\par
+\b0\par
+\cf2\ul\b\f0\fs20 Comments\par
+\cf0\ulnone\b0\f1\fs18\par
+Single-line comments can be added anywhere in your equations.  They begin with a semicolon and continue to the end of the line.  Comments which span multiple lines can be enclosed in curly brackets or composed of a series of single-line comments.  For example:\par
+\par
+\b y = sin(time) ;This is a single-line comment\par
+\par
+\{This comment spans two lines and ends with\par
+a matching curly bracket.\}\par
+\par
+;Here is a three line\par
+;comment made out of\par
+;single-line comments.\par
+\b0\par
+Curly-bracket comments can be nested.  This make it easy to "comment out" equations that already contain comments.  For example, the following won't compile because x and y are not defined:\par
+\par
+\b a = 1\par
+\{x = cos(time) \{Horizontal\}\par
+y = sin(time)  ;Vertical\}\par
+z = x^2 + y^2\par
+\par
+\cf1\ul\f0\fs28 BUILT-IN FUNCTIONS\par
+\cf0\ulnone\b0\f1\fs18\par
+\cf2\ul\b\f0\fs20 Basic Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2160\li2160\b ABS(x)\b0\tab Absolute value of x\par
+\b SQRT(x)\tab\b0 Square root of x\par
+\b INT(x)\tab\b0 Largest integer <= x\par
+\b ROUND(x)\tab\b0 Integer nearest to x\par
+\b MOD(x, y)\tab\b0 Remainder of x / y (see: Creating Periodic Functions)\par
+\b MIN(x1, x2, ...)\tab\b0 Minimum of x1, x2, ...\par
+\b MAX(x1, x2, ...)\tab\b0 Maximum of x1, x2, ...\par
+\b SUM(x1, x2, ...)\tab\b0 Sum of x1, x2, ...\par
+\b MEAN(x1, x2, ...)\tab\b0 Average of x1, x2, ...\par
+\b SWITCH(x, y)\tab\b0 Same as x >= y\par
+\pard\par
+\cf2\ul\b\f0\fs20 Trigonometric Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-1440\li1440\b PI\b0\tab Value of pi\par
+\b SIN(x)\tab\b0 Sine of x\par
+\b COS(x)\tab\b0 Cosine of x\par
+\b TAN(x)\tab\b0 Tangent of x\par
+\b ARCSIN(x)\b0\tab Inverse sine of x\par
+\b ARCCOS(x)\b0\tab Inverse cosine of\par
+\b ARCTAN(x)\tab\b0 Inverse tangent of x\par
+\b SINH(x)\b0\tab Hyperbolic sine of x\par
+\b COSH(x)\b0\tab Hyperbolic cosine of x\par
+\b TANH(x)\b0\tab Hyperbolic tangent of x\par
+\b ARCSINH(x)\b0\tab Inverse hyperbolic sine of x\par
+\b ARCCOSH(x)\b0\tab Inverse hyperbolic cosine of x\par
+\b ARCTANH(x)\b0\tab Inverse hyperbolic tangent of x\par
+\pard\par
+\cf2\ul\b\f0\fs20 Logarithmic Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-1080\li1080\b LOGN(x)\tab\b0 Natural logarithm of x\par
+\b LOG10(x)\b0\tab Common logarithm of x\par
+\b EXP(x)\tab\b0 Inverse natural logarithm of x\par
+\pard\par
+\cf2\ul\b\f0\fs20 Other Transcendental Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-1440\li1440\b ERF(x)\tab\b0 Error function of x\par
+\b ERFC(x)\tab\b0 Complimentary error function of x\par
+\b GAMMALN(x)\b0\tab Natural logarithm of the gamma function of x\par
+\pard\par
+\cf2\ul\b\f0\fs20 Discrete Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2160\li2160\b RANDOM(a, b)\tab\b0 Uniform random number between a and b\par
+\b RANDOM(a, b, s)\tab\b0 Uniform random number with seed s\par
+\b\f2 NORMAL(\'b5, sd)\f1\tab\b0\f2 Normal random number: with mean \'b5 and standard deviation sd\f1\par
+\b\f2 NORMAL(\'b5, sd, s)\f1\tab\b0\f2 Normal random number with mean \'b5 and standard deviation sd and seed s\f1\par
+\b BINOMIAL(p, n)\b0\tab Binomial random number: n trials with probability p\par
+\b BINOMIAL(p, n, s)\b0\tab Binomial random number with seed s\par
+\b\f2 POISSON(\'b5)\b0\f1\tab\f2 Poisson random number with mean \'b5\f1\par
+\b\f2 POISSON(\'b5, s)\b0\f1\tab Poisson random number with seed s\par
+\b DELAY(x, d)\tab\b0 Value of x delayed by time d\par
+\b DELAY(x, d, i)\tab\b0 Value of x delayed by time d with initial value i\par
+\b MAXINFLOW(x)\b0\tab Maximum allowable inflow into conveyor or oven x\par
+\b OUTFLOW(x)\b0\tab Outflow from conveyor or oven x\par
+\b OSTATE(x)\b0\tab State of oven x: 0=idle, 1=filling, 2=cooking, 3=emptying\par
+\b QPOP(x, n, m)\b0\tab Removes up to n items from queue x totaling m or less\par
+\b QPOPS(x, n, m)\b0\tab Like QPOP, but can remove part of an element to reach m\par
+\pard\par
+\cf2\ul\b\f0\fs20 Miscellaneous Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2160\li2160\b STEPSIZE\b0\tab Change in TIME from previous step to current step\b\par
+INIT(x)\tab\b0 Value of expression x at STARTTIME\par
+\b NETFLOW(r)\tab\b0 Net flow into reservoir r from previous time step\par
+\b STEP(h, t)\tab\b0 Same as IF TIME >= t THEN h ELSE 0\par
+\b PULSE(v, f, r)\tab\b0 Impulses of volume v, first time f, repeat interval r\par
+\b SQUAREPULSE(t, d)\b0\tab Pulse of height 1 starting at time t with duration d\par
+\b GRAPH(x) (x1,y1) (x2,y2) (x3,y3) ...\par
+\pard\li2160\b0 Lookup x in list of points using linear interpolation\par
+\pard\par
+\cf2\ul\b\f0\fs20 Array Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2160\li2160\b ARRAYSUM(x[*])\tab\b0 Sum of all elements in array x\par
+\b ARRAYMEAN(x[*])\tab\b0 Average of all elements in array x\par
+\b ARRAYSTDDEV(x[*])\tab\b0 Standard deviation of all elements in array x\par
+\par
+\pard\cf2\ul\b\f0\fs20 Dataset Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+Any dataset in your model can be used as a piecewise-linear function.  Simply use the dataset as if it were a built-in function taking one or two arguments:\par
+\par
+\b t = #temperature(x)\par
+q = #charge(x,y)\par
+\b0\par
+This example assumes #temperature is a vector (one-dimensional) dataset and #charge is a matrix (two-dimensional) dataset.  Berkeley Madonna computes the result by performing linear interpolation on the points nearest the argument value(s).\par
+\par
+\cf1\ul\b\f0\fs28 OPERATORS\par
+\cf0\ulnone\b0\f1\fs18\par
+\cf2\ul\b\f0\fs20 Arithmetic Operators\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-1080\li1080\b x + y\tab\b0 Addition\par
+\b x - y\tab\b0 Subtraction\par
+\b x * y\tab\b0 Multiplication\par
+\b x / y\tab\b0 Division\par
+\b x ^ y\tab\b0 Exponentiation\par
+\b x ** y\tab\b0 Same as x ^ y\par
+\b -x\tab\b0 Negation\par
+\pard\par
+\cf2\ul\b\f0\fs20 Relational Operators\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-1080\li1080\b x = y\tab\b0 Equal to\par
+\b x <> y\tab\b0 Not equal to\par
+\b x < y\tab\b0 Less than\par
+\b x <= y\tab\b0 Less than or equal to\par
+\b x > y\tab\b0 Greater than\par
+\b x >= y\tab\b0 Greater than or equal to\par
+\pard\par
+\cf2\ul\b\f0\fs20 Logical Operators\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-1080\li1080\b x AND y\tab\b0 Logical AND\par
+\b x OR y\tab\b0 Logical OR\par
+\b NOT x\tab\b0 Logical inverse\par
+\pard\par
+\cf2\ul\b\f0\fs20 Conditional Operator\par
+\cf0\ulnone\b0\f1\fs18\par
+\b IF x THEN y ELSE z\par
+\par
+\cf1\ul\f0\fs28 HINTS\par
+\cf0\ulnone\b0\f1\fs18\par
+\cf2\ul\b\f0\fs20 Making Non-negative Reservoirs and Unidirectional Flows\par
+\cf0\ulnone\b0\f1\fs18\par
+Use LIMIT statements to make reservoirs non-negative and flows unidirectional.  For example:\par
+\par
+\b r(t) = r(t - dt) + (i - o) * dt\par
+\par
+\pard\fi-1800\li1800 LIMIT r >= 0\tab\b0 Makes reservoir r non-negative\par
+\b LIMIT i >= 0\tab\b0 Makes inflow i uni-directional\par
+\b LIMIT o >= 0\tab\b0 Makes outflow o uni-directional\par
+\pard\par
+\cf2\ul\b\f0\fs20 Creating Periodic Functions\par
+\cf0\ulnone\b0\f1\fs18\par
+\pard\fi-2520\li2520\b y = F(MOD(TIME, i))\tab\b0 F repeats over the time interval i\par
+\pard\par
+Example: Square wave with period = 1\par
+\par
+\b y = IF MOD(TIME, 1) >= 0.5 THEN 1 ELSE 0\par
+\lang1031\b0\f3\fs20\par
+}
+ 
