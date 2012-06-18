@@ -34,7 +34,7 @@ Plugin/bin/*
 Simulation/bin/*
 SimulationBuild/bin/*
 SimulationDiagram/bin/*
-SimulationJepLib-2.4.1/bin/*
+SimulationParser/bin/*
 SimulationPlugin/bin/*
 SimulationPlugin.Intern/bin/*
 SimulationPlugin.MatlabOctave/bin/*
