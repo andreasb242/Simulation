@@ -213,7 +213,7 @@ public class DiagramFrame extends JFrame {
 			int xSerieDataCount = xSerieData.size();
 
 			for (SimulationSerie s : collection) {
-				XYSeries serie = new XYSeries(s.getName(), false, false);
+				XYSeries serie = new XYSeries(s.getName(), false, true);
 				Vector<SimulationEntry> data = s.getData();
 
 				if (xSerieDataCount == data.size()) {
@@ -241,7 +241,7 @@ public class DiagramFrame extends JFrame {
 		} else {
 			int id = 0;
 			for (SimulationSerie s : collection) {
-				XYSeries serie = new XYSeries(s.getName(), false, false);
+				XYSeries serie = new XYSeries(s.getName(), false, true);
 				for (SimulationEntry d : s.getData()) {
 					serie.add(d.time, d.value);
 				}

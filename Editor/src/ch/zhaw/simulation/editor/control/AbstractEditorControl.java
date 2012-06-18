@@ -17,7 +17,7 @@ import ch.zhaw.simulation.clipboard.ClipboardHandler;
 import ch.zhaw.simulation.editor.status.StatusLabelHandler;
 import ch.zhaw.simulation.editor.view.AbstractEditorView;
 import ch.zhaw.simulation.editor.view.TextView;
-import ch.zhaw.simulation.gui.codeditor.FormularEditorDialog;
+import ch.zhaw.simulation.gui.codeditor.FormulaEditorDialog;
 import ch.zhaw.simulation.menu.MenuActionListener;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
@@ -59,7 +59,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	/**
 	 * The formula editor with syntax hilighting etc.
 	 */
-	private FormularEditorDialog formulaEditor;
+	private FormulaEditorDialog formulaEditor;
 
 	/**
 	 * The simulation application
@@ -271,7 +271,7 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		String oldFormula = data.getFormula();
 
 		if (formulaEditor == null) {
-			formulaEditor = new FormularEditorDialog(parent, getSysintegration(), getModel());
+			formulaEditor = new FormulaEditorDialog(parent, getSysintegration(), getModel());
 		}
 
 		formulaEditor.setData(data);
