@@ -27,14 +27,17 @@ public class DeepCopyVisitor extends DoNothingVisitor implements ParserVisitor {
 		return res;
 	}
 
+	@Override
 	public Object visit(ASTConstant node, Object data) throws ParseException {
 		return xjep.getNodeFactory().buildConstantNode(node);
 	}
 
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		return xjep.getNodeFactory().buildVariableNode(node);
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		Node children[] = acceptChildrenAsArray(node, data);
 		return xjep.getNodeFactory().buildFunctionNode(node, children);

@@ -22,9 +22,13 @@ import org.nfunk.jep.ASTFunNode;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.Variable;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * @author Rich Morris Created on 14-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class MMap extends VMap implements SpecialPreProcessorI, MatrixSpecialEvaluationI {
 	public MatrixNodeI preprocess(ASTFunNode node, MatrixPreprocessor visitor, MatrixJep jep, MatrixNodeFactory nf) throws ParseException {
 		Variable vars[] = getVars(node.jjtGetChild(1));
@@ -35,16 +39,19 @@ public class MMap extends VMap implements SpecialPreProcessorI, MatrixSpecialEva
 		return (MatrixNodeI) nf.buildFunctionNode(node, children, children[2].getDim());
 	}
 
+	@Override
 	public MatrixValueI evaluate(MatrixNodeI node, MatrixEvaluator visitor, MatrixJep jep) throws ParseException {
 		int nChild = node.jjtGetNumChildren();
-		if (nChild < 3)
+		if (nChild < 3) {
 			throw new ParseException("Map must have three or more arguments");
+		}
 
 		// First find the variables
 		Variable vars[] = getVars(node.jjtGetChild(1));
 
-		if (nChild != vars.length + 2)
+		if (nChild != vars.length + 2) {
 			throw new ParseException("Map: number of arguments should match number of variables + 2");
+		}
 
 		// Now evaluate third and subsequent arguments
 		MatrixValueI inputs[] = new MatrixValueI[nChild - 2];
@@ -53,14 +60,16 @@ public class MMap extends VMap implements SpecialPreProcessorI, MatrixSpecialEva
 			Object out = node.jjtGetChild(i + 2).jjtAccept(visitor, null);
 			if (out instanceof MatrixValueI) {
 				inputs[i] = (MatrixValueI) out;
-				if (i == 0)
+				if (i == 0) {
 					dim = inputs[0].getDim();
-				else {
-					if (!dim.equals(inputs[i].getDim()))
+				} else {
+					if (!dim.equals(inputs[i].getDim())) {
 						throw new ParseException("Map: dimensions of third and subsequent arguments must match");
+					}
 				}
-			} else
+			} else {
 				throw new ParseException("Map: third and following arguments should be vectos or matricies");
+			}
 		}
 
 		// Now evaluate the function for each element

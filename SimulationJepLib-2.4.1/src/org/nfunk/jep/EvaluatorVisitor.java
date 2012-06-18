@@ -126,6 +126,7 @@ public class EvaluatorVisitor implements ParserVisitor, EvaluatorI {
 	 *            The node to evaluate
 	 * @return result of the evaluation
 	 */
+	@Override
 	public Object eval(Node node) throws ParseException {
 		node.jjtAccept(this, null);
 		return stack.pop();
@@ -168,6 +169,7 @@ public class EvaluatorVisitor implements ParserVisitor, EvaluatorI {
 	/**
 	 * This method should never be called when evaluation a normal expression.
 	 */
+	@Override
 	public Object visit(SimpleNode node, Object data) throws ParseException {
 		throw new ParseException("No visit method for " + node.getClass().getName());
 	}
@@ -175,6 +177,7 @@ public class EvaluatorVisitor implements ParserVisitor, EvaluatorI {
 	/**
 	 * This method should never be called when evaluating a normal expression.
 	 */
+	@Override
 	public Object visit(ASTStart node, Object data) throws ParseException {
 		throw new ParseException("Start node encountered during evaluation");
 	}
@@ -187,6 +190,7 @@ public class EvaluatorVisitor implements ParserVisitor, EvaluatorI {
 	 * If a function implements SpecialEvaluationI then the evaluate method of
 	 * PFMC is called.
 	 */
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 
 		if (node == null)
@@ -224,6 +228,7 @@ public class EvaluatorVisitor implements ParserVisitor, EvaluatorI {
 	 * Visit a variable node. The value of the variable is obtained from the
 	 * symbol table (symTab) and pushed onto the stack.
 	 */
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 
 		// old code
@@ -259,6 +264,7 @@ public class EvaluatorVisitor implements ParserVisitor, EvaluatorI {
 	 * Visit a constant node. The value of the constant is pushed onto the
 	 * stack.
 	 */
+	@Override
 	public Object visit(ASTConstant node, Object data) {
 		stack.push(node.getValue());
 		return data;

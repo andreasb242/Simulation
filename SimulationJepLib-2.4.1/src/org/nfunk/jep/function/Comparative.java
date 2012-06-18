@@ -14,6 +14,9 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Implements the comparative operations <, >, <=, >=, != and ==. Caverts should
  * work where arguments are Double, Complex or String for the last two only !=
@@ -29,6 +32,7 @@ import org.nfunk.jep.type.Complex;
  *        return boolean. If this breaks anything use if(lt(obj1,obj2))
  *        inStack.push(new Double(1)); else inStack.push(new Double(0));
  */
+@Category(CategoryType.UNDEFINED)
 public class Comparative extends PostfixMathCommand {
 	protected int id;
 	double tolerance;
@@ -52,6 +56,7 @@ public class Comparative extends PostfixMathCommand {
 		tolerance = 1e-6;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 
@@ -85,8 +90,10 @@ public class Comparative extends PostfixMathCommand {
 	}
 
 	public boolean lt(Object param1, Object param2) throws ParseException {
-		if ((param1 instanceof Complex) || (param2 instanceof Complex))
+		if ((param1 instanceof Complex) || (param2 instanceof Complex)) {
 			throw new ParseException("< not defined for complex numbers");
+		}
+
 		if ((param1 instanceof Number) && (param2 instanceof Number)) {
 			double x = ((Number) param1).doubleValue();
 			double y = ((Number) param2).doubleValue();
@@ -96,8 +103,9 @@ public class Comparative extends PostfixMathCommand {
 	}
 
 	public boolean gt(Object param1, Object param2) throws ParseException {
-		if ((param1 instanceof Complex) || (param2 instanceof Complex))
+		if ((param1 instanceof Complex) || (param2 instanceof Complex)) {
 			throw new ParseException("> not defined for complex numbers");
+		}
 
 		if ((param1 instanceof Number) && (param2 instanceof Number)) {
 			double x = ((Number) param1).doubleValue();

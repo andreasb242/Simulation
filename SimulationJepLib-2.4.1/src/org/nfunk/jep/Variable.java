@@ -131,12 +131,14 @@ public class Variable extends Observable {
 	 * 
 	 * @return A string with the variable name and value.
 	 */
+	@Override
 	public String toString() {
-		if (!validValue || value == null)
+		if (!validValue || value == null) {
 			return name + ": null";
-		else if (isConstant)
+		} else if (isConstant) {
 			return name + ": " + value.toString() + " (Constant)";
-		else
+		} else {
 			return name + ": " + value.toString();
+		}
 	}
 }

@@ -19,15 +19,18 @@ public class ASTMVarNode extends ASTVarNode implements MatrixNodeI {
 		super(i);
 	}
 
+	@Override
 	public Dimensions getDim() {
 		return mvar.getDimensions();
 	}
 
+	@Override
 	public void setVar(Variable var) {
 		mvar = (MatrixVariableI) var;
 		super.setVar(var);
 	}
 
+	@Override
 	public MatrixValueI getMValue() {
 		return mvar.getMValue();
 	}

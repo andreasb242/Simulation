@@ -12,6 +12,9 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.Variable;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Function which allows array access using the a[3] notation on left and right
  * hand side. <code>
@@ -22,13 +25,14 @@ import org.nfunk.jep.Variable;
  * 
  * @author Richard Morris
  */
+@Category(CategoryType.UNDEFINED)
 public class Ele extends PostfixMathCommand implements LValueI {
 
 	public Ele() {
 		numberOfParameters = 2;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public void set(EvaluatorI pv, Node node, Object value) throws ParseException {
 		Node lhsNode = node.jjtGetChild(0);
 
@@ -48,19 +52,24 @@ public class Ele extends PostfixMathCommand implements LValueI {
 		} else
 			throw new ParseException("Ele: rhs must be a number");
 		Object oldVarVal = var.getValue();
-		if (!(oldVarVal instanceof Vector<?>))
+		if (!(oldVarVal instanceof Vector<?>)) {
 			throw new ParseException("Ele: the value of the variable must be a Vector");
+		}
+
+		@SuppressWarnings("unchecked")
 		Vector<Object> newVarVal = (Vector<Object>) ((Vector<Object>) oldVarVal).clone();
 		newVarVal.set(index, value);
 		var.setValue(newVarVal);
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		checkStack(s);// check the stack
 		Object rhs = s.pop();
 		Object lhs = s.pop();
-		if (!(lhs instanceof Vector<?>))
+		if (!(lhs instanceof Vector<?>)) {
 			throw new ParseException("Ele: lhs must be an instance of Vector");
+		}
 
 		if (rhs instanceof Number) {
 			int index = ((Number) rhs).intValue();

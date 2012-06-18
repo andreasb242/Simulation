@@ -141,6 +141,7 @@ public class Dimensions {
 	/**
 	 * A string representation. Either 1,n,[m,n],[l,m,n] etc.
 	 */
+	@Override
 	public String toString() {
 		if (is0D())
 			return String.valueOf(dims[0]);

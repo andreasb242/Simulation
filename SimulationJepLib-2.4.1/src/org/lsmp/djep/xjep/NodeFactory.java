@@ -72,14 +72,6 @@ public class NodeFactory {
 	 * arguments.
 	 */
 	protected ASTConstant buildConstantNode(PostfixMathCommandI pfmc, Node children[]) throws IllegalArgumentException, ParseException {
-		/*
-		 * Stack stack = new Stack(); for(int i=0;i<children.length;++i) {
-		 * if(!(children[i] instanceof ASTConstant)) throw new
-		 * ParseException("buildConstantNode: arguments must all be constant nodes"
-		 * ); stack.push(((ASTConstant) children[i]).getValue()); }
-		 * pfmc.setCurNumberOfParameters(children.length); pfmc.run(stack);
-		 * return buildConstantNode(stack.pop());
-		 */
 		Object val = xj.getEvaluatorVisitor().eval(pfmc, children);
 		return buildConstantNode(val);
 	}

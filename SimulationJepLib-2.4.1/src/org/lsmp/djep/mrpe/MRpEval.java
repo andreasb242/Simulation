@@ -366,20 +366,25 @@ public final class MRpEval implements ParserVisitor {
 			a = val;
 		}
 
+		@Override
 		public final Dimensions getDims() {
 			return Dimensions.ONE;
 		}
 
+		@Override
 		public final void copyToVecMat(MatrixValueI res) throws ParseException {
-			if (!res.getDim().is0D())
+			if (!res.getDim().is0D()) {
 				throw new ParseException("CopyToVecMat: dimension of argument " + res.getDim() + " is not equal to dimension of object " + getDims());
+			}
 			res.setEle(0, new Double(a));
 		}
 
+		@Override
 		public final String toString() {
 			return String.valueOf(a);
 		}
 
+		@Override
 		public Object toArray() {
 			return new double[] { a };
 		}
@@ -388,9 +393,11 @@ public final class MRpEval implements ParserVisitor {
 	private ScalerObj scalerRes = new ScalerObj(0.0);
 
 	private abstract static class VecObj extends MRpRes {
+		@Override
 		public final void copyToVecMat(MatrixValueI res) throws ParseException {
-			if (!getDims().equals(res.getDim()))
+			if (!getDims().equals(res.getDim())) {
 				throw new ParseException("CopyToVecMat: dimension of argument " + res.getDim() + " is not equal to dimension of object " + getDims());
+			}
 			copyToVec((MVector) res);
 		}
 
@@ -398,19 +405,18 @@ public final class MRpEval implements ParserVisitor {
 
 		abstract double[] toArrayVec();
 
+		@Override
 		public Object toArray() {
 			return toArrayVec();
 		}
-		/**
-		 * Sets the value of th vector frm an array.
-		 */
-		// public abstract void fromArray(double array[]);
 	}
 
 	private abstract static class MatObj extends MRpRes {
+		@Override
 		public final void copyToVecMat(MatrixValueI res) throws ParseException {
-			if (!getDims().equals(res.getDim()))
+			if (!getDims().equals(res.getDim())) {
 				throw new ParseException("CopyToVecMat: dimension of argument " + res.getDim() + " is not equal to dimension of object " + getDims());
+			}
 			copyToMat((Matrix) res);
 		}
 
@@ -418,6 +424,7 @@ public final class MRpEval implements ParserVisitor {
 
 		abstract double[][] toArrayMat();
 
+		@Override
 		public Object toArray() {
 			return toArrayMat();
 		}
@@ -449,8 +456,9 @@ public final class MRpEval implements ParserVisitor {
 
 		final void incStack() {
 			sp++;
-			if (sp > stackMax)
+			if (sp > stackMax) {
 				stackMax = sp;
+			}
 		}
 
 		final void incHeap() {
@@ -459,8 +467,9 @@ public final class MRpEval implements ParserVisitor {
 
 		final void decStack() throws ParseException {
 			--sp;
-			if (sp < 0)
+			if (sp < 0) {
 				throw new ParseException("RPEval: stack error");
+			}
 		}
 
 		/** call this to reset pointers as first step in evaluation */
@@ -547,16 +556,19 @@ public final class MRpEval implements ParserVisitor {
 		double stack[] = new double[0];
 		double vars[] = new double[0];
 
+		@Override
 		final void alloc() {
 			stack = new double[stackMax];
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			double newvars[] = new double[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
 			vars = newvars;
 		}
 
+		@Override
 		final void copyFromVar(MatrixVariableI var, int i) {
 			if (var.hasValidValue()) {
 				Scaler val = (Scaler) var.getMValue();
@@ -568,25 +580,30 @@ public final class MRpEval implements ParserVisitor {
 			vars[ref] = val;
 		}
 
+		@Override
 		public final void setVarValue(int ref, MatrixValueI val) {
 			vars[ref] = ((Scaler) val).doubleValue();
 		}
 
+		@Override
 		final void add() {
 			double r = stack[--sp];
 			stack[sp - 1] += r;
 		}
 
+		@Override
 		final void sub() {
 			double r = stack[--sp];
 			stack[sp - 1] -= r;
 		}
 
+		@Override
 		final void uminus() {
 			double r = stack[--sp];
 			stack[sp++] = -r;
 		}
 
+		@Override
 		final void mulS() {
 			double r = stack[--sp];
 			stack[sp - 1] *= r;
@@ -608,9 +625,11 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = Math.pow(l, r);
 		}
 
+		@Override
 		final void makeList() {
 		}
 
+		@Override
 		final void assign(int i) {
 			vars[i] = stack[--sp];
 			++sp;
@@ -619,81 +638,90 @@ public final class MRpEval implements ParserVisitor {
 		final void and() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if ((l != 0.0) && (r != 0.0))
+			if ((l != 0.0) && (r != 0.0)) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void or() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if ((l != 0.0) || (r != 0.0))
+			if ((l != 0.0) || (r != 0.0)) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void not() {
 			double r = stack[--sp];
-			if (r == 0.0)
+			if (r == 0.0) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void lt() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if (l < r)
+			if (l < r) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void gt() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if (l > r)
+			if (l > r) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void le() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if (l <= r)
+			if (l <= r) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void ge() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if (l >= r)
+			if (l >= r) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void eq() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if (l == r)
+			if (l == r) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 
 		final void neq() {
 			double r = stack[--sp];
 			double l = stack[--sp];
-			if (l != r)
+			if (l != r) {
 				stack[sp++] = 1.0;
-			else
+			} else {
 				stack[sp++] = 0.0;
+			}
 		}
 	}
 
@@ -703,6 +731,7 @@ public final class MRpEval implements ParserVisitor {
 	private abstract class VecStore extends ObjStore {
 		abstract void copyVar(int i, MVector val);
 
+		@Override
 		final void copyFromVar(MatrixVariableI var, int i) {
 			if (var.hasValidValue()) {
 				MVector val = (MVector) ((MatrixVariable) var).getMValue();
@@ -710,6 +739,7 @@ public final class MRpEval implements ParserVisitor {
 			}
 		}
 
+		@Override
 		public final void setVarValue(int ref, MatrixValueI val) {
 			copyVar(ref, (MVector) val);
 		}
@@ -720,10 +750,12 @@ public final class MRpEval implements ParserVisitor {
 
 		private static Dimensions dims = Dimensions.TWO;
 
+		@Override
 		public Dimensions getDims() {
 			return dims;
 		}
 
+		@Override
 		public String toString() {
 			return "[" + a + "," + b + "]";
 		}
@@ -733,11 +765,13 @@ public final class MRpEval implements ParserVisitor {
 			b = ((Double) val.getEle(1)).doubleValue();
 		}
 
+		@Override
 		public void copyToVec(MVector val) {
 			val.setEle(0, new Double(a));
 			val.setEle(1, new Double(b));
 		}
 
+		@Override
 		public double[] toArrayVec() {
 			return new double[] { a, b };
 		}
@@ -748,15 +782,19 @@ public final class MRpEval implements ParserVisitor {
 		V2Obj heap[];
 		V2Obj vars[] = new V2Obj[0];
 
+		@Override
 		final void alloc() {
 			heap = new V2Obj[hp];
-			for (int i = 0; i < hp; ++i)
+			for (int i = 0; i < hp; ++i) {
 				heap[i] = new V2Obj();
+			}
 			stack = new V2Obj[stackMax];
-			for (int i = 0; i < stackMax; ++i)
+			for (int i = 0; i < stackMax; ++i) {
 				stack[i] = new V2Obj();
+			}
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			V2Obj newvars[] = new V2Obj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -764,10 +802,12 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, MVector vec) {
 			vars[i].fromVec(vec);
 		}
 
+		@Override
 		final void add() {
 			V2Obj r = stack[--sp];
 			V2Obj l = stack[--sp];
@@ -777,6 +817,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			V2Obj r = stack[--sp];
 			V2Obj l = stack[--sp];
@@ -786,6 +827,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			V2Obj r = stack[--sp];
 			V2Obj res = heap[hp++];
@@ -794,6 +836,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			V2Obj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
@@ -821,6 +864,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			V2Obj res = heap[hp++];
 			res.b = scalerStore.stack[--scalerStore.sp];
@@ -828,6 +872,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void assign(int i) {
 			V2Obj r = stack[--sp];
 			++sp;
@@ -839,10 +884,11 @@ public final class MRpEval implements ParserVisitor {
 		final void eq() {
 			V2Obj r = stack[--sp];
 			V2Obj l = stack[--sp];
-			if (l.a == r.a && l.b == r.b)
+			if (l.a == r.a && l.b == r.b) {
 				scalerStore.stack[scalerStore.sp++] = 1.0;
-			else
+			} else {
 				scalerStore.stack[scalerStore.sp++] = 0.0;
+			}
 		}
 	}
 
@@ -853,10 +899,12 @@ public final class MRpEval implements ParserVisitor {
 
 		private static Dimensions dims = Dimensions.THREE;
 
+		@Override
 		public Dimensions getDims() {
 			return dims;
 		}
 
+		@Override
 		public String toString() {
 			return "[" + a + "," + b + "," + c + "]";
 		}
@@ -867,12 +915,14 @@ public final class MRpEval implements ParserVisitor {
 			c = ((Double) val.getEle(2)).doubleValue();
 		}
 
+		@Override
 		public void copyToVec(MVector val) {
 			val.setEle(0, new Double(a));
 			val.setEle(1, new Double(b));
 			val.setEle(2, new Double(c));
 		}
 
+		@Override
 		public double[] toArrayVec() {
 			return new double[] { a, b, c };
 		}
@@ -883,15 +933,19 @@ public final class MRpEval implements ParserVisitor {
 		V3Obj heap[];
 		V3Obj vars[] = new V3Obj[0];
 
+		@Override
 		final void alloc() {
 			heap = new V3Obj[hp];
-			for (int i = 0; i < hp; ++i)
+			for (int i = 0; i < hp; ++i) {
 				heap[i] = new V3Obj();
+			}
 			stack = new V3Obj[stackMax];
-			for (int i = 0; i < stackMax; ++i)
+			for (int i = 0; i < stackMax; ++i) {
 				stack[i] = new V3Obj();
+			}
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			V3Obj newvars[] = new V3Obj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -899,10 +953,12 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, MVector vec) {
 			vars[i].fromVec(vec);
 		}
 
+		@Override
 		final void add() {
 			V3Obj r = stack[--sp];
 			V3Obj l = stack[--sp];
@@ -913,6 +969,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			V3Obj r = stack[--sp];
 			V3Obj l = stack[--sp];
@@ -923,6 +980,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			V3Obj r = stack[--sp];
 			V3Obj res = heap[hp++];
@@ -932,6 +990,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			V3Obj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
@@ -952,6 +1011,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			V3Obj res = heap[hp++];
 			res.c = scalerStore.stack[--scalerStore.sp];
@@ -960,6 +1020,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void assign(int i) {
 			V3Obj r = stack[--sp];
 			++sp;
@@ -972,10 +1033,11 @@ public final class MRpEval implements ParserVisitor {
 		final void eq() {
 			V3Obj r = stack[--sp];
 			V3Obj l = stack[--sp];
-			if (l.a == r.a && l.b == r.b && l.c == r.c)
+			if (l.a == r.a && l.b == r.b && l.c == r.c) {
 				scalerStore.stack[scalerStore.sp++] = 1.0;
-			else
+			} else {
 				scalerStore.stack[scalerStore.sp++] = 0.0;
+			}
 		}
 	}
 
@@ -986,10 +1048,12 @@ public final class MRpEval implements ParserVisitor {
 
 		private static Dimensions dims = Dimensions.valueOf(4);
 
+		@Override
 		public Dimensions getDims() {
 			return dims;
 		}
 
+		@Override
 		public String toString() {
 			return "[" + a + "," + b + "," + c + "," + d + "]";
 		}
@@ -1001,6 +1065,7 @@ public final class MRpEval implements ParserVisitor {
 			d = ((Double) val.getEle(3)).doubleValue();
 		}
 
+		@Override
 		public void copyToVec(MVector val) {
 			val.setEle(0, new Double(a));
 			val.setEle(1, new Double(b));
@@ -1008,6 +1073,7 @@ public final class MRpEval implements ParserVisitor {
 			val.setEle(3, new Double(d));
 		}
 
+		@Override
 		public double[] toArrayVec() {
 			return new double[] { a, b, c, d };
 		}
@@ -1018,15 +1084,19 @@ public final class MRpEval implements ParserVisitor {
 		V4Obj heap[];
 		V4Obj vars[] = new V4Obj[0];
 
+		@Override
 		final void alloc() {
 			heap = new V4Obj[hp];
-			for (int i = 0; i < hp; ++i)
+			for (int i = 0; i < hp; ++i) {
 				heap[i] = new V4Obj();
+			}
 			stack = new V4Obj[stackMax];
-			for (int i = 0; i < stackMax; ++i)
+			for (int i = 0; i < stackMax; ++i) {
 				stack[i] = new V4Obj();
+			}
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			V4Obj newvars[] = new V4Obj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -1034,10 +1104,12 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, MVector vec) {
 			vars[i].fromVec(vec);
 		}
 
+		@Override
 		final void add() {
 			V4Obj r = stack[--sp];
 			V4Obj l = stack[--sp];
@@ -1049,6 +1121,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			V4Obj r = stack[--sp];
 			V4Obj l = stack[--sp];
@@ -1060,6 +1133,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			V4Obj r = stack[--sp];
 			V4Obj res = heap[hp++];
@@ -1070,6 +1144,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			V4Obj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
@@ -1092,6 +1167,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			V4Obj res = heap[hp++];
 			res.d = scalerStore.stack[--scalerStore.sp];
@@ -1101,6 +1177,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void assign(int i) {
 			V4Obj r = stack[--sp];
 			++sp;
@@ -1114,10 +1191,11 @@ public final class MRpEval implements ParserVisitor {
 		final void eq() {
 			V4Obj r = stack[--sp];
 			V4Obj l = stack[--sp];
-			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d)
+			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d) {
 				scalerStore.stack[scalerStore.sp++] = 1.0;
-			else
+			} else {
 				scalerStore.stack[scalerStore.sp++] = 0.0;
+			}
 		}
 	}
 
@@ -1138,11 +1216,13 @@ public final class MRpEval implements ParserVisitor {
 			return Dimensions.valueOf(data.length);
 		}
 
+		@Override
 		public String toString() {
 			StringBuffer sb = new StringBuffer("[");
 			for (int i = 0; i < data.length; ++i) {
-				if (i > 0)
+				if (i > 0) {
 					sb.append(",");
+				}
 				sb.append(data[i]);
 			}
 			sb.append("]");
@@ -1150,19 +1230,22 @@ public final class MRpEval implements ParserVisitor {
 		}
 
 		public void fromVec(MVector val) {
-			for (int i = 0; i < data.length; ++i)
+			for (int i = 0; i < data.length; ++i) {
 				data[i] = ((Double) val.getEle(i)).doubleValue();
+			}
 		}
 
 		public void copyToVec(MVector val) {
-			for (int i = 0; i < data.length; ++i)
+			for (int i = 0; i < data.length; ++i) {
 				val.setEle(i, new Double(data[i]));
+			}
 		}
 
 		double[] toArrayVec() {
 			return data;
 		}
 
+		@Override
 		public Object toArray() {
 			double res[] = new double[data.length];
 			System.arraycopy(data, 0, res, 0, data.length);
@@ -1174,10 +1257,12 @@ public final class MRpEval implements ParserVisitor {
 		VnObj stack[];
 		VnObj vars[] = new VnObj[0];
 
+		@Override
 		final void alloc() {
 			stack = new VnObj[stackMax];
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			VnObj newvars[] = new VnObj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -1185,42 +1270,51 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, MVector vec) {
 			vars[i].fromVec(vec);
 		}
 
+		@Override
 		final void add() {
 			VnObj r = stack[--sp];
 			VnObj l = stack[--sp];
 			VnObj res = new VnObj(l.data.length);
-			for (int i = 0; i < l.data.length; ++i)
+			for (int i = 0; i < l.data.length; ++i) {
 				res.data[i] = l.data[i] + r.data[i];
+			}
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			VnObj r = stack[--sp];
 			VnObj l = stack[--sp];
 			VnObj res = new VnObj(l.data.length);
-			for (int i = 0; i < l.data.length; ++i)
+			for (int i = 0; i < l.data.length; ++i) {
 				res.data[i] = l.data[i] - r.data[i];
+			}
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			VnObj r = stack[--sp];
 			VnObj res = new VnObj(r.data.length);
-			for (int i = 0; i < r.data.length; ++i)
+			for (int i = 0; i < r.data.length; ++i) {
 				res.data[i] = -r.data[i];
+			}
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			VnObj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
 			VnObj res = new VnObj(r.data.length);
-			for (int i = 0; i < r.data.length; ++i)
+			for (int i = 0; i < r.data.length; ++i) {
 				res.data[i] = l * r.data[i];
+			}
 			stack[sp++] = res;
 		}
 
@@ -1228,27 +1322,32 @@ public final class MRpEval implements ParserVisitor {
 			VnObj l = stack[--sp];
 			double r = scalerStore.stack[--scalerStore.sp];
 			VnObj res = new VnObj(l.data.length);
-			for (int i = 0; i < l.data.length; ++i)
+			for (int i = 0; i < l.data.length; ++i) {
 				res.data[i] = l.data[i] / r;
+			}
 			stack[sp++] = res;
 		}
 
 		final void makeList(int num) {
 			VnObj res = new VnObj(num);
-			for (int i = num - 1; i >= 0; --i)
+			for (int i = num - 1; i >= 0; --i) {
 				res.data[i] = scalerStore.stack[--scalerStore.sp];
+			}
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			throw new UnsupportedOperationException("VnObj: makeList cannot be called with no arguments");
 		}
 
+		@Override
 		final void assign(int j) {
 			VnObj r = stack[sp - 1];
 			VnObj res = vars[j];
-			for (int i = 0; i < r.data.length; ++i)
+			for (int i = 0; i < r.data.length; ++i) {
 				res.data[i] = r.data[i];
+			}
 		}
 	}
 
@@ -1257,6 +1356,7 @@ public final class MRpEval implements ParserVisitor {
 	private static abstract class MatStore extends ObjStore {
 		abstract void copyVar(int i, Matrix val);
 
+		@Override
 		final void copyFromVar(MatrixVariableI var, int i) {
 			if (var.hasValidValue()) {
 				Matrix val = (Matrix) ((MatrixVariable) var).getMValue();
@@ -1264,12 +1364,7 @@ public final class MRpEval implements ParserVisitor {
 			}
 		}
 
-		/*
-		 * final void copyVars(){ int i=0; for(Enumeration
-		 * e=varRefs.elements();e.hasMoreElements();) { MatrixVariable var =
-		 * (MatrixVariable) e.nextElement(); Matrix val = (Matrix)
-		 * var.getMValue(); if(var.hasValidValue()) copyVar(i,val); ++i; } }
-		 */
+		@Override
 		final public void setVarValue(int ref, MatrixValueI val) {
 			copyVar(ref, (Matrix) val);
 		}
@@ -1280,10 +1375,12 @@ public final class MRpEval implements ParserVisitor {
 
 		static Dimensions dims = Dimensions.valueOf(2, 2);
 
+		@Override
 		public Dimensions getDims() {
 			return dims;
 		}
 
+		@Override
 		public String toString() {
 			return "[[" + a + "," + b + "]," + "[" + c + "," + d + "]]";
 		}
@@ -1408,10 +1505,11 @@ public final class MRpEval implements ParserVisitor {
 		final void eq() {
 			M22Obj r = stack[--sp];
 			M22Obj l = stack[--sp];
-			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d)
+			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d) {
 				scalerStore.stack[scalerStore.sp++] = 1.0;
-			else
+			} else {
 				scalerStore.stack[scalerStore.sp++] = 0.0;
+			}
 		}
 	}
 
@@ -1422,10 +1520,12 @@ public final class MRpEval implements ParserVisitor {
 
 		static Dimensions dims = Dimensions.valueOf(2, 3);
 
+		@Override
 		public Dimensions getDims() {
 			return dims;
 		}
 
+		@Override
 		public String toString() {
 			return "[[" + a + "," + b + "," + c + "]," + "[" + d + "," + e + "," + f + "]]";
 		}
@@ -1461,13 +1561,16 @@ public final class MRpEval implements ParserVisitor {
 
 		final void alloc() {
 			heap = new M23Obj[hp];
-			for (int i = 0; i < hp; ++i)
+			for (int i = 0; i < hp; ++i) {
 				heap[i] = new M23Obj();
+			}
 			stack = new M23Obj[stackMax];
-			for (int i = 0; i < stackMax; ++i)
+			for (int i = 0; i < stackMax; ++i) {
 				stack[i] = new M23Obj();
+			}
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			M23Obj newvars[] = new M23Obj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -1475,10 +1578,12 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, Matrix val) {
 			vars[i].fromMat(val);
 		}
 
+		@Override
 		final void add() {
 			M23Obj r = stack[--sp];
 			M23Obj l = stack[--sp];
@@ -1493,6 +1598,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			M23Obj r = stack[--sp];
 			M23Obj l = stack[--sp];
@@ -1507,6 +1613,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			M23Obj r = stack[--sp];
 			M23Obj res = heap[hp++];
@@ -1519,6 +1626,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			M23Obj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
@@ -1545,6 +1653,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			M23Obj res = heap[hp++];
 			res.f = scalerStore.stack[--scalerStore.sp];
@@ -1556,6 +1665,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void assign(int i) {
 			M23Obj r = stack[sp - 1];
 			M23Obj res = vars[i];
@@ -1570,10 +1680,11 @@ public final class MRpEval implements ParserVisitor {
 		final void eq() {
 			M23Obj r = stack[--sp];
 			M23Obj l = stack[--sp];
-			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d && l.e == r.e && l.f == r.f)
+			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d && l.e == r.e && l.f == r.f) {
 				scalerStore.stack[scalerStore.sp++] = 1.0;
-			else
+			} else {
 				scalerStore.stack[scalerStore.sp++] = 0.0;
+			}
 		}
 	}
 
@@ -1588,6 +1699,7 @@ public final class MRpEval implements ParserVisitor {
 			return dims;
 		}
 
+		@Override
 		public String toString() {
 			return "[[" + a + "," + b + "," + c + "," + d + "]," + "[" + e + "," + f + "," + g + "," + h + "]]";
 		}
@@ -1604,6 +1716,7 @@ public final class MRpEval implements ParserVisitor {
 			h = ((Double) val.getEle(1, 3)).doubleValue();
 		}
 
+		@Override
 		public void copyToMat(Matrix val) {
 			val.setEle(0, 0, new Double(a));
 			val.setEle(0, 1, new Double(b));
@@ -1615,6 +1728,7 @@ public final class MRpEval implements ParserVisitor {
 			val.setEle(1, 3, new Double(h));
 		}
 
+		@Override
 		public double[][] toArrayMat() {
 			return new double[][] { { a, b, c, d }, { e, f, g, h } };
 		}
@@ -1625,15 +1739,19 @@ public final class MRpEval implements ParserVisitor {
 		M24Obj heap[];
 		M24Obj vars[] = new M24Obj[0];
 
+		@Override
 		final void alloc() {
 			heap = new M24Obj[hp];
-			for (int i = 0; i < hp; ++i)
+			for (int i = 0; i < hp; ++i) {
 				heap[i] = new M24Obj();
+			}
 			stack = new M24Obj[stackMax];
-			for (int i = 0; i < stackMax; ++i)
+			for (int i = 0; i < stackMax; ++i) {
 				stack[i] = new M24Obj();
+			}
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			M24Obj newvars[] = new M24Obj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -1641,10 +1759,12 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, Matrix val) {
 			vars[i].fromMat(val);
 		}
 
+		@Override
 		final void add() {
 			M24Obj r = stack[--sp];
 			M24Obj l = stack[--sp];
@@ -1662,6 +1782,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			M24Obj r = stack[--sp];
 			M24Obj l = stack[--sp];
@@ -1679,6 +1800,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			M24Obj r = stack[--sp];
 			M24Obj res = heap[hp++];
@@ -1693,6 +1815,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			M24Obj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
@@ -1723,6 +1846,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			M24Obj res = heap[hp++];
 			res.h = scalerStore.stack[--scalerStore.sp];
@@ -1736,6 +1860,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void assign(int i) {
 			M24Obj r = stack[sp - 1];
 			M24Obj res = vars[i];
@@ -1752,10 +1877,11 @@ public final class MRpEval implements ParserVisitor {
 		final void eq() {
 			M24Obj r = stack[--sp];
 			M24Obj l = stack[--sp];
-			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d && l.e == r.e && l.f == r.f && l.g == r.g && l.h == r.h)
+			if (l.a == r.a && l.b == r.b && l.c == r.c && l.d == r.d && l.e == r.e && l.f == r.f && l.g == r.g && l.h == r.h) {
 				scalerStore.stack[scalerStore.sp++] = 1.0;
-			else
+			} else {
 				scalerStore.stack[scalerStore.sp++] = 0.0;
+			}
 		}
 	}
 
@@ -1770,6 +1896,7 @@ public final class MRpEval implements ParserVisitor {
 			return dims;
 		}
 
+		@Override
 		public String toString() {
 			return "[[" + a + "," + b + "]," + "[" + c + "," + d + "]," + "[" + e + "," + f + "]]";
 		}
@@ -1785,6 +1912,7 @@ public final class MRpEval implements ParserVisitor {
 			f = ((Double) val.getEle(2, 1)).doubleValue();
 		}
 
+		@Override
 		public void copyToMat(Matrix val) {
 			val.setEle(0, 0, new Double(a));
 			val.setEle(0, 1, new Double(b));
@@ -1794,6 +1922,7 @@ public final class MRpEval implements ParserVisitor {
 			val.setEle(2, 1, new Double(f));
 		}
 
+		@Override
 		public double[][] toArrayMat() {
 			return new double[][] { { a, b }, { c, d }, { e, f } };
 		}
@@ -1804,15 +1933,19 @@ public final class MRpEval implements ParserVisitor {
 		M32Obj heap[];
 		M32Obj vars[] = new M32Obj[0];
 
+		@Override
 		final void alloc() {
 			heap = new M32Obj[hp];
-			for (int i = 0; i < hp; ++i)
+			for (int i = 0; i < hp; ++i) {
 				heap[i] = new M32Obj();
+			}
 			stack = new M32Obj[stackMax];
-			for (int i = 0; i < stackMax; ++i)
+			for (int i = 0; i < stackMax; ++i) {
 				stack[i] = new M32Obj();
+			}
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			M32Obj newvars[] = new M32Obj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -1820,10 +1953,12 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, Matrix val) {
 			vars[i].fromMat(val);
 		}
 
+		@Override
 		final void add() {
 			M32Obj r = stack[--sp];
 			M32Obj l = stack[--sp];
@@ -1838,6 +1973,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			M32Obj r = stack[--sp];
 			M32Obj l = stack[--sp];
@@ -1851,6 +1987,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			M32Obj r = stack[--sp];
 			M32Obj res = heap[hp++];
@@ -1863,6 +2000,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			M32Obj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
@@ -1889,6 +2027,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			M32Obj res = heap[hp++];
 			res.f = scalerStore.stack[--scalerStore.sp];
@@ -1900,6 +2039,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void assign(int i) {
 			M32Obj r = stack[sp - 1];
 			M32Obj res = vars[i];
@@ -1927,10 +2067,12 @@ public final class MRpEval implements ParserVisitor {
 		double a, b, c, d, e, f, g, h, i;
 		static Dimensions dims = Dimensions.valueOf(3, 3);
 
+		@Override
 		public Dimensions getDims() {
 			return dims;
 		}
 
+		@Override
 		public void copyToMat(Matrix val) {
 			val.setEle(0, 0, new Double(a));
 			val.setEle(0, 1, new Double(b));
@@ -1943,6 +2085,7 @@ public final class MRpEval implements ParserVisitor {
 			val.setEle(2, 2, new Double(i));
 		}
 
+		@Override
 		public String toString() {
 			return "[[" + a + "," + b + "," + c + "]," + "[" + d + "," + e + "," + f + "]," + "[" + g + "," + h + "," + i + "]]";
 		}
@@ -1961,6 +2104,7 @@ public final class MRpEval implements ParserVisitor {
 			i = ((Double) val.getEle(2, 2)).doubleValue();
 		}
 
+		@Override
 		public double[][] toArrayMat() {
 			return new double[][] { { a, b, c }, { d, e, f }, { g, h, i } };
 		}
@@ -1971,15 +2115,19 @@ public final class MRpEval implements ParserVisitor {
 		M33Obj heap[];
 		M33Obj vars[] = new M33Obj[0];
 
+		@Override
 		final void alloc() {
 			heap = new M33Obj[hp];
-			for (int i = 0; i < hp; ++i)
+			for (int i = 0; i < hp; ++i) {
 				heap[i] = new M33Obj();
+			}
 			stack = new M33Obj[stackMax];
-			for (int i = 0; i < stackMax; ++i)
+			for (int i = 0; i < stackMax; ++i) {
 				stack[i] = new M33Obj();
+			}
 		}
 
+		@Override
 		final void expandVarArray(MatrixVariableI var) {
 			M33Obj newvars[] = new M33Obj[vars.length + 1];
 			System.arraycopy(vars, 0, newvars, 0, vars.length);
@@ -1987,10 +2135,12 @@ public final class MRpEval implements ParserVisitor {
 			vars = newvars;
 		}
 
+		@Override
 		final void copyVar(int i, Matrix val) {
 			vars[i].fromMat(val);
 		}
 
+		@Override
 		final void add() {
 			M33Obj r = stack[--sp];
 			M33Obj l = stack[--sp];
@@ -2009,6 +2159,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void sub() {
 			M33Obj r = stack[--sp];
 			M33Obj l = stack[--sp];
@@ -2027,6 +2178,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void uminus() {
 			M33Obj r = stack[--sp];
 			M33Obj res = heap[hp++];
@@ -2042,6 +2194,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void mulS() {
 			M33Obj r = stack[--sp];
 			double l = scalerStore.stack[--scalerStore.sp];
@@ -2074,6 +2227,7 @@ public final class MRpEval implements ParserVisitor {
 			stack[sp++] = res;
 		}
 
+		@Override
 		final void makeList() {
 			M33Obj res = heap[hp++];
 			res.i = scalerStore.stack[--scalerStore.sp];

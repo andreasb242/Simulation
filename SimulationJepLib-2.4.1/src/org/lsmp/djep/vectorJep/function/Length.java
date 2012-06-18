@@ -13,6 +13,9 @@ import org.lsmp.djep.vectorJep.values.Scaler;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Returns the length of a vector. If the argument is a scaler, matrix or tensor
  * returns total number of elements.
@@ -25,22 +28,26 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Length extends PostfixMathCommand implements UnaryOperatorI {
 	public Length() {
 		super();
 		this.numberOfParameters = 1;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim) {
 		return Dimensions.ONE;
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs) throws ParseException {
 		int neles = lhs.getNumEles();
 		res.setEle(0, neles);
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> aStack) throws ParseException {
 		Object obj = aStack.pop();
 		MatrixValueI res = null;

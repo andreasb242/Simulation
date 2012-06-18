@@ -14,6 +14,9 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * ele(x,i) returns the i-th element of a vector x. ele(m,[i,j]) returns the
  * (i-th,j-th) element of a matrix m. Note this follows the mathematical
@@ -34,6 +37,7 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author Rich Morris Created on 15-Nov-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class VEle extends PostfixMathCommand implements BinaryOperatorI {
 
 	public VEle() {
@@ -41,14 +45,13 @@ public class VEle extends PostfixMathCommand implements BinaryOperatorI {
 		numberOfParameters = 2;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim, Dimensions rdim) throws ParseException {
 		return Dimensions.ONE;
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI param1, MatrixValueI param2) throws ParseException {
-		// Number num = (Number) rhs.getEle(0);
-		// res.setEle(0,lhs.getEle(num.intValue()-1));
-
 		if (param1 instanceof MVector) {
 			if (param2 instanceof Scaler) {
 				int index = ((Number) param2.getEle(0)).intValue() - 1;
@@ -86,6 +89,7 @@ public class VEle extends PostfixMathCommand implements BinaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 		checkStack(stack); // check the stack
 

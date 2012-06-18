@@ -14,6 +14,9 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.Assign;
 import org.nfunk.jep.function.LValueI;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An assignment operator so we can do x=3+4. This function implements the
  * SpecialEvaluationI interface so that it handles seting the value of a
@@ -21,6 +24,7 @@ import org.nfunk.jep.function.LValueI;
  * 
  * @author Rich Morris Created on 18-Nov-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class XAssign extends Assign implements CommandVisitorI {
 
 	public XAssign() {
@@ -31,6 +35,7 @@ public class XAssign extends Assign implements CommandVisitorI {
 	 * In the pre-process stage, set the equation of the lhs variable to the rhs
 	 * equation.
 	 */
+	@Override
 	public Node process(Node node, Node children[], XJep xjep) throws ParseException {
 		if (node.jjtGetNumChildren() != 2)
 			throw new ParseException("Assignment opperator must have 2 operators.");

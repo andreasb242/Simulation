@@ -49,22 +49,27 @@ public abstract class DoNothingVisitor implements ParserVisitor {
 		return children;
 	}
 
+	@Override
 	public Object visit(SimpleNode node, Object data) throws ParseException {
 		throw new ParseException(this.toString() + ": encountered a simple node, problem with visitor.");
 	}
 
+	@Override
 	public Object visit(ASTStart node, Object data) throws ParseException {
 		throw new ParseException(this.toString() + ": encountered a start node, problem with visitor.");
 	}
 
+	@Override
 	public Object visit(ASTConstant node, Object data) throws ParseException {
 		return node;
 	}
 
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		return node;
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		Node children[] = acceptChildrenAsArray(node, data);
 		TreeUtils.copyChildrenIfNeeded(node, children);

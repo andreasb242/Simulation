@@ -10,15 +10,7 @@ import java.util.Vector;
 import org.lsmp.djep.xjep.PrintVisitor.PrintRulesI;
 import org.lsmp.djep.xjep.function.Define;
 import org.lsmp.djep.xjep.function.FromBase;
-import org.lsmp.djep.xjep.function.Max;
-import org.lsmp.djep.xjep.function.MaxArg;
-import org.lsmp.djep.xjep.function.Min;
-import org.lsmp.djep.xjep.function.MinArg;
-import org.lsmp.djep.xjep.function.Product;
-import org.lsmp.djep.xjep.function.Simpson;
-import org.lsmp.djep.xjep.function.Sum;
 import org.lsmp.djep.xjep.function.ToBase;
-import org.lsmp.djep.xjep.function.Trapezium;
 import org.nfunk.jep.ASTFunNode;
 import org.nfunk.jep.ASTVarNode;
 import org.nfunk.jep.JEP;
@@ -28,6 +20,11 @@ import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.Variable;
 import org.nfunk.jep.VariableFactory;
 import org.nfunk.jep.function.Exp;
+import org.nfunk.jep.function.Sum;
+
+import ch.zhaw.simulation.jep.functions.Avg;
+import ch.zhaw.simulation.jep.functions.Max;
+import ch.zhaw.simulation.jep.functions.Min;
 
 /**
  * An extended version of JEP adds various routines for working with trees. Has
@@ -68,6 +65,7 @@ public class XJep extends JEP {
 		commandv = new CommandVisitor();
 		pv = new PrintVisitor();
 		pv.addSpecialRule(opSet.getElement(), new PrintRulesI() {
+			@Override
 			public void append(Node node, PrintVisitor pv) throws ParseException {
 				node.jjtGetChild(0).jjtAccept(pv, null);
 				node.jjtGetChild(1).jjtAccept(pv, null);
@@ -135,19 +133,18 @@ public class XJep extends JEP {
 		return newJep;
 	}
 
+	@Override
 	public void addStandardFunctions() {
 		if (ingrediant != null) {
 			ingrediant.addStandardFunctions();
-		} else
+		} else {
 			super.addStandardFunctions();
-		addFunction("Sum", new Sum(this));
-		addFunction("Product", new Product());
+		}
+
+		addFunction("Sum", new Sum());
 		addFunction("Min", new Min());
 		addFunction("Max", new Max());
-		addFunction("MinArg", new MinArg());
-		addFunction("MaxArg", new MaxArg());
-		addFunction("Simpson", new Simpson());
-		addFunction("Trapezium", new Trapezium());
+		addFunction("Avg", new Avg(this));
 		addFunction("toBase", new ToBase());
 		addFunction("toHex", new ToBase(16, "0x"));
 		addFunction("fromBase", new FromBase());
@@ -163,28 +160,30 @@ public class XJep extends JEP {
 			MacroFunction cot = new MacroFunction("cot", 1, "1/tan(x)", this);
 			addFunction("cot", cot);
 		} catch (ParseException e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
+	@Override
 	public void addStandardConstants() {
 		if (ingrediant != null) {
 			ingrediant.addStandardConstants();
 			for (Variable var : ingrediant.getSymbolTable().values()) {
-				if (var.isConstant())
+				if (var.isConstant()) {
 					this.symTab.addConstant(var.getName(), var.getValue());
-				// else
-				// this.symTab.addVariable(var.getName(),var.getValue());
+				}
 			}
 		} else
 			super.addStandardConstants();
 	}
 
+	@Override
 	public void addComplex() {
 		if (ingrediant != null) {
 			ingrediant.addComplex();
-		} else
+		} else {
 			super.addComplex();
+		}
 	}
 
 	/** Returns a deep copy of an expression tree. */
@@ -253,7 +252,6 @@ public class XJep extends JEP {
 		return tu;
 	}
 
-	// public SimplificationVisitor getSimpV() { return simpv; }
 	/** Returns the PrintVisitor, used for printing equations. */
 	public PrintVisitor getPrintVisitor() {
 		return pv;

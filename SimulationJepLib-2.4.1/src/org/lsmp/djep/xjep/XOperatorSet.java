@@ -116,6 +116,7 @@ public class XOperatorSet extends OperatorSet {
 	 * properties.
 	 * 
 	 */
+	@Override
 	public void printOperators() {
 		Operator ops[] = getOperators();
 		int maxPrec = -1;

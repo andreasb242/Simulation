@@ -126,6 +126,7 @@ public class MutiableMonomial {
 		return new Monomial(pc, coeff, terms, powers);
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(coeff.toString());

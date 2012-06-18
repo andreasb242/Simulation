@@ -11,15 +11,20 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.UMinus;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Unitary minus for matrices.
  * 
  * @author Rich Morris Created on 27-Jul-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class MUMinus extends UMinus implements UnaryOperatorI {
 	public MUMinus() {
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim) {
 		return ldim;
 	}
@@ -33,6 +38,7 @@ public class MUMinus extends UMinus implements UnaryOperatorI {
 	 *            - the value to be negated
 	 * @return res
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs) throws ParseException {
 		int len = res.getNumEles();
 		for (int i = 0; i < len; ++i)
@@ -43,7 +49,7 @@ public class MUMinus extends UMinus implements UnaryOperatorI {
 	/**
 	 * Negate an objects.
 	 */
-
+	@Override
 	public Object umin(Object param1) throws ParseException {
 		if (param1 instanceof MVector)
 			return umin((MVector) param1);

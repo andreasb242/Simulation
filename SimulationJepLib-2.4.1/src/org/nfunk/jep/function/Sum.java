@@ -13,10 +13,18 @@ import java.util.Stack;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
+
 /**
  * This class serves mainly as an example of a function that accepts any number
  * of parameters. Note that the numberOfParameters is initialized to -1.
  */
+@Category(CategoryType.BASE)
+@Example("(x, y, z, ...)")
+@Description("The sum of all parameter")
 public class Sum extends PostfixMathCommand {
 	private Add addFun = new Add();
 
@@ -32,6 +40,7 @@ public class Sum extends PostfixMathCommand {
 	 * Calculates the result of summing up all parameters, which are assumed to
 	 * be of the Double type.
 	 */
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 		checkStack(stack);// check the stack
 

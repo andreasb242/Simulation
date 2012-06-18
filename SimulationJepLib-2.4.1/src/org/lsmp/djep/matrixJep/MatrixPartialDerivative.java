@@ -25,8 +25,9 @@ public class MatrixPartialDerivative extends PartialDerivative implements Matrix
 	protected MatrixPartialDerivative(MatrixVariable var, String derivnames[], Node deriv) {
 		super(var, derivnames);
 		/*
-		 * TODO_YEP could be a little cleverer just have a partial derivative which
-		 * is a constant dy/dx = 1 don't use an equation, instead use a value.
+		 * TODO_YEP could be a little cleverer just have a partial derivative
+		 * which is a constant dy/dx = 1 don't use an equation, instead use a
+		 * value.
 		 * 
 		 * if(deriv instanceof ASTMConstant) { MatrixValueI val =
 		 * ((ASTMConstant) deriv).getMValue();
@@ -38,21 +39,26 @@ public class MatrixPartialDerivative extends PartialDerivative implements Matrix
 		mvalue = Tensor.getInstance(var.getDimensions());
 	}
 
+	@Override
 	public Dimensions getDimensions() {
 		MatrixVariableI root = (MatrixVariableI) getRoot();
 		return root.getDimensions();
 	}
 
+	@Override
 	public void setDimensions(Dimensions dims) {
 	}
 
+	@Override
 	public MatrixValueI getMValue() {
 		return mvalue;
 	}
 
+	@Override
 	public void setMValue(MatrixValueI val) {
-		if (this.isConstant())
+		if (this.isConstant()) {
 			return;
+		}
 		mvalue.setEles(val);
 		setValidValue(true);
 		setChanged();

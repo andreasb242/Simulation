@@ -16,7 +16,7 @@ import org.nfunk.jep.ParseException;
  * Object res = (Node) node.jjtAccept(this, data);
  * if (hasErrors())
  * 	throw new ParseException(getErrors());
- *</pre>
+ * </pre>
  * 
  * @author Rich Morris Created on 19-Jun-2003
  */

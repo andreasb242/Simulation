@@ -195,9 +195,11 @@ public class Complex {
 	 * 
 	 * @since 2.3.0.2
 	 */
+	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Complex))
+		if (!(o instanceof Complex)) {
 			return false;
+		}
 		Complex c = (Complex) o;
 		return (Double.doubleToLongBits(this.re) == Double.doubleToLongBits(c.re) && Double.doubleToLongBits(this.im) == Double.doubleToLongBits(c.im));
 	}
@@ -206,6 +208,7 @@ public class Complex {
 	 * Always override hashCode when you override equals. Efective Java, Joshua
 	 * Bloch, Sun Press
 	 */
+	@Override
 	public int hashCode() {
 		int result = 17;
 		long xl = Double.doubleToLongBits(this.re);
@@ -226,6 +229,7 @@ public class Complex {
 	 * 
 	 * .
 	 */
+	@Override
 	public String toString() {
 		return "(" + re + ", " + im + ")";
 	}
@@ -240,14 +244,15 @@ public class Complex {
 	 */
 
 	public String toString(NumberFormat format, boolean flag) {
-		if (im == 0.0)
+		if (im == 0.0) {
 			return format.format(re);
-		else if (re == 0.0)
+		} else if (re == 0.0) {
 			return format.format(im) + " i)";
-		else if (flag)
+		} else if (flag) {
 			return "(" + format.format(re) + "+" + format.format(im) + " i)";
-		else
+		} else {
 			return format.format(re) + "+" + format.format(im) + " i";
+		}
 	}
 
 	/**

@@ -20,10 +20,12 @@ public class PConstant extends AbstractPNode {
 		value = o;
 	}
 
+	@Override
 	public PNodeI negate() throws ParseException {
 		return new PConstant(pc, pc.neg(value));
 	}
 
+	@Override
 	public PNodeI add(PNodeI c) throws ParseException {
 		if (this.isZero())
 			return c;
@@ -33,6 +35,7 @@ public class PConstant extends AbstractPNode {
 		return super.add(c);
 	}
 
+	@Override
 	public PNodeI sub(PNodeI c) throws ParseException {
 		if (this.isZero())
 			return c.negate();
@@ -41,6 +44,7 @@ public class PConstant extends AbstractPNode {
 		return super.sub(c);
 	}
 
+	@Override
 	public PNodeI mul(PNodeI c) throws ParseException {
 		if (this.isZero())
 			return pc.zeroConstant;
@@ -57,6 +61,7 @@ public class PConstant extends AbstractPNode {
 		return super.mul(c);
 	}
 
+	@Override
 	public PNodeI div(PNodeI c) throws ParseException {
 		if (this.isZero()) {
 			if (c.isZero())
@@ -74,10 +79,12 @@ public class PConstant extends AbstractPNode {
 		return super.div(c);
 	}
 
+	@Override
 	public PNodeI invert() throws ParseException {
 		return new PConstant(pc, pc.div(pc.one, value));
 	}
 
+	@Override
 	public PNodeI pow(PNodeI c) throws ParseException {
 		if (this.isZero()) {
 			if (c.isZero())
@@ -95,6 +102,7 @@ public class PConstant extends AbstractPNode {
 		return super.pow(c);
 	}
 
+	@Override
 	public String toString() {
 		if (isZero())
 			return "0";
@@ -110,10 +118,12 @@ public class PConstant extends AbstractPNode {
 		return value.toString();
 	}
 
+	@Override
 	public boolean isZero() {
 		return value.equals(pc.zero);
 	}
 
+	@Override
 	public boolean isOne() {
 		return value.equals(pc.one);
 	}
@@ -171,6 +181,7 @@ public class PConstant extends AbstractPNode {
 		return ((Number) value).intValue();
 	}
 
+	@Override
 	public Node toNode() throws ParseException {
 		return pc.nf.buildConstantNode(value);
 	}
@@ -180,12 +191,14 @@ public class PConstant extends AbstractPNode {
 		return ((Comparable<Object>) value).compareTo(c.value);
 	}
 
+	@Override
 	public boolean equals(PNodeI node) {
 		if (node instanceof PConstant)
 			return value.equals(((PConstant) node).value);
 		return false;
 	}
 
+	@Override
 	public PNodeI expand() {
 		return this;
 	}

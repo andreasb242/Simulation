@@ -3,7 +3,9 @@
  */
 package org.nfunk.jep.function;
 
-import org.nfunk.jep.*;
+import org.nfunk.jep.EvaluatorI;
+import org.nfunk.jep.Node;
+import org.nfunk.jep.ParseException;
 
 /**
  * Functions which require greater control over their evaluation should

@@ -9,6 +9,9 @@ import java.util.Stack;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Binomial coeficients: binom(n,i). Requires n,i integers >=0. Often written
  * nCi or column vector (n,i). (n,0) = 1, (n,1) = n, (n,n-1) = n, (n,n) = 1<br>
@@ -20,6 +23,7 @@ import org.nfunk.jep.ParseException;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Binomial extends PostfixMathCommand {
 	static final int initN = 20;
 	static int[][] coeffs = new int[initN + 1][];
@@ -65,16 +69,20 @@ public class Binomial extends PostfixMathCommand {
 		this.numberOfParameters = 2;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		Object iObj = s.pop();
 		Object nObj = s.pop();
-		if ((!(iObj instanceof Number)) || (!(nObj instanceof Number)))
+		if ((!(iObj instanceof Number)) || (!(nObj instanceof Number))) {
 			throw new ParseException("Binomial: both arguments must be integers. They are " + nObj + "(" + nObj.getClass().getName() + ") and " + iObj + "("
 					+ nObj.getClass().getName() + ")");
+		}
+
 		int iInt = ((Number) iObj).intValue();
 		int nInt = ((Number) nObj).intValue();
-		if (nInt < 0 || iInt < 0 || iInt > nInt)
+		if (nInt < 0 || iInt < 0 || iInt > nInt) {
 			throw new ParseException("Binomial: illegal values for arguments 0<i<n. They are " + nObj + " and " + iObj);
+		}
 
 		expand(nInt);
 		int res = coeffs[nInt][iInt];

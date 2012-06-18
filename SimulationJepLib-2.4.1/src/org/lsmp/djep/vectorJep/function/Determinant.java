@@ -18,6 +18,9 @@ import org.nfunk.jep.function.Multiply;
 import org.nfunk.jep.function.PostfixMathCommand;
 import org.nfunk.jep.function.Subtract;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Calculate the Determinant of a matrix
  * 
@@ -27,6 +30,7 @@ import org.nfunk.jep.function.Subtract;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Determinant extends PostfixMathCommand implements UnaryOperatorI {
 	private Add add = new Add();
 	private Subtract sub = new Subtract();
@@ -37,10 +41,12 @@ public class Determinant extends PostfixMathCommand implements UnaryOperatorI {
 		this.numberOfParameters = 1;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim) {
 		return Dimensions.ONE;
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs) throws ParseException {
 		if (!(res instanceof Scaler))
 			throw new ParseException("det: result must be a scaler");
@@ -121,6 +127,7 @@ public class Determinant extends PostfixMathCommand implements UnaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		MatrixValueI obj = (MatrixValueI) s.pop();
 		MatrixValueI res = Tensor.getInstance(calcDim(obj.getDim()));

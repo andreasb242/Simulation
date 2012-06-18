@@ -43,6 +43,7 @@ public class DVariable extends XVariable {
 	}
 
 	/** sets the equation */
+	@Override
 	public void setEquation(Node eqn) {
 		super.setEquation(eqn);
 		derivatives.clear();
@@ -180,29 +181,35 @@ public class DVariable extends XVariable {
 		return findDerivative(newnames, jep);
 	}
 
+	@Override
 	public String toString(PrintVisitor bpv) {
 		boolean mode = bpv.getMode(DPrintVisitor.PRINT_VARIABLE_EQNS);
 		bpv.setMode(DPrintVisitor.PRINT_VARIABLE_EQNS, false);
 		StringBuffer sb = new StringBuffer(name);
 		sb.append(":\t");
-		if (hasValidValue())
+		if (hasValidValue()) {
 			sb.append(getValue());
-		else
+		} else {
 			sb.append("NA");
+		}
+
 		sb.append("\t");
-		if (this.isConstant())
+		if (this.isConstant()) {
 			sb.append("constant");
-		else if (getEquation() != null)
+		} else if (getEquation() != null) {
 			sb.append("eqn " + bpv.toString(getEquation()));
-		else
+		} else {
 			sb.append("no equation");
+		}
+
 		for (PartialDerivative var : derivatives.values()) {
 			sb.append("\n");
 			sb.append("\t" + var.toString() + ": ");
-			if (var.hasValidValue())
+			if (var.hasValidValue()) {
 				sb.append(var.getValue());
-			else
+			} else {
 				sb.append("NA");
+			}
 			sb.append("\t");
 			sb.append(bpv.toString(var.getEquation()));
 		}

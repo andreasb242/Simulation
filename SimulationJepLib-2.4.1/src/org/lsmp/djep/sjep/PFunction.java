@@ -27,6 +27,7 @@ public class PFunction extends AbstractPNode {
 		this.args = args;
 	}
 
+	@Override
 	public boolean equals(PNodeI node) {
 		if (!(node instanceof PFunction))
 			return false;
@@ -62,6 +63,7 @@ public class PFunction extends AbstractPNode {
 		return 0;
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name);
@@ -75,6 +77,7 @@ public class PFunction extends AbstractPNode {
 		return sb.toString();
 	}
 
+	@Override
 	public Node toNode() throws ParseException {
 		Node funargs[] = new Node[args.length];
 		for (int i = 0; i < args.length; ++i)
@@ -83,6 +86,7 @@ public class PFunction extends AbstractPNode {
 		return fun;
 	}
 
+	@Override
 	public PNodeI expand() throws ParseException {
 		PNodeI newTerms[] = new PNodeI[args.length];
 		for (int i = 0; i < args.length; ++i)

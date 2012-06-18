@@ -32,14 +32,17 @@ public class PowerDiffRule implements DiffRulesI {
 		name = inName;
 	}
 
+	@Override
 	public String toString() {
 		return name + "  \t\tdiff(f*g,x) -> diff(f,x)*g+f*diff(g,x)";
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public Node differentiate(ASTFunNode node, String var, Node[] children, Node[] dchildren, DJep djep) throws ParseException {
 		OperatorSet op = djep.getOperatorSet();
 		NodeFactory nf = djep.getNodeFactory();
@@ -55,13 +58,6 @@ public class PowerDiffRule implements DiffRulesI {
 			ASTConstant c = (ASTConstant) children[1];
 			Object value = c.getValue();
 			if (value instanceof Double) { // x^m -> m * x^(m-1) * x'
-				// Node a = TreeUtils.deepCopy(children[1]);
-				// Node b = TreeUtils.deepCopy(children[0]);
-				// Node cc = TreeUtils.createConstant( ((Double)
-				// value).doubleValue()-1.0);
-				// Node d = opSet.buildPowerNode(b,cc);
-				// Node e = opSet.buildMultiplyNode(a,d);
-
 				return nf.buildOperatorNode(op.getMultiply(), djep.deepCopy(children[1]), nf.buildOperatorNode(op.getMultiply(), nf.buildOperatorNode(op
 						.getPower(), djep.deepCopy(children[0]), nf.buildConstantNode(((Double) value).doubleValue() - 1.0)), dchildren[0]));
 			}

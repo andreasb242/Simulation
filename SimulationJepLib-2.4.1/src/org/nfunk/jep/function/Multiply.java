@@ -14,12 +14,17 @@ import java.util.Vector;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.UNDEFINED)
 public class Multiply extends PostfixMathCommand {
 
 	public Multiply() {
 		numberOfParameters = -1;
 	}
 
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 		checkStack(stack); // check the stack
 

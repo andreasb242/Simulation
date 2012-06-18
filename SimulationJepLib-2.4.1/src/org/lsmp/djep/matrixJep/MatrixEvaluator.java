@@ -40,20 +40,24 @@ public class MatrixEvaluator implements ParserVisitor, EvaluatorI {
 		return (MatrixValueI) node.jjtAccept(this, null);
 	}
 
+	@Override
 	public Object eval(Node node) throws ParseException {
 		MatrixValueI val = (MatrixValueI) node.jjtAccept(this, null);
 		return val.copy();
 	}
 
+	@Override
 	public Object visit(SimpleNode node, Object data) {
 		return null;
 	}
 
+	@Override
 	public Object visit(ASTStart node, Object data) {
 		return null;
 	}
 
 	/** constants **/
+	@Override
 	public Object visit(ASTConstant node, Object data) {
 		return ((ASTMConstant) node).getMValue();
 	}
@@ -61,16 +65,19 @@ public class MatrixEvaluator implements ParserVisitor, EvaluatorI {
 	/** multi dimensional differentiable variables */
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		MatrixVariableI var = (MatrixVariableI) node.getVar();
-		if (var.hasValidValue())
+		if (var.hasValidValue()) {
 			return var.getMValue();
-		if (!var.hasEquation())
+		}
+		if (!var.hasEquation()) {
 			throw new ParseException("Tried to evaluate a variable \"" + var.getName() + "\" with an invalid value but no equation");
+		}
 		MatrixValueI res = (MatrixValueI) var.getEquation().jjtAccept(this, data);
 		var.setMValue(res);
 		return res;
 	}
 
 	/** other functions **/
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		MatrixNodeI mnode = (MatrixNodeI) node;
 		PostfixMathCommandI pfmc = node.getPFMC();
@@ -115,8 +122,9 @@ public class MatrixEvaluator implements ParserVisitor, EvaluatorI {
 		int num = node.jjtGetNumChildren();
 		for (int i = 0; i < num; ++i) {
 			MatrixValueI vec = (MatrixValueI) node.jjtGetChild(i).jjtAccept(this, data);
-			if (!vec.getDim().equals(Dimensions.ONE))
+			if (!vec.getDim().equals(Dimensions.ONE)) {
 				throw new ParseException("Arguments of " + node.getName() + " must be scalers");
+			}
 			stack.push(vec.getEle(0));
 		}
 		pfmc.setCurNumberOfParameters(num);

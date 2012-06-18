@@ -10,9 +10,13 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * @author Rich Morris Created on 02-May-2005
  */
+@Category(CategoryType.BASE)
 public class FromBase extends PostfixMathCommand {
 	int globalBase = -1;
 	String prefix = null;
@@ -35,20 +39,24 @@ public class FromBase extends PostfixMathCommand {
 		this.prefix = prefix;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		int nargs = this.curNumberOfParameters;
-		if (globalBase == -1 && nargs != 2)
+		if (globalBase == -1 && nargs != 2) {
 			throw new ParseException("fromBase: number of arguments should be 2");
-		if (globalBase != -1 && nargs != 1)
+		}
+		if (globalBase != -1 && nargs != 1) {
 			throw new ParseException("fromBase: number of arguments should be 1");
+		}
 		// find the base
 		int base = globalBase;
 		if (globalBase == -1) {
 			Object rhs = s.pop();
-			if (rhs instanceof Number)
+			if (rhs instanceof Number) {
 				base = ((Number) rhs).intValue();
-			else
+			} else {
 				throw new ParseException("toBase: second argument should be an integer");
+			}
 		}
 		Object lhs = s.pop();
 		if (lhs instanceof String) {
@@ -65,8 +73,9 @@ public class FromBase extends PostfixMathCommand {
 
 	public Object fromBase(String str, int base) throws NumberFormatException {
 		boolean sign = str.startsWith("-");
-		if (sign)
+		if (sign) {
 			str = str.substring(1);
+		}
 
 		// remove prefix
 		if (prefix != null) {
@@ -80,8 +89,9 @@ public class FromBase extends PostfixMathCommand {
 		int ind = str.indexOf('.');
 		if (ind == -1) {
 			double val = Long.parseLong(str, base);
-			if (sign)
+			if (sign) {
 				val = -val;
+			}
 			return val;
 		}
 		String intpart = str.substring(0, ind);

@@ -18,10 +18,6 @@ import org.lsmp.djep.xjep.PrintVisitor;
 import org.lsmp.djep.xjep.XJep;
 import org.lsmp.djep.xjep.XOperator;
 import org.lsmp.djep.xjep.XVariable;
-import org.nfunk.jep.Node;
-import org.nfunk.jep.OperatorSet;
-import org.nfunk.jep.ParseException;
-import org.nfunk.jep.Variable;
 import org.nfunk.jep.type.Complex;
 
 /**
@@ -384,14 +380,16 @@ public class XJepTest extends JepTest {
 		((XJep) j).preprocess(node1);
 	}
 
+	public void testMin() throws Exception {
+		valueTest("Min(5,15,20,3)", 3);
+	}
+
+	public void testMax() throws Exception {
+		valueTest("Max(5,15,20,3)", 20);
+	}
+
 	public void testSum() throws Exception {
-		valueTest("Sum(x,x,1,10)", 55);
-		valueTest("Sum(x^2,x,1,5)", 55);
-		valueTest("Product(x,x,1,5)", 120);
-		valueTest("Min(x^2,x,1,5)", 1);
-		valueTest("Max(x^2,x,1,5)", 25);
-		valueTest("MinArg(x^2,x,1,5)", 1);
-		valueTest("MaxArg(x^2,x,1,5)", 5);
+		valueTest("Sum(5,15,20,3)", 43);
 	}
 
 	public void testHex() throws Exception {
@@ -597,11 +595,16 @@ public class XJepTest extends JepTest {
 		myAssertEquals(st, "0xa*x+0xf*x^0x2-0x10*x^0x3+0x20*x^0x4-0x100*x^0x5", res);
 	}
 
+	public void testAvg() throws Exception {
+		valueTest("Sum(5,10,15,1)", "31.0");
+		valueTest("Avg(5,10,15)", "10.0");
+	}
+
 	public void testDefine() throws Exception {
-		// XJep xj = (XJep) j;
-		// Node n = xj.parse("Define(\"sumToX\",1,\"x*(x+1)/2\")");
-		// xj.preprocess(n);
-		// valueTest("sumToX(4)",10);
+//		XJep xj = (XJep) j;
+//		Node n = xj.parse("Define(\"sumToX\",1,\"x*(x+1)/2\")");
+//		xj.preprocess(n);
+//		valueTest("sumToX(4)", 10);
 	}
 
 	public void testBad() throws Exception {

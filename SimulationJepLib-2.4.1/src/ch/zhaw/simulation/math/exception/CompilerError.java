@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.math.exception;
 
-
 public class CompilerError extends SimulationModelException {
 	private static final long serialVersionUID = 1L;
 	private String message;
@@ -14,6 +13,7 @@ public class CompilerError extends SimulationModelException {
 		this.width = width;
 	}
 
+	@Override
 	public String getMessage() {
 		return message;
 	}

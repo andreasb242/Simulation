@@ -27,6 +27,7 @@ public class XEvaluatorVisitor extends EvaluatorVisitor {
 	 * Visit a variable node. The value of the variable is obtained from the
 	 * symbol table (symTab) and pushed onto the stack.
 	 */
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 
 		Variable var = node.getVar();

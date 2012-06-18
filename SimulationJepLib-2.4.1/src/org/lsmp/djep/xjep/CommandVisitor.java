@@ -54,6 +54,7 @@ public class CommandVisitor extends DoNothingVisitor {
 		return res;
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		Node children[] = acceptChildrenAsArray(node, data);
 

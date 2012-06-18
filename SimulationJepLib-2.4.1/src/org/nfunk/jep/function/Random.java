@@ -12,14 +12,19 @@ import java.util.Stack;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Encapsulates the Math.random() function.
  */
+@Category(CategoryType.UNDEFINED)
 public class Random extends PostfixMathCommand {
 	public Random() {
 		numberOfParameters = 0;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		inStack.push(Math.random());

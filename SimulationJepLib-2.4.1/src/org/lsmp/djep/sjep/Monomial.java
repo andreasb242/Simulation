@@ -57,6 +57,7 @@ public class Monomial extends AbstractPNode {
 		return new MutiableMonomial(pc, coeff, newTerms, newPows);
 	}
 
+	@Override
 	public PNodeI mul(PNodeI node) throws ParseException {
 		if (node instanceof PConstant)
 			return this.valueOf((PConstant) coeff.mul(node), vars, powers);
@@ -69,6 +70,7 @@ public class Monomial extends AbstractPNode {
 		return mm.toPNode();
 	}
 
+	@Override
 	public PNodeI div(PNodeI node) throws ParseException {
 		if (node instanceof PConstant)
 			return this.valueOf((PConstant) coeff.div(node), vars, powers);
@@ -97,6 +99,7 @@ public class Monomial extends AbstractPNode {
 		return mm.toPNode();
 	}
 
+	@Override
 	public PNodeI pow(PNodeI pow) throws ParseException {
 		if (pow instanceof PConstant) {
 			MutiableMonomial mm = this.toMutiableMonomial();
@@ -106,10 +109,12 @@ public class Monomial extends AbstractPNode {
 		return super.pow(pow);
 	}
 
+	@Override
 	public PNodeI negate() throws ParseException {
 		return new Monomial(pc, (PConstant) coeff.negate(), vars, powers);
 	}
 
+	@Override
 	public PNodeI invert() throws ParseException {
 		PNodeI newPows[] = new PNodeI[vars.length];
 		for (int i = 0; i < vars.length; ++i)
@@ -117,6 +122,7 @@ public class Monomial extends AbstractPNode {
 		return new Monomial(pc, (PConstant) coeff.invert(), vars, newPows);
 	}
 
+	@Override
 	public PNodeI add(PNodeI node) throws ParseException {
 		if (node instanceof PVariable) {
 			if (this.equalsIgnoreConstant(node)) {
@@ -132,6 +138,7 @@ public class Monomial extends AbstractPNode {
 		return super.add(node);
 	}
 
+	@Override
 	public PNodeI sub(PNodeI node) throws ParseException {
 		if (node instanceof PVariable) {
 			if (this.equalsIgnoreConstant(node)) {
@@ -153,6 +160,7 @@ public class Monomial extends AbstractPNode {
 
 	// ////////////////// Comparison functions
 
+	@Override
 	public boolean equals(PNodeI node) {
 		if (!(node instanceof Monomial))
 			return false;
@@ -193,7 +201,7 @@ public class Monomial extends AbstractPNode {
 	 * 
 	 * @return this < arg ---> -1, this > arg ---> 1
 	 */
-
+	@Override
 	public int compareTo(PNodeI node) {
 		if (node instanceof PConstant)
 			return 1;
@@ -240,6 +248,7 @@ public class Monomial extends AbstractPNode {
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 
@@ -304,6 +313,7 @@ public class Monomial extends AbstractPNode {
 		return sb.toString();
 	}
 
+	@Override
 	public Node toNode() throws ParseException {
 		int nCoeff = coeff.isOne() ? 0 : 1;
 
@@ -359,6 +369,7 @@ public class Monomial extends AbstractPNode {
 		return coeff.isNegative();
 	}
 
+	@Override
 	public PNodeI expand() throws ParseException {
 		MutiablePolynomial mp = new MutiablePolynomial(pc, new PNodeI[] { this.coeff });
 		for (int i = 0; i < vars.length; ++i) {

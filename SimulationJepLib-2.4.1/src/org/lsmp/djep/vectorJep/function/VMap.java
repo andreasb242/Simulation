@@ -17,6 +17,9 @@ import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.CallbackEvaluationI;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * evaluates a function on every element of a vector or matrix.
  * Map(x^2,x,[1,2,3]) -> [1,4,9] Map(x^y,[x,y],[1,2,3],[1,2,3]) -> [1,4,27]
@@ -27,16 +30,19 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author Rich Morris Created on 14-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class VMap extends PostfixMathCommand implements NaryOperatorI, CallbackEvaluationI {
 	public VMap() {
 		super();
 		this.numberOfParameters = -1;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions[] dims) throws ParseException {
 		return dims[2];
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI[] inputs) throws ParseException {
 		return null;
 	}
@@ -61,10 +67,12 @@ public class VMap extends PostfixMathCommand implements NaryOperatorI, CallbackE
 		return vars;
 	}
 
+	@Override
 	public boolean checkNumberOfParameters(int n) {
 		return (n >= 3);
 	}
 
+	@Override
 	public Object evaluate(Node node, EvaluatorI pv) throws ParseException {
 		int nChild = node.jjtGetNumChildren();
 		if (nChild < 3)

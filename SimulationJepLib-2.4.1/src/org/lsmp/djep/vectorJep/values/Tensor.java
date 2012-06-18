@@ -27,6 +27,7 @@ public class Tensor implements MatrixValueI {
 		this.dims = t.getDim();
 	}
 
+	@Override
 	public MatrixValueI copy() {
 		Tensor tmp = new Tensor(this);
 		tmp.setEles(tmp);
@@ -39,23 +40,28 @@ public class Tensor implements MatrixValueI {
 		this.dims = Dimensions.valueOf(len, dims);
 	}
 
+	@Override
 	public Dimensions getDim() {
 		return dims;
 	}
 
+	@Override
 	public int getNumEles() {
 		return values.length;
 	}
 
+	@Override
 	public void setEle(int i, Object value) {
 		values[i] = value;
 	}
 
+	@Override
 	public Object getEle(int i) {
 		return values[i];
 	}
 
 	/** sets the elements to those of the arguments. */
+	@Override
 	public void setEles(MatrixValueI val) {
 		if (!dims.equals(val.getDim()))
 			return;
@@ -105,6 +111,7 @@ public class Tensor implements MatrixValueI {
 	/**
 	 * Returns a string rep of tensor. Uses [[a,b],[c,d]] syntax.
 	 */
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		curEle = 0;
@@ -112,15 +119,7 @@ public class Tensor implements MatrixValueI {
 		return sb.toString();
 	}
 
-	/** value of constant ele(1). */
-	// public int intValue() {return ((Number) values[0]).intValue(); }
-	/** value of constant ele(1). */
-	// public long longValue() {return ((Number) values[0]).longValue(); }
-	/** value of constant ele(1). */
-	// public float floatValue() { return ((Number) values[0]).floatValue(); }
-	/** value of constant ele(1). */
-	// public double doubleValue() {return ((Number) values[0]).doubleValue(); }
-
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Tensor))
 			return false;
@@ -137,6 +136,7 @@ public class Tensor implements MatrixValueI {
 	 * Always override hashCode when you override equals. Efective Java, Joshua
 	 * Bloch, Sun Press
 	 */
+	@Override
 	public int hashCode() {
 		int result = 17;
 		for (int i = 0; i < values.length; ++i)

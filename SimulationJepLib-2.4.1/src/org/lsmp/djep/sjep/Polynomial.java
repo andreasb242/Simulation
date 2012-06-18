@@ -28,6 +28,7 @@ public class Polynomial extends AbstractPNode {
 		return new MutiablePolynomial(pc, newTerms);
 	}
 
+	@Override
 	public PNodeI add(PNodeI node) throws ParseException {
 		if (node instanceof Polynomial)
 			return this.add((Polynomial) node);
@@ -37,6 +38,7 @@ public class Polynomial extends AbstractPNode {
 		return mp.toPNode();
 	}
 
+	@Override
 	public PNodeI sub(PNodeI node) throws ParseException {
 		if (node instanceof Polynomial)
 			return this.sub((Polynomial) node);
@@ -60,6 +62,7 @@ public class Polynomial extends AbstractPNode {
 		return mp.toPNode();
 	}
 
+	@Override
 	public PNodeI negate() throws ParseException {
 		PNodeI newTerms[] = new PNodeI[terms.length];
 		for (int i = 0; i < terms.length; ++i)
@@ -67,6 +70,7 @@ public class Polynomial extends AbstractPNode {
 		return new Polynomial(pc, newTerms);
 	}
 
+	@Override
 	public PNodeI mul(PNodeI node) throws ParseException {
 		if (node instanceof PConstant) {
 			PConstant c = (PConstant) node;
@@ -74,16 +78,11 @@ public class Polynomial extends AbstractPNode {
 				return pc.zeroConstant;
 			if (c.isOne())
 				return this;
-			// if(c.isInfinity()) return pc.infConstant;
-
-			// PNodeI newTerms[] = new PNodeI[terms.length];
-			// for(int i=0;i<terms.length;++i)
-			// newTerms[i] = terms[i].mul(c);
-			// return new Polynomial(pc,newTerms);
 		}
 		return super.mul(node);
 	}
 
+	@Override
 	public PNodeI div(PNodeI node) throws ParseException {
 		if (node instanceof PConstant) {
 			PConstant c = (PConstant) node;
@@ -99,6 +98,7 @@ public class Polynomial extends AbstractPNode {
 		return super.div(node);
 	}
 
+	@Override
 	public boolean equals(PNodeI node) {
 		if (!(node instanceof Polynomial))
 			return false;
@@ -114,7 +114,7 @@ public class Polynomial extends AbstractPNode {
 	/**
 	 * this < arg ---> -1 this > arg ---> 1
 	 */
-
+	@Override
 	public int compareTo(PNodeI node) {
 		if (node instanceof Polynomial)
 			return this.compareTo((Polynomial) node);
@@ -147,6 +147,7 @@ public class Polynomial extends AbstractPNode {
 		return false;
 	}
 
+	@Override
 	public String toString() {
 		if (terms.length == 0)
 			return "0";
@@ -159,6 +160,7 @@ public class Polynomial extends AbstractPNode {
 		return sb.toString();
 	}
 
+	@Override
 	public Node toNode() throws ParseException {
 		if (terms.length == 0)
 			return pc.nf.buildConstantNode(pc.zero);
@@ -170,6 +172,7 @@ public class Polynomial extends AbstractPNode {
 		return pc.nf.buildOperatorNode(pc.os.getAdd(), args);
 	}
 
+	@Override
 	public PNodeI expand() throws ParseException {
 		MutiablePolynomial mp = new MutiablePolynomial(pc, new PNodeI[] { pc.zeroConstant });
 		for (int i = 0; i < terms.length; ++i) {

@@ -30,9 +30,12 @@ public class ExpandPower implements RewriteRuleI {
 		this.xj = xj;
 	}
 
+	@Override
 	public boolean test(ASTFunNode node, Node[] children) {
-		if (!node.isOperator())
+		if (!node.isOperator()) {
 			return false;
+		}
+
 		XOperator op = (XOperator) node.getOperator();
 
 		if (opSet.getPower() == op) {
@@ -44,6 +47,7 @@ public class ExpandPower implements RewriteRuleI {
 		return false;
 	}
 
+	@Override
 	public Node apply(ASTFunNode node, Node[] children) throws ParseException {
 		Operator lhsOp = tu.getOperator(children[0]);
 		int n = tu.intValue(children[1]);
@@ -61,25 +65,34 @@ public class ExpandPower implements RewriteRuleI {
 			// a^n
 			vals[0] = nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub1), nf.buildConstantNode(new Double(n)));
 			if (n == 2) {
-				vals[1] = nf.buildOperatorNode(opSet.getMultiply(), nf.buildConstantNode(new Double(2)), nf.buildOperatorNode(opSet.getMultiply(), xj
-						.deepCopy(sub1), xj.deepCopy(sub2)));
+				vals[1] = nf.buildOperatorNode(opSet.getMultiply(), nf.buildConstantNode(new Double(2)),
+						nf.buildOperatorNode(opSet.getMultiply(), xj.deepCopy(sub1), xj.deepCopy(sub2)));
 			} else {
 				// n * a^(n-1) * b
-				vals[1] = nf.buildOperatorNode(opSet.getMultiply(), nf.buildConstantNode(new Double(n)), nf.buildOperatorNode(opSet.getMultiply(), nf
-						.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub1), nf.buildConstantNode(new Double(n - 1))), xj.deepCopy(sub2)));
+				vals[1] = nf.buildOperatorNode(
+						opSet.getMultiply(),
+						nf.buildConstantNode(new Double(n)),
+						nf.buildOperatorNode(opSet.getMultiply(),
+								nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub1), nf.buildConstantNode(new Double(n - 1))), xj.deepCopy(sub2)));
 			}
 			// n * a * b^(n-1)
 			if (n >= 3) {
-				vals[n - 1] = nf.buildOperatorNode(opSet.getMultiply(), nf.buildConstantNode(new Double(n)), nf.buildOperatorNode(opSet.getMultiply(), xj
-						.deepCopy(sub1), nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub2), nf.buildConstantNode(new Double(n - 1)))));
+				vals[n - 1] = nf.buildOperatorNode(
+						opSet.getMultiply(),
+						nf.buildConstantNode(new Double(n)),
+						nf.buildOperatorNode(opSet.getMultiply(), xj.deepCopy(sub1),
+								nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub2), nf.buildConstantNode(new Double(n - 1)))));
 			}
 			// a^n
 			vals[n] = nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub2), nf.buildConstantNode(new Double(n)));
 			for (int i = 2; i < n - 1; ++i) {
 				// (n,i) * a^(n-i) * b^i
-				vals[i] = nf.buildOperatorNode(opSet.getMultiply(), nf.buildConstantNode(new Double(XMath.binomial(n, i))), nf.buildOperatorNode(opSet
-						.getMultiply(), nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub1), nf.buildConstantNode(new Double(n - i))), nf
-						.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub2), nf.buildConstantNode(new Double(i)))));
+				vals[i] = nf.buildOperatorNode(
+						opSet.getMultiply(),
+						nf.buildConstantNode(new Double(XMath.binomial(n, i))),
+						nf.buildOperatorNode(opSet.getMultiply(),
+								nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub1), nf.buildConstantNode(new Double(n - i))),
+								nf.buildOperatorNode(opSet.getPower(), xj.deepCopy(sub2), nf.buildConstantNode(new Double(i)))));
 			}
 
 			Node sums[] = new Node[n + 1];

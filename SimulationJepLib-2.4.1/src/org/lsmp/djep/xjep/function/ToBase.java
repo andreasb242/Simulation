@@ -10,6 +10,9 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Convert a number to a string in a given base. toBase(val,12) converts to base
  * 12 numbers. toBase(val,16,3) converts to base 12 with 3 hex digits after
@@ -21,6 +24,7 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * @author Rich Morris Created on 02-May-2005
  * @see java.lang.Long#toString(long, int)
  */
+@Category(CategoryType.BASE)
 public class ToBase extends PostfixMathCommand {
 	int globalBase = -1;
 	private String prefix = "";
@@ -69,6 +73,7 @@ public class ToBase extends PostfixMathCommand {
 		this.prefix = prefix;
 	}
 
+	@Override
 	public boolean checkNumberOfParameters(int n) {
 		if (globalBase == -1) {
 			return (n == 2 || n == 3);
@@ -77,6 +82,7 @@ public class ToBase extends PostfixMathCommand {
 		}
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		int narg = curNumberOfParameters;
 		int digits = 0;

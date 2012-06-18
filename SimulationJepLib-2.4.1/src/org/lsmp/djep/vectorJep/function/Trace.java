@@ -15,11 +15,15 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.Add;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Calculate the trace of a matrix trace([[1,2],[3,4]]) -> 1+4 = 5
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Trace extends PostfixMathCommand implements UnaryOperatorI {
 	private Add add = new Add();
 
@@ -28,10 +32,12 @@ public class Trace extends PostfixMathCommand implements UnaryOperatorI {
 		this.numberOfParameters = 1;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim) {
 		return Dimensions.ONE;
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs) throws ParseException {
 		if (!(res instanceof Scaler))
 			throw new ParseException("trace: result must be a scaler");
@@ -54,6 +60,7 @@ public class Trace extends PostfixMathCommand implements UnaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		MatrixValueI obj = (MatrixValueI) s.pop();
 		MatrixValueI res = Scaler.getInstance(new Double(0.0));

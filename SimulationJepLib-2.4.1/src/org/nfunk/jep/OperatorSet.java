@@ -70,16 +70,13 @@ public class OperatorSet {
 	protected Operator OP_LIST = new Operator("LIST", new List());
 	protected Operator OP_ELEMENT = new Operator("[]", new Ele());
 
-	// protected Operator OP_RANGE = new Operator(":",new Range());
 	public OperatorSet() {
 	}
 
 	/** Gets the list of operators. Note subclasses should override this method. */
 	public Operator[] getOperators() {
 		Operator ops[] = new Operator[] { OP_GT, OP_LT, OP_GE, OP_LE, OP_EQ, OP_NE, OP_AND, OP_OR, OP_NOT, OP_ADD, OP_SUBTRACT, OP_UMINUS, OP_MULTIPLY,
-				OP_DIVIDE, OP_MOD, OP_POWER, OP_ASSIGN, OP_DOT, OP_CROSS, OP_LIST, OP_ELEMENT /*
-																							 * ,OP_RANGE
-																							 */};
+				OP_DIVIDE, OP_MOD, OP_POWER, OP_ASSIGN, OP_DOT, OP_CROSS, OP_LIST, OP_ELEMENT };
 		return ops;
 	}
 
@@ -172,6 +169,4 @@ public class OperatorSet {
 	public Operator getElement() {
 		return OP_ELEMENT;
 	}
-	// public Operator getRange() {return OP_RANGE; }
-
 }

@@ -28,16 +28,18 @@ public class MacroFunctionDiffRules extends ChainRuleDiffRules {
 
 		int nargs = fun.getNumberOfParameters();
 		rules = new Node[nargs];
-		if (nargs == 1)
+		if (nargs == 1) {
 			rules[0] = localJep.differentiate(fun.getTopNode(), "x");
-		else if (nargs == 2) {
+		} else if (nargs == 2) {
 			rules[0] = localJep.differentiate(fun.getTopNode(), "x");
 			rules[1] = localJep.differentiate(fun.getTopNode(), "y");
 		} else {
-			for (int i = 0; i < nargs; ++i)
+			for (int i = 0; i < nargs; ++i) {
 				rules[i] = localJep.differentiate(fun.getTopNode(), "x" + String.valueOf(i));
+			}
 		}
-		for (int i = 0; i < nargs; ++i)
+		for (int i = 0; i < nargs; ++i) {
 			rules[i] = localJep.simplify(rules[i]);
+		}
 	}
 }

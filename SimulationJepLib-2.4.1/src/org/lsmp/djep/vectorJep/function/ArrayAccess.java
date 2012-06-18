@@ -15,6 +15,9 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.LValueI;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * A postfix MathCommand which facilitates the getting and setting of vector and
  * matrix elements. The class implements the set method of LValueI., read access
@@ -29,6 +32,7 @@ import org.nfunk.jep.function.LValueI;
  * 
  *         TODO_YEP implement setting slices a[3:5]=[3,4,5] a[1,]=[1,3]
  */
+@Category(CategoryType.UNDEFINED)
 public class ArrayAccess extends VEle implements LValueI {
 
 	public ArrayAccess() {
@@ -38,6 +42,7 @@ public class ArrayAccess extends VEle implements LValueI {
 	/**
 	 * Sets the LValue. For the equation a[2]=5
 	 */
+	@Override
 	public void set(EvaluatorI pv, Node node, Object value) throws ParseException {
 		Node lhs = node.jjtGetChild(0);
 		if (!(lhs instanceof ASTVarNode))

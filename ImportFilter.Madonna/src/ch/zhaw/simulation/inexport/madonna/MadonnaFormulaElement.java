@@ -24,7 +24,7 @@ public abstract class MadonnaFormulaElement extends MadonnaElement {
 	public MadonnaFormulaElement(String name, Point pos, String formula) {
 		super(pos);
 		this.name = name;
-		this.formula = formula;
+		this.formula = FormulaImporter.convert(formula);
 	}
 
 	public String getName() {

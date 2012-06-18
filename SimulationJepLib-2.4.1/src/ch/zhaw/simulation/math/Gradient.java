@@ -9,6 +9,10 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.CallbackEvaluationI;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.UNDEFINED)
 public class Gradient extends PostfixMathCommand implements CallbackEvaluationI {
 	private Vector<String> density = new Vector<String>();
 
@@ -40,6 +44,7 @@ public class Gradient extends PostfixMathCommand implements CallbackEvaluationI 
 	/**
 	 * Hack to pass by an function without a real number-value.
 	 */
+	@Override
 	public Object evaluate(Node node, EvaluatorI pv) throws ParseException {
 		return null;
 	}

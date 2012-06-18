@@ -204,6 +204,7 @@ public class SymbolTable extends Hashtable<String, Variable> {
 	/**
 	 * Returns a list of variables, one per line.
 	 */
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		for (Variable var : this.values()) {

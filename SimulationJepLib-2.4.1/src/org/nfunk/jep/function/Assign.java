@@ -10,6 +10,9 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.Variable;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An assignment operator so we can do x=3+4. This function implements the
  * CallbackEvaluationI interface so that it handles setting the value of a
@@ -20,6 +23,7 @@ import org.nfunk.jep.Variable;
  * 
  * @author Rich Morris Created on 18-Nov-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class Assign extends PostfixMathCommand implements CallbackEvaluationI {
 
 	public Assign() {
@@ -32,6 +36,7 @@ public class Assign extends PostfixMathCommand implements CallbackEvaluationI {
 	 * by evaluating the righthand side.
 	 * 
 	 */
+	@Override
 	public Object evaluate(Node node, EvaluatorI pv) throws ParseException {
 		if (node.jjtGetNumChildren() != 2)
 			throw new ParseException("Assignment operator must have 2 operators.");

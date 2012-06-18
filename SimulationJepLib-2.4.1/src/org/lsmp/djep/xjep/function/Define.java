@@ -13,6 +13,9 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Allows functions to be defined in equations.
  * 
@@ -40,6 +43,7 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author Rich Morris Created on 21-Jul-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Define extends PostfixMathCommand implements CommandVisitorI {
 	private XJep xj;
 
@@ -48,6 +52,7 @@ public class Define extends PostfixMathCommand implements CommandVisitorI {
 		this.xj = xj;
 	}
 
+	@Override
 	public Node process(Node node, Node[] children, XJep xjep) throws ParseException {
 		String funName = null;
 		int nArgs = -1;
@@ -63,15 +68,17 @@ public class Define extends PostfixMathCommand implements CommandVisitorI {
 			Object val = ((ASTConstant) children[1]).getValue();
 			if (val instanceof Number) {
 				nArgs = ((Number) val).intValue();
-			} else
+			} else {
 				throw new ParseException("Second argument to Define must be a integer");
+			}
 		}
 		if (children[2] instanceof ASTConstant) {
 			Object val = ((ASTConstant) children[2]).getValue();
 			if (val instanceof String) {
 				def = (String) val;
-			} else
+			} else {
 				throw new ParseException("Third argument to Define must be a string");
+			}
 		}
 
 		MacroFunction mf = new MacroFunction(funName, nArgs, def, xj);

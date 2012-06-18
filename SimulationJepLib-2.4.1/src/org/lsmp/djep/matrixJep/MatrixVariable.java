@@ -29,6 +29,7 @@ public class MatrixVariable extends DVariable implements MatrixVariableI {
 	private Dimensions dims;
 	private MatrixValueI mvalue = null;
 
+	@Override
 	protected PartialDerivative createDerivative(String derivnames[], Node eqn) {
 		return new MatrixPartialDerivative(this, derivnames, eqn);
 	}
@@ -57,10 +58,12 @@ public class MatrixVariable extends DVariable implements MatrixVariableI {
 		setValidValue(true);
 	}
 
+	@Override
 	public Dimensions getDimensions() {
 		return dims;
 	}
 
+	@Override
 	public void setDimensions(Dimensions dims) {
 		this.dims = dims;
 		this.mvalue = Tensor.getInstance(dims);
@@ -68,14 +71,17 @@ public class MatrixVariable extends DVariable implements MatrixVariableI {
 	}
 
 	/** returns the value, uses the Scaler type. */
+	@Override
 	public MatrixValueI getMValue() {
 		return mvalue;
 	}
 
 	/** returns the value, unpacks Scalers so they just return its elements. */
+	@Override
 	public Object getValue() {
-		if (mvalue instanceof Scaler)
+		if (mvalue instanceof Scaler) {
 			return mvalue.getEle(0);
+		}
 		return mvalue;
 	}
 
@@ -85,27 +91,27 @@ public class MatrixVariable extends DVariable implements MatrixVariableI {
 	 * 
 	 * TODO_YEP might be better to change macro function behaviour.
 	 */
+	@Override
 	protected boolean setValueRaw(Object val) {
 		if (val instanceof MatrixValueI) {
 			mvalue = (MatrixValueI) val;
 			this.dims = mvalue.getDim();
-		} else
+		} else {
 			mvalue.setEle(0, val);
+		}
 		this.setValidValue(true);
 		return true;
 	}
 
 	public void setMValue(MatrixValueI val) {
-		if (this.isConstant())
+		if (this.isConstant()) {
 			return;
+		}
 		mvalue.setEles(val);
 		setValidValue(true);
 		setChanged();
 		notifyObservers(val);
 	}
-
-	// public void setMValue(VectorMatrixTensorI value)
-	// { this.mvalue = value; this.invalidateAll(); }
 
 	public void print(PrintVisitor bpv) {
 		StringBuffer sb = new StringBuffer(name);

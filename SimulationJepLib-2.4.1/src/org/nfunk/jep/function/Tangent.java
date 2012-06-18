@@ -13,6 +13,10 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.TRIGONOMETRIC)
 public class Tangent extends PostfixMathCommand {
 	public Tangent() {
 		numberOfParameters = 1;

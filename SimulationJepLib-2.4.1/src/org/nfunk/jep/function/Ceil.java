@@ -12,6 +12,11 @@ import java.util.Stack;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
+
 /**
  * A PostfixMathCommandI which find the smallest integer above the number
  * ceil(pi) give 4 ceil(-i) give -3
@@ -19,12 +24,15 @@ import org.nfunk.jep.ParseException;
  * @author Richard Morris
  * @see Math#ceil(double)
  */
-
+@Category(CategoryType.BASE)
+@Example("(x)")
+@Description("Finds the smallest integer above the number, e.g. ceil(pi) give 4 ceil(-3.2) give -3")
 public class Ceil extends PostfixMathCommand {
 	public Ceil() {
 		numberOfParameters = 1;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		Object param = inStack.pop();

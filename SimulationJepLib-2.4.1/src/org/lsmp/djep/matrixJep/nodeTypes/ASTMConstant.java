@@ -21,18 +21,22 @@ public class ASTMConstant extends ASTConstant implements MatrixNodeI {
 		scalerval = (Scaler) Scaler.getInstance(new Double(0.0));
 	}
 
+	@Override
 	public Dimensions getDim() {
 		return Dimensions.ONE;
 	}
 
+	@Override
 	public MatrixValueI getMValue() {
 		return scalerval;
 	}
 
+	@Override
 	public Object getValue() {
 		return scalerval.getEle(0);
 	}
 
+	@Override
 	public void setValue(Object val) {
 		scalerval.setEle(0, val);
 	}

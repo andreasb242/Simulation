@@ -16,8 +16,6 @@ public class MVector implements MatrixValueI {
 	private Object data[] = null;
 	private Dimensions dim;
 
-	// DoubleMatrix jsciMat;
-
 	/** constructs a vector of a given size. **/
 	public MVector(int size) {
 		data = new Object[size];
@@ -29,6 +27,7 @@ public class MVector implements MatrixValueI {
 		return new MVector(size);
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append('[');
@@ -41,23 +40,28 @@ public class MVector implements MatrixValueI {
 		return sb.toString();
 	}
 
+	@Override
 	public Dimensions getDim() {
 		return dim;
 	}
 
+	@Override
 	public int getNumEles() {
 		return data.length;
 	}
 
+	@Override
 	public void setEle(int i, Object value) {
 		data[i] = value;
 	}
 
+	@Override
 	public Object getEle(int i) {
 		return data[i];
 	}
 
 	/** sets the elements to those of the arguments. */
+	@Override
 	public void setEles(MatrixValueI val) {
 		if (!dim.equals(val.getDim()))
 			return;
@@ -68,15 +72,7 @@ public class MVector implements MatrixValueI {
 		return data;
 	}
 
-	/** value of constant ele(1). */
-	// public int intValue() {return ((Number) data[0]).intValue(); }
-	/** value of constant ele(1). */
-	// public long longValue() {return ((Number) data[0]).longValue(); }
-	/** value of constant ele(1). */
-	// public float floatValue() { return ((Number) data[0]).floatValue(); }
-	/** value of constant ele(1). */
-	// public double doubleValue() {return ((Number) data[0]).doubleValue(); }
-
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof MVector))
 			return false;
@@ -93,6 +89,7 @@ public class MVector implements MatrixValueI {
 	 * Always override hashCode when you override equals. Effective Java, Joshua
 	 * Bloch, Sun Press
 	 */
+	@Override
 	public int hashCode() {
 		int result = 17;
 		for (int i = 0; i < data.length; ++i)

@@ -18,21 +18,28 @@ import org.nfunk.jep.ASTFunNode;
 import org.nfunk.jep.Operator;
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An overloaded Power function compatible with MatrixJep.
  * 
  * @author Rich Morris Created on 14-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class MPower extends VPower implements SpecialPreProcessorI {
+
 	/**
 	 * During preprocessing sets the function to the Cross function if
 	 * necessary.
 	 */
+	@Override
 	public MatrixNodeI preprocess(ASTFunNode node, MatrixPreprocessor visitor, MatrixJep jep, MatrixNodeFactory nf) throws ParseException {
 		MatrixNodeI children[] = visitor.visitChildrenAsArray(node, null);
 
-		if (node.jjtGetNumChildren() != 2)
+		if (node.jjtGetNumChildren() != 2) {
 			throw new ParseException("Operator " + node.getOperator().getName() + " must have two elements, it has " + children.length);
+		}
 		Dimensions lhsDim = children[0].getDim();
 		Dimensions rhsDim = children[1].getDim();
 		if (rhsDim.equals(Dimensions.ONE)) {

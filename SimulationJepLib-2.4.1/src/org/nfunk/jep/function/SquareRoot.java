@@ -13,6 +13,14 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
+
+@Category(CategoryType.BASE)
+@Example("(x)")
+@Description("Square root of x")
 public class SquareRoot extends PostfixMathCommand {
 	public SquareRoot() {
 		numberOfParameters = 1;
@@ -21,6 +29,7 @@ public class SquareRoot extends PostfixMathCommand {
 	/**
 	 * Applies the function to the parameters on the stack.
 	 */
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 
 		checkStack(inStack);// check the stack

@@ -21,6 +21,7 @@ public class DSymbolTable extends XSymbolTable {
 	}
 
 	/** Creates a new SymbolTable with the same variable factory as this. */
+	@Override
 	public SymbolTable newInstance() {
 		return new DSymbolTable(this.getVariableFactory());
 	}
@@ -30,6 +31,7 @@ public class DSymbolTable extends XSymbolTable {
 		return var.getDerivative(dnames);
 	}
 
+	@Override
 	public void clearValues() {
 		for (Enumeration<Variable> e = this.elements(); e.hasMoreElements();) {
 			DVariable var = (DVariable) e.nextElement();

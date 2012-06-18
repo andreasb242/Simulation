@@ -36,8 +36,9 @@ public class PartialDerivative extends XVariable implements Observer {
 	protected PartialDerivative(DVariable var, String derivnames[], Node deriv) {
 		this(var, derivnames);
 		/*
-		 * TODO_YEP could be a little cleverer just have a partial derivative which
-		 * is a constant dy/dx = 1 don't use an equation, instead use a value.
+		 * TODO_YEP could be a little cleverer just have a partial derivative
+		 * which is a constant dy/dx = 1 don't use an equation, instead use a
+		 * value.
 		 * 
 		 * if(deriv instanceof ASTConstant) {
 		 * System.out.println("Warning constant derivative "
@@ -63,6 +64,7 @@ public class PartialDerivative extends XVariable implements Observer {
 		return dnames;
 	}
 
+	@Override
 	public String toString() {
 		return printString;
 	}

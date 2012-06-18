@@ -20,6 +20,7 @@ abstract class AbstractPNode implements PNodeI {
 		this.pc = pc;
 	}
 
+	@Override
 	public PNodeI add(PNodeI node) throws ParseException {
 		if (node.isZero())
 			return this;
@@ -37,6 +38,7 @@ abstract class AbstractPNode implements PNodeI {
 		return new Polynomial(pc, new PNodeI[] { node, this }); // x+y
 	}
 
+	@Override
 	public PNodeI sub(PNodeI node) throws ParseException {
 		if (node.isZero())
 			return this;
@@ -55,10 +57,12 @@ abstract class AbstractPNode implements PNodeI {
 		return new Polynomial(pc, new PNodeI[] { this, new Monomial(pc, pc.minusOneConstant, node) }); // x-y
 	}
 
+	@Override
 	public PNodeI negate() throws ParseException {
 		return new Monomial(pc, pc.minusOneConstant, this);
 	}
 
+	@Override
 	public PNodeI mul(PNodeI node) throws ParseException {
 		if (node.isZero())
 			return pc.zeroConstant;
@@ -86,6 +90,7 @@ abstract class AbstractPNode implements PNodeI {
 		return new Monomial(pc, pc.oneConstant, new PNodeI[] { node, this }, new PNodeI[] { pc.oneConstant, pc.oneConstant });
 	}
 
+	@Override
 	public PNodeI div(PNodeI node) throws ParseException {
 		if (this.equals(node))
 			return pc.oneConstant;
@@ -106,10 +111,12 @@ abstract class AbstractPNode implements PNodeI {
 		return new Monomial(pc, pc.oneConstant, new PNodeI[] { this, node }, new PNodeI[] { pc.oneConstant, pc.minusOneConstant });
 	}
 
+	@Override
 	public PNodeI invert() throws ParseException {
 		return pow(pc.minusOneConstant); // x^-1
 	}
 
+	@Override
 	public PNodeI pow(PNodeI node) throws ParseException {
 		if (node.isZero())
 			return pc.oneConstant;
@@ -118,14 +125,17 @@ abstract class AbstractPNode implements PNodeI {
 		return new Monomial(pc, pc.oneConstant, this, node);
 	}
 
+	@Override
 	public boolean equals(PNodeI node) {
 		return false;
 	}
 
+	@Override
 	public boolean isZero() {
 		return false;
 	}
 
+	@Override
 	public boolean isOne() {
 		return false;
 	}
@@ -133,6 +143,7 @@ abstract class AbstractPNode implements PNodeI {
 	/**
 	 * this < arg ---> -1 this > arg ---> 1
 	 */
+	@Override
 	public int compareTo(PNodeI node) {
 		if (this instanceof PConstant) {
 			if (node instanceof PConstant)

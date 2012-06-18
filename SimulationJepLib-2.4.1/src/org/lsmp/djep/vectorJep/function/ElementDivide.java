@@ -9,6 +9,9 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.Divide;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Multiplies any number of Vectors or Matrices element by element.
  * 
@@ -16,8 +19,10 @@ import org.nfunk.jep.function.Divide;
  * 
  * @author Rich Morris Created on 10-Dec-2004
  */
+@Category(CategoryType.UNDEFINED)
 public class ElementDivide extends Divide implements BinaryOperatorI {
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim, Dimensions rdim) {
 		if (ldim.equals(rdim))
 			return ldim;
@@ -27,6 +32,7 @@ public class ElementDivide extends Divide implements BinaryOperatorI {
 	/**
 	 * Multiply the inputs element by element putting the results in res.
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs, MatrixValueI rhs) throws ParseException {
 
 		int len = res.getNumEles();
@@ -39,6 +45,7 @@ public class ElementDivide extends Divide implements BinaryOperatorI {
 	/**
 	 * Multiply arguments element by element. Returns result.
 	 */
+	@Override
 	public Object div(Object param1, Object param2) throws ParseException {
 
 		if (param1 instanceof MatrixValueI && param2 instanceof MatrixValueI) {

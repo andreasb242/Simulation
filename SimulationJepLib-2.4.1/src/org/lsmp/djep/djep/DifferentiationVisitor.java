@@ -141,7 +141,7 @@ public class DifferentiationVisitor extends DeepCopyVisitor {
 	 * @param data
 	 *            The variable to differentiate wrt.
 	 **/
-
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		String name = node.getName();
 
@@ -179,35 +179,41 @@ public class DifferentiationVisitor extends DeepCopyVisitor {
 	 * @return 1 if the variable has the same name as data, 0 if the variable
 	 *         has a different name.
 	 */
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		String varName = (String) data;
 		XVariable var = (XVariable) node.getVar();
 		PartialDerivative deriv = null;
 		if (var instanceof DVariable) {
 			DVariable difvar = (DVariable) var;
-			if (varName.equals(var.getName()))
+			if (varName.equals(var.getName())) {
 				return nf.buildConstantNode(tu.getONE());
-
-			else if (isConstantVar(var))
+			} else if (isConstantVar(var)) {
 				return nf.buildConstantNode(tu.getZERO());
+			}
 
 			deriv = difvar.findDerivative(varName, localDJep);
 		} else if (var instanceof PartialDerivative) {
-			if (isConstantVar(var))
+			if (isConstantVar(var)) {
 				return nf.buildConstantNode(tu.getZERO());
+			}
 
 			PartialDerivative pvar = (PartialDerivative) var;
 			DVariable dvar = pvar.getRoot();
 			deriv = dvar.findDerivative(pvar, varName, localDJep);
 
-		} else
+		} else {
 			throw new ParseException("Encountered non differentiable variable");
+		}
 
 		Node eqn = deriv.getEquation();
-		if (eqn instanceof ASTVarNode)
+		if (eqn instanceof ASTVarNode) {
 			return nf.buildVariableNode(((ASTVarNode) eqn).getVar());
-		if (eqn instanceof ASTConstant)
+		}
+
+		if (eqn instanceof ASTConstant) {
 			return nf.buildConstantNode(((ASTConstant) eqn).getValue());
+		}
 
 		return nf.buildVariableNode(deriv);
 	}
@@ -217,9 +223,8 @@ public class DifferentiationVisitor extends DeepCopyVisitor {
 	 * 
 	 * @return 0 derivatives of constants are always zero.
 	 */
+	@Override
 	public Object visit(ASTConstant node, Object data) throws ParseException {
 		return nf.buildConstantNode(tu.getZERO());
 	}
 }
-
-/* end */

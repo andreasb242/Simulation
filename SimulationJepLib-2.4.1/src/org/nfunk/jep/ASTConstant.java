@@ -37,7 +37,6 @@ public class ASTConstant extends SimpleNode {
 	}
 
 	public String toString() {
-		return "Constant: " + getValue(); // rjm needed so sub classes print
-											// properly
+		return "Constant: " + getValue(); // rjm needed so sub classes print properly
 	}
 }

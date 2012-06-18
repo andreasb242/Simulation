@@ -15,22 +15,28 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Extracts diagonal from a square matrix. getDiag([[1,0,0],[0,2,0],[0,0,3]]) ->
  * [1,2,3]
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class GetDiagonal extends PostfixMathCommand implements UnaryOperatorI {
 	public GetDiagonal() {
 		super();
 		this.numberOfParameters = 1;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim) {
 		return Dimensions.valueOf(ldim.getFirstDim());
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs) throws ParseException {
 		MVector vec = (MVector) res;
 		Matrix mat = (Matrix) lhs;
@@ -42,6 +48,7 @@ public class GetDiagonal extends PostfixMathCommand implements UnaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		MatrixValueI obj = (MatrixValueI) s.pop();
 		MatrixValueI res = Tensor.getInstance(calcDim(obj.getDim()));

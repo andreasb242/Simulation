@@ -13,10 +13,12 @@ import org.nfunk.jep.VariableFactory;
  */
 public class XVariableFactory extends VariableFactory {
 
+	@Override
 	public Variable createVariable(String name, Object value) {
 		return new XVariable(name, value);
 	}
 
+	@Override
 	public Variable createVariable(String name) {
 		return new XVariable(name);
 	}

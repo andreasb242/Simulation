@@ -264,66 +264,80 @@ public class PrintVisitor extends ErrorCatchingVisitor {
 	private Object visitNaryBinary(ASTFunNode node, XOperator op) throws ParseException {
 		int n = node.jjtGetNumChildren();
 		for (int i = 0; i < n; ++i) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(op.getSymbol());
+			}
 
 			Node arg = node.jjtGetChild(i);
-			if (testMid(op, arg))
+			if (testMid(op, arg)) {
 				printBrackets(arg);
-			else
+			} else {
 				printNoBrackets(arg);
+			}
 		}
 		return null;
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
-		if (!node.isOperator())
+		if (!node.isOperator()) {
 			return visitFun(node);
+		}
+
 		if (node instanceof PrintRulesI) {
 			((PrintRulesI) node).append(node, this);
 			return null;
 		}
+
 		if (node.getOperator() == null) {
 			throw new ParseException("Null operator in print for " + node);
 		}
+
 		if (specialRules.containsKey(node.getOperator())) {
 			((PrintRulesI) specialRules.get(node.getOperator())).append(node, this);
 			return null;
 		}
+
 		if (node.getPFMC() instanceof org.nfunk.jep.function.List) {
 			append("[");
 			for (int i = 0; i < node.jjtGetNumChildren(); ++i) {
-				if (i > 0)
+				if (i > 0) {
 					append(",");
+				}
 				node.jjtGetChild(i).jjtAccept(this, null);
 			}
 			append("]");
 			return null;
 		}
 
-		if (((XOperator) node.getOperator()).isUnary())
+		if (((XOperator) node.getOperator()).isUnary()) {
 			return visitUnary(node, data);
+		}
 
 		if (((XOperator) node.getOperator()).isBinary()) {
 			XOperator top = (XOperator) node.getOperator();
-			if (node.jjtGetNumChildren() != 2)
+			if (node.jjtGetNumChildren() != 2) {
 				return visitNaryBinary(node, top);
+			}
+
 			Node lhs = node.jjtGetChild(0);
 			Node rhs = node.jjtGetChild(1);
 
-			if (testLeft(top, lhs))
+			if (testLeft(top, lhs)) {
 				printBrackets(lhs);
-			else
+			} else {
 				printNoBrackets(lhs);
+			}
 
 			// now print the node
 			sb.append(node.getOperator().getSymbol());
 			// now the rhs
 
-			if (testRight(top, rhs))
+			if (testRight(top, rhs)) {
 				printBrackets(rhs);
-			else
+			} else {
 				printNoBrackets(rhs);
+			}
 
 		}
 		return null;
@@ -333,8 +347,9 @@ public class PrintVisitor extends ErrorCatchingVisitor {
 	private Object visitFun(ASTFunNode node) throws ParseException {
 		sb.append(node.getName() + "(");
 		for (int i = 0; i < node.jjtGetNumChildren(); ++i) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(",");
+			}
 			node.jjtGetChild(i).jjtAccept(this, null);
 		}
 		sb.append(")");
@@ -342,11 +357,13 @@ public class PrintVisitor extends ErrorCatchingVisitor {
 		return null;
 	}
 
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		sb.append(node.getName());
 		return data;
 	}
 
+	@Override
 	public Object visit(ASTConstant node, Object data) {
 		Object val = node.getValue();
 		formatValue(val, sb);
@@ -365,17 +382,20 @@ public class PrintVisitor extends ErrorCatchingVisitor {
 	 */
 	public void formatValue(Object val, StringBuffer sb1) {
 		if (format != null) {
-			if (val instanceof Number)
+			if (val instanceof Number) {
 				format.format(val, sb1, fp);
-			else if (val instanceof Complex) {
-				if ((mode | COMPLEX_I) == COMPLEX_I)
+			} else if (val instanceof Complex) {
+				if ((mode | COMPLEX_I) == COMPLEX_I) {
 					sb1.append(((Complex) val).toString(format, true));
-				else
+				} else {
 					sb1.append(((Complex) val).toString(format));
-			} else
+				}
+			} else {
 				sb1.append(val);
-		} else
+			}
+		} else {
 			sb1.append(val);
+		}
 	}
 
 	/** Returns a formated version of the value. */
@@ -441,5 +461,3 @@ public class PrintVisitor extends ErrorCatchingVisitor {
 	}
 
 }
-
-/* end */

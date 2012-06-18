@@ -11,16 +11,21 @@ import org.lsmp.djep.vectorJep.values.Matrix;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Creates an identity matrix. id(3) -> [[1,0,0],[0,1,0],[0,0,1]]
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Id extends PostfixMathCommand {
 	public Id() {
 		this.numberOfParameters = 1;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		Object obj = s.pop();
 		int n = ((Number) obj).intValue();

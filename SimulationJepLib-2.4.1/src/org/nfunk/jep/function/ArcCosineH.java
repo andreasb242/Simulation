@@ -13,17 +13,22 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Implements the arcCosH function.
  * 
  * @author Nathan Funk
  * @since 2.3.0 beta 2 Now returns Double result rather than Complex for x >= 1
  */
+@Category(CategoryType.UNDEFINED)
 public class ArcCosineH extends PostfixMathCommand {
 	public ArcCosineH() {
 		numberOfParameters = 1;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		Object param = inStack.pop();

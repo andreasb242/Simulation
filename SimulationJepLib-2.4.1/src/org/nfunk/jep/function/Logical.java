@@ -13,6 +13,10 @@ import java.util.Stack;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.LOGICAL)
 public class Logical extends PostfixMathCommand {
 	int id;
 	public static final int AND = 0;
@@ -23,6 +27,7 @@ public class Logical extends PostfixMathCommand {
 		numberOfParameters = 2;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 

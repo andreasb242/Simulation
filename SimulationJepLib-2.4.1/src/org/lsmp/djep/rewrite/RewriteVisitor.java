@@ -39,23 +39,27 @@ public class RewriteVisitor extends DoNothingVisitor {
 		xj = xjep;
 		this.rules = inrules;
 		this.simp = simplify;
-		if (this.rules.length == 0)
+		if (this.rules.length == 0) {
 			return node;
+		}
 
-		if (node == null)
+		if (node == null) {
 			throw new IllegalArgumentException("topNode parameter is null");
+		}
 		Node res = (Node) node.jjtAccept(this, null);
 		return res;
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		Node children[] = acceptChildrenAsArray(node, data);
 		TreeUtils.copyChildrenIfNeeded(node, children);
 		for (int i = 0; i < rules.length; ++i) {
 			if (rules[i].test(node, children)) {
 				Node newNode = rules[i].apply(node, children);
-				if (simp)
+				if (simp) {
 					newNode = xj.simplify(newNode);
+				}
 				return newNode.jjtAccept(this, data);
 			}
 		}

@@ -14,6 +14,9 @@ import org.lsmp.djep.vectorJep.values.Scaler;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * The if(condExpr,posExpr,negExpr) function. The value of trueExpr will be
  * returned if condExpr is >0 (true) and value of negExpr will be returned if
@@ -31,6 +34,7 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author Rich Morris Created on 18-Nov-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class MIf extends PostfixMathCommand implements NaryOperatorI, MatrixSpecialEvaluationI {
 	public MIf() {
 		super();
@@ -56,6 +60,7 @@ public class MIf extends PostfixMathCommand implements NaryOperatorI, MatrixSpec
 	/**
 	 * This method should not be called. Use {@link #evaluate} instead.
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI inputs[]) throws ParseException {
 		throw new ParseException("Called calc value for If");
 	}
@@ -63,10 +68,12 @@ public class MIf extends PostfixMathCommand implements NaryOperatorI, MatrixSpec
 	/**
 	 * Evaluate the node, uses lazy evaluation.
 	 */
+	@Override
 	public MatrixValueI evaluate(MatrixNodeI node, MatrixEvaluator visitor, MatrixJep j) throws ParseException {
 		int num = node.jjtGetNumChildren();
-		if (num < 3 || num > 4)
+		if (num < 3 || num > 4) {
 			throw new ParseException("If operator must have 3 or 4 arguments.");
+		}
 
 		// get value of argument
 
@@ -87,6 +94,7 @@ public class MIf extends PostfixMathCommand implements NaryOperatorI, MatrixSpec
 		return mvalue;
 	}
 
+	@Override
 	public boolean checkNumberOfParameters(int n) {
 		return (n == 3 || n == 4);
 	}

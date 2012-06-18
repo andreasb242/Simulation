@@ -13,21 +13,25 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * The acos function.
  * 
  * @author Nathan Funk
  */
+@Category(CategoryType.TRIGONOMETRIC)
 public class ArcCosine extends PostfixMathCommand {
 	public ArcCosine() {
 		numberOfParameters = 1;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		Object param = inStack.pop();
 		inStack.push(acos(param));// push the result on the inStack
-		return;
 	}
 
 	public Object acos(Object param) throws ParseException {

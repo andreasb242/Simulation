@@ -14,6 +14,7 @@ import org.lsmp.djep.vectorJep.Dimensions;
  * @since 2.3.2 Added equals method.
  */
 public class Matrix implements MatrixValueI {
+	@Override
 	public MatrixValueI copy() {
 		Matrix tmp = new Matrix(this.rows, this.cols);
 		tmp.setEles(this);
@@ -39,30 +40,9 @@ public class Matrix implements MatrixValueI {
 	}
 
 	/**
-	 * Construct a Matrix from a set of row vectors.
-	 * 
-	 * @param vecs
-	 */
-	/*
-	 * public Matrix(MVector[] vecs) throws ParseException { if(vecs==null) {
-	 * throw new
-	 * ParseException("Tried to create a matrix with null row vectors"); } rows
-	 * = vecs.length; if(rows==0) { throw new
-	 * ParseException("Tried to create a matrix with zero row vectors"); }
-	 * 
-	 * // now check that each vector has the same size.
-	 * 
-	 * cols = vecs[0].size(); for(int i = 1;i<rows;++i) if(cols !=
-	 * vecs[i].size()) throw new
-	 * ParseException("Each vector must be of the same size");
-	 * 
-	 * data = new Object[rows][cols]; for(int i = 0;i<rows;++i) for(int
-	 * j=0;j<cols;++j) { data[i][j]= vecs[i].elementAt(j); if(data[i][j] ==
-	 * null) throw new ParseException("Null element in vector"); } }
-	 */
-	/**
 	 * Returns a string representation of matrix. Uses [[a,b],[c,d]] syntax.
 	 */
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append('[');
@@ -81,10 +61,12 @@ public class Matrix implements MatrixValueI {
 		return sb.toString();
 	}
 
+	@Override
 	public Dimensions getDim() {
 		return dims;
 	}
 
+	@Override
 	public int getNumEles() {
 		return rows * cols;
 	}
@@ -97,6 +79,7 @@ public class Matrix implements MatrixValueI {
 		return cols;
 	}
 
+	@Override
 	public void setEle(int n, Object value) {
 		int i = n / cols;
 		int j = n % cols;
@@ -107,6 +90,7 @@ public class Matrix implements MatrixValueI {
 		data[i][j] = value;
 	}
 
+	@Override
 	public Object getEle(int n) {
 		int i = n / cols;
 		int j = n % cols;
@@ -122,6 +106,7 @@ public class Matrix implements MatrixValueI {
 	}
 
 	/** sets the elements to those of the arguments. */
+	@Override
 	public void setEles(MatrixValueI val) {
 		if (!dims.equals(val.getDim()))
 			return;
@@ -129,18 +114,10 @@ public class Matrix implements MatrixValueI {
 			System.arraycopy(((Matrix) val).data[i], 0, data[i], 0, cols);
 	}
 
-	/** value of ele(1,1). */
-	// public int intValue() {return ((Number) data[0][0]).intValue(); }
-	/** value of ele(1,1). */
-	// public long longValue() {return ((Number) data[0][0]).longValue(); }
-	/** value of ele(1,1). */
-	// public float floatValue() { return ((Number) data[0][0]).floatValue(); }
-	/** value of ele(1,1). */
-	// public double doubleValue() {return ((Number) data[0][0]).doubleValue();
-	// }
 	/**
 	 * Are two matrices equal, element by element Overrides Object.
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Matrix))
 			return false;
@@ -158,6 +135,7 @@ public class Matrix implements MatrixValueI {
 	 * Always override hashCode when you override equals. Effective Java, Joshua
 	 * Bloch, Sun Press
 	 */
+	@Override
 	public int hashCode() {
 		int result = 17;
 		// long xl = Double.doubleToLongBits(this.re);

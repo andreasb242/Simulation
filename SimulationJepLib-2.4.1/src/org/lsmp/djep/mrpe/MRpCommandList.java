@@ -24,6 +24,7 @@ public final class MRpCommandList {
 			this.aux2 = aux2;
 		}
 
+		@Override
 		public String toString() {
 			switch (command) {
 			case MRpEval.CONST:
@@ -132,6 +133,7 @@ public final class MRpCommandList {
 	}
 
 	/** converts list to a string. */
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < commandPos; ++i) {

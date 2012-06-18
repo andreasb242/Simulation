@@ -35,6 +35,7 @@ public class ParserDumpVisitor implements ParserVisitor {
 		return sb.toString();
 	}
 
+	@Override
 	public Object visit(SimpleNode node, Object data) throws ParseException {
 		System.out.println(indentString() + node + ": acceptor not unimplemented in subclass?");
 		++indent;
@@ -43,6 +44,7 @@ public class ParserDumpVisitor implements ParserVisitor {
 		return data;
 	}
 
+	@Override
 	public Object visit(ASTStart node, Object data) throws ParseException {
 		System.out.println(indentString() + node);
 		++indent;
@@ -51,6 +53,7 @@ public class ParserDumpVisitor implements ParserVisitor {
 		return data;
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		System.out.println(indentString() + node);
 		++indent;
@@ -59,6 +62,7 @@ public class ParserDumpVisitor implements ParserVisitor {
 		return data;
 	}
 
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		System.out.println(indentString() + node);
 		++indent;
@@ -67,6 +71,7 @@ public class ParserDumpVisitor implements ParserVisitor {
 		return data;
 	}
 
+	@Override
 	public Object visit(ASTConstant node, Object data) throws ParseException {
 		System.out.println(indentString() + node);
 		++indent;
@@ -75,5 +80,3 @@ public class ParserDumpVisitor implements ParserVisitor {
 		return data;
 	}
 }
-
-/* end */

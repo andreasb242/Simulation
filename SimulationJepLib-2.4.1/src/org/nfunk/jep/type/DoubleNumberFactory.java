@@ -28,50 +28,62 @@ public class DoubleNumberFactory implements NumberFactory {
 	 * @param value
 	 *            The initialization value for the returned object.
 	 */
+	@Override
 	public Object createNumber(String value) {
 		return new Double(value);
 	}
 
+	@Override
 	public Object createNumber(double value) {
 		return new Double(value);
 	}
 
+	@Override
 	public Object createNumber(Number value) {
 		return value;
 	}
 
+	@Override
 	public Object createNumber(boolean value) {
 		return (value ? ONE : ZERO);
 	}
 
+	@Override
 	public Object createNumber(float value) {
 		return new Double(value);
 	}
 
+	@Override
 	public Object createNumber(int value) {
 		return new Double(value);
 	}
 
+	@Override
 	public Object createNumber(short value) {
 		return new Double(value);
 	}
 
+	@Override
 	public Object createNumber(Complex value) throws ParseException {
 		throw new ParseException("Cannot create a number from a Complex value");
 	}
 
+	@Override
 	public Object getMinusOne() {
 		return MINUSONE;
 	}
 
+	@Override
 	public Object getOne() {
 		return ONE;
 	}
 
+	@Override
 	public Object getTwo() {
 		return TWO;
 	}
 
+	@Override
 	public Object getZero() {
 		return ZERO;
 	}

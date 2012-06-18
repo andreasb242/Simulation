@@ -14,21 +14,27 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Transpose a matrix. trans([[1,2],[3,4]]) -> [[1,3],[2,4]]
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Transpose extends PostfixMathCommand implements UnaryOperatorI {
 	public Transpose() {
 		super();
 		this.numberOfParameters = 1;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim) {
 		return Dimensions.valueOf(ldim.getLastDim(), ldim.getFirstDim());
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs) throws ParseException {
 		if (!(res instanceof Matrix))
 			throw new ParseException("transpose: result must be a matrix");
@@ -45,6 +51,7 @@ public class Transpose extends PostfixMathCommand implements UnaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		MatrixValueI obj = (MatrixValueI) s.pop();
 		MatrixValueI res = Tensor.getInstance(calcDim(obj.getDim()));

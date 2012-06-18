@@ -14,6 +14,10 @@ import java.util.Vector;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.UNDEFINED)
 public class Dot extends PostfixMathCommand {
 	static Add add = new Add();
 	static Multiply mul = new Multiply();
@@ -22,6 +26,7 @@ public class Dot extends PostfixMathCommand {
 		numberOfParameters = 2;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack); // check the stack
 

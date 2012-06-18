@@ -21,20 +21,25 @@ public class ExpandBrackets extends AbstractRewrite {
 		super(xj);
 	}
 
+	@Override
 	public boolean test(ASTFunNode node, Node[] children) {
 		if (!node.isOperator())
 			return false;
 		XOperator op = (XOperator) node.getOperator();
 
 		if (opSet.getMultiply() == op) {
-			if (tu.getOperator(children[0]) == opSet.getAdd())
+			if (tu.getOperator(children[0]) == opSet.getAdd()) {
 				return true;
-			if (tu.getOperator(children[0]) == opSet.getSubtract())
+			}
+			if (tu.getOperator(children[0]) == opSet.getSubtract()) {
 				return true;
-			if (tu.getOperator(children[1]) == opSet.getAdd())
+			}
+			if (tu.getOperator(children[1]) == opSet.getAdd()) {
 				return true;
-			if (tu.getOperator(children[1]) == opSet.getSubtract())
+			}
+			if (tu.getOperator(children[1]) == opSet.getSubtract()) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -46,15 +51,15 @@ public class ExpandBrackets extends AbstractRewrite {
 
 		// (a+b)*c --> (a*c)+(b*c)
 		if (lhsOp == opSet.getAdd() || lhsOp == opSet.getSubtract()) {
-			return nf.buildOperatorNode(lhsOp, nf.buildOperatorNode(opSet.getMultiply(), children[0].jjtGetChild(0), xj.deepCopy(children[1])), nf
-					.buildOperatorNode(opSet.getMultiply(), children[0].jjtGetChild(1), xj.deepCopy(children[1])));
+			return nf.buildOperatorNode(lhsOp, nf.buildOperatorNode(opSet.getMultiply(), children[0].jjtGetChild(0), xj.deepCopy(children[1])),
+					nf.buildOperatorNode(opSet.getMultiply(), children[0].jjtGetChild(1), xj.deepCopy(children[1])));
 
 		}
 
 		// a*(b+c) -> (a*b)+(a*c)
 		if (rhsOp == opSet.getAdd() || rhsOp == opSet.getSubtract()) {
-			return nf.buildOperatorNode(rhsOp, nf.buildOperatorNode(opSet.getMultiply(), xj.deepCopy(children[0]), children[1].jjtGetChild(0)), nf
-					.buildOperatorNode(opSet.getMultiply(), xj.deepCopy(children[0]), children[1].jjtGetChild(1)));
+			return nf.buildOperatorNode(rhsOp, nf.buildOperatorNode(opSet.getMultiply(), xj.deepCopy(children[0]), children[1].jjtGetChild(0)),
+					nf.buildOperatorNode(opSet.getMultiply(), xj.deepCopy(children[0]), children[1].jjtGetChild(1)));
 		}
 		throw new ParseException("ExpandBrackets at least one child must be + or -");
 	}

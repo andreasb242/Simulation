@@ -41,12 +41,10 @@ public class DJep extends XJep {
 	 */
 	public DJep() {
 		this.pv = new DPrintVisitor();
-		// this.vf = ;
 		this.symTab = new DSymbolTable(new DVariableFactory());
 
 		addFunction("diff", new Diff());
 
-		// addDiffRule(new AdditionDiffRule("+"));
 		addDiffRule(new PassThroughDiffRule("+", this.getOperatorSet().getAdd().getPFMC()));
 		addDiffRule(new SubtractDiffRule("-"));
 		addDiffRule(new MultiplyDiffRule("*"));
@@ -76,14 +74,15 @@ public class DJep extends XJep {
 	private DJep(DJep j) {
 		super(j);
 		this.dv = j.dv;
-
 	}
 
+	@Override
 	public XJep newInstance() {
 		DJep newJep = new DJep(this);
 		return newJep;
 	}
 
+	@Override
 	public XJep newInstance(SymbolTable st) {
 		DJep newJep = new DJep(this);
 		newJep.symTab = st;
@@ -161,34 +160,13 @@ public class DJep extends XJep {
 			addDiffRule(new PassThroughDiffRule(this, "rand"));
 
 			MacroFunction cmplx = new MacroFunction("macrocomplex", 2, "x+i*y", this);
-			if (cmplx != null)
+			if (cmplx != null) {
 				addDiffRule(new MacroFunctionDiffRules(this, cmplx));
+			}
 
-			// addDiffRule(new
-			// PassThroughDiffRule("\"<\"",this.getOperatorSet().getLT().getPFMC()));
-			// addDiffRule(new PassThroughDiffRule("\">\"",new Comparative(1)));
-			// addDiffRule(new PassThroughDiffRule("\"<=\"",new
-			// Comparative(2)));
-			// addDiffRule(new PassThroughDiffRule("\">=\"",new
-			// Comparative(3)));
-			// addDiffRule(new PassThroughDiffRule("\"!=\"",new
-			// Comparative(4)));
-			// addDiffRule(new PassThroughDiffRule("\"==\"",new
-			// Comparative(5)));
-
-			// addDiffRule(new DiffDiffRule(this,"diff"));
-			// TODO_YEP do we want to add eval here?
-			// addDiffRule(new EvalDiffRule(this,"eval",eval));
-
-			// addDiffRule(new PassThroughDiffRule("\"&&\""));
-			// addDiffRule(new PassThroughDiffRule("\"||\""));
-			// addDiffRule(new PassThroughDiffRule("\"!\""));
-
-			// also consider if, min, max, sgn, dot, cross,
-			// addDiffRule(new MacroDiffRules(this,"sgn","0"));
 			return true;
 		} catch (ParseException e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 	}

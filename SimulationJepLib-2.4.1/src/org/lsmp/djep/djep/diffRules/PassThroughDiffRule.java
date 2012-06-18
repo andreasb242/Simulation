@@ -28,6 +28,7 @@ public class PassThroughDiffRule implements DiffRulesI {
 		pfmc = inPfmc;
 	}
 
+	@Override
 	public String toString() {
 		if (pfmc == null) {
 			return "" + name + "\t\tPassthrough but no math command!";
@@ -44,10 +45,12 @@ public class PassThroughDiffRule implements DiffRulesI {
 		}
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public Node differentiate(ASTFunNode node, String var, Node[] children, Node[] dchildren, DJep djep) throws ParseException {
 		return djep.getNodeFactory().buildFunctionNode(node, dchildren);
 	}

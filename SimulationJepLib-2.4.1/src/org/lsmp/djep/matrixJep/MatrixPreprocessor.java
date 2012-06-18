@@ -101,10 +101,13 @@ public class MatrixPreprocessor implements ParserVisitor {
 			SpecialPreProcessorI spp = (SpecialPreProcessorI) node.getPFMC();
 			return spp.preprocess(node, this, mjep, nf);
 		}
-		if (node.isOperator())
+		if (node.isOperator()) {
 			return visitOp(node, data);
-		if (node.getPFMC() instanceof CommandVisitorI)
+		}
+
+		if (node.getPFMC() instanceof CommandVisitorI) {
 			throw new IllegalArgumentException("MatrixPreprocessor: encountered and instance of CommandVisitorI  for function " + node.getName());
+		}
 
 		MatrixNodeI children[] = visitChildrenAsArray(node, data);
 		ASTMFunNode res = (ASTMFunNode) nf.buildFunctionNode(node, children);
@@ -117,21 +120,24 @@ public class MatrixPreprocessor implements ParserVisitor {
 		MatrixNodeI children[] = visitChildrenAsArray(node, data);
 
 		if (pfmc instanceof BinaryOperatorI) {
-			if (node.jjtGetNumChildren() != 2)
+			if (node.jjtGetNumChildren() != 2) {
 				throw new ParseException("Operator " + node.getOperator().getName() + " must have two elements, it has " + children.length);
+			}
 			BinaryOperatorI bin = (BinaryOperatorI) pfmc;
 			Dimensions dim = bin.calcDim(children[0].getDim(), children[1].getDim());
 			return (ASTMFunNode) nf.buildOperatorNode(node.getOperator(), children, dim);
 		} else if (pfmc instanceof UnaryOperatorI) {
-			if (children.length != 1)
+			if (children.length != 1) {
 				throw new ParseException("Operator " + node.getOperator().getName() + " must have one elements, it has " + children.length);
+			}
 			UnaryOperatorI uni = (UnaryOperatorI) pfmc;
 			Dimensions dim = uni.calcDim(children[0].getDim());
 			return (ASTMFunNode) nf.buildOperatorNode(node.getOperator(), children, dim);
 		} else if (pfmc instanceof NaryOperatorI) {
 			Dimensions dims[] = new Dimensions[children.length];
-			for (int i = 0; i < children.length; ++i)
+			for (int i = 0; i < children.length; ++i) {
 				dims[i] = children[i].getDim();
+			}
 			NaryOperatorI uni = (NaryOperatorI) pfmc;
 			Dimensions dim = uni.calcDim(dims);
 			return (ASTMFunNode) nf.buildOperatorNode(node.getOperator(), children, dim);

@@ -14,6 +14,9 @@ import org.lsmp.djep.vectorJep.values.Scaler;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Returns the size of an Scaler, Vector or Matrix.
  * 
@@ -26,12 +29,14 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class Size extends PostfixMathCommand implements UnaryOperatorI {
 	public Size() {
 		super();
 		this.numberOfParameters = 1;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim) {
 		int rank = ldim.rank();
 		if (rank == 0)
@@ -39,6 +44,7 @@ public class Size extends PostfixMathCommand implements UnaryOperatorI {
 		return Dimensions.valueOf(rank);
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs) throws ParseException {
 		Dimensions dims = lhs.getDim();
 		if (dims.is0D()) {
@@ -51,6 +57,7 @@ public class Size extends PostfixMathCommand implements UnaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		Object obj = s.pop();
 		MatrixValueI res = null;

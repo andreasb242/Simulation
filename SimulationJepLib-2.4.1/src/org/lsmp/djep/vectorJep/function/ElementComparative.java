@@ -11,6 +11,9 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.Comparative;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Multiplies any number of Vectors or Matrices element by element.
  * 
@@ -18,12 +21,14 @@ import org.nfunk.jep.function.Comparative;
  * 
  * @author Rich Morris Created on 10-Dec-2004
  */
+@Category(CategoryType.UNDEFINED)
 public class ElementComparative extends Comparative implements BinaryOperatorI {
 
 	public ElementComparative(int index) {
 		super(index);
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim, Dimensions rdim) {
 		if (ldim.equals(rdim))
 			return ldim;
@@ -33,6 +38,7 @@ public class ElementComparative extends Comparative implements BinaryOperatorI {
 	/**
 	 * Multiply the inputs element by element putting the results in res.
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs, MatrixValueI rhs) throws ParseException {
 
 		int len = res.getNumEles();
@@ -63,6 +69,7 @@ public class ElementComparative extends Comparative implements BinaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		Object rhsObj = inStack.pop();
 		Object lhsObj = inStack.pop();

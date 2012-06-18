@@ -6,7 +6,6 @@ package org.lsmp.djep.djep.diffRules;
 import org.lsmp.djep.djep.DJep;
 import org.lsmp.djep.djep.DiffRulesI;
 import org.lsmp.djep.xjep.*;
-import org.nfunk.jep.ASTFunNode;
 import org.nfunk.jep.*;
 import org.nfunk.jep.function.PostfixMathCommandI;
 
@@ -26,6 +25,7 @@ abstract class ChainRuleDiffRules implements DiffRulesI {
 	}
 
 	/** returns the name of the function */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -52,14 +52,16 @@ abstract class ChainRuleDiffRules implements DiffRulesI {
 	 * Use the chain rule to differentiate. df(g(x),h(x))/dx -> df/dg * dg/dx +
 	 * df/dh * dh/dx
 	 */
+	@Override
 	public Node differentiate(ASTFunNode node, String var, Node[] children, Node[] dchildren, DJep djep) throws ParseException {
 		XOperatorSet opSet = (XOperatorSet) djep.getOperatorSet();
 		NodeFactory nf = djep.getNodeFactory();
 		FunctionTable funTab = djep.getFunctionTable();
 
 		int nRules = rules.length;
-		if (nRules != children.length)
+		if (nRules != children.length) {
 			throw new ParseException("Error differentiating " + name + " number of rules " + nRules + " != number of arguments " + children.length);
+		}
 
 		if (nRules == 1) {
 			// df(g(x))/dx -> f'(g(x)) * g'(x)
@@ -77,8 +79,8 @@ abstract class ChainRuleDiffRules implements DiffRulesI {
 			df_dg = djep.substitute(df_dg, new String[] { "x", "y" }, children);
 			df_dh = djep.substitute(df_dh, new String[] { "x", "y" }, children);
 
-			return nf.buildOperatorNode(opSet.getAdd(), nf.buildOperatorNode(opSet.getMultiply(), df_dg, gprime), nf.buildOperatorNode(opSet.getMultiply(),
-					df_dh, hprime));
+			return nf.buildOperatorNode(opSet.getAdd(), nf.buildOperatorNode(opSet.getMultiply(), df_dg, gprime),
+					nf.buildOperatorNode(opSet.getMultiply(), df_dh, hprime));
 		} else if (nRules < 1) {
 			throw new ParseException("Error differentiating " + name + " zero differention rules!");
 		} else {
@@ -97,17 +99,19 @@ abstract class ChainRuleDiffRules implements DiffRulesI {
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name + "  \t");
-		if (rules == null)
+		if (rules == null) {
 			sb.append("no diff rules possible parse error?");
-		else
+		} else {
 			for (int i = 0; i < getNumRules(); ++i) {
 				sb.append("\t");
 				// sb.append(dv.djep.toString(getRule(i)));
 				// TODO_YEP print the rule.
 			}
+		}
 		return sb.toString();
 	}
 }

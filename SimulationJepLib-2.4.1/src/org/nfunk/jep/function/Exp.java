@@ -18,16 +18,25 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
+
 /**
  * The exp function. Defines a method exp(Object param) which calculates
  * 
  * @author Rich Morris Created on 20-Jun-2003
  */
+@Category(CategoryType.LOGARITHMIC)
+@Example("(x)")
+@Description("Euler's number <i>e</i> raised to the power of x.")
 public class Exp extends PostfixMathCommand {
 	public Exp() {
 		numberOfParameters = 1;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		Object param = inStack.pop();

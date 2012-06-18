@@ -11,11 +11,15 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.Add;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An extension of the Add command to allow it to add MVector's and Matrix's.
  * 
  * @author Rich Morris Created on 27-Jul-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class MAdd extends Add implements BinaryOperatorI {
 
 	public Dimensions calcDim(Dimensions ldim, Dimensions rdim) {
@@ -35,6 +39,7 @@ public class MAdd extends Add implements BinaryOperatorI {
 	 *            - rhs value
 	 * @return res
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs, MatrixValueI rhs) throws ParseException {
 		int len = res.getNumEles();
 		for (int i = 0; i < len; ++i)
@@ -46,6 +51,7 @@ public class MAdd extends Add implements BinaryOperatorI {
 	 * Adds two objects.
 	 */
 
+	@Override
 	public Object add(Object param1, Object param2) throws ParseException {
 		if (param1 instanceof MVector && param2 instanceof MVector)
 			return add((MVector) param1, (MVector) param2);

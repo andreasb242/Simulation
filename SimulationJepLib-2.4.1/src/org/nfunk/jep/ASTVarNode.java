@@ -28,6 +28,7 @@ public class ASTVarNode extends SimpleNode {
 	/**
 	 * Accept the visitor.
 	 */
+	@Override
 	public Object jjtAccept(ParserVisitor visitor, Object data) throws ParseException {
 		return visitor.visit(this, data);
 	}
@@ -50,6 +51,7 @@ public class ASTVarNode extends SimpleNode {
 	/**
 	 * Creates a string containing the variable's name and value
 	 */
+	@Override
 	public String toString() {
 		String temp = "Variable: \"" + getName() + "\"";
 

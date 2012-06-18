@@ -11,6 +11,9 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * A function specified by a string. For example
  * 
@@ -34,6 +37,7 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author R Morris. Created on 18-Jun-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class MacroFunction extends PostfixMathCommand {
 	private String name;
 	private Node topNode;
@@ -95,6 +99,7 @@ public class MacroFunction extends PostfixMathCommand {
 	 * @throws ParseException
 	 *             if run.
 	 */
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 
 		if (numberOfParameters == 0) {

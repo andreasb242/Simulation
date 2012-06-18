@@ -19,6 +19,9 @@ import org.lsmp.djep.vectorJep.values.MatrixValueI;
 import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * A enhanced version of List, allows matrices and tensors. During evaluation
  * this function converts lists of values into the appropriate
@@ -27,12 +30,14 @@ import org.nfunk.jep.ParseException;
  * 
  * @author Rich Morris Created on 27-Nov-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class VList extends org.nfunk.jep.function.List implements NaryOperatorI {
 	public VList() {
 		numberOfParameters = -1;
 	}
 
 	/** Calculates the dimension of this node with given dimensions of children. */
+	@Override
 	public Dimensions calcDim(Dimensions dims[]) throws ParseException {
 		return Dimensions.valueOf(dims.length, dims[0]);
 	}
@@ -41,6 +46,7 @@ public class VList extends org.nfunk.jep.function.List implements NaryOperatorI 
 	 * Calculates the value of this node.
 	 * 
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI inputs[]) throws ParseException {
 		int eleSize = inputs[0].getNumEles();
 		for (int i = 0; i < inputs.length; ++i) {
@@ -51,6 +57,7 @@ public class VList extends org.nfunk.jep.function.List implements NaryOperatorI 
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack); // check the stack
 		if (curNumberOfParameters < 1)

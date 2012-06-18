@@ -22,6 +22,7 @@ public class DivideDiffRule implements DiffRulesI {
 		name = inName;
 	}
 
+	@Override
 	public String toString() {
 		return name + "  \t\tdiff(f/g,x) -> (diff(f,x)*g-f*diff(g,x))/(g*g)";
 	}

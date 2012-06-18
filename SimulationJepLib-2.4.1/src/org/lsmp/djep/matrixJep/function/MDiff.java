@@ -15,9 +15,13 @@ import org.nfunk.jep.ASTFunNode;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * @author Rich Morris Created on 14-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class MDiff extends PostfixMathCommand implements SpecialPreProcessorI {
 
 	public MDiff() {
@@ -29,9 +33,12 @@ public class MDiff extends PostfixMathCommand implements SpecialPreProcessorI {
 		MatrixNodeI children[] = visitor.visitChildrenAsArray(node, null);
 		if (children.length != 2)
 			throw new ParseException("Diff opperator should have two children, it has " + children.length);
+
 		// TODO_YEP need to handle diff(x,[x,y])
-		if (!(children[1] instanceof ASTMVarNode))
+		if (!(children[1] instanceof ASTMVarNode)) {
 			throw new ParseException("rhs of diff opperator should be a variable.");
+		}
+
 		ASTMVarNode varNode = (ASTMVarNode) children[1];
 		MatrixNodeI diff = (MatrixNodeI) jep.differentiate(children[0], varNode.getName());
 		return diff;

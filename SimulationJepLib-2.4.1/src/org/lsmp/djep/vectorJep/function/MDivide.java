@@ -14,6 +14,9 @@ import org.nfunk.jep.function.Add;
 import org.nfunk.jep.function.Divide;
 import org.nfunk.jep.function.Subtract;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An extension of the Divide class with vectors and matricies. Must faster
  * (1/3) if used with MatrixJep and calcValue routines.
@@ -24,6 +27,7 @@ import org.nfunk.jep.function.Subtract;
  * 
  * @since 2.3.2 Improved error reporting
  */
+@Category(CategoryType.UNDEFINED)
 public class MDivide extends Divide implements BinaryOperatorI {
 
 	protected Add add = new Add();
@@ -36,6 +40,7 @@ public class MDivide extends Divide implements BinaryOperatorI {
 	/**
 	 * Need to redo this as the standard jep version assumes commutivity.
 	 */
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 		checkStack(stack); // check the stack
 		Object param2 = stack.pop();
@@ -48,6 +53,7 @@ public class MDivide extends Divide implements BinaryOperatorI {
 	/**
 	 * Divide two objects.
 	 */
+	@Override
 	public Object div(Object param1, Object param2) throws ParseException {
 		if (param1 instanceof MatrixValueI && param2 instanceof MatrixValueI) {
 			return div((MatrixValueI) param1, (MatrixValueI) param2);
@@ -76,6 +82,7 @@ public class MDivide extends Divide implements BinaryOperatorI {
 		return this.calcValue(res, param1, param2);
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions l, Dimensions r) throws ParseException {
 		int rrank = r.rank();
 		if (rrank != 0)
@@ -83,6 +90,7 @@ public class MDivide extends Divide implements BinaryOperatorI {
 		return l;
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI param1, MatrixValueI param2) throws ParseException {
 		if (param2 instanceof Scaler) {
 			for (int i = 0; i < param1.getDim().numEles(); ++i)

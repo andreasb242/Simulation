@@ -9,6 +9,9 @@ import org.lsmp.djep.vectorJep.values.Tensor;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.Multiply;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Multiplies any number of Vectors or Matricies element by element.
  * 
@@ -16,6 +19,7 @@ import org.nfunk.jep.function.Multiply;
  * 
  * @author Rich Morris Created on 10-Dec-2004
  */
+@Category(CategoryType.UNDEFINED)
 public class ElementMultiply extends Multiply implements NaryOperatorI {
 
 	public Dimensions calcDim(Dimensions[] dims) throws ParseException {
@@ -36,6 +40,7 @@ public class ElementMultiply extends Multiply implements NaryOperatorI {
 	/**
 	 * Multiply the inputs element by element putting the results in res.
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI[] inputs) throws ParseException {
 		int numArgs = inputs.length;
 		int len = res.getNumEles();
@@ -51,6 +56,7 @@ public class ElementMultiply extends Multiply implements NaryOperatorI {
 	/**
 	 * Multiply arguments element by element. Returns result.
 	 */
+	@Override
 	public Object mul(Object param1, Object param2) throws ParseException {
 
 		if (param1 instanceof MatrixValueI && param2 instanceof MatrixValueI) {

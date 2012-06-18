@@ -38,6 +38,7 @@ public class MatrixNodeFactory extends NodeFactory {
 	}
 
 	/** Creates an ASTConstant node with specified value. **/
+	@Override
 	public ASTConstant buildConstantNode(Object value) throws ParseException {
 		ASTMConstant node = new ASTMConstant(ParserTreeConstants.JJTCONSTANT);
 		node.setValue(value);
@@ -45,6 +46,7 @@ public class MatrixNodeFactory extends NodeFactory {
 	}
 
 	/** Creates a ASTVariable node with specified value. **/
+	@Override
 	public ASTVarNode buildVariableNode(Variable var) throws ParseException {
 		ASTMVarNode node = new ASTMVarNode(ParserTreeConstants.JJTVARNODE);
 		node.setVar(var);
@@ -62,7 +64,7 @@ public class MatrixNodeFactory extends NodeFactory {
 	 *            the arguments to the function.
 	 * @return top Node of expression
 	 */
-
+	@Override
 	public ASTFunNode buildFunctionNode(String name, PostfixMathCommandI pfmc, Node[] arguments) throws ParseException {
 		ASTMFunNode res = new ASTMFunNode(ParserTreeConstants.JJTFUNNODE);
 		res.setFunction(name, pfmc);
@@ -126,10 +128,12 @@ public class MatrixNodeFactory extends NodeFactory {
 	 * @since 2.3.3 if possible use dimension of existing node. (Needed when
 	 *        deep copying MList functions)
 	 */
+	@Override
 	public ASTFunNode buildFunctionNode(ASTFunNode node, Node[] children) throws ParseException {
 		if (node instanceof ASTMFunNode) {
-			if (node.isOperator())
+			if (node.isOperator()) {
 				return buildOperatorNode(node.getOperator(), children, ((ASTMFunNode) node).getDim());
+			}
 			ASTMFunNode res = new ASTMFunNode(ParserTreeConstants.JJTFUNNODE);
 			res.setFunction(node.getName(), node.getPFMC());
 			copyChildren(res, children);
@@ -137,8 +141,9 @@ public class MatrixNodeFactory extends NodeFactory {
 			return res;
 		}
 		// MatrixNodeI children[] = (MatrixNodeI []) arguments;
-		if (node.isOperator())
+		if (node.isOperator()) {
 			return buildOperatorNode(node.getOperator(), children);
+		}
 		ASTMFunNode res = new ASTMFunNode(ParserTreeConstants.JJTFUNNODE);
 		res.setFunction(node.getName(), node.getPFMC());
 		copyChildren(res, children);
@@ -164,9 +169,8 @@ public class MatrixNodeFactory extends NodeFactory {
 	 *            the arguments to the function.
 	 * @return top Node of expression
 	 */
-
+	@Override
 	public ASTFunNode buildOperatorNode(Operator op, Node[] arguments) throws ParseException {
-
 		ASTMFunNode res = new ASTMFunNode(ParserTreeConstants.JJTFUNNODE);
 		res.setOperator(op);
 		copyChildren(res, arguments);
@@ -187,6 +191,7 @@ public class MatrixNodeFactory extends NodeFactory {
 	 * Creates an operator node, but don't fill in the children or calculate its
 	 * dimension.
 	 */
+	@Override
 	public ASTFunNode buildUnfinishedOperatorNode(Operator op) {
 		ASTMFunNode res = new ASTMFunNode(ParserTreeConstants.JJTFUNNODE);
 		res.setOperator(op);

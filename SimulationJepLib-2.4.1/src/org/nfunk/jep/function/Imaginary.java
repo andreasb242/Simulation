@@ -13,13 +13,17 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.UNDEFINED)
 public class Imaginary extends PostfixMathCommand {
 	public Imaginary() {
 		numberOfParameters = 1;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
-
 		checkStack(inStack);// check the stack
 		Object param = inStack.pop();
 		inStack.push(im(param));// push the result on the inStack
@@ -27,11 +31,11 @@ public class Imaginary extends PostfixMathCommand {
 	}
 
 	public Number im(Object param) throws ParseException {
-
-		if (param instanceof Complex)
+		if (param instanceof Complex) {
 			return new Double(((Complex) param).im());
-		else if (param instanceof Number)
+		} else if (param instanceof Number) {
 			return new Double(0);
+		}
 
 		throw new ParseException("Invalid parameter type");
 	}

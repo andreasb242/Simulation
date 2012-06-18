@@ -26,16 +26,21 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.Operator;
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * A enhanced version of list, allows matrices and tensors.
  * 
  * @author Rich Morris Created on 27-Nov-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class MList extends VList implements PrintVisitor.PrintRulesI, NaryOperatorI, SpecialPreProcessorI {
 	public MList() {
 		numberOfParameters = -1;
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI inputs[]) throws ParseException {
 		int eleSize = inputs[0].getNumEles();
 		for (int i = 0; i < inputs.length; ++i) {
@@ -46,6 +51,7 @@ public class MList extends VList implements PrintVisitor.PrintRulesI, NaryOperat
 		return res;
 	}
 
+	@Override
 	public MatrixNodeI preprocess(ASTFunNode node, MatrixPreprocessor visitor, MatrixJep jep, MatrixNodeFactory nf) throws ParseException {
 		MatrixNodeI children[] = visitor.visitChildrenAsArray(node, null);
 		Operator listOp = ((MatrixOperatorSet) jep.getOperatorSet()).getMList();
@@ -56,8 +62,9 @@ public class MList extends VList implements PrintVisitor.PrintRulesI, NaryOperat
 			if (((ASTMFunNode) children[0]).getOperator() != listOp) {
 				flag = false;
 			}
-		} else
+		} else {
 			flag = false;
+		}
 
 		if (flag) {
 			ASTMFunNode opNode1 = (ASTMFunNode) children[0];
@@ -91,15 +98,17 @@ public class MList extends VList implements PrintVisitor.PrintRulesI, NaryOperat
 		if (currank + 1 >= node.getDim().rank()) {
 			// bottom of tree
 			for (int i = 0; i < node.getDim().getIthDim(currank); ++i) {
-				if (i != 0)
+				if (i != 0) {
 					pv.append(",");
+				}
 				node.jjtGetChild(curEle++).jjtAccept(pv, null);
 			}
 		} else {
 			// not bottom of tree
 			for (int i = 0; i < node.getDim().getIthDim(currank); ++i) {
-				if (i != 0)
+				if (i != 0) {
 					pv.append(",");
+				}
 				bufferAppend(node, pv, currank + 1);
 			}
 		}
@@ -110,6 +119,7 @@ public class MList extends VList implements PrintVisitor.PrintRulesI, NaryOperat
 	 * Used to print the TensorNode with all its children. Method implements
 	 * PrintVisitor.PrintRulesI.
 	 */
+	@Override
 	public void append(Node node, PrintVisitor pv) throws ParseException {
 		curEle = 0;
 		bufferAppend((MatrixNodeI) node, pv, 0);

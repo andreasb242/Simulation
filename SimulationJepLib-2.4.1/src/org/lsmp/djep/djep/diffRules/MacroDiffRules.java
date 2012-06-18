@@ -41,8 +41,9 @@ public class MacroDiffRules extends ChainRuleDiffRules {
 		pfmc = djep.getFunctionTable().get(inName);
 		if (pfmc != null) {
 			int nParam = pfmc.getNumberOfParameters();
-			if (nParam != 1)
+			if (nParam != 1) {
 				throw new ParseException("Number of rules must match number of parameters for " + inName + " which is " + nParam);
+			}
 		}
 		rules = new Node[1];
 		rules[0] = node;
@@ -78,8 +79,9 @@ public class MacroDiffRules extends ChainRuleDiffRules {
 		pfmc = inPfmc;
 		if (pfmc != null) {
 			int nParam = pfmc.getNumberOfParameters();
-			if (nParam != 1)
+			if (nParam != 1) {
 				throw new ParseException("Number of rules must match number of parameters for " + inName + " which is " + nParam);
+			}
 		}
 		XSymbolTable localSymTab = (XSymbolTable) ((XSymbolTable) djep.getSymbolTable()).newInstance();
 		localSymTab.copyConstants(djep.getSymbolTable());
@@ -108,8 +110,9 @@ public class MacroDiffRules extends ChainRuleDiffRules {
 		pfmc = inPfmc;
 		if (pfmc != null) {
 			int nParam = pfmc.getNumberOfParameters();
-			if (nParam != 2)
+			if (nParam != 2) {
 				throw new ParseException("Number of rules must match number of parameters for " + inName + " which is " + nParam);
+			}
 		}
 		XSymbolTable localSymTab = (XSymbolTable) ((XSymbolTable) djep.getSymbolTable()).newInstance(); // new
 		// SymbolTable();
@@ -153,8 +156,9 @@ public class MacroDiffRules extends ChainRuleDiffRules {
 		pfmc = inPfmc;
 		if (pfmc != null) {
 			int nParam = pfmc.getNumberOfParameters();
-			if (nParam != inRules.length)
+			if (nParam != inRules.length) {
 				throw new ParseException("Number of rules must match number of parameters for " + inName + " which is " + nParam);
+			}
 		}
 
 		XSymbolTable localSymTab = (XSymbolTable) ((XSymbolTable) djep.getSymbolTable()).newInstance();

@@ -8,6 +8,9 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * The if(condExpr,posExpr,negExpr) function. The value of trueExpr will be
  * returned if condExpr is &gt;0 or Boolean.TRUE and value of negExpr will be
@@ -28,6 +31,7 @@ import org.nfunk.jep.type.Complex;
  * @since Feb 05 Handles Number arguments, so works with Integers rather than
  *        just Doubles
  */
+@Category(CategoryType.UNDEFINED)
 public class If extends PostfixMathCommand implements CallbackEvaluationI {
 	public If() {
 		super();
@@ -51,6 +55,7 @@ public class If extends PostfixMathCommand implements CallbackEvaluationI {
 	 * Checks the number of parameters of the call.
 	 * 
 	 */
+	@Override
 	public boolean checkNumberOfParameters(int n) {
 		return (n == 3 || n == 4);
 	}
@@ -58,10 +63,12 @@ public class If extends PostfixMathCommand implements CallbackEvaluationI {
 	/**
 	 * 
 	 */
+	@Override
 	public Object evaluate(Node node, EvaluatorI pv) throws ParseException {
 		int num = node.jjtGetNumChildren();
-		if (!checkNumberOfParameters(num))
+		if (!checkNumberOfParameters(num)) {
 			throw new ParseException("If operator must have 3 or 4 arguments.");
+		}
 
 		// get value of argument
 
@@ -70,20 +77,23 @@ public class If extends PostfixMathCommand implements CallbackEvaluationI {
 		// convert to double
 		double val;
 		if (condVal instanceof Boolean) {
-			if (((Boolean) condVal).booleanValue())
+			if (((Boolean) condVal).booleanValue()) {
 				return pv.eval(node.jjtGetChild(1));
+			}
 			return pv.eval(node.jjtGetChild(2));
-		} else if (condVal instanceof Complex)
+		} else if (condVal instanceof Complex) {
 			val = ((Complex) condVal).re();
-		else if (condVal instanceof Number)
+		} else if (condVal instanceof Number) {
 			val = ((Number) condVal).doubleValue();
-		else
+		} else {
 			throw new ParseException("Condition in if operator must be double or complex");
+		}
 
-		if (val > 0.0)
+		if (val > 0.0) {
 			return pv.eval(node.jjtGetChild(1));
-		else if (num == 3 || val < 0.0)
+		} else if (num == 3 || val < 0.0) {
 			return pv.eval(node.jjtGetChild(2));
+		}
 		return pv.eval(node.jjtGetChild(3));
 	}
 }

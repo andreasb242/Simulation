@@ -42,8 +42,8 @@ public class XSymbolTable extends SymbolTable {
 		for (Enumeration<Variable> e = this.elements(); e.hasMoreElements();) {
 			XVariable var = (XVariable) e.nextElement();
 			pv.append(var.toString(pv) + "\n");
-			// TODO_YEP watch out for possible conflict with overriding pv's string
-			// buffer
+			// TODO_YEP watch out for possible conflict with overriding pv's
+			// string buffer
 		}
 	}
 

@@ -26,6 +26,7 @@ public class XMath {
 			return b;
 		}
 
+		@Override
 		public boolean equals(Object o) {
 			if (!(o instanceof LongPair))
 				return false;
@@ -33,6 +34,7 @@ public class XMath {
 			return (a == p.a) && (b == p.b);
 		}
 
+		@Override
 		public int hashCode() {
 			int result = 17;
 			int xi = (int) (a ^ (a >> 32));
@@ -42,6 +44,7 @@ public class XMath {
 			return result;
 		}
 
+		@Override
 		public String toString() {
 			return "(" + a + "," + b + ")";
 		}

@@ -186,15 +186,17 @@ public class PolynomialCreator extends DoNothingVisitor {
 		return exp1.equals(exp2);
 	}
 
+	@Override
 	public Object visit(ASTConstant node, Object data) throws ParseException {
-
 		return new PConstant(this, node.getValue());
 	}
 
+	@Override
 	public Object visit(ASTVarNode node, Object data) throws ParseException {
 		return new PVariable(this, (XVariable) node.getVar());
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		int nChild = node.jjtGetNumChildren();
 		PNodeI args[] = new PNodeI[nChild];
@@ -202,10 +204,6 @@ public class PolynomialCreator extends DoNothingVisitor {
 			args[i] = (PNodeI) node.jjtGetChild(i).jjtAccept(this, data);
 		}
 
-		/*
-		 * jep.println(node); for(int i=0;i<nChild;++i)
-		 * System.out.println("\t"+args[i].toString());
-		 */
 		XOperator op = (XOperator) node.getOperator();
 		if (op == os.getAdd()) {
 			PNodeI res = args[0];

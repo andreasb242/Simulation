@@ -14,12 +14,16 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Addition function. Supports any number of parameters although typically only
  * 2 parameters are used.
  * 
  * @author nathan
  */
+@Category(CategoryType.UNDEFINED)
 public class Add extends PostfixMathCommand {
 
 	public Add() {
@@ -30,6 +34,7 @@ public class Add extends PostfixMathCommand {
 	 * Calculates the result of applying the "+" operator to the arguments from
 	 * the stack and pushes it back on the stack.
 	 */
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 		checkStack(stack);// check the stack
 
@@ -68,15 +73,17 @@ public class Add extends PostfixMathCommand {
 	 */
 	public Object add(Object param1, Object param2) throws ParseException {
 		if (param1 instanceof Complex) {
-			if (param2 instanceof Complex)
+			if (param2 instanceof Complex) {
 				return add((Complex) param1, (Complex) param2);
-			else if (param2 instanceof Number)
+			} else if (param2 instanceof Number) {
 				return add((Complex) param1, (Number) param2);
+			}
 		} else if (param1 instanceof Number) {
-			if (param2 instanceof Complex)
+			if (param2 instanceof Complex) {
 				return add((Complex) param2, (Number) param1);
-			else if (param2 instanceof Number)
+			} else if (param2 instanceof Number) {
 				return add((Number) param1, (Number) param2);
+			}
 		} else if ((param1 instanceof String) && (param2 instanceof String)) {
 			return (String) param1 + (String) param2;
 		}

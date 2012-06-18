@@ -16,6 +16,9 @@ import org.nfunk.jep.function.Add;
 import org.nfunk.jep.function.Multiply;
 import org.nfunk.jep.function.Subtract;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An extension of the Multiply to with vectors and matricies. Must faster (1/3)
  * if used with MatrixJep and calcValue routines. Note vector * vector treated
@@ -24,6 +27,7 @@ import org.nfunk.jep.function.Subtract;
  * @author Rich Morris Created on 27-Jul-2003 TODO_YEP add handeling of tensors
  * @since 2.3.2 Improved error reporting
  */
+@Category(CategoryType.UNDEFINED)
 public class MMultiply extends Multiply implements BinaryOperatorI {
 
 	protected Add add = new Add();
@@ -38,10 +42,9 @@ public class MMultiply extends Multiply implements BinaryOperatorI {
 	/**
 	 * need to redo this as the standard jep version assumes commutivity.
 	 */
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 		checkStack(stack); // check the stack
-		// if(this.curNumberOfParameters!=2) throw new
-		// ParseException("Multiply: should have two children its got "+stack.size());
 		Object param2 = stack.pop();
 		Object param1 = stack.pop();
 		Object product = mul(param1, param2);
@@ -52,7 +55,7 @@ public class MMultiply extends Multiply implements BinaryOperatorI {
 	/**
 	 * Multiply two objects.
 	 */
-
+	@Override
 	public Object mul(Object param1, Object param2) throws ParseException {
 		if (param1 instanceof MatrixValueI && param2 instanceof MatrixValueI) {
 			return mul((MatrixValueI) param1, (MatrixValueI) param2);
@@ -75,13 +78,13 @@ public class MMultiply extends Multiply implements BinaryOperatorI {
 	/**
 	 * Multiply two objects.
 	 */
-
 	private Object mul(MatrixValueI param1, MatrixValueI param2) throws ParseException {
 		Dimensions dims = this.calcDim(param1.getDim(), param2.getDim());
 		MatrixValueI res = Tensor.getInstance(dims);
 		return this.calcValue(res, param1, param2);
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions l, Dimensions r) throws ParseException {
 		int lrank = l.rank();
 		int rrank = r.rank();
@@ -116,24 +119,12 @@ public class MMultiply extends Multiply implements BinaryOperatorI {
 					return Dimensions.valueOf(l.getFirstDim(), r.getLastDim());
 				break;
 			default: // Tensor res
-				// throw new
-				// ParseException("Sorry I don't know how to multiply a matrix by a tensor");
-
 			}
 			break;
 		default: // Tensor res
 			switch (rrank) {
 			case 0: // Scaler res
 				return l;
-				// case 1: // Vector res
-				// throw new
-				// ParseException("Sorry I don't know how to multiply a tensor by a vector");
-				// case 2: // Matrix res
-				// throw new
-				// ParseException("Sorry I don't know how to multiply a tensor by a matrix");
-				// default: // Tensor res
-				// throw new
-				// ParseException("Sorry I don't know how to multiply a tensor by a tensor");
 			}
 		}
 		throw new ParseException("Dimensions for multiply do not match: " + l + " " + r);

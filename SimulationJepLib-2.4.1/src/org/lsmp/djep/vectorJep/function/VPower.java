@@ -12,12 +12,16 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 import org.nfunk.jep.function.Power;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An overloaded power function, if both arguments are vectors returns the
  * exteriour product, else return standard power.
  * 
  * @author Rich Morris Created on 26-Nov-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class VPower extends PostfixMathCommand implements BinaryOperatorI {
 	private static Power pow = new Power();
 	private static ExteriorProduct cross = new ExteriorProduct();
@@ -27,6 +31,7 @@ public class VPower extends PostfixMathCommand implements BinaryOperatorI {
 		this.numberOfParameters = 2;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions ldim, Dimensions rdim) throws ParseException {
 		if (ldim.equals(Dimensions.ONE) && rdim.equals(Dimensions.ONE))
 			return Dimensions.ONE;
@@ -35,6 +40,7 @@ public class VPower extends PostfixMathCommand implements BinaryOperatorI {
 		throw new ParseException("Power: both sides must be either 0 dimensional or 3D vectors");
 	}
 
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs, MatrixValueI rhs) throws ParseException {
 		if (lhs.getDim().equals(Dimensions.ONE) && rhs.getDim().equals(Dimensions.ONE)) {
 			res.setEle(0, pow.power(lhs.getEle(0), rhs.getEle(0)));
@@ -46,6 +52,7 @@ public class VPower extends PostfixMathCommand implements BinaryOperatorI {
 		throw new ParseException("Power: both sides must be either 0 dimensional or 3D vectors");
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack); // check the stack
 

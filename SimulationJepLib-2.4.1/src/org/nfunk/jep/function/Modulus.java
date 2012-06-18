@@ -13,19 +13,28 @@ import java.util.Stack;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
+
+@Category(CategoryType.BASE)
+@Example("(x, y)")
+@Description("Remainder of x / y")
 public class Modulus extends PostfixMathCommand {
 	public Modulus() {
 		numberOfParameters = 2;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		Object param2 = inStack.pop();
 		Object param1 = inStack.pop();
 
 		if ((param1 instanceof Number) && (param2 instanceof Number)) {
-			double divisor = ((Number) param2).doubleValue();
 			double dividend = ((Number) param1).doubleValue();
+			double divisor = ((Number) param2).doubleValue();
 
 			double result = dividend % divisor;
 

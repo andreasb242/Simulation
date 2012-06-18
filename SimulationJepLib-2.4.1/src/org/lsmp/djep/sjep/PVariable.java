@@ -20,6 +20,7 @@ public class PVariable extends AbstractPNode {
 		this.variable = var;
 	}
 
+	@Override
 	public boolean equals(PNodeI node) {
 		if (node instanceof PVariable)
 			if (variable.equals(((PVariable) node).variable))
@@ -35,14 +36,17 @@ public class PVariable extends AbstractPNode {
 		return variable.getName().compareTo(vf.variable.getName());
 	}
 
+	@Override
 	public String toString() {
 		return variable.getName();
 	}
 
+	@Override
 	public Node toNode() throws ParseException {
 		return pc.nf.buildVariableNode(variable);
 	}
 
+	@Override
 	public PNodeI expand() {
 		return this;
 	}

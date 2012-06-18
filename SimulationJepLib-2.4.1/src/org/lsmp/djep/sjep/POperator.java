@@ -22,6 +22,7 @@ public class POperator extends AbstractPNode {
 		this.args = args;
 	}
 
+	@Override
 	public boolean equals(PNodeI node) {
 		if (!(node instanceof POperator)) {
 			return false;
@@ -68,6 +69,7 @@ public class POperator extends AbstractPNode {
 		return 0;
 	}
 
+	@Override
 	public String toString() {
 		if (args.length == 1) {
 			if (op.isPrefix())
@@ -79,6 +81,7 @@ public class POperator extends AbstractPNode {
 		return super.toString();
 	}
 
+	@Override
 	public Node toNode() throws ParseException {
 		Node funargs[] = new Node[args.length];
 		for (int i = 0; i < args.length; ++i) {
@@ -88,6 +91,7 @@ public class POperator extends AbstractPNode {
 		return fun;
 	}
 
+	@Override
 	public PNodeI expand() throws ParseException {
 		PNodeI newTerms[] = new PNodeI[args.length];
 		for (int i = 0; i < args.length; ++i) {

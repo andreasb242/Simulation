@@ -18,12 +18,16 @@ import org.nfunk.jep.function.Multiply;
 import org.nfunk.jep.function.PostfixMathCommand;
 import org.nfunk.jep.function.Subtract;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * An overloaded operator, either cross product or power. If the arguments are
  * 3D vectors then treat as cross product. Otherwise treet as power.
  * 
  * @author Rich Morris Created on 27-Jul-2003
  */
+@Category(CategoryType.UNDEFINED)
 public class ExteriorProduct extends PostfixMathCommand implements BinaryOperatorI {
 	private Subtract sub = new Subtract();
 	private Multiply mul = new Multiply();
@@ -46,6 +50,7 @@ public class ExteriorProduct extends PostfixMathCommand implements BinaryOperato
 
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack); // check the stack
 

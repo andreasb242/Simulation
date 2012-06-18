@@ -56,6 +56,7 @@ public class PostfixMathCommand implements PostfixMathCommandI {
 	/**
 	 * Return the required number of parameters.
 	 */
+	@Override
 	public int getNumberOfParameters() {
 		return numberOfParameters;
 	}
@@ -64,6 +65,7 @@ public class PostfixMathCommand implements PostfixMathCommandI {
 	 * Sets the number of current number of parameters used in the next call of
 	 * run(). This method is only called when the reqNumberOfParameters is -1.
 	 */
+	@Override
 	public void setCurNumberOfParameters(int n) {
 		curNumberOfParameters = n;
 	}
@@ -77,9 +79,11 @@ public class PostfixMathCommand implements PostfixMathCommandI {
 	 * @return False if an illegal number of parameters is supplied, true
 	 *         otherwise.
 	 */
+	@Override
 	public boolean checkNumberOfParameters(int n) {
-		if (numberOfParameters == -1)
+		if (numberOfParameters == -1) {
 			return true;
+		}
 		return (numberOfParameters == n);
 	}
 
@@ -89,6 +93,7 @@ public class PostfixMathCommand implements PostfixMathCommandI {
 	 * evaluating the function. This includes popping off the parameters from
 	 * the stack, and pushing the result back on the stack.
 	 */
+	@Override
 	public void run(Stack<Object> s) throws ParseException {
 		throw new ParseException("run() method of PostfixMathCommand called");
 	}

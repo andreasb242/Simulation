@@ -14,7 +14,8 @@ import org.nfunk.jep.Variable;
  * PRINT_PARTIAL_EQNS and PRINT_VARIABLE_EQNS. When a variable or partial
  * derivative is encountered then its equation may be printed. By default
  * equations for PartialDerivatives are printed but equations for normal
- * derivatives are not. TODO_YEP might want to print eqn for y=sin(x) but not x=3
+ * derivatives are not. TODO_YEP might want to print eqn for y=sin(x) but not
+ * x=3
  * 
  * @author Rich Morris Created on 26-Feb-2004
  */
@@ -35,18 +36,21 @@ public class DPrintVisitor extends PrintVisitor {
 		Variable var = node.getVar();
 		if (var instanceof PartialDerivative) {
 			PartialDerivative deriv = (PartialDerivative) var;
-			if (((mode & PRINT_PARTIAL_EQNS) != 0) && deriv.hasEquation())
+			if (((mode & PRINT_PARTIAL_EQNS) != 0) && deriv.hasEquation()) {
 				deriv.getEquation().jjtAccept(this, null);
-			else
+			} else {
 				sb.append(node.getName());
+			}
 		} else if (var instanceof DVariable) {
 			DVariable dvar = (DVariable) var;
-			if (((mode & PRINT_VARIABLE_EQNS) != 0) && dvar.hasEquation())
+			if (((mode & PRINT_VARIABLE_EQNS) != 0) && dvar.hasEquation()) {
 				dvar.getEquation().jjtAccept(this, null);
-			else
+			} else {
 				sb.append(node.getName());
-		} else
+			}
+		} else {
 			sb.append(node.getName());
+		}
 
 		return data;
 	}

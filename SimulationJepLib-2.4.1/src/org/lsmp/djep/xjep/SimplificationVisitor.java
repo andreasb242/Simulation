@@ -417,16 +417,14 @@ public class SimplificationVisitor extends DoNothingVisitor {
 			}
 		}
 		return null;
-		// return nf.buildOperatorNode(((ASTOpNode)
-		// node).getOperator(),child1,child2);
-		// return tu.buildPower(child1,child2);
 	}
 
 	/** simplifies operators, does not descend into children */
 	public Node simplifyOp(ASTFunNode node, Node children[]) throws ParseException {
 		boolean allConst = true;
 		XOperator op = (XOperator) node.getOperator();
-		// TODO_YEP a bit of a hack to prevent lists of constants being converted
+		// TODO_YEP a bit of a hack to prevent lists of constants being
+		// converted
 		// what happens is that for [[1,2],[3,4]] the dimension is not passed
 		// into buildConstantNode so list is treated as [1,2,3,4]
 		// Ideally there would be a special simplification rule for List
@@ -483,6 +481,7 @@ public class SimplificationVisitor extends DoNothingVisitor {
 		return node;
 	}
 
+	@Override
 	public Object visit(ASTFunNode node, Object data) throws ParseException {
 		int nchild = node.jjtGetNumChildren();
 

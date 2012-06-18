@@ -12,18 +12,30 @@ import java.util.Stack;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
+
 /**
- * A PostfixMathCommandI which rounds a number round(pi) finds the closest
- * integer to the argument round(pi,3) rounds the argument to 3 decimal places
+ * A PostfixMathCommandI which rounds a number
+ * round(x) finds the closest integer to the argument
+ * round(x,3) rounds the argument to 3 decimal places
  * 
  * @author Richard Morris
  * 
  */
+@Category(CategoryType.BASE)
+@Example("(x)")
+@Description("Rounds a number<br>" +
+		"<ul><li>round(x) finds the closest integer to the argument</li>" +
+		"<li>round(x,3) rounds the argument to 3 decimal places</li></ul>")
 public class Round extends PostfixMathCommand {
 	public Round() {
 		numberOfParameters = -1;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		if (this.curNumberOfParameters == 1) {

@@ -13,11 +13,16 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.UNDEFINED)
 public class Power extends PostfixMathCommand {
 	public Power() {
 		numberOfParameters = 2;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack); // check the stack
 

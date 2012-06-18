@@ -20,21 +20,25 @@ public class SubtractDiffRule implements DiffRulesI {
 		name = inName;
 	}
 
+	@Override
 	public String toString() {
 		return name + "  \t\tdiff(f-g,x) -> diff(f,x)-diff(g,x)";
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public Node differentiate(ASTFunNode node, String var, Node[] children, Node[] dchildren, DJep djep) throws ParseException {
 		int nchild = node.jjtGetNumChildren();
-		if (nchild == 2)
+		if (nchild == 2) {
 			return djep.getNodeFactory().buildOperatorNode(djep.getOperatorSet().getSubtract(), dchildren[0], dchildren[1]);
-		else if (nchild == 1)
+		} else if (nchild == 1) {
 			return djep.getNodeFactory().buildOperatorNode(djep.getOperatorSet().getUMinus(), dchildren[0]);
-		else
+		} else {
 			throw new ParseException("Too many children " + nchild + " for " + node + "\n");
+		}
 	}
 }

@@ -465,29 +465,12 @@ public class JepTest extends TestCase {
 		j.parse("a2=5678");
 		j.parse("ApportionmentAmt=4321");
 		j.parse("a4 = 2000 + (3000 /2000) + (3.45787 * 33544 - (212.223 /2000)) + + 1200");
-		j
-				.parse("a3 = if(a1 > 0 && ApportionmentAmt < 1000, if(a2 < 2000, if(a2 < 1000, 200, 0), if(a1 > 1000, if((2000 + (3000 /2000) + (3.45787 * 33544 - (212.223 /2000)) + 1200 + ApportionmentAmt / 2000 + ApportionmentAmt * ApportionmentAmt + 2000) > 0, 100, 200),200)), if(a1/a2 < 1000, a1/a2, 1, a1 * a2 + a1))");
+		j.parse("a3 = if(a1 > 0 && ApportionmentAmt < 1000, if(a2 < 2000, if(a2 < 1000, 200, 0), if(a1 > 1000, if((2000 + (3000 /2000) + (3.45787 * 33544 - (212.223 /2000)) + 1200 + ApportionmentAmt / 2000 + ApportionmentAmt * ApportionmentAmt + 2000) > 0, 100, 200),200)), if(a1/a2 < 1000, a1/a2, 1, a1 * a2 + a1))");
 		try {
-			j
-					.parse("a3 = if(a1 > 0 && ApportionmentAmt < 1000, if(a2 < 2000, if(a2 < 1000, 200, 0), if(a1 > 1000, if((2000 + (3000 /2000) + (3.45787 * 33544 - (212.223 /2000)) + 1200 + ApportionmentAmt / 2000 + ApportionmentAmt * ApportionmentAmt + 2000) > 0, 100, 200)),200), if(a1/a2 < 1000, a1/a2, 1, a1 * a2 + a1))");
+			j.parse("a3 = if(a1 > 0 && ApportionmentAmt < 1000, if(a2 < 2000, if(a2 < 1000, 200, 0), if(a1 > 1000, if((2000 + (3000 /2000) + (3.45787 * 33544 - (212.223 /2000)) + 1200 + ApportionmentAmt / 2000 + ApportionmentAmt * ApportionmentAmt + 2000) > 0, 100, 200)),200), if(a1/a2 < 1000, a1/a2, 1, a1 * a2 + a1))");
 			fail("Did not trap illegal number of arguments");
 		} catch (ParseException e) {
 		}
-		/*
-		 * double a1=0,a2=0,ApportionmentAmt=0; double a3 = myif( a1 > 0 &&
-		 * ApportionmentAmt < 1000, myif( a2 < 2000, myif(a2 < 1000, 200, 0),
-		 * myif( a1 > 1000, myif( (2000 + (3000 /2000) + (3.45787 * 33544 -
-		 * (212.223 /2000)) + 1200 + ApportionmentAmt / 2000 + ApportionmentAmt
-		 * * ApportionmentAmt + 2000) > 0, 100, 200 ), 333)), myif(a1/a2 < 1000,
-		 * a1/a2, a1 * a2 + a1));
-		 * 
-		 * 
-		 * a3 = if(a1 > 0 && ApportionmentAmt < 1000, if(a2 < 2000, if(a2 <
-		 * 1000, 200, 0), if(a1 > 1000, if( (2000 + (3000 /2000) + (3.45787 *
-		 * 33544 - (212.223 /2000)) + 1200 + ApportionmentAmt / 2000 +
-		 * ApportionmentAmt * ApportionmentAmt + 2000) > 0, 100, 200 ) ), 200 ),
-		 * if(a1/a2 < 1000, a1/a2, 1, a1 * a2 + a1) )
-		 */
 	}
 
 	public void testUndeclared() throws Exception {

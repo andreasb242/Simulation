@@ -69,6 +69,7 @@ public class BaseFormat extends NumberFormat {
 	 *            not used
 	 * @return the string buffer
 	 */
+	@Override
 	public StringBuffer format(double val, StringBuffer sb, FieldPosition fp) {
 		sb.append(tb.toBase(val, base, this.getMaximumFractionDigits()));
 		return sb;
@@ -85,7 +86,7 @@ public class BaseFormat extends NumberFormat {
 	 *            not used
 	 * @return the string buffer
 	 */
-
+	@Override
 	public StringBuffer format(long val, StringBuffer sb, FieldPosition fp) {
 		sb.append(tb.toBase(val, base));
 		return sb;
@@ -94,6 +95,7 @@ public class BaseFormat extends NumberFormat {
 	/**
 	 * Not implemented
 	 */
+	@Override
 	public Number parse(String arg0, ParsePosition arg1) {
 		return null;
 	}

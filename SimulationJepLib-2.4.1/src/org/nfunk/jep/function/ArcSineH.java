@@ -13,6 +13,9 @@ import java.util.Stack;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Implements the arcSinH function.
  * 
@@ -20,11 +23,13 @@ import org.nfunk.jep.type.Complex;
  * @since 2.3.0 beta 2 - Now returns Double result rather than Complex for
  *        Double arguments.
  */
+@Category(CategoryType.TRIGONOMETRIC)
 public class ArcSineH extends PostfixMathCommand {
 	public ArcSineH() {
 		numberOfParameters = 1;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
 		Object param = inStack.pop();
@@ -39,8 +44,6 @@ public class ArcSineH extends PostfixMathCommand {
 			double val = ((Number) param).doubleValue();
 			double res = Math.log(val + Math.sqrt(val * val + 1));
 			return new Double(res);
-			// Complex temp = new Complex(((Number)param).doubleValue(),0.0);
-			// return temp.asinh();
 		}
 		throw new ParseException("Invalid parameter type");
 	}

@@ -42,6 +42,7 @@ public class ASTFunNode extends SimpleNode {
 	/**
 	 * Accept the visitor.
 	 */
+	@Override
 	public Object jjtAccept(ParserVisitor visitor, Object data) throws ParseException {
 		return visitor.visit(this, data);
 	}
@@ -68,6 +69,7 @@ public class ASTFunNode extends SimpleNode {
 	/**
 	 * Returns a string containing the function name.
 	 */
+	@Override
 	public String toString() {
 		return "Function \"" + name + "\"";
 	}

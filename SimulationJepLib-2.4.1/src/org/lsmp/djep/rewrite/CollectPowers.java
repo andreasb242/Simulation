@@ -22,6 +22,7 @@ public class CollectPowers extends AbstractRewrite {
 		super(xj);
 	}
 
+	@Override
 	public boolean test(ASTFunNode node, Node[] children) {
 		if (node.getOperator() == opSet.getMultiply()) {
 			// x * x -> true
@@ -47,6 +48,7 @@ public class CollectPowers extends AbstractRewrite {
 		return false;
 	}
 
+	@Override
 	public Node apply(ASTFunNode node, Node[] children) throws ParseException {
 
 		if (node.getOperator() == opSet.getMultiply()) {

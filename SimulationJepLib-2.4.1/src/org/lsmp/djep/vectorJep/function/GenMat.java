@@ -18,6 +18,9 @@ import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.CallbackEvaluationI;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * Generate vectors and matrices. First argument gives the size of the vector or
  * matrix second argument is the function to use to generate elements of vector
@@ -37,16 +40,19 @@ import org.nfunk.jep.function.PostfixMathCommand;
  * 
  * @author Rich Morris Created on 14-Feb-2005
  */
+@Category(CategoryType.UNDEFINED)
 public class GenMat extends PostfixMathCommand implements CallbackEvaluationI {
 	public GenMat() {
 		super();
 		this.numberOfParameters = -1;
 	}
 
+	@Override
 	public boolean checkNumberOfParameters(int n) {
 		return (n == 2 || n == 3);
 	}
 
+	@Override
 	public Object evaluate(Node node, EvaluatorI pv) throws ParseException {
 		Object sizeObj = pv.eval(node.jjtGetChild(0));
 		int sizes[] = null;

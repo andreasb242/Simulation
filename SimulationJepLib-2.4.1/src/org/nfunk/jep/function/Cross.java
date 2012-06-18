@@ -14,14 +14,19 @@ import java.util.Vector;
 
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
+@Category(CategoryType.UNDEFINED)
 public class Cross extends PostfixMathCommand {
-	static Subtract sub = new Subtract();
-	static Multiply mul = new Multiply();
+	private static Subtract sub = new Subtract();
+	private static Multiply mul = new Multiply();
 
 	public Cross() {
 		numberOfParameters = 2;
 	}
 
+	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack); // check the stack
 

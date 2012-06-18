@@ -47,6 +47,7 @@ public class MatrixOperatorSet extends XOperatorSet {
 		// OP_RANGE.setPFMC(new VRange());
 	}
 
+	@Override
 	public Operator[] getOperators() {
 		Operator ops1[] = super.getOperators();
 		Operator ops2[] = new Operator[ops1.length + 1];

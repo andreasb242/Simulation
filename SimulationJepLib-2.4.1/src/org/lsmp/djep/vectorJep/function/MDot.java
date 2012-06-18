@@ -16,16 +16,21 @@ import org.lsmp.djep.vectorJep.values.MatrixValueI;
 import org.lsmp.djep.vectorJep.values.Scaler;
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.Category;
+import ch.zhaw.simulation.jep.CategoryType;
+
 /**
  * The MDot operator.
  * 
  * @author Rich Morris Created on 23-Feb-2004
  */
+@Category(CategoryType.UNDEFINED)
 public class MDot extends MMultiply implements BinaryOperatorI {
 	public MDot() {
 		numberOfParameters = 2;
 	}
 
+	@Override
 	public Dimensions calcDim(Dimensions l, Dimensions r) {
 		if (l.equals(r) && l.is1D())
 			return Dimensions.ONE;
@@ -43,6 +48,7 @@ public class MDot extends MMultiply implements BinaryOperatorI {
 	 *            - rhs value
 	 * @return res
 	 */
+	@Override
 	public MatrixValueI calcValue(MatrixValueI res, MatrixValueI lhs, MatrixValueI rhs) throws ParseException {
 		return calcValue((Scaler) res, (MVector) lhs, (MVector) rhs);
 	}
@@ -56,6 +62,7 @@ public class MDot extends MMultiply implements BinaryOperatorI {
 		return res;
 	}
 
+	@Override
 	public void run(Stack<Object> stack) throws ParseException {
 		checkStack(stack); // check the stack
 

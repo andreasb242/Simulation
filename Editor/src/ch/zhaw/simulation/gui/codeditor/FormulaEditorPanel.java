@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
@@ -23,6 +24,7 @@ import org.jdesktop.swingx.JXStatusBar;
 
 import butti.javalibs.errorhandler.Errorhandler;
 import butti.javalibs.gui.GridBagManager;
+import ch.zhaw.simulation.gui.codeditor.library.FormulaLibraryPanel;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.math.Constant;
 import ch.zhaw.simulation.math.Function;
@@ -71,10 +73,20 @@ public class FormulaEditorPanel extends JPanel {
 
 	private boolean autosaveFormula;
 
+	private FormulaLibraryPanel library;
+
 	public FormulaEditorPanel(Sysintegration sys, AbstractSimulationModel<?> model, Vector<String> addiditonalVars, boolean autosaveFormula) {
 		this.model = model;
 		this.additionalVars = addiditonalVars;
 		this.autosaveFormula = autosaveFormula;
+		this.library = new FormulaLibraryPanel(parser);
+		this.library.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inserEditor(e.getActionCommand(), e.getID());
+			}
+		});
 
 		gbm = new GridBagManager(this);
 
@@ -92,7 +104,12 @@ public class FormulaEditorPanel extends JPanel {
 
 		keyboard = new FormularKeyboard(text);
 		gbm.setInsets(new Insets(0, 0, 0, 0));
-		gbm.setX(1).setY(10).setWeightX(0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.PAGE_START).setComp(keyboard);
+
+		JTabbedPane tabsInput = new JTabbedPane();
+		tabsInput.addTab("Tastatur", keyboard);
+		tabsInput.addTab("Library", this.library);
+
+		gbm.setX(1).setY(10).setWeightX(0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.PAGE_START).setComp(tabsInput);
 
 		text.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -138,7 +155,7 @@ public class FormulaEditorPanel extends JPanel {
 
 	private void initToolbar() {
 		tb.setFloatable(false);
-		
+
 		JComponent component = addToToolbar(constants);
 		constants.setComponent(component);
 

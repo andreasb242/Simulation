@@ -18,6 +18,7 @@ public class ASTMFunNode extends ASTFunNode implements MatrixNodeI {
 		super(i);
 	}
 
+	@Override
 	public Dimensions getDim() {
 		return mvar.getDim();
 	}
@@ -26,6 +27,7 @@ public class ASTMFunNode extends ASTFunNode implements MatrixNodeI {
 		mvar = Tensor.getInstance(dim);
 	}
 
+	@Override
 	public MatrixValueI getMValue() {
 		return mvar;
 	}
