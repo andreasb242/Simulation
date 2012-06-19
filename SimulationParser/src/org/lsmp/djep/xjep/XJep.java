@@ -18,7 +18,6 @@ import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.Variable;
 import org.nfunk.jep.VariableFactory;
 import org.nfunk.jep.function.Exp;
-import org.nfunk.jep.function.Sum;
 
 import ch.zhaw.simulation.jep.functions.Avg;
 import ch.zhaw.simulation.jep.functions.Max;
@@ -69,6 +68,7 @@ public class XJep extends JEP {
 				node.jjtGetChild(1).jjtAccept(pv, null);
 			}
 		});
+
 	}
 
 	/** Copy constructions, reuses all the components of argument. */
@@ -139,13 +139,12 @@ public class XJep extends JEP {
 			super.addStandardFunctions();
 		}
 
-		addFunction("Sum", new Sum());
-		addFunction("Min", new Min());
-		addFunction("Max", new Max());
-		addFunction("Avg", new Avg(this));
+		addFunction("min", new Min());
+		addFunction("max", new Max());
+		addFunction("avg", new Avg(this));
 
 		addFunction("exp", new Exp());
-		addFunction("Define", new Define(this));
+		addFunction("define", new Define(this));
 		try {
 			MacroFunction sec = new MacroFunction("sec", 1, "1/cos(x)", this);
 			addFunction("sec", sec);

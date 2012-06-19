@@ -37,7 +37,7 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author R Morris. Created on 18-Jun-2003
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MACRO)
 public class MacroFunction extends PostfixMathCommand {
 	private String name;
 	private Node topNode;

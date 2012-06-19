@@ -43,7 +43,7 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 21-Jul-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MACRO)
 public class Define extends PostfixMathCommand implements CommandVisitorI {
 	private XJep xj;
 

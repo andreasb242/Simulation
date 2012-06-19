@@ -43,7 +43,6 @@ import org.nfunk.jep.function.Round;
 import org.nfunk.jep.function.Sine;
 import org.nfunk.jep.function.SineH;
 import org.nfunk.jep.function.SquareRoot;
-import org.nfunk.jep.function.Str;
 import org.nfunk.jep.function.Sum;
 import org.nfunk.jep.function.TanH;
 import org.nfunk.jep.function.Tangent;
@@ -247,7 +246,6 @@ public class JEP {
 
 		// rjm additions
 		funTab.put("if", new If());
-		funTab.put("str", new Str());
 
 		// rjm 13/2/05
 		funTab.put("binom", new Binomial());
