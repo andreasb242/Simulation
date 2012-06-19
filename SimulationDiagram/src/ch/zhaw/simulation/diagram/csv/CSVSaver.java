@@ -45,6 +45,7 @@ public class CSVSaver {
 		this.collection = collection;
 	}
 
+	// TODO !!!!!!!!!!!!!!!!!!!! Konstante ausgeben
 	private void save(File file) throws IOException {
 		PrintWriter out = new PrintWriter(new FileWriter(file));
 
@@ -78,7 +79,7 @@ public class CSVSaver {
 			out.write(";");
 
 			for (double d : e.data) {
-				if (d != Double.NaN) {
+				if (!Double.isNaN(d)) {
 					out.write(format.format(d));
 				}
 				out.write(";");
@@ -93,6 +94,7 @@ public class CSVSaver {
 
 	public void save() {
 		String lastSavePath = settings.getSetting("table.lastSavePath");
+		
 		File file = SysintegrationFactory.getSysintegration().showSaveDialog(parent, filterCSV, lastSavePath);
 
 		if (file == null) {
