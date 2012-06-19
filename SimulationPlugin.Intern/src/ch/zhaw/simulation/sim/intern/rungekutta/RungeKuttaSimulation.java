@@ -64,11 +64,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 
 				for (SimulationContainerData c : model.getSimulationContainer()) {
 					Object v = ((SimulationAttachment) c.attachment).getContainerValue();
-					if (v instanceof Double) {
-						((SimulationAttachment) c.attachment).serie.add(time, (Double) v);
-					} else {
-						((SimulationAttachment) c.attachment).serie.setOtherType(v.getClass().getName());
-					}
+					((SimulationAttachment) c.attachment).serie.add(time, v);
 				}
 			}
 		} finally {
@@ -315,6 +311,9 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 		}
 	}
 
+	/**
+	 * Flüsse zu den den Containern berechnen
+	 */
 	protected void calcContainers() throws ParseException {
 		for (SimulationContainerData c : model.getSimulationContainer()) {
 			calcContainer(c);

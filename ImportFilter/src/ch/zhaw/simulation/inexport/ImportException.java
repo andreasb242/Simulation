@@ -6,4 +6,8 @@ public class ImportException extends Exception {
 	public ImportException(String message) {
 		super(message);
 	}
+
+	public ImportException(Throwable cause) {
+		super(cause);
+	}
 }

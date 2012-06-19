@@ -1,21 +1,21 @@
-package ch.zhaw.simulation.inexport.madonna;
+package ch.zhaw.simulation.inexport.madonna.binformat;
 
-import java.awt.Point;
 
 /**
- * An Connector
+ * A flow element
  * 
  * @author Andreas Butti
  */
-public class MConnector extends MadonnaElement {
+public class MFlow extends MadonnaElement {
 	/**
 	 * The from / to fileintern IDs
 	 */
 	private int fromId;
 	private int toId;
 
-	public MConnector(int fromId, int toId, Point point) {
-		super(point);
+	public MFlow(int fromId, int toId) {
+		super(null);
+
 		this.fromId = fromId;
 		this.toId = toId;
 	}

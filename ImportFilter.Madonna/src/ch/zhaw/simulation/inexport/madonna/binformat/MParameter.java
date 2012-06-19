@@ -1,6 +1,7 @@
-package ch.zhaw.simulation.inexport.madonna;
+package ch.zhaw.simulation.inexport.madonna.binformat;
 
 import java.awt.Point;
+
 
 /**
  * A Parameter element

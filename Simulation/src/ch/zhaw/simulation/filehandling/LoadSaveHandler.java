@@ -192,7 +192,7 @@ public class LoadSaveHandler extends StatusHandler {
 
 		if (!loader.versionCompatible()) {
 			Messagebox msg = new Messagebox(parent, "Fehler beim Öffnen",
-					"Die Datei ist von einer neuen Vesion des Programms erstellt worden und kann nicht gelesen werden!", Messagebox.ERROR);
+					"Die Datei konnte nicht gelesen werden. Ggf. handelt es sich um ein neueres Dateiformat, in diesem Fall müssten Sie (AB)² updaten.", Messagebox.ERROR);
 			msg.addButton("OK", 0, true);
 			msg.display();
 			return false;

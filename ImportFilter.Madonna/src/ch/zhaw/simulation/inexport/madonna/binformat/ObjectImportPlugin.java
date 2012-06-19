@@ -1,11 +1,9 @@
-package ch.zhaw.simulation.inexport.madonna;
+package ch.zhaw.simulation.inexport.madonna.binformat;
 
 import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PushbackInputStream;
-
-import ch.zhaw.simulation.inexport.ImportPlugin;
 
 import butti.javalibs.errorhandler.Errorhandler;
 
@@ -14,7 +12,7 @@ import butti.javalibs.errorhandler.Errorhandler;
  * 
  * @author Andreas Butti
  */
-public abstract class ObjectImportPlugin extends ImportPlugin {
+public abstract class ObjectImportPlugin {
 	private ObjectInputStream oi;
 
 	public ObjectImportPlugin() {

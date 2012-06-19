@@ -350,16 +350,16 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 	}
 
 	public void releaseOpenWindow() {
-		windowPosition.readWindowPos(this.mainFrame);
-		File f = new File(ConfigPath.getSettingsPath() + "mainWindow.windowPos");
-		try {
-			windowPosition.store(new FileOutputStream(f), "Fensterposition des Fenstertypes \"Hauptfensters\"");
-		} catch (Exception e) {
-			System.err.println("Speichern der Windowposition des Hauptfensters fehlgeschlagen");
-			e.printStackTrace();
-		}
-
 		if (this.mainFrame != null) {
+			File f = new File(ConfigPath.getSettingsPath() + "mainWindow.windowPos");
+			try {
+				windowPosition.store(new FileOutputStream(f), "Fensterposition des Fenstertypes \"Hauptfensters\"");
+			} catch (Exception e) {
+				System.err.println("Speichern der Windowposition des Hauptfensters fehlgeschlagen");
+				e.printStackTrace();
+			}
+
+			
 			this.mainFrame.dispose();
 			this.mainFrame.removeListener(this.controller);
 			this.mainFrame = null;

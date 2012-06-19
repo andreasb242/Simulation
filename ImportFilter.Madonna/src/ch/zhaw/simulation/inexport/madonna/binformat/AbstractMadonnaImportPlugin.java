@@ -1,14 +1,12 @@
-package ch.zhaw.simulation.inexport.madonna;
+package ch.zhaw.simulation.inexport.madonna.binformat;
 
 import java.awt.Point;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.util.HashMap;
 
 import ch.zhaw.simulation.inexport.ImportException;
+import ch.zhaw.simulation.inexport.madonna.FileImporter;
 
 /**
  * Berkeley Madonna import Plugin for (AB)² Simulation
@@ -20,35 +18,15 @@ import ch.zhaw.simulation.inexport.ImportException;
  * 
  * @author Andreas Butti
  */
-public abstract class AbstractMadonnaImportPlugin extends ObjectImportPlugin {
+public abstract class AbstractMadonnaImportPlugin extends ObjectImportPlugin implements FileImporter {
 	protected HashMap<Integer, MadonnaElement> data = new HashMap<Integer, MadonnaElement>();
 
 	public AbstractMadonnaImportPlugin() {
 	}
 
 	@Override
-	public boolean checkFile(InputStream in) throws IOException {
-		// Check header
-		byte[] head = new byte[] { 0x01, 'M', 'a', 'd', 'o', 'n', 'n', 'a', 'M', 'o', 'd', 'e', 'l' };
-		for (byte b : head) {
-			if (in.read() != b) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	@Override
-	public void read(File file) throws IOException, ImportException {
-		PushbackInputStream in = new PushbackInputStream(new FileInputStream(file), 512);
-
+	public void read(PushbackInputStream in) throws IOException, ImportException {
 		data.clear();
-
-		// Check header
-		if (!checkFile(in)) {
-			throw new ImportException("Not a BarkleyMadonna file!");
-		}
 
 		int x = 0;
 
