@@ -11,20 +11,23 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
+import ch.zhaw.simulation.model.xy.DensityData;
 
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.SIMULATION)
+@Example("(\"d0\", \"x\")")
+@Description("The gradient of a density in a direction (x or y)")
 public class Gradient extends PostfixMathCommand implements CallbackEvaluationI {
 	private Vector<String> density = new Vector<String>();
 
-	public Gradient() {
+	public Gradient(Vector<DensityData> density) {
 		super();
 		this.numberOfParameters = 2;
 
-		// TODO: dynamic add densities!!!!
-		density.add("d0");
-		density.add("d1");
-		density.add("d2");
-		density.add("d3");
+		for (DensityData d : density) {
+			this.density.add(d.getName());
+		}
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class Gradient extends PostfixMathCommand implements CallbackEvaluationI 
 			throw new ParseException("Density «" + density + "» not allowed");
 		}
 
-		if(!("x".equals(direction) || "y".equals(direction))) {
+		if (!("x".equals(direction) || "y".equals(direction))) {
 			throw new ParseException("grad: unknown direction «" + direction + "» only \"x\" and \"y\" allowed");
 		}
 	}

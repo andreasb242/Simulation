@@ -55,9 +55,15 @@ public class Autoparser {
 		if (o instanceof MesoData) {
 			MesoData d = (MesoData) o;
 
-			Vector<AbstractNamedSimulationData> sources = control.getModel().getSource(o);
+			SimulationXYModel model = control.getModel();
+			Vector<AbstractNamedSimulationData> sources = model.getSource(o);
+
+			parser.enableGradient(model.getDensity());
+
 			checkCode(d.getDataX(), sources);
 			checkCode(d.getDataY(), sources);
+
+			parser.enableGradient(null);
 
 			control.getModel().fireObjectChangedAutoparser(d);
 			return;

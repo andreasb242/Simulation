@@ -1,12 +1,14 @@
 package ch.zhaw.simulation.dialog.mathoverview;
 
 import java.awt.Window;
+import java.util.Vector;
 
 import javax.swing.JScrollPane;
 
 import butti.javalibs.gui.BDialog;
 import ch.zhaw.simulation.gui.codeditor.library.FormulaLibraryPanel;
 import ch.zhaw.simulation.math.Parser;
+import ch.zhaw.simulation.model.xy.DensityData;
 
 public class MathOverview extends BDialog {
 	private static final long serialVersionUID = 1L;
@@ -16,7 +18,9 @@ public class MathOverview extends BDialog {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("Matheüberblick");
 
-		FormulaLibraryPanel library = new FormulaLibraryPanel(new Parser());
+		Parser parser = new Parser();
+		parser.enableGradient(new Vector<DensityData>());
+		FormulaLibraryPanel library = new FormulaLibraryPanel(parser);
 
 		add(new JScrollPane(library));
 

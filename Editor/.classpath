@@ -7,12 +7,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sysintegration"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HtmlEditor"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SimulationParser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AppDefinition"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/VectorExport"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ImageExport"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationSidebar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SimulationPlugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimulationParser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

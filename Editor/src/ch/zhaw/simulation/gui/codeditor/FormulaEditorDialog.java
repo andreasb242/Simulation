@@ -14,6 +14,7 @@ import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
+import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class FormulaEditorDialog extends BDialog {
@@ -39,7 +40,7 @@ public class FormulaEditorDialog extends BDialog {
 		new WindowPositionSaver(this);
 	}
 
-	public void setData(NamedFormulaData data) {
+	public void setData(NamedFormulaData data, Vector<DensityData> density) {
 		String title = data.getName();
 
 		if (title == null) {
@@ -57,7 +58,7 @@ public class FormulaEditorDialog extends BDialog {
 		}
 
 		setTitle(title);
-		editor.setData(data);
+		editor.setData(data, density);
 	}
 
 	public void unselect() {

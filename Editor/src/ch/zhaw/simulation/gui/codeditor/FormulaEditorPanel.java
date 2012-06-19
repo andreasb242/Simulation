@@ -36,6 +36,7 @@ import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.NamedFormulaData.Status;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.Toolbar.ToolbarAction;
 
@@ -240,7 +241,7 @@ public class FormulaEditorPanel extends JPanel {
 		this.data = null;
 	}
 
-	public void setData(NamedFormulaData data) {
+	public void setData(NamedFormulaData data, Vector<DensityData> density) {
 		if (this.data != null) {
 			// Save Data
 			checkFormula(false);
@@ -248,6 +249,8 @@ public class FormulaEditorPanel extends JPanel {
 
 		value = data.getFormula();
 		this.data = data;
+
+		this.parser.enableGradient(density);
 
 		text.setText(data.getFormula());
 

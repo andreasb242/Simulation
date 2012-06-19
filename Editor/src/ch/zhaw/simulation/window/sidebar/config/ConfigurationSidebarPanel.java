@@ -15,7 +15,6 @@ import org.jdesktop.swingx.JXTaskPane;
 import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.frame.sidebar.SidebarPosition;
 import ch.zhaw.simulation.model.AbstractSimulationModel;
-import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.selection.SelectableElement;
@@ -65,7 +64,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 		public void sidebarActionPerformed(SidebarAction action, Object data) {
 			switch (action) {
 			case SHOW_FORMULA_EDITOR:
-				showFormulaEditor((NamedFormulaData) data);
+				showFormulaEditor((MesoXyEditorData) data);
 				break;
 
 			default:
@@ -168,7 +167,7 @@ public abstract class ConfigurationSidebarPanel<M extends AbstractSimulationMode
 	 * @param data
 	 *            The data to edit
 	 */
-	public void showFormulaEditor(NamedFormulaData data) {
+	public void showFormulaEditor(MesoXyEditorData data) {
 		control.showFormulaEditor(data);
 	}
 

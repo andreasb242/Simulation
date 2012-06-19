@@ -18,9 +18,8 @@ import ch.zhaw.simulation.jep.Description;
 import ch.zhaw.simulation.jep.Example;
 
 /**
- * A PostfixMathCommandI which rounds a number
- * round(x) finds the closest integer to the argument
- * round(x,3) rounds the argument to 3 decimal places
+ * A PostfixMathCommandI which rounds a number round(x) finds the closest
+ * integer to the argument round(x,3) rounds the argument to 3 decimal places
  * 
  * @author Richard Morris
  * 
@@ -38,6 +37,11 @@ public class Round extends PostfixMathCommand {
 	@Override
 	public void run(Stack<Object> inStack) throws ParseException {
 		checkStack(inStack);// check the stack
+
+		if (this.curNumberOfParameters < 1) {
+			throw new ParseException("Function \"round\" requres at least 1 parameter");
+		}
+
 		if (this.curNumberOfParameters == 1) {
 			Object param = inStack.pop();
 			inStack.push(round(param));// push the result on the inStack

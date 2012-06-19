@@ -1,7 +1,7 @@
 package ch.zhaw.simulation.jep;
 
 public enum CategoryType {
-	BASE, CONSTS, TRIGONOMETRIC, LOGARITHMIC, LOGICAL, NUMBER_SETS, UNDEFINED;
+	BASE, CONVERT, CONSTS, TRIGONOMETRIC, LOGARITHMIC, LOGICAL, NUMBER_SETS, SIMULATION, UNDEFINED;
 
 	public static CategoryType fromFunction(Object command) {
 		Class<?> cls = command.getClass();

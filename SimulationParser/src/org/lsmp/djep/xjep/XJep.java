@@ -9,8 +9,6 @@ import java.util.Vector;
 
 import org.lsmp.djep.xjep.PrintVisitor.PrintRulesI;
 import org.lsmp.djep.xjep.function.Define;
-import org.lsmp.djep.xjep.function.FromBase;
-import org.lsmp.djep.xjep.function.ToBase;
 import org.nfunk.jep.ASTFunNode;
 import org.nfunk.jep.ASTVarNode;
 import org.nfunk.jep.JEP;
@@ -145,10 +143,6 @@ public class XJep extends JEP {
 		addFunction("Min", new Min());
 		addFunction("Max", new Max());
 		addFunction("Avg", new Avg(this));
-		addFunction("toBase", new ToBase());
-		addFunction("toHex", new ToBase(16, "0x"));
-		addFunction("fromBase", new FromBase());
-		addFunction("fromHex", new FromBase(16, "0x"));
 
 		addFunction("exp", new Exp());
 		addFunction("Define", new Define(this));

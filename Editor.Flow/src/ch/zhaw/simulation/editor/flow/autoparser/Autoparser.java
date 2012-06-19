@@ -1,6 +1,5 @@
 package ch.zhaw.simulation.editor.flow.autoparser;
 
-
 import java.util.Vector;
 
 import butti.javalibs.errorhandler.Errorhandler;

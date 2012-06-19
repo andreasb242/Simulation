@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.math;
 
+import java.util.EmptyStackException;
 import java.util.Enumeration;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -18,6 +19,7 @@ import ch.zhaw.simulation.model.AbstractSimulationModel;
 import ch.zhaw.simulation.model.NamedFormulaData;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.xy.DensityData;
 
 public class Parser {
 	private MatrixJep jep;
@@ -27,6 +29,14 @@ public class Parser {
 
 	public Parser() {
 		newParser();
+	}
+
+	public void enableGradient(Vector<DensityData> density) {
+		jep.removeFunction("grad");
+
+		if (density != null) {
+			jep.addFunction("grad", new Gradient(density));
+		}
 	}
 
 	private void newParser() {
@@ -40,9 +50,6 @@ public class Parser {
 		jep.addStandardFunctions();
 		// jep.addComplex();
 		jep.getSymbolTable().remove("x");
-		
-		jep.addFunction("grad", new Gradient());
-
 
 		// Add all functions from JEP to functionlist[]
 		Vector<Function> functionlist = new Vector<Function>();
@@ -88,13 +95,13 @@ public class Parser {
 	}
 
 	public ParserNodePair checkCode(String formula, NamedFormulaData data, AbstractSimulationModel<?> model, Vector<AbstractNamedSimulationData> sourcesConst,
-			 Vector<String> predefined, String name) throws EmptyFormulaException, NotUsedException, CompilerError {
+			Vector<String> predefined, String name) throws EmptyFormulaException, NotUsedException, CompilerError {
 		Vector<VarPlaceholder> placeholder = new Vector<VarPlaceholder>();
-		
-		for(String v : predefined) {
+
+		for (String v : predefined) {
 			placeholder.add(new VarPlaceholder(v));
 		}
-		
+
 		return checkCode(formula, data, model, sourcesConst, name, placeholder);
 	}
 
@@ -163,6 +170,8 @@ public class Parser {
 				nodes.add(node);
 			} catch (ParseException e) {
 				throw new CompilerError(data, e.getMessage(), line.line, line.text.length());
+			} catch (EmptyStackException e) {
+				throw new CompilerError(data, "Missing parameter", line.line, line.text.length());
 			}
 		}
 

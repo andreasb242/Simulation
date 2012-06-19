@@ -20,8 +20,8 @@ import ch.zhaw.simulation.plugin.matlab.XYModelAttachment;
 
 /**
  * This class optimizes an XY-model
- *
- *
+ * 
+ * 
  * @author: bachi
  */
 public class XYModelOptimizer implements ModelOptimizer {
@@ -48,17 +48,19 @@ public class XYModelOptimizer implements ModelOptimizer {
 		predefined.add("x");
 		predefined.add("y");
 
-		// Iterate over all initial densities (because they aren't AbstractNamedSimulationData)
+		// Iterate over all initial densities (because they aren't
+		// AbstractNamedSimulationData)
 		// and syntax check formula
 		for (DensityData density : xyModel.getDensity()) {
-			// TODO: replace parser variables with MATLAB variables and save in attachment
+			// TODO: replace parser variables with MATLAB variables and save in
+			// attachment
 			parser.checkCode(density.getFormula(), density, xyModel, new Vector<AbstractNamedSimulationData>(), predefined, density.getName());
 		}
 	}
 
 	/**
-	 * Creates an attachment for every data (meso, global) in a xy-model
-	 * and assigns to this data.
+	 * Creates an attachment for every data (meso, global) in a xy-model and
+	 * assigns to this data.
 	 */
 	private void initModelForSimulation() {
 		for (AbstractSimulationData data : xyModel.getData()) {
@@ -69,7 +71,8 @@ public class XYModelOptimizer implements ModelOptimizer {
 		}
 	}
 
-	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException, SimulationModelException {
+	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException,
+			VarNotFoundException, SimulationModelException {
 		MesoData mesoData;
 		XYModelAttachment attachment = (XYModelAttachment) namedData.attachment;
 
@@ -81,16 +84,18 @@ public class XYModelOptimizer implements ModelOptimizer {
 				mesoData = (MesoData) namedData;
 
 				// optimize movements / motions of a meso
+				parser.enableGradient(xyModel.getDensity());
 				attachment.optimizeDataX(parser.checkCode(mesoData.getDataX().getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
 				attachment.optimizeDataY(parser.checkCode(mesoData.getDataY().getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
+				parser.enableGradient(null);
 
 				// optimize submodel of a meso
 				new FlowModelOptimizer(mesoData.getSubmodel().getModel()).optimize();
 
-			// ... if not, optimize normal (global)
+				// ... if not, optimize normal (global)
 			} else {
-                attachment.optimize(parser.checkCode(namedData.getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
-            }
+				attachment.optimize(parser.checkCode(namedData.getFormula(), namedData, xyModel, new Vector<AbstractNamedSimulationData>(), namedData.getName()));
+			}
 		} catch (ParseException e) {
 			throw new SimulationParserException(namedData, e);
 		}

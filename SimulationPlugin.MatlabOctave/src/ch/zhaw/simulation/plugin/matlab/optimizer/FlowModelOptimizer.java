@@ -62,8 +62,8 @@ public class FlowModelOptimizer implements ModelOptimizer {
 	}
 
 	/**
-	 * For every AbstractSimulationData and FlowConnectorData,
-	 * assign a new FlowModelAttachment
+	 * For every AbstractSimulationData and FlowConnectorData, assign a new
+	 * FlowModelAttachment
 	 */
 	private void initModelForSimulation() {
 		for (AbstractSimulationData data : flowModel.getData()) {
@@ -80,7 +80,7 @@ public class FlowModelOptimizer implements ModelOptimizer {
 
 	/**
 	 * Manipulate attachment of a data-object
-	 *
+	 * 
 	 * @param namedData
 	 * @throws EmptyFormulaException
 	 * @throws NotUsedException
@@ -88,7 +88,8 @@ public class FlowModelOptimizer implements ModelOptimizer {
 	 * @throws SimulationParserException
 	 * @throws VarNotFoundException
 	 */
-	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException, VarNotFoundException {
+	private void parseFormula(AbstractNamedSimulationData namedData) throws EmptyFormulaException, NotUsedException, CompilerError, SimulationParserException,
+			VarNotFoundException {
 		FlowModelAttachment attachment = (FlowModelAttachment) namedData.attachment;
 
 		// if namedData has sources (only for connectors)
@@ -105,7 +106,6 @@ public class FlowModelOptimizer implements ModelOptimizer {
 
 		// Replace density-container
 
-
 		try {
 			attachment.optimize();
 		} catch (ParseException e) {
@@ -120,7 +120,7 @@ public class FlowModelOptimizer implements ModelOptimizer {
 		FlowModelAttachment attachment = (FlowModelAttachment) namedData.attachment;
 		try {
 			attachment.optimizeStatic(flowModel);
-			
+
 			attachment.calcOrder();
 		} catch (ParseException e) {
 			throw new SimulationParserException(namedData, e);

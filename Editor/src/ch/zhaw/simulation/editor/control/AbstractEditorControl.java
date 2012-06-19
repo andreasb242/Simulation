@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -33,12 +34,14 @@ import ch.zhaw.simulation.model.listener.SimulationListener;
 import ch.zhaw.simulation.model.selection.SelectableElement;
 import ch.zhaw.simulation.model.selection.SelectionModel;
 import ch.zhaw.simulation.model.simulation.SimulationConfiguration;
+import ch.zhaw.simulation.model.xy.DensityData;
 import ch.zhaw.simulation.status.StatusHandler;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 import ch.zhaw.simulation.sysintegration.SysintegrationFactory;
 import ch.zhaw.simulation.undo.UndoHandler;
 import ch.zhaw.simulation.undo.action.AddNamedSimulationUndoAction;
 import ch.zhaw.simulation.undo.action.FormulaChangeUndoAction;
+import ch.zhaw.simulation.window.sidebar.config.MesoXyEditorData;
 
 /**
  * The controler of a model editor
@@ -267,14 +270,22 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		return parent;
 	}
 
+	public void showFormulaEditor(MesoXyEditorData data) {
+		showFormulaEditor(data.getData(), data.getDensity());
+	}
+
 	public void showFormulaEditor(NamedFormulaData data) {
+		showFormulaEditor(data, null);
+	}
+
+	public void showFormulaEditor(NamedFormulaData data, Vector<DensityData> density) {
 		String oldFormula = data.getFormula();
 
 		if (formulaEditor == null) {
 			formulaEditor = new FormulaEditorDialog(parent, getSysintegration(), getModel());
 		}
 
-		formulaEditor.setData(data);
+		formulaEditor.setData(data, density);
 		formulaEditor.setVisible(true);
 
 		formulaEditor.unselect();

@@ -140,7 +140,7 @@ public class EditorPanel extends JPanel {
 		txtDescription.setText(selected.getDescription());
 
 		this.selected = selected;
-		editor.setData(selected);
+		editor.setData(selected, null);
 	}
 
 	public void dispose() {

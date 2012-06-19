@@ -29,6 +29,7 @@ import ch.zhaw.simulation.model.listener.XYSimulationListener;
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.MesoData.Derivative;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
+import ch.zhaw.simulation.window.sidebar.config.MesoXyEditorData;
 import ch.zhaw.simulation.window.sidebar.config.SidebarActionListener.SidebarAction;
 import ch.zhaw.simulation.window.sidebar.config.SingleConfigurationField;
 import ch.zhaw.simulation.window.xy.sidebar.config.font.FontLoader;
@@ -42,21 +43,21 @@ import ch.zhaw.simulation.window.xy.sidebar.config.font.FontLoader;
 public class MoveConfigurationField extends SingleConfigurationField {
 	private SimulationXYModel model;
 	private JComboBox cbDerivative;
-	
+
 	private JPanel pX = new JPanel();
 	private JPanel pY = new JPanel();
 
 	private JLabel lbX = new JLabel("x");
 	private JLabel lbY = new JLabel("y");
-	
+
 	private JLabel stateX = new JLabel("?");
 	private JLabel stateY = new JLabel("?");
 
 	XYSimulationListener changeListener = new XYSimulationAdapter() {
 		@Override
 		public void dataChanged(AbstractSimulationData o) {
-			if(o == getData()) {
-			updateFormulaStatus();
+			if (o == getData()) {
+				updateFormulaStatus();
 			}
 		}
 	};
@@ -161,7 +162,7 @@ public class MoveConfigurationField extends SingleConfigurationField {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				MesoData d = (MesoData) getData();
-				editFormula(d, d.getDataX());
+				editFormula(d.getDataX());
 			}
 
 		});
@@ -191,7 +192,7 @@ public class MoveConfigurationField extends SingleConfigurationField {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				MesoData d = (MesoData) getData();
-				editFormula(d, d.getDataY());
+				editFormula(d.getDataY());
 			}
 
 		});
@@ -210,28 +211,29 @@ public class MoveConfigurationField extends SingleConfigurationField {
 		g.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(pY).addComponent(btEditY));
 
 	}
-	
+
 	protected void updateFormulaStatus() {
 		MesoData d = (MesoData) getData();
-		if(d == null) {
+		if (d == null) {
 			return;
 		}
-		
-		if(d.getDataX().getStatus() == Status.SYNTAX_OK) {
+
+		if (d.getDataX().getStatus() == Status.SYNTAX_OK) {
 			stateX.setText(" ");
 		} else {
 			stateX.setText("?");
 		}
 
-		if(d.getDataY().getStatus() == Status.SYNTAX_OK) {
+		if (d.getDataY().getStatus() == Status.SYNTAX_OK) {
 			stateY.setText(" ");
 		} else {
 			stateY.setText("?");
 		}
 	}
 
-	protected void editFormula(MesoData meso, NamedFormulaData data) {
-		fireActionPerformed(SidebarAction.SHOW_FORMULA_EDITOR, data);
+	protected void editFormula(NamedFormulaData data) {
+		MesoXyEditorData m = new MesoXyEditorData(data, this.model.getDensity());
+		fireActionPerformed(SidebarAction.SHOW_FORMULA_EDITOR, m);
 	}
 
 	@Override
