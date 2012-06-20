@@ -15,11 +15,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import butti.javalibs.util.FileUtil;
+import butti.javalibs.util.StringUtil;
 import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.inexport.madonna.FileImporter;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
 import ch.zhaw.simulation.model.element.SimulationGlobalData;
+import ch.zhaw.simulation.model.element.TextData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
@@ -32,6 +34,7 @@ public class XmlImporter implements FileImporter {
 	private Vector<XmlValve> valve = new Vector<XmlValve>();
 	private Vector<XmlArc> arcs = new Vector<XmlArc>();
 	private Vector<XmlPipe> pipes = new Vector<XmlPipe>();
+	private Vector<XmlMultilineComment> multilineComments = new Vector<XmlMultilineComment>();
 	private Vector<XmlComment> comments = new Vector<XmlComment>();
 	private HashMap<Integer, String> texts = new HashMap<Integer, String>();
 	private HashMap<Integer, XmlCloud> clouds = new HashMap<Integer, XmlCloud>();
@@ -39,7 +42,6 @@ public class XmlImporter implements FileImporter {
 	private Vector<XmlGlobal> globals = new Vector<XmlGlobal>();
 
 	public XmlImporter() {
-		// TODO: Text
 	}
 
 	@Override
@@ -141,6 +143,28 @@ public class XmlImporter implements FileImporter {
 			model.addConnector(data);
 		}
 
+		for (XmlMultilineComment c : multilineComments) {
+			TextData text = new TextData(c.getX(), c.getY());
+			text.setWidth(c.getWidth());
+			text.setHeight(c.getHeight());
+
+			String txt = StringUtil.replace(StringUtil.escapeHTML(c.getText()), "\n", "<br>");
+			text.setText("<html>" + txt + "</html>");
+
+			model.addData(text);
+		}
+
+		for (XmlComment c : comments) {
+			TextData text = new TextData(c.getX(), c.getY());
+
+			String txt = texts.get(c.getNameId());
+			txt = StringUtil.replace(StringUtil.escapeHTML(txt), "\n", "<br>");
+			text.setText("<html>" + txt + "</html>");
+			text.setHeight(25);
+
+			model.addData(text);
+		}
+
 		gy += 30;
 		gx = 30;
 
@@ -174,6 +198,7 @@ public class XmlImporter implements FileImporter {
 		try {
 			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlContents.getBytes()));
 		} catch (SAXException e) {
+			System.err.println("Madonna file is not a valid XML File, try to fix it and parse again...");
 			if (e.getMessage().contains("The element type \"MultiTextInfo\" must be terminated by the matching end-tag")) {
 				document = fixMultiTextInfoBug(xmlContents);
 			}
@@ -277,6 +302,8 @@ public class XmlImporter implements FileImporter {
 				} else if ("ArcInfo".equals(n.getNodeName())) {
 					arcs.add(new XmlArc(n));
 				} else if ("MultiTextInfo".equals(n.getNodeName())) {
+					multilineComments.add(new XmlMultilineComment(n));
+				} else if ("ModelInfo".equals(n.getNodeName())) {
 					comments.add(new XmlComment(n));
 				} else if ("TextInfo".equals(n.getNodeName())) {
 					parseTextInfo(n);

@@ -269,15 +269,12 @@ public class HTMLEditor extends BDialog {
 		addAction(mFormat, "Zentriert", "center-justify", "text_center.png", null).setGroup("alignment");
 		addAction(mFormat, "Rechtsbündig", "right-justify", "text_right.png", null).setGroup("alignment");
 
-		mEdit.addSeparator();
+		mFormat.addSeparator();
 		toolBar.addSeparator();
 
 		addToogleAction(mFormat, "Fett", "font-bold", "text_bold.png");
 		addToogleAction(mFormat, "Kursiv", "font-italic", "text_italic.png");
 		addToogleAction(mFormat, "Unterstrichen", "font-underline", "text_under.png");
-
-		mEdit.addSeparator();
-		toolBar.addSeparator();
 	}
 
 	/**
@@ -305,6 +302,7 @@ public class HTMLEditor extends BDialog {
 		ActionManager manager = ActionManager.getInstance();
 
 		final TargetableAction action = new TargetableAction(name, actionName, icon);
+		menu.add(action);
 		manager.addAction(action);
 		action.setStateAction(true);
 
@@ -340,6 +338,7 @@ public class HTMLEditor extends BDialog {
 		ActionManager manager = ActionManager.getInstance();
 
 		final TargetableAction action = new TargetableAction(name, actionName, icon);
+		menu.add(action).setAccelerator(keyStroke);
 		action.setAccelerator(keyStroke);
 		manager.addAction(action);
 

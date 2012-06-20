@@ -2,14 +2,10 @@ package ch.zhaw.simulation.inexport.madonna.xmlformat;
 
 import org.w3c.dom.Node;
 
-public class XmlComment {
-	private String name;
+public class XmlComment extends XmlComponent {
 
-	public XmlComment(Node n) {
-		// TODO Auto-generated constructor stub
+	public XmlComment(Node node) {
+		super(node);
 	}
 
-	public String getName() {
-		return name;
-	}
 }

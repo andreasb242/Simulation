@@ -23,7 +23,6 @@ public class MadonnaImportPlugin extends ImportPlugin {
 
 		if (in.read(file) == 32) {
 			int header = isValidHeader(file);
-			System.out.println("header: " + header);
 			return header != 0;
 		}
 
