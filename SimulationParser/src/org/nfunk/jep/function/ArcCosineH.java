@@ -15,6 +15,8 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Implements the arcCosH function.
@@ -22,7 +24,9 @@ import ch.zhaw.simulation.jep.CategoryType;
  * @author Nathan Funk
  * @since 2.3.0 beta 2 Now returns Double result rather than Complex for x >= 1
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The inverse hyperbolic sine for x.")
 public class ArcCosineH extends PostfixMathCommand {
 	public ArcCosineH() {
 		numberOfParameters = 1;

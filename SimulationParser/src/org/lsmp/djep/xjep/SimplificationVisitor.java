@@ -6,6 +6,8 @@ import org.nfunk.jep.Operator;
 import org.nfunk.jep.OperatorSet;
 import org.nfunk.jep.ParseException;
 
+import ch.zhaw.simulation.jep.functions.NonOptimizeable;
+
 /**
  * Simplifies an expression. To use
  * 
@@ -45,8 +47,10 @@ public class SimplificationVisitor extends DoNothingVisitor {
 		opSet = xjep.getOperatorSet();
 		tu = xjep.getTreeUtils();
 
-		if (node == null)
+		if (node == null) {
 			return null;
+		}
+
 		Node res = (Node) node.jjtAccept(this, null);
 		return res;
 	}
@@ -423,44 +427,53 @@ public class SimplificationVisitor extends DoNothingVisitor {
 	public Node simplifyOp(ASTFunNode node, Node children[]) throws ParseException {
 		boolean allConst = true;
 		XOperator op = (XOperator) node.getOperator();
-		// TODO_YEP a bit of a hack to prevent lists of constants being
-		// converted
-		// what happens is that for [[1,2],[3,4]] the dimension is not passed
-		// into buildConstantNode so list is treated as [1,2,3,4]
-		// Ideally there would be a special simplification rule for List
-		if (op.getPFMC() instanceof org.nfunk.jep.function.List)
+
+		if (op.getPFMC() instanceof NonOptimizeable) {
 			return node;
+		}
+
 		int nchild = children.length;
 		for (int i = 0; i < nchild; ++i) {
-			if (!tu.isConstant(children[i]))
+			if (!tu.isConstant(children[i])) {
 				allConst = false;
-			if (tu.isNaN(children[i]))
+			}
+
+			if (tu.isNaN(children[i])) {
 				return nf.buildConstantNode(tu.getNAN());
+			}
 		}
 		if (allConst)
 			return nf.buildConstantNode(op, children);
 
 		if (nchild == 1) {
 			if (tu.isUnaryOperator(children[0]) && op == tu.getOperator(children[0])) {
-				if (op.isSelfInverse())
+				if (op.isSelfInverse()) {
 					return children[0].jjtGetChild(0);
+				}
 			}
 		}
 		if (nchild == 2) {
 			Node res = null;
-			if (opSet.getAdd() == op)
+			if (opSet.getAdd() == op) {
 				res = simplifyAdd(children[0], children[1]);
-			if (opSet.getSubtract() == op)
+			}
+			if (opSet.getSubtract() == op) {
 				res = simplifySubtract(children[0], children[1]);
-			if (opSet.getMultiply() == op)
+			}
+			if (opSet.getMultiply() == op) {
 				res = simplifyMultiply(children[0], children[1]);
-			if (opSet.getDivide() == op)
+			}
+			if (opSet.getDivide() == op) {
 				res = simplifyDivide(children[0], children[1]);
-			if (opSet.getPower() == op)
+			}
+			if (opSet.getPower() == op) {
 				res = simplifyPower(children[0], children[1]);
+			}
+
 			if (res != null) {
-				if (tu.isConstant(res))
+				if (tu.isConstant(res)) {
 					return res;
+				}
 				if (tu.isOperator(res)) {
 					Node res2 = simplifyOp((ASTFunNode) res, TreeUtils.getChildrenAsArray(res));
 					return res2;
@@ -469,8 +482,9 @@ public class SimplificationVisitor extends DoNothingVisitor {
 			}
 			res = this.simplifyTripple(op, children[0], children[1]);
 			if (res != null) {
-				if (tu.isConstant(res))
+				if (tu.isConstant(res)) {
 					return res;
+				}
 				if (tu.isOperator(res)) {
 					Node res2 = simplifyOp((ASTFunNode) res, TreeUtils.getChildrenAsArray(res));
 					return res2;

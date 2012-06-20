@@ -17,13 +17,17 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Calculate the trace of a matrix trace([[1,2],[3,4]]) -> 1+4 = 5
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("(matrix)")
+@Description("Calculate the trace of a matrix trace([[1,2],[3,4]]) -> 1+4 = 5")
 public class Trace extends PostfixMathCommand implements UnaryOperatorI {
 	private Add add = new Add();
 

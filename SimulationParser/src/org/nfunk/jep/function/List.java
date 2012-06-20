@@ -16,14 +16,20 @@ import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.functions.NonOptimizeable;
 
 /**
  * The list function. Returns a Vector comprising all the children.
  * 
+ * NonOptimizeable: prevent lists of constants being converted what happens is
+ * that for [[1,2],[3,4]] the dimension is not passed into buildConstantNode so
+ * list is treated as [1,2,3,4] Ideally there would be a special simplification
+ * rule for List
+ * 
  * @author Rich Morris Created on 29-Feb-2004
  */
 @Category(CategoryType.UNDEFINED)
-public class List extends PostfixMathCommand {
+public class List extends PostfixMathCommand implements NonOptimizeable {
 	public List() {
 		numberOfParameters = -1;
 	}

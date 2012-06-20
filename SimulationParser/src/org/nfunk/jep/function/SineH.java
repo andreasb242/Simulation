@@ -15,8 +15,12 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The function sinh() returns the hyperbolic sine of x.")
 public class SineH extends PostfixMathCommand {
 	public SineH() {
 		numberOfParameters = 1;

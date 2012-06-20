@@ -15,8 +15,12 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The asin() function returns the arc sine of x. x should be between -1 and 1. ")
 public class ArcSine extends PostfixMathCommand {
 	public ArcSine() {
 		numberOfParameters = 1;

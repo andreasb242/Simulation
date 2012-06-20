@@ -22,7 +22,6 @@ import org.nfunk.jep.function.ArcTanH;
 import org.nfunk.jep.function.ArcTangent;
 import org.nfunk.jep.function.ArcTangent2;
 import org.nfunk.jep.function.Arg;
-import org.nfunk.jep.function.Binomial;
 import org.nfunk.jep.function.Ceil;
 import org.nfunk.jep.function.ComplexPFMC;
 import org.nfunk.jep.function.Conjugate;
@@ -246,9 +245,6 @@ public class JEP {
 
 		// rjm additions
 		funTab.put("if", new If());
-
-		// rjm 13/2/05
-		funTab.put("binom", new Binomial());
 
 		// rjm 26/1/07
 		funTab.put("round", new Round());

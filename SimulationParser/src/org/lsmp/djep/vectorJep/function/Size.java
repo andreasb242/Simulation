@@ -16,6 +16,8 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Returns the size of an Scaler, Vector or Matrix.
@@ -29,7 +31,13 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("(x)")
+@Description("Returns the size of an Scaler, Vector or Matrix.<br><br>"+
+	"size(7) -> 1<br>"+
+	"size([1,2,3]) -> 3<br>"+
+	"size([[1,2,3],[4,5,6]]) -> [2,3]<br>"+
+	"size([[[1,2],[3,4],[5,6]],[[7,8],[9,10],[11,12]]]) -> [2,3,2]<br>")
 public class Size extends PostfixMathCommand implements UnaryOperatorI {
 	public Size() {
 		super();

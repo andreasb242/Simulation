@@ -16,7 +16,7 @@ public class LibraryCategory extends LibraryNode<LibraryNode<?>> {
 
 	@Override
 	public String toString() {
-		return cat.toString();
+		return cat.getName();
 	}
 
 }

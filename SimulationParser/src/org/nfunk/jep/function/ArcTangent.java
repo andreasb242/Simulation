@@ -15,8 +15,12 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The function atan() returns the arc tangent of x.")
 public class ArcTangent extends PostfixMathCommand {
 	public ArcTangent() {
 		numberOfParameters = 1;

@@ -1,5 +1,7 @@
 package ch.zhaw.simulation.math;
 
+import org.lsmp.djep.xjep.MacroFunction;
+import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.PostfixMathCommandI;
 
 import ch.zhaw.simulation.jep.CategoryType;
@@ -35,6 +37,24 @@ public class Function {
 			Example annotation = cls.getAnnotation(Example.class);
 			if (annotation != null) {
 				example = annotation.value();
+			} else if (command instanceof MacroFunction) {
+				StringBuilder b = new StringBuilder();
+
+				b.append("(");
+
+				boolean first = true;
+				for (Variable v : ((MacroFunction) command).getVars()) {
+					if (!first) {
+						b.append(", ");
+					} else {
+						first = false;
+					}
+
+					b.append(v.getName());
+				}
+
+				b.append(")");
+				example = b.toString();
 			} else {
 				System.err.println("class \"" + cls.getName() + "\" has no Example annotation!");
 				example = "";
@@ -50,9 +70,11 @@ public class Function {
 			Description annotation = cls.getAnnotation(Description.class);
 			if (annotation != null) {
 				description = annotation.value();
+			} else if (command instanceof MacroFunction) {
+				description = "Macro function: «" + ((MacroFunction) command).getExpression() + "»";
 			} else {
 				System.err.println("class \"" + cls.getName() + "\" has no Description annotation!");
-				example = "";
+				description = "";
 			}
 		}
 		return description;

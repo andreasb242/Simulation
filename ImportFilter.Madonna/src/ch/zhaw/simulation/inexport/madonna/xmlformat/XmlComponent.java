@@ -3,6 +3,8 @@ package ch.zhaw.simulation.inexport.madonna.xmlformat;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import ch.zhaw.simulation.inexport.madonna.FormulaImporter;
+
 public class XmlComponent {
 	private int x = -1;
 	private int y = -1;
@@ -30,7 +32,7 @@ public class XmlComponent {
 			y = Integer.parseInt(vals[1]);
 			return true;
 		} else if ("Formula".equals(nodeName)) {
-			this.formula = XmlHelper.getContents(n);
+			this.formula = FormulaImporter.convert(XmlHelper.getContents(n));
 		} else if ("PageEntry".equals(nodeName)) {
 			parsePageEntrys(n);
 		}

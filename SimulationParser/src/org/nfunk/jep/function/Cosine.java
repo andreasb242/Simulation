@@ -15,8 +15,12 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The cos() function returns the cosine of x, where x is expressed in radians.")
 public class Cosine extends PostfixMathCommand {
 	public Cosine() {
 		numberOfParameters = 1;

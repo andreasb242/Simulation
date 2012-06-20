@@ -15,8 +15,12 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The tan() function returns the tangent of x, where arg is given in radians.")
 public class Tangent extends PostfixMathCommand {
 	public Tangent() {
 		numberOfParameters = 1;

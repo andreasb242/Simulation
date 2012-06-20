@@ -22,6 +22,8 @@ import org.nfunk.jep.function.Exp;
 import ch.zhaw.simulation.jep.functions.Avg;
 import ch.zhaw.simulation.jep.functions.Max;
 import ch.zhaw.simulation.jep.functions.Min;
+import ch.zhaw.simulation.jep.functions.Pulse;
+import ch.zhaw.simulation.jep.functions.Step;
 
 /**
  * An extended version of JEP adds various routines for working with trees. Has
@@ -142,6 +144,9 @@ public class XJep extends JEP {
 		addFunction("min", new Min());
 		addFunction("max", new Max());
 		addFunction("avg", new Avg(this));
+
+		addFunction("pulse", new Pulse(this));
+		addFunction("step", new Step(this));
 
 		addFunction("exp", new Exp());
 		addFunction("define", new Define(this));

@@ -45,6 +45,7 @@ public class MacroFunction extends PostfixMathCommand {
 	// private XJep localJep;
 	private XSymbolTable mySymTab;
 	private Variable vars[];
+	private String expression;
 
 	public String getName() {
 		return name;
@@ -72,6 +73,7 @@ public class MacroFunction extends PostfixMathCommand {
 	public MacroFunction(String inName, int nargs, String expression, XJep jep) throws IllegalArgumentException, ParseException {
 		super();
 		name = inName;
+		this.expression = expression;
 
 		XSymbolTable jepSymTab = (XSymbolTable) jep.getSymbolTable();
 		mySymTab = (XSymbolTable) jepSymTab.newInstance();
@@ -93,6 +95,14 @@ public class MacroFunction extends PostfixMathCommand {
 		topNode = localJep.parse(expression);
 	}
 
+	public Variable[] getVars() {
+		return vars;
+	}
+
+	public String getExpression() {
+		return expression;
+	}
+	
 	/**
 	 * Calculates the value of the expression.
 	 * 

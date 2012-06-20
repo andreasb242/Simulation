@@ -12,10 +12,16 @@ public class FormulaImporter {
 		replacements.put("LOGN(", "ln(");
 		replacements.put("LOG10(", "log(");
 		replacements.put("INT(", "floor(");
-		replacements.put("MEAN(", "Avg(");
-		
-		// TODO SWITCH(x, y)	Same as x >= y
-		//replacements.put("", "");
+		replacements.put("MEAN(", "avg(");
+		replacements.put("ARCSIN(", "asin(");
+		replacements.put("ARCCOS(", "acos(");
+		replacements.put("ARCTAN(", "atan(");
+		replacements.put("ARCSINH(", "asinh(");
+		replacements.put("ARCCOSH(", "acosh(");
+		replacements.put("ARCTANH(", "atanh(");
+
+		// TODO SWITCH(x, y) Same as x >= y
+		// TODO IF x THEN y ELSE z
 	}
 
 	public static String convert(String formula) {

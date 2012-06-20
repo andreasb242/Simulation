@@ -2,20 +2,24 @@ package ch.zhaw.simulation.sim.intern.model;
 
 import java.util.Vector;
 
-import ch.zhaw.simulation.plugin.data.SimulationSerie;
 import org.lsmp.djep.matrixJep.MatrixJep;
+import org.nfunk.jep.ASTFunNode;
 import org.nfunk.jep.ASTVarNode;
 import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.Add;
 import org.nfunk.jep.function.Multiply;
+import org.nfunk.jep.function.PostfixMathCommandI;
 import org.nfunk.jep.function.Subtract;
 
+import ch.zhaw.simulation.jep.functions.TimeDependent;
 import ch.zhaw.simulation.math.Parser.ParserNodePair;
 import ch.zhaw.simulation.math.VarPlaceholder;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.flow.SimulationFlowModel;
+import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
-import ch.zhaw.simulation.sim.intern.rungekutta.TmpValue;
+import ch.zhaw.simulation.plugin.data.SimulationSerie;
 
 public class SimulationAttachment implements ch.zhaw.simulation.model.SimulationAttachment {
 	private Vector<AbstractNamedSimulationData> sources;
@@ -29,6 +33,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 
 	public Object tmp;
 	public SimulationSerie serie;
+	private boolean timeDependent;
 
 	public Object getContainerValue() {
 		return containerValue;
@@ -81,12 +86,10 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 		}
 	}
 
-	public void assigneSourcesVars() {
+	public void assigneSourcesVars(SimulationFlowModel flowModel) {
 		for (Node n : parsed.nodes) {
-			checkAssignNodeTree(n);
+			checkAssignNodeTree(n, flowModel);
 		}
-
-		// time
 	}
 
 	public void setParsed(ParserNodePair parsed) {
@@ -112,18 +115,18 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 	}
 
 	public Object calc(double time, double dt) throws ParseException {
-		if (containerValue != null) {
-			if (tmp instanceof TmpValue) {
-				Object v = ((TmpValue) tmp).getValue();
-				if (v != null) {
-					return v;
-				}
-			}
-			return containerValue;
-		}
-		if (value != null) {
-			return value;
-		}
+		// if (containerValue != null) {
+		// if (tmp instanceof TmpValue) {
+		// Object v = ((TmpValue) tmp).getValue();
+		// if (v != null) {
+		// return v;
+		// }
+		// }
+		// return containerValue;
+		// }
+		// if (value != null) {
+		// return value;
+		// }
 		MatrixJep j = parsed.jep;
 
 		j.setVarValue("time", time);
@@ -154,18 +157,42 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 		MatrixJep j = parsed.jep;
 		Node processed = j.preprocess(parsed.nodes.lastElement());
 
-		formula = j.simplify(processed);
+		this.timeDependent = isTimeDependent(processed);
 
-		if (assigment.size() == 0) {
+		if (timeDependent) {
+			formula = processed;
+		} else {
+			formula = j.simplify(processed);
+		}
+
+//		j.getPrintVisitor().println(formula);
+
+		if (assigment.size() == 0 && !timeDependent) {
 			value = j.evaluate(formula);
-			// String s = j.getPrintVisitor().formatValue(value);
-			// System.out.println("Calculated value: " + s);
-			// } else {
-			// String s = j.getPrintVisitor().formatValue(formula);
-			// System.out.println("Optimized formula: " + s);
+
+			// System.out.print("DBG: ");
+			// j.getPrintVisitor().println(formula);
 		} else {
 			value = null;
 		}
+	}
+
+	private boolean isTimeDependent(Node node) {
+		if (node instanceof ASTFunNode) {
+			PostfixMathCommandI pfmc = ((ASTFunNode) node).getPFMC();
+			if (pfmc != null && pfmc instanceof TimeDependent) {
+				return true;
+			}
+
+			for (int i = 0; i < node.jjtGetNumChildren(); i++) {
+				Node child = node.jjtGetChild(i);
+				if (isTimeDependent(child)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -177,6 +204,10 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 	public void optimize2() throws ParseException {
 		if (value != null) {
 			return; // bereits ausgerechnet
+		}
+		
+		if(this.timeDependent) {
+			return;// do not optimize
 		}
 
 		MatrixJep j = parsed.jep;
@@ -197,7 +228,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 		value = j.evaluate(formula);
 	}
 
-	private void checkAssignNodeTree(Node node) {
+	private void checkAssignNodeTree(Node node, SimulationFlowModel flowModel) {
 		if (node instanceof ASTVarNode) {
 			ASTVarNode a = (ASTVarNode) node;
 
@@ -229,12 +260,27 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 				throw new RuntimeException("Coulden't find representation for var: \"" + name + "\"");
 			}
 
-			assigment.add(new AssigmentPair((ASTVarNode) node, found));
+			boolean neverStatic;
+			if (found instanceof SimulationContainerData) {
+				neverStatic = true;
+
+				Vector<FlowConnectorData> connectors = flowModel.getFlowConnectors();
+				for (FlowConnectorData c : connectors) {
+					if (c.getSource() == found || c.getTarget() == found) {
+						neverStatic = false;
+						break;
+					}
+				}
+			} else {
+				neverStatic = false;
+			}
+
+			assigment.add(new AssigmentPair((ASTVarNode) node, found, neverStatic));
 		}
 
 		for (int i = 0; i < node.jjtGetNumChildren(); i++) {
 			Node n = node.jjtGetChild(i);
-			checkAssignNodeTree(n);
+			checkAssignNodeTree(n, flowModel);
 		}
 	}
 
@@ -251,7 +297,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 			return neverStatic;
 		}
 
-		public AssigmentPair(ASTVarNode node, AbstractNamedSimulationData so) {
+		public AssigmentPair(ASTVarNode node, AbstractNamedSimulationData so, boolean neverStatic) {
 			if (so == null) {
 				throw new NullPointerException("so == null");
 			}
@@ -259,19 +305,9 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 				throw new NullPointerException("node == null");
 			}
 
-			
 			this.node = node;
 			this.so = so;
-			
-			
-			if(so instanceof SimulationContainerData) {
-				// TODO Optimize: it's static if there are no in-/out flows
-				
-				this.neverStatic = true;
-			} else{
-				this.neverStatic = false;
-			}
-
+			this.neverStatic = neverStatic;
 		}
 
 		public ASTVarNode getNode() {
@@ -310,7 +346,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 	public void setNextFlowValue(Object value) {
 		nextFlowValue = value;
 	}
-	
+
 	public Object getNextFlowValue() {
 		return nextFlowValue;
 	}

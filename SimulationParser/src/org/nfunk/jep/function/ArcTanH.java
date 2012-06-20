@@ -15,6 +15,8 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Implements the arcTanH function.
@@ -24,6 +26,8 @@ import ch.zhaw.simulation.jep.CategoryType;
  *        -1<x<1
  */
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The inverse hyperbolic tangent for x.")
 public class ArcTanH extends PostfixMathCommand {
 	public ArcTanH() {
 		numberOfParameters = 1;

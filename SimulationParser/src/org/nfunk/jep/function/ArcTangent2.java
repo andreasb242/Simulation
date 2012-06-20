@@ -15,6 +15,8 @@ import org.nfunk.jep.ParseException;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * atan2(y, x) Returns the angle whose tangent is y/x.
@@ -22,6 +24,8 @@ import ch.zhaw.simulation.jep.CategoryType;
  * @author nathan
  */
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(y, x)")
+@Description("The atan2() function computes the arc tangent of y/x, using the signs of the arguments to compute the quadrant of the return value. ")
 public class ArcTangent2 extends PostfixMathCommand {
 	public ArcTangent2() {
 		numberOfParameters = 2;

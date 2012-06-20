@@ -3,8 +3,6 @@ package ch.zhaw.simulation.dialog.mathoverview;
 import java.awt.Window;
 import java.util.Vector;
 
-import javax.swing.JScrollPane;
-
 import butti.javalibs.gui.BDialog;
 import ch.zhaw.simulation.gui.codeditor.library.FormulaLibraryPanel;
 import ch.zhaw.simulation.math.Parser;
@@ -22,7 +20,7 @@ public class MathOverview extends BDialog {
 		parser.enableGradient(new Vector<DensityData>());
 		FormulaLibraryPanel library = new FormulaLibraryPanel(parser);
 
-		add(new JScrollPane(library));
+		add(library);
 
 		setSize(640, 480);
 		setLocationRelativeTo(parent);

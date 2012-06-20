@@ -16,6 +16,8 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Adds the elements of a vector or matrix. vsum([1,2,3]) -> 6
@@ -23,7 +25,10 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("(matrix)")
+@Description("Adds the elements of a vector or matrix. vsum([1,2,3]) -> 6<br>" +
+		"vsum([[1,2],[3,4]]) -> 10")
 public class VSum extends PostfixMathCommand implements UnaryOperatorI {
 	private Add add = new Add();
 

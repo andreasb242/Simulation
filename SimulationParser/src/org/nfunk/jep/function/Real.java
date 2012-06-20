@@ -31,10 +31,11 @@ public class Real extends PostfixMathCommand {
 	}
 
 	public Number re(Object param) throws ParseException {
-		if (param instanceof Complex)
+		if (param instanceof Complex) {
 			return new Double(((Complex) param).re());
-		else if (param instanceof Number)
+		} else if (param instanceof Number) {
 			return ((Number) param);
+		}
 
 		throw new ParseException("Invalid parameter type");
 	}

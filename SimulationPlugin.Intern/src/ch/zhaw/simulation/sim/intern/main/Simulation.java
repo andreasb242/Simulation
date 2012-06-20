@@ -159,7 +159,7 @@ public class Simulation {
 		sources.addAll(a.getSources());
 
 		a.setParsed(parser.checkCode(d.getFormula(), d, this.model, sources, d.getName()));
-		a.assigneSourcesVars();
+		a.assigneSourcesVars(this.model);
 		a.optimize();
 	}
 

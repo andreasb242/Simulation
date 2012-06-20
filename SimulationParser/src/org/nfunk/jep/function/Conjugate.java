@@ -36,10 +36,11 @@ public class Conjugate extends PostfixMathCommand {
 	}
 
 	public Object conj(Object param) throws ParseException {
-		if (param instanceof Complex)
+		if (param instanceof Complex) {
 			return ((Complex) param).conj();
-		else if (param instanceof Number)
+		} else if (param instanceof Number) {
 			return param;
+		}
 
 		throw new ParseException("Invalid parameter type");
 	}

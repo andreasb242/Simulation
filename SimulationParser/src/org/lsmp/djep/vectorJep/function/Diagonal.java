@@ -16,6 +16,8 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Creates a diagonal matrix, with a given vector as diagonals elements.
@@ -23,7 +25,10 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("(matrix)")
+@Description("Creates a diagonal matrix, with a given vector as diagonals elements.<br>" +
+		"diag([1,2,3]) -> [[1,0,0],[0,2,0],[0,0,3]]")
 public class Diagonal extends PostfixMathCommand implements UnaryOperatorI {
 	public Diagonal() {
 		super();

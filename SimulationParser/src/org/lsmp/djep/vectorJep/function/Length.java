@@ -15,6 +15,8 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Returns the length of a vector. If the argument is a scaler, matrix or tensor
@@ -28,7 +30,12 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("(x)")
+@Description("Returns the length of a vector. If the argument is a scaler, matrix or tensor returns total number of elements.<br>" +
+		"len(5) -> 1<br>" +
+		"len([1,2,3]) -> 3<br>" +
+		"len([[1,2],[3,4],[5,6]]) -> 6")
 public class Length extends PostfixMathCommand implements UnaryOperatorI {
 	public Length() {
 		super();

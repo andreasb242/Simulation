@@ -9,7 +9,6 @@ import org.lsmp.djep.djep.diffRules.MultiplyDiffRule;
 import org.lsmp.djep.djep.diffRules.PassThroughDiffRule;
 import org.lsmp.djep.matrixJep.function.MDiff;
 import org.lsmp.djep.matrixJep.function.MIf;
-import org.lsmp.djep.matrixJep.function.MMap;
 import org.lsmp.djep.matrixJep.nodeTypes.MatrixNodeI;
 import org.lsmp.djep.vectorJep.function.Determinant;
 import org.lsmp.djep.vectorJep.function.Diagonal;
@@ -76,7 +75,6 @@ public class MatrixJep extends DJep {
 		addFunction("det", new Determinant());
 		addFunction("trace", new Trace());
 		addFunction("vsum", new VSum());
-		addFunction("Map", new MMap());
 	}
 
 	/**

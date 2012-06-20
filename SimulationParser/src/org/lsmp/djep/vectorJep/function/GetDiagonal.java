@@ -17,6 +17,8 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Extracts diagonal from a square matrix. getDiag([[1,0,0],[0,2,0],[0,0,3]]) ->
@@ -24,7 +26,10 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("(n×n Matrix)")
+@Description("Extracts diagonal from a square matrix.<br>" +
+		"getDiag([[1,0,0],[0,2,0],[0,0,3]]) -> [1,2,3]")
 public class GetDiagonal extends PostfixMathCommand implements UnaryOperatorI {
 	public GetDiagonal() {
 		super();

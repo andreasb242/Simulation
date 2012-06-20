@@ -81,7 +81,12 @@ public class SimulationInternPlugin implements SimulationPlugin {
 		try {
 			sim.initSimulation();
 		} catch (Exception e) {
-			executionListener.executionFinished(e.getMessage(), FinishState.ERROR);
+			String msg = e.getMessage();
+			if(msg == null || msg.isEmpty()) {
+				msg = "Kein Text: " + e.getClass();
+			}
+			
+			executionListener.executionFinished(msg, FinishState.ERROR);
 			e.printStackTrace();
 			return;
 		}

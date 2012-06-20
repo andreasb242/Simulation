@@ -16,6 +16,8 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * The if(condExpr,posExpr,negExpr) function. The value of trueExpr will be
@@ -34,7 +36,14 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 18-Nov-2003
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.CONDITIONAL)
+@Example("(condExpr,posExpr,negExpr)")
+@Description("The if(condExpr,posExpr,negExpr) function. The value of trueExpr will be " +
+		"returned if condExpr is >0 (true) and value of negExpr will be returned if " +
+		"condExpr is &lt;= 0 (false).<br>" +
+		"An alternate form if(condExpr,posExpr,negExpr,zeroExpr) is also available. " +
+		"Note most computations are carried out over floating point doubles so testing " +
+		"for zero can be dangerous.")
 public class MIf extends PostfixMathCommand implements NaryOperatorI, MatrixSpecialEvaluationI {
 	public MIf() {
 		super();

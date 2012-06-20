@@ -16,13 +16,17 @@ import org.nfunk.jep.function.PostfixMathCommand;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Transpose a matrix. trans([[1,2],[3,4]]) -> [[1,3],[2,4]]
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("matrix")
+@Description("Transpose a matrix. trans([[1,2],[3,4]]) -> [[1,3],[2,4]]")
 public class Transpose extends PostfixMathCommand implements UnaryOperatorI {
 	public Transpose() {
 		super();

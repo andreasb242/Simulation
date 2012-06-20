@@ -16,8 +16,12 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The function sin() returns the sine of x, where arg is given in radians.")
 public class Sine extends PostfixMathCommand {
 	public Sine() {
 		numberOfParameters = 1;

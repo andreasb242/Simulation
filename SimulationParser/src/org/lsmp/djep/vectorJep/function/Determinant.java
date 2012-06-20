@@ -20,6 +20,8 @@ import org.nfunk.jep.function.Subtract;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Calculate the Determinant of a matrix
@@ -30,7 +32,10 @@ import ch.zhaw.simulation.jep.CategoryType;
  * 
  * @author Rich Morris Created on 13-Feb-2005
  */
-@Category(CategoryType.UNDEFINED)
+@Category(CategoryType.MATRIX)
+@Example("(matrix)")
+@Description("Calculate the Determinant of a matrix<br>" +
+		"det([[1,2],[3,4]]) -> 1*4-2*3 = -2")
 public class Determinant extends PostfixMathCommand implements UnaryOperatorI {
 	private Add add = new Add();
 	private Subtract sub = new Subtract();

@@ -15,6 +15,8 @@ import org.nfunk.jep.type.Complex;
 
 import ch.zhaw.simulation.jep.Category;
 import ch.zhaw.simulation.jep.CategoryType;
+import ch.zhaw.simulation.jep.Description;
+import ch.zhaw.simulation.jep.Example;
 
 /**
  * Implements the arcSinH function.
@@ -24,6 +26,8 @@ import ch.zhaw.simulation.jep.CategoryType;
  *        Double arguments.
  */
 @Category(CategoryType.TRIGONOMETRIC)
+@Example("(x)")
+@Description("The inverse hyperbolic sine for x.")
 public class ArcSineH extends PostfixMathCommand {
 	public ArcSineH() {
 		numberOfParameters = 1;
