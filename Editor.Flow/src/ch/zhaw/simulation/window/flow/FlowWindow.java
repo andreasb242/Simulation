@@ -24,6 +24,8 @@ public class FlowWindow extends SimulationWindow<FlowMenubar, FlowToolbar, FlowE
 
 		FlowToolbar tb = new FlowToolbar(control.getSysintegration(), mainWindow);
 		tb.initToolbar(view.getUndoHandler());
+		
+		tb.setGridVisible(control.getSettings().isSetting("flowview.showgrid", false));
 
 		init(menubar, tb, view);
 	}

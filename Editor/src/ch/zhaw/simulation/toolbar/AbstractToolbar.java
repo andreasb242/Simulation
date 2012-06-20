@@ -94,7 +94,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 		addLayoutToolbarItems();
 	}
 
-	private void addLayoutToolbarItems() {
+	protected void addLayoutToolbarItems() {
 		toolbar.add(new ToolbarAction("Unten ausrichten", "alignBottom") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -139,8 +139,7 @@ public abstract class AbstractToolbar extends MenuToolbarActionHandler implement
 		});
 	}
 
-	private void addCopyPasteButtons() {
-
+	protected void addCopyPasteButtons() {
 		this.clipboardCut = toolbar.add(new ToolbarAction("Ausschneiden", IconLoader.getIconShadow("edit-cut", 24)) {
 			@Override
 			public void actionPerformed(ActionEvent e) {

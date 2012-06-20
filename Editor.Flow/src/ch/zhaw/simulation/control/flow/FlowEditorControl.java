@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.control.flow;
 
+import java.awt.Point;
 import java.util.Vector;
 
 import butti.javalibs.config.Settings;
@@ -89,9 +90,9 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				if (condata instanceof ParameterConnectorData) {
 					ParameterConnectorData d = (ParameterConnectorData) condata;
 					tmpRemovedConnectors.add(d);
-				} else if(condata instanceof FlowConnectorData) {
+				} else if (condata instanceof FlowConnectorData) {
 					FlowConnectorData fcd = (FlowConnectorData) condata;
-					
+
 					tmpRemovedConnectors.add(fcd);
 					addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(fcd.getValve()));
 				}
@@ -115,14 +116,14 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 				addConnectors(removedConnectors, removedInfinite, model.getConnectorsTo(((InfiniteSymbol) el).getData()));
 			}
 		}
-		
+
 		for (SelectableElement<?> el : elements) {
 			if (el instanceof TextView) {
 				TextView txt = (TextView) el;
 				removedObjects.add(txt.getData());
 			}
 		}
-		
+
 		getUndoManager().addEdit(new DeleteUndoAction(removedObjects, removedConnectors, removedInfinite, this));
 	}
 
@@ -275,6 +276,19 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 		addComponent(new SimulationDensityContainerData(0, 0), "Container");
 	}
 
+	public Point alignToRaster(int x, int y) {
+		if (getView().isShowGrid()) {
+			final int r = FlowEditorView.FLOW_GRID_RASTER;
+			x += r / 2;
+			y += r / 2;
+
+			x = (x / r) * r;
+			y = (y / r) * r;
+		}
+
+		return new Point(x, y);
+	}
+
 	@Override
 	public boolean menuActionPerformedOverwrite(MenuToolbarAction action) {
 		switch (action.getType()) {
@@ -300,6 +314,12 @@ public class FlowEditorControl extends AbstractEditorControl<SimulationFlowModel
 			cancelAllActions();
 			getSelectionModel().clearSelection();
 			getView().addFlowArrow();
+			return true;
+
+		case FLOW_SHOW_GRID:
+			boolean visible = (Boolean) action.getData();
+			getView().showGrid(visible);
+			settings.setSetting("flowview.showgrid", visible);
 			return true;
 
 		case FORMULA_OVERVIEW:

@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.flow.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -61,6 +62,10 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 	private boolean mainWindow;
 
+	private boolean showGrid;
+
+	public static final int FLOW_GRID_RASTER = 20;
+
 	public FlowEditorView(final FlowEditorControl control, boolean mainWindow) {
 		super(control, new TransferableFactory() {
 
@@ -72,6 +77,8 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		});
 
 		this.mainWindow = mainWindow;
+
+		this.showGrid = control.getSettings().isSetting("flowview.showgrid", false);
 
 		addConnectorUi = new AddConnectorUi(this, control);
 
@@ -164,8 +171,21 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 		arrowDrag.setVisible(false);
 	}
 
+	public void showGrid(boolean visible) {
+		this.showGrid = visible;
+		repaint();
+	}
+	
+	public boolean isShowGrid() {
+		return showGrid;
+	}
+
 	@Override
 	protected void paintEditor(Graphics2D g) {
+		if (this.showGrid) {
+			drawGrid(g);
+		}
+
 		// First draw the floconnectors, because they are bigger and may hide
 		// the parameterconnectors
 		for (ConnectorUi c : connectors) {
@@ -183,6 +203,21 @@ public class FlowEditorView extends AbstractEditorView<FlowEditorControl> implem
 
 		if (showSelection) {
 			paintSelection(g);
+		}
+	}
+
+	private void drawGrid(Graphics2D g) {
+		int w = getWidth();
+		int h = getHeight();
+		
+		g.setColor(Color.LIGHT_GRAY);
+		
+		for (int x = FLOW_GRID_RASTER; x < w; x += FLOW_GRID_RASTER) {
+			g.drawLine(x, 0, x, h);
+		}
+
+		for (int y = FLOW_GRID_RASTER; y < h; y += FLOW_GRID_RASTER) {
+			g.drawLine(0, y, w, y);
 		}
 	}
 

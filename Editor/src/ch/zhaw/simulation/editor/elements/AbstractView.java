@@ -104,6 +104,16 @@ public abstract class AbstractView<T> extends JComponent implements SelectionLis
 
 		int dX = (int) p.getX() - lastX;
 		int dY = (int) p.getY() - lastY;
+
+		Point newPoint = control.alignToRaster(getX() + dX, getY() + dY);
+
+		dX = newPoint.x - getX();
+		dY = newPoint.y - getY();
+
+		if (dX == 0 && dY == 0) {
+			return;
+		}
+
 		selectionModel.move(dX, dY);
 
 		control.getUndoManager().addEdit(new MoveUndoAction(selectionModel.getSelected(), dX, dY, getControl().getView()));

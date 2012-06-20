@@ -1,6 +1,7 @@
 package ch.zhaw.simulation.editor.control;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -391,6 +392,10 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 	public void addText() {
 		cancelAllActions();
 		addComponent(new TextData(0, 0), "Text");
+	}
+
+	public Point alignToRaster(int x, int y) {
+		return new Point(x, y);
 	}
 
 	@Override

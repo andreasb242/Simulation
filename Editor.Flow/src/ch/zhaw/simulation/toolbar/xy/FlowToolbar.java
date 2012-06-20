@@ -3,10 +3,13 @@ package ch.zhaw.simulation.toolbar.xy;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
+import org.jdesktop.swingx.action.TargetableAction;
 
 import butti.javalibs.util.DrawHelper;
 import ch.zhaw.simulation.editor.elements.GuiImage;
@@ -15,6 +18,7 @@ import ch.zhaw.simulation.editor.flow.elements.container.ContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.density.DensityContainerImage;
 import ch.zhaw.simulation.editor.flow.elements.parameter.ParameterImage;
 import ch.zhaw.simulation.editor.util.ArrowDraw;
+import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionType;
 import ch.zhaw.simulation.sysintegration.GuiConfig;
@@ -24,6 +28,7 @@ import ch.zhaw.simulation.toolbar.AbstractToolbar;
 
 public class FlowToolbar extends AbstractToolbar {
 	private static ArrowDraw arrowDraw = new ArrowDraw(20);
+	private TargetableAction btGrid;
 
 	public FlowToolbar(Sysintegration sys, boolean mainToolbar) {
 		super(sys, mainToolbar);
@@ -49,6 +54,31 @@ public class FlowToolbar extends AbstractToolbar {
 		arrowDraw.drawArrow(g, x1, y1, x2, y2);
 
 		return addShadow(img);
+	}
+
+	@Override
+	protected void addLayoutToolbarItems() {
+		this.btGrid = new TargetableAction("Raster zum ausrichten", IconLoader.getIcon("grid", toolbar.getDefaultIconSize())) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				boolean gridVisible = evt.getStateChange() == ItemEvent.SELECTED;
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.FLOW_SHOW_GRID, gridVisible));
+			}
+		};
+
+		btGrid.setStateAction(true);
+
+		toolbar.addToogleAction(btGrid);
+
+		addSeparator();
+
+		super.addLayoutToolbarItems();
+	}
+
+	public void setGridVisible(boolean visible) {
+		this.btGrid.setSelected(visible);
 	}
 
 	@Override
