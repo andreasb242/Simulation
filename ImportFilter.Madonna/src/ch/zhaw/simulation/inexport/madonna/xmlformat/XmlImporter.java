@@ -1,5 +1,6 @@
 package ch.zhaw.simulation.inexport.madonna.xmlformat;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 import java.util.HashMap;
@@ -13,10 +14,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import butti.javalibs.util.FileUtil;
 import ch.zhaw.simulation.inexport.ImportException;
 import ch.zhaw.simulation.inexport.madonna.FileImporter;
 import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
 import ch.zhaw.simulation.model.element.AbstractSimulationData;
+import ch.zhaw.simulation.model.element.SimulationGlobalData;
 import ch.zhaw.simulation.model.flow.SimulationFlowModel;
 import ch.zhaw.simulation.model.flow.connection.FlowConnectorData;
 import ch.zhaw.simulation.model.flow.connection.ParameterConnectorData;
@@ -29,18 +32,22 @@ public class XmlImporter implements FileImporter {
 	private Vector<XmlValve> valve = new Vector<XmlValve>();
 	private Vector<XmlArc> arcs = new Vector<XmlArc>();
 	private Vector<XmlPipe> pipes = new Vector<XmlPipe>();
+	private Vector<XmlComment> comments = new Vector<XmlComment>();
 	private HashMap<Integer, String> texts = new HashMap<Integer, String>();
 	private HashMap<Integer, XmlCloud> clouds = new HashMap<Integer, XmlCloud>();
 	private HashMap<Integer, AbstractNamedSimulationData> simElements = new HashMap<Integer, AbstractNamedSimulationData>();
+	private Vector<XmlGlobal> globals = new Vector<XmlGlobal>();
 
 	public XmlImporter() {
-		// TODO: Global
 		// TODO: Text
 	}
 
 	@Override
 	public boolean load(SimulationFlowModel model) throws ImportException {
 		model.clear();
+
+		int gx = 0;
+		int gy = 0;
 
 		for (XmlComponent comp : components) {
 			AbstractNamedSimulationData data;
@@ -57,6 +64,8 @@ public class XmlImporter implements FileImporter {
 
 			model.addData(data);
 			simElements.put(comp.getId(), data);
+
+			gy = Math.max(gy, data.getY2());
 		}
 
 		for (XmlValve v : valve) {
@@ -84,6 +93,8 @@ public class XmlImporter implements FileImporter {
 				if (c != null) {
 					source = new InfiniteData(c.getX(), c.getY());
 					model.addData(source);
+
+					gy = Math.max(gy, source.getY2());
 				}
 			}
 
@@ -93,6 +104,8 @@ public class XmlImporter implements FileImporter {
 				if (c != null) {
 					target = new InfiniteData(c.getX(), c.getY());
 					model.addData(target);
+
+					gy = Math.max(gy, target.getY2());
 				}
 			}
 
@@ -128,16 +141,45 @@ public class XmlImporter implements FileImporter {
 			model.addConnector(data);
 		}
 
+		gy += 30;
+		gx = 30;
+
+		int row = 0;
+
+		for (XmlGlobal g : globals) {
+			SimulationGlobalData data = new SimulationGlobalData(gx, gy);
+			data.setName(g.getName());
+			data.setFormula(g.getFormula());
+			model.addData(data);
+
+			gx += 60;
+			row++;
+
+			if (row >= 10) {
+				row = 0;
+				gx = 30;
+				gy += 60;
+			}
+
+		}
+
 		return true;
 	}
 
 	@Override
 	public void read(PushbackInputStream in) throws IOException, ImportException {
-		Document document;
+		String xmlContents = FileUtil.fileGetContents(in);
+
+		Document document = null;
 		try {
-			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlContents.getBytes()));
 		} catch (SAXException e) {
-			throw new ImportException(e);
+			if (e.getMessage().contains("The element type \"MultiTextInfo\" must be terminated by the matching end-tag")) {
+				document = fixMultiTextInfoBug(xmlContents);
+			}
+			if (document == null) {
+				throw new ImportException(e);
+			}
 		} catch (ParserConfigurationException e) {
 			throw new ImportException(e);
 		}
@@ -190,6 +232,7 @@ public class XmlImporter implements FileImporter {
 					modelInfo = n;
 				}
 			}
+
 		}
 
 		if (modelInfo == null) {
@@ -197,6 +240,7 @@ public class XmlImporter implements FileImporter {
 		}
 
 		Node entries = null;
+		String globals = null;
 		nodes = modelInfo.getChildNodes();
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);
@@ -204,6 +248,8 @@ public class XmlImporter implements FileImporter {
 			if (n.getNodeType() == Node.ELEMENT_NODE) {
 				if ("Entries".equals(n.getNodeName())) {
 					entries = n;
+				} else if ("Globals".equals(n.getNodeName())) {
+					globals = XmlHelper.getContents(n);
 				}
 			}
 		}
@@ -230,12 +276,69 @@ public class XmlImporter implements FileImporter {
 					pipes.add(new XmlPipe(n));
 				} else if ("ArcInfo".equals(n.getNodeName())) {
 					arcs.add(new XmlArc(n));
+				} else if ("MultiTextInfo".equals(n.getNodeName())) {
+					comments.add(new XmlComment(n));
 				} else if ("TextInfo".equals(n.getNodeName())) {
 					parseTextInfo(n);
 				} else {
 					System.err.println("Unhandled entry: " + n.getNodeName());
 				}
 			}
+		}
+
+		if (globals != null) {
+			parseGlobals(globals);
+		}
+	}
+
+	/**
+	 * Workaround, because BM closes <MultiTextInfo> with </TextInfo>
+	 */
+	private Document fixMultiTextInfoBug(String xml) throws ImportException, IOException {
+		StringBuffer xml2 = new StringBuffer();
+
+		String[] parts = xml.split("<MultiTextInfo>");
+
+		xml2.append(parts[0]);
+
+		for (int i = 1; i < parts.length; i++) {
+			xml2.append("<MultiTextInfo>");
+			String p = parts[i];
+			int pos = p.indexOf("</TextInfo>");
+			if (pos > 0) {
+				xml2.append(p.substring(0, pos));
+				xml2.append("</MultiTextInfo>");
+				xml2.append(p.substring(pos + 11));
+			} else {
+				throw new ImportException("BM Workaround didn't work... Sorry...");
+			}
+		}
+
+		try {
+			return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xml2.toString().getBytes()));
+		} catch (SAXException e) {
+			throw new ImportException(e);
+		} catch (ParserConfigurationException e) {
+			throw new ImportException(e);
+		}
+	}
+
+	private void parseGlobals(String globals) {
+		for (String g : globals.split("\n")) {
+			g = g.trim();
+			if (g.startsWith(";") || g.isEmpty()) {
+				continue;
+			}
+
+			int pos = g.indexOf("=");
+			if (pos < 0) {
+				continue;
+			}
+
+			String name = g.substring(0, pos);
+			String formula = g.substring(pos + 1);
+
+			this.globals.add(new XmlGlobal(name, formula));
 		}
 	}
 
