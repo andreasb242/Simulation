@@ -41,7 +41,11 @@
 
 		<copy file="res/PkgInfo" todir="${tmp}/Simulation.app/Contents" />
 
-		<infoplist input="res/Info.xml" libpath="$JAVAROOT/lib/mac" splash="$JAVAROOT/splash.png" workdir="$APP_PACKAGE/Contents/Resources" additional="$JAVAROOT/Simulation.jar" basedir="${distrib}" buildpath="lib:lib/mac" targetbase="$JAVAROOT" target="${tmp}/Simulation.app/Contents/info.plist" />
+		
+		<property name="infores" location="res/Info.xml" />
+
+		
+		<infoplist input="${infores}" libpath="$JAVAROOT/lib/mac" splash="$JAVAROOT/splash.png" workdir="$APP_PACKAGE/Contents/Resources" additional="$JAVAROOT/Simulation.jar" basedir="${distrib}" buildpath="lib:lib/mac" targetbase="$JAVAROOT" target="${tmp}/Simulation.app/Contents/info.plist" />
 
 		<copy todir="${tmp}/Simulation.app/Contents/Resources/Java/lib">
 			<fileset dir="${distrib}/lib">
@@ -77,7 +81,7 @@
 		</exec>
 
 		<!-- Portable version -->
-		<infoplist input="res/Info.xml" libpath="$APP_PACKAGE/../lib/mac" workdir="$APP_PACKAGE/../" splash="$APP_PACKAGE/../splash.png" additional="$APP_PACKAGE/../Simulation.jar" basedir="${distrib}" buildpath="lib:lib/mac" targetbase="$APP_PACKAGE/.." target="${tmp}/Simulation.app/Contents/info.plist" />
+		<infoplist input="${infores}" libpath="$APP_PACKAGE/../lib/mac" workdir="$APP_PACKAGE/../" splash="$APP_PACKAGE/../splash.png" additional="$APP_PACKAGE/../Simulation.jar" basedir="${distrib}" buildpath="lib:lib/mac" targetbase="$APP_PACKAGE/.." target="${tmp}/Simulation.app/Contents/info.plist" />
 
 		<!--<antcall target="clean" />-->
 	</target>

@@ -1,0 +1,103 @@
+<project name="Simulation" basedir="." default="complete">
+	<property name="distrib" location="build/distrib" />
+	<property name="setup" location="build/setup" />
+	<property name="tmp" location="build/tmp" />
+
+	<target name="init">
+		<mkdir dir="${setup}" />
+		<mkdir dir="${tmp}" />
+
+		<mkdir dir="${setup}/windows" />
+		<mkdir dir="${setup}/mac" />
+		<mkdir dir="${setup}/linux" />
+		<mkdir dir="${setup}/portable" />
+
+	</target>
+
+	<!-- The build entry point -->
+	<target name="complete">
+		<!-- Simulation Build -->
+		<!-- <ant antfile="build.xml" target="complete" useNativeBasedir="true" 
+			/> -->
+
+		<!-- Mac OS X Build -->
+		<ant antfile="mac/build.xml" target="pack" useNativeBasedir="true">
+			<property name="macdir" value="mac/" />
+		</ant>
+		<copy todir="${setup}/mac">
+			<fileset dir="${distrib}/mac/">
+				<include name="*.zip" />
+			</fileset>
+		</copy>
+
+		<delete dir="${tmp}" />
+		<mkdir dir="${tmp}" />
+		<mkdir dir="${tmp}/linux" />
+
+		<!-- Linux -->
+		<copy todir="${tmp}/linux">
+			<fileset dir="${distrib}/">
+				<include name="Simulation.jar" />
+				<include name="Simulation.sh" />
+				<include name="splash.png" />
+				<include name="plugin/**/*.jar" />
+				<include name="lib/*.jar" />
+				<include name="filechooser/linux/*.py" />
+				<include name="config/*" />
+			</fileset>
+		</copy>
+		<chmod file="${tmp}/linux/Simulation.sh" perm="+x" />
+
+		<exec executable="bash" dir="${tmp}/linux">
+			<arg value="-c" />
+			<arg value="tar -pczf ../Simulation.tar.gz *" />
+		</exec>
+
+		<copy todir="${setup}/linux">
+			<fileset dir="${tmp}">
+				<include name="Simulation.tar.gz" />
+			</fileset>
+		</copy>
+		
+		<!-- Windows -->
+		<delete dir="${tmp}" />
+		<mkdir dir="${tmp}" />
+		<mkdir dir="${tmp}/setup" />
+		<mkdir dir="${tmp}/examples" />
+
+		<copy todir="${tmp}">
+			<fileset dir="${distrib}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${tmp}/examples">
+			<fileset dir="../Simulation/examples">
+				<include name="kondensator_v3.simz" />
+			</fileset>
+		</copy>
+
+		<copy todir="${tmp}/setup">
+			<fileset dir="windows/setup">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<exec executable="makensis" dir="${tmp}/setup">
+			<arg value="Simulation.nsi" />
+		</exec>
+		
+		
+		<copy todir="${setup}/windows">
+		<copy todir="${setup}/windows">
+			<fileset dir="${tmp}/setup">
+				<include name="Setup_Simulation.exe" />
+			</fileset>
+		</copy>
+		
+		
+		<!-- <delete dir="${tmp}" /> <mkdir dir="${tmp}" /> <delete dir="${tmp}" 
+			/> -->
+	</target>
+
+</project>

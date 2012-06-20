@@ -25,35 +25,43 @@ public class MacInfoPlist extends Task {
 	private String libpath = "";
 
 	public void execute() throws BuildException {
-		Vector<String> buildPath = new Vector<String>();
+		try {
+			Vector<String> buildPath = new Vector<String>();
 
-		for (String a : additional.split(":")) {
-			buildPath.add(a);
+			for (String a : additional.split(":")) {
+				buildPath.add(a);
+			}
+
+			for (String b : buildpath.split(":")) {
+				addBuildPath(buildPath, b, basedir, targetbase);
+			}
+
+			File f = new File(input);
+			String file = fileGetContents(f);
+			if (file == null) {
+				throw new BuildException("Could not read Inputfile: " + f.getAbsolutePath());
+			}
+
+			StringBuilder b = new StringBuilder();
+			for (String c : buildPath) {
+				b.append("\t\t\t<string>" + c + "</string>\n");
+			}
+
+			if (b.length() > 0) {
+				file = replace(file, "{CLASSPATH}", b.substring(1));
+			} else {
+				file = replace(file, "{CLASSPATH}", "");
+			}
+
+			file = replace(file, "{WORKINGDIRECTORY}", this.workdir);
+			file = replace(file, "{SPLASH}", this.splash);
+			file = replace(file, "{LIBPATH}", this.libpath);
+
+			filePutContents(target, file);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
 		}
-
-		for (String b : buildpath.split(":")) {
-			addBuildPath(buildPath, b, basedir, targetbase);
-		}
-
-		String file = fileGetContents(new File(input));
-
-		StringBuilder b = new StringBuilder();
-		for (String c : buildPath) {
-			b.append("\t\t\t<string>" + c + "</string>\n");
-		}
-
-		if (b.length() > 0) {
-			file = replace(file, "{CLASSPATH}", b.substring(1));
-		} else {
-			file = replace(file, "{CLASSPATH}", "");
-		}
-
-		file = replace(file, "{WORKINGDIRECTORY}", this.workdir);
-		file = replace(file, "{SPLASH}", this.splash);
-		file = replace(file, "{LIBPATH}", this.libpath);
-
-		
-		filePutContents(target, file);
 	}
 
 	public static String replace(final String aInput, final String aOldPattern, final String aNewPattern) {
@@ -106,6 +114,10 @@ public class MacInfoPlist extends Task {
 				return name.endsWith(".jar");
 			}
 		});
+
+		if (jars == null) {
+			throw new NullPointerException("No files found in folder: " + folder.getAbsolutePath());
+		}
 
 		for (String j : jars) {
 			buildPath.add(targetbase + "/" + entry + "/" + j);
@@ -163,11 +175,11 @@ public class MacInfoPlist extends Task {
 	public void setTarget(String target) {
 		this.target = target;
 	}
-	
+
 	public void setWorkdir(String workdir) {
 		this.workdir = workdir;
 	}
-	
+
 	public void setSplash(String splash) {
 		this.splash = splash;
 	}
