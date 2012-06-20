@@ -82,7 +82,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 	<target name="BJavalibs" depends="">
 	</target>
 
-	<target name="Editor" depends="AppDefinition,BJavalibs,HtmlEditor,ImageExport,Model,Plugin,SimulationJepLib-2.4.1,SimulationPlugin,SimulationSidebar,Sysintegration,VectorExport">
+	<target name="Editor" depends="AppDefinition,BJavalibs,HtmlEditor,ImageExport,Model,Plugin,SimulationParser,SimulationPlugin,SimulationSidebar,Sysintegration,VectorExport">
 		<ant antfile="../Editor/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Editor" />
@@ -94,7 +94,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</copy>
 	</target>
 
-	<target name="Editor.Flow" depends="AppDefinition,BJavalibs,Editor,Model,SimulationJepLib-2.4.1,SimulationSidebar,Sysintegration">
+	<target name="Editor.Flow" depends="AppDefinition,BJavalibs,Editor,Model,SimulationParser,SimulationSidebar,Sysintegration">
 		<ant antfile="../Editor.Flow/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Editor.Flow" />
@@ -106,7 +106,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</copy>
 	</target>
 
-	<target name="Editor.XY" depends="AppDefinition,BJavalibs,Editor,Model,SimulationJepLib-2.4.1,SimulationSidebar,Sysintegration">
+	<target name="Editor.XY" depends="AppDefinition,BJavalibs,Editor,Model,SimulationParser,SimulationSidebar,Sysintegration">
 		<ant antfile="../Editor.XY/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Editor.XY" />
@@ -238,7 +238,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</copy>
 	</target>
 
-	<target name="Simulation" depends="AppDefinition,BJavalibs,Editor,Editor.Flow,Editor.XY,ExternLibraries,ImageExport,ImportFilter,ImportFilter.Dynasys,ImportFilter.Madonna,Model,NetbeansDirchooser,OnscreenKeyboard,Plugin,SimulationDiagram,SimulationJepLib-2.4.1,SimulationPlugin,SimulationPlugin.MatlabOctave,SimulationPlugin.Intern,Sysintegration,XYResultViewer">
+	<target name="Simulation" depends="AppDefinition,BJavalibs,Editor,Editor.Flow,Editor.XY,ExternLibraries,ImageExport,ImportFilter,ImportFilter.Dynasys,ImportFilter.Madonna,Model,NetbeansDirchooser,OnscreenKeyboard,Plugin,SimulationDiagram,SimulationParser,SimulationPlugin,SimulationPlugin.MatlabOctave,SimulationPlugin.Intern,Sysintegration,XYResultViewer">
 		<ant antfile="../Simulation/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/Simulation" />
@@ -262,19 +262,19 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</copy>
 	</target>
 
-	<target name="SimulationJepLib-2.4.1" depends="Model">
-		<ant antfile="../SimulationJepLib-2.4.1/build.xml" target="jar" useNativeBasedir="true">
+	<target name="SimulationParser" depends="Model">
+		<ant antfile="../SimulationParser/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
-			<property name="build" value="${build}/SimulationJepLib-2.4.1" />
+			<property name="build" value="${build}/SimulationParser" />
 		</ant>
 		<copy todir="${distrib}/lib">
-			<fileset dir="${build}/SimulationJepLib-2.4.1">
+			<fileset dir="${build}/SimulationParser">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
 	</target>
 
-	<target name="SimulationPlugin" depends="BJavalibs,Model,Plugin,SimulationJepLib-2.4.1,SimulationSidebar">
+	<target name="SimulationPlugin" depends="BJavalibs,Model,Plugin,SimulationParser,SimulationSidebar">
 		<ant antfile="../SimulationPlugin/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/SimulationPlugin" />
@@ -286,7 +286,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</copy>
 	</target>
 
-	<target name="SimulationPlugin.Intern" depends="BJavalibs,Model,Plugin,SimulationJepLib-2.4.1,SimulationPlugin,SimulationSidebar">
+	<target name="SimulationPlugin.Intern" depends="BJavalibs,Model,Plugin,SimulationParser,SimulationPlugin,SimulationSidebar">
 		<ant antfile="../SimulationPlugin.Intern/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/SimulationPlugin.Intern" />
@@ -298,7 +298,7 @@ and the resulted B-Lib.jar has to be copied to ExternLibraries/lib
 		</copy>
 	</target>
 
-	<target name="SimulationPlugin.MatlabOctave" depends="BJavalibs,Model,Plugin,SimulationJepLib-2.4.1,SimulationPlugin,SimulationSidebar,Sysintegration">
+	<target name="SimulationPlugin.MatlabOctave" depends="BJavalibs,Model,Plugin,SimulationParser,SimulationPlugin,SimulationSidebar,Sysintegration">
 		<ant antfile="../SimulationPlugin.MatlabOctave/build.xml" target="jar" useNativeBasedir="true">
 			<property name="lib" value="${distrib}/lib" />
 			<property name="build" value="${build}/SimulationPlugin.MatlabOctave" />

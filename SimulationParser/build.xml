@@ -1,4 +1,4 @@
-<project name="SimulationJepLib-2.4.1" basedir="." default="error">
+<project name="SimulationParser" basedir="." default="error">
 	<target name="error">
 		<echo message="Build should be started with SimulationBuild/build.xml else build order is not correct" />
 	</target>
@@ -37,7 +37,7 @@
 
 
 		<!-- Build the jar file -->
-		<jar basedir="${build}" destfile="${build}/SimulationJepLib-2.4.1.jar" />
+		<jar basedir="${build}" destfile="${build}/SimulationParser.jar" />
 
 	</target>
 </project>
