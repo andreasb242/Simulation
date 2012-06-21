@@ -134,10 +134,6 @@ public class MatrixJepTest extends DJepTest {
 		valueTest("vsum([[1,2],[3,4]])", "10.0");
 		valueTest("vsum([1,2,3])", "6.0");
 
-		valueTest("Map(x^3,x,[1,2,3])", "[1.0,8.0,27.0]");
-		valueTest("Map(x*y,[x,y],[1,2,3],[4,5,6])", "[4.0,10.0,18.0]");
-		valueTest("Map(if(x>0,x,0),x,[-2,-1,0,1,2])", "[0.0,0.0,0.0,1.0,2.0]");
-		valueTest("Map(abs(x),x,[[-2,-1],[1,2]])", "[[2.0,1.0],[1.0,2.0]]");
 	}
 
 	public void testDotInName() throws ParseException, Exception {

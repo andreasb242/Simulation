@@ -33,6 +33,7 @@ public class AllTests {
 		suite.addTestSuite(BugsTest.class);
 		suite.addTestSuite(ComplexTest.class);
 		suite.addTestSuite(ButtiEditTest.class);
+		suite.addTestSuite(OptimizerTest.class);
 
 		return suite;
 	}

@@ -15,6 +15,8 @@ import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.sim.intern.main.AbstractSimulation;
 import ch.zhaw.simulation.sim.intern.main.Simulation;
 import ch.zhaw.simulation.sim.intern.model.SimulationAttachment;
+import ch.zhaw.simulation.sim.intern.model.SimulationContainerAttachment;
+import ch.zhaw.simulation.sim.intern.model.SimulationFlowAttachment;
 
 /**
  * Runge-Kutta implementation
@@ -52,8 +54,8 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			for (SimulationContainerData c : model.getSimulationContainer()) {
 				((SimulationAttachment) c.attachment).tmp = new TmpContainerValues();
 			}
-
-			for (time = 0; time < endTime && !isCancelled(); time += dt) {
+			
+			for (time = dt; time < endTime && !isCancelled(); time += dt) {
 				setProgress((int) (time / endTime * 100));
 				calcFlowValues1();
 				calcFlowValues2();
@@ -63,7 +65,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 				calcParameters();
 
 				for (SimulationContainerData c : model.getSimulationContainer()) {
-					Object v = ((SimulationAttachment) c.attachment).getContainerValue();
+					Object v = ((SimulationContainerAttachment) c.attachment).getContainerValue();
 					((SimulationAttachment) c.attachment).serie.add(time, v);
 				}
 			}
@@ -113,7 +115,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 	}
 
 	protected void doFlowTmp3(FlowConnectorData c, FlowType src, FlowType trg) throws ParseException {
-		Object newValue = ((SimulationAttachment) c.getValve().attachment).getNextFlowValue();
+		Object newValue = ((SimulationFlowAttachment) c.getValve().attachment).getNextFlowValue();
 		AbstractSimulationData source = c.getSource();
 		AbstractSimulationData target = c.getTarget();
 
@@ -121,7 +123,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (source instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).attachment;
+			SimulationContainerAttachment a = (SimulationContainerAttachment) ((SimulationContainerData) source).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -147,7 +149,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (target instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).attachment;
+			SimulationContainerAttachment a = (SimulationContainerAttachment) ((SimulationContainerData) target).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -170,7 +172,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 	}
 
 	protected void doFlowTmp12(FlowConnectorData c, FlowType src, FlowType trg, double weight) throws ParseException {
-		Object newValue = ((SimulationAttachment) c.getValve().attachment).getNextFlowValue();
+		Object newValue = ((SimulationFlowAttachment) c.getValve().attachment).getNextFlowValue();
 		AbstractSimulationData source = c.getSource();
 		AbstractSimulationData target = c.getTarget();
 
@@ -178,7 +180,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (source instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).attachment;
+			SimulationContainerAttachment a = (SimulationContainerAttachment) ((SimulationContainerData) source).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -205,7 +207,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (target instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).attachment;
+			SimulationContainerAttachment a = (SimulationContainerAttachment) ((SimulationContainerData) target).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -229,7 +231,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 	}
 
 	protected void doFlowTmp4(FlowConnectorData c, FlowType src, FlowType trg) throws ParseException {
-		Object newValue = ((SimulationAttachment) c.getValve().attachment).getNextFlowValue();
+		Object newValue = ((SimulationFlowAttachment) c.getValve().attachment).getNextFlowValue();
 		AbstractSimulationData source = c.getSource();
 		AbstractSimulationData target = c.getTarget();
 
@@ -237,7 +239,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (source instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) source).attachment;
+			SimulationContainerAttachment a = (SimulationContainerAttachment) ((SimulationContainerData) source).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -261,7 +263,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			// Nichts zu berechnen...
 		} else if (target instanceof SimulationContainerData) {
 			Object value;
-			SimulationAttachment a = (SimulationAttachment) ((SimulationContainerData) target).attachment;
+			SimulationContainerAttachment a = (SimulationContainerAttachment) ((SimulationContainerData) target).attachment;
 			TmpContainerValues t = (TmpContainerValues) a.tmp;
 			if (src == FlowType.SRC) {
 				value = a.getContainerValue();
@@ -302,7 +304,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			throw new NullPointerException("value == null");
 		}
 
-		((SimulationAttachment) d.attachment).setNextFlowValue(value);
+		((SimulationFlowAttachment) d.attachment).setNextFlowValue(value);
 	}
 
 	protected void cleanup() {
@@ -326,7 +328,7 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			return;
 		}
 
-		SimulationAttachment a = (SimulationAttachment) c.attachment;
+		SimulationContainerAttachment a = (SimulationContainerAttachment) c.attachment;
 
 		// yn = yn + h / 6 * (K1 + 2 * K2 + 2 * K3 + K4);
 

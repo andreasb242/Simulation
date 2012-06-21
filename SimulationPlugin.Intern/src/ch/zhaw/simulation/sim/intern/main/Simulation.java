@@ -27,6 +27,8 @@ import ch.zhaw.simulation.plugin.data.SimulationSerie.SerieSource;
 import ch.zhaw.simulation.sim.intern.InternSimulationParameter;
 import ch.zhaw.simulation.sim.intern.euler.EulerSimulation;
 import ch.zhaw.simulation.sim.intern.model.SimulationAttachment;
+import ch.zhaw.simulation.sim.intern.model.SimulationContainerAttachment;
+import ch.zhaw.simulation.sim.intern.model.SimulationFlowAttachment;
 import ch.zhaw.simulation.sim.intern.rungekutta.RungeKuttaSimulation;
 
 public class Simulation {
@@ -139,7 +141,7 @@ public class Simulation {
 			return;
 		}
 
-		Object value = ((SimulationAttachment) d.attachment).getValue();
+		Object value = ((SimulationAttachment) d.attachment).getStaticValue();
 		if (value != null) {
 			if (value instanceof Double) {
 				((SimulationAttachment) d.attachment).serie.setConstValue(((Double) value).doubleValue());
@@ -150,7 +152,7 @@ public class Simulation {
 	}
 
 	private void checkIfConst(AbstractNamedSimulationData d) throws ParseException {
-		((SimulationAttachment) d.attachment).optimize2();
+		((SimulationAttachment) d.attachment).optimizeForStatic();
 	}
 
 	private void parseFormula(AbstractNamedSimulationData d) throws CompilerError, ParseException, NotUsedException, EmptyFormulaException {
@@ -165,14 +167,17 @@ public class Simulation {
 
 	private void initSimulationAttachment() {
 		for (AbstractSimulationData d : model.getData()) {
-			if (d instanceof AbstractNamedSimulationData) {
+			if (d instanceof SimulationContainerData) {
+				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
+				n.attachment = new SimulationContainerAttachment();
+			} else if (d instanceof AbstractNamedSimulationData) {
 				AbstractNamedSimulationData n = (AbstractNamedSimulationData) d;
 				n.attachment = new SimulationAttachment();
 			}
 		}
 
 		for (FlowConnectorData c : model.getFlowConnectors()) {
-			c.getValve().attachment = new SimulationAttachment();
+			c.getValve().attachment = new SimulationFlowAttachment();
 			flowConnectors.add(c);
 		}
 	}
@@ -283,7 +288,7 @@ public class Simulation {
 	}
 
 	private void calcInitData(SimulationContainerData d) throws CompilerError, ParseException {
-		((SimulationAttachment) d.attachment).setContainerValue(((SimulationAttachment) d.attachment).calc(0, dt));
+		((SimulationContainerAttachment) d.attachment).setContainerValue(((SimulationContainerAttachment) d.attachment).calc(0, dt));
 	}
 
 	/**

@@ -378,20 +378,20 @@ public class XJepTest extends JepTest {
 	}
 
 	public void testMin() throws Exception {
-		valueTest("Min(5,15,20,3)", 3);
+		valueTest("min(5,15,20,3)", 3);
 	}
 
 	public void testMax() throws Exception {
-		valueTest("Max(5,15,20,3)", 20);
+		valueTest("max(5,15,20,3)", 20);
 	}
 
 	public void testSum() throws Exception {
-		valueTest("Sum(5,15,20,3)", 43);
+		valueTest("sum(5,15,20,3)", 43);
 	}
 
 	public void testAvg() throws Exception {
-		valueTest("Sum(5,10,15,1)", "31.0");
-		valueTest("Avg(5,10,15)", "10.0");
+		valueTest("sum(5,10,15,1)", "31.0");
+		valueTest("avg(5,10,15)", "10.0");
 	}
 
 	public void testDefine() throws Exception {
