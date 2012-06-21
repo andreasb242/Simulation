@@ -160,7 +160,7 @@ public class Simulation {
 		Vector<AbstractNamedSimulationData> sources = new Vector<AbstractNamedSimulationData>();
 		sources.addAll(a.getSources());
 
-		a.setParsed(parser.checkCode(d.getFormula(), d, this.model, sources, d.getName()));
+		a.setParsed(parser.checkCode(d.getFormula(), d, this.model, sources, d.getName()), d.getName());
 		a.assigneSourcesVars(this.model);
 		a.optimize();
 	}

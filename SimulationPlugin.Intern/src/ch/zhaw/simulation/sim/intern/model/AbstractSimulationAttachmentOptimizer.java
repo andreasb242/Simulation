@@ -11,11 +11,14 @@ public class AbstractSimulationAttachmentOptimizer {
 
 	protected Node formula = null;
 
-	public AbstractSimulationAttachmentOptimizer(MatrixJep jep) {
+	protected final String name;
+
+	public AbstractSimulationAttachmentOptimizer(MatrixJep jep, String name) {
 		this.jep = jep;
+		this.name = name;
 	}
 
-	public void optimize(Node node) throws ParseException {
+	public void optimize(Node node, Vector<AssigmentPair> assigment) throws ParseException {
 		this.formula = jep.preprocess(node);
 	}
 

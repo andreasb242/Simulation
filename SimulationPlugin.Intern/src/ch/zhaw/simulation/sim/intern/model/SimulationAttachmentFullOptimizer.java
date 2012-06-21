@@ -9,43 +9,58 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommandI;
 
 import ch.zhaw.simulation.jep.functions.TimeDependent;
+import ch.zhaw.simulation.model.element.AbstractNamedSimulationData;
+import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 
 public class SimulationAttachmentFullOptimizer extends AbstractSimulationAttachmentOptimizer {
 	private boolean timeDependent;
 	private Object staticValue = null;
 
-	public SimulationAttachmentFullOptimizer(MatrixJep jep) {
-		super(jep);
+	private boolean DEBUG_OUTPUT = true;
+
+	public SimulationAttachmentFullOptimizer(MatrixJep jep, String name) {
+		super(jep, name);
 	}
 
 	@Override
-	public void optimize(Node node) throws ParseException {
-		super.optimize(node);
+	public void optimize(Node node, Vector<AssigmentPair> assigment) throws ParseException {
+		super.optimize(node, assigment);
 
 		Node processed = this.formula;
 
 		this.timeDependent = isTimeDependent(processed);
 
-		// if (timeDependent) {
-		// formula = processed;
-		// } else {
-		// formula = jep.simplify(processed);
-		// }
-		//
-		// jep.getPrintVisitor().println(formula);
-		//
-		// if (assigment.size() == 0 && !timeDependent) {
-		// value = jep.evaluate(formula);
-		//
-		// System.out.print("DBG: ");
-		// jep.getPrintVisitor().println(formula);
-		// } else {
-		// value = null;
-		// }
-		// } else {
-		// jep.getPrintVisitor().println(processed);
-		// formula = processed;
-		// }
+		if (DEBUG_OUTPUT) {
+			System.out.print("\n" + name + ": ");
+			jep.getPrintVisitor().println(processed);
+		}
+
+		if (timeDependent) {
+			formula = processed;
+
+			if (DEBUG_OUTPUT) {
+				System.out.println(name + ": is timeDependent");
+			}
+		} else {
+			formula = jep.simplify(processed);
+		}
+
+		if (DEBUG_OUTPUT) {
+			System.out.print("simplified: ");
+			jep.getPrintVisitor().println(formula);
+		}
+
+		// don't depend on others and not time dependent => static
+		if (assigment.size() == 0 && !timeDependent) {
+			staticValue = jep.evaluate(formula);
+
+			if (DEBUG_OUTPUT) {
+				System.out.print("isStatic: ");
+				jep.getPrintVisitor().println(formula);
+			}
+		} else {
+			staticValue = null;
+		}
 	}
 
 	/**
@@ -70,6 +85,13 @@ public class SimulationAttachmentFullOptimizer extends AbstractSimulationAttachm
 				return;
 			}
 
+			AbstractNamedSimulationData o = a.getSimulationObject();
+
+			// container are usually not static, except if there are no flows...
+			if (o instanceof SimulationContainerData) {
+				return;
+			}
+
 			SimulationAttachment x = (SimulationAttachment) a.getSimulationObject().attachment;
 			x.optimizeForStatic();
 			if (x.getStaticValue() == null) {
@@ -78,6 +100,11 @@ public class SimulationAttachmentFullOptimizer extends AbstractSimulationAttachm
 		}
 
 		staticValue = jep.evaluate(formula);
+
+		if (DEBUG_OUTPUT) {
+			System.out.print(name + ": optimizeForStatic = ");
+			jep.getPrintVisitor().println(formula);
+		}
 	}
 
 	@Override

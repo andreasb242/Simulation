@@ -28,7 +28,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 	/**
 	 * Enable / Disable optimizer for testing reasons
 	 */
-	private static final boolean OPTIMIZE = false;
+	private static final boolean OPTIMIZE = true;
 
 	public SimulationAttachment() {
 	}
@@ -39,16 +39,16 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 		}
 	}
 
-	public void setParsed(ParserNodePair parsed) {
+	public void setParsed(ParserNodePair parsed, String name) {
 		if (parsed == null) {
 			throw new NullPointerException("parsed == null");
 		}
 		this.parsed = parsed;
 
 		if (OPTIMIZE) {
-			this.optimizer = new SimulationAttachmentFullOptimizer(parsed.jep);
+			this.optimizer = new SimulationAttachmentFullOptimizer(parsed.jep, name);
 		} else {
-			this.optimizer = new SimulationAttachmentNoOptimizer(parsed.jep);
+			this.optimizer = new SimulationAttachmentNoOptimizer(parsed.jep, name);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class SimulationAttachment implements ch.zhaw.simulation.model.Simulation
 	}
 
 	public void optimize() throws ParseException {
-		this.optimizer.optimize(parsed.nodes.lastElement());
+		this.optimizer.optimize(parsed.nodes.lastElement(), assigment);
 	}
 
 	/**
