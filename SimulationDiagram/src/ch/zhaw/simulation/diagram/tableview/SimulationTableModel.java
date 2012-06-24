@@ -11,6 +11,8 @@ import ch.zhaw.simulation.plugin.data.SimulationSerie;
 public class SimulationTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private SimulationSerie[] data;
+	private SimulationSerie timeSerie;
+
 	private int rowCount = 0;
 
 	public SimulationTableModel(SimulationCollection series) {
@@ -48,11 +50,25 @@ public class SimulationTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if (columnIndex == 0) {
-			return data[0].getData().get(rowIndex).time;
+			if (timeSerie.getData().size() > rowIndex) {
+				return timeSerie.getData().get(rowIndex).time;
+			} else {
+				return "";
+			}
 		}
 
-		Vector<SimulationEntry> row = data[columnIndex - 1].getData();
+		if (data.length <= columnIndex - 1) {
+			return "";
+		}
 
+		SimulationSerie serie = data[columnIndex - 1];
+		
+		if(serie.isConstValue()) {
+			return serie.getConstValue();
+		}
+
+		Vector<SimulationEntry> row = serie.getData();
+		
 		if (rowIndex >= row.size()) {
 			return ""; // No simulation Data
 		}
@@ -63,9 +79,15 @@ public class SimulationTableModel extends AbstractTableModel {
 	public void setSeries(SimulationCollection series) {
 		data = series.getSeries();
 		rowCount = 0;
-		if (data.length > 0) {
-			rowCount = data[0].getData().size();
+		
+		for (SimulationSerie d : data) {
+			int s = d.getData().size();
+			if (rowCount < s) {
+				rowCount = s;
+				timeSerie = d;
+			}
 		}
+		
 		fireTableStructureChanged();
 	}
 }

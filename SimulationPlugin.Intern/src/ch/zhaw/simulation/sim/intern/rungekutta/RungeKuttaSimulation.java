@@ -54,13 +54,26 @@ public class RungeKuttaSimulation extends AbstractSimulation {
 			for (SimulationContainerData c : model.getSimulationContainer()) {
 				((SimulationAttachment) c.attachment).tmp = new TmpContainerValues();
 			}
+
+			this.time = 0;
 			
-			for (time = dt; time < endTime && !isCancelled(); time += dt) {
+			// time=0, initialvalue for containers
+			for (SimulationContainerData c : model.getSimulationContainer()) {
+				Object v = ((SimulationContainerAttachment) c.attachment).calc(this.time, this.dt);
+				((SimulationAttachment) c.attachment).serie.add(time, v);
+			}
+			
+			calcParameters();
+			
+			while (time < endTime && !isCancelled()) {
 				setProgress((int) (time / endTime * 100));
 				calcFlowValues1();
 				calcFlowValues2();
 				calcFlowValues3();
 				calcFlowValues4();
+				
+				time += dt;
+				
 				calcContainers();
 				calcParameters();
 

@@ -15,6 +15,7 @@ import ch.zhaw.simulation.model.flow.connection.FlowValveData;
 import ch.zhaw.simulation.model.flow.element.SimulationContainerData;
 import ch.zhaw.simulation.model.flow.element.SimulationParameterData;
 import ch.zhaw.simulation.model.xy.DensityData;
+import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.sysintegration.Sysintegration;
 
 public class FormulaEditorDialog extends BDialog {
@@ -53,6 +54,8 @@ public class FormulaEditorDialog extends BDialog {
 			title += " - Formel";
 		} else if (data instanceof FlowValveData) {
 			title += " - Fluss";
+		} else if (data instanceof MesoData.MesoDataFormula) {
+			title += " - Bewegung";
 		} else {
 			System.err.println("Unknonwn Type in FormularEditorDialog:  " + data.getClass());
 		}

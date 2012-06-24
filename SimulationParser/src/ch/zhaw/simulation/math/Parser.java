@@ -26,12 +26,23 @@ public class Parser {
 
 	private Function[] functionlist;
 	private Constant[] constlist;
+	private Vector<DensityData> density;
 
 	public Parser() {
+		this(null);
+	}
+
+	public Parser(Vector<DensityData> density) {
+		this.density = density;
 		newParser();
 	}
 
 	public void enableGradient(Vector<DensityData> density) {
+		this.density = density;
+		applyDensity();
+	}
+
+	private void applyDensity() {
 		jep.removeFunction("grad");
 
 		if (density != null) {
@@ -50,6 +61,8 @@ public class Parser {
 		jep.addStandardFunctions();
 		// jep.addComplex();
 		jep.getSymbolTable().remove("x");
+
+		applyDensity();
 
 		// Add all functions from JEP to functionlist[]
 		Vector<Function> functionlist = new Vector<Function>();

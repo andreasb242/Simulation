@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import butti.javalibs.listener.ListenerList;
@@ -28,13 +29,13 @@ public class FormulaLibraryPanel extends JPanel {
 
 	private ListenerList listener = new ListenerList();
 
-	public FormulaLibraryPanel(Parser parser) {
+	public FormulaLibraryPanel() {
 		setLayout(new BorderLayout());
-		tree = new JTree(new LibraryRootNode(parser));
+		tree = new JTree();
 
 		tree.setRootVisible(false);
 		tree.setShowsRootHandles(true);
-		
+
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 
 			@Override
@@ -97,4 +98,7 @@ public class FormulaLibraryPanel extends JPanel {
 		listener.removeListener(l);
 	}
 
+	public void setParser(Parser parser) {
+		tree.setModel(new DefaultTreeModel(new LibraryRootNode(parser)));
+	}
 }

@@ -16,9 +16,9 @@ public class MathOverview extends BDialog {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("Matheüberblick");
 
-		Parser parser = new Parser();
-		parser.enableGradient(new Vector<DensityData>());
-		FormulaLibraryPanel library = new FormulaLibraryPanel(parser);
+		Parser parser = new Parser(new Vector<DensityData>());
+		FormulaLibraryPanel library = new FormulaLibraryPanel();
+		library.setParser(parser);
 
 		add(library);
 

@@ -56,7 +56,7 @@ public class FormulaEditorPanel extends JPanel {
 
 	private String value;
 
-	private Parser parser = new Parser();
+	private Parser parser;
 
 	private NamedFormulaData data;
 
@@ -80,7 +80,7 @@ public class FormulaEditorPanel extends JPanel {
 		this.model = model;
 		this.additionalVars = addiditonalVars;
 		this.autosaveFormula = autosaveFormula;
-		this.library = new FormulaLibraryPanel(parser);
+		this.library = new FormulaLibraryPanel();
 		this.library.addActionListener(new ActionListener() {
 
 			@Override
@@ -250,7 +250,8 @@ public class FormulaEditorPanel extends JPanel {
 		value = data.getFormula();
 		this.data = data;
 
-		this.parser.enableGradient(density);
+		this.parser = new Parser(density);
+		this.library.setParser(this.parser);
 
 		text.setText(data.getFormula());
 
@@ -302,10 +303,6 @@ public class FormulaEditorPanel extends JPanel {
 
 	private Constant[] getConst() {
 		return parser.getConst();
-	}
-
-	public Parser getParser() {
-		return parser;
 	}
 
 	public void dispose() {
