@@ -24,7 +24,7 @@ public class DialogTest {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 
 		Vector<XYDensityRaw> rawList = new Vector<XYDensityRaw>();
-		XYResultList resultList = new XYResultList(640, 480);
+		XYResultList resultList = new XYResultList(640, 480, 1);
 		XYResultEntry re = new XYResultEntry(0);
 		re.addStep(new XYResultStepEntry(0, 10, 10, re));
 		resultList.add(re);

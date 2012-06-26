@@ -1,9 +1,10 @@
 package ch.zhaw.simulation.plugin.data;
 
+import java.util.HashMap;
+
 import ch.zhaw.simulation.model.xy.MesoData;
 import ch.zhaw.simulation.model.xy.SimulationXYModel;
-
-import java.util.HashMap;
+import ch.zhaw.simulation.model.xy.SubModelList;
 
 /**
  * This class converts a single SimulationCollection with x SimulationSeries (temporary files in workpath)
@@ -39,10 +40,10 @@ public class XYResultChooser {
 		Integer x;
 		Integer y;
 		int step;
-		int colorId = 0;
 
-		resultList = new XYResultList();
-		resultList.setModelSize(xyModel.getWidth(), xyModel.getHeight());
+		SubModelList submodels = xyModel.getSubmodels();
+		
+		resultList = new XYResultList(xyModel.getWidth(), xyModel.getHeight(), submodels.getSize());
 
 		for (MesoData meso : xyModel.getMeso()) {
 			name = meso.getName();
@@ -51,7 +52,7 @@ public class XYResultChooser {
 			submodel = name + ".submodel.";
 			xSerie = null;
 			ySerie = null;
-			resultEntry = new XYResultEntry(colorId++);
+			resultEntry = new XYResultEntry(submodels.indexOf(meso.getSubmodel()));
 
 			// loop over all series in the collection
 			// and choose only series from the current meso

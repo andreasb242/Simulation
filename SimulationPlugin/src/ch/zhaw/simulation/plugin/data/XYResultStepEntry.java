@@ -6,10 +6,6 @@ public class XYResultStepEntry {
 	private int y;
 	private XYResultEntry resultEntry;
 
-	public XYResultStepEntry() {
-		//
-	}
-
 	public XYResultStepEntry(int step, int x, int y, XYResultEntry resultEntry) {
 		this.step = step;
 		this.x = x;

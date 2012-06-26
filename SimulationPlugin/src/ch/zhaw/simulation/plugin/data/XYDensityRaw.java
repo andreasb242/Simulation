@@ -1,7 +1,6 @@
 package ch.zhaw.simulation.plugin.data;
 
 public class XYDensityRaw {
-
 	private String densityName;
 	private double matrix[][];
 	private double maxMinus;

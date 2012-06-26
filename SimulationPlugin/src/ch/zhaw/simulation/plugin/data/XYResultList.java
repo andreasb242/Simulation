@@ -10,12 +10,11 @@ public class XYResultList implements Iterable<XYResultEntry> {
 	private Vector<XYResultEntry> entryList = new Vector<XYResultEntry>();
 	private int stepCount = Integer.MAX_VALUE;
 	private Dimension modelSize;
+	private int colorCount = 0;
 
-	public XYResultList() {
-	}
-
-	public XYResultList(int width, int height) {
+	public XYResultList(int width, int height, int colorCount) {
 		setModelSize(width, height);
+		this.colorCount = colorCount;
 	}
 
 	public XYResultStepList getStep(int step) {
@@ -63,10 +62,6 @@ public class XYResultList implements Iterable<XYResultEntry> {
 		modelSize = new Dimension(width, height);
 	}
 
-	public Color[] getColors() {
-		return ColorCalculator.calcColors(entryList.size());
-	}
-
 	public int size() {
 		return entryList.size();
 	}
@@ -76,5 +71,9 @@ public class XYResultList implements Iterable<XYResultEntry> {
 			return stepCount - 1;
 		}
 		return 0;
+	}
+
+	public Color[] getColors() {
+		return ColorCalculator.calcColors(this.colorCount);
 	}
 }

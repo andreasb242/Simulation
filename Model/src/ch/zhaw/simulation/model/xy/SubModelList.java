@@ -42,7 +42,8 @@ public class SubModelList implements Iterable<SubModel> {
 	/**
 	 * A submodel has been changed
 	 * 
-	 * @param model The changed submodel
+	 * @param model
+	 *            The changed submodel
 	 */
 	public void fireModelChanged(SubModel model) {
 		for (SubModelListener l : this.listener) {
@@ -87,5 +88,9 @@ public class SubModelList implements Iterable<SubModel> {
 			System.out.println("DEBUG: " + s.getName());
 		}
 		return null;
+	}
+
+	public int indexOf(SubModel submodel) {
+		return data.indexOf(submodel);
 	}
 }

@@ -119,11 +119,13 @@ public class XYViewer extends JComponent {
 		renderer.setSize(resultList.getModelSize());
 		Color[] colors = resultList.getColors();
 		images = new MesoImage[colors.length];
+		
 		radius = config.getMesoSize();
 		halfRadius = radius / 2;
 
 		for (int i = 0; i < colors.length; i++) {
 			MesoImage m = new MesoImage(radius, config);
+			
 			m.setColor(colors[i]);
 			images[i] = m;
 		}
@@ -179,11 +181,12 @@ public class XYViewer extends JComponent {
 			return;
 		}
 
-		if (stepEntry.getResultEntry().getColorId() > this.images.length) {
+		int colorId = stepEntry.getResultEntry().getColorId();
+		if (colorId > this.images.length) {
 			return;
 		}
 
-		MesoImage image = this.images[stepEntry.getResultEntry().getColorId()];
+		MesoImage image = this.images[colorId];
 
 		Graphics2D g2 = (Graphics2D) g.create(stepEntry.getX() - halfRadius, stepEntry.getY() - halfRadius, radius, radius);
 		image.drawImage(g2, false);
