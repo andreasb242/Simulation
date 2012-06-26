@@ -14,7 +14,7 @@ if gtk.pygtk_version < (2,3,90):
 if len(sys.argv) < 6:
 	sys.exit(1)
 
-if sys.argv[4]== "open":
+if sys.argv[5] == "open":
 	dialog = gtk.FileChooserDialog(sys.argv[1],
 		                           None,
 		                           gtk.FILE_CHOOSER_ACTION_OPEN,
