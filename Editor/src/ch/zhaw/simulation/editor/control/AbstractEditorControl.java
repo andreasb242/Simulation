@@ -352,8 +352,10 @@ public abstract class AbstractEditorControl<M extends AbstractSimulationModel<?>
 		lastMouseListener = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				so.setX((int) e.getPoint().getX() - so.getWidth() / 2);
-				so.setY((int) e.getPoint().getY() - so.getHeight() / 2);
+				Point p = alignToRaster((int) e.getPoint().getX() - so.getWidth() / 2, (int) e.getPoint().getY() - so.getHeight() / 2);
+				
+				so.setX(p.x);
+				so.setY(p.y);
 				clearStatus();
 				getView().removeMouseListener(this);
 
