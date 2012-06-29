@@ -17,8 +17,7 @@
 	<!-- The build entry point -->
 	<target name="complete">
 		<!-- Simulation Build -->
-		<!-- <ant antfile="build.xml" target="complete" useNativeBasedir="true" 
-			/> -->
+		<ant antfile="build.xml" target="complete" useNativeBasedir="true" />
 
 		<!-- Mac OS X Build -->
 		<ant antfile="mac/build.xml" target="pack" useNativeBasedir="true">
@@ -58,7 +57,7 @@
 				<include name="Simulation.tar.gz" />
 			</fileset>
 		</copy>
-		
+
 		<!-- Windows -->
 		<delete dir="${tmp}" />
 		<mkdir dir="${tmp}" />
@@ -70,7 +69,7 @@
 				<include name="**/*" />
 			</fileset>
 		</copy>
-		
+
 		<copy todir="${tmp}/examples">
 			<fileset dir="../Simulation/examples">
 				<include name="kondensator_v3.simz" />
@@ -82,20 +81,18 @@
 				<include name="**/*" />
 			</fileset>
 		</copy>
-		
+
 		<exec executable="makensis" dir="${tmp}/setup">
 			<arg value="Simulation.nsi" />
 		</exec>
-		
-		
-		<copy todir="${setup}/windows">
+
 		<copy todir="${setup}/windows">
 			<fileset dir="${tmp}/setup">
 				<include name="Setup_Simulation.exe" />
 			</fileset>
 		</copy>
-		
-		
+
+
 		<!-- <delete dir="${tmp}" /> <mkdir dir="${tmp}" /> <delete dir="${tmp}" 
 			/> -->
 	</target>
