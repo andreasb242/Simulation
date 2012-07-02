@@ -227,6 +227,9 @@ public abstract class DensityRenderer {
 		}
 
 		public ArrowArguments calcArrowFor(int x, int y) {
+
+			final double MIN_DIFF = 0.001;
+
 			double a0 = field[x * 2][y * 2]; // top left
 			double a1 = field[x * 2 + 1][y * 2]; // top right
 			double a2 = field[x * 2][y * 2 + 1]; // bottom left
@@ -241,7 +244,7 @@ public abstract class DensityRenderer {
 			double gradX = x1 - x0;
 			double gradY = y1 - y0;
 
-			if ((int) (x0 * 100000) == (int) (x1 * 100000) && (int) (y0 * 100000) == (int) (y1 * 100000)) {
+			if (Math.abs(x0 - x1) < MIN_DIFF && Math.abs(y0 - y1) < MIN_DIFF) {
 				return null;
 			}
 
