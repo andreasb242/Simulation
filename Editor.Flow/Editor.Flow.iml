@@ -21,9 +21,9 @@
     <orderEntry type="module" module-name="Plugin" />
     <orderEntry type="module" module-name="SimulationPlugin" />
     <orderEntry type="module" module-name="SimulationPlugin.MatlabOctave" />
-    <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
     <orderEntry type="module" module-name="AppDefinition" />
     <orderEntry type="module" module-name="SimulationSidebar" />
+    <orderEntry type="module" module-name="SimulationParser" />
   </component>
 </module>
 

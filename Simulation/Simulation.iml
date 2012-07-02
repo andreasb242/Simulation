@@ -14,7 +14,6 @@
     <orderEntry type="module" module-name="BJavalibs" />
     <orderEntry type="module" module-name="ExternLibraries" />
     <orderEntry type="module" module-name="Sysintegration" exported="" />
-    <orderEntry type="module" module-name="SimulationJepLib-2.4.1" />
     <orderEntry type="module" module-name="AppDefinition" />
     <orderEntry type="module" module-name="HtmlEditor" />
     <orderEntry type="module" module-name="ImportFilter" />
@@ -30,6 +29,7 @@
     <orderEntry type="module" module-name="DirChooser" />
     <orderEntry type="module" module-name="XYResultViewer" />
     <orderEntry type="module" module-name="NetbeansDirchooser" />
+    <orderEntry type="module" module-name="SimulationParser" />
   </component>
 </module>
 
