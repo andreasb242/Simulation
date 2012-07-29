@@ -54,7 +54,7 @@ public class XYWindow extends SimulationWindow<XYMenubar, XYToolbar, XYEditorVie
 
 		control.setView(view);
 
-		XYMenubar menubar = new XYMenubar(control.getSysintegration(), view.getUndoHandler(), control.getClipboard());
+		XYMenubar menubar = new XYMenubar(control.getSysintegration(), view.getUndoHandler(), control.getClipboard(), control);
 		menubar.initMenusToolbar(control.getRecentMenu(), mainWindow);
 
 		XYToolbar tb = new XYToolbar(control.getSysintegration(), mainWindow);

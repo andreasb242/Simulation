@@ -311,14 +311,14 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		mainFrame.setVisible(true);
 	}
 
-	public void takeSnapshot() {
+	public void takeSnapshot(AbstractEditorControl<?> control) {
 		String name = "Unbennant";
 		if (savehandler.getPath() != null) {
 			name = savehandler.getPath().getName();
 		}
 
-		ImageExport export = new ImageExport(getController());
-		SnapshotDialog dlg = new SnapshotDialog(this.mainFrame, this.settings, getController().getSysintegration(), export, name);
+		ImageExport export = new ImageExport(control);
+		SnapshotDialog dlg = new SnapshotDialog(control.getParent(), this.settings, control.getSysintegration(), export, name);
 		dlg.setVisible(true);
 	}
 
@@ -339,7 +339,6 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 	}
 
-	// TODO Snapshot of subwindow
 	public void releaseOpenWindow() {
 		if (this.mainFrame != null) {
 			File f = new File(ConfigPath.getSettingsPath() + "mainWindow.windowPos");
@@ -805,7 +804,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			break;
 
 		case SNAPSHOT:
-			takeSnapshot();
+			takeSnapshot((AbstractEditorControl<?>) action.getData());
 			break;
 
 		case ABOUT:

@@ -11,6 +11,7 @@ import javax.swing.KeyStroke;
 
 import ch.zhaw.simulation.clipboard.ClipboardInterface;
 import ch.zhaw.simulation.clipboard.ClipboardListener;
+import ch.zhaw.simulation.editor.control.AbstractEditorControl;
 import ch.zhaw.simulation.icon.IconLoader;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarAction;
 import ch.zhaw.simulation.menutoolbar.actions.MenuToolbarActionHandler;
@@ -103,13 +104,21 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 
 	private Sysintegration sys;
 
-	public AbstractMenubar(Sysintegration sysintegration, UndoHandler um, ClipboardInterface clipboard, String otherTypeName, SimulationType otherType) {
+	private AbstractEditorControl<?> control;
+
+	public AbstractMenubar(Sysintegration sysintegration, UndoHandler um, ClipboardInterface clipboard, AbstractEditorControl<?> control, String otherTypeName,
+			SimulationType otherType) {
 		this.sysmenu = sysintegration.getMenu();
 		this.sys = sysintegration;
 		this.um = um;
 		this.clipboard = clipboard;
 		this.otherTypeName = otherTypeName;
 		this.otherType = otherType;
+		this.control = control;
+
+		if (control == null) {
+			throw new NullPointerException("control == null");
+		}
 
 		if (um == null) {
 			throw new NullPointerException("um == null");
@@ -339,7 +348,14 @@ public class AbstractMenubar extends MenuToolbarActionHandler implements UndoLis
 			mFile.addSeparator();
 		}
 
-		addMenuItem(mFile, "Speichern als Bild", "photos", MenuToolbarActionType.SNAPSHOT, sysmenu.getFileTakeSnapshot());
+		addMenuItem(mFile, "Speichern als Bild", "photos", new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fireMenuActionPerformed(new MenuToolbarAction(MenuToolbarActionType.SNAPSHOT, AbstractMenubar.this.control));
+			}
+		}, sysmenu.getFileTakeSnapshot());
+
 		mFile.addSeparator();
 
 		if (mainMenu) {
