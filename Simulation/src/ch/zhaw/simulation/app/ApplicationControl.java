@@ -263,17 +263,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		});
 
 		loadSimulationParameterFromSettings();
-		if (type == SimulationType.FLOW_SIMULATION) {
-			showFlowWindow(true);
-		} else {
-			showXYWindow();
-		}
-
-		if (!windowPosition.applay(this.mainFrame)) {
-			this.mainFrame.setSize(800, 600);
-			this.mainFrame.setLocationRelativeTo(null);
-		}
-
+		
+		createMainWindow(type);
+		
 		this.sysintegration = SysintegrationFactory.getSysintegration();
 		this.sysintegration.addListener(this);
 
@@ -296,7 +288,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 	}
 
-	public void showXYWindow() {
+	public void createXYWindow() {
 		XYWindow win = new XYWindow();
 		XYEditorControl control = new XYEditorControl(this, doc, doc.getXyModel(), win, settings);
 		this.controller = control;
@@ -305,11 +297,9 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		win.addListener(control);
 
 		this.mainFrame = win;
-
-		win.setVisible(true);
 	}
 
-	public void showFlowWindow(boolean mainWindow) {
+	public void createFlowWindow(boolean mainWindow) {
 		FlowWindow win = new FlowWindow(mainWindow);
 		FlowEditorControl control = new FlowEditorControl(this, doc.getFlowModel(), doc, win, settings);
 		this.controller = control;
@@ -349,6 +339,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		}
 	}
 
+	// TODO Snapshot of subwindow
 	public void releaseOpenWindow() {
 		if (this.mainFrame != null) {
 			File f = new File(ConfigPath.getSettingsPath() + "mainWindow.windowPos");
@@ -603,7 +594,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			doc.setType(type);
 			loadSimulationParameterFromSettings();
 
-			createMainWindow();
+			createMainWindow(doc.getType());
 
 			setDocumentTitle(null);
 
@@ -627,16 +618,21 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 		return t;
 	}
 
-	private void createMainWindow() {
-		if (doc.getType() == SimulationType.FLOW_SIMULATION) {
-			showFlowWindow(true);
-		} else if (doc.getType() == SimulationType.XY_MODEL) {
-			showXYWindow();
+	private void createMainWindow(SimulationType type) {
+		if (type == SimulationType.FLOW_SIMULATION) {
+			createFlowWindow(true);
+		} else if (type == SimulationType.XY_MODEL) {
+			createXYWindow();
 		} else {
 			throw new RuntimeException("Simulation type " + doc.getType() + " unhandled");
 		}
 
-		windowPosition.applay(this.mainFrame);
+		if(!windowPosition.apply(this.mainFrame)) {
+			this.mainFrame.setSize(800, 600);
+			this.mainFrame.setLocationRelativeTo(null);
+		}
+		
+		this.mainFrame.setVisible(true);
 	}
 
 	@Override
@@ -667,7 +663,7 @@ public class ApplicationControl extends StatusHandler implements SimulationAppli
 			if (savehandler.open(file, doc)) {
 				updatePaths();
 
-				createMainWindow();
+				createMainWindow(doc.getType());
 				updateTitle();
 				return true;
 			} else {

@@ -425,8 +425,11 @@ public abstract class AbstractEditorView<C extends AbstractEditorControl<?>> ext
 	 * @return The SelectableElement
 	 */
 	public SelectableElement<?> findGuiComponentForObj(Object o) {
+		if (o == null) {
+			return null;
+		}
 		if (!(o instanceof AbstractSimulationData)) {
-			throw new RuntimeException("o is not instanceof AbstractSimulationData");
+			throw new RuntimeException("o is not instanceof AbstractSimulationData: " + o.getClass());
 		}
 		return findGuiComponent((AbstractSimulationData) o);
 	}

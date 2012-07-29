@@ -29,6 +29,8 @@ public class DensityLegendView extends JComponent implements DensityListener {
 		setPreferredSize(new Dimension(150, 50));
 	}
 
+	// TODO: Min / Max if both < or > 0 then the bar is wrong
+	
 	@Override
 	protected void paintComponent(Graphics g1) {
 		int w = getWidth() - 1;

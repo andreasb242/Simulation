@@ -51,6 +51,7 @@ public enum MenuToolbarActionType {
 	 */
 	REDO,
 
+	// TODO Copy & Paste not working on OS X
 	/**
 	 * Cuts the current selection
 	 */
